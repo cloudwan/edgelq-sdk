@@ -52,6 +52,8 @@ func FullSearchIndex_FieldMask() *SearchIndex_FieldMask {
 	res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorIndexName})
+	res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorTokensPerChunk})
 	res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorOverlapTokens})
 	return res
@@ -72,7 +74,7 @@ func (fieldMask *SearchIndex_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*SearchIndex_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -102,7 +104,7 @@ func (fieldMask *SearchIndex_FieldMask) Reset() {
 
 func (fieldMask *SearchIndex_FieldMask) Subtract(other *SearchIndex_FieldMask) *SearchIndex_FieldMask {
 	result := &SearchIndex_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[SearchIndex_FieldPathSelector]gotenobject.FieldMask{
 		SearchIndex_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -309,6 +311,10 @@ func (fieldMask *SearchIndex_FieldMask) Project(source *SearchIndex) *SearchInde
 				wholeMetadataAccepted = true
 			case SearchIndex_FieldPathSelectorIndexName:
 				result.IndexName = source.IndexName
+			case SearchIndex_FieldPathSelectorDisplayName:
+				result.DisplayName = source.DisplayName
+			case SearchIndex_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case SearchIndex_FieldPathSelectorTokensPerChunk:
 				result.TokensPerChunk = source.TokensPerChunk
 			case SearchIndex_FieldPathSelectorOverlapTokens:

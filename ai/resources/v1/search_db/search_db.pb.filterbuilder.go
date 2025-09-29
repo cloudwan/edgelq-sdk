@@ -2440,6 +2440,10 @@ func (b *filterCndBuilderAzureAiSearch) ApiKey() *filterCndBuilderAzureAiSearchA
 	return &filterCndBuilderAzureAiSearchApiKey{builder: b.builder}
 }
 
+func (b *filterCndBuilderAzureAiSearch) EnableSemantic() *filterCndBuilderAzureAiSearchEnableSemantic {
+	return &filterCndBuilderAzureAiSearchEnableSemantic{builder: b.builder}
+}
+
 type filterCndBuilderAzureAiSearchEndpoint struct {
 	builder *FilterBuilder
 }
@@ -2555,5 +2559,64 @@ func (b *filterCndBuilderAzureAiSearchApiKey) compare(op gotenfilter.CompareOper
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                op,
 		SearchDb_FieldPathValue: NewSearchDbFieldPathBuilder().AzureAiSearch().ApiKey().WithValue(value),
+	})
+}
+
+type filterCndBuilderAzureAiSearchEnableSemantic struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SearchDb_FieldPathArrayOfValues: NewSearchDbFieldPathBuilder().AzureAiSearch().EnableSemantic().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SearchDb_FieldPathArrayOfValues: NewSearchDbFieldPathBuilder().AzureAiSearch().EnableSemantic().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSearchDbFieldPathBuilder().AzureAiSearch().EnableSemantic().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSearchDbFieldPathBuilder().AzureAiSearch().EnableSemantic().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAzureAiSearchEnableSemantic) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		SearchDb_FieldPathValue: NewSearchDbFieldPathBuilder().AzureAiSearch().EnableSemantic().WithValue(value),
 	})
 }

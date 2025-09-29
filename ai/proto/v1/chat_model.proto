@@ -14,6 +14,7 @@ option java_package = "com.ntt.ai.pb.v1";
 message ChatModel {
   option (google.api.resource) = {
     type : "ai.edgelq.com/ChatModel"
+    pattern : "chatModels/{chat_model}"
     pattern : "projects/{project}/chatModels/{chat_model}"
   };
 
@@ -30,15 +31,69 @@ message ChatModel {
   // services by higher ones).
   goten.types.Meta metadata = 2;
 
-  oneof ModelType { AzureOpenAi azure_open_ai = 3; }
+  oneof provider {
+    AzureOpenAi azure_open_ai = 4;
+
+    OpenAICompatible openai_compatible = 5;
+
+    Anthropic anthropic = 6;
+
+    Gemini gemini = 7;
+  }
+
+  // Human-readable display name
+  string display_name = 8;
+
+  message OpenAICompatible {
+    string api_key = 1;
+
+    // Model name or Azure deployment name
+    string model = 2;
+
+    // Optional: Custom endpoint for compatible APIs
+    string base_url = 3;
+
+    // Optional: OpenAI organization ID
+    string organization = 4;
+
+    // Optional: Azure-specific endpoint (e.g.,
+    // https://myresource.openai.azure.com)
+    string azure_endpoint = 5;
+
+    // Optional: Azure API version (e.g., "2024-06-01")
+    string azure_api_version = 6;
+  }
+
+  message Anthropic {
+    string api_key = 1;
+
+    // Model name (e.g., "claude-3-opus", "claude-3-sonnet")
+    string model = 2;
+
+    // Optional: Custom endpoint
+    string base_url = 3;
+  }
+
+  message Gemini {
+    string api_key = 1;
+
+    // Model name (e.g., "gemini-pro", "gemini-ultra")
+    string model = 2;
+  }
 
   message AzureOpenAi {
+    // Azure OpenAI endpoint (e.g., https://myresource.openai.azure.com)
     string endpoint = 1;
 
+    // Azure API key
     string api_key = 2;
 
-    string model_name = 3;
+    // Azure deployment name
+    string deployment_name = 3;
 
-    bool native_azure_api_compatible = 4;
+    // API version (e.g., "2024-10-21")
+    string api_version = 4;
   }
+
+  reserved 3;
 }

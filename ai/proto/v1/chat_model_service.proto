@@ -369,7 +369,8 @@ service ChatModelService {
   // GetChatModel
   rpc GetChatModel(GetChatModelRequest) returns (ChatModel) {
     option (google.api.http) = {
-      get : "/v1/{name=projects/*/chatModels/*}"
+      get : "/v1/{name=chatModels/*}"
+      additional_bindings : <get : "/v1/{name=projects/*/chatModels/*}">
     };
   }
 
@@ -384,7 +385,8 @@ service ChatModelService {
   // ListChatModels
   rpc ListChatModels(ListChatModelsRequest) returns (ListChatModelsResponse) {
     option (google.api.http) = {
-      get : "/v1/{parent=projects/*}/chatModels"
+      get : "/v1/chatModels"
+      additional_bindings : <get : "/v1/{parent=projects/*}/chatModels">
     };
   }
 
@@ -392,7 +394,8 @@ service ChatModelService {
   rpc WatchChatModel(WatchChatModelRequest)
       returns (stream WatchChatModelResponse) {
     option (google.api.http) = {
-      post : "/v1/{name=projects/*/chatModels/*}:watch"
+      post : "/v1/{name=chatModels/*}:watch"
+      additional_bindings : <post : "/v1/{name=projects/*/chatModels/*}:watch">
     };
   }
 
@@ -400,30 +403,36 @@ service ChatModelService {
   rpc WatchChatModels(WatchChatModelsRequest)
       returns (stream WatchChatModelsResponse) {
     option (google.api.http) = {
-      post : "/v1/{parent=projects/*}/chatModels:watch"
+      post : "/v1/chatModels:watch"
+      additional_bindings : <post : "/v1/{parent=projects/*}/chatModels:watch">
     };
   }
 
   // CreateChatModel
   rpc CreateChatModel(CreateChatModelRequest) returns (ChatModel) {
     option (google.api.http) = {
-      post : "/v1/{parent=projects/*}/chatModels"
+      post : "/v1/chatModels"
       body : "chat_model"
+      additional_bindings : <post : "/v1/{parent=projects/*}/chatModels">
     };
   }
 
   // UpdateChatModel
   rpc UpdateChatModel(UpdateChatModelRequest) returns (ChatModel) {
     option (google.api.http) = {
-      put : "/v1/{chat_model.name=projects/*/chatModels/*}"
+      put : "/v1/{chat_model.name=chatModels/*}"
       body : "chat_model"
+      additional_bindings : <
+        put : "/v1/{chat_model.name=projects/*/chatModels/*}"
+      >
     };
   }
 
   // DeleteChatModel
   rpc DeleteChatModel(DeleteChatModelRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/v1/{name=projects/*/chatModels/*}"
+      delete : "/v1/{name=chatModels/*}"
+      additional_bindings : <delete : "/v1/{name=projects/*/chatModels/*}">
     };
   }
 }

@@ -369,7 +369,8 @@ service SearchDbService {
   // GetSearchDb
   rpc GetSearchDb(GetSearchDbRequest) returns (SearchDb) {
     option (google.api.http) = {
-      get : "/v1/{name=projects/*/searchDbs/*}"
+      get : "/v1/{name=searchDbs/*}"
+      additional_bindings : <get : "/v1/{name=projects/*/searchDbs/*}">
     };
   }
 
@@ -384,7 +385,8 @@ service SearchDbService {
   // ListSearchDbs
   rpc ListSearchDbs(ListSearchDbsRequest) returns (ListSearchDbsResponse) {
     option (google.api.http) = {
-      get : "/v1/{parent=projects/*}/searchDbs"
+      get : "/v1/searchDbs"
+      additional_bindings : <get : "/v1/{parent=projects/*}/searchDbs">
     };
   }
 
@@ -392,7 +394,8 @@ service SearchDbService {
   rpc WatchSearchDb(WatchSearchDbRequest)
       returns (stream WatchSearchDbResponse) {
     option (google.api.http) = {
-      post : "/v1/{name=projects/*/searchDbs/*}:watch"
+      post : "/v1/{name=searchDbs/*}:watch"
+      additional_bindings : <post : "/v1/{name=projects/*/searchDbs/*}:watch">
     };
   }
 
@@ -400,30 +403,36 @@ service SearchDbService {
   rpc WatchSearchDbs(WatchSearchDbsRequest)
       returns (stream WatchSearchDbsResponse) {
     option (google.api.http) = {
-      post : "/v1/{parent=projects/*}/searchDbs:watch"
+      post : "/v1/searchDbs:watch"
+      additional_bindings : <post : "/v1/{parent=projects/*}/searchDbs:watch">
     };
   }
 
   // CreateSearchDb
   rpc CreateSearchDb(CreateSearchDbRequest) returns (SearchDb) {
     option (google.api.http) = {
-      post : "/v1/{parent=projects/*}/searchDbs"
+      post : "/v1/searchDbs"
       body : "search_db"
+      additional_bindings : <post : "/v1/{parent=projects/*}/searchDbs">
     };
   }
 
   // UpdateSearchDb
   rpc UpdateSearchDb(UpdateSearchDbRequest) returns (SearchDb) {
     option (google.api.http) = {
-      put : "/v1/{search_db.name=projects/*/searchDbs/*}"
+      put : "/v1/{search_db.name=searchDbs/*}"
       body : "search_db"
+      additional_bindings : <
+        put : "/v1/{search_db.name=projects/*/searchDbs/*}"
+      >
     };
   }
 
   // DeleteSearchDb
   rpc DeleteSearchDb(DeleteSearchDbRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/v1/{name=projects/*/searchDbs/*}"
+      delete : "/v1/{name=searchDbs/*}"
+      additional_bindings : <delete : "/v1/{name=projects/*/searchDbs/*}">
     };
   }
 }

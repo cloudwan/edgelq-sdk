@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/common.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation;conversation";
+option java_multiple_files = true;
+option java_outer_classname = "ConversationProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// Conversation Resource
+message Conversation {
+  option (google.api.resource) = {
+    type : "ai.edgelq.com/Conversation"
+    pattern : "projects/{project}/conversations/{conversation}"
+    pattern : "users/{user}/conversations/{conversation}"
+  };
+
+  // Name of Conversation
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Display title for the conversation
+  string title = 3;
+
+  // Whether the conversation has been archived
+  bool archived = 4;
+
+  // All messages in the conversation history
+  repeated Message messages = 5;
+
+  // Model configuration snapshot
+  ModelSnapshot model_snapshot = 6;
+
+  // Accumulated usage statistics
+  UsageStats usage_stats = 7;
+
+  // Timestamp of the last activity
+  google.protobuf.Timestamp last_activity_time = 8;
+
+  // Model configuration snapshot
+  message ModelSnapshot {
+    // Model resource used
+    string model = 1;
+
+    // Actual model ID used (if overridden)
+    string model_used = 2;
+
+    // Parameters used
+    float temperature = 3;
+
+    int32 max_tokens = 4;
+  }
+
+  // Usage statistics
+  message UsageStats {
+    int32 message_count = 1;
+
+    int32 total_input_tokens = 2;
+
+    int32 total_output_tokens = 3;
+
+    int32 total_tokens = 4;
+  }
+}

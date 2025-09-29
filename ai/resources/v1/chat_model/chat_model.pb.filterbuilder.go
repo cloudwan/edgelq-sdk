@@ -226,6 +226,22 @@ func (b *filterCndBuilder) AzureOpenAi() *filterCndBuilderAzureOpenAi {
 	return &filterCndBuilderAzureOpenAi{builder: b.builder}
 }
 
+func (b *filterCndBuilder) OpenaiCompatible() *filterCndBuilderOpenaiCompatible {
+	return &filterCndBuilderOpenaiCompatible{builder: b.builder}
+}
+
+func (b *filterCndBuilder) Anthropic() *filterCndBuilderAnthropic {
+	return &filterCndBuilderAnthropic{builder: b.builder}
+}
+
+func (b *filterCndBuilder) Gemini() *filterCndBuilderGemini {
+	return &filterCndBuilderGemini{builder: b.builder}
+}
+
+func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
+	return &filterCndBuilderDisplayName{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -2440,12 +2456,12 @@ func (b *filterCndBuilderAzureOpenAi) ApiKey() *filterCndBuilderAzureOpenAiApiKe
 	return &filterCndBuilderAzureOpenAiApiKey{builder: b.builder}
 }
 
-func (b *filterCndBuilderAzureOpenAi) ModelName() *filterCndBuilderAzureOpenAiModelName {
-	return &filterCndBuilderAzureOpenAiModelName{builder: b.builder}
+func (b *filterCndBuilderAzureOpenAi) DeploymentName() *filterCndBuilderAzureOpenAiDeploymentName {
+	return &filterCndBuilderAzureOpenAiDeploymentName{builder: b.builder}
 }
 
-func (b *filterCndBuilderAzureOpenAi) NativeAzureApiCompatible() *filterCndBuilderAzureOpenAiNativeAzureApiCompatible {
-	return &filterCndBuilderAzureOpenAiNativeAzureApiCompatible{builder: b.builder}
+func (b *filterCndBuilderAzureOpenAi) ApiVersion() *filterCndBuilderAzureOpenAiApiVersion {
+	return &filterCndBuilderAzureOpenAiApiVersion{builder: b.builder}
 }
 
 type filterCndBuilderAzureOpenAiEndpoint struct {
@@ -2566,120 +2582,1049 @@ func (b *filterCndBuilderAzureOpenAiApiKey) compare(op gotenfilter.CompareOperat
 	})
 }
 
-type filterCndBuilderAzureOpenAiModelName struct {
+type filterCndBuilderAzureOpenAiDeploymentName struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().ModelName().WithArrayOfValues(values),
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().DeploymentName().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().ModelName().WithArrayOfValues(values),
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().DeploymentName().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) IsNull() *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().ModelName().FieldPath(),
+		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().DeploymentName().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) IsNan() *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().ModelName().FieldPath(),
+		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().DeploymentName().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderAzureOpenAiModelName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiDeploymentName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
-		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().AzureOpenAi().ModelName().WithValue(value),
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().AzureOpenAi().DeploymentName().WithValue(value),
 	})
 }
 
-type filterCndBuilderAzureOpenAiNativeAzureApiCompatible struct {
+type filterCndBuilderAzureOpenAiApiVersion struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) Eq(value bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) Neq(value bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) Gt(value bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) Gte(value bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) Lt(value bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) Lte(value bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) In(values []bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().NativeAzureApiCompatible().WithArrayOfValues(values),
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().ApiVersion().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) NotIn(values []bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().NativeAzureApiCompatible().WithArrayOfValues(values),
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().ApiVersion().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) IsNull() *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().NativeAzureApiCompatible().FieldPath(),
+		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().ApiVersion().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) IsNan() *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().NativeAzureApiCompatible().FieldPath(),
+		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().ApiVersion().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderAzureOpenAiNativeAzureApiCompatible) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+func (b *filterCndBuilderAzureOpenAiApiVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
-		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().AzureOpenAi().NativeAzureApiCompatible().WithValue(value),
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().AzureOpenAi().ApiVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderOpenaiCompatible struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOpenaiCompatible) Eq(value *ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatible) Neq(value *ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatible) Gt(value *ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatible) Gte(value *ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatible) Lt(value *ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatible) Lte(value *ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatible) In(values []*ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatible) NotIn(values []*ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatible) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatible) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatible) compare(op gotenfilter.CompareOperator, value *ChatModel_OpenAICompatible) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().OpenaiCompatible().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatible) ApiKey() *filterCndBuilderOpenaiCompatibleApiKey {
+	return &filterCndBuilderOpenaiCompatibleApiKey{builder: b.builder}
+}
+
+func (b *filterCndBuilderOpenaiCompatible) Model() *filterCndBuilderOpenaiCompatibleModel {
+	return &filterCndBuilderOpenaiCompatibleModel{builder: b.builder}
+}
+
+func (b *filterCndBuilderOpenaiCompatible) BaseUrl() *filterCndBuilderOpenaiCompatibleBaseUrl {
+	return &filterCndBuilderOpenaiCompatibleBaseUrl{builder: b.builder}
+}
+
+func (b *filterCndBuilderOpenaiCompatible) Organization() *filterCndBuilderOpenaiCompatibleOrganization {
+	return &filterCndBuilderOpenaiCompatibleOrganization{builder: b.builder}
+}
+
+func (b *filterCndBuilderOpenaiCompatible) AzureEndpoint() *filterCndBuilderOpenaiCompatibleAzureEndpoint {
+	return &filterCndBuilderOpenaiCompatibleAzureEndpoint{builder: b.builder}
+}
+
+func (b *filterCndBuilderOpenaiCompatible) AzureApiVersion() *filterCndBuilderOpenaiCompatibleAzureApiVersion {
+	return &filterCndBuilderOpenaiCompatibleAzureApiVersion{builder: b.builder}
+}
+
+type filterCndBuilderOpenaiCompatibleApiKey struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) Eq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) Neq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) Gt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) Gte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) Lt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) Lte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) In(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().ApiKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) NotIn(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().ApiKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().ApiKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().ApiKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleApiKey) compare(op gotenfilter.CompareOperator, value *secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().OpenaiCompatible().ApiKey().WithValue(value),
+	})
+}
+
+type filterCndBuilderOpenaiCompatibleModel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().Model().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().Model().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().Model().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().Model().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleModel) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().OpenaiCompatible().Model().WithValue(value),
+	})
+}
+
+type filterCndBuilderOpenaiCompatibleBaseUrl struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().BaseUrl().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().BaseUrl().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().BaseUrl().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().BaseUrl().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleBaseUrl) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().OpenaiCompatible().BaseUrl().WithValue(value),
+	})
+}
+
+type filterCndBuilderOpenaiCompatibleOrganization struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().Organization().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().Organization().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().Organization().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().Organization().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleOrganization) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().OpenaiCompatible().Organization().WithValue(value),
+	})
+}
+
+type filterCndBuilderOpenaiCompatibleAzureEndpoint struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureEndpoint().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureEndpoint().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureEndpoint().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureEndpoint().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureEndpoint) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureEndpoint().WithValue(value),
+	})
+}
+
+type filterCndBuilderOpenaiCompatibleAzureApiVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureApiVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureApiVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureApiVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureApiVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().OpenaiCompatible().AzureApiVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderAnthropic struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAnthropic) Eq(value *ChatModel_Anthropic) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAnthropic) Neq(value *ChatModel_Anthropic) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAnthropic) Gt(value *ChatModel_Anthropic) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAnthropic) Gte(value *ChatModel_Anthropic) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAnthropic) Lt(value *ChatModel_Anthropic) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAnthropic) Lte(value *ChatModel_Anthropic) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAnthropic) In(values []*ChatModel_Anthropic) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropic) NotIn(values []*ChatModel_Anthropic) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropic) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropic) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropic) compare(op gotenfilter.CompareOperator, value *ChatModel_Anthropic) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Anthropic().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderAnthropic) ApiKey() *filterCndBuilderAnthropicApiKey {
+	return &filterCndBuilderAnthropicApiKey{builder: b.builder}
+}
+
+func (b *filterCndBuilderAnthropic) Model() *filterCndBuilderAnthropicModel {
+	return &filterCndBuilderAnthropicModel{builder: b.builder}
+}
+
+func (b *filterCndBuilderAnthropic) BaseUrl() *filterCndBuilderAnthropicBaseUrl {
+	return &filterCndBuilderAnthropicBaseUrl{builder: b.builder}
+}
+
+type filterCndBuilderAnthropicApiKey struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAnthropicApiKey) Eq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAnthropicApiKey) Neq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAnthropicApiKey) Gt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAnthropicApiKey) Gte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAnthropicApiKey) Lt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAnthropicApiKey) Lte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAnthropicApiKey) In(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().ApiKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicApiKey) NotIn(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().ApiKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicApiKey) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().ApiKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicApiKey) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().ApiKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicApiKey) compare(op gotenfilter.CompareOperator, value *secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Anthropic().ApiKey().WithValue(value),
+	})
+}
+
+type filterCndBuilderAnthropicModel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAnthropicModel) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAnthropicModel) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAnthropicModel) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAnthropicModel) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAnthropicModel) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAnthropicModel) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAnthropicModel) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().Model().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicModel) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().Model().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicModel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().Model().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicModel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().Model().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicModel) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Anthropic().Model().WithValue(value),
+	})
+}
+
+type filterCndBuilderAnthropicBaseUrl struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().BaseUrl().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().BaseUrl().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().BaseUrl().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().BaseUrl().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicBaseUrl) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Anthropic().BaseUrl().WithValue(value),
+	})
+}
+
+type filterCndBuilderGemini struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderGemini) Eq(value *ChatModel_Gemini) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderGemini) Neq(value *ChatModel_Gemini) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderGemini) Gt(value *ChatModel_Gemini) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderGemini) Gte(value *ChatModel_Gemini) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderGemini) Lt(value *ChatModel_Gemini) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderGemini) Lte(value *ChatModel_Gemini) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderGemini) In(values []*ChatModel_Gemini) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Gemini().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderGemini) NotIn(values []*ChatModel_Gemini) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Gemini().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderGemini) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Gemini().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderGemini) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Gemini().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderGemini) compare(op gotenfilter.CompareOperator, value *ChatModel_Gemini) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Gemini().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderGemini) ApiKey() *filterCndBuilderGeminiApiKey {
+	return &filterCndBuilderGeminiApiKey{builder: b.builder}
+}
+
+func (b *filterCndBuilderGemini) Model() *filterCndBuilderGeminiModel {
+	return &filterCndBuilderGeminiModel{builder: b.builder}
+}
+
+type filterCndBuilderGeminiApiKey struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderGeminiApiKey) Eq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderGeminiApiKey) Neq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderGeminiApiKey) Gt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderGeminiApiKey) Gte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderGeminiApiKey) Lt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderGeminiApiKey) Lte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderGeminiApiKey) In(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Gemini().ApiKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderGeminiApiKey) NotIn(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Gemini().ApiKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderGeminiApiKey) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Gemini().ApiKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderGeminiApiKey) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Gemini().ApiKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderGeminiApiKey) compare(op gotenfilter.CompareOperator, value *secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Gemini().ApiKey().WithValue(value),
+	})
+}
+
+type filterCndBuilderGeminiModel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderGeminiModel) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderGeminiModel) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderGeminiModel) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderGeminiModel) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderGeminiModel) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderGeminiModel) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderGeminiModel) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Gemini().Model().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderGeminiModel) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Gemini().Model().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderGeminiModel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Gemini().Model().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderGeminiModel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Gemini().Model().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderGeminiModel) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Gemini().Model().WithValue(value),
+	})
+}
+
+type filterCndBuilderDisplayName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDisplayName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDisplayName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().DisplayName().WithValue(value),
 	})
 }

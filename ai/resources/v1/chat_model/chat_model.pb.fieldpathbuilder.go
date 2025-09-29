@@ -46,6 +46,18 @@ func (ChatModelFieldPathBuilder) Metadata() ChatModelPathSelectorMetadata {
 func (ChatModelFieldPathBuilder) AzureOpenAi() ChatModelPathSelectorAzureOpenAi {
 	return ChatModelPathSelectorAzureOpenAi{}
 }
+func (ChatModelFieldPathBuilder) OpenaiCompatible() ChatModelPathSelectorOpenaiCompatible {
+	return ChatModelPathSelectorOpenaiCompatible{}
+}
+func (ChatModelFieldPathBuilder) Anthropic() ChatModelPathSelectorAnthropic {
+	return ChatModelPathSelectorAnthropic{}
+}
+func (ChatModelFieldPathBuilder) Gemini() ChatModelPathSelectorGemini {
+	return ChatModelPathSelectorGemini{}
+}
+func (ChatModelFieldPathBuilder) DisplayName() ChatModelPathSelectorDisplayName {
+	return ChatModelPathSelectorDisplayName{}
+}
 
 type ChatModelPathSelectorName struct{}
 
@@ -781,12 +793,12 @@ func (ChatModelPathSelectorAzureOpenAi) ApiKey() ChatModelPathSelectorAzureOpenA
 	return ChatModelPathSelectorAzureOpenAiApiKey{}
 }
 
-func (ChatModelPathSelectorAzureOpenAi) ModelName() ChatModelPathSelectorAzureOpenAiModelName {
-	return ChatModelPathSelectorAzureOpenAiModelName{}
+func (ChatModelPathSelectorAzureOpenAi) DeploymentName() ChatModelPathSelectorAzureOpenAiDeploymentName {
+	return ChatModelPathSelectorAzureOpenAiDeploymentName{}
 }
 
-func (ChatModelPathSelectorAzureOpenAi) NativeAzureApiCompatible() ChatModelPathSelectorAzureOpenAiNativeAzureApiCompatible {
-	return ChatModelPathSelectorAzureOpenAiNativeAzureApiCompatible{}
+func (ChatModelPathSelectorAzureOpenAi) ApiVersion() ChatModelPathSelectorAzureOpenAiApiVersion {
+	return ChatModelPathSelectorAzureOpenAiApiVersion{}
 }
 
 type ChatModelPathSelectorAzureOpenAiEndpoint struct{}
@@ -823,38 +835,578 @@ func (s ChatModelPathSelectorAzureOpenAiApiKey) WithArrayOfValues(values []*secr
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
 }
 
-type ChatModelPathSelectorAzureOpenAiModelName struct{}
+type ChatModelPathSelectorAzureOpenAiDeploymentName struct{}
 
-func (ChatModelPathSelectorAzureOpenAiModelName) FieldPath() *ChatModel_FieldSubPath {
+func (ChatModelPathSelectorAzureOpenAiDeploymentName) FieldPath() *ChatModel_FieldSubPath {
 	return &ChatModel_FieldSubPath{
 		selector: ChatModel_FieldPathSelectorAzureOpenAi,
-		subPath:  NewChatModelAzureOpenAiFieldPathBuilder().ModelName().FieldPath(),
+		subPath:  NewChatModelAzureOpenAiFieldPathBuilder().DeploymentName().FieldPath(),
 	}
 }
 
-func (s ChatModelPathSelectorAzureOpenAiModelName) WithValue(value string) *ChatModel_FieldSubPathValue {
+func (s ChatModelPathSelectorAzureOpenAiDeploymentName) WithValue(value string) *ChatModel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
 }
 
-func (s ChatModelPathSelectorAzureOpenAiModelName) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+func (s ChatModelPathSelectorAzureOpenAiDeploymentName) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
 }
 
-type ChatModelPathSelectorAzureOpenAiNativeAzureApiCompatible struct{}
+type ChatModelPathSelectorAzureOpenAiApiVersion struct{}
 
-func (ChatModelPathSelectorAzureOpenAiNativeAzureApiCompatible) FieldPath() *ChatModel_FieldSubPath {
+func (ChatModelPathSelectorAzureOpenAiApiVersion) FieldPath() *ChatModel_FieldSubPath {
 	return &ChatModel_FieldSubPath{
 		selector: ChatModel_FieldPathSelectorAzureOpenAi,
-		subPath:  NewChatModelAzureOpenAiFieldPathBuilder().NativeAzureApiCompatible().FieldPath(),
+		subPath:  NewChatModelAzureOpenAiFieldPathBuilder().ApiVersion().FieldPath(),
 	}
 }
 
-func (s ChatModelPathSelectorAzureOpenAiNativeAzureApiCompatible) WithValue(value bool) *ChatModel_FieldSubPathValue {
+func (s ChatModelPathSelectorAzureOpenAiApiVersion) WithValue(value string) *ChatModel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
 }
 
-func (s ChatModelPathSelectorAzureOpenAiNativeAzureApiCompatible) WithArrayOfValues(values []bool) *ChatModel_FieldSubPathArrayOfValues {
+func (s ChatModelPathSelectorAzureOpenAiApiVersion) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorOpenaiCompatible struct{}
+
+func (ChatModelPathSelectorOpenaiCompatible) FieldPath() *ChatModel_FieldTerminalPath {
+	return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorOpenaiCompatible}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatible) WithValue(value *ChatModel_OpenAICompatible) *ChatModel_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldTerminalPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatible) WithArrayOfValues(values []*ChatModel_OpenAICompatible) *ChatModel_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldTerminalPathArrayOfValues)
+}
+
+func (ChatModelPathSelectorOpenaiCompatible) WithSubPath(subPath ChatModelOpenAICompatible_FieldPath) *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorOpenaiCompatible, subPath: subPath}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatible) WithSubValue(subPathValue ChatModelOpenAICompatible_FieldPathValue) *ChatModel_FieldSubPathValue {
+	return &ChatModel_FieldSubPathValue{ChatModel_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatible) WithSubArrayOfValues(subPathArrayOfValues ChatModelOpenAICompatible_FieldPathArrayOfValues) *ChatModel_FieldSubPathArrayOfValues {
+	return &ChatModel_FieldSubPathArrayOfValues{ChatModel_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatible) WithSubArrayItemValue(subPathArrayItemValue ChatModelOpenAICompatible_FieldPathArrayItemValue) *ChatModel_FieldSubPathArrayItemValue {
+	return &ChatModel_FieldSubPathArrayItemValue{ChatModel_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ChatModelPathSelectorOpenaiCompatible) ApiKey() ChatModelPathSelectorOpenaiCompatibleApiKey {
+	return ChatModelPathSelectorOpenaiCompatibleApiKey{}
+}
+
+func (ChatModelPathSelectorOpenaiCompatible) Model() ChatModelPathSelectorOpenaiCompatibleModel {
+	return ChatModelPathSelectorOpenaiCompatibleModel{}
+}
+
+func (ChatModelPathSelectorOpenaiCompatible) BaseUrl() ChatModelPathSelectorOpenaiCompatibleBaseUrl {
+	return ChatModelPathSelectorOpenaiCompatibleBaseUrl{}
+}
+
+func (ChatModelPathSelectorOpenaiCompatible) Organization() ChatModelPathSelectorOpenaiCompatibleOrganization {
+	return ChatModelPathSelectorOpenaiCompatibleOrganization{}
+}
+
+func (ChatModelPathSelectorOpenaiCompatible) AzureEndpoint() ChatModelPathSelectorOpenaiCompatibleAzureEndpoint {
+	return ChatModelPathSelectorOpenaiCompatibleAzureEndpoint{}
+}
+
+func (ChatModelPathSelectorOpenaiCompatible) AzureApiVersion() ChatModelPathSelectorOpenaiCompatibleAzureApiVersion {
+	return ChatModelPathSelectorOpenaiCompatibleAzureApiVersion{}
+}
+
+type ChatModelPathSelectorOpenaiCompatibleApiKey struct{}
+
+func (ChatModelPathSelectorOpenaiCompatibleApiKey) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorOpenaiCompatible,
+		subPath:  NewChatModelOpenAICompatibleFieldPathBuilder().ApiKey().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleApiKey) WithValue(value *secrets_secret.Reference) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleApiKey) WithArrayOfValues(values []*secrets_secret.Reference) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorOpenaiCompatibleModel struct{}
+
+func (ChatModelPathSelectorOpenaiCompatibleModel) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorOpenaiCompatible,
+		subPath:  NewChatModelOpenAICompatibleFieldPathBuilder().Model().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleModel) WithValue(value string) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleModel) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorOpenaiCompatibleBaseUrl struct{}
+
+func (ChatModelPathSelectorOpenaiCompatibleBaseUrl) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorOpenaiCompatible,
+		subPath:  NewChatModelOpenAICompatibleFieldPathBuilder().BaseUrl().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleBaseUrl) WithValue(value string) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleBaseUrl) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorOpenaiCompatibleOrganization struct{}
+
+func (ChatModelPathSelectorOpenaiCompatibleOrganization) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorOpenaiCompatible,
+		subPath:  NewChatModelOpenAICompatibleFieldPathBuilder().Organization().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleOrganization) WithValue(value string) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleOrganization) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorOpenaiCompatibleAzureEndpoint struct{}
+
+func (ChatModelPathSelectorOpenaiCompatibleAzureEndpoint) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorOpenaiCompatible,
+		subPath:  NewChatModelOpenAICompatibleFieldPathBuilder().AzureEndpoint().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleAzureEndpoint) WithValue(value string) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleAzureEndpoint) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorOpenaiCompatibleAzureApiVersion struct{}
+
+func (ChatModelPathSelectorOpenaiCompatibleAzureApiVersion) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorOpenaiCompatible,
+		subPath:  NewChatModelOpenAICompatibleFieldPathBuilder().AzureApiVersion().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleAzureApiVersion) WithValue(value string) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleAzureApiVersion) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorAnthropic struct{}
+
+func (ChatModelPathSelectorAnthropic) FieldPath() *ChatModel_FieldTerminalPath {
+	return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorAnthropic}
+}
+
+func (s ChatModelPathSelectorAnthropic) WithValue(value *ChatModel_Anthropic) *ChatModel_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldTerminalPathValue)
+}
+
+func (s ChatModelPathSelectorAnthropic) WithArrayOfValues(values []*ChatModel_Anthropic) *ChatModel_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldTerminalPathArrayOfValues)
+}
+
+func (ChatModelPathSelectorAnthropic) WithSubPath(subPath ChatModelAnthropic_FieldPath) *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorAnthropic, subPath: subPath}
+}
+
+func (s ChatModelPathSelectorAnthropic) WithSubValue(subPathValue ChatModelAnthropic_FieldPathValue) *ChatModel_FieldSubPathValue {
+	return &ChatModel_FieldSubPathValue{ChatModel_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ChatModelPathSelectorAnthropic) WithSubArrayOfValues(subPathArrayOfValues ChatModelAnthropic_FieldPathArrayOfValues) *ChatModel_FieldSubPathArrayOfValues {
+	return &ChatModel_FieldSubPathArrayOfValues{ChatModel_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ChatModelPathSelectorAnthropic) WithSubArrayItemValue(subPathArrayItemValue ChatModelAnthropic_FieldPathArrayItemValue) *ChatModel_FieldSubPathArrayItemValue {
+	return &ChatModel_FieldSubPathArrayItemValue{ChatModel_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ChatModelPathSelectorAnthropic) ApiKey() ChatModelPathSelectorAnthropicApiKey {
+	return ChatModelPathSelectorAnthropicApiKey{}
+}
+
+func (ChatModelPathSelectorAnthropic) Model() ChatModelPathSelectorAnthropicModel {
+	return ChatModelPathSelectorAnthropicModel{}
+}
+
+func (ChatModelPathSelectorAnthropic) BaseUrl() ChatModelPathSelectorAnthropicBaseUrl {
+	return ChatModelPathSelectorAnthropicBaseUrl{}
+}
+
+type ChatModelPathSelectorAnthropicApiKey struct{}
+
+func (ChatModelPathSelectorAnthropicApiKey) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorAnthropic,
+		subPath:  NewChatModelAnthropicFieldPathBuilder().ApiKey().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorAnthropicApiKey) WithValue(value *secrets_secret.Reference) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorAnthropicApiKey) WithArrayOfValues(values []*secrets_secret.Reference) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorAnthropicModel struct{}
+
+func (ChatModelPathSelectorAnthropicModel) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorAnthropic,
+		subPath:  NewChatModelAnthropicFieldPathBuilder().Model().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorAnthropicModel) WithValue(value string) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorAnthropicModel) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorAnthropicBaseUrl struct{}
+
+func (ChatModelPathSelectorAnthropicBaseUrl) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorAnthropic,
+		subPath:  NewChatModelAnthropicFieldPathBuilder().BaseUrl().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorAnthropicBaseUrl) WithValue(value string) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorAnthropicBaseUrl) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorGemini struct{}
+
+func (ChatModelPathSelectorGemini) FieldPath() *ChatModel_FieldTerminalPath {
+	return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorGemini}
+}
+
+func (s ChatModelPathSelectorGemini) WithValue(value *ChatModel_Gemini) *ChatModel_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldTerminalPathValue)
+}
+
+func (s ChatModelPathSelectorGemini) WithArrayOfValues(values []*ChatModel_Gemini) *ChatModel_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldTerminalPathArrayOfValues)
+}
+
+func (ChatModelPathSelectorGemini) WithSubPath(subPath ChatModelGemini_FieldPath) *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorGemini, subPath: subPath}
+}
+
+func (s ChatModelPathSelectorGemini) WithSubValue(subPathValue ChatModelGemini_FieldPathValue) *ChatModel_FieldSubPathValue {
+	return &ChatModel_FieldSubPathValue{ChatModel_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ChatModelPathSelectorGemini) WithSubArrayOfValues(subPathArrayOfValues ChatModelGemini_FieldPathArrayOfValues) *ChatModel_FieldSubPathArrayOfValues {
+	return &ChatModel_FieldSubPathArrayOfValues{ChatModel_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ChatModelPathSelectorGemini) WithSubArrayItemValue(subPathArrayItemValue ChatModelGemini_FieldPathArrayItemValue) *ChatModel_FieldSubPathArrayItemValue {
+	return &ChatModel_FieldSubPathArrayItemValue{ChatModel_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ChatModelPathSelectorGemini) ApiKey() ChatModelPathSelectorGeminiApiKey {
+	return ChatModelPathSelectorGeminiApiKey{}
+}
+
+func (ChatModelPathSelectorGemini) Model() ChatModelPathSelectorGeminiModel {
+	return ChatModelPathSelectorGeminiModel{}
+}
+
+type ChatModelPathSelectorGeminiApiKey struct{}
+
+func (ChatModelPathSelectorGeminiApiKey) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorGemini,
+		subPath:  NewChatModelGeminiFieldPathBuilder().ApiKey().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorGeminiApiKey) WithValue(value *secrets_secret.Reference) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorGeminiApiKey) WithArrayOfValues(values []*secrets_secret.Reference) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorGeminiModel struct{}
+
+func (ChatModelPathSelectorGeminiModel) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorGemini,
+		subPath:  NewChatModelGeminiFieldPathBuilder().Model().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorGeminiModel) WithValue(value string) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorGeminiModel) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorDisplayName struct{}
+
+func (ChatModelPathSelectorDisplayName) FieldPath() *ChatModel_FieldTerminalPath {
+	return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorDisplayName}
+}
+
+func (s ChatModelPathSelectorDisplayName) WithValue(value string) *ChatModel_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldTerminalPathValue)
+}
+
+func (s ChatModelPathSelectorDisplayName) WithArrayOfValues(values []string) *ChatModel_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModelOpenAICompatibleFieldPathBuilder struct{}
+
+func NewChatModelOpenAICompatibleFieldPathBuilder() ChatModelOpenAICompatibleFieldPathBuilder {
+	return ChatModelOpenAICompatibleFieldPathBuilder{}
+}
+func (ChatModelOpenAICompatibleFieldPathBuilder) ApiKey() ChatModel_OpenAICompatiblePathSelectorApiKey {
+	return ChatModel_OpenAICompatiblePathSelectorApiKey{}
+}
+func (ChatModelOpenAICompatibleFieldPathBuilder) Model() ChatModel_OpenAICompatiblePathSelectorModel {
+	return ChatModel_OpenAICompatiblePathSelectorModel{}
+}
+func (ChatModelOpenAICompatibleFieldPathBuilder) BaseUrl() ChatModel_OpenAICompatiblePathSelectorBaseUrl {
+	return ChatModel_OpenAICompatiblePathSelectorBaseUrl{}
+}
+func (ChatModelOpenAICompatibleFieldPathBuilder) Organization() ChatModel_OpenAICompatiblePathSelectorOrganization {
+	return ChatModel_OpenAICompatiblePathSelectorOrganization{}
+}
+func (ChatModelOpenAICompatibleFieldPathBuilder) AzureEndpoint() ChatModel_OpenAICompatiblePathSelectorAzureEndpoint {
+	return ChatModel_OpenAICompatiblePathSelectorAzureEndpoint{}
+}
+func (ChatModelOpenAICompatibleFieldPathBuilder) AzureApiVersion() ChatModel_OpenAICompatiblePathSelectorAzureApiVersion {
+	return ChatModel_OpenAICompatiblePathSelectorAzureApiVersion{}
+}
+
+type ChatModel_OpenAICompatiblePathSelectorApiKey struct{}
+
+func (ChatModel_OpenAICompatiblePathSelectorApiKey) FieldPath() *ChatModelOpenAICompatible_FieldTerminalPath {
+	return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorApiKey}
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorApiKey) WithValue(value *secrets_secret.Reference) *ChatModelOpenAICompatible_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelOpenAICompatible_FieldTerminalPathValue)
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorApiKey) WithArrayOfValues(values []*secrets_secret.Reference) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_OpenAICompatiblePathSelectorModel struct{}
+
+func (ChatModel_OpenAICompatiblePathSelectorModel) FieldPath() *ChatModelOpenAICompatible_FieldTerminalPath {
+	return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorModel}
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorModel) WithValue(value string) *ChatModelOpenAICompatible_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelOpenAICompatible_FieldTerminalPathValue)
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorModel) WithArrayOfValues(values []string) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_OpenAICompatiblePathSelectorBaseUrl struct{}
+
+func (ChatModel_OpenAICompatiblePathSelectorBaseUrl) FieldPath() *ChatModelOpenAICompatible_FieldTerminalPath {
+	return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorBaseUrl}
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorBaseUrl) WithValue(value string) *ChatModelOpenAICompatible_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelOpenAICompatible_FieldTerminalPathValue)
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorBaseUrl) WithArrayOfValues(values []string) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_OpenAICompatiblePathSelectorOrganization struct{}
+
+func (ChatModel_OpenAICompatiblePathSelectorOrganization) FieldPath() *ChatModelOpenAICompatible_FieldTerminalPath {
+	return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorOrganization}
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorOrganization) WithValue(value string) *ChatModelOpenAICompatible_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelOpenAICompatible_FieldTerminalPathValue)
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorOrganization) WithArrayOfValues(values []string) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_OpenAICompatiblePathSelectorAzureEndpoint struct{}
+
+func (ChatModel_OpenAICompatiblePathSelectorAzureEndpoint) FieldPath() *ChatModelOpenAICompatible_FieldTerminalPath {
+	return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint}
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorAzureEndpoint) WithValue(value string) *ChatModelOpenAICompatible_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelOpenAICompatible_FieldTerminalPathValue)
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorAzureEndpoint) WithArrayOfValues(values []string) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_OpenAICompatiblePathSelectorAzureApiVersion struct{}
+
+func (ChatModel_OpenAICompatiblePathSelectorAzureApiVersion) FieldPath() *ChatModelOpenAICompatible_FieldTerminalPath {
+	return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion}
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorAzureApiVersion) WithValue(value string) *ChatModelOpenAICompatible_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelOpenAICompatible_FieldTerminalPathValue)
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorAzureApiVersion) WithArrayOfValues(values []string) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModelAnthropicFieldPathBuilder struct{}
+
+func NewChatModelAnthropicFieldPathBuilder() ChatModelAnthropicFieldPathBuilder {
+	return ChatModelAnthropicFieldPathBuilder{}
+}
+func (ChatModelAnthropicFieldPathBuilder) ApiKey() ChatModel_AnthropicPathSelectorApiKey {
+	return ChatModel_AnthropicPathSelectorApiKey{}
+}
+func (ChatModelAnthropicFieldPathBuilder) Model() ChatModel_AnthropicPathSelectorModel {
+	return ChatModel_AnthropicPathSelectorModel{}
+}
+func (ChatModelAnthropicFieldPathBuilder) BaseUrl() ChatModel_AnthropicPathSelectorBaseUrl {
+	return ChatModel_AnthropicPathSelectorBaseUrl{}
+}
+
+type ChatModel_AnthropicPathSelectorApiKey struct{}
+
+func (ChatModel_AnthropicPathSelectorApiKey) FieldPath() *ChatModelAnthropic_FieldTerminalPath {
+	return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorApiKey}
+}
+
+func (s ChatModel_AnthropicPathSelectorApiKey) WithValue(value *secrets_secret.Reference) *ChatModelAnthropic_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelAnthropic_FieldTerminalPathValue)
+}
+
+func (s ChatModel_AnthropicPathSelectorApiKey) WithArrayOfValues(values []*secrets_secret.Reference) *ChatModelAnthropic_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAnthropic_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_AnthropicPathSelectorModel struct{}
+
+func (ChatModel_AnthropicPathSelectorModel) FieldPath() *ChatModelAnthropic_FieldTerminalPath {
+	return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorModel}
+}
+
+func (s ChatModel_AnthropicPathSelectorModel) WithValue(value string) *ChatModelAnthropic_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelAnthropic_FieldTerminalPathValue)
+}
+
+func (s ChatModel_AnthropicPathSelectorModel) WithArrayOfValues(values []string) *ChatModelAnthropic_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAnthropic_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_AnthropicPathSelectorBaseUrl struct{}
+
+func (ChatModel_AnthropicPathSelectorBaseUrl) FieldPath() *ChatModelAnthropic_FieldTerminalPath {
+	return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorBaseUrl}
+}
+
+func (s ChatModel_AnthropicPathSelectorBaseUrl) WithValue(value string) *ChatModelAnthropic_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelAnthropic_FieldTerminalPathValue)
+}
+
+func (s ChatModel_AnthropicPathSelectorBaseUrl) WithArrayOfValues(values []string) *ChatModelAnthropic_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAnthropic_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModelGeminiFieldPathBuilder struct{}
+
+func NewChatModelGeminiFieldPathBuilder() ChatModelGeminiFieldPathBuilder {
+	return ChatModelGeminiFieldPathBuilder{}
+}
+func (ChatModelGeminiFieldPathBuilder) ApiKey() ChatModel_GeminiPathSelectorApiKey {
+	return ChatModel_GeminiPathSelectorApiKey{}
+}
+func (ChatModelGeminiFieldPathBuilder) Model() ChatModel_GeminiPathSelectorModel {
+	return ChatModel_GeminiPathSelectorModel{}
+}
+
+type ChatModel_GeminiPathSelectorApiKey struct{}
+
+func (ChatModel_GeminiPathSelectorApiKey) FieldPath() *ChatModelGemini_FieldTerminalPath {
+	return &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorApiKey}
+}
+
+func (s ChatModel_GeminiPathSelectorApiKey) WithValue(value *secrets_secret.Reference) *ChatModelGemini_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelGemini_FieldTerminalPathValue)
+}
+
+func (s ChatModel_GeminiPathSelectorApiKey) WithArrayOfValues(values []*secrets_secret.Reference) *ChatModelGemini_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelGemini_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_GeminiPathSelectorModel struct{}
+
+func (ChatModel_GeminiPathSelectorModel) FieldPath() *ChatModelGemini_FieldTerminalPath {
+	return &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorModel}
+}
+
+func (s ChatModel_GeminiPathSelectorModel) WithValue(value string) *ChatModelGemini_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelGemini_FieldTerminalPathValue)
+}
+
+func (s ChatModel_GeminiPathSelectorModel) WithArrayOfValues(values []string) *ChatModelGemini_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelGemini_FieldTerminalPathArrayOfValues)
 }
 
 type ChatModelAzureOpenAiFieldPathBuilder struct{}
@@ -868,11 +1420,11 @@ func (ChatModelAzureOpenAiFieldPathBuilder) Endpoint() ChatModel_AzureOpenAiPath
 func (ChatModelAzureOpenAiFieldPathBuilder) ApiKey() ChatModel_AzureOpenAiPathSelectorApiKey {
 	return ChatModel_AzureOpenAiPathSelectorApiKey{}
 }
-func (ChatModelAzureOpenAiFieldPathBuilder) ModelName() ChatModel_AzureOpenAiPathSelectorModelName {
-	return ChatModel_AzureOpenAiPathSelectorModelName{}
+func (ChatModelAzureOpenAiFieldPathBuilder) DeploymentName() ChatModel_AzureOpenAiPathSelectorDeploymentName {
+	return ChatModel_AzureOpenAiPathSelectorDeploymentName{}
 }
-func (ChatModelAzureOpenAiFieldPathBuilder) NativeAzureApiCompatible() ChatModel_AzureOpenAiPathSelectorNativeAzureApiCompatible {
-	return ChatModel_AzureOpenAiPathSelectorNativeAzureApiCompatible{}
+func (ChatModelAzureOpenAiFieldPathBuilder) ApiVersion() ChatModel_AzureOpenAiPathSelectorApiVersion {
+	return ChatModel_AzureOpenAiPathSelectorApiVersion{}
 }
 
 type ChatModel_AzureOpenAiPathSelectorEndpoint struct{}
@@ -903,30 +1455,30 @@ func (s ChatModel_AzureOpenAiPathSelectorApiKey) WithArrayOfValues(values []*sec
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues)
 }
 
-type ChatModel_AzureOpenAiPathSelectorModelName struct{}
+type ChatModel_AzureOpenAiPathSelectorDeploymentName struct{}
 
-func (ChatModel_AzureOpenAiPathSelectorModelName) FieldPath() *ChatModelAzureOpenAi_FieldTerminalPath {
-	return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorModelName}
+func (ChatModel_AzureOpenAiPathSelectorDeploymentName) FieldPath() *ChatModelAzureOpenAi_FieldTerminalPath {
+	return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorDeploymentName}
 }
 
-func (s ChatModel_AzureOpenAiPathSelectorModelName) WithValue(value string) *ChatModelAzureOpenAi_FieldTerminalPathValue {
+func (s ChatModel_AzureOpenAiPathSelectorDeploymentName) WithValue(value string) *ChatModelAzureOpenAi_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ChatModelAzureOpenAi_FieldTerminalPathValue)
 }
 
-func (s ChatModel_AzureOpenAiPathSelectorModelName) WithArrayOfValues(values []string) *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues {
+func (s ChatModel_AzureOpenAiPathSelectorDeploymentName) WithArrayOfValues(values []string) *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues)
 }
 
-type ChatModel_AzureOpenAiPathSelectorNativeAzureApiCompatible struct{}
+type ChatModel_AzureOpenAiPathSelectorApiVersion struct{}
 
-func (ChatModel_AzureOpenAiPathSelectorNativeAzureApiCompatible) FieldPath() *ChatModelAzureOpenAi_FieldTerminalPath {
-	return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible}
+func (ChatModel_AzureOpenAiPathSelectorApiVersion) FieldPath() *ChatModelAzureOpenAi_FieldTerminalPath {
+	return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiVersion}
 }
 
-func (s ChatModel_AzureOpenAiPathSelectorNativeAzureApiCompatible) WithValue(value bool) *ChatModelAzureOpenAi_FieldTerminalPathValue {
+func (s ChatModel_AzureOpenAiPathSelectorApiVersion) WithValue(value string) *ChatModelAzureOpenAi_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ChatModelAzureOpenAi_FieldTerminalPathValue)
 }
 
-func (s ChatModel_AzureOpenAiPathSelectorNativeAzureApiCompatible) WithArrayOfValues(values []bool) *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues {
+func (s ChatModel_AzureOpenAiPathSelectorApiVersion) WithArrayOfValues(values []string) *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues)
 }

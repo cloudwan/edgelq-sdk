@@ -228,6 +228,14 @@ func (b *filterCndBuilder) IndexName() *filterCndBuilderIndexName {
 	return &filterCndBuilderIndexName{builder: b.builder}
 }
 
+func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
+	return &filterCndBuilderDisplayName{builder: b.builder}
+}
+
+func (b *filterCndBuilder) Description() *filterCndBuilderDescription {
+	return &filterCndBuilderDescription{builder: b.builder}
+}
+
 func (b *filterCndBuilder) TokensPerChunk() *filterCndBuilderTokensPerChunk {
 	return &filterCndBuilderTokensPerChunk{builder: b.builder}
 }
@@ -2439,6 +2447,124 @@ func (b *filterCndBuilderIndexName) compare(op gotenfilter.CompareOperator, valu
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		SearchIndex_FieldPathValue: NewSearchIndexFieldPathBuilder().IndexName().WithValue(value),
+	})
+}
+
+type filterCndBuilderDisplayName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDisplayName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDisplayName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SearchIndex_FieldPathArrayOfValues: NewSearchIndexFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SearchIndex_FieldPathArrayOfValues: NewSearchIndexFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSearchIndexFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSearchIndexFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		SearchIndex_FieldPathValue: NewSearchIndexFieldPathBuilder().DisplayName().WithValue(value),
+	})
+}
+
+type filterCndBuilderDescription struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDescription) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDescription) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDescription) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDescription) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDescription) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDescription) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDescription) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SearchIndex_FieldPathArrayOfValues: NewSearchIndexFieldPathBuilder().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDescription) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SearchIndex_FieldPathArrayOfValues: NewSearchIndexFieldPathBuilder().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDescription) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSearchIndexFieldPathBuilder().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDescription) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSearchIndexFieldPathBuilder().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		SearchIndex_FieldPathValue: NewSearchIndexFieldPathBuilder().Description().WithValue(value),
 	})
 }
 

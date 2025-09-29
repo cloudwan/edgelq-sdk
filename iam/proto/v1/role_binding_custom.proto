@@ -87,3 +87,57 @@ message ListRoleBindingsWithMembersResponse {
   // paging info was not requested or there was an error while trying to get it.
   int32 total_results_count = 6;
 }
+
+// Request message for method
+// [ListMyRoleBindings][ntt.iam.v1.ListMyRoleBindings]
+message ListMyRoleBindingsRequest {
+  // Requested page size. Server may return fewer RoleBindings than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 1;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListMyRoleBindingsResponse.next_page_token][ntt.iam.v1.ListMyRoleBindingsResponse.next_page_token]
+  string page_token = 2;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 3;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 4;
+
+  // A FieldMask used to filter response fields. When present, only requested
+  // fields will be present in each response item. Omitting field_mask results
+  // will cause response items to contain all present fields.
+  google.protobuf.FieldMask field_mask = 5;
+
+  bool include_paging_info = 6;
+}
+
+// Response message for method
+// [ListMyRoleBindings][ntt.iam.v1.ListMyRoleBindings]
+message ListMyRoleBindingsResponse {
+  // The list of RoleBindings for the authenticated user
+  repeated RoleBinding role_bindings = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListMyRoleBindingsRequest.page_token][ntt.iam.v1.ListMyRoleBindingsRequest.page_token]
+  string prev_page_token = 2;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListMyRoleBindingsRequest.page_token][ntt.iam.v1.ListMyRoleBindingsRequest.page_token]
+  string next_page_token = 3;
+
+  int32 total_count = 4;
+
+  int32 cursor_offset = 5;
+}

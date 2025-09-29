@@ -72,6 +72,12 @@ func (o *SearchIndex) MakeDiffFieldMask(other *SearchIndex) *SearchIndex_FieldMa
 	if o.GetIndexName() != other.GetIndexName() {
 		res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorIndexName})
 	}
+	if o.GetDisplayName() != other.GetDisplayName() {
+		res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorDisplayName})
+	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorDescription})
+	}
 	if o.GetTokensPerChunk() != other.GetTokensPerChunk() {
 		res.Paths = append(res.Paths, &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorTokensPerChunk})
 	}
@@ -102,6 +108,8 @@ func (o *SearchIndex) Clone() *SearchIndex {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.IndexName = o.IndexName
+	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.TokensPerChunk = o.TokensPerChunk
 	result.OverlapTokens = o.OverlapTokens
 	return result
@@ -131,6 +139,8 @@ func (o *SearchIndex) Merge(source *SearchIndex) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.IndexName = source.GetIndexName()
+	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	o.TokensPerChunk = source.GetTokensPerChunk()
 	o.OverlapTokens = source.GetOverlapTokens()
 }

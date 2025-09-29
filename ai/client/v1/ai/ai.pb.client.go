@@ -10,12 +10,20 @@ import (
 
 // proto imports
 import (
+	capability_template_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/capability_template"
 	chat_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat"
 	chat_model_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat_model"
+	connector_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector"
+	conversation_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation"
 	document_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/document"
+	responses_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/responses"
 	search_db_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/search_db"
 	search_index_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/search_index"
+	tools_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/tools"
+	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
+	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
+	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -28,8 +36,14 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &capability_template.CapabilityTemplate{}
+	_ = &capability_template_client.GetCapabilityTemplateRequest{}
 	_ = &chat_model.ChatModel{}
 	_ = &chat_model_client.GetChatModelRequest{}
+	_ = &connector.Connector{}
+	_ = &connector_client.GetConnectorRequest{}
+	_ = &conversation.Conversation{}
+	_ = &conversation_client.GetConversationRequest{}
 	_ = &document.Document{}
 	_ = &document_client.GetDocumentRequest{}
 	_ = &search_db.SearchDb{}
@@ -39,27 +53,42 @@ var (
 )
 
 type AIClient interface {
+	capability_template_client.CapabilityTemplateServiceClient
 	chat_model_client.ChatModelServiceClient
 	chat_client.ChatServiceClient
+	connector_client.ConnectorServiceClient
+	conversation_client.ConversationServiceClient
 	document_client.DocumentServiceClient
+	responses_client.ResponsesServiceClient
 	search_db_client.SearchDbServiceClient
 	search_index_client.SearchIndexServiceClient
+	tools_client.ToolsServiceClient
 }
 
 type aiClient struct {
+	capability_template_client.CapabilityTemplateServiceClient
 	chat_model_client.ChatModelServiceClient
 	chat_client.ChatServiceClient
+	connector_client.ConnectorServiceClient
+	conversation_client.ConversationServiceClient
 	document_client.DocumentServiceClient
+	responses_client.ResponsesServiceClient
 	search_db_client.SearchDbServiceClient
 	search_index_client.SearchIndexServiceClient
+	tools_client.ToolsServiceClient
 }
 
 func NewAIClient(cc grpc.ClientConnInterface) AIClient {
 	return &aiClient{
-		ChatModelServiceClient:   chat_model_client.NewChatModelServiceClient(cc),
-		ChatServiceClient:        chat_client.NewChatServiceClient(cc),
-		DocumentServiceClient:    document_client.NewDocumentServiceClient(cc),
-		SearchDbServiceClient:    search_db_client.NewSearchDbServiceClient(cc),
-		SearchIndexServiceClient: search_index_client.NewSearchIndexServiceClient(cc),
+		CapabilityTemplateServiceClient: capability_template_client.NewCapabilityTemplateServiceClient(cc),
+		ChatModelServiceClient:          chat_model_client.NewChatModelServiceClient(cc),
+		ChatServiceClient:               chat_client.NewChatServiceClient(cc),
+		ConnectorServiceClient:          connector_client.NewConnectorServiceClient(cc),
+		ConversationServiceClient:       conversation_client.NewConversationServiceClient(cc),
+		DocumentServiceClient:           document_client.NewDocumentServiceClient(cc),
+		ResponsesServiceClient:          responses_client.NewResponsesServiceClient(cc),
+		SearchDbServiceClient:           search_db_client.NewSearchDbServiceClient(cc),
+		SearchIndexServiceClient:        search_index_client.NewSearchIndexServiceClient(cc),
+		ToolsServiceClient:              tools_client.NewToolsServiceClient(cc),
 	}
 }

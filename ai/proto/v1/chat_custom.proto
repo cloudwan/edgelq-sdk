@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package ntt.ai.v1;
 
+import "edgelq-sdk/ai/proto/v1/common.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat;chat_client";
 option java_multiple_files = false;
 option java_outer_classname = "ChatCustomProto";

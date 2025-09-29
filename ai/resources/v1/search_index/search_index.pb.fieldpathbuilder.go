@@ -48,6 +48,12 @@ func (SearchIndexFieldPathBuilder) Metadata() SearchIndexPathSelectorMetadata {
 func (SearchIndexFieldPathBuilder) IndexName() SearchIndexPathSelectorIndexName {
 	return SearchIndexPathSelectorIndexName{}
 }
+func (SearchIndexFieldPathBuilder) DisplayName() SearchIndexPathSelectorDisplayName {
+	return SearchIndexPathSelectorDisplayName{}
+}
+func (SearchIndexFieldPathBuilder) Description() SearchIndexPathSelectorDescription {
+	return SearchIndexPathSelectorDescription{}
+}
 func (SearchIndexFieldPathBuilder) TokensPerChunk() SearchIndexPathSelectorTokensPerChunk {
 	return SearchIndexPathSelectorTokensPerChunk{}
 }
@@ -762,6 +768,34 @@ func (s SearchIndexPathSelectorIndexName) WithValue(value string) *SearchIndex_F
 }
 
 func (s SearchIndexPathSelectorIndexName) WithArrayOfValues(values []string) *SearchIndex_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchIndex_FieldTerminalPathArrayOfValues)
+}
+
+type SearchIndexPathSelectorDisplayName struct{}
+
+func (SearchIndexPathSelectorDisplayName) FieldPath() *SearchIndex_FieldTerminalPath {
+	return &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorDisplayName}
+}
+
+func (s SearchIndexPathSelectorDisplayName) WithValue(value string) *SearchIndex_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchIndex_FieldTerminalPathValue)
+}
+
+func (s SearchIndexPathSelectorDisplayName) WithArrayOfValues(values []string) *SearchIndex_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchIndex_FieldTerminalPathArrayOfValues)
+}
+
+type SearchIndexPathSelectorDescription struct{}
+
+func (SearchIndexPathSelectorDescription) FieldPath() *SearchIndex_FieldTerminalPath {
+	return &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorDescription}
+}
+
+func (s SearchIndexPathSelectorDescription) WithValue(value string) *SearchIndex_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchIndex_FieldTerminalPathValue)
+}
+
+func (s SearchIndexPathSelectorDescription) WithArrayOfValues(values []string) *SearchIndex_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchIndex_FieldTerminalPathArrayOfValues)
 }
 

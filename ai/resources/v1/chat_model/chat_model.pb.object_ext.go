@@ -72,8 +72,8 @@ func (o *ChatModel) MakeDiffFieldMask(other *ChatModel) *ChatModel_FieldMask {
 		}
 	}
 	{
-		_, leftSelected := o.ModelType.(*ChatModel_AzureOpenAi_)
-		_, rightSelected := other.ModelType.(*ChatModel_AzureOpenAi_)
+		_, leftSelected := o.Provider.(*ChatModel_AzureOpenAi_)
+		_, rightSelected := other.Provider.(*ChatModel_AzureOpenAi_)
 		if leftSelected == rightSelected {
 			subMask := o.GetAzureOpenAi().MakeDiffFieldMask(other.GetAzureOpenAi())
 			if subMask.IsFull() {
@@ -86,6 +86,57 @@ func (o *ChatModel) MakeDiffFieldMask(other *ChatModel) *ChatModel_FieldMask {
 		} else {
 			res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorAzureOpenAi})
 		}
+	}
+	{
+		_, leftSelected := o.Provider.(*ChatModel_OpenaiCompatible)
+		_, rightSelected := other.Provider.(*ChatModel_OpenaiCompatible)
+		if leftSelected == rightSelected {
+			subMask := o.GetOpenaiCompatible().MakeDiffFieldMask(other.GetOpenaiCompatible())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorOpenaiCompatible})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorOpenaiCompatible, subPath: subpath})
+				}
+			}
+		} else {
+			res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorOpenaiCompatible})
+		}
+	}
+	{
+		_, leftSelected := o.Provider.(*ChatModel_Anthropic_)
+		_, rightSelected := other.Provider.(*ChatModel_Anthropic_)
+		if leftSelected == rightSelected {
+			subMask := o.GetAnthropic().MakeDiffFieldMask(other.GetAnthropic())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorAnthropic})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorAnthropic, subPath: subpath})
+				}
+			}
+		} else {
+			res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorAnthropic})
+		}
+	}
+	{
+		_, leftSelected := o.Provider.(*ChatModel_Gemini_)
+		_, rightSelected := other.Provider.(*ChatModel_Gemini_)
+		if leftSelected == rightSelected {
+			subMask := o.GetGemini().MakeDiffFieldMask(other.GetGemini())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorGemini})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorGemini, subPath: subpath})
+				}
+			}
+		} else {
+			res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorGemini})
+		}
+	}
+	if o.GetDisplayName() != other.GetDisplayName() {
+		res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorDisplayName})
 	}
 	return res
 }
@@ -110,14 +161,39 @@ func (o *ChatModel) Clone() *ChatModel {
 		}
 	}
 	result.Metadata = o.Metadata.Clone()
-	if o, ok := o.ModelType.(*ChatModel_AzureOpenAi_); ok {
-		result.ModelType = (*ChatModel_AzureOpenAi_)(nil)
+	if o, ok := o.Provider.(*ChatModel_AzureOpenAi_); ok {
+		result.Provider = (*ChatModel_AzureOpenAi_)(nil)
 		if o != nil {
-			result.ModelType = &ChatModel_AzureOpenAi_{}
-			result := result.ModelType.(*ChatModel_AzureOpenAi_)
+			result.Provider = &ChatModel_AzureOpenAi_{}
+			result := result.Provider.(*ChatModel_AzureOpenAi_)
 			result.AzureOpenAi = o.AzureOpenAi.Clone()
 		}
 	}
+	if o, ok := o.Provider.(*ChatModel_OpenaiCompatible); ok {
+		result.Provider = (*ChatModel_OpenaiCompatible)(nil)
+		if o != nil {
+			result.Provider = &ChatModel_OpenaiCompatible{}
+			result := result.Provider.(*ChatModel_OpenaiCompatible)
+			result.OpenaiCompatible = o.OpenaiCompatible.Clone()
+		}
+	}
+	if o, ok := o.Provider.(*ChatModel_Anthropic_); ok {
+		result.Provider = (*ChatModel_Anthropic_)(nil)
+		if o != nil {
+			result.Provider = &ChatModel_Anthropic_{}
+			result := result.Provider.(*ChatModel_Anthropic_)
+			result.Anthropic = o.Anthropic.Clone()
+		}
+	}
+	if o, ok := o.Provider.(*ChatModel_Gemini_); ok {
+		result.Provider = (*ChatModel_Gemini_)(nil)
+		if o != nil {
+			result.Provider = &ChatModel_Gemini_{}
+			result := result.Provider.(*ChatModel_Gemini_)
+			result.Gemini = o.Gemini.Clone()
+		}
+	}
+	result.DisplayName = o.DisplayName
 	return result
 }
 
@@ -144,12 +220,12 @@ func (o *ChatModel) Merge(source *ChatModel) {
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
-	if source, ok := source.GetModelType().(*ChatModel_AzureOpenAi_); ok {
-		if dstOneOf, ok := o.ModelType.(*ChatModel_AzureOpenAi_); !ok || dstOneOf == nil {
-			o.ModelType = &ChatModel_AzureOpenAi_{}
+	if source, ok := source.GetProvider().(*ChatModel_AzureOpenAi_); ok {
+		if dstOneOf, ok := o.Provider.(*ChatModel_AzureOpenAi_); !ok || dstOneOf == nil {
+			o.Provider = &ChatModel_AzureOpenAi_{}
 		}
 		if source != nil {
-			o := o.ModelType.(*ChatModel_AzureOpenAi_)
+			o := o.Provider.(*ChatModel_AzureOpenAi_)
 			if source.AzureOpenAi != nil {
 				if o.AzureOpenAi == nil {
 					o.AzureOpenAi = new(ChatModel_AzureOpenAi)
@@ -158,10 +234,303 @@ func (o *ChatModel) Merge(source *ChatModel) {
 			}
 		}
 	}
+	if source, ok := source.GetProvider().(*ChatModel_OpenaiCompatible); ok {
+		if dstOneOf, ok := o.Provider.(*ChatModel_OpenaiCompatible); !ok || dstOneOf == nil {
+			o.Provider = &ChatModel_OpenaiCompatible{}
+		}
+		if source != nil {
+			o := o.Provider.(*ChatModel_OpenaiCompatible)
+			if source.OpenaiCompatible != nil {
+				if o.OpenaiCompatible == nil {
+					o.OpenaiCompatible = new(ChatModel_OpenAICompatible)
+				}
+				o.OpenaiCompatible.Merge(source.OpenaiCompatible)
+			}
+		}
+	}
+	if source, ok := source.GetProvider().(*ChatModel_Anthropic_); ok {
+		if dstOneOf, ok := o.Provider.(*ChatModel_Anthropic_); !ok || dstOneOf == nil {
+			o.Provider = &ChatModel_Anthropic_{}
+		}
+		if source != nil {
+			o := o.Provider.(*ChatModel_Anthropic_)
+			if source.Anthropic != nil {
+				if o.Anthropic == nil {
+					o.Anthropic = new(ChatModel_Anthropic)
+				}
+				o.Anthropic.Merge(source.Anthropic)
+			}
+		}
+	}
+	if source, ok := source.GetProvider().(*ChatModel_Gemini_); ok {
+		if dstOneOf, ok := o.Provider.(*ChatModel_Gemini_); !ok || dstOneOf == nil {
+			o.Provider = &ChatModel_Gemini_{}
+		}
+		if source != nil {
+			o := o.Provider.(*ChatModel_Gemini_)
+			if source.Gemini != nil {
+				if o.Gemini == nil {
+					o.Gemini = new(ChatModel_Gemini)
+				}
+				o.Gemini.Merge(source.Gemini)
+			}
+		}
+	}
+	o.DisplayName = source.GetDisplayName()
 }
 
 func (o *ChatModel) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ChatModel))
+}
+
+func (o *ChatModel_OpenAICompatible) GotenObjectExt() {}
+
+func (o *ChatModel_OpenAICompatible) MakeFullFieldMask() *ChatModel_OpenAICompatible_FieldMask {
+	return FullChatModel_OpenAICompatible_FieldMask()
+}
+
+func (o *ChatModel_OpenAICompatible) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullChatModel_OpenAICompatible_FieldMask()
+}
+
+func (o *ChatModel_OpenAICompatible) MakeDiffFieldMask(other *ChatModel_OpenAICompatible) *ChatModel_OpenAICompatible_FieldMask {
+	if o == nil && other == nil {
+		return &ChatModel_OpenAICompatible_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullChatModel_OpenAICompatible_FieldMask()
+	}
+
+	res := &ChatModel_OpenAICompatible_FieldMask{}
+	if o.GetApiKey().String() != other.GetApiKey().String() {
+		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorApiKey})
+	}
+	if o.GetModel() != other.GetModel() {
+		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorModel})
+	}
+	if o.GetBaseUrl() != other.GetBaseUrl() {
+		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorBaseUrl})
+	}
+	if o.GetOrganization() != other.GetOrganization() {
+		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorOrganization})
+	}
+	if o.GetAzureEndpoint() != other.GetAzureEndpoint() {
+		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint})
+	}
+	if o.GetAzureApiVersion() != other.GetAzureApiVersion() {
+		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion})
+	}
+	return res
+}
+
+func (o *ChatModel_OpenAICompatible) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ChatModel_OpenAICompatible))
+}
+
+func (o *ChatModel_OpenAICompatible) Clone() *ChatModel_OpenAICompatible {
+	if o == nil {
+		return nil
+	}
+	result := &ChatModel_OpenAICompatible{}
+	if o.ApiKey == nil {
+		result.ApiKey = nil
+	} else if data, err := o.ApiKey.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.ApiKey = &secrets_secret.Reference{}
+		if err := result.ApiKey.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.Model = o.Model
+	result.BaseUrl = o.BaseUrl
+	result.Organization = o.Organization
+	result.AzureEndpoint = o.AzureEndpoint
+	result.AzureApiVersion = o.AzureApiVersion
+	return result
+}
+
+func (o *ChatModel_OpenAICompatible) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ChatModel_OpenAICompatible) Merge(source *ChatModel_OpenAICompatible) {
+	if source.GetApiKey() != nil {
+		if data, err := source.GetApiKey().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.ApiKey = &secrets_secret.Reference{}
+			if err := o.ApiKey.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.ApiKey = nil
+	}
+	o.Model = source.GetModel()
+	o.BaseUrl = source.GetBaseUrl()
+	o.Organization = source.GetOrganization()
+	o.AzureEndpoint = source.GetAzureEndpoint()
+	o.AzureApiVersion = source.GetAzureApiVersion()
+}
+
+func (o *ChatModel_OpenAICompatible) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ChatModel_OpenAICompatible))
+}
+
+func (o *ChatModel_Anthropic) GotenObjectExt() {}
+
+func (o *ChatModel_Anthropic) MakeFullFieldMask() *ChatModel_Anthropic_FieldMask {
+	return FullChatModel_Anthropic_FieldMask()
+}
+
+func (o *ChatModel_Anthropic) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullChatModel_Anthropic_FieldMask()
+}
+
+func (o *ChatModel_Anthropic) MakeDiffFieldMask(other *ChatModel_Anthropic) *ChatModel_Anthropic_FieldMask {
+	if o == nil && other == nil {
+		return &ChatModel_Anthropic_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullChatModel_Anthropic_FieldMask()
+	}
+
+	res := &ChatModel_Anthropic_FieldMask{}
+	if o.GetApiKey().String() != other.GetApiKey().String() {
+		res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorApiKey})
+	}
+	if o.GetModel() != other.GetModel() {
+		res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorModel})
+	}
+	if o.GetBaseUrl() != other.GetBaseUrl() {
+		res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorBaseUrl})
+	}
+	return res
+}
+
+func (o *ChatModel_Anthropic) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ChatModel_Anthropic))
+}
+
+func (o *ChatModel_Anthropic) Clone() *ChatModel_Anthropic {
+	if o == nil {
+		return nil
+	}
+	result := &ChatModel_Anthropic{}
+	if o.ApiKey == nil {
+		result.ApiKey = nil
+	} else if data, err := o.ApiKey.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.ApiKey = &secrets_secret.Reference{}
+		if err := result.ApiKey.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.Model = o.Model
+	result.BaseUrl = o.BaseUrl
+	return result
+}
+
+func (o *ChatModel_Anthropic) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ChatModel_Anthropic) Merge(source *ChatModel_Anthropic) {
+	if source.GetApiKey() != nil {
+		if data, err := source.GetApiKey().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.ApiKey = &secrets_secret.Reference{}
+			if err := o.ApiKey.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.ApiKey = nil
+	}
+	o.Model = source.GetModel()
+	o.BaseUrl = source.GetBaseUrl()
+}
+
+func (o *ChatModel_Anthropic) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ChatModel_Anthropic))
+}
+
+func (o *ChatModel_Gemini) GotenObjectExt() {}
+
+func (o *ChatModel_Gemini) MakeFullFieldMask() *ChatModel_Gemini_FieldMask {
+	return FullChatModel_Gemini_FieldMask()
+}
+
+func (o *ChatModel_Gemini) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullChatModel_Gemini_FieldMask()
+}
+
+func (o *ChatModel_Gemini) MakeDiffFieldMask(other *ChatModel_Gemini) *ChatModel_Gemini_FieldMask {
+	if o == nil && other == nil {
+		return &ChatModel_Gemini_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullChatModel_Gemini_FieldMask()
+	}
+
+	res := &ChatModel_Gemini_FieldMask{}
+	if o.GetApiKey().String() != other.GetApiKey().String() {
+		res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorApiKey})
+	}
+	if o.GetModel() != other.GetModel() {
+		res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorModel})
+	}
+	return res
+}
+
+func (o *ChatModel_Gemini) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ChatModel_Gemini))
+}
+
+func (o *ChatModel_Gemini) Clone() *ChatModel_Gemini {
+	if o == nil {
+		return nil
+	}
+	result := &ChatModel_Gemini{}
+	if o.ApiKey == nil {
+		result.ApiKey = nil
+	} else if data, err := o.ApiKey.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.ApiKey = &secrets_secret.Reference{}
+		if err := result.ApiKey.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.Model = o.Model
+	return result
+}
+
+func (o *ChatModel_Gemini) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ChatModel_Gemini) Merge(source *ChatModel_Gemini) {
+	if source.GetApiKey() != nil {
+		if data, err := source.GetApiKey().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.ApiKey = &secrets_secret.Reference{}
+			if err := o.ApiKey.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.ApiKey = nil
+	}
+	o.Model = source.GetModel()
+}
+
+func (o *ChatModel_Gemini) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ChatModel_Gemini))
 }
 
 func (o *ChatModel_AzureOpenAi) GotenObjectExt() {}
@@ -189,11 +558,11 @@ func (o *ChatModel_AzureOpenAi) MakeDiffFieldMask(other *ChatModel_AzureOpenAi) 
 	if o.GetApiKey().String() != other.GetApiKey().String() {
 		res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiKey})
 	}
-	if o.GetModelName() != other.GetModelName() {
-		res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorModelName})
+	if o.GetDeploymentName() != other.GetDeploymentName() {
+		res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorDeploymentName})
 	}
-	if o.GetNativeAzureApiCompatible() != other.GetNativeAzureApiCompatible() {
-		res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible})
+	if o.GetApiVersion() != other.GetApiVersion() {
+		res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiVersion})
 	}
 	return res
 }
@@ -218,8 +587,8 @@ func (o *ChatModel_AzureOpenAi) Clone() *ChatModel_AzureOpenAi {
 			panic(err)
 		}
 	}
-	result.ModelName = o.ModelName
-	result.NativeAzureApiCompatible = o.NativeAzureApiCompatible
+	result.DeploymentName = o.DeploymentName
+	result.ApiVersion = o.ApiVersion
 	return result
 }
 
@@ -241,8 +610,8 @@ func (o *ChatModel_AzureOpenAi) Merge(source *ChatModel_AzureOpenAi) {
 	} else {
 		o.ApiKey = nil
 	}
-	o.ModelName = source.GetModelName()
-	o.NativeAzureApiCompatible = source.GetNativeAzureApiCompatible()
+	o.DeploymentName = source.GetDeploymentName()
+	o.ApiVersion = source.GetApiVersion()
 }
 
 func (o *ChatModel_AzureOpenAi) MergeRaw(source gotenobject.GotenObjectExt) {

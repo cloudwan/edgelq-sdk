@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.ai.v1;
 
 import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
 import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db;search_db";
@@ -17,6 +18,7 @@ option java_package = "com.ntt.ai.pb.v1";
 message SearchDb {
   option (google.api.resource) = {
     type : "ai.edgelq.com/SearchDb"
+    pattern : "searchDbs/{search_db}"
     pattern : "projects/{project}/searchDbs/{search_db}"
   };
 
@@ -39,5 +41,9 @@ message SearchDb {
     string endpoint = 1;
 
     string api_key = 2;
+
+    // Whether to enable semantic search features (requires Basic+ tier with
+    // semantic enabled)
+    bool enable_semantic = 3;
   }
 }

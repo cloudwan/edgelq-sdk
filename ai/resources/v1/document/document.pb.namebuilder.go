@@ -21,6 +21,7 @@ var (
 )
 
 const (
+	NamePattern_SearchDb_SearchIndex         = "searchDbs/{search_db}/searchIndices/{search_index}/documents/{document}"
 	NamePattern_Project_SearchDb_SearchIndex = "projects/{project}/searchDbs/{search_db}/searchIndices/{search_index}/documents/{document}"
 )
 
@@ -39,7 +40,7 @@ func NewNameBuilder() *NameBuilder {
 			ParentName: ParentName{
 				NamePattern: NamePattern{
 					// Set default pattern - just first.
-					Pattern: NamePattern_Project_SearchDb_SearchIndex,
+					Pattern: NamePattern_SearchDb_SearchIndex,
 				},
 			},
 		},
@@ -73,23 +74,14 @@ func (b *NameBuilder) SetSearchIndex(parent *search_index.Name) *NameBuilder {
 	parentName := &b.nameObj.ParentName
 
 	switch parent.Pattern {
+	case search_index.NamePattern_SearchDb:
+		parentName.Pattern = NamePattern_SearchDb_SearchIndex
 	case search_index.NamePattern_Project_SearchDb:
 		parentName.Pattern = NamePattern_Project_SearchDb_SearchIndex
 	}
-	parentName.ProjectId = parent.ProjectId
 	parentName.SearchDbId = parent.SearchDbId
 	parentName.SearchIndexId = parent.SearchIndexId
-	return b
-}
-
-func (b *NameBuilder) SetProjectId(id string) *NameBuilder {
-	parentName := &b.nameObj.ParentName
-	parentName.ProjectId = id
-
-	// Set pattern if something matches for this set of IDs
-	if parentName.ProjectId != "" && parentName.SearchDbId != "" && parentName.SearchIndexId != "" {
-		parentName.Pattern = NamePattern_Project_SearchDb_SearchIndex
-	}
+	parentName.ProjectId = parent.ProjectId
 	return b
 }
 
@@ -98,6 +90,9 @@ func (b *NameBuilder) SetSearchDbId(id string) *NameBuilder {
 	parentName.SearchDbId = id
 
 	// Set pattern if something matches for this set of IDs
+	if parentName.SearchDbId != "" && parentName.SearchIndexId != "" {
+		parentName.Pattern = NamePattern_SearchDb_SearchIndex
+	}
 	if parentName.ProjectId != "" && parentName.SearchDbId != "" && parentName.SearchIndexId != "" {
 		parentName.Pattern = NamePattern_Project_SearchDb_SearchIndex
 	}
@@ -107,6 +102,20 @@ func (b *NameBuilder) SetSearchDbId(id string) *NameBuilder {
 func (b *NameBuilder) SetSearchIndexId(id string) *NameBuilder {
 	parentName := &b.nameObj.ParentName
 	parentName.SearchIndexId = id
+
+	// Set pattern if something matches for this set of IDs
+	if parentName.SearchDbId != "" && parentName.SearchIndexId != "" {
+		parentName.Pattern = NamePattern_SearchDb_SearchIndex
+	}
+	if parentName.ProjectId != "" && parentName.SearchDbId != "" && parentName.SearchIndexId != "" {
+		parentName.Pattern = NamePattern_Project_SearchDb_SearchIndex
+	}
+	return b
+}
+
+func (b *NameBuilder) SetProjectId(id string) *NameBuilder {
+	parentName := &b.nameObj.ParentName
+	parentName.ProjectId = id
 
 	// Set pattern if something matches for this set of IDs
 	if parentName.ProjectId != "" && parentName.SearchDbId != "" && parentName.SearchIndexId != "" {

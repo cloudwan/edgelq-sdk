@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/common.proto";
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/responses;responses_client";
+option java_multiple_files = false;
+option java_outer_classname = "ResponsesCustomProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// Client → Server messages
+message CreateResponseRequest { CreateRequest create_request = 1; }
+
+message CreateRequest {
+  // The conversation
+  repeated Message messages = 1;
+
+  // Model selection
+  string model = 2;
+
+  string model_override = 3;
+
+  // Client explicitly declares its tools
+  repeated ToolDefinition client_tools = 4;
+
+  // Server-side tool configuration - choose one:
+  oneof server_tools_config {
+    // Option 1: Use a pre-configured capability template
+    string capability_template = 5;
+
+    // Option 2: Directly specify connectors
+    ConnectorsList connectors = 6;
+  }
+
+  // Standard LLM params
+  int32 max_tokens = 7;
+
+  float temperature = 8;
+
+  // Optional: reference to existing conversation
+  string conversation_name = 9;
+
+  // Client-provided request ID for idempotency and log correlation
+  string client_request_id = 10;
+
+  // Control persistence behavior
+  bool skip_save = 11;
+
+  // Scope for authorization and tracking. Can be project, organization, or
+  // empty. Format: "projects/{project}", "organizations/{org}", or ""
+  string parent = 12;
+}
+
+// List of connectors for direct specification
+message ConnectorsList { repeated string items = 1; }
+
+// Server → Client messages
+message CreateResponseResult {
+  oneof event {
+    ResponseStarted response_started = 1;
+
+    ContentDelta content_delta = 2;
+
+    ContentDone content_done = 3;
+
+    ThinkingDelta thinking_delta = 4;
+
+    ThinkingDone thinking_done = 5;
+
+    ToolCalls tool_calls = 6;
+
+    ResponseComplete response_complete = 7;
+
+    Error error = 8;
+  }
+}
+
+message ResponseStarted {
+  string conversation_name = 1;
+
+  string model_used = 2;
+
+  repeated ToolInfo available_tools = 3;
+
+  ModelCapabilities capabilities = 4;
+}
+
+message ToolInfo {
+  string name = 1; // Tool name as sent to LLM
+
+  // Tool source information
+  oneof source {
+    ClientToolSource client = 2;
+
+    ConnectorToolSource connector = 3;
+
+    InternalToolSource internal = 4;
+  }
+}
+
+// Client tool - executed by client locally
+message ClientToolSource {}
+
+// Connector tool - executed via MCP/other connector
+message ConnectorToolSource { string connector_ref = 1; }
+
+// Internal server tool (e.g., RAG)
+message InternalToolSource {
+  Type type = 1;
+
+  // Template name for internal tools
+  // Server knows how to extract the right config from the template
+  string template_name = 2;
+
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+
+    RAG = 1; // Future: other internal tools
+  }
+}
+
+message ModelCapabilities {
+  int32 context_window = 1;
+
+  int32 max_output_tokens = 2;
+
+  bool supports_tools = 3;
+
+  bool supports_thinking = 4;
+
+  repeated string supported_modalities = 5; // ["text", "image", "audio"]
+}
+
+message ContentDelta { string text = 1; }
+
+message ContentDone { string text = 1; }
+
+message ThinkingDelta { string text = 1; }
+
+message ThinkingDone { string text = 1; }
+
+message ResponseComplete {
+  bool requires_tool_results = 1;
+
+  StopReason stop_reason = 2;
+
+  TokenUsage usage = 3; // Token usage for the entire request
+}
+
+message Error {
+  string code = 1;
+
+  string message = 2;
+}
+
+enum StopReason {
+  STOP_REASON_UNSPECIFIED = 0;
+
+  STOP_REASON_COMPLETED = 1; // Natural completion
+
+  STOP_REASON_MAX_TOKENS = 2; // Hit token limit
+
+  STOP_REASON_TOOL_CALLS = 3; // Stopped to execute tools
+
+  STOP_REASON_ERROR = 4; // Error occurred
+
+  STOP_REASON_CONTENT_FILTER = 5; // Content filtered
+}

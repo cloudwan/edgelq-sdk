@@ -54,6 +54,10 @@ func FullChatModel_FieldMask() *ChatModel_FieldMask {
 	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorAzureOpenAi})
+	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorOpenaiCompatible})
+	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorAnthropic})
+	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorGemini})
+	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorDisplayName})
 	return res
 }
 
@@ -72,7 +76,7 @@ func (fieldMask *ChatModel_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ChatModel_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -102,14 +106,20 @@ func (fieldMask *ChatModel_FieldMask) Reset() {
 
 func (fieldMask *ChatModel_FieldMask) Subtract(other *ChatModel_FieldMask) *ChatModel_FieldMask {
 	result := &ChatModel_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[ChatModel_FieldPathSelector]gotenobject.FieldMask{
-		ChatModel_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
-		ChatModel_FieldPathSelectorAzureOpenAi: &ChatModel_AzureOpenAi_FieldMask{},
+		ChatModel_FieldPathSelectorMetadata:         &meta.Meta_FieldMask{},
+		ChatModel_FieldPathSelectorAzureOpenAi:      &ChatModel_AzureOpenAi_FieldMask{},
+		ChatModel_FieldPathSelectorOpenaiCompatible: &ChatModel_OpenAICompatible_FieldMask{},
+		ChatModel_FieldPathSelectorAnthropic:        &ChatModel_Anthropic_FieldMask{},
+		ChatModel_FieldPathSelectorGemini:           &ChatModel_Gemini_FieldMask{},
 	}
 	mySubMasks := map[ChatModel_FieldPathSelector]gotenobject.FieldMask{
-		ChatModel_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
-		ChatModel_FieldPathSelectorAzureOpenAi: &ChatModel_AzureOpenAi_FieldMask{},
+		ChatModel_FieldPathSelectorMetadata:         &meta.Meta_FieldMask{},
+		ChatModel_FieldPathSelectorAzureOpenAi:      &ChatModel_AzureOpenAi_FieldMask{},
+		ChatModel_FieldPathSelectorOpenaiCompatible: &ChatModel_OpenAICompatible_FieldMask{},
+		ChatModel_FieldPathSelectorAnthropic:        &ChatModel_Anthropic_FieldMask{},
+		ChatModel_FieldPathSelectorGemini:           &ChatModel_Gemini_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -129,6 +139,12 @@ func (fieldMask *ChatModel_FieldMask) Subtract(other *ChatModel_FieldMask) *Chat
 						mySubMasks[ChatModel_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case ChatModel_FieldPathSelectorAzureOpenAi:
 						mySubMasks[ChatModel_FieldPathSelectorAzureOpenAi] = FullChatModel_AzureOpenAi_FieldMask()
+					case ChatModel_FieldPathSelectorOpenaiCompatible:
+						mySubMasks[ChatModel_FieldPathSelectorOpenaiCompatible] = FullChatModel_OpenAICompatible_FieldMask()
+					case ChatModel_FieldPathSelectorAnthropic:
+						mySubMasks[ChatModel_FieldPathSelectorAnthropic] = FullChatModel_Anthropic_FieldMask()
+					case ChatModel_FieldPathSelectorGemini:
+						mySubMasks[ChatModel_FieldPathSelectorGemini] = FullChatModel_Gemini_FieldMask()
 					}
 				} else if tp, ok := path.(*ChatModel_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -303,6 +319,12 @@ func (fieldMask *ChatModel_FieldMask) Project(source *ChatModel) *ChatModel {
 	wholeMetadataAccepted := false
 	azureOpenAiMask := &ChatModel_AzureOpenAi_FieldMask{}
 	wholeAzureOpenAiAccepted := false
+	openaiCompatibleMask := &ChatModel_OpenAICompatible_FieldMask{}
+	wholeOpenaiCompatibleAccepted := false
+	anthropicMask := &ChatModel_Anthropic_FieldMask{}
+	wholeAnthropicAccepted := false
+	geminiMask := &ChatModel_Gemini_FieldMask{}
+	wholeGeminiAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -314,12 +336,35 @@ func (fieldMask *ChatModel_FieldMask) Project(source *ChatModel) *ChatModel {
 				result.Metadata = source.Metadata
 				wholeMetadataAccepted = true
 			case ChatModel_FieldPathSelectorAzureOpenAi:
-				if source, ok := source.ModelType.(*ChatModel_AzureOpenAi_); ok {
-					result.ModelType = &ChatModel_AzureOpenAi_{
+				if source, ok := source.Provider.(*ChatModel_AzureOpenAi_); ok {
+					result.Provider = &ChatModel_AzureOpenAi_{
 						AzureOpenAi: source.AzureOpenAi,
 					}
 				}
 				wholeAzureOpenAiAccepted = true
+			case ChatModel_FieldPathSelectorOpenaiCompatible:
+				if source, ok := source.Provider.(*ChatModel_OpenaiCompatible); ok {
+					result.Provider = &ChatModel_OpenaiCompatible{
+						OpenaiCompatible: source.OpenaiCompatible,
+					}
+				}
+				wholeOpenaiCompatibleAccepted = true
+			case ChatModel_FieldPathSelectorAnthropic:
+				if source, ok := source.Provider.(*ChatModel_Anthropic_); ok {
+					result.Provider = &ChatModel_Anthropic_{
+						Anthropic: source.Anthropic,
+					}
+				}
+				wholeAnthropicAccepted = true
+			case ChatModel_FieldPathSelectorGemini:
+				if source, ok := source.Provider.(*ChatModel_Gemini_); ok {
+					result.Provider = &ChatModel_Gemini_{
+						Gemini: source.Gemini,
+					}
+				}
+				wholeGeminiAccepted = true
+			case ChatModel_FieldPathSelectorDisplayName:
+				result.DisplayName = source.DisplayName
 			}
 		case *ChatModel_FieldSubPath:
 			switch tp.selector {
@@ -327,6 +372,12 @@ func (fieldMask *ChatModel_FieldMask) Project(source *ChatModel) *ChatModel {
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case ChatModel_FieldPathSelectorAzureOpenAi:
 				azureOpenAiMask.AppendPath(tp.subPath.(ChatModelAzureOpenAi_FieldPath))
+			case ChatModel_FieldPathSelectorOpenaiCompatible:
+				openaiCompatibleMask.AppendPath(tp.subPath.(ChatModelOpenAICompatible_FieldPath))
+			case ChatModel_FieldPathSelectorAnthropic:
+				anthropicMask.AppendPath(tp.subPath.(ChatModelAnthropic_FieldPath))
+			case ChatModel_FieldPathSelectorGemini:
+				geminiMask.AppendPath(tp.subPath.(ChatModelGemini_FieldPath))
 			}
 		}
 	}
@@ -334,12 +385,42 @@ func (fieldMask *ChatModel_FieldMask) Project(source *ChatModel) *ChatModel {
 		result.Metadata = metadataMask.Project(source.GetMetadata())
 	}
 	if wholeAzureOpenAiAccepted == false && len(azureOpenAiMask.Paths) > 0 {
-		if asOneOf, ok := source.ModelType.(*ChatModel_AzureOpenAi_); ok {
-			result.ModelType = (*ChatModel_AzureOpenAi_)(nil)
+		if asOneOf, ok := source.Provider.(*ChatModel_AzureOpenAi_); ok {
+			result.Provider = (*ChatModel_AzureOpenAi_)(nil)
 			if asOneOf != nil {
 				oneOfRes := &ChatModel_AzureOpenAi_{}
 				oneOfRes.AzureOpenAi = azureOpenAiMask.Project(asOneOf.AzureOpenAi)
-				result.ModelType = oneOfRes
+				result.Provider = oneOfRes
+			}
+		}
+	}
+	if wholeOpenaiCompatibleAccepted == false && len(openaiCompatibleMask.Paths) > 0 {
+		if asOneOf, ok := source.Provider.(*ChatModel_OpenaiCompatible); ok {
+			result.Provider = (*ChatModel_OpenaiCompatible)(nil)
+			if asOneOf != nil {
+				oneOfRes := &ChatModel_OpenaiCompatible{}
+				oneOfRes.OpenaiCompatible = openaiCompatibleMask.Project(asOneOf.OpenaiCompatible)
+				result.Provider = oneOfRes
+			}
+		}
+	}
+	if wholeAnthropicAccepted == false && len(anthropicMask.Paths) > 0 {
+		if asOneOf, ok := source.Provider.(*ChatModel_Anthropic_); ok {
+			result.Provider = (*ChatModel_Anthropic_)(nil)
+			if asOneOf != nil {
+				oneOfRes := &ChatModel_Anthropic_{}
+				oneOfRes.Anthropic = anthropicMask.Project(asOneOf.Anthropic)
+				result.Provider = oneOfRes
+			}
+		}
+	}
+	if wholeGeminiAccepted == false && len(geminiMask.Paths) > 0 {
+		if asOneOf, ok := source.Provider.(*ChatModel_Gemini_); ok {
+			result.Provider = (*ChatModel_Gemini_)(nil)
+			if asOneOf != nil {
+				oneOfRes := &ChatModel_Gemini_{}
+				oneOfRes.Gemini = geminiMask.Project(asOneOf.Gemini)
+				result.Provider = oneOfRes
 			}
 		}
 	}
@@ -357,6 +438,714 @@ func (fieldMask *ChatModel_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
+type ChatModel_OpenAICompatible_FieldMask struct {
+	Paths []ChatModelOpenAICompatible_FieldPath
+}
+
+func FullChatModel_OpenAICompatible_FieldMask() *ChatModel_OpenAICompatible_FieldMask {
+	res := &ChatModel_OpenAICompatible_FieldMask{}
+	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorApiKey})
+	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorModel})
+	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorBaseUrl})
+	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorOrganization})
+	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint})
+	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion})
+	return res
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 6)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ChatModelOpenAICompatible_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseChatModelOpenAICompatible_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Subtract(other *ChatModel_OpenAICompatible_FieldMask) *ChatModel_OpenAICompatible_FieldMask {
+	result := &ChatModel_OpenAICompatible_FieldMask{}
+	removedSelectors := make([]bool, 6)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ChatModelOpenAICompatible_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ChatModel_OpenAICompatible_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) FilterInputFields() *ChatModel_OpenAICompatible_FieldMask {
+	result := &ChatModel_OpenAICompatible_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ChatModelOpenAICompatible_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseChatModelOpenAICompatible_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ChatModel_OpenAICompatible_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ChatModel_OpenAICompatible_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) AppendPath(path ChatModelOpenAICompatible_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ChatModelOpenAICompatible_FieldPath))
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) GetPaths() []ChatModelOpenAICompatible_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseChatModelOpenAICompatible_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Set(target, source *ChatModel_OpenAICompatible) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ChatModel_OpenAICompatible), source.(*ChatModel_OpenAICompatible))
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Project(source *ChatModel_OpenAICompatible) *ChatModel_OpenAICompatible {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ChatModel_OpenAICompatible{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ChatModelOpenAICompatible_FieldTerminalPath:
+			switch tp.selector {
+			case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+				result.ApiKey = source.ApiKey
+			case ChatModelOpenAICompatible_FieldPathSelectorModel:
+				result.Model = source.Model
+			case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+				result.BaseUrl = source.BaseUrl
+			case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+				result.Organization = source.Organization
+			case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+				result.AzureEndpoint = source.AzureEndpoint
+			case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+				result.AzureApiVersion = source.AzureApiVersion
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ChatModel_OpenAICompatible))
+}
+
+func (fieldMask *ChatModel_OpenAICompatible_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type ChatModel_Anthropic_FieldMask struct {
+	Paths []ChatModelAnthropic_FieldPath
+}
+
+func FullChatModel_Anthropic_FieldMask() *ChatModel_Anthropic_FieldMask {
+	res := &ChatModel_Anthropic_FieldMask{}
+	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorApiKey})
+	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorModel})
+	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorBaseUrl})
+	return res
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ChatModelAnthropic_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseChatModelAnthropic_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) Subtract(other *ChatModel_Anthropic_FieldMask) *ChatModel_Anthropic_FieldMask {
+	result := &ChatModel_Anthropic_FieldMask{}
+	removedSelectors := make([]bool, 3)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ChatModelAnthropic_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ChatModel_Anthropic_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ChatModel_Anthropic_FieldMask) FilterInputFields() *ChatModel_Anthropic_FieldMask {
+	result := &ChatModel_Anthropic_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ChatModel_Anthropic_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ChatModelAnthropic_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseChatModelAnthropic_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ChatModel_Anthropic_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ChatModel_Anthropic_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) AppendPath(path ChatModelAnthropic_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ChatModelAnthropic_FieldPath))
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) GetPaths() []ChatModelAnthropic_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseChatModelAnthropic_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) Set(target, source *ChatModel_Anthropic) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ChatModel_Anthropic), source.(*ChatModel_Anthropic))
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) Project(source *ChatModel_Anthropic) *ChatModel_Anthropic {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ChatModel_Anthropic{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ChatModelAnthropic_FieldTerminalPath:
+			switch tp.selector {
+			case ChatModelAnthropic_FieldPathSelectorApiKey:
+				result.ApiKey = source.ApiKey
+			case ChatModelAnthropic_FieldPathSelectorModel:
+				result.Model = source.Model
+			case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+				result.BaseUrl = source.BaseUrl
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ChatModel_Anthropic))
+}
+
+func (fieldMask *ChatModel_Anthropic_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type ChatModel_Gemini_FieldMask struct {
+	Paths []ChatModelGemini_FieldPath
+}
+
+func FullChatModel_Gemini_FieldMask() *ChatModel_Gemini_FieldMask {
+	res := &ChatModel_Gemini_FieldMask{}
+	res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorApiKey})
+	res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorModel})
+	return res
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ChatModelGemini_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseChatModelGemini_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) Subtract(other *ChatModel_Gemini_FieldMask) *ChatModel_Gemini_FieldMask {
+	result := &ChatModel_Gemini_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ChatModelGemini_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ChatModel_Gemini_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ChatModel_Gemini_FieldMask) FilterInputFields() *ChatModel_Gemini_FieldMask {
+	result := &ChatModel_Gemini_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ChatModel_Gemini_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ChatModelGemini_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseChatModelGemini_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ChatModel_Gemini_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ChatModel_Gemini_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) AppendPath(path ChatModelGemini_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ChatModelGemini_FieldPath))
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) GetPaths() []ChatModelGemini_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseChatModelGemini_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) Set(target, source *ChatModel_Gemini) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ChatModel_Gemini), source.(*ChatModel_Gemini))
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) Project(source *ChatModel_Gemini) *ChatModel_Gemini {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ChatModel_Gemini{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ChatModelGemini_FieldTerminalPath:
+			switch tp.selector {
+			case ChatModelGemini_FieldPathSelectorApiKey:
+				result.ApiKey = source.ApiKey
+			case ChatModelGemini_FieldPathSelectorModel:
+				result.Model = source.Model
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ChatModel_Gemini))
+}
+
+func (fieldMask *ChatModel_Gemini_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type ChatModel_AzureOpenAi_FieldMask struct {
 	Paths []ChatModelAzureOpenAi_FieldPath
 }
@@ -365,8 +1154,8 @@ func FullChatModel_AzureOpenAi_FieldMask() *ChatModel_AzureOpenAi_FieldMask {
 	res := &ChatModel_AzureOpenAi_FieldMask{}
 	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorEndpoint})
 	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiKey})
-	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorModelName})
-	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible})
+	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorDeploymentName})
+	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiVersion})
 	return res
 }
 
@@ -573,10 +1362,10 @@ func (fieldMask *ChatModel_AzureOpenAi_FieldMask) Project(source *ChatModel_Azur
 				result.Endpoint = source.Endpoint
 			case ChatModelAzureOpenAi_FieldPathSelectorApiKey:
 				result.ApiKey = source.ApiKey
-			case ChatModelAzureOpenAi_FieldPathSelectorModelName:
-				result.ModelName = source.ModelName
-			case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-				result.NativeAzureApiCompatible = source.NativeAzureApiCompatible
+			case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
+				result.DeploymentName = source.DeploymentName
+			case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+				result.ApiVersion = source.ApiVersion
 			}
 		}
 	}

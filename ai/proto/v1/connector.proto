@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector;connector";
+option java_multiple_files = true;
+option java_outer_classname = "ConnectorProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// Connector Resource
+message Connector {
+  option (google.api.resource) = {
+    type : "ai.edgelq.com/Connector"
+    pattern : "connectors/{connector}"
+    pattern : "projects/{project}/connectors/{connector}"
+  };
+
+  // Name of Connector
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Human-readable display name
+  string display_name = 3;
+
+  // Human-readable description
+  string description = 4;
+
+  Type type = 5;
+
+  // MCP connection configuration
+  MCPConfig mcp_config = 6;
+
+  // OAuth configuration (optional)
+  // Only needed if MCP server doesn't support RFC9728 auto-discovery
+  OAuthConfig oauth_config = 7;
+
+  // Connection timeout
+  google.protobuf.Duration connect_timeout = 8;
+
+  // Request timeout
+  google.protobuf.Duration request_timeout = 9;
+
+  // Connector type
+  enum Type {
+    MCP = 0; // Model Context Protocol (default)
+  }
+}
+
+// MCP-specific configuration
+message MCPConfig {
+  // Connection endpoint (transport determined by scheme)
+  // - stdio://command - Local process, no auth
+  // - http(s)://host/path - HTTP/HTTPS, OAuth required
+  // - sse://host/path - SSE, OAuth required
+  string endpoint = 1;
+
+  // Command arguments (only for stdio:// transport)
+  repeated string args = 2;
+
+  // Environment variables (only for stdio:// transport)
+  map<string, string> environment = 3;
+}
+
+// OAuth configuration
+message OAuthConfig {
+  // Pre-registered OAuth client ID
+  string client_id = 1;
+
+  // Reference to secret containing client secret
+  string client_secret = 2;
+
+  // Override auto-discovered authorization endpoint
+  string authorization_endpoint = 3;
+
+  // Override auto-discovered token endpoint
+  string token_endpoint = 4;
+
+  // Additional scopes beyond what MCP server declares
+  repeated string additional_scopes = 5;
+}

@@ -73,8 +73,10 @@ const (
 	SearchIndex_FieldPathSelectorName           SearchIndex_FieldPathSelector = 0
 	SearchIndex_FieldPathSelectorMetadata       SearchIndex_FieldPathSelector = 1
 	SearchIndex_FieldPathSelectorIndexName      SearchIndex_FieldPathSelector = 2
-	SearchIndex_FieldPathSelectorTokensPerChunk SearchIndex_FieldPathSelector = 3
-	SearchIndex_FieldPathSelectorOverlapTokens  SearchIndex_FieldPathSelector = 4
+	SearchIndex_FieldPathSelectorDisplayName    SearchIndex_FieldPathSelector = 3
+	SearchIndex_FieldPathSelectorDescription    SearchIndex_FieldPathSelector = 4
+	SearchIndex_FieldPathSelectorTokensPerChunk SearchIndex_FieldPathSelector = 5
+	SearchIndex_FieldPathSelectorOverlapTokens  SearchIndex_FieldPathSelector = 6
 )
 
 func (s SearchIndex_FieldPathSelector) String() string {
@@ -85,6 +87,10 @@ func (s SearchIndex_FieldPathSelector) String() string {
 		return "metadata"
 	case SearchIndex_FieldPathSelectorIndexName:
 		return "index_name"
+	case SearchIndex_FieldPathSelectorDisplayName:
+		return "display_name"
+	case SearchIndex_FieldPathSelectorDescription:
+		return "description"
 	case SearchIndex_FieldPathSelectorTokensPerChunk:
 		return "tokens_per_chunk"
 	case SearchIndex_FieldPathSelectorOverlapTokens:
@@ -106,6 +112,10 @@ func BuildSearchIndex_FieldPath(fp gotenobject.RawFieldPath) (SearchIndex_FieldP
 			return &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorMetadata}, nil
 		case "index_name", "indexName", "index-name":
 			return &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorIndexName}, nil
+		case "display_name", "displayName", "display-name":
+			return &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorDescription}, nil
 		case "tokens_per_chunk", "tokensPerChunk", "tokens-per-chunk":
 			return &SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorTokensPerChunk}, nil
 		case "overlap_tokens", "overlapTokens", "overlap-tokens":
@@ -174,6 +184,10 @@ func (fp *SearchIndex_FieldTerminalPath) Get(source *SearchIndex) (values []inte
 			}
 		case SearchIndex_FieldPathSelectorIndexName:
 			values = append(values, source.IndexName)
+		case SearchIndex_FieldPathSelectorDisplayName:
+			values = append(values, source.DisplayName)
+		case SearchIndex_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case SearchIndex_FieldPathSelectorTokensPerChunk:
 			values = append(values, source.TokensPerChunk)
 		case SearchIndex_FieldPathSelectorOverlapTokens:
@@ -200,6 +214,10 @@ func (fp *SearchIndex_FieldTerminalPath) GetSingle(source *SearchIndex) (interfa
 		return res, res != nil
 	case SearchIndex_FieldPathSelectorIndexName:
 		return source.GetIndexName(), source != nil
+	case SearchIndex_FieldPathSelectorDisplayName:
+		return source.GetDisplayName(), source != nil
+	case SearchIndex_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case SearchIndex_FieldPathSelectorTokensPerChunk:
 		return source.GetTokensPerChunk(), source != nil
 	case SearchIndex_FieldPathSelectorOverlapTokens:
@@ -222,6 +240,10 @@ func (fp *SearchIndex_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case SearchIndex_FieldPathSelectorIndexName:
 		return ""
+	case SearchIndex_FieldPathSelectorDisplayName:
+		return ""
+	case SearchIndex_FieldPathSelectorDescription:
+		return ""
 	case SearchIndex_FieldPathSelectorTokensPerChunk:
 		return int32(0)
 	case SearchIndex_FieldPathSelectorOverlapTokens:
@@ -240,6 +262,10 @@ func (fp *SearchIndex_FieldTerminalPath) ClearValue(item *SearchIndex) {
 			item.Metadata = nil
 		case SearchIndex_FieldPathSelectorIndexName:
 			item.IndexName = ""
+		case SearchIndex_FieldPathSelectorDisplayName:
+			item.DisplayName = ""
+		case SearchIndex_FieldPathSelectorDescription:
+			item.Description = ""
 		case SearchIndex_FieldPathSelectorTokensPerChunk:
 			item.TokensPerChunk = int32(0)
 		case SearchIndex_FieldPathSelectorOverlapTokens:
@@ -258,6 +284,8 @@ func (fp *SearchIndex_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *SearchIndex_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == SearchIndex_FieldPathSelectorName ||
 		fp.selector == SearchIndex_FieldPathSelectorIndexName ||
+		fp.selector == SearchIndex_FieldPathSelectorDisplayName ||
+		fp.selector == SearchIndex_FieldPathSelectorDescription ||
 		fp.selector == SearchIndex_FieldPathSelectorTokensPerChunk ||
 		fp.selector == SearchIndex_FieldPathSelectorOverlapTokens
 }
@@ -273,6 +301,10 @@ func (fp *SearchIndex_FieldTerminalPath) WithIValue(value interface{}) SearchInd
 	case SearchIndex_FieldPathSelectorMetadata:
 		return &SearchIndex_FieldTerminalPathValue{SearchIndex_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case SearchIndex_FieldPathSelectorIndexName:
+		return &SearchIndex_FieldTerminalPathValue{SearchIndex_FieldTerminalPath: *fp, value: value.(string)}
+	case SearchIndex_FieldPathSelectorDisplayName:
+		return &SearchIndex_FieldTerminalPathValue{SearchIndex_FieldTerminalPath: *fp, value: value.(string)}
+	case SearchIndex_FieldPathSelectorDescription:
 		return &SearchIndex_FieldTerminalPathValue{SearchIndex_FieldTerminalPath: *fp, value: value.(string)}
 	case SearchIndex_FieldPathSelectorTokensPerChunk:
 		return &SearchIndex_FieldTerminalPathValue{SearchIndex_FieldTerminalPath: *fp, value: value.(int32)}
@@ -295,6 +327,10 @@ func (fp *SearchIndex_FieldTerminalPath) WithIArrayOfValues(values interface{}) 
 	case SearchIndex_FieldPathSelectorMetadata:
 		return &SearchIndex_FieldTerminalPathArrayOfValues{SearchIndex_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case SearchIndex_FieldPathSelectorIndexName:
+		return &SearchIndex_FieldTerminalPathArrayOfValues{SearchIndex_FieldTerminalPath: *fp, values: values.([]string)}
+	case SearchIndex_FieldPathSelectorDisplayName:
+		return &SearchIndex_FieldTerminalPathArrayOfValues{SearchIndex_FieldTerminalPath: *fp, values: values.([]string)}
+	case SearchIndex_FieldPathSelectorDescription:
 		return &SearchIndex_FieldTerminalPathArrayOfValues{SearchIndex_FieldTerminalPath: *fp, values: values.([]string)}
 	case SearchIndex_FieldPathSelectorTokensPerChunk:
 		return &SearchIndex_FieldTerminalPathArrayOfValues{SearchIndex_FieldTerminalPath: *fp, values: values.([]int32)}
@@ -484,6 +520,14 @@ func (fpv *SearchIndex_FieldTerminalPathValue) AsIndexNameValue() (string, bool)
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *SearchIndex_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SearchIndex_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *SearchIndex_FieldTerminalPathValue) AsTokensPerChunkValue() (int32, bool) {
 	res, ok := fpv.value.(int32)
 	return res, ok
@@ -505,6 +549,10 @@ func (fpv *SearchIndex_FieldTerminalPathValue) SetTo(target **SearchIndex) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case SearchIndex_FieldPathSelectorIndexName:
 		(*target).IndexName = fpv.value.(string)
+	case SearchIndex_FieldPathSelectorDisplayName:
+		(*target).DisplayName = fpv.value.(string)
+	case SearchIndex_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case SearchIndex_FieldPathSelectorTokensPerChunk:
 		(*target).TokensPerChunk = fpv.value.(int32)
 	case SearchIndex_FieldPathSelectorOverlapTokens:
@@ -546,6 +594,26 @@ func (fpv *SearchIndex_FieldTerminalPathValue) CompareWith(source *SearchIndex) 
 	case SearchIndex_FieldPathSelectorIndexName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetIndexName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SearchIndex_FieldPathSelectorDisplayName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SearchIndex_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -763,6 +831,14 @@ func (fpaov *SearchIndex_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case SearchIndex_FieldPathSelectorDisplayName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SearchIndex_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case SearchIndex_FieldPathSelectorTokensPerChunk:
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
@@ -783,6 +859,14 @@ func (fpaov *SearchIndex_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues
 	return res, ok
 }
 func (fpaov *SearchIndex_FieldTerminalPathArrayOfValues) AsIndexNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SearchIndex_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SearchIndex_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

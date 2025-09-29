@@ -189,6 +189,9 @@ func (o *SearchDb_AzureAiSearch) MakeDiffFieldMask(other *SearchDb_AzureAiSearch
 	if o.GetApiKey().String() != other.GetApiKey().String() {
 		res.Paths = append(res.Paths, &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorApiKey})
 	}
+	if o.GetEnableSemantic() != other.GetEnableSemantic() {
+		res.Paths = append(res.Paths, &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic})
+	}
 	return res
 }
 
@@ -212,6 +215,7 @@ func (o *SearchDb_AzureAiSearch) Clone() *SearchDb_AzureAiSearch {
 			panic(err)
 		}
 	}
+	result.EnableSemantic = o.EnableSemantic
 	return result
 }
 
@@ -233,6 +237,7 @@ func (o *SearchDb_AzureAiSearch) Merge(source *SearchDb_AzureAiSearch) {
 	} else {
 		o.ApiKey = nil
 	}
+	o.EnableSemantic = source.GetEnableSemantic()
 }
 
 func (o *SearchDb_AzureAiSearch) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -47,6 +47,7 @@ var (
 )
 
 var chatModel_RegexpId = regexp.MustCompile("^(?P<chat_model_id>[\\w][\\w.-]{0,127})$")
+var regexPath = regexp.MustCompile("^chatModels/(?P<chat_model_id>-|[\\w][\\w.-]{0,127})$")
 var regexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/chatModels/(?P<chat_model_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *ChatModel) MaybePopulateDefaults() error {
@@ -64,6 +65,11 @@ type Name struct {
 
 func ParseName(name string) (*Name, error) {
 	var matches []string
+	if matches = regexPath.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			SetId(matches[1]).
+			Name(), nil
+	}
 	if matches = regexPath_Project.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
 			SetProjectId(matches[1]).
@@ -175,13 +181,13 @@ func (name *Name) GetPattern() gotenresource.NamePattern {
 func (name *Name) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
-			"projectId":   name.ProjectId,
 			"chatModelId": name.ChatModelId,
+			"projectId":   name.ProjectId,
 		}
 	}
 	return map[string]string{
-		"projectId":   "",
 		"chatModelId": "",
+		"projectId":   "",
 	}
 }
 
@@ -408,8 +414,8 @@ func (ref *Reference) GetIdParts() map[string]string {
 		return ref.Name.GetIdParts()
 	}
 	return map[string]string{
-		"projectId":   "",
 		"chatModelId": "",
+		"projectId":   "",
 	}
 }
 

@@ -18,10 +18,12 @@ resources:
 - name: ChatModel
   parents:
   - iam.edgelq.com/Project
+  - ""
 
 - name: SearchDb
   parents:
   - iam.edgelq.com/Project
+  - ""
 
 - name: SearchIndex
   plural: SearchIndices
@@ -34,12 +36,62 @@ resources:
   parents:
   - SearchIndex
 
+- name: Connector
+  parents:
+  - iam.edgelq.com/Project
+  - ""
+
+- name: CapabilityTemplate
+  parents:
+  - iam.edgelq.com/Project
+  - ""
+  actions:
+  - name: PreviewTemplateTools
+    verb: previewTools
+    opResourceInfo:
+      isCollection: false
+      isPlural: false
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+
+- name: Conversation
+  parents:
+  - iam.edgelq.com/Project
+  - iam.edgelq.com/User
+
 apis:
 - name: Chat
   actions:
   - name: Completion
     streamingRequest: true
     streamingResponse: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+
+- name: Responses
+  actions:
+  - name: CreateResponse
+    verb: createResponse
+    streamingRequest: false
+    streamingResponse: true
+    responseName: CreateResponseResult
+    skipResponseMsgGen: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+
+- name: Tools
+  actions:
+  - name: ExecuteTools
+    verb: executeTools
     multiRegionRouting:
       skipCodeGenBasedRouting: true
     withStoreHandle:

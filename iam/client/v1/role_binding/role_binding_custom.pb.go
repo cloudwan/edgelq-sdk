@@ -428,6 +428,311 @@ func (m *ListRoleBindingsWithMembersResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
+// Request message for method
+// [ListMyRoleBindings][ntt.iam.v1.ListMyRoleBindings]
+type ListMyRoleBindingsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Requested page size. Server may return fewer RoleBindings than requested.
+	// If unspecified, server will pick an appropriate default.
+	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	// A token identifying a page of results the server should return.
+	// Typically, this is the value of
+	// [ListMyRoleBindingsResponse.next_page_token][ntt.iam.v1.ListMyRoleBindingsResponse.next_page_token]
+	PageToken *role_binding.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	// Order By -
+	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
+	// of field path with order directive, either 'asc' or 'desc'. If direction is
+	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+	// state.something.else desc, theme"
+	OrderBy *role_binding.OrderBy `protobuf:"bytes,3,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
+	// Filter - filter results by field criteria. Simplified SQL-like syntax with
+	// following operators:
+	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+	// CONTAINS "severity:important" OR (state.last_error_time >
+	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+	Filter *role_binding.Filter `protobuf:"bytes,4,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
+	// A FieldMask used to filter response fields. When present, only requested
+	// fields will be present in each response item. Omitting field_mask results
+	// will cause response items to contain all present fields.
+	FieldMask         *role_binding.RoleBinding_FieldMask `protobuf:"bytes,5,opt,customtype=RoleBinding_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
+	IncludePagingInfo bool                                `protobuf:"varint,6,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
+}
+
+func (m *ListMyRoleBindingsRequest) Reset() {
+	*m = ListMyRoleBindingsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1_role_binding_custom_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *ListMyRoleBindingsRequest) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*ListMyRoleBindingsRequest) ProtoMessage() {}
+
+func (m *ListMyRoleBindingsRequest) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1_role_binding_custom_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*ListMyRoleBindingsRequest) GotenMessage() {}
+
+// Deprecated, Use ListMyRoleBindingsRequest.ProtoReflect.Descriptor instead.
+func (*ListMyRoleBindingsRequest) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1_role_binding_custom_proto_rawDescGZIP(), []int{2}
+}
+
+func (m *ListMyRoleBindingsRequest) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *ListMyRoleBindingsRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *ListMyRoleBindingsRequest) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *ListMyRoleBindingsRequest) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *ListMyRoleBindingsRequest) GetPageSize() int32 {
+	if m != nil {
+		return m.PageSize
+	}
+	return int32(0)
+}
+
+func (m *ListMyRoleBindingsRequest) GetPageToken() *role_binding.PagerCursor {
+	if m != nil {
+		return m.PageToken
+	}
+	return nil
+}
+
+func (m *ListMyRoleBindingsRequest) GetOrderBy() *role_binding.OrderBy {
+	if m != nil {
+		return m.OrderBy
+	}
+	return nil
+}
+
+func (m *ListMyRoleBindingsRequest) GetFilter() *role_binding.Filter {
+	if m != nil {
+		return m.Filter
+	}
+	return nil
+}
+
+func (m *ListMyRoleBindingsRequest) GetFieldMask() *role_binding.RoleBinding_FieldMask {
+	if m != nil {
+		return m.FieldMask
+	}
+	return nil
+}
+
+func (m *ListMyRoleBindingsRequest) GetIncludePagingInfo() bool {
+	if m != nil {
+		return m.IncludePagingInfo
+	}
+	return false
+}
+
+func (m *ListMyRoleBindingsRequest) SetPageSize(fv int32) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "PageSize", "ListMyRoleBindingsRequest"))
+	}
+	m.PageSize = fv
+}
+
+func (m *ListMyRoleBindingsRequest) SetPageToken(fv *role_binding.PagerCursor) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "PageToken", "ListMyRoleBindingsRequest"))
+	}
+	m.PageToken = fv
+}
+
+func (m *ListMyRoleBindingsRequest) SetOrderBy(fv *role_binding.OrderBy) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "OrderBy", "ListMyRoleBindingsRequest"))
+	}
+	m.OrderBy = fv
+}
+
+func (m *ListMyRoleBindingsRequest) SetFilter(fv *role_binding.Filter) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Filter", "ListMyRoleBindingsRequest"))
+	}
+	m.Filter = fv
+}
+
+func (m *ListMyRoleBindingsRequest) SetFieldMask(fv *role_binding.RoleBinding_FieldMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "FieldMask", "ListMyRoleBindingsRequest"))
+	}
+	m.FieldMask = fv
+}
+
+func (m *ListMyRoleBindingsRequest) SetIncludePagingInfo(fv bool) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "IncludePagingInfo", "ListMyRoleBindingsRequest"))
+	}
+	m.IncludePagingInfo = fv
+}
+
+// Response message for method
+// [ListMyRoleBindings][ntt.iam.v1.ListMyRoleBindings]
+type ListMyRoleBindingsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// The list of RoleBindings for the authenticated user
+	RoleBindings []*role_binding.RoleBinding `protobuf:"bytes,1,rep,name=role_bindings,json=roleBindings,proto3" json:"role_bindings,omitempty"`
+	// A token to retrieve previous page of results. Pass this value in the
+	// [ListMyRoleBindingsRequest.page_token][ntt.iam.v1.ListMyRoleBindingsRequest.page_token]
+	PrevPageToken *role_binding.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
+	// A token to retrieve next page of results. Pass this value in the
+	// [ListMyRoleBindingsRequest.page_token][ntt.iam.v1.ListMyRoleBindingsRequest.page_token]
+	NextPageToken *role_binding.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	TotalCount    int32                     `protobuf:"varint,4,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	CursorOffset  int32                     `protobuf:"varint,5,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty"`
+}
+
+func (m *ListMyRoleBindingsResponse) Reset() {
+	*m = ListMyRoleBindingsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1_role_binding_custom_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *ListMyRoleBindingsResponse) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*ListMyRoleBindingsResponse) ProtoMessage() {}
+
+func (m *ListMyRoleBindingsResponse) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1_role_binding_custom_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*ListMyRoleBindingsResponse) GotenMessage() {}
+
+// Deprecated, Use ListMyRoleBindingsResponse.ProtoReflect.Descriptor instead.
+func (*ListMyRoleBindingsResponse) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1_role_binding_custom_proto_rawDescGZIP(), []int{3}
+}
+
+func (m *ListMyRoleBindingsResponse) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *ListMyRoleBindingsResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *ListMyRoleBindingsResponse) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *ListMyRoleBindingsResponse) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *ListMyRoleBindingsResponse) GetRoleBindings() []*role_binding.RoleBinding {
+	if m != nil {
+		return m.RoleBindings
+	}
+	return nil
+}
+
+func (m *ListMyRoleBindingsResponse) GetPrevPageToken() *role_binding.PagerCursor {
+	if m != nil {
+		return m.PrevPageToken
+	}
+	return nil
+}
+
+func (m *ListMyRoleBindingsResponse) GetNextPageToken() *role_binding.PagerCursor {
+	if m != nil {
+		return m.NextPageToken
+	}
+	return nil
+}
+
+func (m *ListMyRoleBindingsResponse) GetTotalCount() int32 {
+	if m != nil {
+		return m.TotalCount
+	}
+	return int32(0)
+}
+
+func (m *ListMyRoleBindingsResponse) GetCursorOffset() int32 {
+	if m != nil {
+		return m.CursorOffset
+	}
+	return int32(0)
+}
+
+func (m *ListMyRoleBindingsResponse) SetRoleBindings(fv []*role_binding.RoleBinding) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "RoleBindings", "ListMyRoleBindingsResponse"))
+	}
+	m.RoleBindings = fv
+}
+
+func (m *ListMyRoleBindingsResponse) SetPrevPageToken(fv *role_binding.PagerCursor) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "PrevPageToken", "ListMyRoleBindingsResponse"))
+	}
+	m.PrevPageToken = fv
+}
+
+func (m *ListMyRoleBindingsResponse) SetNextPageToken(fv *role_binding.PagerCursor) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "NextPageToken", "ListMyRoleBindingsResponse"))
+	}
+	m.NextPageToken = fv
+}
+
+func (m *ListMyRoleBindingsResponse) SetTotalCount(fv int32) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "TotalCount", "ListMyRoleBindingsResponse"))
+	}
+	m.TotalCount = fv
+}
+
+func (m *ListMyRoleBindingsResponse) SetCursorOffset(fv int32) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "CursorOffset", "ListMyRoleBindingsResponse"))
+	}
+	m.CursorOffset = fv
+}
+
 var edgelq_iam_proto_v1_role_binding_custom_proto preflect.FileDescriptor
 
 var edgelq_iam_proto_v1_role_binding_custom_proto_rawDesc = []byte{
@@ -509,16 +814,55 @@ var edgelq_iam_proto_v1_role_binding_custom_proto_rawDesc = []byte{
 	0x52, 0x0d, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12,
 	0x2e, 0x0a, 0x13, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73,
 	0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x11, 0x74, 0x6f,
-	0x74, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x42,
-	0x7c, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x11, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69,
-	0x61, 0x6d, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x16, 0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69,
-	0x6e, 0x64, 0x69, 0x6e, 0x67, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f,
-	0x50, 0x00, 0x5a, 0x49, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63,
-	0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x69,
-	0x61, 0x6d, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x72, 0x6f, 0x6c,
-	0x65, 0x5f, 0x62, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x3b, 0x72, 0x6f, 0x6c, 0x65, 0x5f, 0x62,
-	0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22,
+	0xd3, 0x02, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x4d, 0x79, 0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69,
+	0x6e, 0x64, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x25, 0x0a,
+	0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05,
+	0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x12, 0x02, 0x2a, 0x00, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65,
+	0x53, 0x69, 0x7a, 0x65, 0x12, 0x32, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b,
+	0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x13, 0xb2, 0xda, 0x21, 0x0f, 0x22, 0x0d,
+	0x0a, 0x0b, 0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x52, 0x09, 0x70,
+	0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x2e, 0x0a, 0x08, 0x6f, 0x72, 0x64, 0x65,
+	0x72, 0x5f, 0x62, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x42, 0x13, 0xb2, 0xda, 0x21, 0x0f,
+	0x2a, 0x0d, 0x0a, 0x0b, 0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x52,
+	0x07, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x42, 0x79, 0x12, 0x2b, 0x0a, 0x06, 0x66, 0x69, 0x6c, 0x74,
+	0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x42, 0x13, 0xb2, 0xda, 0x21, 0x0f, 0x1a, 0x0d,
+	0x0a, 0x0b, 0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x52, 0x06, 0x66,
+	0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x4e, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d,
+	0x61, 0x73, 0x6b, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c,
+	0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x13, 0xb2, 0xda, 0x21, 0x0f, 0x32, 0x0d, 0x0a, 0x0b, 0x52,
+	0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c,
+	0x64, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x2e, 0x0a, 0x13, 0x69, 0x6e, 0x63, 0x6c, 0x75, 0x64, 0x65,
+	0x5f, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x06, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x11, 0x69, 0x6e, 0x63, 0x6c, 0x75, 0x64, 0x65, 0x50, 0x61, 0x67, 0x69, 0x6e,
+	0x67, 0x49, 0x6e, 0x66, 0x6f, 0x22, 0x9a, 0x02, 0x0a, 0x1a, 0x4c, 0x69, 0x73, 0x74, 0x4d, 0x79,
+	0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3c, 0x0a, 0x0d, 0x72, 0x6f, 0x6c, 0x65, 0x5f, 0x62, 0x69, 0x6e,
+	0x64, 0x69, 0x6e, 0x67, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x6e, 0x74,
+	0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e,
+	0x64, 0x69, 0x6e, 0x67, 0x52, 0x0c, 0x72, 0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e,
+	0x67, 0x73, 0x12, 0x3b, 0x0a, 0x0f, 0x70, 0x72, 0x65, 0x76, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f,
+	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x13, 0xb2, 0xda, 0x21,
+	0x0f, 0x22, 0x0d, 0x0a, 0x0b, 0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67,
+	0x52, 0x0d, 0x70, 0x72, 0x65, 0x76, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12,
+	0x3b, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b,
+	0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x42, 0x13, 0xb2, 0xda, 0x21, 0x0f, 0x22, 0x0d,
+	0x0a, 0x0b, 0x52, 0x6f, 0x6c, 0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x52, 0x0d, 0x6e,
+	0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x1f, 0x0a, 0x0b,
+	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x23, 0x0a,
+	0x0d, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x05,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x0c, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x4f, 0x66, 0x66, 0x73,
+	0x65, 0x74, 0x42, 0x7c, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x11, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74,
+	0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x16, 0x52, 0x6f, 0x6c,
+	0x65, 0x42, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72,
+	0x6f, 0x74, 0x6f, 0x50, 0x00, 0x5a, 0x49, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c,
+	0x71, 0x2f, 0x69, 0x61, 0x6d, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f,
+	0x72, 0x6f, 0x6c, 0x65, 0x5f, 0x62, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x3b, 0x72, 0x6f, 0x6c,
+	0x65, 0x5f, 0x62, 0x69, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -533,27 +877,31 @@ func edgelq_iam_proto_v1_role_binding_custom_proto_rawDescGZIP() []byte {
 	return edgelq_iam_proto_v1_role_binding_custom_proto_rawDescData
 }
 
-var edgelq_iam_proto_v1_role_binding_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var edgelq_iam_proto_v1_role_binding_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var edgelq_iam_proto_v1_role_binding_custom_proto_goTypes = []interface{}{
 	(*ListRoleBindingsWithMembersRequest)(nil),  // 0: ntt.iam.v1.ListRoleBindingsWithMembersRequest
 	(*ListRoleBindingsWithMembersResponse)(nil), // 1: ntt.iam.v1.ListRoleBindingsWithMembersResponse
-	(*role_binding.RoleBinding_FieldMask)(nil),  // 2: ntt.iam.v1.RoleBinding_FieldMask
-	(view.View)(0),                   // 3: goten.types.View
-	(*iam_common.MembersMasks)(nil),  // 4: ntt.iam.v1.MembersMasks
-	(*role_binding.RoleBinding)(nil), // 5: ntt.iam.v1.RoleBinding
-	(*iam_common.MembersInfo)(nil),   // 6: ntt.iam.v1.MembersInfo
+	(*ListMyRoleBindingsRequest)(nil),           // 2: ntt.iam.v1.ListMyRoleBindingsRequest
+	(*ListMyRoleBindingsResponse)(nil),          // 3: ntt.iam.v1.ListMyRoleBindingsResponse
+	(*role_binding.RoleBinding_FieldMask)(nil),  // 4: ntt.iam.v1.RoleBinding_FieldMask
+	(view.View)(0),                   // 5: goten.types.View
+	(*iam_common.MembersMasks)(nil),  // 6: ntt.iam.v1.MembersMasks
+	(*role_binding.RoleBinding)(nil), // 7: ntt.iam.v1.RoleBinding
+	(*iam_common.MembersInfo)(nil),   // 8: ntt.iam.v1.MembersInfo
 }
 var edgelq_iam_proto_v1_role_binding_custom_proto_depIdxs = []int32{
-	2, // 0: ntt.iam.v1.ListRoleBindingsWithMembersRequest.field_mask:type_name -> ntt.iam.v1.RoleBinding_FieldMask
-	3, // 1: ntt.iam.v1.ListRoleBindingsWithMembersRequest.view:type_name -> goten.types.View
-	4, // 2: ntt.iam.v1.ListRoleBindingsWithMembersRequest.members_masks:type_name -> ntt.iam.v1.MembersMasks
-	5, // 3: ntt.iam.v1.ListRoleBindingsWithMembersResponse.role_bindings:type_name -> ntt.iam.v1.RoleBinding
-	6, // 4: ntt.iam.v1.ListRoleBindingsWithMembersResponse.matching_members:type_name -> ntt.iam.v1.MembersInfo
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 0: ntt.iam.v1.ListRoleBindingsWithMembersRequest.field_mask:type_name -> ntt.iam.v1.RoleBinding_FieldMask
+	5, // 1: ntt.iam.v1.ListRoleBindingsWithMembersRequest.view:type_name -> goten.types.View
+	6, // 2: ntt.iam.v1.ListRoleBindingsWithMembersRequest.members_masks:type_name -> ntt.iam.v1.MembersMasks
+	7, // 3: ntt.iam.v1.ListRoleBindingsWithMembersResponse.role_bindings:type_name -> ntt.iam.v1.RoleBinding
+	8, // 4: ntt.iam.v1.ListRoleBindingsWithMembersResponse.matching_members:type_name -> ntt.iam.v1.MembersInfo
+	4, // 5: ntt.iam.v1.ListMyRoleBindingsRequest.field_mask:type_name -> ntt.iam.v1.RoleBinding_FieldMask
+	7, // 6: ntt.iam.v1.ListMyRoleBindingsResponse.role_bindings:type_name -> ntt.iam.v1.RoleBinding
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { edgelq_iam_proto_v1_role_binding_custom_proto_init() }
@@ -587,6 +935,30 @@ func edgelq_iam_proto_v1_role_binding_custom_proto_init() {
 				return nil
 			}
 		}
+		edgelq_iam_proto_v1_role_binding_custom_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListMyRoleBindingsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_iam_proto_v1_role_binding_custom_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListMyRoleBindingsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 
 	type x struct{}
@@ -595,7 +967,7 @@ func edgelq_iam_proto_v1_role_binding_custom_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_iam_proto_v1_role_binding_custom_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

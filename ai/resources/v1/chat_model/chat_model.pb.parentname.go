@@ -46,6 +46,7 @@ var (
 	_ = &meta.Meta{}
 )
 
+var parentRegexPath = regexp.MustCompile("^$")
 var parentRegexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})$")
 
 type ParentName struct {
@@ -55,6 +56,10 @@ type ParentName struct {
 
 func ParseParentName(name string) (*ParentName, error) {
 	var matches []string
+	if matches = parentRegexPath.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			Parent(), nil
+	}
 	if matches = parentRegexPath_Project.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
 			SetProjectId(matches[1]).
@@ -73,7 +78,10 @@ func MustParseParentName(name string) *ParentName {
 }
 
 func (name *ParentName) SetFromSegments(segments gotenresource.NameSegments) error {
-	if len(segments) == 1 && segments[0].CollectionLowerJson == "projects" {
+	if len(segments) == 0 {
+		name.Pattern = NamePattern_Nil
+		return nil
+	} else if len(segments) == 1 && segments[0].CollectionLowerJson == "projects" {
 		name.Pattern = NamePattern_Project
 		name.ProjectId = segments[0].Id
 		return nil
@@ -101,6 +109,8 @@ func (name *ParentName) IsSpecified() bool {
 		return false
 	}
 	switch name.Pattern {
+	case NamePattern_Nil:
+		return true
 	case NamePattern_Project:
 		return name.ProjectId != ""
 	}
@@ -113,6 +123,8 @@ func (name *ParentName) IsFullyQualified() bool {
 	}
 
 	switch name.Pattern {
+	case NamePattern_Nil:
+		return true
 	case NamePattern_Project:
 		return name.ProjectId != "" && name.ProjectId != gotenresource.WildcardId
 	}
@@ -155,6 +167,8 @@ func (name *ParentName) GetSegments() gotenresource.NameSegments {
 	}
 
 	switch name.Pattern {
+	case NamePattern_Nil:
+		return gotenresource.NameSegments{}
 	case NamePattern_Project:
 		return gotenresource.NameSegments{
 			gotenresource.NameSegment{

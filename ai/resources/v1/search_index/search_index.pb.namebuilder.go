@@ -21,6 +21,7 @@ var (
 )
 
 const (
+	NamePattern_SearchDb         = "searchDbs/{search_db}/searchIndices/{search_index}"
 	NamePattern_Project_SearchDb = "projects/{project}/searchDbs/{search_db}/searchIndices/{search_index}"
 )
 
@@ -39,7 +40,7 @@ func NewNameBuilder() *NameBuilder {
 			ParentName: ParentName{
 				NamePattern: NamePattern{
 					// Set default pattern - just first.
-					Pattern: NamePattern_Project_SearchDb,
+					Pattern: NamePattern_SearchDb,
 				},
 			},
 		},
@@ -73,28 +74,33 @@ func (b *NameBuilder) SetSearchDb(parent *search_db.Name) *NameBuilder {
 	parentName := &b.nameObj.ParentName
 
 	switch parent.Pattern {
+	case search_db.NamePattern_Nil:
+		parentName.Pattern = NamePattern_SearchDb
 	case search_db.NamePattern_Project:
 		parentName.Pattern = NamePattern_Project_SearchDb
 	}
-	parentName.ProjectId = parent.ProjectId
 	parentName.SearchDbId = parent.SearchDbId
-	return b
-}
-
-func (b *NameBuilder) SetProjectId(id string) *NameBuilder {
-	parentName := &b.nameObj.ParentName
-	parentName.ProjectId = id
-
-	// Set pattern if something matches for this set of IDs
-	if parentName.ProjectId != "" && parentName.SearchDbId != "" {
-		parentName.Pattern = NamePattern_Project_SearchDb
-	}
+	parentName.ProjectId = parent.ProjectId
 	return b
 }
 
 func (b *NameBuilder) SetSearchDbId(id string) *NameBuilder {
 	parentName := &b.nameObj.ParentName
 	parentName.SearchDbId = id
+
+	// Set pattern if something matches for this set of IDs
+	if parentName.SearchDbId != "" {
+		parentName.Pattern = NamePattern_SearchDb
+	}
+	if parentName.ProjectId != "" && parentName.SearchDbId != "" {
+		parentName.Pattern = NamePattern_Project_SearchDb
+	}
+	return b
+}
+
+func (b *NameBuilder) SetProjectId(id string) *NameBuilder {
+	parentName := &b.nameObj.ParentName
+	parentName.ProjectId = id
 
 	// Set pattern if something matches for this set of IDs
 	if parentName.ProjectId != "" && parentName.SearchDbId != "" {

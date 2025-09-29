@@ -369,7 +369,10 @@ service SearchIndexService {
   // GetSearchIndex
   rpc GetSearchIndex(GetSearchIndexRequest) returns (SearchIndex) {
     option (google.api.http) = {
-      get : "/v1/{name=projects/*/searchDbs/*/searchIndices/*}"
+      get : "/v1/{name=searchDbs/*/searchIndices/*}"
+      additional_bindings : <
+        get : "/v1/{name=projects/*/searchDbs/*/searchIndices/*}"
+      >
     };
   }
 
@@ -385,7 +388,10 @@ service SearchIndexService {
   rpc ListSearchIndices(ListSearchIndicesRequest)
       returns (ListSearchIndicesResponse) {
     option (google.api.http) = {
-      get : "/v1/{parent=projects/*/searchDbs/*}/searchIndices"
+      get : "/v1/{parent=searchDbs/*}/searchIndices"
+      additional_bindings : <
+        get : "/v1/{parent=projects/*/searchDbs/*}/searchIndices"
+      >
     };
   }
 
@@ -393,7 +399,10 @@ service SearchIndexService {
   rpc WatchSearchIndex(WatchSearchIndexRequest)
       returns (stream WatchSearchIndexResponse) {
     option (google.api.http) = {
-      post : "/v1/{name=projects/*/searchDbs/*/searchIndices/*}:watch"
+      post : "/v1/{name=searchDbs/*/searchIndices/*}:watch"
+      additional_bindings : <
+        post : "/v1/{name=projects/*/searchDbs/*/searchIndices/*}:watch"
+      >
     };
   }
 
@@ -401,23 +410,32 @@ service SearchIndexService {
   rpc WatchSearchIndices(WatchSearchIndicesRequest)
       returns (stream WatchSearchIndicesResponse) {
     option (google.api.http) = {
-      post : "/v1/{parent=projects/*/searchDbs/*}/searchIndices:watch"
+      post : "/v1/{parent=searchDbs/*}/searchIndices:watch"
+      additional_bindings : <
+        post : "/v1/{parent=projects/*/searchDbs/*}/searchIndices:watch"
+      >
     };
   }
 
   // CreateSearchIndex
   rpc CreateSearchIndex(CreateSearchIndexRequest) returns (SearchIndex) {
     option (google.api.http) = {
-      post : "/v1/{parent=projects/*/searchDbs/*}/searchIndices"
+      post : "/v1/{parent=searchDbs/*}/searchIndices"
       body : "search_index"
+      additional_bindings : <
+        post : "/v1/{parent=projects/*/searchDbs/*}/searchIndices"
+      >
     };
   }
 
   // UpdateSearchIndex
   rpc UpdateSearchIndex(UpdateSearchIndexRequest) returns (SearchIndex) {
     option (google.api.http) = {
-      put : "/v1/{search_index.name=projects/*/searchDbs/*/searchIndices/*}"
+      put : "/v1/{search_index.name=searchDbs/*/searchIndices/*}"
       body : "search_index"
+      additional_bindings : <
+        put : "/v1/{search_index.name=projects/*/searchDbs/*/searchIndices/*}"
+      >
     };
   }
 
@@ -425,7 +443,10 @@ service SearchIndexService {
   rpc DeleteSearchIndex(DeleteSearchIndexRequest)
       returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/v1/{name=projects/*/searchDbs/*/searchIndices/*}"
+      delete : "/v1/{name=searchDbs/*/searchIndices/*}"
+      additional_bindings : <
+        delete : "/v1/{name=projects/*/searchDbs/*/searchIndices/*}"
+      >
     };
   }
 }

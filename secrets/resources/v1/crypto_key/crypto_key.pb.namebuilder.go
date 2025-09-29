@@ -21,6 +21,8 @@ var (
 )
 
 const (
+	NamePattern_Nil            = "cryptoKeys/{crypto_key}"
+	NamePattern_Project        = "projects/{project}/cryptoKeys/{crypto_key}"
 	NamePattern_Project_Region = "projects/{project}/regions/{region}/cryptoKeys/{crypto_key}"
 )
 
@@ -39,9 +41,8 @@ func NewNameBuilder() *NameBuilder {
 			ParentName: ParentName{
 				NamePattern: NamePattern{
 					// Set default pattern - just first.
-					Pattern: NamePattern_Project_Region,
+					Pattern: NamePattern_Nil,
 				},
-				RegionId: gotenresource.WildcardId,
 			},
 		},
 	}
@@ -75,7 +76,11 @@ func (b *NameBuilder) SetProject(parent *project.Name) *NameBuilder {
 
 	switch parent.Pattern {
 	case project.NamePattern_Nil:
-		parentName.Pattern = NamePattern_Project_Region
+		if parentName.RegionId != "" {
+			parentName.Pattern = NamePattern_Project_Region
+		} else {
+			parentName.Pattern = NamePattern_Project
+		}
 	}
 	parentName.ProjectId = parent.ProjectId
 	return b
@@ -86,6 +91,9 @@ func (b *NameBuilder) SetProjectId(id string) *NameBuilder {
 	parentName.ProjectId = id
 
 	// Set pattern if something matches for this set of IDs
+	if parentName.ProjectId != "" {
+		parentName.Pattern = NamePattern_Project
+	}
 	if parentName.ProjectId != "" && parentName.RegionId != "" {
 		parentName.Pattern = NamePattern_Project_Region
 	}

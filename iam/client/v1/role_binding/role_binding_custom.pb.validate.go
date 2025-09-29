@@ -87,3 +87,31 @@ func (obj *ListRoleBindingsWithMembersResponse) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *ListMyRoleBindingsRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if !(obj.PageSize >= 0) {
+		return gotenvalidate.NewValidationError("ListMyRoleBindingsRequest", "pageSize", obj.PageSize, "field must be greater or equal to 0", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ListMyRoleBindingsResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.RoleBindings {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListMyRoleBindingsResponse", "roleBindings", obj.RoleBindings[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

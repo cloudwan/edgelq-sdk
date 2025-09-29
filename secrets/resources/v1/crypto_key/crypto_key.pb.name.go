@@ -45,6 +45,8 @@ var (
 )
 
 var cryptoKey_RegexpId = regexp.MustCompile("^(?P<crypto_key_id>[\\w][\\w.-]{0,127})$")
+var regexPath = regexp.MustCompile("^cryptoKeys/(?P<crypto_key_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/cryptoKeys/(?P<crypto_key_id>-|[\\w][\\w.-]{0,127})$")
 var regexPath_Project_Region = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-z][a-z0-9\\-]{0,28}[a-z0-9])/cryptoKeys/(?P<crypto_key_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *CryptoKey) MaybePopulateDefaults() error {
@@ -62,6 +64,17 @@ type Name struct {
 
 func ParseName(name string) (*Name, error) {
 	var matches []string
+	if matches = regexPath.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			SetId(matches[1]).
+			Name(), nil
+	}
+	if matches = regexPath_Project.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			SetProjectId(matches[1]).
+			SetId(matches[2]).
+			Name(), nil
+	}
 	if matches = regexPath_Project_Region.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
 			SetProjectId(matches[1]).
@@ -174,15 +187,15 @@ func (name *Name) GetPattern() gotenresource.NamePattern {
 func (name *Name) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
+			"cryptoKeyId": name.CryptoKeyId,
 			"projectId":   name.ProjectId,
 			"regionId":    name.RegionId,
-			"cryptoKeyId": name.CryptoKeyId,
 		}
 	}
 	return map[string]string{
+		"cryptoKeyId": "",
 		"projectId":   "",
 		"regionId":    "",
-		"cryptoKeyId": "",
 	}
 }
 
@@ -409,9 +422,9 @@ func (ref *Reference) GetIdParts() map[string]string {
 		return ref.Name.GetIdParts()
 	}
 	return map[string]string{
+		"cryptoKeyId": "",
 		"projectId":   "",
 		"regionId":    "",
-		"cryptoKeyId": "",
 	}
 }
 

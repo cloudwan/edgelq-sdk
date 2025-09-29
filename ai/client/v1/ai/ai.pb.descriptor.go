@@ -11,12 +11,20 @@ import (
 
 // proto imports
 import (
+	capability_template_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/capability_template"
 	chat_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat"
 	chat_model_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat_model"
+	connector_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector"
+	conversation_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation"
 	document_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/document"
+	responses_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/responses"
 	search_db_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/search_db"
 	search_index_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/search_index"
+	tools_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/tools"
+	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
+	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
+	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -30,8 +38,14 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &capability_template.CapabilityTemplate{}
+	_ = &capability_template_client.GetCapabilityTemplateRequest{}
 	_ = &chat_model.ChatModel{}
 	_ = &chat_model_client.GetChatModelRequest{}
+	_ = &connector.Connector{}
+	_ = &connector_client.GetConnectorRequest{}
+	_ = &conversation.Conversation{}
+	_ = &conversation_client.GetConversationRequest{}
 	_ = &document.Document{}
 	_ = &document_client.GetDocumentRequest{}
 	_ = &search_db.SearchDb{}
@@ -66,7 +80,10 @@ func (d *AIDescriptor) GetNextVersion() string {
 
 func (d *AIDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 	return []gotenresource.Descriptor{
+		capability_template.GetDescriptor(),
 		chat_model.GetDescriptor(),
+		connector.GetDescriptor(),
+		conversation.GetDescriptor(),
 		document.GetDescriptor(),
 		search_db.GetDescriptor(),
 		search_index.GetDescriptor(),
@@ -75,11 +92,16 @@ func (d *AIDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 
 func (d *AIDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	return []gotenclient.ApiDescriptor{
+		capability_template_client.GetCapabilityTemplateServiceDescriptor(),
 		chat_model_client.GetChatModelServiceDescriptor(),
 		chat_client.GetChatServiceDescriptor(),
+		connector_client.GetConnectorServiceDescriptor(),
+		conversation_client.GetConversationServiceDescriptor(),
 		document_client.GetDocumentServiceDescriptor(),
+		responses_client.GetResponsesServiceDescriptor(),
 		search_db_client.GetSearchDbServiceDescriptor(),
 		search_index_client.GetSearchIndexServiceDescriptor(),
+		tools_client.GetToolsServiceDescriptor(),
 	}
 }
 

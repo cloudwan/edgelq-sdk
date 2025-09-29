@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/capability_template.proto";
+import "edgelq-sdk/ai/proto/v1/capability_template_change.proto";
+import "edgelq-sdk/ai/proto/v1/common.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/capability_template;capability_template_client";
+option java_multiple_files = false;
+option java_outer_classname = "CapabilityTemplateCustomProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// A request message of the PreviewTemplateTools method.
+message PreviewTemplateToolsRequest {
+  // Name of ntt.ai.v1.CapabilityTemplate
+  string name = 1;
+
+  // Optional: Client tools to include in the preview
+  repeated ToolDefinition client_tools = 2;
+}
+
+// A response message of the PreviewTemplateTools method.
+message PreviewTemplateToolsResponse {
+  // All tools that would be available with this template
+  // (after applying allow/deny patterns and including client tools)
+  repeated ToolDefinition tools = 1;
+
+  // Any errors encountered during tool discovery
+  repeated string errors = 2;
+}

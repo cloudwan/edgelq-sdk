@@ -365,6 +365,7 @@ func FullSearchDb_AzureAiSearch_FieldMask() *SearchDb_AzureAiSearch_FieldMask {
 	res := &SearchDb_AzureAiSearch_FieldMask{}
 	res.Paths = append(res.Paths, &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorEndpoint})
 	res.Paths = append(res.Paths, &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorApiKey})
+	res.Paths = append(res.Paths, &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic})
 	return res
 }
 
@@ -383,7 +384,7 @@ func (fieldMask *SearchDb_AzureAiSearch_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*SearchDbAzureAiSearch_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -413,7 +414,7 @@ func (fieldMask *SearchDb_AzureAiSearch_FieldMask) Reset() {
 
 func (fieldMask *SearchDb_AzureAiSearch_FieldMask) Subtract(other *SearchDb_AzureAiSearch_FieldMask) *SearchDb_AzureAiSearch_FieldMask {
 	result := &SearchDb_AzureAiSearch_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -571,6 +572,8 @@ func (fieldMask *SearchDb_AzureAiSearch_FieldMask) Project(source *SearchDb_Azur
 				result.Endpoint = source.Endpoint
 			case SearchDbAzureAiSearch_FieldPathSelectorApiKey:
 				result.ApiKey = source.ApiKey
+			case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+				result.EnableSemantic = source.EnableSemantic
 			}
 		}
 	}

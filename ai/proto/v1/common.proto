@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/common;common_client";
+option java_multiple_files = false;
+option java_outer_classname = "CommonProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// Message structure for conversations
+message Message {
+  string role = 1; // "user", "assistant", "system", "tool"
+
+  repeated ContentPart parts = 2;
+}
+
+// Multimodal content part
+message ContentPart {
+  oneof content {
+    TextContent text = 1;
+
+    ImageContent image = 2;
+
+    AudioContent audio = 3;
+
+    FileContent file = 4;
+
+    ToolCallContent tool_call = 5;
+
+    ToolResultContent tool_result = 6;
+  }
+}
+
+message TextContent { string text = 1; }
+
+message ImageContent {
+  oneof source {
+    string url = 1;
+
+    bytes data = 2;
+  }
+
+  string mime_type = 3;
+}
+
+message AudioContent {
+  oneof source {
+    string url = 1;
+
+    bytes data = 2;
+  }
+
+  string mime_type = 3;
+}
+
+message FileContent {
+  string name = 1;
+
+  string mime_type = 2;
+
+  oneof source {
+    string url = 3;
+
+    bytes data = 4;
+  }
+}
+
+message ToolCallContent {
+  string id = 1;
+
+  string name = 2;
+
+  string input = 3; // JSON arguments
+}
+
+message ToolResultContent {
+  string tool_call_id = 1;
+
+  oneof result {
+    string content = 2; // JSON result
+
+    string error = 3;
+  }
+}
+
+// Token usage information
+message TokenUsage {
+  int32 prompt_tokens = 1;
+
+  int32 completion_tokens = 2;
+
+  int32 total_tokens = 3;
+}
+
+// Payload for data with media type
+message Payload {
+  oneof body {
+    string json = 1;
+
+    bytes data = 2;
+  }
+
+  string media_type = 3;
+}
+
+// Tool definition
+message ToolDefinition {
+  string name = 1;
+
+  string description = 2;
+
+  string input_schema = 3; // JSON Schema
+
+  string provider = 4; // Provider reference (optional)
+}
+
+// Tool call for execution
+message ToolCall {
+  string id = 1;
+
+  string name = 2;
+
+  string arguments = 3; // JSON arguments
+}
+
+// Tool response
+message ToolResponse {
+  string tool_call_id = 1;
+
+  string tool = 2;
+
+  oneof result {
+    Payload output = 3;
+
+    string error = 4;
+  }
+}
+
+// Tool calls container
+message ToolCalls { repeated ToolCall calls = 1; }
+
+// Content channel type
+enum ContentChannel {
+  CONTENT_CHANNEL_UNSPECIFIED = 0;
+
+  CONTENT_CHANNEL_CONTENT = 1; // Visible assistant response
+
+  CONTENT_CHANNEL_THINKING = 2; // Internal reasoning
+}
+
+// LLM/Provider specific errors
+enum LLMError {
+  LLM_ERROR_UNSPECIFIED = 0;
+
+  LLM_RATE_LIMIT = 1; // Provider rate limiting
+
+  LLM_CONTENT_FILTER = 2; // Content filtered by provider
+
+  LLM_PROVIDER_ERROR = 3; // General provider failure
+
+  LLM_TOOL_ERROR = 4; // Tool execution failed
+}

@@ -45,6 +45,7 @@ var (
 )
 
 var document_RegexpId = regexp.MustCompile("^(?P<document_id>[\\w][\\w.-]{0,127})$")
+var regexPath_SearchDb_SearchIndex = regexp.MustCompile("^searchDbs/(?P<search_db_id>-|[\\w][\\w.-]{0,127})/searchIndices/(?P<search_index_id>-|[\\w][\\w.-]{0,127})/documents/(?P<document_id>-|[\\w][\\w.-]{0,127})$")
 var regexPath_Project_SearchDb_SearchIndex = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/searchDbs/(?P<search_db_id>-|[\\w][\\w.-]{0,127})/searchIndices/(?P<search_index_id>-|[\\w][\\w.-]{0,127})/documents/(?P<document_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *Document) MaybePopulateDefaults() error {
@@ -62,6 +63,13 @@ type Name struct {
 
 func ParseName(name string) (*Name, error) {
 	var matches []string
+	if matches = regexPath_SearchDb_SearchIndex.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			SetSearchDbId(matches[1]).
+			SetSearchIndexId(matches[2]).
+			SetId(matches[3]).
+			Name(), nil
+	}
 	if matches = regexPath_Project_SearchDb_SearchIndex.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
 			SetProjectId(matches[1]).
@@ -175,17 +183,17 @@ func (name *Name) GetPattern() gotenresource.NamePattern {
 func (name *Name) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
-			"projectId":     name.ProjectId,
 			"searchDbId":    name.SearchDbId,
 			"searchIndexId": name.SearchIndexId,
 			"documentId":    name.DocumentId,
+			"projectId":     name.ProjectId,
 		}
 	}
 	return map[string]string{
-		"projectId":     "",
 		"searchDbId":    "",
 		"searchIndexId": "",
 		"documentId":    "",
+		"projectId":     "",
 	}
 }
 
@@ -412,10 +420,10 @@ func (ref *Reference) GetIdParts() map[string]string {
 		return ref.Name.GetIdParts()
 	}
 	return map[string]string{
-		"projectId":     "",
 		"searchDbId":    "",
 		"searchIndexId": "",
 		"documentId":    "",
+		"projectId":     "",
 	}
 }
 

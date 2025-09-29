@@ -490,4 +490,12 @@ service RoleBindingService {
       >
     };
   }
+
+  // ListMyRoleBindings
+  rpc ListMyRoleBindings(ListMyRoleBindingsRequest)
+      returns (ListMyRoleBindingsResponse) {
+    option (google.api.http) = {
+      post : "/v1/roleBindings:listMy"
+    };
+  }
 }

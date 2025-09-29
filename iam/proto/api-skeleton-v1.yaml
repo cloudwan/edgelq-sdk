@@ -205,6 +205,19 @@ resources:
       readOnly: true
     multiRegionRouting:
       skipCodeGenBasedRouting: true
+  - name: ListMyRoleBindings
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      skipResourceInRequest: true
+      responsePaths:
+        resourceBody: [ "role_bindings" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
 
 - name: Condition
   parents:

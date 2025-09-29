@@ -369,7 +369,10 @@ service DocumentService {
   // GetDocument
   rpc GetDocument(GetDocumentRequest) returns (Document) {
     option (google.api.http) = {
-      get : "/v1/{name=projects/*/searchDbs/*/searchIndices/*/documents/*}"
+      get : "/v1/{name=searchDbs/*/searchIndices/*/documents/*}"
+      additional_bindings : <
+        get : "/v1/{name=projects/*/searchDbs/*/searchIndices/*/documents/*}"
+      >
     };
   }
 
@@ -384,7 +387,10 @@ service DocumentService {
   // ListDocuments
   rpc ListDocuments(ListDocumentsRequest) returns (ListDocumentsResponse) {
     option (google.api.http) = {
-      get : "/v1/{parent=projects/*/searchDbs/*/searchIndices/*}/documents"
+      get : "/v1/{parent=searchDbs/*/searchIndices/*}/documents"
+      additional_bindings : <
+        get : "/v1/{parent=projects/*/searchDbs/*/searchIndices/*}/documents"
+      >
     };
   }
 
@@ -392,8 +398,11 @@ service DocumentService {
   rpc WatchDocument(WatchDocumentRequest)
       returns (stream WatchDocumentResponse) {
     option (google.api.http) = {
-      post : "/v1/{name=projects/*/searchDbs/*/searchIndices/*/documents/"
-             "*}:watch"
+      post : "/v1/{name=searchDbs/*/searchIndices/*/documents/*}:watch"
+      additional_bindings : <
+        post : "/v1/{name=projects/*/searchDbs/*/searchIndices/*/documents/"
+               "*}:watch"
+      >
     };
   }
 
@@ -401,32 +410,44 @@ service DocumentService {
   rpc WatchDocuments(WatchDocumentsRequest)
       returns (stream WatchDocumentsResponse) {
     option (google.api.http) = {
-      post : "/v1/{parent=projects/*/searchDbs/*/searchIndices/*}/"
-             "documents:watch"
+      post : "/v1/{parent=searchDbs/*/searchIndices/*}/documents:watch"
+      additional_bindings : <
+        post : "/v1/{parent=projects/*/searchDbs/*/searchIndices/*}/"
+               "documents:watch"
+      >
     };
   }
 
   // CreateDocument
   rpc CreateDocument(CreateDocumentRequest) returns (Document) {
     option (google.api.http) = {
-      post : "/v1/{parent=projects/*/searchDbs/*/searchIndices/*}/documents"
+      post : "/v1/{parent=searchDbs/*/searchIndices/*}/documents"
       body : "document"
+      additional_bindings : <
+        post : "/v1/{parent=projects/*/searchDbs/*/searchIndices/*}/documents"
+      >
     };
   }
 
   // UpdateDocument
   rpc UpdateDocument(UpdateDocumentRequest) returns (Document) {
     option (google.api.http) = {
-      put : "/v1/{document.name=projects/*/searchDbs/*/searchIndices/*/"
-            "documents/*}"
+      put : "/v1/{document.name=searchDbs/*/searchIndices/*/documents/*}"
       body : "document"
+      additional_bindings : <
+        put : "/v1/{document.name=projects/*/searchDbs/*/searchIndices/*/"
+              "documents/*}"
+      >
     };
   }
 
   // DeleteDocument
   rpc DeleteDocument(DeleteDocumentRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/v1/{name=projects/*/searchDbs/*/searchIndices/*/documents/*}"
+      delete : "/v1/{name=searchDbs/*/searchIndices/*/documents/*}"
+      additional_bindings : <
+        delete : "/v1/{name=projects/*/searchDbs/*/searchIndices/*/documents/*}"
+      >
     };
   }
 }

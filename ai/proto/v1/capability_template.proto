@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/common.proto";
+import "edgelq-sdk/ai/proto/v1/connector.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template;capability_template";
+option java_multiple_files = true;
+option java_outer_classname = "CapabilityTemplateProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// CapabilityTemplate Resource
+message CapabilityTemplate {
+  option (google.api.resource) = {
+    type : "ai.edgelq.com/CapabilityTemplate"
+    pattern : "capabilityTemplates/{capability_template}"
+    pattern : "projects/{project}/capabilityTemplates/{capability_template}"
+  };
+
+  // Name of CapabilityTemplate
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Human-readable description
+  string description = 3;
+
+  // Connectors to include
+  repeated string connectors = 4;
+
+  // RAG configuration (optional)
+  RAGConfig rag_config = 5;
+
+  // Maximum number of tool call rounds (default: 20)
+  uint32 max_tool_rounds = 6;
+
+  // Default model for this template
+  string default_model = 7;
+
+  // Human-readable display name
+  string display_name = 8;
+}
+
+// RAG (Retrieval-Augmented Generation) configuration
+message RAGConfig {
+  // Search indices available for RAG tool to search
+  repeated string search_indices = 1;
+
+  // Indexing configuration
+  IndexingPolicy indexing_policy = 2;
+
+  // Retrieval limits
+  RetrievalLimits retrieval_limits = 3;
+
+  // When true and using Azure OpenAI models, use Azure's native
+  // "On Your Data" extensions instead of tool-based RAG.
+  // When false, RAG is exposed as "internal.rag.search" tool.
+  bool use_azure_native_rag = 4;
+}
+
+message IndexingPolicy {
+  uint32 chunk_size_tokens = 1; // default: 512
+
+  uint32 chunk_overlap_tokens = 2; // default: 128
+
+  string embedding_model = 3; // default: "text-embedding-ada-002"
+
+  string chunking_strategy = 4; // "sliding", "semantic", "hybrid"
+}
+
+message RetrievalLimits {
+  uint32 max_documents = 1; // default: 10
+
+  uint32 max_context_tokens = 2; // default: 8192
+
+  float min_relevance_score = 3; // default: 0.7
+
+  bool require_citations = 4; // default: true
+}

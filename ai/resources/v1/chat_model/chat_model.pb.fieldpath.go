@@ -72,9 +72,13 @@ type ChatModel_FieldPath interface {
 type ChatModel_FieldPathSelector int32
 
 const (
-	ChatModel_FieldPathSelectorName        ChatModel_FieldPathSelector = 0
-	ChatModel_FieldPathSelectorMetadata    ChatModel_FieldPathSelector = 1
-	ChatModel_FieldPathSelectorAzureOpenAi ChatModel_FieldPathSelector = 2
+	ChatModel_FieldPathSelectorName             ChatModel_FieldPathSelector = 0
+	ChatModel_FieldPathSelectorMetadata         ChatModel_FieldPathSelector = 1
+	ChatModel_FieldPathSelectorAzureOpenAi      ChatModel_FieldPathSelector = 2
+	ChatModel_FieldPathSelectorOpenaiCompatible ChatModel_FieldPathSelector = 3
+	ChatModel_FieldPathSelectorAnthropic        ChatModel_FieldPathSelector = 4
+	ChatModel_FieldPathSelectorGemini           ChatModel_FieldPathSelector = 5
+	ChatModel_FieldPathSelectorDisplayName      ChatModel_FieldPathSelector = 6
 )
 
 func (s ChatModel_FieldPathSelector) String() string {
@@ -85,6 +89,14 @@ func (s ChatModel_FieldPathSelector) String() string {
 		return "metadata"
 	case ChatModel_FieldPathSelectorAzureOpenAi:
 		return "azure_open_ai"
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		return "openai_compatible"
+	case ChatModel_FieldPathSelectorAnthropic:
+		return "anthropic"
+	case ChatModel_FieldPathSelectorGemini:
+		return "gemini"
+	case ChatModel_FieldPathSelectorDisplayName:
+		return "display_name"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", s))
 	}
@@ -102,6 +114,14 @@ func BuildChatModel_FieldPath(fp gotenobject.RawFieldPath) (ChatModel_FieldPath,
 			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorMetadata}, nil
 		case "azure_open_ai", "azureOpenAi", "azure-open-ai":
 			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorAzureOpenAi}, nil
+		case "openai_compatible", "openaiCompatible", "openai-compatible":
+			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorOpenaiCompatible}, nil
+		case "anthropic":
+			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorAnthropic}, nil
+		case "gemini":
+			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorGemini}, nil
+		case "display_name", "displayName", "display-name":
+			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorDisplayName}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -116,6 +136,24 @@ func BuildChatModel_FieldPath(fp gotenobject.RawFieldPath) (ChatModel_FieldPath,
 				return nil, err
 			} else {
 				return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorAzureOpenAi, subPath: subpath}, nil
+			}
+		case "openai_compatible", "openaiCompatible", "openai-compatible":
+			if subpath, err := BuildChatModelOpenAICompatible_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorOpenaiCompatible, subPath: subpath}, nil
+			}
+		case "anthropic":
+			if subpath, err := BuildChatModelAnthropic_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorAnthropic, subPath: subpath}, nil
+			}
+		case "gemini":
+			if subpath, err := BuildChatModelGemini_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorGemini, subPath: subpath}, nil
 			}
 		}
 	}
@@ -171,11 +209,31 @@ func (fp *ChatModel_FieldTerminalPath) Get(source *ChatModel) (values []interfac
 				values = append(values, source.Metadata)
 			}
 		case ChatModel_FieldPathSelectorAzureOpenAi:
-			if source, ok := source.ModelType.(*ChatModel_AzureOpenAi_); ok && source != nil {
+			if source, ok := source.Provider.(*ChatModel_AzureOpenAi_); ok && source != nil {
 				if source.AzureOpenAi != nil {
 					values = append(values, source.AzureOpenAi)
 				}
 			}
+		case ChatModel_FieldPathSelectorOpenaiCompatible:
+			if source, ok := source.Provider.(*ChatModel_OpenaiCompatible); ok && source != nil {
+				if source.OpenaiCompatible != nil {
+					values = append(values, source.OpenaiCompatible)
+				}
+			}
+		case ChatModel_FieldPathSelectorAnthropic:
+			if source, ok := source.Provider.(*ChatModel_Anthropic_); ok && source != nil {
+				if source.Anthropic != nil {
+					values = append(values, source.Anthropic)
+				}
+			}
+		case ChatModel_FieldPathSelectorGemini:
+			if source, ok := source.Provider.(*ChatModel_Gemini_); ok && source != nil {
+				if source.Gemini != nil {
+					values = append(values, source.Gemini)
+				}
+			}
+		case ChatModel_FieldPathSelectorDisplayName:
+			values = append(values, source.DisplayName)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 		}
@@ -201,12 +259,47 @@ func (fp *ChatModel_FieldTerminalPath) GetSingle(source *ChatModel) (interface{}
 		if source == nil {
 			return source.GetAzureOpenAi(), false
 		}
-		_, oneOfSelected := source.ModelType.(*ChatModel_AzureOpenAi_)
+		_, oneOfSelected := source.Provider.(*ChatModel_AzureOpenAi_)
 		if !oneOfSelected {
 			return source.GetAzureOpenAi(), false // to return "type" information
 		}
 		res := source.GetAzureOpenAi()
 		return res, res != nil
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetOpenaiCompatible(), false
+		}
+		_, oneOfSelected := source.Provider.(*ChatModel_OpenaiCompatible)
+		if !oneOfSelected {
+			return source.GetOpenaiCompatible(), false // to return "type" information
+		}
+		res := source.GetOpenaiCompatible()
+		return res, res != nil
+	case ChatModel_FieldPathSelectorAnthropic:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetAnthropic(), false
+		}
+		_, oneOfSelected := source.Provider.(*ChatModel_Anthropic_)
+		if !oneOfSelected {
+			return source.GetAnthropic(), false // to return "type" information
+		}
+		res := source.GetAnthropic()
+		return res, res != nil
+	case ChatModel_FieldPathSelectorGemini:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetGemini(), false
+		}
+		_, oneOfSelected := source.Provider.(*ChatModel_Gemini_)
+		if !oneOfSelected {
+			return source.GetGemini(), false // to return "type" information
+		}
+		res := source.GetGemini()
+		return res, res != nil
+	case ChatModel_FieldPathSelectorDisplayName:
+		return source.GetDisplayName(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -225,6 +318,14 @@ func (fp *ChatModel_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case ChatModel_FieldPathSelectorAzureOpenAi:
 		return (*ChatModel_AzureOpenAi)(nil)
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		return (*ChatModel_OpenAICompatible)(nil)
+	case ChatModel_FieldPathSelectorAnthropic:
+		return (*ChatModel_Anthropic)(nil)
+	case ChatModel_FieldPathSelectorGemini:
+		return (*ChatModel_Gemini)(nil)
+	case ChatModel_FieldPathSelectorDisplayName:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -238,9 +339,23 @@ func (fp *ChatModel_FieldTerminalPath) ClearValue(item *ChatModel) {
 		case ChatModel_FieldPathSelectorMetadata:
 			item.Metadata = nil
 		case ChatModel_FieldPathSelectorAzureOpenAi:
-			if item, ok := item.ModelType.(*ChatModel_AzureOpenAi_); ok {
+			if item, ok := item.Provider.(*ChatModel_AzureOpenAi_); ok {
 				item.AzureOpenAi = nil
 			}
+		case ChatModel_FieldPathSelectorOpenaiCompatible:
+			if item, ok := item.Provider.(*ChatModel_OpenaiCompatible); ok {
+				item.OpenaiCompatible = nil
+			}
+		case ChatModel_FieldPathSelectorAnthropic:
+			if item, ok := item.Provider.(*ChatModel_Anthropic_); ok {
+				item.Anthropic = nil
+			}
+		case ChatModel_FieldPathSelectorGemini:
+			if item, ok := item.Provider.(*ChatModel_Gemini_); ok {
+				item.Gemini = nil
+			}
+		case ChatModel_FieldPathSelectorDisplayName:
+			item.DisplayName = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 		}
@@ -253,7 +368,8 @@ func (fp *ChatModel_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *ChatModel_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == ChatModel_FieldPathSelectorName
+	return fp.selector == ChatModel_FieldPathSelectorName ||
+		fp.selector == ChatModel_FieldPathSelectorDisplayName
 }
 
 func (fp *ChatModel_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -268,6 +384,14 @@ func (fp *ChatModel_FieldTerminalPath) WithIValue(value interface{}) ChatModel_F
 		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case ChatModel_FieldPathSelectorAzureOpenAi:
 		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(*ChatModel_AzureOpenAi)}
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(*ChatModel_OpenAICompatible)}
+	case ChatModel_FieldPathSelectorAnthropic:
+		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(*ChatModel_Anthropic)}
+	case ChatModel_FieldPathSelectorGemini:
+		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(*ChatModel_Gemini)}
+	case ChatModel_FieldPathSelectorDisplayName:
+		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -286,6 +410,14 @@ func (fp *ChatModel_FieldTerminalPath) WithIArrayOfValues(values interface{}) Ch
 		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case ChatModel_FieldPathSelectorAzureOpenAi:
 		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]*ChatModel_AzureOpenAi)}
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]*ChatModel_OpenAICompatible)}
+	case ChatModel_FieldPathSelectorAnthropic:
+		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]*ChatModel_Anthropic)}
+	case ChatModel_FieldPathSelectorGemini:
+		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]*ChatModel_Gemini)}
+	case ChatModel_FieldPathSelectorDisplayName:
+		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -325,6 +457,18 @@ func (fps *ChatModel_FieldSubPath) AsAzureOpenAiSubPath() (ChatModelAzureOpenAi_
 	res, ok := fps.subPath.(ChatModelAzureOpenAi_FieldPath)
 	return res, ok
 }
+func (fps *ChatModel_FieldSubPath) AsOpenaiCompatibleSubPath() (ChatModelOpenAICompatible_FieldPath, bool) {
+	res, ok := fps.subPath.(ChatModelOpenAICompatible_FieldPath)
+	return res, ok
+}
+func (fps *ChatModel_FieldSubPath) AsAnthropicSubPath() (ChatModelAnthropic_FieldPath, bool) {
+	res, ok := fps.subPath.(ChatModelAnthropic_FieldPath)
+	return res, ok
+}
+func (fps *ChatModel_FieldSubPath) AsGeminiSubPath() (ChatModelGemini_FieldPath, bool) {
+	res, ok := fps.subPath.(ChatModelGemini_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ChatModel_FieldSubPath) String() string {
@@ -343,6 +487,12 @@ func (fps *ChatModel_FieldSubPath) Get(source *ChatModel) (values []interface{})
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
 	case ChatModel_FieldPathSelectorAzureOpenAi:
 		values = append(values, fps.subPath.GetRaw(source.GetAzureOpenAi())...)
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		values = append(values, fps.subPath.GetRaw(source.GetOpenaiCompatible())...)
+	case ChatModel_FieldPathSelectorAnthropic:
+		values = append(values, fps.subPath.GetRaw(source.GetAnthropic())...)
+	case ChatModel_FieldPathSelectorGemini:
+		values = append(values, fps.subPath.GetRaw(source.GetGemini())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fps.selector))
 	}
@@ -366,6 +516,21 @@ func (fps *ChatModel_FieldSubPath) GetSingle(source *ChatModel) (interface{}, bo
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetAzureOpenAi())
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		if source.GetOpenaiCompatible() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetOpenaiCompatible())
+	case ChatModel_FieldPathSelectorAnthropic:
+		if source.GetAnthropic() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetAnthropic())
+	case ChatModel_FieldPathSelectorGemini:
+		if source.GetGemini() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetGemini())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fps.selector))
 	}
@@ -386,9 +551,27 @@ func (fps *ChatModel_FieldSubPath) ClearValue(item *ChatModel) {
 		case ChatModel_FieldPathSelectorMetadata:
 			fps.subPath.ClearValueRaw(item.Metadata)
 		case ChatModel_FieldPathSelectorAzureOpenAi:
-			if item.ModelType != nil {
-				if item, ok := item.ModelType.(*ChatModel_AzureOpenAi_); ok {
+			if item.Provider != nil {
+				if item, ok := item.Provider.(*ChatModel_AzureOpenAi_); ok {
 					fps.subPath.ClearValueRaw(item.AzureOpenAi)
+				}
+			}
+		case ChatModel_FieldPathSelectorOpenaiCompatible:
+			if item.Provider != nil {
+				if item, ok := item.Provider.(*ChatModel_OpenaiCompatible); ok {
+					fps.subPath.ClearValueRaw(item.OpenaiCompatible)
+				}
+			}
+		case ChatModel_FieldPathSelectorAnthropic:
+			if item.Provider != nil {
+				if item, ok := item.Provider.(*ChatModel_Anthropic_); ok {
+					fps.subPath.ClearValueRaw(item.Anthropic)
+				}
+			}
+		case ChatModel_FieldPathSelectorGemini:
+			if item.Provider != nil {
+				if item, ok := item.Provider.(*ChatModel_Gemini_); ok {
+					fps.subPath.ClearValueRaw(item.Gemini)
 				}
 			}
 		default:
@@ -487,6 +670,22 @@ func (fpv *ChatModel_FieldTerminalPathValue) AsAzureOpenAiValue() (*ChatModel_Az
 	res, ok := fpv.value.(*ChatModel_AzureOpenAi)
 	return res, ok
 }
+func (fpv *ChatModel_FieldTerminalPathValue) AsOpenaiCompatibleValue() (*ChatModel_OpenAICompatible, bool) {
+	res, ok := fpv.value.(*ChatModel_OpenAICompatible)
+	return res, ok
+}
+func (fpv *ChatModel_FieldTerminalPathValue) AsAnthropicValue() (*ChatModel_Anthropic, bool) {
+	res, ok := fpv.value.(*ChatModel_Anthropic)
+	return res, ok
+}
+func (fpv *ChatModel_FieldTerminalPathValue) AsGeminiValue() (*ChatModel_Gemini, bool) {
+	res, ok := fpv.value.(*ChatModel_Gemini)
+	return res, ok
+}
+func (fpv *ChatModel_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ChatModel
 func (fpv *ChatModel_FieldTerminalPathValue) SetTo(target **ChatModel) {
@@ -499,10 +698,27 @@ func (fpv *ChatModel_FieldTerminalPathValue) SetTo(target **ChatModel) {
 	case ChatModel_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case ChatModel_FieldPathSelectorAzureOpenAi:
-		if _, ok := (*target).ModelType.(*ChatModel_AzureOpenAi_); !ok {
-			(*target).ModelType = &ChatModel_AzureOpenAi_{}
+		if _, ok := (*target).Provider.(*ChatModel_AzureOpenAi_); !ok {
+			(*target).Provider = &ChatModel_AzureOpenAi_{}
 		}
-		(*target).ModelType.(*ChatModel_AzureOpenAi_).AzureOpenAi = fpv.value.(*ChatModel_AzureOpenAi)
+		(*target).Provider.(*ChatModel_AzureOpenAi_).AzureOpenAi = fpv.value.(*ChatModel_AzureOpenAi)
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		if _, ok := (*target).Provider.(*ChatModel_OpenaiCompatible); !ok {
+			(*target).Provider = &ChatModel_OpenaiCompatible{}
+		}
+		(*target).Provider.(*ChatModel_OpenaiCompatible).OpenaiCompatible = fpv.value.(*ChatModel_OpenAICompatible)
+	case ChatModel_FieldPathSelectorAnthropic:
+		if _, ok := (*target).Provider.(*ChatModel_Anthropic_); !ok {
+			(*target).Provider = &ChatModel_Anthropic_{}
+		}
+		(*target).Provider.(*ChatModel_Anthropic_).Anthropic = fpv.value.(*ChatModel_Anthropic)
+	case ChatModel_FieldPathSelectorGemini:
+		if _, ok := (*target).Provider.(*ChatModel_Gemini_); !ok {
+			(*target).Provider = &ChatModel_Gemini_{}
+		}
+		(*target).Provider.(*ChatModel_Gemini_).Gemini = fpv.value.(*ChatModel_Gemini)
+	case ChatModel_FieldPathSelectorDisplayName:
+		(*target).DisplayName = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpv.selector))
 	}
@@ -539,6 +755,22 @@ func (fpv *ChatModel_FieldTerminalPathValue) CompareWith(source *ChatModel) (int
 		return 0, false
 	case ChatModel_FieldPathSelectorAzureOpenAi:
 		return 0, false
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		return 0, false
+	case ChatModel_FieldPathSelectorAnthropic:
+		return 0, false
+	case ChatModel_FieldPathSelectorGemini:
+		return 0, false
+	case ChatModel_FieldPathSelectorDisplayName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpv.selector))
 	}
@@ -563,6 +795,18 @@ func (fpvs *ChatModel_FieldSubPathValue) AsAzureOpenAiPathValue() (ChatModelAzur
 	res, ok := fpvs.subPathValue.(ChatModelAzureOpenAi_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ChatModel_FieldSubPathValue) AsOpenaiCompatiblePathValue() (ChatModelOpenAICompatible_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ChatModelOpenAICompatible_FieldPathValue)
+	return res, ok
+}
+func (fpvs *ChatModel_FieldSubPathValue) AsAnthropicPathValue() (ChatModelAnthropic_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ChatModelAnthropic_FieldPathValue)
+	return res, ok
+}
+func (fpvs *ChatModel_FieldSubPathValue) AsGeminiPathValue() (ChatModelGemini_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ChatModelGemini_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ChatModel_FieldSubPathValue) SetTo(target **ChatModel) {
 	if *target == nil {
@@ -572,10 +816,25 @@ func (fpvs *ChatModel_FieldSubPathValue) SetTo(target **ChatModel) {
 	case ChatModel_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case ChatModel_FieldPathSelectorAzureOpenAi:
-		if _, ok := (*target).ModelType.(*ChatModel_AzureOpenAi_); !ok {
-			(*target).ModelType = &ChatModel_AzureOpenAi_{}
+		if _, ok := (*target).Provider.(*ChatModel_AzureOpenAi_); !ok {
+			(*target).Provider = &ChatModel_AzureOpenAi_{}
 		}
-		fpvs.subPathValue.(ChatModelAzureOpenAi_FieldPathValue).SetTo(&(*target).ModelType.(*ChatModel_AzureOpenAi_).AzureOpenAi)
+		fpvs.subPathValue.(ChatModelAzureOpenAi_FieldPathValue).SetTo(&(*target).Provider.(*ChatModel_AzureOpenAi_).AzureOpenAi)
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		if _, ok := (*target).Provider.(*ChatModel_OpenaiCompatible); !ok {
+			(*target).Provider = &ChatModel_OpenaiCompatible{}
+		}
+		fpvs.subPathValue.(ChatModelOpenAICompatible_FieldPathValue).SetTo(&(*target).Provider.(*ChatModel_OpenaiCompatible).OpenaiCompatible)
+	case ChatModel_FieldPathSelectorAnthropic:
+		if _, ok := (*target).Provider.(*ChatModel_Anthropic_); !ok {
+			(*target).Provider = &ChatModel_Anthropic_{}
+		}
+		fpvs.subPathValue.(ChatModelAnthropic_FieldPathValue).SetTo(&(*target).Provider.(*ChatModel_Anthropic_).Anthropic)
+	case ChatModel_FieldPathSelectorGemini:
+		if _, ok := (*target).Provider.(*ChatModel_Gemini_); !ok {
+			(*target).Provider = &ChatModel_Gemini_{}
+		}
+		fpvs.subPathValue.(ChatModelGemini_FieldPathValue).SetTo(&(*target).Provider.(*ChatModel_Gemini_).Gemini)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpvs.Selector()))
 	}
@@ -596,6 +855,12 @@ func (fpvs *ChatModel_FieldSubPathValue) CompareWith(source *ChatModel) (int, bo
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case ChatModel_FieldPathSelectorAzureOpenAi:
 		return fpvs.subPathValue.(ChatModelAzureOpenAi_FieldPathValue).CompareWith(source.GetAzureOpenAi())
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		return fpvs.subPathValue.(ChatModelOpenAICompatible_FieldPathValue).CompareWith(source.GetOpenaiCompatible())
+	case ChatModel_FieldPathSelectorAnthropic:
+		return fpvs.subPathValue.(ChatModelAnthropic_FieldPathValue).CompareWith(source.GetAnthropic())
+	case ChatModel_FieldPathSelectorGemini:
+		return fpvs.subPathValue.(ChatModelGemini_FieldPathValue).CompareWith(source.GetGemini())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpvs.Selector()))
 	}
@@ -686,6 +951,18 @@ func (fpaivs *ChatModel_FieldSubPathArrayItemValue) AsAzureOpenAiPathItemValue()
 	res, ok := fpaivs.subPathItemValue.(ChatModelAzureOpenAi_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ChatModel_FieldSubPathArrayItemValue) AsOpenaiCompatiblePathItemValue() (ChatModelOpenAICompatible_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ChatModelOpenAICompatible_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *ChatModel_FieldSubPathArrayItemValue) AsAnthropicPathItemValue() (ChatModelAnthropic_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ChatModelAnthropic_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *ChatModel_FieldSubPathArrayItemValue) AsGeminiPathItemValue() (ChatModelGemini_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ChatModelGemini_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ChatModel'
 func (fpaivs *ChatModel_FieldSubPathArrayItemValue) ContainsValue(source *ChatModel) bool {
@@ -694,6 +971,12 @@ func (fpaivs *ChatModel_FieldSubPathArrayItemValue) ContainsValue(source *ChatMo
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case ChatModel_FieldPathSelectorAzureOpenAi:
 		return fpaivs.subPathItemValue.(ChatModelAzureOpenAi_FieldPathArrayItemValue).ContainsValue(source.GetAzureOpenAi())
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		return fpaivs.subPathItemValue.(ChatModelOpenAICompatible_FieldPathArrayItemValue).ContainsValue(source.GetOpenaiCompatible())
+	case ChatModel_FieldPathSelectorAnthropic:
+		return fpaivs.subPathItemValue.(ChatModelAnthropic_FieldPathArrayItemValue).ContainsValue(source.GetAnthropic())
+	case ChatModel_FieldPathSelectorGemini:
+		return fpaivs.subPathItemValue.(ChatModelGemini_FieldPathArrayItemValue).ContainsValue(source.GetGemini())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpaivs.Selector()))
 	}
@@ -746,6 +1029,22 @@ func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 		for _, v := range fpaov.values.([]*ChatModel_AzureOpenAi) {
 			values = append(values, v)
 		}
+	case ChatModel_FieldPathSelectorOpenaiCompatible:
+		for _, v := range fpaov.values.([]*ChatModel_OpenAICompatible) {
+			values = append(values, v)
+		}
+	case ChatModel_FieldPathSelectorAnthropic:
+		for _, v := range fpaov.values.([]*ChatModel_Anthropic) {
+			values = append(values, v)
+		}
+	case ChatModel_FieldPathSelectorGemini:
+		for _, v := range fpaov.values.([]*ChatModel_Gemini) {
+			values = append(values, v)
+		}
+	case ChatModel_FieldPathSelectorDisplayName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -759,6 +1058,22 @@ func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues()
 }
 func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsAzureOpenAiArrayOfValues() ([]*ChatModel_AzureOpenAi, bool) {
 	res, ok := fpaov.values.([]*ChatModel_AzureOpenAi)
+	return res, ok
+}
+func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsOpenaiCompatibleArrayOfValues() ([]*ChatModel_OpenAICompatible, bool) {
+	res, ok := fpaov.values.([]*ChatModel_OpenAICompatible)
+	return res, ok
+}
+func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsAnthropicArrayOfValues() ([]*ChatModel_Anthropic, bool) {
+	res, ok := fpaov.values.([]*ChatModel_Anthropic)
+	return res, ok
+}
+func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsGeminiArrayOfValues() ([]*ChatModel_Gemini, bool) {
+	res, ok := fpaov.values.([]*ChatModel_Gemini)
+	return res, ok
+}
+func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 
@@ -778,6 +1093,1527 @@ func (fpsaov *ChatModel_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues()
 }
 func (fpsaov *ChatModel_FieldSubPathArrayOfValues) AsAzureOpenAiPathArrayOfValues() (ChatModelAzureOpenAi_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ChatModelAzureOpenAi_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ChatModel_FieldSubPathArrayOfValues) AsOpenaiCompatiblePathArrayOfValues() (ChatModelOpenAICompatible_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ChatModelOpenAICompatible_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ChatModel_FieldSubPathArrayOfValues) AsAnthropicPathArrayOfValues() (ChatModelAnthropic_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ChatModelAnthropic_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ChatModel_FieldSubPathArrayOfValues) AsGeminiPathArrayOfValues() (ChatModelGemini_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ChatModelGemini_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ChatModelOpenAICompatible_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ChatModelOpenAICompatible_FieldPathSelector
+	Get(source *ChatModel_OpenAICompatible) []interface{}
+	GetSingle(source *ChatModel_OpenAICompatible) (interface{}, bool)
+	ClearValue(item *ChatModel_OpenAICompatible)
+
+	// Those methods build corresponding ChatModelOpenAICompatible_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ChatModelOpenAICompatible_FieldPathValue
+	WithIArrayOfValues(values interface{}) ChatModelOpenAICompatible_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ChatModelOpenAICompatible_FieldPathArrayItemValue
+}
+
+type ChatModelOpenAICompatible_FieldPathSelector int32
+
+const (
+	ChatModelOpenAICompatible_FieldPathSelectorApiKey          ChatModelOpenAICompatible_FieldPathSelector = 0
+	ChatModelOpenAICompatible_FieldPathSelectorModel           ChatModelOpenAICompatible_FieldPathSelector = 1
+	ChatModelOpenAICompatible_FieldPathSelectorBaseUrl         ChatModelOpenAICompatible_FieldPathSelector = 2
+	ChatModelOpenAICompatible_FieldPathSelectorOrganization    ChatModelOpenAICompatible_FieldPathSelector = 3
+	ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint   ChatModelOpenAICompatible_FieldPathSelector = 4
+	ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion ChatModelOpenAICompatible_FieldPathSelector = 5
+)
+
+func (s ChatModelOpenAICompatible_FieldPathSelector) String() string {
+	switch s {
+	case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+		return "api_key"
+	case ChatModelOpenAICompatible_FieldPathSelectorModel:
+		return "model"
+	case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+		return "base_url"
+	case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+		return "organization"
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+		return "azure_endpoint"
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+		return "azure_api_version"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", s))
+	}
+}
+
+func BuildChatModelOpenAICompatible_FieldPath(fp gotenobject.RawFieldPath) (ChatModelOpenAICompatible_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ChatModel_OpenAICompatible")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "api_key", "apiKey", "api-key":
+			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorApiKey}, nil
+		case "model":
+			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorModel}, nil
+		case "base_url", "baseUrl", "base-url":
+			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorBaseUrl}, nil
+		case "organization":
+			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorOrganization}, nil
+		case "azure_endpoint", "azureEndpoint", "azure-endpoint":
+			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint}, nil
+		case "azure_api_version", "azureApiVersion", "azure-api-version":
+			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ChatModel_OpenAICompatible", fp)
+}
+
+func ParseChatModelOpenAICompatible_FieldPath(rawField string) (ChatModelOpenAICompatible_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildChatModelOpenAICompatible_FieldPath(fp)
+}
+
+func MustParseChatModelOpenAICompatible_FieldPath(rawField string) ChatModelOpenAICompatible_FieldPath {
+	fp, err := ParseChatModelOpenAICompatible_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ChatModelOpenAICompatible_FieldTerminalPath struct {
+	selector ChatModelOpenAICompatible_FieldPathSelector
+}
+
+var _ ChatModelOpenAICompatible_FieldPath = (*ChatModelOpenAICompatible_FieldTerminalPath)(nil)
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) Selector() ChatModelOpenAICompatible_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ChatModel_OpenAICompatible
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) Get(source *ChatModel_OpenAICompatible) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+			if source.ApiKey != nil {
+				values = append(values, source.ApiKey)
+			}
+		case ChatModelOpenAICompatible_FieldPathSelectorModel:
+			values = append(values, source.Model)
+		case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+			values = append(values, source.BaseUrl)
+		case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+			values = append(values, source.Organization)
+		case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+			values = append(values, source.AzureEndpoint)
+		case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+			values = append(values, source.AzureApiVersion)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ChatModel_OpenAICompatible))
+}
+
+// GetSingle returns value pointed by specific field of from source ChatModel_OpenAICompatible
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) GetSingle(source *ChatModel_OpenAICompatible) (interface{}, bool) {
+	switch fp.selector {
+	case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+		res := source.GetApiKey()
+		return res, res != nil
+	case ChatModelOpenAICompatible_FieldPathSelectorModel:
+		return source.GetModel(), source != nil
+	case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+		return source.GetBaseUrl(), source != nil
+	case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+		return source.GetOrganization(), source != nil
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+		return source.GetAzureEndpoint(), source != nil
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+		return source.GetAzureApiVersion(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ChatModel_OpenAICompatible))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+		return (*secrets_secret.Reference)(nil)
+	case ChatModelOpenAICompatible_FieldPathSelectorModel:
+		return ""
+	case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+		return ""
+	case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+		return ""
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+		return ""
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) ClearValue(item *ChatModel_OpenAICompatible) {
+	if item != nil {
+		switch fp.selector {
+		case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+			item.ApiKey = nil
+		case ChatModelOpenAICompatible_FieldPathSelectorModel:
+			item.Model = ""
+		case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+			item.BaseUrl = ""
+		case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+			item.Organization = ""
+		case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+			item.AzureEndpoint = ""
+		case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+			item.AzureApiVersion = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ChatModel_OpenAICompatible))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ChatModelOpenAICompatible_FieldPathSelectorApiKey ||
+		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorModel ||
+		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorBaseUrl ||
+		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorOrganization ||
+		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint ||
+		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) WithIValue(value interface{}) ChatModelOpenAICompatible_FieldPathValue {
+	switch fp.selector {
+	case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
+	case ChatModelOpenAICompatible_FieldPathSelectorModel:
+		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(string)}
+	case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(string)}
+	case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(string)}
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(string)}
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) WithIArrayOfValues(values interface{}) ChatModelOpenAICompatible_FieldPathArrayOfValues {
+	fpaov := &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
+	case ChatModelOpenAICompatible_FieldPathSelectorModel:
+		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]string)}
+	case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]string)}
+	case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]string)}
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]string)}
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) WithIArrayItemValue(value interface{}) ChatModelOpenAICompatible_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelOpenAICompatible_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ChatModelOpenAICompatible_FieldPathValue allows storing values for OpenAICompatible fields according to their type
+type ChatModelOpenAICompatible_FieldPathValue interface {
+	ChatModelOpenAICompatible_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ChatModel_OpenAICompatible)
+	CompareWith(*ChatModel_OpenAICompatible) (cmp int, comparable bool)
+}
+
+func ParseChatModelOpenAICompatible_FieldPathValue(pathStr, valueStr string) (ChatModelOpenAICompatible_FieldPathValue, error) {
+	fp, err := ParseChatModelOpenAICompatible_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing OpenAICompatible field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ChatModelOpenAICompatible_FieldPathValue), nil
+}
+
+func MustParseChatModelOpenAICompatible_FieldPathValue(pathStr, valueStr string) ChatModelOpenAICompatible_FieldPathValue {
+	fpv, err := ParseChatModelOpenAICompatible_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ChatModelOpenAICompatible_FieldTerminalPathValue struct {
+	ChatModelOpenAICompatible_FieldTerminalPath
+	value interface{}
+}
+
+var _ ChatModelOpenAICompatible_FieldPathValue = (*ChatModelOpenAICompatible_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'OpenAICompatible' as interface{}
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) AsApiKeyValue() (*secrets_secret.Reference, bool) {
+	res, ok := fpv.value.(*secrets_secret.Reference)
+	return res, ok
+}
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) AsModelValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) AsBaseUrlValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) AsOrganizationValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) AsAzureEndpointValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) AsAzureApiVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object OpenAICompatible
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) SetTo(target **ChatModel_OpenAICompatible) {
+	if *target == nil {
+		*target = new(ChatModel_OpenAICompatible)
+	}
+	switch fpv.selector {
+	case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+		(*target).ApiKey = fpv.value.(*secrets_secret.Reference)
+	case ChatModelOpenAICompatible_FieldPathSelectorModel:
+		(*target).Model = fpv.value.(string)
+	case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+		(*target).BaseUrl = fpv.value.(string)
+	case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+		(*target).Organization = fpv.value.(string)
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+		(*target).AzureEndpoint = fpv.value.(string)
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+		(*target).AzureApiVersion = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fpv.selector))
+	}
+}
+
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ChatModel_OpenAICompatible)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ChatModelOpenAICompatible_FieldTerminalPathValue' with the value under path in 'ChatModel_OpenAICompatible'.
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) CompareWith(source *ChatModel_OpenAICompatible) (int, bool) {
+	switch fpv.selector {
+	case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+		leftValue := fpv.value.(*secrets_secret.Reference)
+		rightValue := source.GetApiKey()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorModel:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetModel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetBaseUrl()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetOrganization()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAzureEndpoint()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAzureApiVersion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fpv.selector))
+	}
+}
+
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ChatModel_OpenAICompatible))
+}
+
+// ChatModelOpenAICompatible_FieldPathArrayItemValue allows storing single item in Path-specific values for OpenAICompatible according to their type
+// Present only for array (repeated) types.
+type ChatModelOpenAICompatible_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ChatModelOpenAICompatible_FieldPath
+	ContainsValue(*ChatModel_OpenAICompatible) bool
+}
+
+// ParseChatModelOpenAICompatible_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseChatModelOpenAICompatible_FieldPathArrayItemValue(pathStr, valueStr string) (ChatModelOpenAICompatible_FieldPathArrayItemValue, error) {
+	fp, err := ParseChatModelOpenAICompatible_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing OpenAICompatible field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ChatModelOpenAICompatible_FieldPathArrayItemValue), nil
+}
+
+func MustParseChatModelOpenAICompatible_FieldPathArrayItemValue(pathStr, valueStr string) ChatModelOpenAICompatible_FieldPathArrayItemValue {
+	fpaiv, err := ParseChatModelOpenAICompatible_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ChatModelOpenAICompatible_FieldTerminalPathArrayItemValue struct {
+	ChatModelOpenAICompatible_FieldTerminalPath
+	value interface{}
+}
+
+var _ ChatModelOpenAICompatible_FieldPathArrayItemValue = (*ChatModelOpenAICompatible_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ChatModel_OpenAICompatible as interface{}
+func (fpaiv *ChatModelOpenAICompatible_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ChatModelOpenAICompatible_FieldTerminalPathArrayItemValue) GetSingle(source *ChatModel_OpenAICompatible) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ChatModelOpenAICompatible_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ChatModel_OpenAICompatible))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'OpenAICompatible'
+func (fpaiv *ChatModelOpenAICompatible_FieldTerminalPathArrayItemValue) ContainsValue(source *ChatModel_OpenAICompatible) bool {
+	slice := fpaiv.ChatModelOpenAICompatible_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ChatModelOpenAICompatible_FieldPathArrayOfValues allows storing slice of values for OpenAICompatible fields according to their type
+type ChatModelOpenAICompatible_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ChatModelOpenAICompatible_FieldPath
+}
+
+func ParseChatModelOpenAICompatible_FieldPathArrayOfValues(pathStr, valuesStr string) (ChatModelOpenAICompatible_FieldPathArrayOfValues, error) {
+	fp, err := ParseChatModelOpenAICompatible_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing OpenAICompatible field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ChatModelOpenAICompatible_FieldPathArrayOfValues), nil
+}
+
+func MustParseChatModelOpenAICompatible_FieldPathArrayOfValues(pathStr, valuesStr string) ChatModelOpenAICompatible_FieldPathArrayOfValues {
+	fpaov, err := ParseChatModelOpenAICompatible_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues struct {
+	ChatModelOpenAICompatible_FieldTerminalPath
+	values interface{}
+}
+
+var _ ChatModelOpenAICompatible_FieldPathArrayOfValues = (*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ChatModelOpenAICompatible_FieldPathSelectorApiKey:
+		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
+			values = append(values, v)
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorModel:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorBaseUrl:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorOrganization:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsApiKeyArrayOfValues() ([]*secrets_secret.Reference, bool) {
+	res, ok := fpaov.values.([]*secrets_secret.Reference)
+	return res, ok
+}
+func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsModelArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsBaseUrlArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsOrganizationArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsAzureEndpointArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsAzureApiVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ChatModelAnthropic_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ChatModelAnthropic_FieldPathSelector
+	Get(source *ChatModel_Anthropic) []interface{}
+	GetSingle(source *ChatModel_Anthropic) (interface{}, bool)
+	ClearValue(item *ChatModel_Anthropic)
+
+	// Those methods build corresponding ChatModelAnthropic_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ChatModelAnthropic_FieldPathValue
+	WithIArrayOfValues(values interface{}) ChatModelAnthropic_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ChatModelAnthropic_FieldPathArrayItemValue
+}
+
+type ChatModelAnthropic_FieldPathSelector int32
+
+const (
+	ChatModelAnthropic_FieldPathSelectorApiKey  ChatModelAnthropic_FieldPathSelector = 0
+	ChatModelAnthropic_FieldPathSelectorModel   ChatModelAnthropic_FieldPathSelector = 1
+	ChatModelAnthropic_FieldPathSelectorBaseUrl ChatModelAnthropic_FieldPathSelector = 2
+)
+
+func (s ChatModelAnthropic_FieldPathSelector) String() string {
+	switch s {
+	case ChatModelAnthropic_FieldPathSelectorApiKey:
+		return "api_key"
+	case ChatModelAnthropic_FieldPathSelectorModel:
+		return "model"
+	case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+		return "base_url"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", s))
+	}
+}
+
+func BuildChatModelAnthropic_FieldPath(fp gotenobject.RawFieldPath) (ChatModelAnthropic_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ChatModel_Anthropic")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "api_key", "apiKey", "api-key":
+			return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorApiKey}, nil
+		case "model":
+			return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorModel}, nil
+		case "base_url", "baseUrl", "base-url":
+			return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorBaseUrl}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ChatModel_Anthropic", fp)
+}
+
+func ParseChatModelAnthropic_FieldPath(rawField string) (ChatModelAnthropic_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildChatModelAnthropic_FieldPath(fp)
+}
+
+func MustParseChatModelAnthropic_FieldPath(rawField string) ChatModelAnthropic_FieldPath {
+	fp, err := ParseChatModelAnthropic_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ChatModelAnthropic_FieldTerminalPath struct {
+	selector ChatModelAnthropic_FieldPathSelector
+}
+
+var _ ChatModelAnthropic_FieldPath = (*ChatModelAnthropic_FieldTerminalPath)(nil)
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) Selector() ChatModelAnthropic_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ChatModelAnthropic_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ChatModelAnthropic_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ChatModel_Anthropic
+func (fp *ChatModelAnthropic_FieldTerminalPath) Get(source *ChatModel_Anthropic) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ChatModelAnthropic_FieldPathSelectorApiKey:
+			if source.ApiKey != nil {
+				values = append(values, source.ApiKey)
+			}
+		case ChatModelAnthropic_FieldPathSelectorModel:
+			values = append(values, source.Model)
+		case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+			values = append(values, source.BaseUrl)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ChatModel_Anthropic))
+}
+
+// GetSingle returns value pointed by specific field of from source ChatModel_Anthropic
+func (fp *ChatModelAnthropic_FieldTerminalPath) GetSingle(source *ChatModel_Anthropic) (interface{}, bool) {
+	switch fp.selector {
+	case ChatModelAnthropic_FieldPathSelectorApiKey:
+		res := source.GetApiKey()
+		return res, res != nil
+	case ChatModelAnthropic_FieldPathSelectorModel:
+		return source.GetModel(), source != nil
+	case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+		return source.GetBaseUrl(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ChatModel_Anthropic))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ChatModelAnthropic_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ChatModelAnthropic_FieldPathSelectorApiKey:
+		return (*secrets_secret.Reference)(nil)
+	case ChatModelAnthropic_FieldPathSelectorModel:
+		return ""
+	case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) ClearValue(item *ChatModel_Anthropic) {
+	if item != nil {
+		switch fp.selector {
+		case ChatModelAnthropic_FieldPathSelectorApiKey:
+			item.ApiKey = nil
+		case ChatModelAnthropic_FieldPathSelectorModel:
+			item.Model = ""
+		case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+			item.BaseUrl = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ChatModel_Anthropic))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ChatModelAnthropic_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ChatModelAnthropic_FieldPathSelectorApiKey ||
+		fp.selector == ChatModelAnthropic_FieldPathSelectorModel ||
+		fp.selector == ChatModelAnthropic_FieldPathSelectorBaseUrl
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) WithIValue(value interface{}) ChatModelAnthropic_FieldPathValue {
+	switch fp.selector {
+	case ChatModelAnthropic_FieldPathSelectorApiKey:
+		return &ChatModelAnthropic_FieldTerminalPathValue{ChatModelAnthropic_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
+	case ChatModelAnthropic_FieldPathSelectorModel:
+		return &ChatModelAnthropic_FieldTerminalPathValue{ChatModelAnthropic_FieldTerminalPath: *fp, value: value.(string)}
+	case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+		return &ChatModelAnthropic_FieldTerminalPathValue{ChatModelAnthropic_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) WithIArrayOfValues(values interface{}) ChatModelAnthropic_FieldPathArrayOfValues {
+	fpaov := &ChatModelAnthropic_FieldTerminalPathArrayOfValues{ChatModelAnthropic_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ChatModelAnthropic_FieldPathSelectorApiKey:
+		return &ChatModelAnthropic_FieldTerminalPathArrayOfValues{ChatModelAnthropic_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
+	case ChatModelAnthropic_FieldPathSelectorModel:
+		return &ChatModelAnthropic_FieldTerminalPathArrayOfValues{ChatModelAnthropic_FieldTerminalPath: *fp, values: values.([]string)}
+	case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+		return &ChatModelAnthropic_FieldTerminalPathArrayOfValues{ChatModelAnthropic_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) WithIArrayItemValue(value interface{}) ChatModelAnthropic_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelAnthropic_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ChatModelAnthropic_FieldPathValue allows storing values for Anthropic fields according to their type
+type ChatModelAnthropic_FieldPathValue interface {
+	ChatModelAnthropic_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ChatModel_Anthropic)
+	CompareWith(*ChatModel_Anthropic) (cmp int, comparable bool)
+}
+
+func ParseChatModelAnthropic_FieldPathValue(pathStr, valueStr string) (ChatModelAnthropic_FieldPathValue, error) {
+	fp, err := ParseChatModelAnthropic_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Anthropic field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ChatModelAnthropic_FieldPathValue), nil
+}
+
+func MustParseChatModelAnthropic_FieldPathValue(pathStr, valueStr string) ChatModelAnthropic_FieldPathValue {
+	fpv, err := ParseChatModelAnthropic_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ChatModelAnthropic_FieldTerminalPathValue struct {
+	ChatModelAnthropic_FieldTerminalPath
+	value interface{}
+}
+
+var _ ChatModelAnthropic_FieldPathValue = (*ChatModelAnthropic_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Anthropic' as interface{}
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) AsApiKeyValue() (*secrets_secret.Reference, bool) {
+	res, ok := fpv.value.(*secrets_secret.Reference)
+	return res, ok
+}
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) AsModelValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) AsBaseUrlValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Anthropic
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) SetTo(target **ChatModel_Anthropic) {
+	if *target == nil {
+		*target = new(ChatModel_Anthropic)
+	}
+	switch fpv.selector {
+	case ChatModelAnthropic_FieldPathSelectorApiKey:
+		(*target).ApiKey = fpv.value.(*secrets_secret.Reference)
+	case ChatModelAnthropic_FieldPathSelectorModel:
+		(*target).Model = fpv.value.(string)
+	case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+		(*target).BaseUrl = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fpv.selector))
+	}
+}
+
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ChatModel_Anthropic)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ChatModelAnthropic_FieldTerminalPathValue' with the value under path in 'ChatModel_Anthropic'.
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) CompareWith(source *ChatModel_Anthropic) (int, bool) {
+	switch fpv.selector {
+	case ChatModelAnthropic_FieldPathSelectorApiKey:
+		leftValue := fpv.value.(*secrets_secret.Reference)
+		rightValue := source.GetApiKey()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelAnthropic_FieldPathSelectorModel:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetModel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetBaseUrl()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fpv.selector))
+	}
+}
+
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ChatModel_Anthropic))
+}
+
+// ChatModelAnthropic_FieldPathArrayItemValue allows storing single item in Path-specific values for Anthropic according to their type
+// Present only for array (repeated) types.
+type ChatModelAnthropic_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ChatModelAnthropic_FieldPath
+	ContainsValue(*ChatModel_Anthropic) bool
+}
+
+// ParseChatModelAnthropic_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseChatModelAnthropic_FieldPathArrayItemValue(pathStr, valueStr string) (ChatModelAnthropic_FieldPathArrayItemValue, error) {
+	fp, err := ParseChatModelAnthropic_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Anthropic field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ChatModelAnthropic_FieldPathArrayItemValue), nil
+}
+
+func MustParseChatModelAnthropic_FieldPathArrayItemValue(pathStr, valueStr string) ChatModelAnthropic_FieldPathArrayItemValue {
+	fpaiv, err := ParseChatModelAnthropic_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ChatModelAnthropic_FieldTerminalPathArrayItemValue struct {
+	ChatModelAnthropic_FieldTerminalPath
+	value interface{}
+}
+
+var _ ChatModelAnthropic_FieldPathArrayItemValue = (*ChatModelAnthropic_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ChatModel_Anthropic as interface{}
+func (fpaiv *ChatModelAnthropic_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ChatModelAnthropic_FieldTerminalPathArrayItemValue) GetSingle(source *ChatModel_Anthropic) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ChatModelAnthropic_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ChatModel_Anthropic))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Anthropic'
+func (fpaiv *ChatModelAnthropic_FieldTerminalPathArrayItemValue) ContainsValue(source *ChatModel_Anthropic) bool {
+	slice := fpaiv.ChatModelAnthropic_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ChatModelAnthropic_FieldPathArrayOfValues allows storing slice of values for Anthropic fields according to their type
+type ChatModelAnthropic_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ChatModelAnthropic_FieldPath
+}
+
+func ParseChatModelAnthropic_FieldPathArrayOfValues(pathStr, valuesStr string) (ChatModelAnthropic_FieldPathArrayOfValues, error) {
+	fp, err := ParseChatModelAnthropic_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Anthropic field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ChatModelAnthropic_FieldPathArrayOfValues), nil
+}
+
+func MustParseChatModelAnthropic_FieldPathArrayOfValues(pathStr, valuesStr string) ChatModelAnthropic_FieldPathArrayOfValues {
+	fpaov, err := ParseChatModelAnthropic_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ChatModelAnthropic_FieldTerminalPathArrayOfValues struct {
+	ChatModelAnthropic_FieldTerminalPath
+	values interface{}
+}
+
+var _ ChatModelAnthropic_FieldPathArrayOfValues = (*ChatModelAnthropic_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ChatModelAnthropic_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ChatModelAnthropic_FieldPathSelectorApiKey:
+		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
+			values = append(values, v)
+		}
+	case ChatModelAnthropic_FieldPathSelectorModel:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ChatModelAnthropic_FieldPathSelectorBaseUrl:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ChatModelAnthropic_FieldTerminalPathArrayOfValues) AsApiKeyArrayOfValues() ([]*secrets_secret.Reference, bool) {
+	res, ok := fpaov.values.([]*secrets_secret.Reference)
+	return res, ok
+}
+func (fpaov *ChatModelAnthropic_FieldTerminalPathArrayOfValues) AsModelArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ChatModelAnthropic_FieldTerminalPathArrayOfValues) AsBaseUrlArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ChatModelGemini_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ChatModelGemini_FieldPathSelector
+	Get(source *ChatModel_Gemini) []interface{}
+	GetSingle(source *ChatModel_Gemini) (interface{}, bool)
+	ClearValue(item *ChatModel_Gemini)
+
+	// Those methods build corresponding ChatModelGemini_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ChatModelGemini_FieldPathValue
+	WithIArrayOfValues(values interface{}) ChatModelGemini_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ChatModelGemini_FieldPathArrayItemValue
+}
+
+type ChatModelGemini_FieldPathSelector int32
+
+const (
+	ChatModelGemini_FieldPathSelectorApiKey ChatModelGemini_FieldPathSelector = 0
+	ChatModelGemini_FieldPathSelectorModel  ChatModelGemini_FieldPathSelector = 1
+)
+
+func (s ChatModelGemini_FieldPathSelector) String() string {
+	switch s {
+	case ChatModelGemini_FieldPathSelectorApiKey:
+		return "api_key"
+	case ChatModelGemini_FieldPathSelectorModel:
+		return "model"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", s))
+	}
+}
+
+func BuildChatModelGemini_FieldPath(fp gotenobject.RawFieldPath) (ChatModelGemini_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ChatModel_Gemini")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "api_key", "apiKey", "api-key":
+			return &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorApiKey}, nil
+		case "model":
+			return &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorModel}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ChatModel_Gemini", fp)
+}
+
+func ParseChatModelGemini_FieldPath(rawField string) (ChatModelGemini_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildChatModelGemini_FieldPath(fp)
+}
+
+func MustParseChatModelGemini_FieldPath(rawField string) ChatModelGemini_FieldPath {
+	fp, err := ParseChatModelGemini_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ChatModelGemini_FieldTerminalPath struct {
+	selector ChatModelGemini_FieldPathSelector
+}
+
+var _ ChatModelGemini_FieldPath = (*ChatModelGemini_FieldTerminalPath)(nil)
+
+func (fp *ChatModelGemini_FieldTerminalPath) Selector() ChatModelGemini_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ChatModelGemini_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ChatModelGemini_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ChatModel_Gemini
+func (fp *ChatModelGemini_FieldTerminalPath) Get(source *ChatModel_Gemini) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ChatModelGemini_FieldPathSelectorApiKey:
+			if source.ApiKey != nil {
+				values = append(values, source.ApiKey)
+			}
+		case ChatModelGemini_FieldPathSelectorModel:
+			values = append(values, source.Model)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ChatModel_Gemini))
+}
+
+// GetSingle returns value pointed by specific field of from source ChatModel_Gemini
+func (fp *ChatModelGemini_FieldTerminalPath) GetSingle(source *ChatModel_Gemini) (interface{}, bool) {
+	switch fp.selector {
+	case ChatModelGemini_FieldPathSelectorApiKey:
+		res := source.GetApiKey()
+		return res, res != nil
+	case ChatModelGemini_FieldPathSelectorModel:
+		return source.GetModel(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ChatModel_Gemini))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ChatModelGemini_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ChatModelGemini_FieldPathSelectorApiKey:
+		return (*secrets_secret.Reference)(nil)
+	case ChatModelGemini_FieldPathSelectorModel:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) ClearValue(item *ChatModel_Gemini) {
+	if item != nil {
+		switch fp.selector {
+		case ChatModelGemini_FieldPathSelectorApiKey:
+			item.ApiKey = nil
+		case ChatModelGemini_FieldPathSelectorModel:
+			item.Model = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ChatModel_Gemini))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ChatModelGemini_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ChatModelGemini_FieldPathSelectorApiKey ||
+		fp.selector == ChatModelGemini_FieldPathSelectorModel
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) WithIValue(value interface{}) ChatModelGemini_FieldPathValue {
+	switch fp.selector {
+	case ChatModelGemini_FieldPathSelectorApiKey:
+		return &ChatModelGemini_FieldTerminalPathValue{ChatModelGemini_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
+	case ChatModelGemini_FieldPathSelectorModel:
+		return &ChatModelGemini_FieldTerminalPathValue{ChatModelGemini_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) WithIArrayOfValues(values interface{}) ChatModelGemini_FieldPathArrayOfValues {
+	fpaov := &ChatModelGemini_FieldTerminalPathArrayOfValues{ChatModelGemini_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ChatModelGemini_FieldPathSelectorApiKey:
+		return &ChatModelGemini_FieldTerminalPathArrayOfValues{ChatModelGemini_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
+	case ChatModelGemini_FieldPathSelectorModel:
+		return &ChatModelGemini_FieldTerminalPathArrayOfValues{ChatModelGemini_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) WithIArrayItemValue(value interface{}) ChatModelGemini_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelGemini_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ChatModelGemini_FieldPathValue allows storing values for Gemini fields according to their type
+type ChatModelGemini_FieldPathValue interface {
+	ChatModelGemini_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ChatModel_Gemini)
+	CompareWith(*ChatModel_Gemini) (cmp int, comparable bool)
+}
+
+func ParseChatModelGemini_FieldPathValue(pathStr, valueStr string) (ChatModelGemini_FieldPathValue, error) {
+	fp, err := ParseChatModelGemini_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Gemini field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ChatModelGemini_FieldPathValue), nil
+}
+
+func MustParseChatModelGemini_FieldPathValue(pathStr, valueStr string) ChatModelGemini_FieldPathValue {
+	fpv, err := ParseChatModelGemini_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ChatModelGemini_FieldTerminalPathValue struct {
+	ChatModelGemini_FieldTerminalPath
+	value interface{}
+}
+
+var _ ChatModelGemini_FieldPathValue = (*ChatModelGemini_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Gemini' as interface{}
+func (fpv *ChatModelGemini_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ChatModelGemini_FieldTerminalPathValue) AsApiKeyValue() (*secrets_secret.Reference, bool) {
+	res, ok := fpv.value.(*secrets_secret.Reference)
+	return res, ok
+}
+func (fpv *ChatModelGemini_FieldTerminalPathValue) AsModelValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Gemini
+func (fpv *ChatModelGemini_FieldTerminalPathValue) SetTo(target **ChatModel_Gemini) {
+	if *target == nil {
+		*target = new(ChatModel_Gemini)
+	}
+	switch fpv.selector {
+	case ChatModelGemini_FieldPathSelectorApiKey:
+		(*target).ApiKey = fpv.value.(*secrets_secret.Reference)
+	case ChatModelGemini_FieldPathSelectorModel:
+		(*target).Model = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fpv.selector))
+	}
+}
+
+func (fpv *ChatModelGemini_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ChatModel_Gemini)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ChatModelGemini_FieldTerminalPathValue' with the value under path in 'ChatModel_Gemini'.
+func (fpv *ChatModelGemini_FieldTerminalPathValue) CompareWith(source *ChatModel_Gemini) (int, bool) {
+	switch fpv.selector {
+	case ChatModelGemini_FieldPathSelectorApiKey:
+		leftValue := fpv.value.(*secrets_secret.Reference)
+		rightValue := source.GetApiKey()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelGemini_FieldPathSelectorModel:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetModel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Gemini: %d", fpv.selector))
+	}
+}
+
+func (fpv *ChatModelGemini_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ChatModel_Gemini))
+}
+
+// ChatModelGemini_FieldPathArrayItemValue allows storing single item in Path-specific values for Gemini according to their type
+// Present only for array (repeated) types.
+type ChatModelGemini_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ChatModelGemini_FieldPath
+	ContainsValue(*ChatModel_Gemini) bool
+}
+
+// ParseChatModelGemini_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseChatModelGemini_FieldPathArrayItemValue(pathStr, valueStr string) (ChatModelGemini_FieldPathArrayItemValue, error) {
+	fp, err := ParseChatModelGemini_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Gemini field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ChatModelGemini_FieldPathArrayItemValue), nil
+}
+
+func MustParseChatModelGemini_FieldPathArrayItemValue(pathStr, valueStr string) ChatModelGemini_FieldPathArrayItemValue {
+	fpaiv, err := ParseChatModelGemini_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ChatModelGemini_FieldTerminalPathArrayItemValue struct {
+	ChatModelGemini_FieldTerminalPath
+	value interface{}
+}
+
+var _ ChatModelGemini_FieldPathArrayItemValue = (*ChatModelGemini_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ChatModel_Gemini as interface{}
+func (fpaiv *ChatModelGemini_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ChatModelGemini_FieldTerminalPathArrayItemValue) GetSingle(source *ChatModel_Gemini) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ChatModelGemini_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ChatModel_Gemini))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Gemini'
+func (fpaiv *ChatModelGemini_FieldTerminalPathArrayItemValue) ContainsValue(source *ChatModel_Gemini) bool {
+	slice := fpaiv.ChatModelGemini_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ChatModelGemini_FieldPathArrayOfValues allows storing slice of values for Gemini fields according to their type
+type ChatModelGemini_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ChatModelGemini_FieldPath
+}
+
+func ParseChatModelGemini_FieldPathArrayOfValues(pathStr, valuesStr string) (ChatModelGemini_FieldPathArrayOfValues, error) {
+	fp, err := ParseChatModelGemini_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Gemini field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ChatModelGemini_FieldPathArrayOfValues), nil
+}
+
+func MustParseChatModelGemini_FieldPathArrayOfValues(pathStr, valuesStr string) ChatModelGemini_FieldPathArrayOfValues {
+	fpaov, err := ParseChatModelGemini_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ChatModelGemini_FieldTerminalPathArrayOfValues struct {
+	ChatModelGemini_FieldTerminalPath
+	values interface{}
+}
+
+var _ ChatModelGemini_FieldPathArrayOfValues = (*ChatModelGemini_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ChatModelGemini_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ChatModelGemini_FieldPathSelectorApiKey:
+		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
+			values = append(values, v)
+		}
+	case ChatModelGemini_FieldPathSelectorModel:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ChatModelGemini_FieldTerminalPathArrayOfValues) AsApiKeyArrayOfValues() ([]*secrets_secret.Reference, bool) {
+	res, ok := fpaov.values.([]*secrets_secret.Reference)
+	return res, ok
+}
+func (fpaov *ChatModelGemini_FieldTerminalPathArrayOfValues) AsModelArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 
@@ -800,10 +2636,10 @@ type ChatModelAzureOpenAi_FieldPath interface {
 type ChatModelAzureOpenAi_FieldPathSelector int32
 
 const (
-	ChatModelAzureOpenAi_FieldPathSelectorEndpoint                 ChatModelAzureOpenAi_FieldPathSelector = 0
-	ChatModelAzureOpenAi_FieldPathSelectorApiKey                   ChatModelAzureOpenAi_FieldPathSelector = 1
-	ChatModelAzureOpenAi_FieldPathSelectorModelName                ChatModelAzureOpenAi_FieldPathSelector = 2
-	ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible ChatModelAzureOpenAi_FieldPathSelector = 3
+	ChatModelAzureOpenAi_FieldPathSelectorEndpoint       ChatModelAzureOpenAi_FieldPathSelector = 0
+	ChatModelAzureOpenAi_FieldPathSelectorApiKey         ChatModelAzureOpenAi_FieldPathSelector = 1
+	ChatModelAzureOpenAi_FieldPathSelectorDeploymentName ChatModelAzureOpenAi_FieldPathSelector = 2
+	ChatModelAzureOpenAi_FieldPathSelectorApiVersion     ChatModelAzureOpenAi_FieldPathSelector = 3
 )
 
 func (s ChatModelAzureOpenAi_FieldPathSelector) String() string {
@@ -812,10 +2648,10 @@ func (s ChatModelAzureOpenAi_FieldPathSelector) String() string {
 		return "endpoint"
 	case ChatModelAzureOpenAi_FieldPathSelectorApiKey:
 		return "api_key"
-	case ChatModelAzureOpenAi_FieldPathSelectorModelName:
-		return "model_name"
-	case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-		return "native_azure_api_compatible"
+	case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
+		return "deployment_name"
+	case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+		return "api_version"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_AzureOpenAi: %d", s))
 	}
@@ -831,10 +2667,10 @@ func BuildChatModelAzureOpenAi_FieldPath(fp gotenobject.RawFieldPath) (ChatModel
 			return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorEndpoint}, nil
 		case "api_key", "apiKey", "api-key":
 			return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiKey}, nil
-		case "model_name", "modelName", "model-name":
-			return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorModelName}, nil
-		case "native_azure_api_compatible", "nativeAzureApiCompatible", "native-azure-api-compatible":
-			return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible}, nil
+		case "deployment_name", "deploymentName", "deployment-name":
+			return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorDeploymentName}, nil
+		case "api_version", "apiVersion", "api-version":
+			return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiVersion}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ChatModel_AzureOpenAi", fp)
@@ -886,10 +2722,10 @@ func (fp *ChatModelAzureOpenAi_FieldTerminalPath) Get(source *ChatModel_AzureOpe
 			if source.ApiKey != nil {
 				values = append(values, source.ApiKey)
 			}
-		case ChatModelAzureOpenAi_FieldPathSelectorModelName:
-			values = append(values, source.ModelName)
-		case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-			values = append(values, source.NativeAzureApiCompatible)
+		case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
+			values = append(values, source.DeploymentName)
+		case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+			values = append(values, source.ApiVersion)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel_AzureOpenAi: %d", fp.selector))
 		}
@@ -909,10 +2745,10 @@ func (fp *ChatModelAzureOpenAi_FieldTerminalPath) GetSingle(source *ChatModel_Az
 	case ChatModelAzureOpenAi_FieldPathSelectorApiKey:
 		res := source.GetApiKey()
 		return res, res != nil
-	case ChatModelAzureOpenAi_FieldPathSelectorModelName:
-		return source.GetModelName(), source != nil
-	case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-		return source.GetNativeAzureApiCompatible(), source != nil
+	case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
+		return source.GetDeploymentName(), source != nil
+	case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+		return source.GetApiVersion(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_AzureOpenAi: %d", fp.selector))
 	}
@@ -929,10 +2765,10 @@ func (fp *ChatModelAzureOpenAi_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case ChatModelAzureOpenAi_FieldPathSelectorApiKey:
 		return (*secrets_secret.Reference)(nil)
-	case ChatModelAzureOpenAi_FieldPathSelectorModelName:
+	case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
 		return ""
-	case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-		return false
+	case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_AzureOpenAi: %d", fp.selector))
 	}
@@ -945,10 +2781,10 @@ func (fp *ChatModelAzureOpenAi_FieldTerminalPath) ClearValue(item *ChatModel_Azu
 			item.Endpoint = ""
 		case ChatModelAzureOpenAi_FieldPathSelectorApiKey:
 			item.ApiKey = nil
-		case ChatModelAzureOpenAi_FieldPathSelectorModelName:
-			item.ModelName = ""
-		case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-			item.NativeAzureApiCompatible = false
+		case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
+			item.DeploymentName = ""
+		case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+			item.ApiVersion = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel_AzureOpenAi: %d", fp.selector))
 		}
@@ -963,8 +2799,8 @@ func (fp *ChatModelAzureOpenAi_FieldTerminalPath) ClearValueRaw(item proto.Messa
 func (fp *ChatModelAzureOpenAi_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ChatModelAzureOpenAi_FieldPathSelectorEndpoint ||
 		fp.selector == ChatModelAzureOpenAi_FieldPathSelectorApiKey ||
-		fp.selector == ChatModelAzureOpenAi_FieldPathSelectorModelName ||
-		fp.selector == ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible
+		fp.selector == ChatModelAzureOpenAi_FieldPathSelectorDeploymentName ||
+		fp.selector == ChatModelAzureOpenAi_FieldPathSelectorApiVersion
 }
 
 func (fp *ChatModelAzureOpenAi_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -977,10 +2813,10 @@ func (fp *ChatModelAzureOpenAi_FieldTerminalPath) WithIValue(value interface{}) 
 		return &ChatModelAzureOpenAi_FieldTerminalPathValue{ChatModelAzureOpenAi_FieldTerminalPath: *fp, value: value.(string)}
 	case ChatModelAzureOpenAi_FieldPathSelectorApiKey:
 		return &ChatModelAzureOpenAi_FieldTerminalPathValue{ChatModelAzureOpenAi_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
-	case ChatModelAzureOpenAi_FieldPathSelectorModelName:
+	case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
 		return &ChatModelAzureOpenAi_FieldTerminalPathValue{ChatModelAzureOpenAi_FieldTerminalPath: *fp, value: value.(string)}
-	case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-		return &ChatModelAzureOpenAi_FieldTerminalPathValue{ChatModelAzureOpenAi_FieldTerminalPath: *fp, value: value.(bool)}
+	case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+		return &ChatModelAzureOpenAi_FieldTerminalPathValue{ChatModelAzureOpenAi_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_AzureOpenAi: %d", fp.selector))
 	}
@@ -997,10 +2833,10 @@ func (fp *ChatModelAzureOpenAi_FieldTerminalPath) WithIArrayOfValues(values inte
 		return &ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues{ChatModelAzureOpenAi_FieldTerminalPath: *fp, values: values.([]string)}
 	case ChatModelAzureOpenAi_FieldPathSelectorApiKey:
 		return &ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues{ChatModelAzureOpenAi_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
-	case ChatModelAzureOpenAi_FieldPathSelectorModelName:
+	case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
 		return &ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues{ChatModelAzureOpenAi_FieldTerminalPath: *fp, values: values.([]string)}
-	case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-		return &ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues{ChatModelAzureOpenAi_FieldTerminalPath: *fp, values: values.([]bool)}
+	case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+		return &ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues{ChatModelAzureOpenAi_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_AzureOpenAi: %d", fp.selector))
 	}
@@ -1069,12 +2905,12 @@ func (fpv *ChatModelAzureOpenAi_FieldTerminalPathValue) AsApiKeyValue() (*secret
 	res, ok := fpv.value.(*secrets_secret.Reference)
 	return res, ok
 }
-func (fpv *ChatModelAzureOpenAi_FieldTerminalPathValue) AsModelNameValue() (string, bool) {
+func (fpv *ChatModelAzureOpenAi_FieldTerminalPathValue) AsDeploymentNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *ChatModelAzureOpenAi_FieldTerminalPathValue) AsNativeAzureApiCompatibleValue() (bool, bool) {
-	res, ok := fpv.value.(bool)
+func (fpv *ChatModelAzureOpenAi_FieldTerminalPathValue) AsApiVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
 	return res, ok
 }
 
@@ -1088,10 +2924,10 @@ func (fpv *ChatModelAzureOpenAi_FieldTerminalPathValue) SetTo(target **ChatModel
 		(*target).Endpoint = fpv.value.(string)
 	case ChatModelAzureOpenAi_FieldPathSelectorApiKey:
 		(*target).ApiKey = fpv.value.(*secrets_secret.Reference)
-	case ChatModelAzureOpenAi_FieldPathSelectorModelName:
-		(*target).ModelName = fpv.value.(string)
-	case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-		(*target).NativeAzureApiCompatible = fpv.value.(bool)
+	case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
+		(*target).DeploymentName = fpv.value.(string)
+	case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+		(*target).ApiVersion = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_AzureOpenAi: %d", fpv.selector))
 	}
@@ -1134,9 +2970,9 @@ func (fpv *ChatModelAzureOpenAi_FieldTerminalPathValue) CompareWith(source *Chat
 		} else {
 			return 1, true
 		}
-	case ChatModelAzureOpenAi_FieldPathSelectorModelName:
+	case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
 		leftValue := fpv.value.(string)
-		rightValue := source.GetModelName()
+		rightValue := source.GetDeploymentName()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1144,12 +2980,12 @@ func (fpv *ChatModelAzureOpenAi_FieldTerminalPathValue) CompareWith(source *Chat
 		} else {
 			return 1, true
 		}
-	case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-		leftValue := fpv.value.(bool)
-		rightValue := source.GetNativeAzureApiCompatible()
+	case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetApiVersion()
 		if (leftValue) == (rightValue) {
 			return 0, true
-		} else if !(leftValue) && (rightValue) {
+		} else if (leftValue) < (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -1270,12 +3106,12 @@ func (fpaov *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues) GetRawValues()
 		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
 			values = append(values, v)
 		}
-	case ChatModelAzureOpenAi_FieldPathSelectorModelName:
+	case ChatModelAzureOpenAi_FieldPathSelectorDeploymentName:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case ChatModelAzureOpenAi_FieldPathSelectorNativeAzureApiCompatible:
-		for _, v := range fpaov.values.([]bool) {
+	case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
+		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
 	}
@@ -1289,11 +3125,11 @@ func (fpaov *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues) AsApiKeyArrayO
 	res, ok := fpaov.values.([]*secrets_secret.Reference)
 	return res, ok
 }
-func (fpaov *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues) AsModelNameArrayOfValues() ([]string, bool) {
+func (fpaov *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues) AsDeploymentNameArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues) AsNativeAzureApiCompatibleArrayOfValues() ([]bool, bool) {
-	res, ok := fpaov.values.([]bool)
+func (fpaov *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues) AsApiVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }

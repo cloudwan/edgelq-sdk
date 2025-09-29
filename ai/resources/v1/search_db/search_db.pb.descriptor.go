@@ -157,7 +157,7 @@ func (d *Descriptor) GetNameDescriptor() *gotenresource.NameDescriptor {
 }
 
 func (d *Descriptor) CanBeParentless() bool {
-	return false
+	return true
 }
 
 func (d *Descriptor) GetParentResDescriptors() []gotenresource.Descriptor {
@@ -190,7 +190,7 @@ func initSearchDbDescriptor() {
 			&SearchDb_FieldTerminalPath{selector: SearchDb_FieldPathSelectorName},
 			"pattern", "searchDbId",
 			[]string{"projectId"},
-			[]gotenresource.NamePattern{NamePattern_Project}),
+			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project}),
 	}
 	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
 }

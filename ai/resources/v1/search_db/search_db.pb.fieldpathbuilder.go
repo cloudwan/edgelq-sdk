@@ -781,6 +781,10 @@ func (SearchDbPathSelectorAzureAiSearch) ApiKey() SearchDbPathSelectorAzureAiSea
 	return SearchDbPathSelectorAzureAiSearchApiKey{}
 }
 
+func (SearchDbPathSelectorAzureAiSearch) EnableSemantic() SearchDbPathSelectorAzureAiSearchEnableSemantic {
+	return SearchDbPathSelectorAzureAiSearchEnableSemantic{}
+}
+
 type SearchDbPathSelectorAzureAiSearchEndpoint struct{}
 
 func (SearchDbPathSelectorAzureAiSearchEndpoint) FieldPath() *SearchDb_FieldSubPath {
@@ -815,6 +819,23 @@ func (s SearchDbPathSelectorAzureAiSearchApiKey) WithArrayOfValues(values []*sec
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchDb_FieldSubPathArrayOfValues)
 }
 
+type SearchDbPathSelectorAzureAiSearchEnableSemantic struct{}
+
+func (SearchDbPathSelectorAzureAiSearchEnableSemantic) FieldPath() *SearchDb_FieldSubPath {
+	return &SearchDb_FieldSubPath{
+		selector: SearchDb_FieldPathSelectorAzureAiSearch,
+		subPath:  NewSearchDbAzureAiSearchFieldPathBuilder().EnableSemantic().FieldPath(),
+	}
+}
+
+func (s SearchDbPathSelectorAzureAiSearchEnableSemantic) WithValue(value bool) *SearchDb_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchDb_FieldSubPathValue)
+}
+
+func (s SearchDbPathSelectorAzureAiSearchEnableSemantic) WithArrayOfValues(values []bool) *SearchDb_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchDb_FieldSubPathArrayOfValues)
+}
+
 type SearchDbAzureAiSearchFieldPathBuilder struct{}
 
 func NewSearchDbAzureAiSearchFieldPathBuilder() SearchDbAzureAiSearchFieldPathBuilder {
@@ -825,6 +846,9 @@ func (SearchDbAzureAiSearchFieldPathBuilder) Endpoint() SearchDb_AzureAiSearchPa
 }
 func (SearchDbAzureAiSearchFieldPathBuilder) ApiKey() SearchDb_AzureAiSearchPathSelectorApiKey {
 	return SearchDb_AzureAiSearchPathSelectorApiKey{}
+}
+func (SearchDbAzureAiSearchFieldPathBuilder) EnableSemantic() SearchDb_AzureAiSearchPathSelectorEnableSemantic {
+	return SearchDb_AzureAiSearchPathSelectorEnableSemantic{}
 }
 
 type SearchDb_AzureAiSearchPathSelectorEndpoint struct{}
@@ -852,5 +876,19 @@ func (s SearchDb_AzureAiSearchPathSelectorApiKey) WithValue(value *secrets_secre
 }
 
 func (s SearchDb_AzureAiSearchPathSelectorApiKey) WithArrayOfValues(values []*secrets_secret.Reference) *SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues)
+}
+
+type SearchDb_AzureAiSearchPathSelectorEnableSemantic struct{}
+
+func (SearchDb_AzureAiSearchPathSelectorEnableSemantic) FieldPath() *SearchDbAzureAiSearch_FieldTerminalPath {
+	return &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic}
+}
+
+func (s SearchDb_AzureAiSearchPathSelectorEnableSemantic) WithValue(value bool) *SearchDbAzureAiSearch_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchDbAzureAiSearch_FieldTerminalPathValue)
+}
+
+func (s SearchDb_AzureAiSearchPathSelectorEnableSemantic) WithArrayOfValues(values []bool) *SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues)
 }

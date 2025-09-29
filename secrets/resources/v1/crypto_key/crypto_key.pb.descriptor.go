@@ -155,7 +155,7 @@ func (d *Descriptor) GetNameDescriptor() *gotenresource.NameDescriptor {
 }
 
 func (d *Descriptor) CanBeParentless() bool {
-	return false
+	return true
 }
 
 func (d *Descriptor) GetParentResDescriptors() []gotenresource.Descriptor {
@@ -188,7 +188,7 @@ func initCryptoKeyDescriptor() {
 			&CryptoKey_FieldTerminalPath{selector: CryptoKey_FieldPathSelectorName},
 			"pattern", "cryptoKeyId",
 			[]string{"projectId", "regionId"},
-			[]gotenresource.NamePattern{NamePattern_Project_Region}),
+			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Project_Region}),
 	}
 	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
 }

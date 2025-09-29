@@ -44,16 +44,22 @@ var (
 	_ = &meta.Meta{}
 )
 
+var parentRegexPath_SearchDb = regexp.MustCompile("^searchDbs/(?P<search_db_id>-|[\\w][\\w.-]{0,127})$")
 var parentRegexPath_Project_SearchDb = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/searchDbs/(?P<search_db_id>-|[\\w][\\w.-]{0,127})$")
 
 type ParentName struct {
 	NamePattern
-	ProjectId  string `firestore:"projectId"`
 	SearchDbId string `firestore:"searchDbId"`
+	ProjectId  string `firestore:"projectId"`
 }
 
 func ParseParentName(name string) (*ParentName, error) {
 	var matches []string
+	if matches = parentRegexPath_SearchDb.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			SetSearchDbId(matches[1]).
+			Parent(), nil
+	}
 	if matches = parentRegexPath_Project_SearchDb.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
 			SetProjectId(matches[1]).
@@ -73,7 +79,11 @@ func MustParseParentName(name string) *ParentName {
 }
 
 func (name *ParentName) SetFromSegments(segments gotenresource.NameSegments) error {
-	if len(segments) == 2 && segments[0].CollectionLowerJson == "projects" && segments[1].CollectionLowerJson == "searchDbs" {
+	if len(segments) == 1 && segments[0].CollectionLowerJson == "searchDbs" {
+		name.Pattern = NamePattern_SearchDb
+		name.SearchDbId = segments[0].Id
+		return nil
+	} else if len(segments) == 2 && segments[0].CollectionLowerJson == "projects" && segments[1].CollectionLowerJson == "searchDbs" {
 		name.Pattern = NamePattern_Project_SearchDb
 		name.ProjectId = segments[0].Id
 		name.SearchDbId = segments[1].Id
@@ -88,6 +98,11 @@ func (name *ParentName) GetSearchDbName() *search_db.Name {
 	}
 
 	switch name.Pattern {
+	case NamePattern_SearchDb:
+		return search_db.NewNameBuilder().
+			SetId(name.SearchDbId).
+			SetProjectId(name.ProjectId).
+			Name()
 	case NamePattern_Project_SearchDb:
 		return search_db.NewNameBuilder().
 			SetId(name.SearchDbId).
@@ -103,6 +118,8 @@ func (name *ParentName) IsSpecified() bool {
 		return false
 	}
 	switch name.Pattern {
+	case NamePattern_SearchDb:
+		return name.SearchDbId != ""
 	case NamePattern_Project_SearchDb:
 		return name.ProjectId != "" && name.SearchDbId != ""
 	}
@@ -115,6 +132,8 @@ func (name *ParentName) IsFullyQualified() bool {
 	}
 
 	switch name.Pattern {
+	case NamePattern_SearchDb:
+		return name.SearchDbId != "" && name.SearchDbId != gotenresource.WildcardId
 	case NamePattern_Project_SearchDb:
 		return name.ProjectId != "" && name.ProjectId != gotenresource.WildcardId && name.SearchDbId != "" && name.SearchDbId != gotenresource.WildcardId
 	}
@@ -143,13 +162,13 @@ func (name *ParentName) GetPattern() gotenresource.NamePattern {
 func (name *ParentName) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
-			"projectId":  name.ProjectId,
 			"searchDbId": name.SearchDbId,
+			"projectId":  name.ProjectId,
 		}
 	}
 	return map[string]string{
-		"projectId":  "",
 		"searchDbId": "",
+		"projectId":  "",
 	}
 }
 
@@ -159,6 +178,13 @@ func (name *ParentName) GetSegments() gotenresource.NameSegments {
 	}
 
 	switch name.Pattern {
+	case NamePattern_SearchDb:
+		return gotenresource.NameSegments{
+			gotenresource.NameSegment{
+				CollectionLowerJson: "searchDbs",
+				Id:                  name.SearchDbId,
+			},
+		}
 	case NamePattern_Project_SearchDb:
 		return gotenresource.NameSegments{
 			gotenresource.NameSegment{
@@ -200,6 +226,8 @@ func (name *ParentName) DescendsFrom(ancestor string) bool {
 	}
 
 	switch name.Pattern {
+	case NamePattern_SearchDb:
+		return ancestor == "searchDbs"
 	case NamePattern_Project_SearchDb:
 		return ancestor == "projects" || ancestor == "searchDbs"
 	}
@@ -222,6 +250,8 @@ func (name *ParentName) ProtoString() (string, error) {
 		return "", nil
 	}
 	switch name.Pattern {
+	case NamePattern_SearchDb:
+		return "searchDbs/" + name.SearchDbId, nil
 	case NamePattern_Project_SearchDb:
 		return "projects/" + name.ProjectId + "/searchDbs/" + name.SearchDbId, nil
 	}
@@ -256,10 +286,10 @@ func (name *ParentName) GotenEqual(other interface{}) bool {
 	} else if name == nil {
 		return false
 	}
-	if name.ProjectId != other1.ProjectId {
+	if name.SearchDbId != other1.SearchDbId {
 		return false
 	}
-	if name.SearchDbId != other1.SearchDbId {
+	if name.ProjectId != other1.ProjectId {
 		return false
 	}
 	if name.Pattern != other1.Pattern {
@@ -293,6 +323,11 @@ func (name *ParentName) Matches(other interface{}) bool {
 		return false
 	}
 	switch name.Pattern {
+	case NamePattern_SearchDb:
+		if name.SearchDbId != other1.SearchDbId &&
+			name.SearchDbId != gotenresource.WildcardId {
+			return false
+		}
 	case NamePattern_Project_SearchDb:
 		if name.ProjectId != other1.ProjectId &&
 			name.ProjectId != gotenresource.WildcardId {
@@ -349,6 +384,11 @@ func (ref *ParentReference) GetSearchDbReference() *search_db.Reference {
 	}
 
 	switch ref.Pattern {
+	case NamePattern_SearchDb:
+		return search_db.NewNameBuilder().
+			SetId(ref.SearchDbId).
+			SetProjectId(ref.ProjectId).
+			Reference()
 	case NamePattern_Project_SearchDb:
 		return search_db.NewNameBuilder().
 			SetId(ref.SearchDbId).
@@ -439,8 +479,8 @@ func (ref *ParentReference) GetIdParts() map[string]string {
 		return ref.ParentName.GetIdParts()
 	}
 	return map[string]string{
-		"projectId":  "",
 		"searchDbId": "",
+		"projectId":  "",
 	}
 }
 

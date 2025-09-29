@@ -7,12 +7,18 @@ package ai_access
 import (
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
+	capability_template_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/capability_template"
 	chat_model_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/chat_model"
+	connector_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/connector"
+	conversation_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/conversation"
 	document_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/document"
 	search_db_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/search_db"
 	search_index_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/search_index"
 	ai_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/ai"
+	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
+	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
+	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -21,7 +27,10 @@ import (
 type AIApiAccess interface {
 	gotenresource.Access
 
+	capability_template.CapabilityTemplateAccess
 	chat_model.ChatModelAccess
+	connector.ConnectorAccess
+	conversation.ConversationAccess
 	document.DocumentAccess
 	search_db.SearchDbAccess
 	search_index.SearchIndexAccess
@@ -30,7 +39,10 @@ type AIApiAccess interface {
 type apiAIAccess struct {
 	gotenresource.Access
 
+	capability_template.CapabilityTemplateAccess
 	chat_model.ChatModelAccess
+	connector.ConnectorAccess
+	conversation.ConversationAccess
 	document.DocumentAccess
 	search_db.SearchDbAccess
 	search_index.SearchIndexAccess
@@ -38,7 +50,10 @@ type apiAIAccess struct {
 
 func NewApiAccess(client ai_client.AIClient) AIApiAccess {
 
+	capabilityTemplateAccess := capability_template_access.NewApiCapabilityTemplateAccess(client)
 	chatModelAccess := chat_model_access.NewApiChatModelAccess(client)
+	connectorAccess := connector_access.NewApiConnectorAccess(client)
+	conversationAccess := conversation_access.NewApiConversationAccess(client)
 	documentAccess := document_access.NewApiDocumentAccess(client)
 	searchDbAccess := search_db_access.NewApiSearchDbAccess(client)
 	searchIndexAccess := search_index_access.NewApiSearchIndexAccess(client)
@@ -46,15 +61,21 @@ func NewApiAccess(client ai_client.AIClient) AIApiAccess {
 	return &apiAIAccess{
 		Access: gotenresource.NewCompositeAccess(
 
+			capability_template.AsAnyCastAccess(capabilityTemplateAccess),
 			chat_model.AsAnyCastAccess(chatModelAccess),
+			connector.AsAnyCastAccess(connectorAccess),
+			conversation.AsAnyCastAccess(conversationAccess),
 			document.AsAnyCastAccess(documentAccess),
 			search_db.AsAnyCastAccess(searchDbAccess),
 			search_index.AsAnyCastAccess(searchIndexAccess),
 		),
 
-		ChatModelAccess:   chatModelAccess,
-		DocumentAccess:    documentAccess,
-		SearchDbAccess:    searchDbAccess,
-		SearchIndexAccess: searchIndexAccess,
+		CapabilityTemplateAccess: capabilityTemplateAccess,
+		ChatModelAccess:          chatModelAccess,
+		ConnectorAccess:          connectorAccess,
+		ConversationAccess:       conversationAccess,
+		DocumentAccess:           documentAccess,
+		SearchDbAccess:           searchDbAccess,
+		SearchIndexAccess:        searchIndexAccess,
 	}
 }

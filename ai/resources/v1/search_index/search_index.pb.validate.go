@@ -58,6 +58,18 @@ func (obj *SearchIndex) GotenValidate() error {
 	if obj.IndexName == "" {
 		return gotenvalidate.NewValidationError("SearchIndex", "indexName", obj.IndexName, "field is required", nil)
 	}
+	if len(obj.DisplayName) > 128 {
+		return gotenvalidate.NewValidationError("SearchIndex", "displayName", obj.DisplayName, "field must contain at most 128 characters", nil)
+	}
+	if obj.DisplayName == "" {
+		return gotenvalidate.NewValidationError("SearchIndex", "displayName", obj.DisplayName, "field is required", nil)
+	}
+	if len(obj.Description) > 1024 {
+		return gotenvalidate.NewValidationError("SearchIndex", "description", obj.Description, "field must contain at most 1024 characters", nil)
+	}
+	if obj.Description == "" {
+		return gotenvalidate.NewValidationError("SearchIndex", "description", obj.Description, "field is required", nil)
+	}
 	if !(obj.TokensPerChunk > 0 && obj.TokensPerChunk <= 1536) {
 		return gotenvalidate.NewValidationError("SearchIndex", "tokensPerChunk", obj.TokensPerChunk, "field must be in range (0, 1536]", nil)
 	}

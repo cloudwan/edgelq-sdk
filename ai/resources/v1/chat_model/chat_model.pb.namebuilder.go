@@ -23,6 +23,7 @@ var (
 )
 
 const (
+	NamePattern_Nil     = "chatModels/{chat_model}"
 	NamePattern_Project = "projects/{project}/chatModels/{chat_model}"
 )
 
@@ -41,7 +42,7 @@ func NewNameBuilder() *NameBuilder {
 			ParentName: ParentName{
 				NamePattern: NamePattern{
 					// Set default pattern - just first.
-					Pattern: NamePattern_Project,
+					Pattern: NamePattern_Nil,
 				},
 			},
 		},

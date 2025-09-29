@@ -1,0 +1,186 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/common.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/provider;provider_client";
+option java_multiple_files = false;
+option java_outer_classname = "ProviderTypesProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// Provider chat request
+message ProviderChatRequest {
+  // Model name or deployment ID
+  string model = 1;
+
+  // Conversation messages
+  repeated Message messages = 2;
+
+  // Available tools
+  repeated ToolDefinition tools = 3;
+
+  // Generation parameters
+  ChatParameters parameters = 4;
+
+  // User identifier for abuse tracking
+  string user = 5;
+
+  // Request metadata (request ID, tracing, etc.)
+  map<string, string> metadata = 6;
+
+  // Provider-specific options
+  oneof provider_config {
+    OpenAIConfig openai_config = 7;
+
+    AzureConfig azure_config = 8;
+
+    AnthropicConfig anthropic_config = 9;
+
+    GeminiConfig gemini_config = 10;
+  }
+}
+
+// Provider-specific parameters
+message ChatParameters {
+  // Maximum tokens to generate
+  int32 max_tokens = 1;
+
+  // Temperature (0.0 - 2.0)
+  float temperature = 2;
+
+  // Top-p nucleus sampling
+  float top_p = 3;
+
+  // Top-k sampling (Anthropic, Gemini)
+  int32 top_k = 4;
+
+  // Presence penalty (OpenAI)
+  float presence_penalty = 5;
+
+  // Frequency penalty (OpenAI)
+  float frequency_penalty = 6;
+
+  int64 seed = 7;
+
+  repeated string stop_sequences = 8;
+
+  // Response format
+  ResponseFormat response_format = 9;
+
+  // Whether to return log probabilities
+  bool logprobs = 10;
+
+  // Number of most likely tokens to return
+  int32 top_logprobs = 11;
+}
+
+// Response format configuration
+message ResponseFormat {
+  Mode mode = 1;
+
+  // JSON schema for JSON_SCHEMA mode
+  string json_schema = 2;
+
+  enum Mode {
+    MODE_UNSPECIFIED = 0;
+
+    TEXT = 1;
+
+    JSON_OBJECT = 2; // OpenAI style
+
+    JSON_SCHEMA = 3; // With schema validation
+  }
+}
+
+// Provider content delta for streaming
+message ProviderContentDelta {
+  string text = 1;
+
+  ContentChannel channel = 2;
+}
+
+// Stream error information
+message StreamError {
+  ErrorType type = 1;
+
+  string message = 2;
+
+  enum ErrorType {
+    ERROR_TYPE_UNSPECIFIED = 0;
+
+    RATE_LIMIT = 1;
+
+    CONTENT_FILTER = 2;
+
+    PROVIDER_ERROR = 3;
+  }
+}
+
+// Provider streaming event
+message ProviderStreamEvent {
+  oneof event {
+    ProviderContentDelta delta = 1;
+
+    TokenUsage usage = 2;
+
+    StreamError error = 3; // Non-terminal error
+
+    ProviderDone done = 4;
+
+    ToolCalls tool_calls = 5;
+  }
+}
+
+// Stream completion event
+message ProviderDone {
+  StopReason stop_reason = 1;
+
+  // Why the generation stopped
+  enum StopReason {
+    STOP_REASON_UNSPECIFIED = 0;
+
+    STOP = 1; // Natural completion
+
+    LENGTH = 2; // Max tokens reached
+
+    TOOL_CALLS = 3; // Model wants to use tools
+
+    CONTENT_FILTER = 4; // Content filtered by provider
+
+    ERROR = 5; // Error occurred
+  }
+}
+
+// Provider-specific configurations
+message OpenAIConfig {
+  bool parallel_tool_calls = 1;
+
+  int32 max_completion_tokens = 2;
+
+  string reasoning_effort = 3;
+}
+
+message AzureConfig {
+  AzureSearchConfig search = 1;
+
+  bool parallel_tool_calls = 2;
+
+  int32 max_completion_tokens = 3;
+
+  string reasoning_effort = 4;
+}
+
+message AzureSearchConfig {
+  string endpoint = 1;
+
+  string index = 2;
+
+  string api_key = 3;
+
+  bool enable_semantic = 4;
+}
+
+message AnthropicConfig {}
+
+message GeminiConfig {}

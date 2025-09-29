@@ -54,15 +54,66 @@ func (obj *ChatModel) GotenValidate() error {
 			return gotenvalidate.NewValidationError("ChatModel", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
-	switch opt := obj.ModelType.(type) {
+	if len(obj.DisplayName) > 128 {
+		return gotenvalidate.NewValidationError("ChatModel", "displayName", obj.DisplayName, "field must contain at most 128 characters", nil)
+	}
+	if obj.DisplayName == "" {
+		return gotenvalidate.NewValidationError("ChatModel", "displayName", obj.DisplayName, "field is required", nil)
+	}
+	switch opt := obj.Provider.(type) {
 	case *ChatModel_AzureOpenAi_:
 		if subobj, ok := interface{}(opt.AzureOpenAi).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("ChatModel", "azureOpenAi", opt.AzureOpenAi, "nested object validation failed", err)
 			}
 		}
+	case *ChatModel_OpenaiCompatible:
+		if subobj, ok := interface{}(opt.OpenaiCompatible).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatModel", "openaiCompatible", opt.OpenaiCompatible, "nested object validation failed", err)
+			}
+		}
+	case *ChatModel_Anthropic_:
+		if subobj, ok := interface{}(opt.Anthropic).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatModel", "anthropic", opt.Anthropic, "nested object validation failed", err)
+			}
+		}
+	case *ChatModel_Gemini_:
+		if subobj, ok := interface{}(opt.Gemini).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatModel", "gemini", opt.Gemini, "nested object validation failed", err)
+			}
+		}
 	default:
 		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ChatModel_OpenAICompatible) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ChatModel_Anthropic) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ChatModel_Gemini) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

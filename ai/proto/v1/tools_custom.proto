@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/tools;tools_client";
+option java_multiple_files = false;
+option java_outer_classname = "ToolsCustomProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// A request message of the ExecuteTools method.
+message ExecuteToolsRequest {
+  repeated ToolExecution tool_executions = 1;
+
+  // Client-provided request ID for idempotency and log correlation
+  string client_request_id = 2;
+
+  // Scope for authorization and tracking. Can be project, organization, or
+  // empty. Format: "projects/{project}", "organizations/{org}", or ""
+  string parent = 3;
+}
+
+message ToolExecution {
+  string tool_call_id = 1; // ID from the tool call to correlate response
+
+  string tool_name = 2; // Tool name as LLM provided it (e.g.,
+
+  // "github.createIssue", "internal.rag.search")
+  string arguments = 3; // JSON arguments
+
+  // Tool configuration - client provides this from ToolInfo it received
+  oneof config {
+    // For connector tools: full connector reference
+    string connector_ref = 4;
+
+    // For internal tools: just the template name
+    // Server will load the template and extract RAG config
+    string template_name = 5;
+  }
+}
+
+// A response message of the ExecuteTools method.
+message ExecuteToolsResponse { repeated ToolExecutionResult results = 1; }
+
+message ToolExecutionResult {
+  string tool_call_id = 1; // Echo back for correlation
+
+  string tool_name = 2;
+
+  oneof result {
+    string output = 3; // JSON output
+
+    string error = 4; // Error message
+  }
+
+  string mime_type = 5; // Optional: "application/json", "text/plain", etc.
+}

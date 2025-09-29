@@ -187,8 +187,8 @@ func initSearchIndexDescriptor() {
 		nameDescriptor: gotenresource.NewNameDescriptor(
 			&SearchIndex_FieldTerminalPath{selector: SearchIndex_FieldPathSelectorName},
 			"pattern", "searchIndexId",
-			[]string{"projectId", "searchDbId"},
-			[]gotenresource.NamePattern{NamePattern_Project_SearchDb}),
+			[]string{"searchDbId", "projectId"},
+			[]gotenresource.NamePattern{NamePattern_SearchDb, NamePattern_Project_SearchDb}),
 	}
 	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
 }

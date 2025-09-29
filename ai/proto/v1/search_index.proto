@@ -24,6 +24,7 @@ option java_package = "com.ntt.ai.pb.v1";
 message SearchIndex {
   option (google.api.resource) = {
     type : "ai.edgelq.com/SearchIndex"
+    pattern : "searchDbs/{search_db}/searchIndices/{search_index}"
     pattern : "projects/{project}/searchDbs/{search_db}/searchIndices/"
               "{search_index}"
   };
@@ -43,7 +44,13 @@ message SearchIndex {
 
   string index_name = 3;
 
-  int32 tokens_per_chunk = 4;
+  // Human-readable display name for this search index
+  string display_name = 4;
 
-  int32 overlap_tokens = 5;
+  // Description of what content this index contains
+  string description = 5;
+
+  int32 tokens_per_chunk = 6;
+
+  int32 overlap_tokens = 7;
 }

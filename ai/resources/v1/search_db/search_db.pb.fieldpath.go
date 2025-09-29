@@ -800,8 +800,9 @@ type SearchDbAzureAiSearch_FieldPath interface {
 type SearchDbAzureAiSearch_FieldPathSelector int32
 
 const (
-	SearchDbAzureAiSearch_FieldPathSelectorEndpoint SearchDbAzureAiSearch_FieldPathSelector = 0
-	SearchDbAzureAiSearch_FieldPathSelectorApiKey   SearchDbAzureAiSearch_FieldPathSelector = 1
+	SearchDbAzureAiSearch_FieldPathSelectorEndpoint       SearchDbAzureAiSearch_FieldPathSelector = 0
+	SearchDbAzureAiSearch_FieldPathSelectorApiKey         SearchDbAzureAiSearch_FieldPathSelector = 1
+	SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic SearchDbAzureAiSearch_FieldPathSelector = 2
 )
 
 func (s SearchDbAzureAiSearch_FieldPathSelector) String() string {
@@ -810,6 +811,8 @@ func (s SearchDbAzureAiSearch_FieldPathSelector) String() string {
 		return "endpoint"
 	case SearchDbAzureAiSearch_FieldPathSelectorApiKey:
 		return "api_key"
+	case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+		return "enable_semantic"
 	default:
 		panic(fmt.Sprintf("Invalid selector for SearchDb_AzureAiSearch: %d", s))
 	}
@@ -825,6 +828,8 @@ func BuildSearchDbAzureAiSearch_FieldPath(fp gotenobject.RawFieldPath) (SearchDb
 			return &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorEndpoint}, nil
 		case "api_key", "apiKey", "api-key":
 			return &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorApiKey}, nil
+		case "enable_semantic", "enableSemantic", "enable-semantic":
+			return &SearchDbAzureAiSearch_FieldTerminalPath{selector: SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object SearchDb_AzureAiSearch", fp)
@@ -876,6 +881,8 @@ func (fp *SearchDbAzureAiSearch_FieldTerminalPath) Get(source *SearchDb_AzureAiS
 			if source.ApiKey != nil {
 				values = append(values, source.ApiKey)
 			}
+		case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+			values = append(values, source.EnableSemantic)
 		default:
 			panic(fmt.Sprintf("Invalid selector for SearchDb_AzureAiSearch: %d", fp.selector))
 		}
@@ -895,6 +902,8 @@ func (fp *SearchDbAzureAiSearch_FieldTerminalPath) GetSingle(source *SearchDb_Az
 	case SearchDbAzureAiSearch_FieldPathSelectorApiKey:
 		res := source.GetApiKey()
 		return res, res != nil
+	case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+		return source.GetEnableSemantic(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for SearchDb_AzureAiSearch: %d", fp.selector))
 	}
@@ -911,6 +920,8 @@ func (fp *SearchDbAzureAiSearch_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case SearchDbAzureAiSearch_FieldPathSelectorApiKey:
 		return (*secrets_secret.Reference)(nil)
+	case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for SearchDb_AzureAiSearch: %d", fp.selector))
 	}
@@ -923,6 +934,8 @@ func (fp *SearchDbAzureAiSearch_FieldTerminalPath) ClearValue(item *SearchDb_Azu
 			item.Endpoint = ""
 		case SearchDbAzureAiSearch_FieldPathSelectorApiKey:
 			item.ApiKey = nil
+		case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+			item.EnableSemantic = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for SearchDb_AzureAiSearch: %d", fp.selector))
 		}
@@ -936,7 +949,8 @@ func (fp *SearchDbAzureAiSearch_FieldTerminalPath) ClearValueRaw(item proto.Mess
 // IsLeaf - whether field path is holds simple value
 func (fp *SearchDbAzureAiSearch_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == SearchDbAzureAiSearch_FieldPathSelectorEndpoint ||
-		fp.selector == SearchDbAzureAiSearch_FieldPathSelectorApiKey
+		fp.selector == SearchDbAzureAiSearch_FieldPathSelectorApiKey ||
+		fp.selector == SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic
 }
 
 func (fp *SearchDbAzureAiSearch_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -949,6 +963,8 @@ func (fp *SearchDbAzureAiSearch_FieldTerminalPath) WithIValue(value interface{})
 		return &SearchDbAzureAiSearch_FieldTerminalPathValue{SearchDbAzureAiSearch_FieldTerminalPath: *fp, value: value.(string)}
 	case SearchDbAzureAiSearch_FieldPathSelectorApiKey:
 		return &SearchDbAzureAiSearch_FieldTerminalPathValue{SearchDbAzureAiSearch_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
+	case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+		return &SearchDbAzureAiSearch_FieldTerminalPathValue{SearchDbAzureAiSearch_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for SearchDb_AzureAiSearch: %d", fp.selector))
 	}
@@ -965,6 +981,8 @@ func (fp *SearchDbAzureAiSearch_FieldTerminalPath) WithIArrayOfValues(values int
 		return &SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues{SearchDbAzureAiSearch_FieldTerminalPath: *fp, values: values.([]string)}
 	case SearchDbAzureAiSearch_FieldPathSelectorApiKey:
 		return &SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues{SearchDbAzureAiSearch_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
+	case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+		return &SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues{SearchDbAzureAiSearch_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for SearchDb_AzureAiSearch: %d", fp.selector))
 	}
@@ -1033,6 +1051,10 @@ func (fpv *SearchDbAzureAiSearch_FieldTerminalPathValue) AsApiKeyValue() (*secre
 	res, ok := fpv.value.(*secrets_secret.Reference)
 	return res, ok
 }
+func (fpv *SearchDbAzureAiSearch_FieldTerminalPathValue) AsEnableSemanticValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object AzureAiSearch
 func (fpv *SearchDbAzureAiSearch_FieldTerminalPathValue) SetTo(target **SearchDb_AzureAiSearch) {
@@ -1044,6 +1066,8 @@ func (fpv *SearchDbAzureAiSearch_FieldTerminalPathValue) SetTo(target **SearchDb
 		(*target).Endpoint = fpv.value.(string)
 	case SearchDbAzureAiSearch_FieldPathSelectorApiKey:
 		(*target).ApiKey = fpv.value.(*secrets_secret.Reference)
+	case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+		(*target).EnableSemantic = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for SearchDb_AzureAiSearch: %d", fpv.selector))
 	}
@@ -1082,6 +1106,16 @@ func (fpv *SearchDbAzureAiSearch_FieldTerminalPathValue) CompareWith(source *Sea
 		if leftValue.String() == rightValue.String() {
 			return 0, true
 		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetEnableSemantic()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -1202,6 +1236,10 @@ func (fpaov *SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues) GetRawValues(
 		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
 			values = append(values, v)
 		}
+	case SearchDbAzureAiSearch_FieldPathSelectorEnableSemantic:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1211,5 +1249,9 @@ func (fpaov *SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues) AsEndpointArr
 }
 func (fpaov *SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues) AsApiKeyArrayOfValues() ([]*secrets_secret.Reference, bool) {
 	res, ok := fpaov.values.([]*secrets_secret.Reference)
+	return res, ok
+}
+func (fpaov *SearchDbAzureAiSearch_FieldTerminalPathArrayOfValues) AsEnableSemanticArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }

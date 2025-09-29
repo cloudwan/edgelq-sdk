@@ -40,7 +40,7 @@ func ResourceViewFieldMask(viewName view.View, extraMask *ChatModel_FieldMask) *
 	case view.View_FULL:
 		return nil
 	case view.View_NAME:
-		protoFieldMask.Paths = append(protoFieldMask.Paths, "name")
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name")
 		break
 	default:
 		return extraMask

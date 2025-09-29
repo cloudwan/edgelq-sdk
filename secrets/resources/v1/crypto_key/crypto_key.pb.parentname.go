@@ -44,6 +44,8 @@ var (
 	_ = &meta.Meta{}
 )
 
+var parentRegexPath = regexp.MustCompile("^$")
+var parentRegexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})$")
 var parentRegexPath_Project_Region = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})/regions/(?P<region_id>-|[a-z][a-z0-9\\-]{0,28}[a-z0-9])$")
 
 type ParentName struct {
@@ -54,6 +56,15 @@ type ParentName struct {
 
 func ParseParentName(name string) (*ParentName, error) {
 	var matches []string
+	if matches = parentRegexPath.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			Parent(), nil
+	}
+	if matches = parentRegexPath_Project.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			SetProjectId(matches[1]).
+			Parent(), nil
+	}
 	if matches = parentRegexPath_Project_Region.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
 			SetProjectId(matches[1]).
@@ -73,7 +84,14 @@ func MustParseParentName(name string) *ParentName {
 }
 
 func (name *ParentName) SetFromSegments(segments gotenresource.NameSegments) error {
-	if len(segments) == 2 && segments[0].CollectionLowerJson == "projects" && segments[1].CollectionLowerJson == "regions" {
+	if len(segments) == 0 {
+		name.Pattern = NamePattern_Nil
+		return nil
+	} else if len(segments) == 1 && segments[0].CollectionLowerJson == "projects" {
+		name.Pattern = NamePattern_Project
+		name.ProjectId = segments[0].Id
+		return nil
+	} else if len(segments) == 2 && segments[0].CollectionLowerJson == "projects" && segments[1].CollectionLowerJson == "regions" {
 		name.Pattern = NamePattern_Project_Region
 		name.ProjectId = segments[0].Id
 		name.RegionId = segments[1].Id
@@ -88,6 +106,10 @@ func (name *ParentName) GetProjectName() *project.Name {
 	}
 
 	switch name.Pattern {
+	case NamePattern_Project:
+		return project.NewNameBuilder().
+			SetId(name.ProjectId).
+			Name()
 	case NamePattern_Project_Region:
 		return project.NewNameBuilder().
 			SetId(name.ProjectId).
@@ -102,6 +124,10 @@ func (name *ParentName) IsSpecified() bool {
 		return false
 	}
 	switch name.Pattern {
+	case NamePattern_Nil:
+		return true
+	case NamePattern_Project:
+		return name.ProjectId != ""
 	case NamePattern_Project_Region:
 		return name.ProjectId != "" && name.RegionId != ""
 	}
@@ -114,6 +140,10 @@ func (name *ParentName) IsFullyQualified() bool {
 	}
 
 	switch name.Pattern {
+	case NamePattern_Nil:
+		return true
+	case NamePattern_Project:
+		return name.ProjectId != "" && name.ProjectId != gotenresource.WildcardId
 	case NamePattern_Project_Region:
 		return name.ProjectId != "" && name.ProjectId != gotenresource.WildcardId && name.RegionId != "" && name.RegionId != gotenresource.WildcardId
 	}
@@ -158,6 +188,15 @@ func (name *ParentName) GetSegments() gotenresource.NameSegments {
 	}
 
 	switch name.Pattern {
+	case NamePattern_Nil:
+		return gotenresource.NameSegments{}
+	case NamePattern_Project:
+		return gotenresource.NameSegments{
+			gotenresource.NameSegment{
+				CollectionLowerJson: "projects",
+				Id:                  name.ProjectId,
+			},
+		}
 	case NamePattern_Project_Region:
 		return gotenresource.NameSegments{
 			gotenresource.NameSegment{
@@ -199,6 +238,8 @@ func (name *ParentName) DescendsFrom(ancestor string) bool {
 	}
 
 	switch name.Pattern {
+	case NamePattern_Project:
+		return ancestor == "projects"
 	case NamePattern_Project_Region:
 		return ancestor == "projects" || ancestor == "regions"
 	}
@@ -221,6 +262,8 @@ func (name *ParentName) ProtoString() (string, error) {
 		return "", nil
 	}
 	switch name.Pattern {
+	case NamePattern_Project:
+		return "projects/" + name.ProjectId, nil
 	case NamePattern_Project_Region:
 		return "projects/" + name.ProjectId + "/regions/" + name.RegionId, nil
 	}
@@ -292,6 +335,11 @@ func (name *ParentName) Matches(other interface{}) bool {
 		return false
 	}
 	switch name.Pattern {
+	case NamePattern_Project:
+		if name.ProjectId != other1.ProjectId &&
+			name.ProjectId != gotenresource.WildcardId {
+			return false
+		}
 	case NamePattern_Project_Region:
 		if name.ProjectId != other1.ProjectId &&
 			name.ProjectId != gotenresource.WildcardId {
@@ -348,6 +396,10 @@ func (ref *ParentReference) GetProjectReference() *project.Reference {
 	}
 
 	switch ref.Pattern {
+	case NamePattern_Project:
+		return project.NewNameBuilder().
+			SetId(ref.ProjectId).
+			Reference()
 	case NamePattern_Project_Region:
 		return project.NewNameBuilder().
 			SetId(ref.ProjectId).
