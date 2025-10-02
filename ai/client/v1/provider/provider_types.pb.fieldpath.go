@@ -78,6 +78,7 @@ const (
 	ProviderChatRequest_FieldPathSelectorAzureConfig     ProviderChatRequest_FieldPathSelector = 7
 	ProviderChatRequest_FieldPathSelectorAnthropicConfig ProviderChatRequest_FieldPathSelector = 8
 	ProviderChatRequest_FieldPathSelectorGeminiConfig    ProviderChatRequest_FieldPathSelector = 9
+	ProviderChatRequest_FieldPathSelectorReasoningLevel  ProviderChatRequest_FieldPathSelector = 10
 )
 
 func (s ProviderChatRequest_FieldPathSelector) String() string {
@@ -102,6 +103,8 @@ func (s ProviderChatRequest_FieldPathSelector) String() string {
 		return "anthropic_config"
 	case ProviderChatRequest_FieldPathSelectorGeminiConfig:
 		return "gemini_config"
+	case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+		return "reasoning_level"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", s))
 	}
@@ -133,6 +136,8 @@ func BuildProviderChatRequest_FieldPath(fp gotenobject.RawFieldPath) (ProviderCh
 			return &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorAnthropicConfig}, nil
 		case "gemini_config", "geminiConfig", "gemini-config":
 			return &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorGeminiConfig}, nil
+		case "reasoning_level", "reasoningLevel", "reasoning-level":
+			return &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorReasoningLevel}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -258,6 +263,8 @@ func (fp *ProviderChatRequest_FieldTerminalPath) Get(source *ProviderChatRequest
 					values = append(values, source.GeminiConfig)
 				}
 			}
+		case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+			values = append(values, source.ReasoningLevel)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", fp.selector))
 		}
@@ -332,6 +339,8 @@ func (fp *ProviderChatRequest_FieldTerminalPath) GetSingle(source *ProviderChatR
 		}
 		res := source.GetGeminiConfig()
 		return res, res != nil
+	case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+		return source.GetReasoningLevel(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", fp.selector))
 	}
@@ -364,6 +373,8 @@ func (fp *ProviderChatRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*AnthropicConfig)(nil)
 	case ProviderChatRequest_FieldPathSelectorGeminiConfig:
 		return (*GeminiConfig)(nil)
+	case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+		return common_client.ReasoningLevel_REASONING_LEVEL_DEFAULT
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", fp.selector))
 	}
@@ -400,6 +411,8 @@ func (fp *ProviderChatRequest_FieldTerminalPath) ClearValue(item *ProviderChatRe
 			if item, ok := item.ProviderConfig.(*ProviderChatRequest_GeminiConfig); ok {
 				item.GeminiConfig = nil
 			}
+		case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+			item.ReasoningLevel = common_client.ReasoningLevel_REASONING_LEVEL_DEFAULT
 		default:
 			panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", fp.selector))
 		}
@@ -416,7 +429,8 @@ func (fp *ProviderChatRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ProviderChatRequest_FieldPathSelectorMessages ||
 		fp.selector == ProviderChatRequest_FieldPathSelectorTools ||
 		fp.selector == ProviderChatRequest_FieldPathSelectorUser ||
-		fp.selector == ProviderChatRequest_FieldPathSelectorMetadata
+		fp.selector == ProviderChatRequest_FieldPathSelectorMetadata ||
+		fp.selector == ProviderChatRequest_FieldPathSelectorReasoningLevel
 }
 
 func (fp *ProviderChatRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -445,6 +459,8 @@ func (fp *ProviderChatRequest_FieldTerminalPath) WithIValue(value interface{}) P
 		return &ProviderChatRequest_FieldTerminalPathValue{ProviderChatRequest_FieldTerminalPath: *fp, value: value.(*AnthropicConfig)}
 	case ProviderChatRequest_FieldPathSelectorGeminiConfig:
 		return &ProviderChatRequest_FieldTerminalPathValue{ProviderChatRequest_FieldTerminalPath: *fp, value: value.(*GeminiConfig)}
+	case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+		return &ProviderChatRequest_FieldTerminalPathValue{ProviderChatRequest_FieldTerminalPath: *fp, value: value.(common_client.ReasoningLevel)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", fp.selector))
 	}
@@ -477,6 +493,8 @@ func (fp *ProviderChatRequest_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &ProviderChatRequest_FieldTerminalPathArrayOfValues{ProviderChatRequest_FieldTerminalPath: *fp, values: values.([]*AnthropicConfig)}
 	case ProviderChatRequest_FieldPathSelectorGeminiConfig:
 		return &ProviderChatRequest_FieldTerminalPathArrayOfValues{ProviderChatRequest_FieldTerminalPath: *fp, values: values.([]*GeminiConfig)}
+	case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+		return &ProviderChatRequest_FieldTerminalPathArrayOfValues{ProviderChatRequest_FieldTerminalPath: *fp, values: values.([]common_client.ReasoningLevel)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", fp.selector))
 	}
@@ -893,6 +911,10 @@ func (fpv *ProviderChatRequest_FieldTerminalPathValue) AsGeminiConfigValue() (*G
 	res, ok := fpv.value.(*GeminiConfig)
 	return res, ok
 }
+func (fpv *ProviderChatRequest_FieldTerminalPathValue) AsReasoningLevelValue() (common_client.ReasoningLevel, bool) {
+	res, ok := fpv.value.(common_client.ReasoningLevel)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ProviderChatRequest
 func (fpv *ProviderChatRequest_FieldTerminalPathValue) SetTo(target **ProviderChatRequest) {
@@ -932,6 +954,8 @@ func (fpv *ProviderChatRequest_FieldTerminalPathValue) SetTo(target **ProviderCh
 			(*target).ProviderConfig = &ProviderChatRequest_GeminiConfig{}
 		}
 		(*target).ProviderConfig.(*ProviderChatRequest_GeminiConfig).GeminiConfig = fpv.value.(*GeminiConfig)
+	case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+		(*target).ReasoningLevel = fpv.value.(common_client.ReasoningLevel)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", fpv.selector))
 	}
@@ -981,6 +1005,16 @@ func (fpv *ProviderChatRequest_FieldTerminalPathValue) CompareWith(source *Provi
 		return 0, false
 	case ProviderChatRequest_FieldPathSelectorGeminiConfig:
 		return 0, false
+	case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+		leftValue := fpv.value.(common_client.ReasoningLevel)
+		rightValue := source.GetReasoningLevel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderChatRequest: %d", fpv.selector))
 	}
@@ -1334,6 +1368,10 @@ func (fpaov *ProviderChatRequest_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]*GeminiConfig) {
 			values = append(values, v)
 		}
+	case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+		for _, v := range fpaov.values.([]common_client.ReasoningLevel) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1375,6 +1413,10 @@ func (fpaov *ProviderChatRequest_FieldTerminalPathArrayOfValues) AsAnthropicConf
 }
 func (fpaov *ProviderChatRequest_FieldTerminalPathArrayOfValues) AsGeminiConfigArrayOfValues() ([]*GeminiConfig, bool) {
 	res, ok := fpaov.values.([]*GeminiConfig)
+	return res, ok
+}
+func (fpaov *ProviderChatRequest_FieldTerminalPathArrayOfValues) AsReasoningLevelArrayOfValues() ([]common_client.ReasoningLevel, bool) {
+	res, ok := fpaov.values.([]common_client.ReasoningLevel)
 	return res, ok
 }
 
@@ -3695,6 +3737,427 @@ func (fpaov *StreamError_FieldTerminalPathArrayOfValues) AsMessageArrayOfValues(
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type BlockEnd_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() BlockEnd_FieldPathSelector
+	Get(source *BlockEnd) []interface{}
+	GetSingle(source *BlockEnd) (interface{}, bool)
+	ClearValue(item *BlockEnd)
+
+	// Those methods build corresponding BlockEnd_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) BlockEnd_FieldPathValue
+	WithIArrayOfValues(values interface{}) BlockEnd_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) BlockEnd_FieldPathArrayItemValue
+}
+
+type BlockEnd_FieldPathSelector int32
+
+const (
+	BlockEnd_FieldPathSelectorChannel   BlockEnd_FieldPathSelector = 0
+	BlockEnd_FieldPathSelectorSignature BlockEnd_FieldPathSelector = 1
+)
+
+func (s BlockEnd_FieldPathSelector) String() string {
+	switch s {
+	case BlockEnd_FieldPathSelectorChannel:
+		return "channel"
+	case BlockEnd_FieldPathSelectorSignature:
+		return "signature"
+	default:
+		panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", s))
+	}
+}
+
+func BuildBlockEnd_FieldPath(fp gotenobject.RawFieldPath) (BlockEnd_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object BlockEnd")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "channel":
+			return &BlockEnd_FieldTerminalPath{selector: BlockEnd_FieldPathSelectorChannel}, nil
+		case "signature":
+			return &BlockEnd_FieldTerminalPath{selector: BlockEnd_FieldPathSelectorSignature}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object BlockEnd", fp)
+}
+
+func ParseBlockEnd_FieldPath(rawField string) (BlockEnd_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildBlockEnd_FieldPath(fp)
+}
+
+func MustParseBlockEnd_FieldPath(rawField string) BlockEnd_FieldPath {
+	fp, err := ParseBlockEnd_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type BlockEnd_FieldTerminalPath struct {
+	selector BlockEnd_FieldPathSelector
+}
+
+var _ BlockEnd_FieldPath = (*BlockEnd_FieldTerminalPath)(nil)
+
+func (fp *BlockEnd_FieldTerminalPath) Selector() BlockEnd_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *BlockEnd_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *BlockEnd_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source BlockEnd
+func (fp *BlockEnd_FieldTerminalPath) Get(source *BlockEnd) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case BlockEnd_FieldPathSelectorChannel:
+			values = append(values, source.Channel)
+		case BlockEnd_FieldPathSelectorSignature:
+			values = append(values, source.Signature)
+		default:
+			panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *BlockEnd_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*BlockEnd))
+}
+
+// GetSingle returns value pointed by specific field of from source BlockEnd
+func (fp *BlockEnd_FieldTerminalPath) GetSingle(source *BlockEnd) (interface{}, bool) {
+	switch fp.selector {
+	case BlockEnd_FieldPathSelectorChannel:
+		return source.GetChannel(), source != nil
+	case BlockEnd_FieldPathSelectorSignature:
+		return source.GetSignature(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fp.selector))
+	}
+}
+
+func (fp *BlockEnd_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*BlockEnd))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *BlockEnd_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case BlockEnd_FieldPathSelectorChannel:
+		return common_client.ContentChannel_CONTENT_CHANNEL_UNSPECIFIED
+	case BlockEnd_FieldPathSelectorSignature:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fp.selector))
+	}
+}
+
+func (fp *BlockEnd_FieldTerminalPath) ClearValue(item *BlockEnd) {
+	if item != nil {
+		switch fp.selector {
+		case BlockEnd_FieldPathSelectorChannel:
+			item.Channel = common_client.ContentChannel_CONTENT_CHANNEL_UNSPECIFIED
+		case BlockEnd_FieldPathSelectorSignature:
+			item.Signature = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *BlockEnd_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*BlockEnd))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *BlockEnd_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == BlockEnd_FieldPathSelectorChannel ||
+		fp.selector == BlockEnd_FieldPathSelectorSignature
+}
+
+func (fp *BlockEnd_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *BlockEnd_FieldTerminalPath) WithIValue(value interface{}) BlockEnd_FieldPathValue {
+	switch fp.selector {
+	case BlockEnd_FieldPathSelectorChannel:
+		return &BlockEnd_FieldTerminalPathValue{BlockEnd_FieldTerminalPath: *fp, value: value.(common_client.ContentChannel)}
+	case BlockEnd_FieldPathSelectorSignature:
+		return &BlockEnd_FieldTerminalPathValue{BlockEnd_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fp.selector))
+	}
+}
+
+func (fp *BlockEnd_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *BlockEnd_FieldTerminalPath) WithIArrayOfValues(values interface{}) BlockEnd_FieldPathArrayOfValues {
+	fpaov := &BlockEnd_FieldTerminalPathArrayOfValues{BlockEnd_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case BlockEnd_FieldPathSelectorChannel:
+		return &BlockEnd_FieldTerminalPathArrayOfValues{BlockEnd_FieldTerminalPath: *fp, values: values.([]common_client.ContentChannel)}
+	case BlockEnd_FieldPathSelectorSignature:
+		return &BlockEnd_FieldTerminalPathArrayOfValues{BlockEnd_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *BlockEnd_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *BlockEnd_FieldTerminalPath) WithIArrayItemValue(value interface{}) BlockEnd_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fp.selector))
+	}
+}
+
+func (fp *BlockEnd_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// BlockEnd_FieldPathValue allows storing values for BlockEnd fields according to their type
+type BlockEnd_FieldPathValue interface {
+	BlockEnd_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **BlockEnd)
+	CompareWith(*BlockEnd) (cmp int, comparable bool)
+}
+
+func ParseBlockEnd_FieldPathValue(pathStr, valueStr string) (BlockEnd_FieldPathValue, error) {
+	fp, err := ParseBlockEnd_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BlockEnd field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(BlockEnd_FieldPathValue), nil
+}
+
+func MustParseBlockEnd_FieldPathValue(pathStr, valueStr string) BlockEnd_FieldPathValue {
+	fpv, err := ParseBlockEnd_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type BlockEnd_FieldTerminalPathValue struct {
+	BlockEnd_FieldTerminalPath
+	value interface{}
+}
+
+var _ BlockEnd_FieldPathValue = (*BlockEnd_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'BlockEnd' as interface{}
+func (fpv *BlockEnd_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *BlockEnd_FieldTerminalPathValue) AsChannelValue() (common_client.ContentChannel, bool) {
+	res, ok := fpv.value.(common_client.ContentChannel)
+	return res, ok
+}
+func (fpv *BlockEnd_FieldTerminalPathValue) AsSignatureValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object BlockEnd
+func (fpv *BlockEnd_FieldTerminalPathValue) SetTo(target **BlockEnd) {
+	if *target == nil {
+		*target = new(BlockEnd)
+	}
+	switch fpv.selector {
+	case BlockEnd_FieldPathSelectorChannel:
+		(*target).Channel = fpv.value.(common_client.ContentChannel)
+	case BlockEnd_FieldPathSelectorSignature:
+		(*target).Signature = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fpv.selector))
+	}
+}
+
+func (fpv *BlockEnd_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*BlockEnd)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'BlockEnd_FieldTerminalPathValue' with the value under path in 'BlockEnd'.
+func (fpv *BlockEnd_FieldTerminalPathValue) CompareWith(source *BlockEnd) (int, bool) {
+	switch fpv.selector {
+	case BlockEnd_FieldPathSelectorChannel:
+		leftValue := fpv.value.(common_client.ContentChannel)
+		rightValue := source.GetChannel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case BlockEnd_FieldPathSelectorSignature:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetSignature()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for BlockEnd: %d", fpv.selector))
+	}
+}
+
+func (fpv *BlockEnd_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*BlockEnd))
+}
+
+// BlockEnd_FieldPathArrayItemValue allows storing single item in Path-specific values for BlockEnd according to their type
+// Present only for array (repeated) types.
+type BlockEnd_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	BlockEnd_FieldPath
+	ContainsValue(*BlockEnd) bool
+}
+
+// ParseBlockEnd_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseBlockEnd_FieldPathArrayItemValue(pathStr, valueStr string) (BlockEnd_FieldPathArrayItemValue, error) {
+	fp, err := ParseBlockEnd_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BlockEnd field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(BlockEnd_FieldPathArrayItemValue), nil
+}
+
+func MustParseBlockEnd_FieldPathArrayItemValue(pathStr, valueStr string) BlockEnd_FieldPathArrayItemValue {
+	fpaiv, err := ParseBlockEnd_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type BlockEnd_FieldTerminalPathArrayItemValue struct {
+	BlockEnd_FieldTerminalPath
+	value interface{}
+}
+
+var _ BlockEnd_FieldPathArrayItemValue = (*BlockEnd_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object BlockEnd as interface{}
+func (fpaiv *BlockEnd_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *BlockEnd_FieldTerminalPathArrayItemValue) GetSingle(source *BlockEnd) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *BlockEnd_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*BlockEnd))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'BlockEnd'
+func (fpaiv *BlockEnd_FieldTerminalPathArrayItemValue) ContainsValue(source *BlockEnd) bool {
+	slice := fpaiv.BlockEnd_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// BlockEnd_FieldPathArrayOfValues allows storing slice of values for BlockEnd fields according to their type
+type BlockEnd_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	BlockEnd_FieldPath
+}
+
+func ParseBlockEnd_FieldPathArrayOfValues(pathStr, valuesStr string) (BlockEnd_FieldPathArrayOfValues, error) {
+	fp, err := ParseBlockEnd_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BlockEnd field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(BlockEnd_FieldPathArrayOfValues), nil
+}
+
+func MustParseBlockEnd_FieldPathArrayOfValues(pathStr, valuesStr string) BlockEnd_FieldPathArrayOfValues {
+	fpaov, err := ParseBlockEnd_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type BlockEnd_FieldTerminalPathArrayOfValues struct {
+	BlockEnd_FieldTerminalPath
+	values interface{}
+}
+
+var _ BlockEnd_FieldPathArrayOfValues = (*BlockEnd_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *BlockEnd_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case BlockEnd_FieldPathSelectorChannel:
+		for _, v := range fpaov.values.([]common_client.ContentChannel) {
+			values = append(values, v)
+		}
+	case BlockEnd_FieldPathSelectorSignature:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *BlockEnd_FieldTerminalPathArrayOfValues) AsChannelArrayOfValues() ([]common_client.ContentChannel, bool) {
+	res, ok := fpaov.values.([]common_client.ContentChannel)
+	return res, ok
+}
+func (fpaov *BlockEnd_FieldTerminalPathArrayOfValues) AsSignatureArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type ProviderStreamEvent_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() ProviderStreamEvent_FieldPathSelector
@@ -3717,6 +4180,8 @@ const (
 	ProviderStreamEvent_FieldPathSelectorError     ProviderStreamEvent_FieldPathSelector = 2
 	ProviderStreamEvent_FieldPathSelectorDone      ProviderStreamEvent_FieldPathSelector = 3
 	ProviderStreamEvent_FieldPathSelectorToolCalls ProviderStreamEvent_FieldPathSelector = 4
+	ProviderStreamEvent_FieldPathSelectorCitation  ProviderStreamEvent_FieldPathSelector = 5
+	ProviderStreamEvent_FieldPathSelectorBlockEnd  ProviderStreamEvent_FieldPathSelector = 6
 )
 
 func (s ProviderStreamEvent_FieldPathSelector) String() string {
@@ -3731,6 +4196,10 @@ func (s ProviderStreamEvent_FieldPathSelector) String() string {
 		return "done"
 	case ProviderStreamEvent_FieldPathSelectorToolCalls:
 		return "tool_calls"
+	case ProviderStreamEvent_FieldPathSelectorCitation:
+		return "citation"
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		return "block_end"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", s))
 	}
@@ -3752,6 +4221,10 @@ func BuildProviderStreamEvent_FieldPath(fp gotenobject.RawFieldPath) (ProviderSt
 			return &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorDone}, nil
 		case "tool_calls", "toolCalls", "tool-calls":
 			return &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorToolCalls}, nil
+		case "citation":
+			return &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorCitation}, nil
+		case "block_end", "blockEnd", "block-end":
+			return &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorBlockEnd}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -3772,6 +4245,12 @@ func BuildProviderStreamEvent_FieldPath(fp gotenobject.RawFieldPath) (ProviderSt
 				return nil, err
 			} else {
 				return &ProviderStreamEvent_FieldSubPath{selector: ProviderStreamEvent_FieldPathSelectorDone, subPath: subpath}, nil
+			}
+		case "block_end", "blockEnd", "block-end":
+			if subpath, err := BuildBlockEnd_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ProviderStreamEvent_FieldSubPath{selector: ProviderStreamEvent_FieldPathSelectorBlockEnd, subPath: subpath}, nil
 			}
 		}
 	}
@@ -3848,6 +4327,18 @@ func (fp *ProviderStreamEvent_FieldTerminalPath) Get(source *ProviderStreamEvent
 					values = append(values, source.ToolCalls)
 				}
 			}
+		case ProviderStreamEvent_FieldPathSelectorCitation:
+			if source, ok := source.Event.(*ProviderStreamEvent_Citation); ok && source != nil {
+				if source.Citation != nil {
+					values = append(values, source.Citation)
+				}
+			}
+		case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+			if source, ok := source.Event.(*ProviderStreamEvent_BlockEnd); ok && source != nil {
+				if source.BlockEnd != nil {
+					values = append(values, source.BlockEnd)
+				}
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fp.selector))
 		}
@@ -3917,6 +4408,28 @@ func (fp *ProviderStreamEvent_FieldTerminalPath) GetSingle(source *ProviderStrea
 		}
 		res := source.GetToolCalls()
 		return res, res != nil
+	case ProviderStreamEvent_FieldPathSelectorCitation:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetCitation(), false
+		}
+		_, oneOfSelected := source.Event.(*ProviderStreamEvent_Citation)
+		if !oneOfSelected {
+			return source.GetCitation(), false // to return "type" information
+		}
+		res := source.GetCitation()
+		return res, res != nil
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetBlockEnd(), false
+		}
+		_, oneOfSelected := source.Event.(*ProviderStreamEvent_BlockEnd)
+		if !oneOfSelected {
+			return source.GetBlockEnd(), false // to return "type" information
+		}
+		res := source.GetBlockEnd()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fp.selector))
 	}
@@ -3939,6 +4452,10 @@ func (fp *ProviderStreamEvent_FieldTerminalPath) GetDefault() interface{} {
 		return (*ProviderDone)(nil)
 	case ProviderStreamEvent_FieldPathSelectorToolCalls:
 		return (*common_client.ToolCalls)(nil)
+	case ProviderStreamEvent_FieldPathSelectorCitation:
+		return (*common_client.Citation)(nil)
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		return (*BlockEnd)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fp.selector))
 	}
@@ -3967,6 +4484,14 @@ func (fp *ProviderStreamEvent_FieldTerminalPath) ClearValue(item *ProviderStream
 			if item, ok := item.Event.(*ProviderStreamEvent_ToolCalls); ok {
 				item.ToolCalls = nil
 			}
+		case ProviderStreamEvent_FieldPathSelectorCitation:
+			if item, ok := item.Event.(*ProviderStreamEvent_Citation); ok {
+				item.Citation = nil
+			}
+		case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+			if item, ok := item.Event.(*ProviderStreamEvent_BlockEnd); ok {
+				item.BlockEnd = nil
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fp.selector))
 		}
@@ -3980,7 +4505,8 @@ func (fp *ProviderStreamEvent_FieldTerminalPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fp *ProviderStreamEvent_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ProviderStreamEvent_FieldPathSelectorUsage ||
-		fp.selector == ProviderStreamEvent_FieldPathSelectorToolCalls
+		fp.selector == ProviderStreamEvent_FieldPathSelectorToolCalls ||
+		fp.selector == ProviderStreamEvent_FieldPathSelectorCitation
 }
 
 func (fp *ProviderStreamEvent_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -3999,6 +4525,10 @@ func (fp *ProviderStreamEvent_FieldTerminalPath) WithIValue(value interface{}) P
 		return &ProviderStreamEvent_FieldTerminalPathValue{ProviderStreamEvent_FieldTerminalPath: *fp, value: value.(*ProviderDone)}
 	case ProviderStreamEvent_FieldPathSelectorToolCalls:
 		return &ProviderStreamEvent_FieldTerminalPathValue{ProviderStreamEvent_FieldTerminalPath: *fp, value: value.(*common_client.ToolCalls)}
+	case ProviderStreamEvent_FieldPathSelectorCitation:
+		return &ProviderStreamEvent_FieldTerminalPathValue{ProviderStreamEvent_FieldTerminalPath: *fp, value: value.(*common_client.Citation)}
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		return &ProviderStreamEvent_FieldTerminalPathValue{ProviderStreamEvent_FieldTerminalPath: *fp, value: value.(*BlockEnd)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fp.selector))
 	}
@@ -4021,6 +4551,10 @@ func (fp *ProviderStreamEvent_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &ProviderStreamEvent_FieldTerminalPathArrayOfValues{ProviderStreamEvent_FieldTerminalPath: *fp, values: values.([]*ProviderDone)}
 	case ProviderStreamEvent_FieldPathSelectorToolCalls:
 		return &ProviderStreamEvent_FieldTerminalPathArrayOfValues{ProviderStreamEvent_FieldTerminalPath: *fp, values: values.([]*common_client.ToolCalls)}
+	case ProviderStreamEvent_FieldPathSelectorCitation:
+		return &ProviderStreamEvent_FieldTerminalPathArrayOfValues{ProviderStreamEvent_FieldTerminalPath: *fp, values: values.([]*common_client.Citation)}
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		return &ProviderStreamEvent_FieldTerminalPathArrayOfValues{ProviderStreamEvent_FieldTerminalPath: *fp, values: values.([]*BlockEnd)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fp.selector))
 	}
@@ -4064,6 +4598,10 @@ func (fps *ProviderStreamEvent_FieldSubPath) AsDoneSubPath() (ProviderDone_Field
 	res, ok := fps.subPath.(ProviderDone_FieldPath)
 	return res, ok
 }
+func (fps *ProviderStreamEvent_FieldSubPath) AsBlockEndSubPath() (BlockEnd_FieldPath, bool) {
+	res, ok := fps.subPath.(BlockEnd_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ProviderStreamEvent_FieldSubPath) String() string {
@@ -4084,6 +4622,8 @@ func (fps *ProviderStreamEvent_FieldSubPath) Get(source *ProviderStreamEvent) (v
 		values = append(values, fps.subPath.GetRaw(source.GetError())...)
 	case ProviderStreamEvent_FieldPathSelectorDone:
 		values = append(values, fps.subPath.GetRaw(source.GetDone())...)
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		values = append(values, fps.subPath.GetRaw(source.GetBlockEnd())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fps.selector))
 	}
@@ -4112,6 +4652,11 @@ func (fps *ProviderStreamEvent_FieldSubPath) GetSingle(source *ProviderStreamEve
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetDone())
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		if source.GetBlockEnd() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetBlockEnd())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fps.selector))
 	}
@@ -4145,6 +4690,12 @@ func (fps *ProviderStreamEvent_FieldSubPath) ClearValue(item *ProviderStreamEven
 			if item.Event != nil {
 				if item, ok := item.Event.(*ProviderStreamEvent_Done); ok {
 					fps.subPath.ClearValueRaw(item.Done)
+				}
+			}
+		case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+			if item.Event != nil {
+				if item, ok := item.Event.(*ProviderStreamEvent_BlockEnd); ok {
+					fps.subPath.ClearValueRaw(item.BlockEnd)
 				}
 			}
 		default:
@@ -4251,6 +4802,14 @@ func (fpv *ProviderStreamEvent_FieldTerminalPathValue) AsToolCallsValue() (*comm
 	res, ok := fpv.value.(*common_client.ToolCalls)
 	return res, ok
 }
+func (fpv *ProviderStreamEvent_FieldTerminalPathValue) AsCitationValue() (*common_client.Citation, bool) {
+	res, ok := fpv.value.(*common_client.Citation)
+	return res, ok
+}
+func (fpv *ProviderStreamEvent_FieldTerminalPathValue) AsBlockEndValue() (*BlockEnd, bool) {
+	res, ok := fpv.value.(*BlockEnd)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ProviderStreamEvent
 func (fpv *ProviderStreamEvent_FieldTerminalPathValue) SetTo(target **ProviderStreamEvent) {
@@ -4283,6 +4842,16 @@ func (fpv *ProviderStreamEvent_FieldTerminalPathValue) SetTo(target **ProviderSt
 			(*target).Event = &ProviderStreamEvent_ToolCalls{}
 		}
 		(*target).Event.(*ProviderStreamEvent_ToolCalls).ToolCalls = fpv.value.(*common_client.ToolCalls)
+	case ProviderStreamEvent_FieldPathSelectorCitation:
+		if _, ok := (*target).Event.(*ProviderStreamEvent_Citation); !ok {
+			(*target).Event = &ProviderStreamEvent_Citation{}
+		}
+		(*target).Event.(*ProviderStreamEvent_Citation).Citation = fpv.value.(*common_client.Citation)
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		if _, ok := (*target).Event.(*ProviderStreamEvent_BlockEnd); !ok {
+			(*target).Event = &ProviderStreamEvent_BlockEnd{}
+		}
+		(*target).Event.(*ProviderStreamEvent_BlockEnd).BlockEnd = fpv.value.(*BlockEnd)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fpv.selector))
 	}
@@ -4305,6 +4874,10 @@ func (fpv *ProviderStreamEvent_FieldTerminalPathValue) CompareWith(source *Provi
 	case ProviderStreamEvent_FieldPathSelectorDone:
 		return 0, false
 	case ProviderStreamEvent_FieldPathSelectorToolCalls:
+		return 0, false
+	case ProviderStreamEvent_FieldPathSelectorCitation:
+		return 0, false
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fpv.selector))
@@ -4334,6 +4907,10 @@ func (fpvs *ProviderStreamEvent_FieldSubPathValue) AsDonePathValue() (ProviderDo
 	res, ok := fpvs.subPathValue.(ProviderDone_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ProviderStreamEvent_FieldSubPathValue) AsBlockEndPathValue() (BlockEnd_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(BlockEnd_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ProviderStreamEvent_FieldSubPathValue) SetTo(target **ProviderStreamEvent) {
 	if *target == nil {
@@ -4355,6 +4932,11 @@ func (fpvs *ProviderStreamEvent_FieldSubPathValue) SetTo(target **ProviderStream
 			(*target).Event = &ProviderStreamEvent_Done{}
 		}
 		fpvs.subPathValue.(ProviderDone_FieldPathValue).SetTo(&(*target).Event.(*ProviderStreamEvent_Done).Done)
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		if _, ok := (*target).Event.(*ProviderStreamEvent_BlockEnd); !ok {
+			(*target).Event = &ProviderStreamEvent_BlockEnd{}
+		}
+		fpvs.subPathValue.(BlockEnd_FieldPathValue).SetTo(&(*target).Event.(*ProviderStreamEvent_BlockEnd).BlockEnd)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fpvs.Selector()))
 	}
@@ -4377,6 +4959,8 @@ func (fpvs *ProviderStreamEvent_FieldSubPathValue) CompareWith(source *ProviderS
 		return fpvs.subPathValue.(StreamError_FieldPathValue).CompareWith(source.GetError())
 	case ProviderStreamEvent_FieldPathSelectorDone:
 		return fpvs.subPathValue.(ProviderDone_FieldPathValue).CompareWith(source.GetDone())
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		return fpvs.subPathValue.(BlockEnd_FieldPathValue).CompareWith(source.GetBlockEnd())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fpvs.Selector()))
 	}
@@ -4471,6 +5055,10 @@ func (fpaivs *ProviderStreamEvent_FieldSubPathArrayItemValue) AsDonePathItemValu
 	res, ok := fpaivs.subPathItemValue.(ProviderDone_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ProviderStreamEvent_FieldSubPathArrayItemValue) AsBlockEndPathItemValue() (BlockEnd_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(BlockEnd_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ProviderStreamEvent'
 func (fpaivs *ProviderStreamEvent_FieldSubPathArrayItemValue) ContainsValue(source *ProviderStreamEvent) bool {
@@ -4481,6 +5069,8 @@ func (fpaivs *ProviderStreamEvent_FieldSubPathArrayItemValue) ContainsValue(sour
 		return fpaivs.subPathItemValue.(StreamError_FieldPathArrayItemValue).ContainsValue(source.GetError())
 	case ProviderStreamEvent_FieldPathSelectorDone:
 		return fpaivs.subPathItemValue.(ProviderDone_FieldPathArrayItemValue).ContainsValue(source.GetDone())
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		return fpaivs.subPathItemValue.(BlockEnd_FieldPathArrayItemValue).ContainsValue(source.GetBlockEnd())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProviderStreamEvent: %d", fpaivs.Selector()))
 	}
@@ -4541,6 +5131,14 @@ func (fpaov *ProviderStreamEvent_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]*common_client.ToolCalls) {
 			values = append(values, v)
 		}
+	case ProviderStreamEvent_FieldPathSelectorCitation:
+		for _, v := range fpaov.values.([]*common_client.Citation) {
+			values = append(values, v)
+		}
+	case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+		for _, v := range fpaov.values.([]*BlockEnd) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -4564,6 +5162,14 @@ func (fpaov *ProviderStreamEvent_FieldTerminalPathArrayOfValues) AsToolCallsArra
 	res, ok := fpaov.values.([]*common_client.ToolCalls)
 	return res, ok
 }
+func (fpaov *ProviderStreamEvent_FieldTerminalPathArrayOfValues) AsCitationArrayOfValues() ([]*common_client.Citation, bool) {
+	res, ok := fpaov.values.([]*common_client.Citation)
+	return res, ok
+}
+func (fpaov *ProviderStreamEvent_FieldTerminalPathArrayOfValues) AsBlockEndArrayOfValues() ([]*BlockEnd, bool) {
+	res, ok := fpaov.values.([]*BlockEnd)
+	return res, ok
+}
 
 type ProviderStreamEvent_FieldSubPathArrayOfValues struct {
 	ProviderStreamEvent_FieldPath
@@ -4585,6 +5191,10 @@ func (fpsaov *ProviderStreamEvent_FieldSubPathArrayOfValues) AsErrorPathArrayOfV
 }
 func (fpsaov *ProviderStreamEvent_FieldSubPathArrayOfValues) AsDonePathArrayOfValues() (ProviderDone_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ProviderDone_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ProviderStreamEvent_FieldSubPathArrayOfValues) AsBlockEndPathArrayOfValues() (BlockEnd_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(BlockEnd_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -6658,8 +7268,17 @@ type AnthropicConfig_FieldPath interface {
 
 type AnthropicConfig_FieldPathSelector int32
 
+const (
+	AnthropicConfig_FieldPathSelectorThinking     AnthropicConfig_FieldPathSelector = 0
+	AnthropicConfig_FieldPathSelectorBetaFeatures AnthropicConfig_FieldPathSelector = 1
+)
+
 func (s AnthropicConfig_FieldPathSelector) String() string {
 	switch s {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		return "thinking"
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		return "beta_features"
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", s))
 	}
@@ -6671,6 +7290,19 @@ func BuildAnthropicConfig_FieldPath(fp gotenobject.RawFieldPath) (AnthropicConfi
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
+		case "thinking":
+			return &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorThinking}, nil
+		case "beta_features", "betaFeatures", "beta-features":
+			return &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorBetaFeatures}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "thinking":
+			if subpath, err := BuildThinkingConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &AnthropicConfig_FieldSubPath{selector: AnthropicConfig_FieldPathSelectorThinking, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object AnthropicConfig", fp)
@@ -6716,6 +7348,14 @@ func (fp *AnthropicConfig_FieldTerminalPath) JSONString() string {
 func (fp *AnthropicConfig_FieldTerminalPath) Get(source *AnthropicConfig) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
+		case AnthropicConfig_FieldPathSelectorThinking:
+			if source.Thinking != nil {
+				values = append(values, source.Thinking)
+			}
+		case AnthropicConfig_FieldPathSelectorBetaFeatures:
+			for _, value := range source.GetBetaFeatures() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 		}
@@ -6730,6 +7370,12 @@ func (fp *AnthropicConfig_FieldTerminalPath) GetRaw(source proto.Message) []inte
 // GetSingle returns value pointed by specific field of from source AnthropicConfig
 func (fp *AnthropicConfig_FieldTerminalPath) GetSingle(source *AnthropicConfig) (interface{}, bool) {
 	switch fp.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		res := source.GetThinking()
+		return res, res != nil
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		res := source.GetBetaFeatures()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -6742,6 +7388,10 @@ func (fp *AnthropicConfig_FieldTerminalPath) GetSingleRaw(source proto.Message) 
 // GetDefault returns a default value of the field type
 func (fp *AnthropicConfig_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		return (*ThinkingConfig)(nil)
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		return ([]string)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -6750,6 +7400,10 @@ func (fp *AnthropicConfig_FieldTerminalPath) GetDefault() interface{} {
 func (fp *AnthropicConfig_FieldTerminalPath) ClearValue(item *AnthropicConfig) {
 	if item != nil {
 		switch fp.selector {
+		case AnthropicConfig_FieldPathSelectorThinking:
+			item.Thinking = nil
+		case AnthropicConfig_FieldPathSelectorBetaFeatures:
+			item.BetaFeatures = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 		}
@@ -6762,7 +7416,7 @@ func (fp *AnthropicConfig_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *AnthropicConfig_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == AnthropicConfig_FieldPathSelectorBetaFeatures
 }
 
 func (fp *AnthropicConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -6771,6 +7425,10 @@ func (fp *AnthropicConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenob
 
 func (fp *AnthropicConfig_FieldTerminalPath) WithIValue(value interface{}) AnthropicConfig_FieldPathValue {
 	switch fp.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		return &AnthropicConfig_FieldTerminalPathValue{AnthropicConfig_FieldTerminalPath: *fp, value: value.(*ThinkingConfig)}
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		return &AnthropicConfig_FieldTerminalPathValue{AnthropicConfig_FieldTerminalPath: *fp, value: value.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -6783,6 +7441,10 @@ func (fp *AnthropicConfig_FieldTerminalPath) WithRawIValue(value interface{}) go
 func (fp *AnthropicConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) AnthropicConfig_FieldPathArrayOfValues {
 	fpaov := &AnthropicConfig_FieldTerminalPathArrayOfValues{AnthropicConfig_FieldTerminalPath: *fp}
 	switch fp.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		return &AnthropicConfig_FieldTerminalPathArrayOfValues{AnthropicConfig_FieldTerminalPath: *fp, values: values.([]*ThinkingConfig)}
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		return &AnthropicConfig_FieldTerminalPathArrayOfValues{AnthropicConfig_FieldTerminalPath: *fp, values: values.([][]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -6795,6 +7457,8 @@ func (fp *AnthropicConfig_FieldTerminalPath) WithRawIArrayOfValues(values interf
 
 func (fp *AnthropicConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) AnthropicConfig_FieldPathArrayItemValue {
 	switch fp.selector {
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		return &AnthropicConfig_FieldTerminalPathArrayItemValue{AnthropicConfig_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -6802,6 +7466,118 @@ func (fp *AnthropicConfig_FieldTerminalPath) WithIArrayItemValue(value interface
 
 func (fp *AnthropicConfig_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+type AnthropicConfig_FieldSubPath struct {
+	selector AnthropicConfig_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ AnthropicConfig_FieldPath = (*AnthropicConfig_FieldSubPath)(nil)
+
+func (fps *AnthropicConfig_FieldSubPath) Selector() AnthropicConfig_FieldPathSelector {
+	return fps.selector
+}
+func (fps *AnthropicConfig_FieldSubPath) AsThinkingSubPath() (ThinkingConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(ThinkingConfig_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *AnthropicConfig_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *AnthropicConfig_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source AnthropicConfig
+func (fps *AnthropicConfig_FieldSubPath) Get(source *AnthropicConfig) (values []interface{}) {
+	switch fps.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		values = append(values, fps.subPath.GetRaw(source.GetThinking())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *AnthropicConfig_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*AnthropicConfig))
+}
+
+// GetSingle returns value of selected field from source AnthropicConfig
+func (fps *AnthropicConfig_FieldSubPath) GetSingle(source *AnthropicConfig) (interface{}, bool) {
+	switch fps.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		if source.GetThinking() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetThinking())
+	default:
+		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fps.selector))
+	}
+}
+
+func (fps *AnthropicConfig_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*AnthropicConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *AnthropicConfig_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *AnthropicConfig_FieldSubPath) ClearValue(item *AnthropicConfig) {
+	if item != nil {
+		switch fps.selector {
+		case AnthropicConfig_FieldPathSelectorThinking:
+			fps.subPath.ClearValueRaw(item.Thinking)
+		default:
+			panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *AnthropicConfig_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*AnthropicConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *AnthropicConfig_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *AnthropicConfig_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AnthropicConfig_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *AnthropicConfig_FieldSubPath) WithIValue(value interface{}) AnthropicConfig_FieldPathValue {
+	return &AnthropicConfig_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *AnthropicConfig_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *AnthropicConfig_FieldSubPath) WithIArrayOfValues(values interface{}) AnthropicConfig_FieldPathArrayOfValues {
+	return &AnthropicConfig_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *AnthropicConfig_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *AnthropicConfig_FieldSubPath) WithIArrayItemValue(value interface{}) AnthropicConfig_FieldPathArrayItemValue {
+	return &AnthropicConfig_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *AnthropicConfig_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
 }
 
 // AnthropicConfig_FieldPathValue allows storing values for AnthropicConfig fields according to their type
@@ -6843,6 +7619,14 @@ var _ AnthropicConfig_FieldPathValue = (*AnthropicConfig_FieldTerminalPathValue)
 func (fpv *AnthropicConfig_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
+func (fpv *AnthropicConfig_FieldTerminalPathValue) AsThinkingValue() (*ThinkingConfig, bool) {
+	res, ok := fpv.value.(*ThinkingConfig)
+	return res, ok
+}
+func (fpv *AnthropicConfig_FieldTerminalPathValue) AsBetaFeaturesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object AnthropicConfig
 func (fpv *AnthropicConfig_FieldTerminalPathValue) SetTo(target **AnthropicConfig) {
@@ -6850,6 +7634,10 @@ func (fpv *AnthropicConfig_FieldTerminalPathValue) SetTo(target **AnthropicConfi
 		*target = new(AnthropicConfig)
 	}
 	switch fpv.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		(*target).Thinking = fpv.value.(*ThinkingConfig)
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		(*target).BetaFeatures = fpv.value.([]string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fpv.selector))
 	}
@@ -6863,6 +7651,10 @@ func (fpv *AnthropicConfig_FieldTerminalPathValue) SetToRaw(target proto.Message
 // CompareWith compares value in the 'AnthropicConfig_FieldTerminalPathValue' with the value under path in 'AnthropicConfig'.
 func (fpv *AnthropicConfig_FieldTerminalPathValue) CompareWith(source *AnthropicConfig) (int, bool) {
 	switch fpv.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		return 0, false
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fpv.selector))
 	}
@@ -6870,6 +7662,52 @@ func (fpv *AnthropicConfig_FieldTerminalPathValue) CompareWith(source *Anthropic
 
 func (fpv *AnthropicConfig_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*AnthropicConfig))
+}
+
+type AnthropicConfig_FieldSubPathValue struct {
+	AnthropicConfig_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ AnthropicConfig_FieldPathValue = (*AnthropicConfig_FieldSubPathValue)(nil)
+
+func (fpvs *AnthropicConfig_FieldSubPathValue) AsThinkingPathValue() (ThinkingConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ThinkingConfig_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *AnthropicConfig_FieldSubPathValue) SetTo(target **AnthropicConfig) {
+	if *target == nil {
+		*target = new(AnthropicConfig)
+	}
+	switch fpvs.Selector() {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		fpvs.subPathValue.(ThinkingConfig_FieldPathValue).SetTo(&(*target).Thinking)
+	default:
+		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *AnthropicConfig_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*AnthropicConfig)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *AnthropicConfig_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *AnthropicConfig_FieldSubPathValue) CompareWith(source *AnthropicConfig) (int, bool) {
+	switch fpvs.Selector() {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		return fpvs.subPathValue.(ThinkingConfig_FieldPathValue).CompareWith(source.GetThinking())
+	default:
+		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *AnthropicConfig_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*AnthropicConfig))
 }
 
 // AnthropicConfig_FieldPathArrayItemValue allows storing single item in Path-specific values for AnthropicConfig according to their type
@@ -6912,6 +7750,10 @@ var _ AnthropicConfig_FieldPathArrayItemValue = (*AnthropicConfig_FieldTerminalP
 func (fpaiv *AnthropicConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
+func (fpaiv *AnthropicConfig_FieldTerminalPathArrayItemValue) AsBetaFeaturesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
 
 func (fpaiv *AnthropicConfig_FieldTerminalPathArrayItemValue) GetSingle(source *AnthropicConfig) (interface{}, bool) {
 	return nil, false
@@ -6934,6 +7776,30 @@ func (fpaiv *AnthropicConfig_FieldTerminalPathArrayItemValue) ContainsValue(sour
 		}
 	}
 	return false
+}
+
+type AnthropicConfig_FieldSubPathArrayItemValue struct {
+	AnthropicConfig_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *AnthropicConfig_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *AnthropicConfig_FieldSubPathArrayItemValue) AsThinkingPathItemValue() (ThinkingConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ThinkingConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'AnthropicConfig'
+func (fpaivs *AnthropicConfig_FieldSubPathArrayItemValue) ContainsValue(source *AnthropicConfig) bool {
+	switch fpaivs.Selector() {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		return fpaivs.subPathItemValue.(ThinkingConfig_FieldPathArrayItemValue).ContainsValue(source.GetThinking())
+	default:
+		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fpaivs.Selector()))
+	}
 }
 
 // AnthropicConfig_FieldPathArrayOfValues allows storing slice of values for AnthropicConfig fields according to their type
@@ -6971,8 +7837,460 @@ var _ AnthropicConfig_FieldPathArrayOfValues = (*AnthropicConfig_FieldTerminalPa
 
 func (fpaov *AnthropicConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
+	case AnthropicConfig_FieldPathSelectorThinking:
+		for _, v := range fpaov.values.([]*ThinkingConfig) {
+			values = append(values, v)
+		}
+	case AnthropicConfig_FieldPathSelectorBetaFeatures:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
 	}
 	return
+}
+func (fpaov *AnthropicConfig_FieldTerminalPathArrayOfValues) AsThinkingArrayOfValues() ([]*ThinkingConfig, bool) {
+	res, ok := fpaov.values.([]*ThinkingConfig)
+	return res, ok
+}
+func (fpaov *AnthropicConfig_FieldTerminalPathArrayOfValues) AsBetaFeaturesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+type AnthropicConfig_FieldSubPathArrayOfValues struct {
+	AnthropicConfig_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ AnthropicConfig_FieldPathArrayOfValues = (*AnthropicConfig_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *AnthropicConfig_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *AnthropicConfig_FieldSubPathArrayOfValues) AsThinkingPathArrayOfValues() (ThinkingConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ThinkingConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ThinkingConfig_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ThinkingConfig_FieldPathSelector
+	Get(source *ThinkingConfig) []interface{}
+	GetSingle(source *ThinkingConfig) (interface{}, bool)
+	ClearValue(item *ThinkingConfig)
+
+	// Those methods build corresponding ThinkingConfig_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ThinkingConfig_FieldPathValue
+	WithIArrayOfValues(values interface{}) ThinkingConfig_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ThinkingConfig_FieldPathArrayItemValue
+}
+
+type ThinkingConfig_FieldPathSelector int32
+
+const (
+	ThinkingConfig_FieldPathSelectorType         ThinkingConfig_FieldPathSelector = 0
+	ThinkingConfig_FieldPathSelectorBudgetTokens ThinkingConfig_FieldPathSelector = 1
+)
+
+func (s ThinkingConfig_FieldPathSelector) String() string {
+	switch s {
+	case ThinkingConfig_FieldPathSelectorType:
+		return "type"
+	case ThinkingConfig_FieldPathSelectorBudgetTokens:
+		return "budget_tokens"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", s))
+	}
+}
+
+func BuildThinkingConfig_FieldPath(fp gotenobject.RawFieldPath) (ThinkingConfig_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ThinkingConfig")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "type":
+			return &ThinkingConfig_FieldTerminalPath{selector: ThinkingConfig_FieldPathSelectorType}, nil
+		case "budget_tokens", "budgetTokens", "budget-tokens":
+			return &ThinkingConfig_FieldTerminalPath{selector: ThinkingConfig_FieldPathSelectorBudgetTokens}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ThinkingConfig", fp)
+}
+
+func ParseThinkingConfig_FieldPath(rawField string) (ThinkingConfig_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildThinkingConfig_FieldPath(fp)
+}
+
+func MustParseThinkingConfig_FieldPath(rawField string) ThinkingConfig_FieldPath {
+	fp, err := ParseThinkingConfig_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ThinkingConfig_FieldTerminalPath struct {
+	selector ThinkingConfig_FieldPathSelector
+}
+
+var _ ThinkingConfig_FieldPath = (*ThinkingConfig_FieldTerminalPath)(nil)
+
+func (fp *ThinkingConfig_FieldTerminalPath) Selector() ThinkingConfig_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ThinkingConfig_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ThinkingConfig_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ThinkingConfig
+func (fp *ThinkingConfig_FieldTerminalPath) Get(source *ThinkingConfig) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ThinkingConfig_FieldPathSelectorType:
+			values = append(values, source.Type)
+		case ThinkingConfig_FieldPathSelectorBudgetTokens:
+			values = append(values, source.BudgetTokens)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ThinkingConfig))
+}
+
+// GetSingle returns value pointed by specific field of from source ThinkingConfig
+func (fp *ThinkingConfig_FieldTerminalPath) GetSingle(source *ThinkingConfig) (interface{}, bool) {
+	switch fp.selector {
+	case ThinkingConfig_FieldPathSelectorType:
+		return source.GetType(), source != nil
+	case ThinkingConfig_FieldPathSelectorBudgetTokens:
+		return source.GetBudgetTokens(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ThinkingConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ThinkingConfig_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ThinkingConfig_FieldPathSelectorType:
+		return ThinkingConfig_TYPE_UNSPECIFIED
+	case ThinkingConfig_FieldPathSelectorBudgetTokens:
+		return int32(0)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) ClearValue(item *ThinkingConfig) {
+	if item != nil {
+		switch fp.selector {
+		case ThinkingConfig_FieldPathSelectorType:
+			item.Type = ThinkingConfig_TYPE_UNSPECIFIED
+		case ThinkingConfig_FieldPathSelectorBudgetTokens:
+			item.BudgetTokens = int32(0)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ThinkingConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ThinkingConfig_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ThinkingConfig_FieldPathSelectorType ||
+		fp.selector == ThinkingConfig_FieldPathSelectorBudgetTokens
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) WithIValue(value interface{}) ThinkingConfig_FieldPathValue {
+	switch fp.selector {
+	case ThinkingConfig_FieldPathSelectorType:
+		return &ThinkingConfig_FieldTerminalPathValue{ThinkingConfig_FieldTerminalPath: *fp, value: value.(ThinkingConfig_Type)}
+	case ThinkingConfig_FieldPathSelectorBudgetTokens:
+		return &ThinkingConfig_FieldTerminalPathValue{ThinkingConfig_FieldTerminalPath: *fp, value: value.(int32)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) ThinkingConfig_FieldPathArrayOfValues {
+	fpaov := &ThinkingConfig_FieldTerminalPathArrayOfValues{ThinkingConfig_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ThinkingConfig_FieldPathSelectorType:
+		return &ThinkingConfig_FieldTerminalPathArrayOfValues{ThinkingConfig_FieldTerminalPath: *fp, values: values.([]ThinkingConfig_Type)}
+	case ThinkingConfig_FieldPathSelectorBudgetTokens:
+		return &ThinkingConfig_FieldTerminalPathArrayOfValues{ThinkingConfig_FieldTerminalPath: *fp, values: values.([]int32)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) ThinkingConfig_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ThinkingConfig_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ThinkingConfig_FieldPathValue allows storing values for ThinkingConfig fields according to their type
+type ThinkingConfig_FieldPathValue interface {
+	ThinkingConfig_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ThinkingConfig)
+	CompareWith(*ThinkingConfig) (cmp int, comparable bool)
+}
+
+func ParseThinkingConfig_FieldPathValue(pathStr, valueStr string) (ThinkingConfig_FieldPathValue, error) {
+	fp, err := ParseThinkingConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ThinkingConfig field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ThinkingConfig_FieldPathValue), nil
+}
+
+func MustParseThinkingConfig_FieldPathValue(pathStr, valueStr string) ThinkingConfig_FieldPathValue {
+	fpv, err := ParseThinkingConfig_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ThinkingConfig_FieldTerminalPathValue struct {
+	ThinkingConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ ThinkingConfig_FieldPathValue = (*ThinkingConfig_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ThinkingConfig' as interface{}
+func (fpv *ThinkingConfig_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ThinkingConfig_FieldTerminalPathValue) AsTypeValue() (ThinkingConfig_Type, bool) {
+	res, ok := fpv.value.(ThinkingConfig_Type)
+	return res, ok
+}
+func (fpv *ThinkingConfig_FieldTerminalPathValue) AsBudgetTokensValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ThinkingConfig
+func (fpv *ThinkingConfig_FieldTerminalPathValue) SetTo(target **ThinkingConfig) {
+	if *target == nil {
+		*target = new(ThinkingConfig)
+	}
+	switch fpv.selector {
+	case ThinkingConfig_FieldPathSelectorType:
+		(*target).Type = fpv.value.(ThinkingConfig_Type)
+	case ThinkingConfig_FieldPathSelectorBudgetTokens:
+		(*target).BudgetTokens = fpv.value.(int32)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *ThinkingConfig_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ThinkingConfig)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ThinkingConfig_FieldTerminalPathValue' with the value under path in 'ThinkingConfig'.
+func (fpv *ThinkingConfig_FieldTerminalPathValue) CompareWith(source *ThinkingConfig) (int, bool) {
+	switch fpv.selector {
+	case ThinkingConfig_FieldPathSelectorType:
+		leftValue := fpv.value.(ThinkingConfig_Type)
+		rightValue := source.GetType()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ThinkingConfig_FieldPathSelectorBudgetTokens:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetBudgetTokens()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ThinkingConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *ThinkingConfig_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ThinkingConfig))
+}
+
+// ThinkingConfig_FieldPathArrayItemValue allows storing single item in Path-specific values for ThinkingConfig according to their type
+// Present only for array (repeated) types.
+type ThinkingConfig_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ThinkingConfig_FieldPath
+	ContainsValue(*ThinkingConfig) bool
+}
+
+// ParseThinkingConfig_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseThinkingConfig_FieldPathArrayItemValue(pathStr, valueStr string) (ThinkingConfig_FieldPathArrayItemValue, error) {
+	fp, err := ParseThinkingConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ThinkingConfig field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ThinkingConfig_FieldPathArrayItemValue), nil
+}
+
+func MustParseThinkingConfig_FieldPathArrayItemValue(pathStr, valueStr string) ThinkingConfig_FieldPathArrayItemValue {
+	fpaiv, err := ParseThinkingConfig_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ThinkingConfig_FieldTerminalPathArrayItemValue struct {
+	ThinkingConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ ThinkingConfig_FieldPathArrayItemValue = (*ThinkingConfig_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ThinkingConfig as interface{}
+func (fpaiv *ThinkingConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ThinkingConfig_FieldTerminalPathArrayItemValue) GetSingle(source *ThinkingConfig) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ThinkingConfig_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ThinkingConfig))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ThinkingConfig'
+func (fpaiv *ThinkingConfig_FieldTerminalPathArrayItemValue) ContainsValue(source *ThinkingConfig) bool {
+	slice := fpaiv.ThinkingConfig_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ThinkingConfig_FieldPathArrayOfValues allows storing slice of values for ThinkingConfig fields according to their type
+type ThinkingConfig_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ThinkingConfig_FieldPath
+}
+
+func ParseThinkingConfig_FieldPathArrayOfValues(pathStr, valuesStr string) (ThinkingConfig_FieldPathArrayOfValues, error) {
+	fp, err := ParseThinkingConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ThinkingConfig field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ThinkingConfig_FieldPathArrayOfValues), nil
+}
+
+func MustParseThinkingConfig_FieldPathArrayOfValues(pathStr, valuesStr string) ThinkingConfig_FieldPathArrayOfValues {
+	fpaov, err := ParseThinkingConfig_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ThinkingConfig_FieldTerminalPathArrayOfValues struct {
+	ThinkingConfig_FieldTerminalPath
+	values interface{}
+}
+
+var _ ThinkingConfig_FieldPathArrayOfValues = (*ThinkingConfig_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ThinkingConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ThinkingConfig_FieldPathSelectorType:
+		for _, v := range fpaov.values.([]ThinkingConfig_Type) {
+			values = append(values, v)
+		}
+	case ThinkingConfig_FieldPathSelectorBudgetTokens:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ThinkingConfig_FieldTerminalPathArrayOfValues) AsTypeArrayOfValues() ([]ThinkingConfig_Type, bool) {
+	res, ok := fpaov.values.([]ThinkingConfig_Type)
+	return res, ok
+}
+func (fpaov *ThinkingConfig_FieldTerminalPathArrayOfValues) AsBudgetTokensArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
 }
 
 // FieldPath provides implementation to handle

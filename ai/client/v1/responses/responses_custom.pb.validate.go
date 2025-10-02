@@ -163,6 +163,12 @@ func (obj *CreateResponseResult) GotenValidate() error {
 				return gotenvalidate.NewValidationError("CreateResponseResult", "error", opt.Error, "nested object validation failed", err)
 			}
 		}
+	case *CreateResponseResult_CitationDelta:
+		if subobj, ok := interface{}(opt.CitationDelta).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CreateResponseResult", "citationDelta", opt.CitationDelta, "nested object validation failed", err)
+			}
+		}
 	default:
 		_ = opt
 	}
@@ -289,6 +295,20 @@ func (obj *ThinkingDelta) GotenValidate() error {
 func (obj *ThinkingDone) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CitationDelta) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Citation).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CitationDelta", "citation", obj.Citation, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

@@ -11,6 +11,7 @@ import (
 
 // proto imports
 import (
+	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -35,6 +36,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
@@ -252,6 +254,14 @@ func (b *filterCndBuilder) DefaultModel() *filterCndBuilderDefaultModel {
 
 func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
 	return &filterCndBuilderDisplayName{builder: b.builder}
+}
+
+func (b *filterCndBuilder) Reasoning() *filterCndBuilderReasoning {
+	return &filterCndBuilderReasoning{builder: b.builder}
+}
+
+func (b *filterCndBuilder) MaxOutputTokens() *filterCndBuilderMaxOutputTokens {
+	return &filterCndBuilderMaxOutputTokens{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -3576,5 +3586,249 @@ func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, va
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().DisplayName().WithValue(value),
+	})
+}
+
+type filterCndBuilderReasoning struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReasoning) Eq(value *ReasoningConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReasoning) Neq(value *ReasoningConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReasoning) Gt(value *ReasoningConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReasoning) Gte(value *ReasoningConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReasoning) Lt(value *ReasoningConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReasoning) Lte(value *ReasoningConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReasoning) In(values []*ReasoningConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().Reasoning().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReasoning) NotIn(values []*ReasoningConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().Reasoning().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReasoning) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().Reasoning().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReasoning) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().Reasoning().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReasoning) compare(op gotenfilter.CompareOperator, value *ReasoningConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().Reasoning().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderReasoning) MaxLevel() *filterCndBuilderReasoningMaxLevel {
+	return &filterCndBuilderReasoningMaxLevel{builder: b.builder}
+}
+
+func (b *filterCndBuilderReasoning) DefaultLevel() *filterCndBuilderReasoningDefaultLevel {
+	return &filterCndBuilderReasoningDefaultLevel{builder: b.builder}
+}
+
+type filterCndBuilderReasoningMaxLevel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) Eq(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) Neq(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) Gt(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) Gte(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) Lt(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) Lte(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) In(values []common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().Reasoning().MaxLevel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) NotIn(values []common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().Reasoning().MaxLevel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().Reasoning().MaxLevel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().Reasoning().MaxLevel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReasoningMaxLevel) compare(op gotenfilter.CompareOperator, value common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().Reasoning().MaxLevel().WithValue(value),
+	})
+}
+
+type filterCndBuilderReasoningDefaultLevel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) Eq(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) Neq(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) Gt(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) Gte(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) Lt(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) Lte(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) In(values []common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().Reasoning().DefaultLevel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) NotIn(values []common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().Reasoning().DefaultLevel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().Reasoning().DefaultLevel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().Reasoning().DefaultLevel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReasoningDefaultLevel) compare(op gotenfilter.CompareOperator, value common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().Reasoning().DefaultLevel().WithValue(value),
+	})
+}
+
+type filterCndBuilderMaxOutputTokens struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMaxOutputTokens) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMaxOutputTokens) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMaxOutputTokens) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMaxOutputTokens) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMaxOutputTokens) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMaxOutputTokens) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMaxOutputTokens) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMaxOutputTokens) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMaxOutputTokens) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMaxOutputTokens) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMaxOutputTokens) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().MaxOutputTokens().WithValue(value),
 	})
 }

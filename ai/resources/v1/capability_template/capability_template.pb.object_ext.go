@@ -16,6 +16,7 @@ import (
 
 // proto imports
 import (
+	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -36,6 +37,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
@@ -109,6 +111,19 @@ func (o *CapabilityTemplate) MakeDiffFieldMask(other *CapabilityTemplate) *Capab
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisplayName})
 	}
+	{
+		subMask := o.GetReasoning().MakeDiffFieldMask(other.GetReasoning())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorReasoning})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorReasoning, subPath: subpath})
+			}
+		}
+	}
+	if o.GetMaxOutputTokens() != other.GetMaxOutputTokens() {
+		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens})
+	}
 	return res
 }
 
@@ -150,6 +165,8 @@ func (o *CapabilityTemplate) Clone() *CapabilityTemplate {
 	result.MaxToolRounds = o.MaxToolRounds
 	result.DefaultModel = o.DefaultModel
 	result.DisplayName = o.DisplayName
+	result.Reasoning = o.Reasoning.Clone()
+	result.MaxOutputTokens = o.MaxOutputTokens
 	return result
 }
 
@@ -212,6 +229,13 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 	o.MaxToolRounds = source.GetMaxToolRounds()
 	o.DefaultModel = source.GetDefaultModel()
 	o.DisplayName = source.GetDisplayName()
+	if source.GetReasoning() != nil {
+		if o.Reasoning == nil {
+			o.Reasoning = new(ReasoningConfig)
+		}
+		o.Reasoning.Merge(source.GetReasoning())
+	}
+	o.MaxOutputTokens = source.GetMaxOutputTokens()
 }
 
 func (o *CapabilityTemplate) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -481,4 +505,59 @@ func (o *RetrievalLimits) Merge(source *RetrievalLimits) {
 
 func (o *RetrievalLimits) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*RetrievalLimits))
+}
+
+func (o *ReasoningConfig) GotenObjectExt() {}
+
+func (o *ReasoningConfig) MakeFullFieldMask() *ReasoningConfig_FieldMask {
+	return FullReasoningConfig_FieldMask()
+}
+
+func (o *ReasoningConfig) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullReasoningConfig_FieldMask()
+}
+
+func (o *ReasoningConfig) MakeDiffFieldMask(other *ReasoningConfig) *ReasoningConfig_FieldMask {
+	if o == nil && other == nil {
+		return &ReasoningConfig_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullReasoningConfig_FieldMask()
+	}
+
+	res := &ReasoningConfig_FieldMask{}
+	if o.GetMaxLevel() != other.GetMaxLevel() {
+		res.Paths = append(res.Paths, &ReasoningConfig_FieldTerminalPath{selector: ReasoningConfig_FieldPathSelectorMaxLevel})
+	}
+	if o.GetDefaultLevel() != other.GetDefaultLevel() {
+		res.Paths = append(res.Paths, &ReasoningConfig_FieldTerminalPath{selector: ReasoningConfig_FieldPathSelectorDefaultLevel})
+	}
+	return res
+}
+
+func (o *ReasoningConfig) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ReasoningConfig))
+}
+
+func (o *ReasoningConfig) Clone() *ReasoningConfig {
+	if o == nil {
+		return nil
+	}
+	result := &ReasoningConfig{}
+	result.MaxLevel = o.MaxLevel
+	result.DefaultLevel = o.DefaultLevel
+	return result
+}
+
+func (o *ReasoningConfig) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ReasoningConfig) Merge(source *ReasoningConfig) {
+	o.MaxLevel = source.GetMaxLevel()
+	o.DefaultLevel = source.GetDefaultLevel()
+}
+
+func (o *ReasoningConfig) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ReasoningConfig))
 }

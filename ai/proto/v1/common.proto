@@ -31,6 +31,8 @@ message ContentPart {
     ToolCallContent tool_call = 5;
 
     ToolResultContent tool_result = 6;
+
+    ThinkingContent thinking = 7;
   }
 }
 
@@ -86,6 +88,14 @@ message ToolResultContent {
   }
 }
 
+// Thinking/reasoning content with optional signature
+message ThinkingContent {
+  string text = 1; // Thinking/reasoning text
+
+  string signature =
+      2; // Opaque signature for verification (Anthropic only, empty for others)
+}
+
 // Token usage information
 message TokenUsage {
   int32 prompt_tokens = 1;
@@ -93,6 +103,33 @@ message TokenUsage {
   int32 completion_tokens = 2;
 
   int32 total_tokens = 3;
+
+  // Optional detailed token breakdown
+  TokenUsageDetails details = 4;
+}
+
+// Detailed breakdown of token usage
+message TokenUsageDetails {
+  // Reasoning/thinking tokens (o1, o3, Claude thinking mode)
+  int32 reasoning_tokens = 1;
+
+  // Cached tokens (from prompt cache)
+  int32 cached_tokens = 2;
+
+  // Audio tokens (for multimodal models)
+  int32 audio_input_tokens = 3;
+
+  int32 audio_output_tokens = 4;
+
+  // Cache creation tokens (Anthropic)
+  int32 cache_creation_input_tokens = 5;
+
+  int32 cache_read_input_tokens = 6;
+
+  // Predicted output tokens (OpenAI)
+  int32 accepted_prediction_tokens = 7;
+
+  int32 rejected_prediction_tokens = 8;
 }
 
 // Payload for data with media type
@@ -142,6 +179,58 @@ message ToolResponse {
 // Tool calls container
 message ToolCalls { repeated ToolCall calls = 1; }
 
+// Citation - reference to source material (provider-agnostic)
+message Citation {
+  // Text reference in AI response (which part is cited)
+  int64 start_index = 1; // Character position in AI message
+
+  int64 end_index = 2; // Character position in AI message
+
+  string text = 3; // Text in AI response being cited
+
+  // Source information
+  CitationSource source = 4;
+}
+
+// Citation source information
+message CitationSource {
+  // Core fields (all providers)
+  string title = 1; // Document/page/website title
+
+  string id = 2; // Opaque identifier (file_id, chunk_id, url, etc.)
+
+  string quoted_text = 3; // Actual text from source document
+
+  // Location in source (flexible for all provider types)
+  oneof location {
+    CharacterRange char_range = 4;
+
+    PageReference page = 5;
+
+    URLReference url = 6;
+  }
+
+  // Generic metadata (extensible for any provider-specific data)
+  map<string, string> metadata = 10;
+}
+
+// Character range in source document
+message CharacterRange {
+  int64 start = 1;
+
+  int64 end = 2;
+}
+
+// Page reference in source document
+message PageReference { int32 page_number = 1; }
+
+// URL reference
+message URLReference {
+  string url = 1;
+
+  string filepath = 2; // Optional: for file-based URLs
+}
+
 // Content channel type
 enum ContentChannel {
   CONTENT_CHANNEL_UNSPECIFIED = 0;
@@ -162,4 +251,15 @@ enum LLMError {
   LLM_PROVIDER_ERROR = 3; // General provider failure
 
   LLM_TOOL_ERROR = 4; // Tool execution failed
+}
+
+// Reasoning/thinking level for AI models
+enum ReasoningLevel {
+  REASONING_LEVEL_DEFAULT = 0; // Use model's default
+
+  REASONING_LEVEL_LOW = 1; // Fast/minimal reasoning
+
+  REASONING_LEVEL_MEDIUM = 2; // Balanced reasoning
+
+  REASONING_LEVEL_HIGH = 3; // Deeper reasoning
 }

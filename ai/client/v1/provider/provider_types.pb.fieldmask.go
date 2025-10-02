@@ -57,6 +57,7 @@ func FullProviderChatRequest_FieldMask() *ProviderChatRequest_FieldMask {
 	res.Paths = append(res.Paths, &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorAzureConfig})
 	res.Paths = append(res.Paths, &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorAnthropicConfig})
 	res.Paths = append(res.Paths, &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorGeminiConfig})
+	res.Paths = append(res.Paths, &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorReasoningLevel})
 	return res
 }
 
@@ -75,7 +76,7 @@ func (fieldMask *ProviderChatRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 11)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ProviderChatRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -105,7 +106,7 @@ func (fieldMask *ProviderChatRequest_FieldMask) Reset() {
 
 func (fieldMask *ProviderChatRequest_FieldMask) Subtract(other *ProviderChatRequest_FieldMask) *ProviderChatRequest_FieldMask {
 	result := &ProviderChatRequest_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[ProviderChatRequest_FieldPathSelector]gotenobject.FieldMask{
 		ProviderChatRequest_FieldPathSelectorParameters:      &ChatParameters_FieldMask{},
 		ProviderChatRequest_FieldPathSelectorOpenaiConfig:    &OpenAIConfig_FieldMask{},
@@ -355,6 +356,8 @@ func (fieldMask *ProviderChatRequest_FieldMask) Project(source *ProviderChatRequ
 					}
 				}
 				wholeGeminiConfigAccepted = true
+			case ProviderChatRequest_FieldPathSelectorReasoningLevel:
+				result.ReasoningLevel = source.ReasoningLevel
 			}
 		case *ProviderChatRequest_FieldSubPath:
 			switch tp.selector {
@@ -1429,6 +1432,237 @@ func (fieldMask *StreamError_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
+type BlockEnd_FieldMask struct {
+	Paths []BlockEnd_FieldPath
+}
+
+func FullBlockEnd_FieldMask() *BlockEnd_FieldMask {
+	res := &BlockEnd_FieldMask{}
+	res.Paths = append(res.Paths, &BlockEnd_FieldTerminalPath{selector: BlockEnd_FieldPathSelectorChannel})
+	res.Paths = append(res.Paths, &BlockEnd_FieldTerminalPath{selector: BlockEnd_FieldPathSelectorSignature})
+	return res
+}
+
+func (fieldMask *BlockEnd_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *BlockEnd_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*BlockEnd_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *BlockEnd_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseBlockEnd_FieldPath(raw)
+	})
+}
+
+func (fieldMask *BlockEnd_FieldMask) ProtoMessage() {}
+
+func (fieldMask *BlockEnd_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *BlockEnd_FieldMask) Subtract(other *BlockEnd_FieldMask) *BlockEnd_FieldMask {
+	result := &BlockEnd_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *BlockEnd_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *BlockEnd_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*BlockEnd_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *BlockEnd_FieldMask) FilterInputFields() *BlockEnd_FieldMask {
+	result := &BlockEnd_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *BlockEnd_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *BlockEnd_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]BlockEnd_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseBlockEnd_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask BlockEnd_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *BlockEnd_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *BlockEnd_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask BlockEnd_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *BlockEnd_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *BlockEnd_FieldMask) AppendPath(path BlockEnd_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *BlockEnd_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(BlockEnd_FieldPath))
+}
+
+func (fieldMask *BlockEnd_FieldMask) GetPaths() []BlockEnd_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *BlockEnd_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *BlockEnd_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseBlockEnd_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *BlockEnd_FieldMask) Set(target, source *BlockEnd) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *BlockEnd_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*BlockEnd), source.(*BlockEnd))
+}
+
+func (fieldMask *BlockEnd_FieldMask) Project(source *BlockEnd) *BlockEnd {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &BlockEnd{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *BlockEnd_FieldTerminalPath:
+			switch tp.selector {
+			case BlockEnd_FieldPathSelectorChannel:
+				result.Channel = source.Channel
+			case BlockEnd_FieldPathSelectorSignature:
+				result.Signature = source.Signature
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *BlockEnd_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*BlockEnd))
+}
+
+func (fieldMask *BlockEnd_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type ProviderStreamEvent_FieldMask struct {
 	Paths []ProviderStreamEvent_FieldPath
 }
@@ -1440,6 +1674,8 @@ func FullProviderStreamEvent_FieldMask() *ProviderStreamEvent_FieldMask {
 	res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorError})
 	res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorDone})
 	res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorToolCalls})
+	res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorCitation})
+	res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorBlockEnd})
 	return res
 }
 
@@ -1458,7 +1694,7 @@ func (fieldMask *ProviderStreamEvent_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ProviderStreamEvent_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1488,16 +1724,18 @@ func (fieldMask *ProviderStreamEvent_FieldMask) Reset() {
 
 func (fieldMask *ProviderStreamEvent_FieldMask) Subtract(other *ProviderStreamEvent_FieldMask) *ProviderStreamEvent_FieldMask {
 	result := &ProviderStreamEvent_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[ProviderStreamEvent_FieldPathSelector]gotenobject.FieldMask{
-		ProviderStreamEvent_FieldPathSelectorDelta: &ProviderContentDelta_FieldMask{},
-		ProviderStreamEvent_FieldPathSelectorError: &StreamError_FieldMask{},
-		ProviderStreamEvent_FieldPathSelectorDone:  &ProviderDone_FieldMask{},
+		ProviderStreamEvent_FieldPathSelectorDelta:    &ProviderContentDelta_FieldMask{},
+		ProviderStreamEvent_FieldPathSelectorError:    &StreamError_FieldMask{},
+		ProviderStreamEvent_FieldPathSelectorDone:     &ProviderDone_FieldMask{},
+		ProviderStreamEvent_FieldPathSelectorBlockEnd: &BlockEnd_FieldMask{},
 	}
 	mySubMasks := map[ProviderStreamEvent_FieldPathSelector]gotenobject.FieldMask{
-		ProviderStreamEvent_FieldPathSelectorDelta: &ProviderContentDelta_FieldMask{},
-		ProviderStreamEvent_FieldPathSelectorError: &StreamError_FieldMask{},
-		ProviderStreamEvent_FieldPathSelectorDone:  &ProviderDone_FieldMask{},
+		ProviderStreamEvent_FieldPathSelectorDelta:    &ProviderContentDelta_FieldMask{},
+		ProviderStreamEvent_FieldPathSelectorError:    &StreamError_FieldMask{},
+		ProviderStreamEvent_FieldPathSelectorDone:     &ProviderDone_FieldMask{},
+		ProviderStreamEvent_FieldPathSelectorBlockEnd: &BlockEnd_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1519,6 +1757,8 @@ func (fieldMask *ProviderStreamEvent_FieldMask) Subtract(other *ProviderStreamEv
 						mySubMasks[ProviderStreamEvent_FieldPathSelectorError] = FullStreamError_FieldMask()
 					case ProviderStreamEvent_FieldPathSelectorDone:
 						mySubMasks[ProviderStreamEvent_FieldPathSelectorDone] = FullProviderDone_FieldMask()
+					case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+						mySubMasks[ProviderStreamEvent_FieldPathSelectorBlockEnd] = FullBlockEnd_FieldMask()
 					}
 				} else if tp, ok := path.(*ProviderStreamEvent_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1677,6 +1917,8 @@ func (fieldMask *ProviderStreamEvent_FieldMask) Project(source *ProviderStreamEv
 	wholeErrorAccepted := false
 	doneMask := &ProviderDone_FieldMask{}
 	wholeDoneAccepted := false
+	blockEndMask := &BlockEnd_FieldMask{}
+	wholeBlockEndAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1715,6 +1957,19 @@ func (fieldMask *ProviderStreamEvent_FieldMask) Project(source *ProviderStreamEv
 						ToolCalls: source.ToolCalls,
 					}
 				}
+			case ProviderStreamEvent_FieldPathSelectorCitation:
+				if source, ok := source.Event.(*ProviderStreamEvent_Citation); ok {
+					result.Event = &ProviderStreamEvent_Citation{
+						Citation: source.Citation,
+					}
+				}
+			case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+				if source, ok := source.Event.(*ProviderStreamEvent_BlockEnd); ok {
+					result.Event = &ProviderStreamEvent_BlockEnd{
+						BlockEnd: source.BlockEnd,
+					}
+				}
+				wholeBlockEndAccepted = true
 			}
 		case *ProviderStreamEvent_FieldSubPath:
 			switch tp.selector {
@@ -1724,6 +1979,8 @@ func (fieldMask *ProviderStreamEvent_FieldMask) Project(source *ProviderStreamEv
 				errorMask.AppendPath(tp.subPath.(StreamError_FieldPath))
 			case ProviderStreamEvent_FieldPathSelectorDone:
 				doneMask.AppendPath(tp.subPath.(ProviderDone_FieldPath))
+			case ProviderStreamEvent_FieldPathSelectorBlockEnd:
+				blockEndMask.AppendPath(tp.subPath.(BlockEnd_FieldPath))
 			}
 		}
 	}
@@ -1753,6 +2010,16 @@ func (fieldMask *ProviderStreamEvent_FieldMask) Project(source *ProviderStreamEv
 			if asOneOf != nil {
 				oneOfRes := &ProviderStreamEvent_Done{}
 				oneOfRes.Done = doneMask.Project(asOneOf.Done)
+				result.Event = oneOfRes
+			}
+		}
+	}
+	if wholeBlockEndAccepted == false && len(blockEndMask.Paths) > 0 {
+		if asOneOf, ok := source.Event.(*ProviderStreamEvent_BlockEnd); ok {
+			result.Event = (*ProviderStreamEvent_BlockEnd)(nil)
+			if asOneOf != nil {
+				oneOfRes := &ProviderStreamEvent_BlockEnd{}
+				oneOfRes.BlockEnd = blockEndMask.Project(asOneOf.BlockEnd)
 				result.Event = oneOfRes
 			}
 		}
@@ -2750,6 +3017,8 @@ type AnthropicConfig_FieldMask struct {
 
 func FullAnthropicConfig_FieldMask() *AnthropicConfig_FieldMask {
 	res := &AnthropicConfig_FieldMask{}
+	res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorThinking})
+	res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorBetaFeatures})
 	return res
 }
 
@@ -2768,7 +3037,7 @@ func (fieldMask *AnthropicConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 0)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AnthropicConfig_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2798,17 +3067,43 @@ func (fieldMask *AnthropicConfig_FieldMask) Reset() {
 
 func (fieldMask *AnthropicConfig_FieldMask) Subtract(other *AnthropicConfig_FieldMask) *AnthropicConfig_FieldMask {
 	result := &AnthropicConfig_FieldMask{}
-	removedSelectors := make([]bool, 0)
+	removedSelectors := make([]bool, 2)
+	otherSubMasks := map[AnthropicConfig_FieldPathSelector]gotenobject.FieldMask{
+		AnthropicConfig_FieldPathSelectorThinking: &ThinkingConfig_FieldMask{},
+	}
+	mySubMasks := map[AnthropicConfig_FieldPathSelector]gotenobject.FieldMask{
+		AnthropicConfig_FieldPathSelectorThinking: &ThinkingConfig_FieldMask{},
+	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
 		case *AnthropicConfig_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
+		case *AnthropicConfig_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*AnthropicConfig_FieldTerminalPath); ok {
+					switch tp.selector {
+					case AnthropicConfig_FieldPathSelectorThinking:
+						mySubMasks[AnthropicConfig_FieldPathSelectorThinking] = FullThinkingConfig_FieldMask()
+					}
+				} else if tp, ok := path.(*AnthropicConfig_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &AnthropicConfig_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
 		}
 	}
 
@@ -2947,13 +3242,28 @@ func (fieldMask *AnthropicConfig_FieldMask) Project(source *AnthropicConfig) *An
 		return source
 	}
 	result := &AnthropicConfig{}
+	thinkingMask := &ThinkingConfig_FieldMask{}
+	wholeThinkingAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
 		case *AnthropicConfig_FieldTerminalPath:
 			switch tp.selector {
+			case AnthropicConfig_FieldPathSelectorThinking:
+				result.Thinking = source.Thinking
+				wholeThinkingAccepted = true
+			case AnthropicConfig_FieldPathSelectorBetaFeatures:
+				result.BetaFeatures = source.BetaFeatures
+			}
+		case *AnthropicConfig_FieldSubPath:
+			switch tp.selector {
+			case AnthropicConfig_FieldPathSelectorThinking:
+				thinkingMask.AppendPath(tp.subPath.(ThinkingConfig_FieldPath))
 			}
 		}
+	}
+	if wholeThinkingAccepted == false && len(thinkingMask.Paths) > 0 {
+		result.Thinking = thinkingMask.Project(source.GetThinking())
 	}
 	return result
 }
@@ -2963,6 +3273,237 @@ func (fieldMask *AnthropicConfig_FieldMask) ProjectRaw(source gotenobject.GotenO
 }
 
 func (fieldMask *AnthropicConfig_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type ThinkingConfig_FieldMask struct {
+	Paths []ThinkingConfig_FieldPath
+}
+
+func FullThinkingConfig_FieldMask() *ThinkingConfig_FieldMask {
+	res := &ThinkingConfig_FieldMask{}
+	res.Paths = append(res.Paths, &ThinkingConfig_FieldTerminalPath{selector: ThinkingConfig_FieldPathSelectorType})
+	res.Paths = append(res.Paths, &ThinkingConfig_FieldTerminalPath{selector: ThinkingConfig_FieldPathSelectorBudgetTokens})
+	return res
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ThinkingConfig_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseThinkingConfig_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ThinkingConfig_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) Subtract(other *ThinkingConfig_FieldMask) *ThinkingConfig_FieldMask {
+	result := &ThinkingConfig_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ThinkingConfig_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ThinkingConfig_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ThinkingConfig_FieldMask) FilterInputFields() *ThinkingConfig_FieldMask {
+	result := &ThinkingConfig_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ThinkingConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ThinkingConfig_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseThinkingConfig_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ThinkingConfig_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ThinkingConfig_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) AppendPath(path ThinkingConfig_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ThinkingConfig_FieldPath))
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) GetPaths() []ThinkingConfig_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseThinkingConfig_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) Set(target, source *ThinkingConfig) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ThinkingConfig), source.(*ThinkingConfig))
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) Project(source *ThinkingConfig) *ThinkingConfig {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ThinkingConfig{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ThinkingConfig_FieldTerminalPath:
+			switch tp.selector {
+			case ThinkingConfig_FieldPathSelectorType:
+				result.Type = source.Type
+			case ThinkingConfig_FieldPathSelectorBudgetTokens:
+				result.BudgetTokens = source.BudgetTokens
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ThinkingConfig))
+}
+
+func (fieldMask *ThinkingConfig_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

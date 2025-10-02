@@ -39,6 +39,9 @@ message ProviderChatRequest {
 
     GeminiConfig gemini_config = 10;
   }
+
+  // Provider-agnostic reasoning level
+  ReasoningLevel reasoning_level = 11;
 }
 
 // Provider-specific parameters
@@ -117,6 +120,13 @@ message StreamError {
   }
 }
 
+// Block end signal - indicates a content or thinking block has completed
+message BlockEnd {
+  ContentChannel channel = 1; // Which type of block ended
+
+  string signature = 2; // Optional - only for thinking blocks (Anthropic)
+}
+
 // Provider streaming event
 message ProviderStreamEvent {
   oneof event {
@@ -129,6 +139,10 @@ message ProviderStreamEvent {
     ProviderDone done = 4;
 
     ToolCalls tool_calls = 5;
+
+    Citation citation = 6;
+
+    BlockEnd block_end = 7;
   }
 }
 
@@ -181,6 +195,29 @@ message AzureSearchConfig {
   bool enable_semantic = 4;
 }
 
-message AnthropicConfig {}
+message AnthropicConfig {
+  // Extended thinking configuration
+  ThinkingConfig thinking = 1;
+
+  // Beta features to enable (e.g., ["prompt-caching-2024-07-31",
+  // "pdfs-2024-09-25"])
+  repeated string beta_features = 2;
+}
+
+// Thinking configuration for Anthropic models
+message ThinkingConfig {
+  Type type = 1;
+
+  // Budget for thinking tokens (must be ≥1024 and < max_tokens)
+  int32 budget_tokens = 2;
+
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+
+    ENABLED = 1;
+
+    DISABLED = 2;
+  }
+}
 
 message GeminiConfig {}

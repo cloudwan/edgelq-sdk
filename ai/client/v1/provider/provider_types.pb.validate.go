@@ -141,6 +141,15 @@ func (obj *StreamError) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *BlockEnd) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *ProviderStreamEvent) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -174,6 +183,18 @@ func (obj *ProviderStreamEvent) GotenValidate() error {
 		if subobj, ok := interface{}(opt.ToolCalls).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("ProviderStreamEvent", "toolCalls", opt.ToolCalls, "nested object validation failed", err)
+			}
+		}
+	case *ProviderStreamEvent_Citation:
+		if subobj, ok := interface{}(opt.Citation).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ProviderStreamEvent", "citation", opt.Citation, "nested object validation failed", err)
+			}
+		}
+	case *ProviderStreamEvent_BlockEnd:
+		if subobj, ok := interface{}(opt.BlockEnd).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ProviderStreamEvent", "blockEnd", opt.BlockEnd, "nested object validation failed", err)
 			}
 		}
 	default:
@@ -226,6 +247,20 @@ func (obj *AzureSearchConfig) GotenValidate() error {
 	return nil
 }
 func (obj *AnthropicConfig) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Thinking).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("AnthropicConfig", "thinking", obj.Thinking, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ThinkingConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

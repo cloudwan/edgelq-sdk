@@ -23,6 +23,7 @@ import (
 
 // proto imports
 import (
+	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -50,6 +51,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
@@ -76,14 +78,16 @@ type CapabilityTemplate_FieldPath interface {
 type CapabilityTemplate_FieldPathSelector int32
 
 const (
-	CapabilityTemplate_FieldPathSelectorName          CapabilityTemplate_FieldPathSelector = 0
-	CapabilityTemplate_FieldPathSelectorMetadata      CapabilityTemplate_FieldPathSelector = 1
-	CapabilityTemplate_FieldPathSelectorDescription   CapabilityTemplate_FieldPathSelector = 2
-	CapabilityTemplate_FieldPathSelectorConnectors    CapabilityTemplate_FieldPathSelector = 3
-	CapabilityTemplate_FieldPathSelectorRagConfig     CapabilityTemplate_FieldPathSelector = 4
-	CapabilityTemplate_FieldPathSelectorMaxToolRounds CapabilityTemplate_FieldPathSelector = 5
-	CapabilityTemplate_FieldPathSelectorDefaultModel  CapabilityTemplate_FieldPathSelector = 6
-	CapabilityTemplate_FieldPathSelectorDisplayName   CapabilityTemplate_FieldPathSelector = 7
+	CapabilityTemplate_FieldPathSelectorName            CapabilityTemplate_FieldPathSelector = 0
+	CapabilityTemplate_FieldPathSelectorMetadata        CapabilityTemplate_FieldPathSelector = 1
+	CapabilityTemplate_FieldPathSelectorDescription     CapabilityTemplate_FieldPathSelector = 2
+	CapabilityTemplate_FieldPathSelectorConnectors      CapabilityTemplate_FieldPathSelector = 3
+	CapabilityTemplate_FieldPathSelectorRagConfig       CapabilityTemplate_FieldPathSelector = 4
+	CapabilityTemplate_FieldPathSelectorMaxToolRounds   CapabilityTemplate_FieldPathSelector = 5
+	CapabilityTemplate_FieldPathSelectorDefaultModel    CapabilityTemplate_FieldPathSelector = 6
+	CapabilityTemplate_FieldPathSelectorDisplayName     CapabilityTemplate_FieldPathSelector = 7
+	CapabilityTemplate_FieldPathSelectorReasoning       CapabilityTemplate_FieldPathSelector = 8
+	CapabilityTemplate_FieldPathSelectorMaxOutputTokens CapabilityTemplate_FieldPathSelector = 9
 )
 
 func (s CapabilityTemplate_FieldPathSelector) String() string {
@@ -104,6 +108,10 @@ func (s CapabilityTemplate_FieldPathSelector) String() string {
 		return "default_model"
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return "display_name"
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		return "reasoning"
+	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+		return "max_output_tokens"
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", s))
 	}
@@ -131,6 +139,10 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel}, nil
 		case "display_name", "displayName", "display-name":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisplayName}, nil
+		case "reasoning":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorReasoning}, nil
+		case "max_output_tokens", "maxOutputTokens", "max-output-tokens":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -145,6 +157,12 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 				return nil, err
 			} else {
 				return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorRagConfig, subPath: subpath}, nil
+			}
+		case "reasoning":
+			if subpath, err := BuildReasoningConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorReasoning, subPath: subpath}, nil
 			}
 		}
 	}
@@ -215,6 +233,12 @@ func (fp *CapabilityTemplate_FieldTerminalPath) Get(source *CapabilityTemplate) 
 			values = append(values, source.DefaultModel)
 		case CapabilityTemplate_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case CapabilityTemplate_FieldPathSelectorReasoning:
+			if source.Reasoning != nil {
+				values = append(values, source.Reasoning)
+			}
+		case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+			values = append(values, source.MaxOutputTokens)
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -249,6 +273,11 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetSingle(source *CapabilityTemp
 		return source.GetDefaultModel(), source != nil
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		res := source.GetReasoning()
+		return res, res != nil
+	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+		return source.GetMaxOutputTokens(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -277,6 +306,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return ""
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		return (*ReasoningConfig)(nil)
+	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -301,6 +334,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) ClearValue(item *CapabilityTempl
 			item.DefaultModel = ""
 		case CapabilityTemplate_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case CapabilityTemplate_FieldPathSelectorReasoning:
+			item.Reasoning = nil
+		case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+			item.MaxOutputTokens = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -318,7 +355,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == CapabilityTemplate_FieldPathSelectorConnectors ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorMaxToolRounds ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorDefaultModel ||
-		fp.selector == CapabilityTemplate_FieldPathSelectorDisplayName
+		fp.selector == CapabilityTemplate_FieldPathSelectorDisplayName ||
+		fp.selector == CapabilityTemplate_FieldPathSelectorMaxOutputTokens
 }
 
 func (fp *CapabilityTemplate_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -343,6 +381,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIValue(value interface{}) Ca
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(string)}
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(string)}
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*ReasoningConfig)}
+	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -371,6 +413,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]string)}
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]string)}
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*ReasoningConfig)}
+	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -412,6 +458,10 @@ func (fps *CapabilityTemplate_FieldSubPath) AsRagConfigSubPath() (RAGConfig_Fiel
 	res, ok := fps.subPath.(RAGConfig_FieldPath)
 	return res, ok
 }
+func (fps *CapabilityTemplate_FieldSubPath) AsReasoningSubPath() (ReasoningConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(ReasoningConfig_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *CapabilityTemplate_FieldSubPath) String() string {
@@ -430,6 +480,8 @@ func (fps *CapabilityTemplate_FieldSubPath) Get(source *CapabilityTemplate) (val
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		values = append(values, fps.subPath.GetRaw(source.GetRagConfig())...)
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		values = append(values, fps.subPath.GetRaw(source.GetReasoning())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 	}
@@ -453,6 +505,11 @@ func (fps *CapabilityTemplate_FieldSubPath) GetSingle(source *CapabilityTemplate
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetRagConfig())
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		if source.GetReasoning() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetReasoning())
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 	}
@@ -474,6 +531,8 @@ func (fps *CapabilityTemplate_FieldSubPath) ClearValue(item *CapabilityTemplate)
 			fps.subPath.ClearValueRaw(item.Metadata)
 		case CapabilityTemplate_FieldPathSelectorRagConfig:
 			fps.subPath.ClearValueRaw(item.RagConfig)
+		case CapabilityTemplate_FieldPathSelectorReasoning:
+			fps.subPath.ClearValueRaw(item.Reasoning)
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 		}
@@ -590,6 +649,14 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDisplayNameValue() (stri
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsReasoningValue() (*ReasoningConfig, bool) {
+	res, ok := fpv.value.(*ReasoningConfig)
+	return res, ok
+}
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsMaxOutputTokensValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object CapabilityTemplate
 func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityTemplate) {
@@ -613,6 +680,10 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityT
 		(*target).DefaultModel = fpv.value.(string)
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		(*target).Reasoning = fpv.value.(*ReasoningConfig)
+	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+		(*target).MaxOutputTokens = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -691,6 +762,18 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) CompareWith(source *Capabi
 		} else {
 			return 1, true
 		}
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		return 0, false
+	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetMaxOutputTokens()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -715,6 +798,10 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) AsRagConfigPathValue() (RAGCon
 	res, ok := fpvs.subPathValue.(RAGConfig_FieldPathValue)
 	return res, ok
 }
+func (fpvs *CapabilityTemplate_FieldSubPathValue) AsReasoningPathValue() (ReasoningConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ReasoningConfig_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *CapabilityTemplate_FieldSubPathValue) SetTo(target **CapabilityTemplate) {
 	if *target == nil {
@@ -725,6 +812,8 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) SetTo(target **CapabilityTempl
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		fpvs.subPathValue.(RAGConfig_FieldPathValue).SetTo(&(*target).RagConfig)
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		fpvs.subPathValue.(ReasoningConfig_FieldPathValue).SetTo(&(*target).Reasoning)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpvs.Selector()))
 	}
@@ -745,6 +834,8 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) CompareWith(source *Capability
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return fpvs.subPathValue.(RAGConfig_FieldPathValue).CompareWith(source.GetRagConfig())
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		return fpvs.subPathValue.(ReasoningConfig_FieldPathValue).CompareWith(source.GetReasoning())
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpvs.Selector()))
 	}
@@ -839,6 +930,10 @@ func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsRagConfigPathItem
 	res, ok := fpaivs.subPathItemValue.(RAGConfig_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsReasoningPathItemValue() (ReasoningConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ReasoningConfig_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'CapabilityTemplate'
 func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) ContainsValue(source *CapabilityTemplate) bool {
@@ -847,6 +942,8 @@ func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) ContainsValue(sourc
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return fpaivs.subPathItemValue.(RAGConfig_FieldPathArrayItemValue).ContainsValue(source.GetRagConfig())
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		return fpaivs.subPathItemValue.(ReasoningConfig_FieldPathArrayItemValue).ContainsValue(source.GetReasoning())
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpaivs.Selector()))
 	}
@@ -919,6 +1016,14 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case CapabilityTemplate_FieldPathSelectorReasoning:
+		for _, v := range fpaov.values.([]*ReasoningConfig) {
+			values = append(values, v)
+		}
+	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -954,6 +1059,14 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDisplayNameArr
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsReasoningArrayOfValues() ([]*ReasoningConfig, bool) {
+	res, ok := fpaov.values.([]*ReasoningConfig)
+	return res, ok
+}
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsMaxOutputTokensArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
 
 type CapabilityTemplate_FieldSubPathArrayOfValues struct {
 	CapabilityTemplate_FieldPath
@@ -971,6 +1084,10 @@ func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsMetadataPathArrayO
 }
 func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsRagConfigPathArrayOfValues() (RAGConfig_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(RAGConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsReasoningPathArrayOfValues() (ReasoningConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ReasoningConfig_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -2718,5 +2835,426 @@ func (fpaov *RetrievalLimits_FieldTerminalPathArrayOfValues) AsMinRelevanceScore
 }
 func (fpaov *RetrievalLimits_FieldTerminalPathArrayOfValues) AsRequireCitationsArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ReasoningConfig_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ReasoningConfig_FieldPathSelector
+	Get(source *ReasoningConfig) []interface{}
+	GetSingle(source *ReasoningConfig) (interface{}, bool)
+	ClearValue(item *ReasoningConfig)
+
+	// Those methods build corresponding ReasoningConfig_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ReasoningConfig_FieldPathValue
+	WithIArrayOfValues(values interface{}) ReasoningConfig_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ReasoningConfig_FieldPathArrayItemValue
+}
+
+type ReasoningConfig_FieldPathSelector int32
+
+const (
+	ReasoningConfig_FieldPathSelectorMaxLevel     ReasoningConfig_FieldPathSelector = 0
+	ReasoningConfig_FieldPathSelectorDefaultLevel ReasoningConfig_FieldPathSelector = 1
+)
+
+func (s ReasoningConfig_FieldPathSelector) String() string {
+	switch s {
+	case ReasoningConfig_FieldPathSelectorMaxLevel:
+		return "max_level"
+	case ReasoningConfig_FieldPathSelectorDefaultLevel:
+		return "default_level"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", s))
+	}
+}
+
+func BuildReasoningConfig_FieldPath(fp gotenobject.RawFieldPath) (ReasoningConfig_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ReasoningConfig")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "max_level", "maxLevel", "max-level":
+			return &ReasoningConfig_FieldTerminalPath{selector: ReasoningConfig_FieldPathSelectorMaxLevel}, nil
+		case "default_level", "defaultLevel", "default-level":
+			return &ReasoningConfig_FieldTerminalPath{selector: ReasoningConfig_FieldPathSelectorDefaultLevel}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ReasoningConfig", fp)
+}
+
+func ParseReasoningConfig_FieldPath(rawField string) (ReasoningConfig_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildReasoningConfig_FieldPath(fp)
+}
+
+func MustParseReasoningConfig_FieldPath(rawField string) ReasoningConfig_FieldPath {
+	fp, err := ParseReasoningConfig_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ReasoningConfig_FieldTerminalPath struct {
+	selector ReasoningConfig_FieldPathSelector
+}
+
+var _ ReasoningConfig_FieldPath = (*ReasoningConfig_FieldTerminalPath)(nil)
+
+func (fp *ReasoningConfig_FieldTerminalPath) Selector() ReasoningConfig_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ReasoningConfig_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ReasoningConfig_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ReasoningConfig
+func (fp *ReasoningConfig_FieldTerminalPath) Get(source *ReasoningConfig) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ReasoningConfig_FieldPathSelectorMaxLevel:
+			values = append(values, source.MaxLevel)
+		case ReasoningConfig_FieldPathSelectorDefaultLevel:
+			values = append(values, source.DefaultLevel)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ReasoningConfig))
+}
+
+// GetSingle returns value pointed by specific field of from source ReasoningConfig
+func (fp *ReasoningConfig_FieldTerminalPath) GetSingle(source *ReasoningConfig) (interface{}, bool) {
+	switch fp.selector {
+	case ReasoningConfig_FieldPathSelectorMaxLevel:
+		return source.GetMaxLevel(), source != nil
+	case ReasoningConfig_FieldPathSelectorDefaultLevel:
+		return source.GetDefaultLevel(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ReasoningConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ReasoningConfig_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ReasoningConfig_FieldPathSelectorMaxLevel:
+		return common_client.ReasoningLevel_REASONING_LEVEL_DEFAULT
+	case ReasoningConfig_FieldPathSelectorDefaultLevel:
+		return common_client.ReasoningLevel_REASONING_LEVEL_DEFAULT
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) ClearValue(item *ReasoningConfig) {
+	if item != nil {
+		switch fp.selector {
+		case ReasoningConfig_FieldPathSelectorMaxLevel:
+			item.MaxLevel = common_client.ReasoningLevel_REASONING_LEVEL_DEFAULT
+		case ReasoningConfig_FieldPathSelectorDefaultLevel:
+			item.DefaultLevel = common_client.ReasoningLevel_REASONING_LEVEL_DEFAULT
+		default:
+			panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ReasoningConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ReasoningConfig_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ReasoningConfig_FieldPathSelectorMaxLevel ||
+		fp.selector == ReasoningConfig_FieldPathSelectorDefaultLevel
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) WithIValue(value interface{}) ReasoningConfig_FieldPathValue {
+	switch fp.selector {
+	case ReasoningConfig_FieldPathSelectorMaxLevel:
+		return &ReasoningConfig_FieldTerminalPathValue{ReasoningConfig_FieldTerminalPath: *fp, value: value.(common_client.ReasoningLevel)}
+	case ReasoningConfig_FieldPathSelectorDefaultLevel:
+		return &ReasoningConfig_FieldTerminalPathValue{ReasoningConfig_FieldTerminalPath: *fp, value: value.(common_client.ReasoningLevel)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) ReasoningConfig_FieldPathArrayOfValues {
+	fpaov := &ReasoningConfig_FieldTerminalPathArrayOfValues{ReasoningConfig_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ReasoningConfig_FieldPathSelectorMaxLevel:
+		return &ReasoningConfig_FieldTerminalPathArrayOfValues{ReasoningConfig_FieldTerminalPath: *fp, values: values.([]common_client.ReasoningLevel)}
+	case ReasoningConfig_FieldPathSelectorDefaultLevel:
+		return &ReasoningConfig_FieldTerminalPathArrayOfValues{ReasoningConfig_FieldTerminalPath: *fp, values: values.([]common_client.ReasoningLevel)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) ReasoningConfig_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ReasoningConfig_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ReasoningConfig_FieldPathValue allows storing values for ReasoningConfig fields according to their type
+type ReasoningConfig_FieldPathValue interface {
+	ReasoningConfig_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ReasoningConfig)
+	CompareWith(*ReasoningConfig) (cmp int, comparable bool)
+}
+
+func ParseReasoningConfig_FieldPathValue(pathStr, valueStr string) (ReasoningConfig_FieldPathValue, error) {
+	fp, err := ParseReasoningConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ReasoningConfig field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ReasoningConfig_FieldPathValue), nil
+}
+
+func MustParseReasoningConfig_FieldPathValue(pathStr, valueStr string) ReasoningConfig_FieldPathValue {
+	fpv, err := ParseReasoningConfig_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ReasoningConfig_FieldTerminalPathValue struct {
+	ReasoningConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ ReasoningConfig_FieldPathValue = (*ReasoningConfig_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ReasoningConfig' as interface{}
+func (fpv *ReasoningConfig_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ReasoningConfig_FieldTerminalPathValue) AsMaxLevelValue() (common_client.ReasoningLevel, bool) {
+	res, ok := fpv.value.(common_client.ReasoningLevel)
+	return res, ok
+}
+func (fpv *ReasoningConfig_FieldTerminalPathValue) AsDefaultLevelValue() (common_client.ReasoningLevel, bool) {
+	res, ok := fpv.value.(common_client.ReasoningLevel)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ReasoningConfig
+func (fpv *ReasoningConfig_FieldTerminalPathValue) SetTo(target **ReasoningConfig) {
+	if *target == nil {
+		*target = new(ReasoningConfig)
+	}
+	switch fpv.selector {
+	case ReasoningConfig_FieldPathSelectorMaxLevel:
+		(*target).MaxLevel = fpv.value.(common_client.ReasoningLevel)
+	case ReasoningConfig_FieldPathSelectorDefaultLevel:
+		(*target).DefaultLevel = fpv.value.(common_client.ReasoningLevel)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *ReasoningConfig_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ReasoningConfig)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ReasoningConfig_FieldTerminalPathValue' with the value under path in 'ReasoningConfig'.
+func (fpv *ReasoningConfig_FieldTerminalPathValue) CompareWith(source *ReasoningConfig) (int, bool) {
+	switch fpv.selector {
+	case ReasoningConfig_FieldPathSelectorMaxLevel:
+		leftValue := fpv.value.(common_client.ReasoningLevel)
+		rightValue := source.GetMaxLevel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ReasoningConfig_FieldPathSelectorDefaultLevel:
+		leftValue := fpv.value.(common_client.ReasoningLevel)
+		rightValue := source.GetDefaultLevel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReasoningConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *ReasoningConfig_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ReasoningConfig))
+}
+
+// ReasoningConfig_FieldPathArrayItemValue allows storing single item in Path-specific values for ReasoningConfig according to their type
+// Present only for array (repeated) types.
+type ReasoningConfig_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ReasoningConfig_FieldPath
+	ContainsValue(*ReasoningConfig) bool
+}
+
+// ParseReasoningConfig_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseReasoningConfig_FieldPathArrayItemValue(pathStr, valueStr string) (ReasoningConfig_FieldPathArrayItemValue, error) {
+	fp, err := ParseReasoningConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ReasoningConfig field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ReasoningConfig_FieldPathArrayItemValue), nil
+}
+
+func MustParseReasoningConfig_FieldPathArrayItemValue(pathStr, valueStr string) ReasoningConfig_FieldPathArrayItemValue {
+	fpaiv, err := ParseReasoningConfig_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ReasoningConfig_FieldTerminalPathArrayItemValue struct {
+	ReasoningConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ ReasoningConfig_FieldPathArrayItemValue = (*ReasoningConfig_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ReasoningConfig as interface{}
+func (fpaiv *ReasoningConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ReasoningConfig_FieldTerminalPathArrayItemValue) GetSingle(source *ReasoningConfig) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ReasoningConfig_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ReasoningConfig))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ReasoningConfig'
+func (fpaiv *ReasoningConfig_FieldTerminalPathArrayItemValue) ContainsValue(source *ReasoningConfig) bool {
+	slice := fpaiv.ReasoningConfig_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ReasoningConfig_FieldPathArrayOfValues allows storing slice of values for ReasoningConfig fields according to their type
+type ReasoningConfig_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ReasoningConfig_FieldPath
+}
+
+func ParseReasoningConfig_FieldPathArrayOfValues(pathStr, valuesStr string) (ReasoningConfig_FieldPathArrayOfValues, error) {
+	fp, err := ParseReasoningConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ReasoningConfig field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ReasoningConfig_FieldPathArrayOfValues), nil
+}
+
+func MustParseReasoningConfig_FieldPathArrayOfValues(pathStr, valuesStr string) ReasoningConfig_FieldPathArrayOfValues {
+	fpaov, err := ParseReasoningConfig_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ReasoningConfig_FieldTerminalPathArrayOfValues struct {
+	ReasoningConfig_FieldTerminalPath
+	values interface{}
+}
+
+var _ ReasoningConfig_FieldPathArrayOfValues = (*ReasoningConfig_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ReasoningConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ReasoningConfig_FieldPathSelectorMaxLevel:
+		for _, v := range fpaov.values.([]common_client.ReasoningLevel) {
+			values = append(values, v)
+		}
+	case ReasoningConfig_FieldPathSelectorDefaultLevel:
+		for _, v := range fpaov.values.([]common_client.ReasoningLevel) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ReasoningConfig_FieldTerminalPathArrayOfValues) AsMaxLevelArrayOfValues() ([]common_client.ReasoningLevel, bool) {
+	res, ok := fpaov.values.([]common_client.ReasoningLevel)
+	return res, ok
+}
+func (fpaov *ReasoningConfig_FieldTerminalPathArrayOfValues) AsDefaultLevelArrayOfValues() ([]common_client.ReasoningLevel, bool) {
+	res, ok := fpaov.values.([]common_client.ReasoningLevel)
 	return res, ok
 }

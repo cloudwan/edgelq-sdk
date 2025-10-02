@@ -6,6 +6,7 @@ package capability_template
 
 // proto imports
 import (
+	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -24,6 +25,7 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
@@ -68,6 +70,12 @@ func (CapabilityTemplateFieldPathBuilder) DefaultModel() CapabilityTemplatePathS
 }
 func (CapabilityTemplateFieldPathBuilder) DisplayName() CapabilityTemplatePathSelectorDisplayName {
 	return CapabilityTemplatePathSelectorDisplayName{}
+}
+func (CapabilityTemplateFieldPathBuilder) Reasoning() CapabilityTemplatePathSelectorReasoning {
+	return CapabilityTemplatePathSelectorReasoning{}
+}
+func (CapabilityTemplateFieldPathBuilder) MaxOutputTokens() CapabilityTemplatePathSelectorMaxOutputTokens {
+	return CapabilityTemplatePathSelectorMaxOutputTokens{}
 }
 
 type CapabilityTemplatePathSelectorName struct{}
@@ -1126,6 +1134,92 @@ func (s CapabilityTemplatePathSelectorDisplayName) WithArrayOfValues(values []st
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
 }
 
+type CapabilityTemplatePathSelectorReasoning struct{}
+
+func (CapabilityTemplatePathSelectorReasoning) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorReasoning}
+}
+
+func (s CapabilityTemplatePathSelectorReasoning) WithValue(value *ReasoningConfig) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorReasoning) WithArrayOfValues(values []*ReasoningConfig) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+func (CapabilityTemplatePathSelectorReasoning) WithSubPath(subPath ReasoningConfig_FieldPath) *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorReasoning, subPath: subPath}
+}
+
+func (s CapabilityTemplatePathSelectorReasoning) WithSubValue(subPathValue ReasoningConfig_FieldPathValue) *CapabilityTemplate_FieldSubPathValue {
+	return &CapabilityTemplate_FieldSubPathValue{CapabilityTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s CapabilityTemplatePathSelectorReasoning) WithSubArrayOfValues(subPathArrayOfValues ReasoningConfig_FieldPathArrayOfValues) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return &CapabilityTemplate_FieldSubPathArrayOfValues{CapabilityTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s CapabilityTemplatePathSelectorReasoning) WithSubArrayItemValue(subPathArrayItemValue ReasoningConfig_FieldPathArrayItemValue) *CapabilityTemplate_FieldSubPathArrayItemValue {
+	return &CapabilityTemplate_FieldSubPathArrayItemValue{CapabilityTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (CapabilityTemplatePathSelectorReasoning) MaxLevel() CapabilityTemplatePathSelectorReasoningMaxLevel {
+	return CapabilityTemplatePathSelectorReasoningMaxLevel{}
+}
+
+func (CapabilityTemplatePathSelectorReasoning) DefaultLevel() CapabilityTemplatePathSelectorReasoningDefaultLevel {
+	return CapabilityTemplatePathSelectorReasoningDefaultLevel{}
+}
+
+type CapabilityTemplatePathSelectorReasoningMaxLevel struct{}
+
+func (CapabilityTemplatePathSelectorReasoningMaxLevel) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorReasoning,
+		subPath:  NewReasoningConfigFieldPathBuilder().MaxLevel().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorReasoningMaxLevel) WithValue(value common_client.ReasoningLevel) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorReasoningMaxLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorReasoningDefaultLevel struct{}
+
+func (CapabilityTemplatePathSelectorReasoningDefaultLevel) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorReasoning,
+		subPath:  NewReasoningConfigFieldPathBuilder().DefaultLevel().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorReasoningDefaultLevel) WithValue(value common_client.ReasoningLevel) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorReasoningDefaultLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorMaxOutputTokens struct{}
+
+func (CapabilityTemplatePathSelectorMaxOutputTokens) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens}
+}
+
+func (s CapabilityTemplatePathSelectorMaxOutputTokens) WithValue(value int32) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
 type RAGConfigFieldPathBuilder struct{}
 
 func NewRAGConfigFieldPathBuilder() RAGConfigFieldPathBuilder {
@@ -1550,4 +1644,44 @@ func (s RetrievalLimitsPathSelectorRequireCitations) WithValue(value bool) *Retr
 
 func (s RetrievalLimitsPathSelectorRequireCitations) WithArrayOfValues(values []bool) *RetrievalLimits_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RetrievalLimits_FieldTerminalPathArrayOfValues)
+}
+
+type ReasoningConfigFieldPathBuilder struct{}
+
+func NewReasoningConfigFieldPathBuilder() ReasoningConfigFieldPathBuilder {
+	return ReasoningConfigFieldPathBuilder{}
+}
+func (ReasoningConfigFieldPathBuilder) MaxLevel() ReasoningConfigPathSelectorMaxLevel {
+	return ReasoningConfigPathSelectorMaxLevel{}
+}
+func (ReasoningConfigFieldPathBuilder) DefaultLevel() ReasoningConfigPathSelectorDefaultLevel {
+	return ReasoningConfigPathSelectorDefaultLevel{}
+}
+
+type ReasoningConfigPathSelectorMaxLevel struct{}
+
+func (ReasoningConfigPathSelectorMaxLevel) FieldPath() *ReasoningConfig_FieldTerminalPath {
+	return &ReasoningConfig_FieldTerminalPath{selector: ReasoningConfig_FieldPathSelectorMaxLevel}
+}
+
+func (s ReasoningConfigPathSelectorMaxLevel) WithValue(value common_client.ReasoningLevel) *ReasoningConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ReasoningConfig_FieldTerminalPathValue)
+}
+
+func (s ReasoningConfigPathSelectorMaxLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *ReasoningConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReasoningConfig_FieldTerminalPathArrayOfValues)
+}
+
+type ReasoningConfigPathSelectorDefaultLevel struct{}
+
+func (ReasoningConfigPathSelectorDefaultLevel) FieldPath() *ReasoningConfig_FieldTerminalPath {
+	return &ReasoningConfig_FieldTerminalPath{selector: ReasoningConfig_FieldPathSelectorDefaultLevel}
+}
+
+func (s ReasoningConfigPathSelectorDefaultLevel) WithValue(value common_client.ReasoningLevel) *ReasoningConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ReasoningConfig_FieldTerminalPathValue)
+}
+
+func (s ReasoningConfigPathSelectorDefaultLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *ReasoningConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReasoningConfig_FieldTerminalPathArrayOfValues)
 }

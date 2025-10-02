@@ -62,6 +62,9 @@ message ChatModel {
 
     // Optional: Azure API version (e.g., "2024-06-01")
     string azure_api_version = 6;
+
+    // Maximum output tokens
+    int32 max_output_tokens = 7;
   }
 
   message Anthropic {
@@ -72,6 +75,9 @@ message ChatModel {
 
     // Optional: Custom endpoint
     string base_url = 3;
+
+    // Maximum output tokens (must be >= 4096 for Anthropic)
+    int32 max_output_tokens = 4;
   }
 
   message Gemini {
@@ -79,6 +85,9 @@ message ChatModel {
 
     // Model name (e.g., "gemini-pro", "gemini-ultra")
     string model = 2;
+
+    // Maximum output tokens
+    int32 max_output_tokens = 3;
   }
 
   message AzureOpenAi {
@@ -93,6 +102,9 @@ message ChatModel {
 
     // API version (e.g., "2024-10-21")
     string api_version = 4;
+
+    // Maximum output tokens
+    int32 max_output_tokens = 5;
   }
 
   reserved 3;

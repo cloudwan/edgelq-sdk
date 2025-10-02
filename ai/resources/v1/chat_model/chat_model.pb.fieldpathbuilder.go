@@ -801,6 +801,10 @@ func (ChatModelPathSelectorAzureOpenAi) ApiVersion() ChatModelPathSelectorAzureO
 	return ChatModelPathSelectorAzureOpenAiApiVersion{}
 }
 
+func (ChatModelPathSelectorAzureOpenAi) MaxOutputTokens() ChatModelPathSelectorAzureOpenAiMaxOutputTokens {
+	return ChatModelPathSelectorAzureOpenAiMaxOutputTokens{}
+}
+
 type ChatModelPathSelectorAzureOpenAiEndpoint struct{}
 
 func (ChatModelPathSelectorAzureOpenAiEndpoint) FieldPath() *ChatModel_FieldSubPath {
@@ -869,6 +873,23 @@ func (s ChatModelPathSelectorAzureOpenAiApiVersion) WithArrayOfValues(values []s
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
 }
 
+type ChatModelPathSelectorAzureOpenAiMaxOutputTokens struct{}
+
+func (ChatModelPathSelectorAzureOpenAiMaxOutputTokens) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorAzureOpenAi,
+		subPath:  NewChatModelAzureOpenAiFieldPathBuilder().MaxOutputTokens().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorAzureOpenAiMaxOutputTokens) WithValue(value int32) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorAzureOpenAiMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
 type ChatModelPathSelectorOpenaiCompatible struct{}
 
 func (ChatModelPathSelectorOpenaiCompatible) FieldPath() *ChatModel_FieldTerminalPath {
@@ -921,6 +942,10 @@ func (ChatModelPathSelectorOpenaiCompatible) AzureEndpoint() ChatModelPathSelect
 
 func (ChatModelPathSelectorOpenaiCompatible) AzureApiVersion() ChatModelPathSelectorOpenaiCompatibleAzureApiVersion {
 	return ChatModelPathSelectorOpenaiCompatibleAzureApiVersion{}
+}
+
+func (ChatModelPathSelectorOpenaiCompatible) MaxOutputTokens() ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens {
+	return ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens{}
 }
 
 type ChatModelPathSelectorOpenaiCompatibleApiKey struct{}
@@ -1025,6 +1050,23 @@ func (s ChatModelPathSelectorOpenaiCompatibleAzureApiVersion) WithArrayOfValues(
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
 }
 
+type ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens struct{}
+
+func (ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorOpenaiCompatible,
+		subPath:  NewChatModelOpenAICompatibleFieldPathBuilder().MaxOutputTokens().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens) WithValue(value int32) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
 type ChatModelPathSelectorAnthropic struct{}
 
 func (ChatModelPathSelectorAnthropic) FieldPath() *ChatModel_FieldTerminalPath {
@@ -1065,6 +1107,10 @@ func (ChatModelPathSelectorAnthropic) Model() ChatModelPathSelectorAnthropicMode
 
 func (ChatModelPathSelectorAnthropic) BaseUrl() ChatModelPathSelectorAnthropicBaseUrl {
 	return ChatModelPathSelectorAnthropicBaseUrl{}
+}
+
+func (ChatModelPathSelectorAnthropic) MaxOutputTokens() ChatModelPathSelectorAnthropicMaxOutputTokens {
+	return ChatModelPathSelectorAnthropicMaxOutputTokens{}
 }
 
 type ChatModelPathSelectorAnthropicApiKey struct{}
@@ -1118,6 +1164,23 @@ func (s ChatModelPathSelectorAnthropicBaseUrl) WithArrayOfValues(values []string
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
 }
 
+type ChatModelPathSelectorAnthropicMaxOutputTokens struct{}
+
+func (ChatModelPathSelectorAnthropicMaxOutputTokens) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorAnthropic,
+		subPath:  NewChatModelAnthropicFieldPathBuilder().MaxOutputTokens().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorAnthropicMaxOutputTokens) WithValue(value int32) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorAnthropicMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
 type ChatModelPathSelectorGemini struct{}
 
 func (ChatModelPathSelectorGemini) FieldPath() *ChatModel_FieldTerminalPath {
@@ -1156,6 +1219,10 @@ func (ChatModelPathSelectorGemini) Model() ChatModelPathSelectorGeminiModel {
 	return ChatModelPathSelectorGeminiModel{}
 }
 
+func (ChatModelPathSelectorGemini) MaxOutputTokens() ChatModelPathSelectorGeminiMaxOutputTokens {
+	return ChatModelPathSelectorGeminiMaxOutputTokens{}
+}
+
 type ChatModelPathSelectorGeminiApiKey struct{}
 
 func (ChatModelPathSelectorGeminiApiKey) FieldPath() *ChatModel_FieldSubPath {
@@ -1187,6 +1254,23 @@ func (s ChatModelPathSelectorGeminiModel) WithValue(value string) *ChatModel_Fie
 }
 
 func (s ChatModelPathSelectorGeminiModel) WithArrayOfValues(values []string) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorGeminiMaxOutputTokens struct{}
+
+func (ChatModelPathSelectorGeminiMaxOutputTokens) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorGemini,
+		subPath:  NewChatModelGeminiFieldPathBuilder().MaxOutputTokens().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorGeminiMaxOutputTokens) WithValue(value int32) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorGeminiMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
 }
 
@@ -1226,6 +1310,9 @@ func (ChatModelOpenAICompatibleFieldPathBuilder) AzureEndpoint() ChatModel_OpenA
 }
 func (ChatModelOpenAICompatibleFieldPathBuilder) AzureApiVersion() ChatModel_OpenAICompatiblePathSelectorAzureApiVersion {
 	return ChatModel_OpenAICompatiblePathSelectorAzureApiVersion{}
+}
+func (ChatModelOpenAICompatibleFieldPathBuilder) MaxOutputTokens() ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens {
+	return ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens{}
 }
 
 type ChatModel_OpenAICompatiblePathSelectorApiKey struct{}
@@ -1312,6 +1399,20 @@ func (s ChatModel_OpenAICompatiblePathSelectorAzureApiVersion) WithArrayOfValues
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
 }
 
+type ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens struct{}
+
+func (ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens) FieldPath() *ChatModelOpenAICompatible_FieldTerminalPath {
+	return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens}
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens) WithValue(value int32) *ChatModelOpenAICompatible_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelOpenAICompatible_FieldTerminalPathValue)
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
+}
+
 type ChatModelAnthropicFieldPathBuilder struct{}
 
 func NewChatModelAnthropicFieldPathBuilder() ChatModelAnthropicFieldPathBuilder {
@@ -1325,6 +1426,9 @@ func (ChatModelAnthropicFieldPathBuilder) Model() ChatModel_AnthropicPathSelecto
 }
 func (ChatModelAnthropicFieldPathBuilder) BaseUrl() ChatModel_AnthropicPathSelectorBaseUrl {
 	return ChatModel_AnthropicPathSelectorBaseUrl{}
+}
+func (ChatModelAnthropicFieldPathBuilder) MaxOutputTokens() ChatModel_AnthropicPathSelectorMaxOutputTokens {
+	return ChatModel_AnthropicPathSelectorMaxOutputTokens{}
 }
 
 type ChatModel_AnthropicPathSelectorApiKey struct{}
@@ -1369,6 +1473,20 @@ func (s ChatModel_AnthropicPathSelectorBaseUrl) WithArrayOfValues(values []strin
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAnthropic_FieldTerminalPathArrayOfValues)
 }
 
+type ChatModel_AnthropicPathSelectorMaxOutputTokens struct{}
+
+func (ChatModel_AnthropicPathSelectorMaxOutputTokens) FieldPath() *ChatModelAnthropic_FieldTerminalPath {
+	return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorMaxOutputTokens}
+}
+
+func (s ChatModel_AnthropicPathSelectorMaxOutputTokens) WithValue(value int32) *ChatModelAnthropic_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelAnthropic_FieldTerminalPathValue)
+}
+
+func (s ChatModel_AnthropicPathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModelAnthropic_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAnthropic_FieldTerminalPathArrayOfValues)
+}
+
 type ChatModelGeminiFieldPathBuilder struct{}
 
 func NewChatModelGeminiFieldPathBuilder() ChatModelGeminiFieldPathBuilder {
@@ -1379,6 +1497,9 @@ func (ChatModelGeminiFieldPathBuilder) ApiKey() ChatModel_GeminiPathSelectorApiK
 }
 func (ChatModelGeminiFieldPathBuilder) Model() ChatModel_GeminiPathSelectorModel {
 	return ChatModel_GeminiPathSelectorModel{}
+}
+func (ChatModelGeminiFieldPathBuilder) MaxOutputTokens() ChatModel_GeminiPathSelectorMaxOutputTokens {
+	return ChatModel_GeminiPathSelectorMaxOutputTokens{}
 }
 
 type ChatModel_GeminiPathSelectorApiKey struct{}
@@ -1409,6 +1530,20 @@ func (s ChatModel_GeminiPathSelectorModel) WithArrayOfValues(values []string) *C
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelGemini_FieldTerminalPathArrayOfValues)
 }
 
+type ChatModel_GeminiPathSelectorMaxOutputTokens struct{}
+
+func (ChatModel_GeminiPathSelectorMaxOutputTokens) FieldPath() *ChatModelGemini_FieldTerminalPath {
+	return &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorMaxOutputTokens}
+}
+
+func (s ChatModel_GeminiPathSelectorMaxOutputTokens) WithValue(value int32) *ChatModelGemini_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelGemini_FieldTerminalPathValue)
+}
+
+func (s ChatModel_GeminiPathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModelGemini_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelGemini_FieldTerminalPathArrayOfValues)
+}
+
 type ChatModelAzureOpenAiFieldPathBuilder struct{}
 
 func NewChatModelAzureOpenAiFieldPathBuilder() ChatModelAzureOpenAiFieldPathBuilder {
@@ -1425,6 +1560,9 @@ func (ChatModelAzureOpenAiFieldPathBuilder) DeploymentName() ChatModel_AzureOpen
 }
 func (ChatModelAzureOpenAiFieldPathBuilder) ApiVersion() ChatModel_AzureOpenAiPathSelectorApiVersion {
 	return ChatModel_AzureOpenAiPathSelectorApiVersion{}
+}
+func (ChatModelAzureOpenAiFieldPathBuilder) MaxOutputTokens() ChatModel_AzureOpenAiPathSelectorMaxOutputTokens {
+	return ChatModel_AzureOpenAiPathSelectorMaxOutputTokens{}
 }
 
 type ChatModel_AzureOpenAiPathSelectorEndpoint struct{}
@@ -1480,5 +1618,19 @@ func (s ChatModel_AzureOpenAiPathSelectorApiVersion) WithValue(value string) *Ch
 }
 
 func (s ChatModel_AzureOpenAiPathSelectorApiVersion) WithArrayOfValues(values []string) *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_AzureOpenAiPathSelectorMaxOutputTokens struct{}
+
+func (ChatModel_AzureOpenAiPathSelectorMaxOutputTokens) FieldPath() *ChatModelAzureOpenAi_FieldTerminalPath {
+	return &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorMaxOutputTokens}
+}
+
+func (s ChatModel_AzureOpenAiPathSelectorMaxOutputTokens) WithValue(value int32) *ChatModelAzureOpenAi_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelAzureOpenAi_FieldTerminalPathValue)
+}
+
+func (s ChatModel_AzureOpenAiPathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues)
 }

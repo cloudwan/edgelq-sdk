@@ -20,6 +20,7 @@ import (
 
 // proto imports
 import (
+	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -42,6 +43,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
@@ -68,6 +70,11 @@ func (obj *CapabilityTemplate) GotenValidate() error {
 	}
 	if obj.DisplayName == "" {
 		return gotenvalidate.NewValidationError("CapabilityTemplate", "displayName", obj.DisplayName, "field is required", nil)
+	}
+	if subobj, ok := interface{}(obj.Reasoning).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CapabilityTemplate", "reasoning", obj.Reasoning, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -103,6 +110,15 @@ func (obj *IndexingPolicy) GotenValidate() error {
 	return nil
 }
 func (obj *RetrievalLimits) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ReasoningConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

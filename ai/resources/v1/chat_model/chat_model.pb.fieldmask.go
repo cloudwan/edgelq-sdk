@@ -450,6 +450,7 @@ func FullChatModel_OpenAICompatible_FieldMask() *ChatModel_OpenAICompatible_Fiel
 	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorOrganization})
 	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint})
 	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion})
+	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens})
 	return res
 }
 
@@ -468,7 +469,7 @@ func (fieldMask *ChatModel_OpenAICompatible_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ChatModelOpenAICompatible_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -498,7 +499,7 @@ func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Reset() {
 
 func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Subtract(other *ChatModel_OpenAICompatible_FieldMask) *ChatModel_OpenAICompatible_FieldMask {
 	result := &ChatModel_OpenAICompatible_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -664,6 +665,8 @@ func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Project(source *ChatModel
 				result.AzureEndpoint = source.AzureEndpoint
 			case ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion:
 				result.AzureApiVersion = source.AzureApiVersion
+			case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
+				result.MaxOutputTokens = source.MaxOutputTokens
 			}
 		}
 	}
@@ -690,6 +693,7 @@ func FullChatModel_Anthropic_FieldMask() *ChatModel_Anthropic_FieldMask {
 	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorApiKey})
 	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorModel})
 	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorBaseUrl})
+	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorMaxOutputTokens})
 	return res
 }
 
@@ -708,7 +712,7 @@ func (fieldMask *ChatModel_Anthropic_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ChatModelAnthropic_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -738,7 +742,7 @@ func (fieldMask *ChatModel_Anthropic_FieldMask) Reset() {
 
 func (fieldMask *ChatModel_Anthropic_FieldMask) Subtract(other *ChatModel_Anthropic_FieldMask) *ChatModel_Anthropic_FieldMask {
 	result := &ChatModel_Anthropic_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -898,6 +902,8 @@ func (fieldMask *ChatModel_Anthropic_FieldMask) Project(source *ChatModel_Anthro
 				result.Model = source.Model
 			case ChatModelAnthropic_FieldPathSelectorBaseUrl:
 				result.BaseUrl = source.BaseUrl
+			case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
+				result.MaxOutputTokens = source.MaxOutputTokens
 			}
 		}
 	}
@@ -923,6 +929,7 @@ func FullChatModel_Gemini_FieldMask() *ChatModel_Gemini_FieldMask {
 	res := &ChatModel_Gemini_FieldMask{}
 	res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorApiKey})
 	res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorModel})
+	res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorMaxOutputTokens})
 	return res
 }
 
@@ -941,7 +948,7 @@ func (fieldMask *ChatModel_Gemini_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ChatModelGemini_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -971,7 +978,7 @@ func (fieldMask *ChatModel_Gemini_FieldMask) Reset() {
 
 func (fieldMask *ChatModel_Gemini_FieldMask) Subtract(other *ChatModel_Gemini_FieldMask) *ChatModel_Gemini_FieldMask {
 	result := &ChatModel_Gemini_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1129,6 +1136,8 @@ func (fieldMask *ChatModel_Gemini_FieldMask) Project(source *ChatModel_Gemini) *
 				result.ApiKey = source.ApiKey
 			case ChatModelGemini_FieldPathSelectorModel:
 				result.Model = source.Model
+			case ChatModelGemini_FieldPathSelectorMaxOutputTokens:
+				result.MaxOutputTokens = source.MaxOutputTokens
 			}
 		}
 	}
@@ -1156,6 +1165,7 @@ func FullChatModel_AzureOpenAi_FieldMask() *ChatModel_AzureOpenAi_FieldMask {
 	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiKey})
 	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorDeploymentName})
 	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiVersion})
+	res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorMaxOutputTokens})
 	return res
 }
 
@@ -1174,7 +1184,7 @@ func (fieldMask *ChatModel_AzureOpenAi_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ChatModelAzureOpenAi_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1204,7 +1214,7 @@ func (fieldMask *ChatModel_AzureOpenAi_FieldMask) Reset() {
 
 func (fieldMask *ChatModel_AzureOpenAi_FieldMask) Subtract(other *ChatModel_AzureOpenAi_FieldMask) *ChatModel_AzureOpenAi_FieldMask {
 	result := &ChatModel_AzureOpenAi_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 5)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1366,6 +1376,8 @@ func (fieldMask *ChatModel_AzureOpenAi_FieldMask) Project(source *ChatModel_Azur
 				result.DeploymentName = source.DeploymentName
 			case ChatModelAzureOpenAi_FieldPathSelectorApiVersion:
 				result.ApiVersion = source.ApiVersion
+			case ChatModelAzureOpenAi_FieldPathSelectorMaxOutputTokens:
+				result.MaxOutputTokens = source.MaxOutputTokens
 			}
 		}
 	}

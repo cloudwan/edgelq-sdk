@@ -2464,6 +2464,10 @@ func (b *filterCndBuilderAzureOpenAi) ApiVersion() *filterCndBuilderAzureOpenAiA
 	return &filterCndBuilderAzureOpenAiApiVersion{builder: b.builder}
 }
 
+func (b *filterCndBuilderAzureOpenAi) MaxOutputTokens() *filterCndBuilderAzureOpenAiMaxOutputTokens {
+	return &filterCndBuilderAzureOpenAiMaxOutputTokens{builder: b.builder}
+}
+
 type filterCndBuilderAzureOpenAiEndpoint struct {
 	builder *FilterBuilder
 }
@@ -2700,6 +2704,65 @@ func (b *filterCndBuilderAzureOpenAiApiVersion) compare(op gotenfilter.CompareOp
 	})
 }
 
+type filterCndBuilderAzureOpenAiMaxOutputTokens struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().AzureOpenAi().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().AzureOpenAi().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAzureOpenAiMaxOutputTokens) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().AzureOpenAi().MaxOutputTokens().WithValue(value),
+	})
+}
+
 type filterCndBuilderOpenaiCompatible struct {
 	builder *FilterBuilder
 }
@@ -2781,6 +2844,10 @@ func (b *filterCndBuilderOpenaiCompatible) AzureEndpoint() *filterCndBuilderOpen
 
 func (b *filterCndBuilderOpenaiCompatible) AzureApiVersion() *filterCndBuilderOpenaiCompatibleAzureApiVersion {
 	return &filterCndBuilderOpenaiCompatibleAzureApiVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilderOpenaiCompatible) MaxOutputTokens() *filterCndBuilderOpenaiCompatibleMaxOutputTokens {
+	return &filterCndBuilderOpenaiCompatibleMaxOutputTokens{builder: b.builder}
 }
 
 type filterCndBuilderOpenaiCompatibleApiKey struct {
@@ -3137,6 +3204,65 @@ func (b *filterCndBuilderOpenaiCompatibleAzureApiVersion) compare(op gotenfilter
 	})
 }
 
+type filterCndBuilderOpenaiCompatibleMaxOutputTokens struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().OpenaiCompatible().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().OpenaiCompatible().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOpenaiCompatibleMaxOutputTokens) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().OpenaiCompatible().MaxOutputTokens().WithValue(value),
+	})
+}
+
 type filterCndBuilderAnthropic struct {
 	builder *FilterBuilder
 }
@@ -3206,6 +3332,10 @@ func (b *filterCndBuilderAnthropic) Model() *filterCndBuilderAnthropicModel {
 
 func (b *filterCndBuilderAnthropic) BaseUrl() *filterCndBuilderAnthropicBaseUrl {
 	return &filterCndBuilderAnthropicBaseUrl{builder: b.builder}
+}
+
+func (b *filterCndBuilderAnthropic) MaxOutputTokens() *filterCndBuilderAnthropicMaxOutputTokens {
+	return &filterCndBuilderAnthropicMaxOutputTokens{builder: b.builder}
 }
 
 type filterCndBuilderAnthropicApiKey struct {
@@ -3385,6 +3515,65 @@ func (b *filterCndBuilderAnthropicBaseUrl) compare(op gotenfilter.CompareOperato
 	})
 }
 
+type filterCndBuilderAnthropicMaxOutputTokens struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicMaxOutputTokens) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Anthropic().MaxOutputTokens().WithValue(value),
+	})
+}
+
 type filterCndBuilderGemini struct {
 	builder *FilterBuilder
 }
@@ -3450,6 +3639,10 @@ func (b *filterCndBuilderGemini) ApiKey() *filterCndBuilderGeminiApiKey {
 
 func (b *filterCndBuilderGemini) Model() *filterCndBuilderGeminiModel {
 	return &filterCndBuilderGeminiModel{builder: b.builder}
+}
+
+func (b *filterCndBuilderGemini) MaxOutputTokens() *filterCndBuilderGeminiMaxOutputTokens {
+	return &filterCndBuilderGeminiMaxOutputTokens{builder: b.builder}
 }
 
 type filterCndBuilderGeminiApiKey struct {
@@ -3567,6 +3760,65 @@ func (b *filterCndBuilderGeminiModel) compare(op gotenfilter.CompareOperator, va
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Gemini().Model().WithValue(value),
+	})
+}
+
+type filterCndBuilderGeminiMaxOutputTokens struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Gemini().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Gemini().MaxOutputTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Gemini().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Gemini().MaxOutputTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderGeminiMaxOutputTokens) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Gemini().MaxOutputTokens().WithValue(value),
 	})
 }
 

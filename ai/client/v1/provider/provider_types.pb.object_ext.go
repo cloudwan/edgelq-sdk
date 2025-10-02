@@ -170,6 +170,9 @@ func (o *ProviderChatRequest) MakeDiffFieldMask(other *ProviderChatRequest) *Pro
 			res.Paths = append(res.Paths, &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorGeminiConfig})
 		}
 	}
+	if o.GetReasoningLevel() != other.GetReasoningLevel() {
+		res.Paths = append(res.Paths, &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorReasoningLevel})
+	}
 	return res
 }
 
@@ -229,6 +232,7 @@ func (o *ProviderChatRequest) Clone() *ProviderChatRequest {
 			result.GeminiConfig = o.GeminiConfig.Clone()
 		}
 	}
+	result.ReasoningLevel = o.ReasoningLevel
 	return result
 }
 
@@ -345,6 +349,7 @@ func (o *ProviderChatRequest) Merge(source *ProviderChatRequest) {
 			}
 		}
 	}
+	o.ReasoningLevel = source.GetReasoningLevel()
 }
 
 func (o *ProviderChatRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -654,6 +659,61 @@ func (o *StreamError) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*StreamError))
 }
 
+func (o *BlockEnd) GotenObjectExt() {}
+
+func (o *BlockEnd) MakeFullFieldMask() *BlockEnd_FieldMask {
+	return FullBlockEnd_FieldMask()
+}
+
+func (o *BlockEnd) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullBlockEnd_FieldMask()
+}
+
+func (o *BlockEnd) MakeDiffFieldMask(other *BlockEnd) *BlockEnd_FieldMask {
+	if o == nil && other == nil {
+		return &BlockEnd_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullBlockEnd_FieldMask()
+	}
+
+	res := &BlockEnd_FieldMask{}
+	if o.GetChannel() != other.GetChannel() {
+		res.Paths = append(res.Paths, &BlockEnd_FieldTerminalPath{selector: BlockEnd_FieldPathSelectorChannel})
+	}
+	if o.GetSignature() != other.GetSignature() {
+		res.Paths = append(res.Paths, &BlockEnd_FieldTerminalPath{selector: BlockEnd_FieldPathSelectorSignature})
+	}
+	return res
+}
+
+func (o *BlockEnd) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*BlockEnd))
+}
+
+func (o *BlockEnd) Clone() *BlockEnd {
+	if o == nil {
+		return nil
+	}
+	result := &BlockEnd{}
+	result.Channel = o.Channel
+	result.Signature = o.Signature
+	return result
+}
+
+func (o *BlockEnd) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *BlockEnd) Merge(source *BlockEnd) {
+	o.Channel = source.GetChannel()
+	o.Signature = source.GetSignature()
+}
+
+func (o *BlockEnd) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*BlockEnd))
+}
+
 func (o *ProviderStreamEvent) GotenObjectExt() {}
 
 func (o *ProviderStreamEvent) MakeFullFieldMask() *ProviderStreamEvent_FieldMask {
@@ -743,6 +803,33 @@ func (o *ProviderStreamEvent) MakeDiffFieldMask(other *ProviderStreamEvent) *Pro
 			res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorToolCalls})
 		}
 	}
+	{
+		_, leftSelected := o.Event.(*ProviderStreamEvent_Citation)
+		_, rightSelected := other.Event.(*ProviderStreamEvent_Citation)
+		if leftSelected == rightSelected {
+			if !proto.Equal(o.GetCitation(), other.GetCitation()) {
+				res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorCitation})
+			}
+		} else {
+			res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorCitation})
+		}
+	}
+	{
+		_, leftSelected := o.Event.(*ProviderStreamEvent_BlockEnd)
+		_, rightSelected := other.Event.(*ProviderStreamEvent_BlockEnd)
+		if leftSelected == rightSelected {
+			subMask := o.GetBlockEnd().MakeDiffFieldMask(other.GetBlockEnd())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorBlockEnd})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ProviderStreamEvent_FieldSubPath{selector: ProviderStreamEvent_FieldPathSelectorBlockEnd, subPath: subpath})
+				}
+			}
+		} else {
+			res.Paths = append(res.Paths, &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorBlockEnd})
+		}
+	}
 	return res
 }
 
@@ -793,6 +880,22 @@ func (o *ProviderStreamEvent) Clone() *ProviderStreamEvent {
 			result.Event = &ProviderStreamEvent_ToolCalls{}
 			result := result.Event.(*ProviderStreamEvent_ToolCalls)
 			result.ToolCalls = proto.Clone(o.ToolCalls).(*common_client.ToolCalls)
+		}
+	}
+	if o, ok := o.Event.(*ProviderStreamEvent_Citation); ok {
+		result.Event = (*ProviderStreamEvent_Citation)(nil)
+		if o != nil {
+			result.Event = &ProviderStreamEvent_Citation{}
+			result := result.Event.(*ProviderStreamEvent_Citation)
+			result.Citation = proto.Clone(o.Citation).(*common_client.Citation)
+		}
+	}
+	if o, ok := o.Event.(*ProviderStreamEvent_BlockEnd); ok {
+		result.Event = (*ProviderStreamEvent_BlockEnd)(nil)
+		if o != nil {
+			result.Event = &ProviderStreamEvent_BlockEnd{}
+			result := result.Event.(*ProviderStreamEvent_BlockEnd)
+			result.BlockEnd = o.BlockEnd.Clone()
 		}
 	}
 	return result
@@ -870,6 +973,34 @@ func (o *ProviderStreamEvent) Merge(source *ProviderStreamEvent) {
 					o.ToolCalls = new(common_client.ToolCalls)
 				}
 				proto.Merge(o.ToolCalls, source.ToolCalls)
+			}
+		}
+	}
+	if source, ok := source.GetEvent().(*ProviderStreamEvent_Citation); ok {
+		if dstOneOf, ok := o.Event.(*ProviderStreamEvent_Citation); !ok || dstOneOf == nil {
+			o.Event = &ProviderStreamEvent_Citation{}
+		}
+		if source != nil {
+			o := o.Event.(*ProviderStreamEvent_Citation)
+			if source.Citation != nil {
+				if o.Citation == nil {
+					o.Citation = new(common_client.Citation)
+				}
+				proto.Merge(o.Citation, source.Citation)
+			}
+		}
+	}
+	if source, ok := source.GetEvent().(*ProviderStreamEvent_BlockEnd); ok {
+		if dstOneOf, ok := o.Event.(*ProviderStreamEvent_BlockEnd); !ok || dstOneOf == nil {
+			o.Event = &ProviderStreamEvent_BlockEnd{}
+		}
+		if source != nil {
+			o := o.Event.(*ProviderStreamEvent_BlockEnd)
+			if source.BlockEnd != nil {
+				if o.BlockEnd == nil {
+					o.BlockEnd = new(BlockEnd)
+				}
+				o.BlockEnd.Merge(source.BlockEnd)
 			}
 		}
 	}
@@ -1150,6 +1281,28 @@ func (o *AnthropicConfig) MakeDiffFieldMask(other *AnthropicConfig) *AnthropicCo
 	}
 
 	res := &AnthropicConfig_FieldMask{}
+	{
+		subMask := o.GetThinking().MakeDiffFieldMask(other.GetThinking())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorThinking})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &AnthropicConfig_FieldSubPath{selector: AnthropicConfig_FieldPathSelectorThinking, subPath: subpath})
+			}
+		}
+	}
+
+	if len(o.GetBetaFeatures()) == len(other.GetBetaFeatures()) {
+		for i, lValue := range o.GetBetaFeatures() {
+			rValue := other.GetBetaFeatures()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorBetaFeatures})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorBetaFeatures})
+	}
 	return res
 }
 
@@ -1162,6 +1315,11 @@ func (o *AnthropicConfig) Clone() *AnthropicConfig {
 		return nil
 	}
 	result := &AnthropicConfig{}
+	result.Thinking = o.Thinking.Clone()
+	result.BetaFeatures = make([]string, len(o.BetaFeatures))
+	for i, sourceValue := range o.BetaFeatures {
+		result.BetaFeatures[i] = sourceValue
+	}
 	return result
 }
 
@@ -1170,10 +1328,86 @@ func (o *AnthropicConfig) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *AnthropicConfig) Merge(source *AnthropicConfig) {
+	if source.GetThinking() != nil {
+		if o.Thinking == nil {
+			o.Thinking = new(ThinkingConfig)
+		}
+		o.Thinking.Merge(source.GetThinking())
+	}
+	for _, sourceValue := range source.GetBetaFeatures() {
+		exists := false
+		for _, currentValue := range o.BetaFeatures {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.BetaFeatures = append(o.BetaFeatures, newDstElement)
+		}
+	}
+
 }
 
 func (o *AnthropicConfig) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*AnthropicConfig))
+}
+
+func (o *ThinkingConfig) GotenObjectExt() {}
+
+func (o *ThinkingConfig) MakeFullFieldMask() *ThinkingConfig_FieldMask {
+	return FullThinkingConfig_FieldMask()
+}
+
+func (o *ThinkingConfig) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullThinkingConfig_FieldMask()
+}
+
+func (o *ThinkingConfig) MakeDiffFieldMask(other *ThinkingConfig) *ThinkingConfig_FieldMask {
+	if o == nil && other == nil {
+		return &ThinkingConfig_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullThinkingConfig_FieldMask()
+	}
+
+	res := &ThinkingConfig_FieldMask{}
+	if o.GetType() != other.GetType() {
+		res.Paths = append(res.Paths, &ThinkingConfig_FieldTerminalPath{selector: ThinkingConfig_FieldPathSelectorType})
+	}
+	if o.GetBudgetTokens() != other.GetBudgetTokens() {
+		res.Paths = append(res.Paths, &ThinkingConfig_FieldTerminalPath{selector: ThinkingConfig_FieldPathSelectorBudgetTokens})
+	}
+	return res
+}
+
+func (o *ThinkingConfig) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ThinkingConfig))
+}
+
+func (o *ThinkingConfig) Clone() *ThinkingConfig {
+	if o == nil {
+		return nil
+	}
+	result := &ThinkingConfig{}
+	result.Type = o.Type
+	result.BudgetTokens = o.BudgetTokens
+	return result
+}
+
+func (o *ThinkingConfig) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ThinkingConfig) Merge(source *ThinkingConfig) {
+	o.Type = source.GetType()
+	o.BudgetTokens = source.GetBudgetTokens()
+}
+
+func (o *ThinkingConfig) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ThinkingConfig))
 }
 
 func (o *GeminiConfig) GotenObjectExt() {}

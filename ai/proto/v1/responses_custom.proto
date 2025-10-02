@@ -20,8 +20,6 @@ message CreateRequest {
   // Model selection
   string model = 2;
 
-  string model_override = 3;
-
   // Client explicitly declares its tools
   repeated ToolDefinition client_tools = 4;
 
@@ -42,15 +40,16 @@ message CreateRequest {
   // Optional: reference to existing conversation
   string conversation_name = 9;
 
-  // Client-provided request ID for idempotency and log correlation
-  string client_request_id = 10;
-
-  // Control persistence behavior
-  bool skip_save = 11;
-
   // Scope for authorization and tracking. Can be project, organization, or
   // empty. Format: "projects/{project}", "organizations/{org}", or ""
   string parent = 12;
+
+  // Requested reasoning level (optional, capped by template max)
+  ReasoningLevel reasoning_level = 13;
+
+  reserved 3, 10, 11;
+
+  reserved "model_override", "client_request_id", "skip_save";
 }
 
 // List of connectors for direct specification
@@ -74,6 +73,8 @@ message CreateResponseResult {
     ResponseComplete response_complete = 7;
 
     Error error = 8;
+
+    CitationDelta citation_delta = 9;
   }
 }
 
@@ -139,7 +140,17 @@ message ContentDone { string text = 1; }
 
 message ThinkingDelta { string text = 1; }
 
-message ThinkingDone { string text = 1; }
+message ThinkingDone {
+  string text = 1;
+
+  string signature =
+      2; // Opaque signature for thinking verification (Anthropic)
+}
+
+message CitationDelta {
+  // Citation from common.proto
+  Citation citation = 1;
+}
 
 message ResponseComplete {
   bool requires_tool_results = 1;

@@ -50,6 +50,12 @@ message CapabilityTemplate {
 
   // Human-readable display name
   string display_name = 8;
+
+  // Reasoning/thinking configuration and limits
+  ReasoningConfig reasoning = 9;
+
+  // Maximum output tokens (overrides ChatModel's default if set)
+  int32 max_output_tokens = 10;
 }
 
 // RAG (Retrieval-Augmented Generation) configuration
@@ -87,4 +93,13 @@ message RetrievalLimits {
   float min_relevance_score = 3; // default: 0.7
 
   bool require_citations = 4; // default: true
+}
+
+// Reasoning configuration for AI models
+message ReasoningConfig {
+  // Maximum allowed reasoning level for requests using this template
+  ReasoningLevel max_level = 1;
+
+  // Default level if not specified in request
+  ReasoningLevel default_level = 2;
 }

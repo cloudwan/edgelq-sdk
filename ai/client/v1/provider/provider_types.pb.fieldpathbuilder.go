@@ -49,6 +49,9 @@ func (ProviderChatRequestFieldPathBuilder) AnthropicConfig() ProviderChatRequest
 func (ProviderChatRequestFieldPathBuilder) GeminiConfig() ProviderChatRequestPathSelectorGeminiConfig {
 	return ProviderChatRequestPathSelectorGeminiConfig{}
 }
+func (ProviderChatRequestFieldPathBuilder) ReasoningLevel() ProviderChatRequestPathSelectorReasoningLevel {
+	return ProviderChatRequestPathSelectorReasoningLevel{}
+}
 
 type ProviderChatRequestPathSelectorModel struct{}
 
@@ -776,6 +779,94 @@ func (s ProviderChatRequestPathSelectorAnthropicConfig) WithSubArrayItemValue(su
 	return &ProviderChatRequest_FieldSubPathArrayItemValue{ProviderChatRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
+func (ProviderChatRequestPathSelectorAnthropicConfig) Thinking() ProviderChatRequestPathSelectorAnthropicConfigThinking {
+	return ProviderChatRequestPathSelectorAnthropicConfigThinking{}
+}
+
+func (ProviderChatRequestPathSelectorAnthropicConfig) BetaFeatures() ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures {
+	return ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures{}
+}
+
+type ProviderChatRequestPathSelectorAnthropicConfigThinking struct{}
+
+func (ProviderChatRequestPathSelectorAnthropicConfigThinking) FieldPath() *ProviderChatRequest_FieldSubPath {
+	return &ProviderChatRequest_FieldSubPath{
+		selector: ProviderChatRequest_FieldPathSelectorAnthropicConfig,
+		subPath:  NewAnthropicConfigFieldPathBuilder().Thinking().FieldPath(),
+	}
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigThinking) WithValue(value *ThinkingConfig) *ProviderChatRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderChatRequest_FieldSubPathValue)
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigThinking) WithArrayOfValues(values []*ThinkingConfig) *ProviderChatRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderChatRequest_FieldSubPathArrayOfValues)
+}
+
+func (ProviderChatRequestPathSelectorAnthropicConfigThinking) Type() ProviderChatRequestPathSelectorAnthropicConfigThinkingType {
+	return ProviderChatRequestPathSelectorAnthropicConfigThinkingType{}
+}
+
+func (ProviderChatRequestPathSelectorAnthropicConfigThinking) BudgetTokens() ProviderChatRequestPathSelectorAnthropicConfigThinkingBudgetTokens {
+	return ProviderChatRequestPathSelectorAnthropicConfigThinkingBudgetTokens{}
+}
+
+type ProviderChatRequestPathSelectorAnthropicConfigThinkingType struct{}
+
+func (ProviderChatRequestPathSelectorAnthropicConfigThinkingType) FieldPath() *ProviderChatRequest_FieldSubPath {
+	return &ProviderChatRequest_FieldSubPath{
+		selector: ProviderChatRequest_FieldPathSelectorAnthropicConfig,
+		subPath:  NewAnthropicConfigFieldPathBuilder().Thinking().Type().FieldPath(),
+	}
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigThinkingType) WithValue(value ThinkingConfig_Type) *ProviderChatRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderChatRequest_FieldSubPathValue)
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigThinkingType) WithArrayOfValues(values []ThinkingConfig_Type) *ProviderChatRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderChatRequest_FieldSubPathArrayOfValues)
+}
+
+type ProviderChatRequestPathSelectorAnthropicConfigThinkingBudgetTokens struct{}
+
+func (ProviderChatRequestPathSelectorAnthropicConfigThinkingBudgetTokens) FieldPath() *ProviderChatRequest_FieldSubPath {
+	return &ProviderChatRequest_FieldSubPath{
+		selector: ProviderChatRequest_FieldPathSelectorAnthropicConfig,
+		subPath:  NewAnthropicConfigFieldPathBuilder().Thinking().BudgetTokens().FieldPath(),
+	}
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigThinkingBudgetTokens) WithValue(value int32) *ProviderChatRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderChatRequest_FieldSubPathValue)
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigThinkingBudgetTokens) WithArrayOfValues(values []int32) *ProviderChatRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderChatRequest_FieldSubPathArrayOfValues)
+}
+
+type ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures struct{}
+
+func (ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures) FieldPath() *ProviderChatRequest_FieldSubPath {
+	return &ProviderChatRequest_FieldSubPath{
+		selector: ProviderChatRequest_FieldPathSelectorAnthropicConfig,
+		subPath:  NewAnthropicConfigFieldPathBuilder().BetaFeatures().FieldPath(),
+	}
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures) WithValue(value []string) *ProviderChatRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderChatRequest_FieldSubPathValue)
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures) WithArrayOfValues(values [][]string) *ProviderChatRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderChatRequest_FieldSubPathArrayOfValues)
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures) WithItemValue(value string) *ProviderChatRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProviderChatRequest_FieldSubPathArrayItemValue)
+}
+
 type ProviderChatRequestPathSelectorGeminiConfig struct{}
 
 func (ProviderChatRequestPathSelectorGeminiConfig) FieldPath() *ProviderChatRequest_FieldTerminalPath {
@@ -804,6 +895,20 @@ func (s ProviderChatRequestPathSelectorGeminiConfig) WithSubArrayOfValues(subPat
 
 func (s ProviderChatRequestPathSelectorGeminiConfig) WithSubArrayItemValue(subPathArrayItemValue GeminiConfig_FieldPathArrayItemValue) *ProviderChatRequest_FieldSubPathArrayItemValue {
 	return &ProviderChatRequest_FieldSubPathArrayItemValue{ProviderChatRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+type ProviderChatRequestPathSelectorReasoningLevel struct{}
+
+func (ProviderChatRequestPathSelectorReasoningLevel) FieldPath() *ProviderChatRequest_FieldTerminalPath {
+	return &ProviderChatRequest_FieldTerminalPath{selector: ProviderChatRequest_FieldPathSelectorReasoningLevel}
+}
+
+func (s ProviderChatRequestPathSelectorReasoningLevel) WithValue(value common_client.ReasoningLevel) *ProviderChatRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderChatRequest_FieldTerminalPathValue)
+}
+
+func (s ProviderChatRequestPathSelectorReasoningLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *ProviderChatRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderChatRequest_FieldTerminalPathArrayOfValues)
 }
 
 type ChatParametersFieldPathBuilder struct{}
@@ -1181,6 +1286,46 @@ func (s StreamErrorPathSelectorMessage) WithArrayOfValues(values []string) *Stre
 	return s.FieldPath().WithIArrayOfValues(values).(*StreamError_FieldTerminalPathArrayOfValues)
 }
 
+type BlockEndFieldPathBuilder struct{}
+
+func NewBlockEndFieldPathBuilder() BlockEndFieldPathBuilder {
+	return BlockEndFieldPathBuilder{}
+}
+func (BlockEndFieldPathBuilder) Channel() BlockEndPathSelectorChannel {
+	return BlockEndPathSelectorChannel{}
+}
+func (BlockEndFieldPathBuilder) Signature() BlockEndPathSelectorSignature {
+	return BlockEndPathSelectorSignature{}
+}
+
+type BlockEndPathSelectorChannel struct{}
+
+func (BlockEndPathSelectorChannel) FieldPath() *BlockEnd_FieldTerminalPath {
+	return &BlockEnd_FieldTerminalPath{selector: BlockEnd_FieldPathSelectorChannel}
+}
+
+func (s BlockEndPathSelectorChannel) WithValue(value common_client.ContentChannel) *BlockEnd_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*BlockEnd_FieldTerminalPathValue)
+}
+
+func (s BlockEndPathSelectorChannel) WithArrayOfValues(values []common_client.ContentChannel) *BlockEnd_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BlockEnd_FieldTerminalPathArrayOfValues)
+}
+
+type BlockEndPathSelectorSignature struct{}
+
+func (BlockEndPathSelectorSignature) FieldPath() *BlockEnd_FieldTerminalPath {
+	return &BlockEnd_FieldTerminalPath{selector: BlockEnd_FieldPathSelectorSignature}
+}
+
+func (s BlockEndPathSelectorSignature) WithValue(value string) *BlockEnd_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*BlockEnd_FieldTerminalPathValue)
+}
+
+func (s BlockEndPathSelectorSignature) WithArrayOfValues(values []string) *BlockEnd_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BlockEnd_FieldTerminalPathArrayOfValues)
+}
+
 type ProviderStreamEventFieldPathBuilder struct{}
 
 func NewProviderStreamEventFieldPathBuilder() ProviderStreamEventFieldPathBuilder {
@@ -1200,6 +1345,12 @@ func (ProviderStreamEventFieldPathBuilder) Done() ProviderStreamEventPathSelecto
 }
 func (ProviderStreamEventFieldPathBuilder) ToolCalls() ProviderStreamEventPathSelectorToolCalls {
 	return ProviderStreamEventPathSelectorToolCalls{}
+}
+func (ProviderStreamEventFieldPathBuilder) Citation() ProviderStreamEventPathSelectorCitation {
+	return ProviderStreamEventPathSelectorCitation{}
+}
+func (ProviderStreamEventFieldPathBuilder) BlockEnd() ProviderStreamEventPathSelectorBlockEnd {
+	return ProviderStreamEventPathSelectorBlockEnd{}
 }
 
 type ProviderStreamEventPathSelectorDelta struct{}
@@ -1423,6 +1574,92 @@ func (s ProviderStreamEventPathSelectorToolCalls) WithValue(value *common_client
 
 func (s ProviderStreamEventPathSelectorToolCalls) WithArrayOfValues(values []*common_client.ToolCalls) *ProviderStreamEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProviderStreamEvent_FieldTerminalPathArrayOfValues)
+}
+
+type ProviderStreamEventPathSelectorCitation struct{}
+
+func (ProviderStreamEventPathSelectorCitation) FieldPath() *ProviderStreamEvent_FieldTerminalPath {
+	return &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorCitation}
+}
+
+func (s ProviderStreamEventPathSelectorCitation) WithValue(value *common_client.Citation) *ProviderStreamEvent_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderStreamEvent_FieldTerminalPathValue)
+}
+
+func (s ProviderStreamEventPathSelectorCitation) WithArrayOfValues(values []*common_client.Citation) *ProviderStreamEvent_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderStreamEvent_FieldTerminalPathArrayOfValues)
+}
+
+type ProviderStreamEventPathSelectorBlockEnd struct{}
+
+func (ProviderStreamEventPathSelectorBlockEnd) FieldPath() *ProviderStreamEvent_FieldTerminalPath {
+	return &ProviderStreamEvent_FieldTerminalPath{selector: ProviderStreamEvent_FieldPathSelectorBlockEnd}
+}
+
+func (s ProviderStreamEventPathSelectorBlockEnd) WithValue(value *BlockEnd) *ProviderStreamEvent_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderStreamEvent_FieldTerminalPathValue)
+}
+
+func (s ProviderStreamEventPathSelectorBlockEnd) WithArrayOfValues(values []*BlockEnd) *ProviderStreamEvent_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderStreamEvent_FieldTerminalPathArrayOfValues)
+}
+
+func (ProviderStreamEventPathSelectorBlockEnd) WithSubPath(subPath BlockEnd_FieldPath) *ProviderStreamEvent_FieldSubPath {
+	return &ProviderStreamEvent_FieldSubPath{selector: ProviderStreamEvent_FieldPathSelectorBlockEnd, subPath: subPath}
+}
+
+func (s ProviderStreamEventPathSelectorBlockEnd) WithSubValue(subPathValue BlockEnd_FieldPathValue) *ProviderStreamEvent_FieldSubPathValue {
+	return &ProviderStreamEvent_FieldSubPathValue{ProviderStreamEvent_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ProviderStreamEventPathSelectorBlockEnd) WithSubArrayOfValues(subPathArrayOfValues BlockEnd_FieldPathArrayOfValues) *ProviderStreamEvent_FieldSubPathArrayOfValues {
+	return &ProviderStreamEvent_FieldSubPathArrayOfValues{ProviderStreamEvent_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ProviderStreamEventPathSelectorBlockEnd) WithSubArrayItemValue(subPathArrayItemValue BlockEnd_FieldPathArrayItemValue) *ProviderStreamEvent_FieldSubPathArrayItemValue {
+	return &ProviderStreamEvent_FieldSubPathArrayItemValue{ProviderStreamEvent_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ProviderStreamEventPathSelectorBlockEnd) Channel() ProviderStreamEventPathSelectorBlockEndChannel {
+	return ProviderStreamEventPathSelectorBlockEndChannel{}
+}
+
+func (ProviderStreamEventPathSelectorBlockEnd) Signature() ProviderStreamEventPathSelectorBlockEndSignature {
+	return ProviderStreamEventPathSelectorBlockEndSignature{}
+}
+
+type ProviderStreamEventPathSelectorBlockEndChannel struct{}
+
+func (ProviderStreamEventPathSelectorBlockEndChannel) FieldPath() *ProviderStreamEvent_FieldSubPath {
+	return &ProviderStreamEvent_FieldSubPath{
+		selector: ProviderStreamEvent_FieldPathSelectorBlockEnd,
+		subPath:  NewBlockEndFieldPathBuilder().Channel().FieldPath(),
+	}
+}
+
+func (s ProviderStreamEventPathSelectorBlockEndChannel) WithValue(value common_client.ContentChannel) *ProviderStreamEvent_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderStreamEvent_FieldSubPathValue)
+}
+
+func (s ProviderStreamEventPathSelectorBlockEndChannel) WithArrayOfValues(values []common_client.ContentChannel) *ProviderStreamEvent_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderStreamEvent_FieldSubPathArrayOfValues)
+}
+
+type ProviderStreamEventPathSelectorBlockEndSignature struct{}
+
+func (ProviderStreamEventPathSelectorBlockEndSignature) FieldPath() *ProviderStreamEvent_FieldSubPath {
+	return &ProviderStreamEvent_FieldSubPath{
+		selector: ProviderStreamEvent_FieldPathSelectorBlockEnd,
+		subPath:  NewBlockEndFieldPathBuilder().Signature().FieldPath(),
+	}
+}
+
+func (s ProviderStreamEventPathSelectorBlockEndSignature) WithValue(value string) *ProviderStreamEvent_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderStreamEvent_FieldSubPathValue)
+}
+
+func (s ProviderStreamEventPathSelectorBlockEndSignature) WithArrayOfValues(values []string) *ProviderStreamEvent_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderStreamEvent_FieldSubPathArrayOfValues)
 }
 
 type ProviderDoneFieldPathBuilder struct{}
@@ -1757,6 +1994,142 @@ type AnthropicConfigFieldPathBuilder struct{}
 
 func NewAnthropicConfigFieldPathBuilder() AnthropicConfigFieldPathBuilder {
 	return AnthropicConfigFieldPathBuilder{}
+}
+func (AnthropicConfigFieldPathBuilder) Thinking() AnthropicConfigPathSelectorThinking {
+	return AnthropicConfigPathSelectorThinking{}
+}
+func (AnthropicConfigFieldPathBuilder) BetaFeatures() AnthropicConfigPathSelectorBetaFeatures {
+	return AnthropicConfigPathSelectorBetaFeatures{}
+}
+
+type AnthropicConfigPathSelectorThinking struct{}
+
+func (AnthropicConfigPathSelectorThinking) FieldPath() *AnthropicConfig_FieldTerminalPath {
+	return &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorThinking}
+}
+
+func (s AnthropicConfigPathSelectorThinking) WithValue(value *ThinkingConfig) *AnthropicConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AnthropicConfig_FieldTerminalPathValue)
+}
+
+func (s AnthropicConfigPathSelectorThinking) WithArrayOfValues(values []*ThinkingConfig) *AnthropicConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AnthropicConfig_FieldTerminalPathArrayOfValues)
+}
+
+func (AnthropicConfigPathSelectorThinking) WithSubPath(subPath ThinkingConfig_FieldPath) *AnthropicConfig_FieldSubPath {
+	return &AnthropicConfig_FieldSubPath{selector: AnthropicConfig_FieldPathSelectorThinking, subPath: subPath}
+}
+
+func (s AnthropicConfigPathSelectorThinking) WithSubValue(subPathValue ThinkingConfig_FieldPathValue) *AnthropicConfig_FieldSubPathValue {
+	return &AnthropicConfig_FieldSubPathValue{AnthropicConfig_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s AnthropicConfigPathSelectorThinking) WithSubArrayOfValues(subPathArrayOfValues ThinkingConfig_FieldPathArrayOfValues) *AnthropicConfig_FieldSubPathArrayOfValues {
+	return &AnthropicConfig_FieldSubPathArrayOfValues{AnthropicConfig_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s AnthropicConfigPathSelectorThinking) WithSubArrayItemValue(subPathArrayItemValue ThinkingConfig_FieldPathArrayItemValue) *AnthropicConfig_FieldSubPathArrayItemValue {
+	return &AnthropicConfig_FieldSubPathArrayItemValue{AnthropicConfig_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (AnthropicConfigPathSelectorThinking) Type() AnthropicConfigPathSelectorThinkingType {
+	return AnthropicConfigPathSelectorThinkingType{}
+}
+
+func (AnthropicConfigPathSelectorThinking) BudgetTokens() AnthropicConfigPathSelectorThinkingBudgetTokens {
+	return AnthropicConfigPathSelectorThinkingBudgetTokens{}
+}
+
+type AnthropicConfigPathSelectorThinkingType struct{}
+
+func (AnthropicConfigPathSelectorThinkingType) FieldPath() *AnthropicConfig_FieldSubPath {
+	return &AnthropicConfig_FieldSubPath{
+		selector: AnthropicConfig_FieldPathSelectorThinking,
+		subPath:  NewThinkingConfigFieldPathBuilder().Type().FieldPath(),
+	}
+}
+
+func (s AnthropicConfigPathSelectorThinkingType) WithValue(value ThinkingConfig_Type) *AnthropicConfig_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AnthropicConfig_FieldSubPathValue)
+}
+
+func (s AnthropicConfigPathSelectorThinkingType) WithArrayOfValues(values []ThinkingConfig_Type) *AnthropicConfig_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AnthropicConfig_FieldSubPathArrayOfValues)
+}
+
+type AnthropicConfigPathSelectorThinkingBudgetTokens struct{}
+
+func (AnthropicConfigPathSelectorThinkingBudgetTokens) FieldPath() *AnthropicConfig_FieldSubPath {
+	return &AnthropicConfig_FieldSubPath{
+		selector: AnthropicConfig_FieldPathSelectorThinking,
+		subPath:  NewThinkingConfigFieldPathBuilder().BudgetTokens().FieldPath(),
+	}
+}
+
+func (s AnthropicConfigPathSelectorThinkingBudgetTokens) WithValue(value int32) *AnthropicConfig_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AnthropicConfig_FieldSubPathValue)
+}
+
+func (s AnthropicConfigPathSelectorThinkingBudgetTokens) WithArrayOfValues(values []int32) *AnthropicConfig_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AnthropicConfig_FieldSubPathArrayOfValues)
+}
+
+type AnthropicConfigPathSelectorBetaFeatures struct{}
+
+func (AnthropicConfigPathSelectorBetaFeatures) FieldPath() *AnthropicConfig_FieldTerminalPath {
+	return &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorBetaFeatures}
+}
+
+func (s AnthropicConfigPathSelectorBetaFeatures) WithValue(value []string) *AnthropicConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AnthropicConfig_FieldTerminalPathValue)
+}
+
+func (s AnthropicConfigPathSelectorBetaFeatures) WithArrayOfValues(values [][]string) *AnthropicConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AnthropicConfig_FieldTerminalPathArrayOfValues)
+}
+
+func (s AnthropicConfigPathSelectorBetaFeatures) WithItemValue(value string) *AnthropicConfig_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AnthropicConfig_FieldTerminalPathArrayItemValue)
+}
+
+type ThinkingConfigFieldPathBuilder struct{}
+
+func NewThinkingConfigFieldPathBuilder() ThinkingConfigFieldPathBuilder {
+	return ThinkingConfigFieldPathBuilder{}
+}
+func (ThinkingConfigFieldPathBuilder) Type() ThinkingConfigPathSelectorType {
+	return ThinkingConfigPathSelectorType{}
+}
+func (ThinkingConfigFieldPathBuilder) BudgetTokens() ThinkingConfigPathSelectorBudgetTokens {
+	return ThinkingConfigPathSelectorBudgetTokens{}
+}
+
+type ThinkingConfigPathSelectorType struct{}
+
+func (ThinkingConfigPathSelectorType) FieldPath() *ThinkingConfig_FieldTerminalPath {
+	return &ThinkingConfig_FieldTerminalPath{selector: ThinkingConfig_FieldPathSelectorType}
+}
+
+func (s ThinkingConfigPathSelectorType) WithValue(value ThinkingConfig_Type) *ThinkingConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ThinkingConfig_FieldTerminalPathValue)
+}
+
+func (s ThinkingConfigPathSelectorType) WithArrayOfValues(values []ThinkingConfig_Type) *ThinkingConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ThinkingConfig_FieldTerminalPathArrayOfValues)
+}
+
+type ThinkingConfigPathSelectorBudgetTokens struct{}
+
+func (ThinkingConfigPathSelectorBudgetTokens) FieldPath() *ThinkingConfig_FieldTerminalPath {
+	return &ThinkingConfig_FieldTerminalPath{selector: ThinkingConfig_FieldPathSelectorBudgetTokens}
+}
+
+func (s ThinkingConfigPathSelectorBudgetTokens) WithValue(value int32) *ThinkingConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ThinkingConfig_FieldTerminalPathValue)
+}
+
+func (s ThinkingConfigPathSelectorBudgetTokens) WithArrayOfValues(values []int32) *ThinkingConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ThinkingConfig_FieldTerminalPathArrayOfValues)
 }
 
 type GeminiConfigFieldPathBuilder struct{}

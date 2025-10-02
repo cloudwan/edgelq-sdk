@@ -94,6 +94,12 @@ func (obj *ContentPart) GotenValidate() error {
 				return gotenvalidate.NewValidationError("ContentPart", "toolResult", opt.ToolResult, "nested object validation failed", err)
 			}
 		}
+	case *ContentPart_Thinking:
+		if subobj, ok := interface{}(opt.Thinking).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ContentPart", "thinking", opt.Thinking, "nested object validation failed", err)
+			}
+		}
 	default:
 		_ = opt
 	}
@@ -180,7 +186,30 @@ func (obj *ToolResultContent) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *ThinkingContent) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *TokenUsage) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Details).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "details", obj.Details, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *TokenUsageDetails) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -252,6 +281,78 @@ func (obj *ToolCalls) GotenValidate() error {
 				return gotenvalidate.NewValidationError("ToolCalls", "calls", obj.Calls[idx], "nested object validation failed", err)
 			}
 		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Citation) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Source).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Citation", "source", obj.Source, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CitationSource) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Location.(type) {
+	case *CitationSource_CharRange:
+		if subobj, ok := interface{}(opt.CharRange).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CitationSource", "charRange", opt.CharRange, "nested object validation failed", err)
+			}
+		}
+	case *CitationSource_Page:
+		if subobj, ok := interface{}(opt.Page).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CitationSource", "page", opt.Page, "nested object validation failed", err)
+			}
+		}
+	case *CitationSource_Url:
+		if subobj, ok := interface{}(opt.Url).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CitationSource", "url", opt.Url, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CharacterRange) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *PageReference) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *URLReference) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

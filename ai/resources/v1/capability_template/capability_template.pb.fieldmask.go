@@ -19,6 +19,7 @@ import (
 
 // proto imports
 import (
+	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -42,6 +43,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
@@ -63,6 +65,8 @@ func FullCapabilityTemplate_FieldMask() *CapabilityTemplate_FieldMask {
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxToolRounds})
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel})
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorReasoning})
+	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens})
 	return res
 }
 
@@ -81,7 +85,7 @@ func (fieldMask *CapabilityTemplate_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CapabilityTemplate_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -111,14 +115,16 @@ func (fieldMask *CapabilityTemplate_FieldMask) Reset() {
 
 func (fieldMask *CapabilityTemplate_FieldMask) Subtract(other *CapabilityTemplate_FieldMask) *CapabilityTemplate_FieldMask {
 	result := &CapabilityTemplate_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 10)
 	otherSubMasks := map[CapabilityTemplate_FieldPathSelector]gotenobject.FieldMask{
 		CapabilityTemplate_FieldPathSelectorMetadata:  &meta.Meta_FieldMask{},
 		CapabilityTemplate_FieldPathSelectorRagConfig: &RAGConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorReasoning: &ReasoningConfig_FieldMask{},
 	}
 	mySubMasks := map[CapabilityTemplate_FieldPathSelector]gotenobject.FieldMask{
 		CapabilityTemplate_FieldPathSelectorMetadata:  &meta.Meta_FieldMask{},
 		CapabilityTemplate_FieldPathSelectorRagConfig: &RAGConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorReasoning: &ReasoningConfig_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -138,6 +144,8 @@ func (fieldMask *CapabilityTemplate_FieldMask) Subtract(other *CapabilityTemplat
 						mySubMasks[CapabilityTemplate_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case CapabilityTemplate_FieldPathSelectorRagConfig:
 						mySubMasks[CapabilityTemplate_FieldPathSelectorRagConfig] = FullRAGConfig_FieldMask()
+					case CapabilityTemplate_FieldPathSelectorReasoning:
+						mySubMasks[CapabilityTemplate_FieldPathSelectorReasoning] = FullReasoningConfig_FieldMask()
 					}
 				} else if tp, ok := path.(*CapabilityTemplate_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -312,6 +320,8 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 	wholeMetadataAccepted := false
 	ragConfigMask := &RAGConfig_FieldMask{}
 	wholeRagConfigAccepted := false
+	reasoningMask := &ReasoningConfig_FieldMask{}
+	wholeReasoningAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -335,6 +345,11 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 				result.DefaultModel = source.DefaultModel
 			case CapabilityTemplate_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case CapabilityTemplate_FieldPathSelectorReasoning:
+				result.Reasoning = source.Reasoning
+				wholeReasoningAccepted = true
+			case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
+				result.MaxOutputTokens = source.MaxOutputTokens
 			}
 		case *CapabilityTemplate_FieldSubPath:
 			switch tp.selector {
@@ -342,6 +357,8 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case CapabilityTemplate_FieldPathSelectorRagConfig:
 				ragConfigMask.AppendPath(tp.subPath.(RAGConfig_FieldPath))
+			case CapabilityTemplate_FieldPathSelectorReasoning:
+				reasoningMask.AppendPath(tp.subPath.(ReasoningConfig_FieldPath))
 			}
 		}
 	}
@@ -350,6 +367,9 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 	}
 	if wholeRagConfigAccepted == false && len(ragConfigMask.Paths) > 0 {
 		result.RagConfig = ragConfigMask.Project(source.GetRagConfig())
+	}
+	if wholeReasoningAccepted == false && len(reasoningMask.Paths) > 0 {
+		result.Reasoning = reasoningMask.Project(source.GetReasoning())
 	}
 	return result
 }
@@ -1119,6 +1139,237 @@ func (fieldMask *RetrievalLimits_FieldMask) ProjectRaw(source gotenobject.GotenO
 }
 
 func (fieldMask *RetrievalLimits_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type ReasoningConfig_FieldMask struct {
+	Paths []ReasoningConfig_FieldPath
+}
+
+func FullReasoningConfig_FieldMask() *ReasoningConfig_FieldMask {
+	res := &ReasoningConfig_FieldMask{}
+	res.Paths = append(res.Paths, &ReasoningConfig_FieldTerminalPath{selector: ReasoningConfig_FieldPathSelectorMaxLevel})
+	res.Paths = append(res.Paths, &ReasoningConfig_FieldTerminalPath{selector: ReasoningConfig_FieldPathSelectorDefaultLevel})
+	return res
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ReasoningConfig_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseReasoningConfig_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ReasoningConfig_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) Subtract(other *ReasoningConfig_FieldMask) *ReasoningConfig_FieldMask {
+	result := &ReasoningConfig_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ReasoningConfig_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ReasoningConfig_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ReasoningConfig_FieldMask) FilterInputFields() *ReasoningConfig_FieldMask {
+	result := &ReasoningConfig_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ReasoningConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ReasoningConfig_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseReasoningConfig_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ReasoningConfig_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ReasoningConfig_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) AppendPath(path ReasoningConfig_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ReasoningConfig_FieldPath))
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) GetPaths() []ReasoningConfig_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseReasoningConfig_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) Set(target, source *ReasoningConfig) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ReasoningConfig), source.(*ReasoningConfig))
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) Project(source *ReasoningConfig) *ReasoningConfig {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ReasoningConfig{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ReasoningConfig_FieldTerminalPath:
+			switch tp.selector {
+			case ReasoningConfig_FieldPathSelectorMaxLevel:
+				result.MaxLevel = source.MaxLevel
+			case ReasoningConfig_FieldPathSelectorDefaultLevel:
+				result.DefaultLevel = source.DefaultLevel
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ReasoningConfig))
+}
+
+func (fieldMask *ReasoningConfig_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

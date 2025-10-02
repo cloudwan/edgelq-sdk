@@ -320,6 +320,9 @@ func (o *ChatModel_OpenAICompatible) MakeDiffFieldMask(other *ChatModel_OpenAICo
 	if o.GetAzureApiVersion() != other.GetAzureApiVersion() {
 		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion})
 	}
+	if o.GetMaxOutputTokens() != other.GetMaxOutputTokens() {
+		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens})
+	}
 	return res
 }
 
@@ -347,6 +350,7 @@ func (o *ChatModel_OpenAICompatible) Clone() *ChatModel_OpenAICompatible {
 	result.Organization = o.Organization
 	result.AzureEndpoint = o.AzureEndpoint
 	result.AzureApiVersion = o.AzureApiVersion
+	result.MaxOutputTokens = o.MaxOutputTokens
 	return result
 }
 
@@ -372,6 +376,7 @@ func (o *ChatModel_OpenAICompatible) Merge(source *ChatModel_OpenAICompatible) {
 	o.Organization = source.GetOrganization()
 	o.AzureEndpoint = source.GetAzureEndpoint()
 	o.AzureApiVersion = source.GetAzureApiVersion()
+	o.MaxOutputTokens = source.GetMaxOutputTokens()
 }
 
 func (o *ChatModel_OpenAICompatible) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -406,6 +411,9 @@ func (o *ChatModel_Anthropic) MakeDiffFieldMask(other *ChatModel_Anthropic) *Cha
 	if o.GetBaseUrl() != other.GetBaseUrl() {
 		res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorBaseUrl})
 	}
+	if o.GetMaxOutputTokens() != other.GetMaxOutputTokens() {
+		res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorMaxOutputTokens})
+	}
 	return res
 }
 
@@ -430,6 +438,7 @@ func (o *ChatModel_Anthropic) Clone() *ChatModel_Anthropic {
 	}
 	result.Model = o.Model
 	result.BaseUrl = o.BaseUrl
+	result.MaxOutputTokens = o.MaxOutputTokens
 	return result
 }
 
@@ -452,6 +461,7 @@ func (o *ChatModel_Anthropic) Merge(source *ChatModel_Anthropic) {
 	}
 	o.Model = source.GetModel()
 	o.BaseUrl = source.GetBaseUrl()
+	o.MaxOutputTokens = source.GetMaxOutputTokens()
 }
 
 func (o *ChatModel_Anthropic) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -483,6 +493,9 @@ func (o *ChatModel_Gemini) MakeDiffFieldMask(other *ChatModel_Gemini) *ChatModel
 	if o.GetModel() != other.GetModel() {
 		res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorModel})
 	}
+	if o.GetMaxOutputTokens() != other.GetMaxOutputTokens() {
+		res.Paths = append(res.Paths, &ChatModelGemini_FieldTerminalPath{selector: ChatModelGemini_FieldPathSelectorMaxOutputTokens})
+	}
 	return res
 }
 
@@ -506,6 +519,7 @@ func (o *ChatModel_Gemini) Clone() *ChatModel_Gemini {
 		}
 	}
 	result.Model = o.Model
+	result.MaxOutputTokens = o.MaxOutputTokens
 	return result
 }
 
@@ -527,6 +541,7 @@ func (o *ChatModel_Gemini) Merge(source *ChatModel_Gemini) {
 		o.ApiKey = nil
 	}
 	o.Model = source.GetModel()
+	o.MaxOutputTokens = source.GetMaxOutputTokens()
 }
 
 func (o *ChatModel_Gemini) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -564,6 +579,9 @@ func (o *ChatModel_AzureOpenAi) MakeDiffFieldMask(other *ChatModel_AzureOpenAi) 
 	if o.GetApiVersion() != other.GetApiVersion() {
 		res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorApiVersion})
 	}
+	if o.GetMaxOutputTokens() != other.GetMaxOutputTokens() {
+		res.Paths = append(res.Paths, &ChatModelAzureOpenAi_FieldTerminalPath{selector: ChatModelAzureOpenAi_FieldPathSelectorMaxOutputTokens})
+	}
 	return res
 }
 
@@ -589,6 +607,7 @@ func (o *ChatModel_AzureOpenAi) Clone() *ChatModel_AzureOpenAi {
 	}
 	result.DeploymentName = o.DeploymentName
 	result.ApiVersion = o.ApiVersion
+	result.MaxOutputTokens = o.MaxOutputTokens
 	return result
 }
 
@@ -612,6 +631,7 @@ func (o *ChatModel_AzureOpenAi) Merge(source *ChatModel_AzureOpenAi) {
 	}
 	o.DeploymentName = source.GetDeploymentName()
 	o.ApiVersion = source.GetApiVersion()
+	o.MaxOutputTokens = source.GetMaxOutputTokens()
 }
 
 func (o *ChatModel_AzureOpenAi) MergeRaw(source gotenobject.GotenObjectExt) {
