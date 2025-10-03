@@ -2474,37 +2474,37 @@ type filterCndBuilderConnectors struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderConnectors) Eq(value []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) Eq(value []*connector.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderConnectors) Neq(value []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) Neq(value []*connector.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderConnectors) Gt(value []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) Gt(value []*connector.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderConnectors) Gte(value []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) Gte(value []*connector.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderConnectors) Lt(value []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) Lt(value []*connector.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderConnectors) Lte(value []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) Lte(value []*connector.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderConnectors) In(values [][]*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) In(values [][]*connector.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().Connectors().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderConnectors) NotIn(values [][]*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) NotIn(values [][]*connector.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().Connectors().WithArrayOfValues(values),
 	})
@@ -2522,7 +2522,7 @@ func (b *filterCndBuilderConnectors) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderConnectors) Contains(value *connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) Contains(value *connector.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewCapabilityTemplateFieldPathBuilder().Connectors().FieldPath(),
@@ -2530,7 +2530,7 @@ func (b *filterCndBuilderConnectors) Contains(value *connector.Name) *FilterBuil
 	})
 }
 
-func (b *filterCndBuilderConnectors) ContainsAnyOf(values []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) ContainsAnyOf(values []*connector.Reference) *FilterBuilder {
 	pathSelector := NewCapabilityTemplateFieldPathBuilder().Connectors()
 	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2543,7 +2543,7 @@ func (b *filterCndBuilderConnectors) ContainsAnyOf(values []*connector.Name) *Fi
 	})
 }
 
-func (b *filterCndBuilderConnectors) ContainsAll(values []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) ContainsAll(values []*connector.Reference) *FilterBuilder {
 	pathSelector := NewCapabilityTemplateFieldPathBuilder().Connectors()
 	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2556,7 +2556,7 @@ func (b *filterCndBuilderConnectors) ContainsAll(values []*connector.Name) *Filt
 	})
 }
 
-func (b *filterCndBuilderConnectors) compare(op gotenfilter.CompareOperator, value []*connector.Name) *FilterBuilder {
+func (b *filterCndBuilderConnectors) compare(op gotenfilter.CompareOperator, value []*connector.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().Connectors().WithValue(value),
@@ -2642,37 +2642,37 @@ type filterCndBuilderRagConfigSearchIndices struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) Eq(value []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) Eq(value []*search_index.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) Neq(value []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) Neq(value []*search_index.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) Gt(value []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) Gt(value []*search_index.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) Gte(value []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) Gte(value []*search_index.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) Lt(value []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) Lt(value []*search_index.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) Lte(value []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) Lte(value []*search_index.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) In(values [][]*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) In(values [][]*search_index.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().RagConfig().SearchIndices().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) NotIn(values [][]*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) NotIn(values [][]*search_index.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().RagConfig().SearchIndices().WithArrayOfValues(values),
 	})
@@ -2690,7 +2690,7 @@ func (b *filterCndBuilderRagConfigSearchIndices) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) Contains(value *search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) Contains(value *search_index.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewCapabilityTemplateFieldPathBuilder().RagConfig().SearchIndices().FieldPath(),
@@ -2698,7 +2698,7 @@ func (b *filterCndBuilderRagConfigSearchIndices) Contains(value *search_index.Na
 	})
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) ContainsAnyOf(values []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) ContainsAnyOf(values []*search_index.Reference) *FilterBuilder {
 	pathSelector := NewCapabilityTemplateFieldPathBuilder().RagConfig().SearchIndices()
 	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2711,7 +2711,7 @@ func (b *filterCndBuilderRagConfigSearchIndices) ContainsAnyOf(values []*search_
 	})
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) ContainsAll(values []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) ContainsAll(values []*search_index.Reference) *FilterBuilder {
 	pathSelector := NewCapabilityTemplateFieldPathBuilder().RagConfig().SearchIndices()
 	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2724,7 +2724,7 @@ func (b *filterCndBuilderRagConfigSearchIndices) ContainsAll(values []*search_in
 	})
 }
 
-func (b *filterCndBuilderRagConfigSearchIndices) compare(op gotenfilter.CompareOperator, value []*search_index.Name) *FilterBuilder {
+func (b *filterCndBuilderRagConfigSearchIndices) compare(op gotenfilter.CompareOperator, value []*search_index.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().RagConfig().SearchIndices().WithValue(value),

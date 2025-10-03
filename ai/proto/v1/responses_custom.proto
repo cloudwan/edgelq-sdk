@@ -53,7 +53,7 @@ message CreateRequest {
 }
 
 // List of connectors for direct specification
-message ConnectorsList { repeated string items = 1; }
+message ConnectorsList { repeated string connector = 1; }
 
 // Server → Client messages
 message CreateResponseResult {
@@ -105,7 +105,7 @@ message ToolInfo {
 message ClientToolSource {}
 
 // Connector tool - executed via MCP/other connector
-message ConnectorToolSource { string connector_ref = 1; }
+message ConnectorToolSource { string connector_name = 1; }
 
 // Internal server tool (e.g., RAG)
 message InternalToolSource {

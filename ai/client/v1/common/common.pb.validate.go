@@ -199,9 +199,19 @@ func (obj *TokenUsage) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	if subobj, ok := interface{}(obj.Details).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.InputDetails).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("TokenUsage", "details", obj.Details, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("TokenUsage", "inputDetails", obj.InputDetails, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.OutputDetails).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "outputDetails", obj.OutputDetails, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Metadata).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -209,7 +219,144 @@ func (obj *TokenUsage) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *TokenUsageDetails) GotenValidate() error {
+func (obj *TokenUsageMetadata) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *InputTokenDetails) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Provider.(type) {
+	case *InputTokenDetails_Anthropic:
+		if subobj, ok := interface{}(opt.Anthropic).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("InputTokenDetails", "anthropic", opt.Anthropic, "nested object validation failed", err)
+			}
+		}
+	case *InputTokenDetails_Gemini:
+		if subobj, ok := interface{}(opt.Gemini).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("InputTokenDetails", "gemini", opt.Gemini, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *OutputTokenDetails) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Provider.(type) {
+	case *OutputTokenDetails_Openai:
+		if subobj, ok := interface{}(opt.Openai).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("OutputTokenDetails", "openai", opt.Openai, "nested object validation failed", err)
+			}
+		}
+	case *OutputTokenDetails_Gemini:
+		if subobj, ok := interface{}(opt.Gemini).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("OutputTokenDetails", "gemini", opt.Gemini, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *OpenAIPredictionTokens) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *AnthropicCacheTokens) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.CacheCreation).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("AnthropicCacheTokens", "cacheCreation", obj.CacheCreation, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CacheCreationByTTL) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *GeminiInputTokens) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.PromptTokensDetails {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("GeminiInputTokens", "promptTokensDetails", obj.PromptTokensDetails[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.CacheTokensDetails {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("GeminiInputTokens", "cacheTokensDetails", obj.CacheTokensDetails[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.ToolUsePromptTokensDetails {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("GeminiInputTokens", "toolUsePromptTokensDetails", obj.ToolUsePromptTokensDetails[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *GeminiOutputTokens) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.CandidatesTokensDetails {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("GeminiOutputTokens", "candidatesTokensDetails", obj.CandidatesTokensDetails[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ModalityTokenCount) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

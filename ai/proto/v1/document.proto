@@ -18,6 +18,8 @@ option java_package = "com.ntt.ai.pb.v1";
 message Document {
   option (google.api.resource) = {
     type : "ai.edgelq.com/Document"
+    pattern : "searchDbs/{search_db}/searchIndices/{search_index}/documents/"
+              "{document}"
     pattern : "projects/{project}/searchDbs/{search_db}/searchIndices/"
               "{search_index}/documents/{document}"
   };

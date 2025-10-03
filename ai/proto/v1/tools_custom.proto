@@ -29,8 +29,7 @@ message ToolExecution {
 
   // Tool configuration - client provides this from ToolInfo it received
   oneof config {
-    // For connector tools: full connector reference
-    string connector_ref = 4;
+    string connector_name = 4;
 
     // For internal tools: just the template name
     // Server will load the template and extract RAG config

@@ -794,15 +794,15 @@ func (CapabilityTemplatePathSelectorConnectors) FieldPath() *CapabilityTemplate_
 	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorConnectors}
 }
 
-func (s CapabilityTemplatePathSelectorConnectors) WithValue(value []*connector.Name) *CapabilityTemplate_FieldTerminalPathValue {
+func (s CapabilityTemplatePathSelectorConnectors) WithValue(value []*connector.Reference) *CapabilityTemplate_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
 }
 
-func (s CapabilityTemplatePathSelectorConnectors) WithArrayOfValues(values [][]*connector.Name) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+func (s CapabilityTemplatePathSelectorConnectors) WithArrayOfValues(values [][]*connector.Reference) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
 }
 
-func (s CapabilityTemplatePathSelectorConnectors) WithItemValue(value *connector.Name) *CapabilityTemplate_FieldTerminalPathArrayItemValue {
+func (s CapabilityTemplatePathSelectorConnectors) WithItemValue(value *connector.Reference) *CapabilityTemplate_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CapabilityTemplate_FieldTerminalPathArrayItemValue)
 }
 
@@ -861,15 +861,15 @@ func (CapabilityTemplatePathSelectorRagConfigSearchIndices) FieldPath() *Capabil
 	}
 }
 
-func (s CapabilityTemplatePathSelectorRagConfigSearchIndices) WithValue(value []*search_index.Name) *CapabilityTemplate_FieldSubPathValue {
+func (s CapabilityTemplatePathSelectorRagConfigSearchIndices) WithValue(value []*search_index.Reference) *CapabilityTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
 }
 
-func (s CapabilityTemplatePathSelectorRagConfigSearchIndices) WithArrayOfValues(values [][]*search_index.Name) *CapabilityTemplate_FieldSubPathArrayOfValues {
+func (s CapabilityTemplatePathSelectorRagConfigSearchIndices) WithArrayOfValues(values [][]*search_index.Reference) *CapabilityTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s CapabilityTemplatePathSelectorRagConfigSearchIndices) WithItemValue(value *search_index.Name) *CapabilityTemplate_FieldSubPathArrayItemValue {
+func (s CapabilityTemplatePathSelectorRagConfigSearchIndices) WithItemValue(value *search_index.Reference) *CapabilityTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CapabilityTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -1244,15 +1244,15 @@ func (RAGConfigPathSelectorSearchIndices) FieldPath() *RAGConfig_FieldTerminalPa
 	return &RAGConfig_FieldTerminalPath{selector: RAGConfig_FieldPathSelectorSearchIndices}
 }
 
-func (s RAGConfigPathSelectorSearchIndices) WithValue(value []*search_index.Name) *RAGConfig_FieldTerminalPathValue {
+func (s RAGConfigPathSelectorSearchIndices) WithValue(value []*search_index.Reference) *RAGConfig_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*RAGConfig_FieldTerminalPathValue)
 }
 
-func (s RAGConfigPathSelectorSearchIndices) WithArrayOfValues(values [][]*search_index.Name) *RAGConfig_FieldTerminalPathArrayOfValues {
+func (s RAGConfigPathSelectorSearchIndices) WithArrayOfValues(values [][]*search_index.Reference) *RAGConfig_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RAGConfig_FieldTerminalPathArrayOfValues)
 }
 
-func (s RAGConfigPathSelectorSearchIndices) WithItemValue(value *search_index.Name) *RAGConfig_FieldTerminalPathArrayItemValue {
+func (s RAGConfigPathSelectorSearchIndices) WithItemValue(value *search_index.Reference) *RAGConfig_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*RAGConfig_FieldTerminalPathArrayItemValue)
 }
 

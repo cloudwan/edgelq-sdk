@@ -22,7 +22,6 @@ import (
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
-	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -45,7 +44,6 @@ var (
 var (
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
-	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
 	_ = &iam_project.Project{}
 	_ = &meta.Meta{}

@@ -98,38 +98,110 @@ message ThinkingContent {
 
 // Token usage information
 message TokenUsage {
-  int32 prompt_tokens = 1;
+  int32 input_tokens = 1;
 
-  int32 completion_tokens = 2;
+  int32 output_tokens = 2;
 
   int32 total_tokens = 3;
 
-  // Optional detailed token breakdown
-  TokenUsageDetails details = 4;
+  InputTokenDetails input_details = 4;
+
+  OutputTokenDetails output_details = 5;
+
+  TokenUsageMetadata metadata = 6;
 }
 
-// Detailed breakdown of token usage
-message TokenUsageDetails {
-  // Reasoning/thinking tokens (o1, o3, Claude thinking mode)
-  int32 reasoning_tokens = 1;
+// Metadata about the request (provider, model, service tier)
+message TokenUsageMetadata {
+  string provider =
+      1; // "openai" | "anthropic" | "gemini" | "xai" | "azure-openai"
 
-  // Cached tokens (from prompt cache)
-  int32 cached_tokens = 2;
+  string model = 2; // e.g. "gpt-4o-2024-08-06", "claude-3-5-sonnet-20241022"
 
-  // Audio tokens (for multimodal models)
-  int32 audio_input_tokens = 3;
+  string service_tier = 3; // OpenAI: "scale" | "default" (if applicable)
+}
 
-  int32 audio_output_tokens = 4;
+// Input/prompt token breakdown
+message InputTokenDetails {
+  // Generic fields (all providers)
+  int32 cached_tokens = 1; // Cache reads (all providers map here)
 
-  // Cache creation tokens (Anthropic)
-  int32 cache_creation_input_tokens = 5;
+  int32 cache_write_tokens =
+      2; // Cache writes (Anthropic today, others in future)
 
-  int32 cache_read_input_tokens = 6;
+  int32 audio_tokens = 3; // Audio input tokens
 
-  // Predicted output tokens (OpenAI)
-  int32 accepted_prediction_tokens = 7;
+  // Provider-specific details (for advanced use cases)
+  oneof provider {
+    AnthropicCacheTokens anthropic = 10;
 
-  int32 rejected_prediction_tokens = 8;
+    GeminiInputTokens gemini = 11;
+  }
+}
+
+// Output/completion token breakdown
+message OutputTokenDetails {
+  // Generic fields (all providers)
+  int32 reasoning_tokens = 1; // OpenAI o1, Gemini thinking, DeepSeek R1
+
+  int32 audio_tokens = 2; // Audio output tokens
+
+  // Provider-specific details
+  oneof provider {
+    OpenAIPredictionTokens openai = 10;
+
+    GeminiOutputTokens gemini = 11;
+  }
+}
+
+// OpenAI predicted outputs (latency optimization feature)
+message OpenAIPredictionTokens {
+  int32 accepted_prediction_tokens = 1;
+
+  int32 rejected_prediction_tokens = 2;
+
+  bool predicted_outputs_used = 3;
+}
+
+// Anthropic cache token details (with TTL-based pricing tiers)
+message AnthropicCacheTokens {
+  // Total cache writes (same as generic cache_write_tokens)
+  int32 cache_creation_input_tokens = 1;
+
+  // TTL breakdown (5min=1.25x, 1hour=2x pricing)
+  CacheCreationByTTL cache_creation = 2;
+}
+
+// Anthropic cache creation by TTL (for billing differentiation)
+message CacheCreationByTTL {
+  int32 ephemeral_5m_input_tokens = 1; // 1.25x base rate
+
+  int32 ephemeral_1h_input_tokens = 2; // 2.0x base rate
+}
+
+// Gemini input token details (tool use & multimodal breakdown)
+message GeminiInputTokens {
+  // Tool execution results fed back to model
+  int32 tool_use_prompt_token_count = 1;
+
+  // Multimodal breakdowns
+  repeated ModalityTokenCount prompt_tokens_details = 2;
+
+  repeated ModalityTokenCount cache_tokens_details = 3;
+
+  repeated ModalityTokenCount tool_use_prompt_tokens_details = 4;
+}
+
+// Gemini output token details (multimodal breakdown)
+message GeminiOutputTokens {
+  repeated ModalityTokenCount candidates_tokens_details = 1;
+}
+
+// Per-modality token count (Gemini)
+message ModalityTokenCount {
+  string modality = 1; // "TEXT" | "IMAGE" | "VIDEO" | "AUDIO"
+
+  int32 token_count = 2;
 }
 
 // Payload for data with media type

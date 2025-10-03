@@ -66,7 +66,7 @@ func (obj *ToolExecution) GotenValidate() error {
 		return nil
 	}
 	switch opt := obj.Config.(type) {
-	case *ToolExecution_ConnectorRef:
+	case *ToolExecution_ConnectorName:
 	case *ToolExecution_TemplateName:
 	default:
 		_ = opt

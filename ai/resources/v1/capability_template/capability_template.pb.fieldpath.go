@@ -25,7 +25,6 @@ import (
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
-	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -53,7 +52,6 @@ var (
 var (
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
-	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
 	_ = &iam_project.Project{}
 	_ = &meta.Meta{}
@@ -297,7 +295,7 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetDefault() interface{} {
 	case CapabilityTemplate_FieldPathSelectorDescription:
 		return ""
 	case CapabilityTemplate_FieldPathSelectorConnectors:
-		return ([]*connector.Name)(nil)
+		return ([]*connector.Reference)(nil)
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return (*RAGConfig)(nil)
 	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
@@ -372,7 +370,7 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIValue(value interface{}) Ca
 	case CapabilityTemplate_FieldPathSelectorDescription:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(string)}
 	case CapabilityTemplate_FieldPathSelectorConnectors:
-		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.([]*connector.Name)}
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.([]*connector.Reference)}
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*RAGConfig)}
 	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
@@ -404,7 +402,7 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayOfValues(values interf
 	case CapabilityTemplate_FieldPathSelectorDescription:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]string)}
 	case CapabilityTemplate_FieldPathSelectorConnectors:
-		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([][]*connector.Name)}
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([][]*connector.Reference)}
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*RAGConfig)}
 	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
@@ -430,7 +428,7 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithRawIArrayOfValues(values int
 func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayItemValue(value interface{}) CapabilityTemplate_FieldPathArrayItemValue {
 	switch fp.selector {
 	case CapabilityTemplate_FieldPathSelectorConnectors:
-		return &CapabilityTemplate_FieldTerminalPathArrayItemValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*connector.Name)}
+		return &CapabilityTemplate_FieldTerminalPathArrayItemValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*connector.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -629,8 +627,8 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDescriptionValue() (stri
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsConnectorsValue() ([]*connector.Name, bool) {
-	res, ok := fpv.value.([]*connector.Name)
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsConnectorsValue() ([]*connector.Reference, bool) {
+	res, ok := fpv.value.([]*connector.Reference)
 	return res, ok
 }
 func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsRagConfigValue() (*RAGConfig, bool) {
@@ -671,7 +669,7 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityT
 	case CapabilityTemplate_FieldPathSelectorDescription:
 		(*target).Description = fpv.value.(string)
 	case CapabilityTemplate_FieldPathSelectorConnectors:
-		(*target).Connectors = fpv.value.([]*connector.Name)
+		(*target).Connectors = fpv.value.([]*connector.Reference)
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		(*target).RagConfig = fpv.value.(*RAGConfig)
 	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
@@ -885,8 +883,8 @@ var _ CapabilityTemplate_FieldPathArrayItemValue = (*CapabilityTemplate_FieldTer
 func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) AsConnectorsItemValue() (*connector.Name, bool) {
-	res, ok := fpaiv.value.(*connector.Name)
+func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) AsConnectorsItemValue() (*connector.Reference, bool) {
+	res, ok := fpaiv.value.(*connector.Reference)
 	return res, ok
 }
 
@@ -997,7 +995,7 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (
 			values = append(values, v)
 		}
 	case CapabilityTemplate_FieldPathSelectorConnectors:
-		for _, v := range fpaov.values.([][]*connector.Name) {
+		for _, v := range fpaov.values.([][]*connector.Reference) {
 			values = append(values, v)
 		}
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
@@ -1039,8 +1037,8 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDescriptionArr
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsConnectorsArrayOfValues() ([][]*connector.Name, bool) {
-	res, ok := fpaov.values.([][]*connector.Name)
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsConnectorsArrayOfValues() ([][]*connector.Reference, bool) {
+	res, ok := fpaov.values.([][]*connector.Reference)
 	return res, ok
 }
 func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsRagConfigArrayOfValues() ([]*RAGConfig, bool) {
@@ -1257,7 +1255,7 @@ func (fp *RAGConfig_FieldTerminalPath) GetSingleRaw(source proto.Message) (inter
 func (fp *RAGConfig_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case RAGConfig_FieldPathSelectorSearchIndices:
-		return ([]*search_index.Name)(nil)
+		return ([]*search_index.Reference)(nil)
 	case RAGConfig_FieldPathSelectorIndexingPolicy:
 		return (*IndexingPolicy)(nil)
 	case RAGConfig_FieldPathSelectorRetrievalLimits:
@@ -1303,7 +1301,7 @@ func (fp *RAGConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.F
 func (fp *RAGConfig_FieldTerminalPath) WithIValue(value interface{}) RAGConfig_FieldPathValue {
 	switch fp.selector {
 	case RAGConfig_FieldPathSelectorSearchIndices:
-		return &RAGConfig_FieldTerminalPathValue{RAGConfig_FieldTerminalPath: *fp, value: value.([]*search_index.Name)}
+		return &RAGConfig_FieldTerminalPathValue{RAGConfig_FieldTerminalPath: *fp, value: value.([]*search_index.Reference)}
 	case RAGConfig_FieldPathSelectorIndexingPolicy:
 		return &RAGConfig_FieldTerminalPathValue{RAGConfig_FieldTerminalPath: *fp, value: value.(*IndexingPolicy)}
 	case RAGConfig_FieldPathSelectorRetrievalLimits:
@@ -1323,7 +1321,7 @@ func (fp *RAGConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) RA
 	fpaov := &RAGConfig_FieldTerminalPathArrayOfValues{RAGConfig_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case RAGConfig_FieldPathSelectorSearchIndices:
-		return &RAGConfig_FieldTerminalPathArrayOfValues{RAGConfig_FieldTerminalPath: *fp, values: values.([][]*search_index.Name)}
+		return &RAGConfig_FieldTerminalPathArrayOfValues{RAGConfig_FieldTerminalPath: *fp, values: values.([][]*search_index.Reference)}
 	case RAGConfig_FieldPathSelectorIndexingPolicy:
 		return &RAGConfig_FieldTerminalPathArrayOfValues{RAGConfig_FieldTerminalPath: *fp, values: values.([]*IndexingPolicy)}
 	case RAGConfig_FieldPathSelectorRetrievalLimits:
@@ -1343,7 +1341,7 @@ func (fp *RAGConfig_FieldTerminalPath) WithRawIArrayOfValues(values interface{})
 func (fp *RAGConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) RAGConfig_FieldPathArrayItemValue {
 	switch fp.selector {
 	case RAGConfig_FieldPathSelectorSearchIndices:
-		return &RAGConfig_FieldTerminalPathArrayItemValue{RAGConfig_FieldTerminalPath: *fp, value: value.(*search_index.Name)}
+		return &RAGConfig_FieldTerminalPathArrayItemValue{RAGConfig_FieldTerminalPath: *fp, value: value.(*search_index.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RAGConfig: %d", fp.selector))
 	}
@@ -1517,8 +1515,8 @@ var _ RAGConfig_FieldPathValue = (*RAGConfig_FieldTerminalPathValue)(nil)
 func (fpv *RAGConfig_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *RAGConfig_FieldTerminalPathValue) AsSearchIndicesValue() ([]*search_index.Name, bool) {
-	res, ok := fpv.value.([]*search_index.Name)
+func (fpv *RAGConfig_FieldTerminalPathValue) AsSearchIndicesValue() ([]*search_index.Reference, bool) {
+	res, ok := fpv.value.([]*search_index.Reference)
 	return res, ok
 }
 func (fpv *RAGConfig_FieldTerminalPathValue) AsIndexingPolicyValue() (*IndexingPolicy, bool) {
@@ -1541,7 +1539,7 @@ func (fpv *RAGConfig_FieldTerminalPathValue) SetTo(target **RAGConfig) {
 	}
 	switch fpv.selector {
 	case RAGConfig_FieldPathSelectorSearchIndices:
-		(*target).SearchIndices = fpv.value.([]*search_index.Name)
+		(*target).SearchIndices = fpv.value.([]*search_index.Reference)
 	case RAGConfig_FieldPathSelectorIndexingPolicy:
 		(*target).IndexingPolicy = fpv.value.(*IndexingPolicy)
 	case RAGConfig_FieldPathSelectorRetrievalLimits:
@@ -1680,8 +1678,8 @@ var _ RAGConfig_FieldPathArrayItemValue = (*RAGConfig_FieldTerminalPathArrayItem
 func (fpaiv *RAGConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *RAGConfig_FieldTerminalPathArrayItemValue) AsSearchIndicesItemValue() (*search_index.Name, bool) {
-	res, ok := fpaiv.value.(*search_index.Name)
+func (fpaiv *RAGConfig_FieldTerminalPathArrayItemValue) AsSearchIndicesItemValue() (*search_index.Reference, bool) {
+	res, ok := fpaiv.value.(*search_index.Reference)
 	return res, ok
 }
 
@@ -1774,7 +1772,7 @@ var _ RAGConfig_FieldPathArrayOfValues = (*RAGConfig_FieldTerminalPathArrayOfVal
 func (fpaov *RAGConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case RAGConfig_FieldPathSelectorSearchIndices:
-		for _, v := range fpaov.values.([][]*search_index.Name) {
+		for _, v := range fpaov.values.([][]*search_index.Reference) {
 			values = append(values, v)
 		}
 	case RAGConfig_FieldPathSelectorIndexingPolicy:
@@ -1792,8 +1790,8 @@ func (fpaov *RAGConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 	}
 	return
 }
-func (fpaov *RAGConfig_FieldTerminalPathArrayOfValues) AsSearchIndicesArrayOfValues() ([][]*search_index.Name, bool) {
-	res, ok := fpaov.values.([][]*search_index.Name)
+func (fpaov *RAGConfig_FieldTerminalPathArrayOfValues) AsSearchIndicesArrayOfValues() ([][]*search_index.Reference, bool) {
+	res, ok := fpaov.values.([][]*search_index.Reference)
 	return res, ok
 }
 func (fpaov *RAGConfig_FieldTerminalPathArrayOfValues) AsIndexingPolicyArrayOfValues() ([]*IndexingPolicy, bool) {

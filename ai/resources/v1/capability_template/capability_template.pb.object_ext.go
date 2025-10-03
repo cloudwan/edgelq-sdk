@@ -18,7 +18,6 @@ import (
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
-	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -39,7 +38,6 @@ var (
 var (
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
-	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
 	_ = &iam_project.Project{}
 	_ = &meta.Meta{}
@@ -148,14 +146,14 @@ func (o *CapabilityTemplate) Clone() *CapabilityTemplate {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.Description = o.Description
-	result.Connectors = make([]*connector.Name, len(o.Connectors))
+	result.Connectors = make([]*connector.Reference, len(o.Connectors))
 	for i, sourceValue := range o.Connectors {
 		if sourceValue == nil {
 			result.Connectors[i] = nil
 		} else if data, err := sourceValue.ProtoString(); err != nil {
 			panic(err)
 		} else {
-			result.Connectors[i] = &connector.Name{}
+			result.Connectors[i] = &connector.Reference{}
 			if err := result.Connectors[i].ParseProtoString(data); err != nil {
 				panic(err)
 			}
@@ -205,12 +203,12 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 			}
 		}
 		if !exists {
-			var newDstElement *connector.Name
+			var newDstElement *connector.Reference
 			if sourceValue != nil {
 				if data, err := sourceValue.ProtoString(); err != nil {
 					panic(err)
 				} else {
-					newDstElement = &connector.Name{}
+					newDstElement = &connector.Reference{}
 					if err := newDstElement.ParseProtoString(data); err != nil {
 						panic(err)
 					}
@@ -308,14 +306,14 @@ func (o *RAGConfig) Clone() *RAGConfig {
 		return nil
 	}
 	result := &RAGConfig{}
-	result.SearchIndices = make([]*search_index.Name, len(o.SearchIndices))
+	result.SearchIndices = make([]*search_index.Reference, len(o.SearchIndices))
 	for i, sourceValue := range o.SearchIndices {
 		if sourceValue == nil {
 			result.SearchIndices[i] = nil
 		} else if data, err := sourceValue.ProtoString(); err != nil {
 			panic(err)
 		} else {
-			result.SearchIndices[i] = &search_index.Name{}
+			result.SearchIndices[i] = &search_index.Reference{}
 			if err := result.SearchIndices[i].ParseProtoString(data); err != nil {
 				panic(err)
 			}
@@ -343,12 +341,12 @@ func (o *RAGConfig) Merge(source *RAGConfig) {
 			}
 		}
 		if !exists {
-			var newDstElement *search_index.Name
+			var newDstElement *search_index.Reference
 			if sourceValue != nil {
 				if data, err := sourceValue.ProtoString(); err != nil {
 					panic(err)
 				} else {
-					newDstElement = &search_index.Name{}
+					newDstElement = &search_index.Reference{}
 					if err := newDstElement.ParseProtoString(data); err != nil {
 						panic(err)
 					}
