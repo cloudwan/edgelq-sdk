@@ -33,7 +33,7 @@ message ToolExecution {
 
     // For internal tools: just the template name
     // Server will load the template and extract RAG config
-    string template_name = 5;
+    string capability_template_name = 5;
   }
 }
 
