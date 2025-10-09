@@ -4,6 +4,7 @@ package ntt.ai.v1;
 
 import "edgelq-sdk/ai/proto/v1/common.proto";
 import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "goten-sdk/types/meta.proto";
 
@@ -39,40 +40,85 @@ message Conversation {
   // Whether the conversation has been archived
   bool archived = 4;
 
-  // All messages in the conversation history
-  repeated Message messages = 5;
-
-  // Model configuration snapshot
-  ModelSnapshot model_snapshot = 6;
-
-  // Accumulated usage statistics
-  UsageStats usage_stats = 7;
-
   // Timestamp of the last activity
-  google.protobuf.Timestamp last_activity_time = 8;
+  google.protobuf.Timestamp last_activity_time = 5;
 
-  // Model configuration snapshot
-  message ModelSnapshot {
-    // Model resource used
-    string model = 1;
+  // Core conversation data - sequence of turns (each turn = one CreateResponse
+  // API call)
+  repeated ConversationTurn turns = 6;
 
-    // Actual model ID used (if overridden)
-    string model_used = 2;
+  // Aggregate statistics by model (for easy analytics/billing)
+  map<string, ModelUsageStats> usage_by_model = 7;
 
-    // Parameters used
-    float temperature = 3;
+  // Total statistics across all models
+  TotalUsageStats total_usage = 8;
+}
 
-    int32 max_tokens = 4;
+// Represents one CreateResponse API call
+message ConversationTurn {
+  // Sequential turn number (0-indexed)
+  int32 turn_number = 1;
+
+  // When this turn started
+  google.protobuf.Timestamp timestamp = 2;
+
+  // Messages added in THIS turn only (not full history)
+  // Typically: [user_msg, assistant_msg] or [tool_result_msg, assistant_msg]
+  repeated Message messages = 3;
+
+  // Configuration used for this specific API call
+  TurnConfig config = 4;
+
+  // Token usage for this specific turn
+  TokenUsage usage = 5;
+
+  // How this turn ended
+  StopReason stop_reason = 6;
+
+  // Duration of the API call
+  google.protobuf.Duration duration = 7;
+
+  // Tool names that were available in this turn
+  repeated string available_tools = 8;
+}
+
+// Configuration snapshot for a single turn
+message TurnConfig {
+  // Model selection
+  string model = 1;
+
+  // Actual model ID from ResponseStarted
+  string model_used = 2;
+
+  // Parameters
+  float temperature = 3;
+
+  int32 max_tokens = 4;
+
+  ReasoningLevel reasoning_level = 5;
+
+  // Server tools configuration for this turn
+  oneof server_tools_config {
+    string capability_template = 6;
+
+    ConnectorsList connectors = 7;
   }
+}
 
-  // Usage statistics
-  message UsageStats {
-    int32 message_count = 1;
+// Per-model usage statistics
+message ModelUsageStats {
+  int32 turn_count = 1;
 
-    int32 total_input_tokens = 2;
+  // Aggregated token usage for this model (sum of all turns)
+  TokenUsage aggregated_usage = 2;
+}
 
-    int32 total_output_tokens = 3;
+// Total usage across all models
+message TotalUsageStats {
+  int32 total_turns = 1;
 
-    int32 total_tokens = 4;
-  }
+  int32 total_messages = 2;
+
+  // Aggregated token usage across all models
+  TokenUsage aggregated_usage = 3;
 }

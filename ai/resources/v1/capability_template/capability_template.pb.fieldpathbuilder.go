@@ -77,6 +77,12 @@ func (CapabilityTemplateFieldPathBuilder) Reasoning() CapabilityTemplatePathSele
 func (CapabilityTemplateFieldPathBuilder) MaxOutputTokens() CapabilityTemplatePathSelectorMaxOutputTokens {
 	return CapabilityTemplatePathSelectorMaxOutputTokens{}
 }
+func (CapabilityTemplateFieldPathBuilder) SystemPrompt() CapabilityTemplatePathSelectorSystemPrompt {
+	return CapabilityTemplatePathSelectorSystemPrompt{}
+}
+func (CapabilityTemplateFieldPathBuilder) DisableInputTokenCache() CapabilityTemplatePathSelectorDisableInputTokenCache {
+	return CapabilityTemplatePathSelectorDisableInputTokenCache{}
+}
 
 type CapabilityTemplatePathSelectorName struct{}
 
@@ -1217,6 +1223,34 @@ func (s CapabilityTemplatePathSelectorMaxOutputTokens) WithValue(value int32) *C
 }
 
 func (s CapabilityTemplatePathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorSystemPrompt struct{}
+
+func (CapabilityTemplatePathSelectorSystemPrompt) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPrompt}
+}
+
+func (s CapabilityTemplatePathSelectorSystemPrompt) WithValue(value string) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorSystemPrompt) WithArrayOfValues(values []string) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorDisableInputTokenCache struct{}
+
+func (CapabilityTemplatePathSelectorDisableInputTokenCache) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache}
+}
+
+func (s CapabilityTemplatePathSelectorDisableInputTokenCache) WithValue(value bool) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorDisableInputTokenCache) WithArrayOfValues(values []bool) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
 }
 

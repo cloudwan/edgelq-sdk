@@ -7269,8 +7269,9 @@ type AnthropicConfig_FieldPath interface {
 type AnthropicConfig_FieldPathSelector int32
 
 const (
-	AnthropicConfig_FieldPathSelectorThinking     AnthropicConfig_FieldPathSelector = 0
-	AnthropicConfig_FieldPathSelectorBetaFeatures AnthropicConfig_FieldPathSelector = 1
+	AnthropicConfig_FieldPathSelectorThinking               AnthropicConfig_FieldPathSelector = 0
+	AnthropicConfig_FieldPathSelectorBetaFeatures           AnthropicConfig_FieldPathSelector = 1
+	AnthropicConfig_FieldPathSelectorDisableInputTokenCache AnthropicConfig_FieldPathSelector = 2
 )
 
 func (s AnthropicConfig_FieldPathSelector) String() string {
@@ -7279,6 +7280,8 @@ func (s AnthropicConfig_FieldPathSelector) String() string {
 		return "thinking"
 	case AnthropicConfig_FieldPathSelectorBetaFeatures:
 		return "beta_features"
+	case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+		return "disable_input_token_cache"
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", s))
 	}
@@ -7294,6 +7297,8 @@ func BuildAnthropicConfig_FieldPath(fp gotenobject.RawFieldPath) (AnthropicConfi
 			return &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorThinking}, nil
 		case "beta_features", "betaFeatures", "beta-features":
 			return &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorBetaFeatures}, nil
+		case "disable_input_token_cache", "disableInputTokenCache", "disable-input-token-cache":
+			return &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorDisableInputTokenCache}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -7356,6 +7361,8 @@ func (fp *AnthropicConfig_FieldTerminalPath) Get(source *AnthropicConfig) (value
 			for _, value := range source.GetBetaFeatures() {
 				values = append(values, value)
 			}
+		case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+			values = append(values, source.DisableInputTokenCache)
 		default:
 			panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 		}
@@ -7376,6 +7383,8 @@ func (fp *AnthropicConfig_FieldTerminalPath) GetSingle(source *AnthropicConfig) 
 	case AnthropicConfig_FieldPathSelectorBetaFeatures:
 		res := source.GetBetaFeatures()
 		return res, res != nil
+	case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+		return source.GetDisableInputTokenCache(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -7392,6 +7401,8 @@ func (fp *AnthropicConfig_FieldTerminalPath) GetDefault() interface{} {
 		return (*ThinkingConfig)(nil)
 	case AnthropicConfig_FieldPathSelectorBetaFeatures:
 		return ([]string)(nil)
+	case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -7404,6 +7415,8 @@ func (fp *AnthropicConfig_FieldTerminalPath) ClearValue(item *AnthropicConfig) {
 			item.Thinking = nil
 		case AnthropicConfig_FieldPathSelectorBetaFeatures:
 			item.BetaFeatures = nil
+		case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+			item.DisableInputTokenCache = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 		}
@@ -7416,7 +7429,8 @@ func (fp *AnthropicConfig_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *AnthropicConfig_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == AnthropicConfig_FieldPathSelectorBetaFeatures
+	return fp.selector == AnthropicConfig_FieldPathSelectorBetaFeatures ||
+		fp.selector == AnthropicConfig_FieldPathSelectorDisableInputTokenCache
 }
 
 func (fp *AnthropicConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -7429,6 +7443,8 @@ func (fp *AnthropicConfig_FieldTerminalPath) WithIValue(value interface{}) Anthr
 		return &AnthropicConfig_FieldTerminalPathValue{AnthropicConfig_FieldTerminalPath: *fp, value: value.(*ThinkingConfig)}
 	case AnthropicConfig_FieldPathSelectorBetaFeatures:
 		return &AnthropicConfig_FieldTerminalPathValue{AnthropicConfig_FieldTerminalPath: *fp, value: value.([]string)}
+	case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+		return &AnthropicConfig_FieldTerminalPathValue{AnthropicConfig_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -7445,6 +7461,8 @@ func (fp *AnthropicConfig_FieldTerminalPath) WithIArrayOfValues(values interface
 		return &AnthropicConfig_FieldTerminalPathArrayOfValues{AnthropicConfig_FieldTerminalPath: *fp, values: values.([]*ThinkingConfig)}
 	case AnthropicConfig_FieldPathSelectorBetaFeatures:
 		return &AnthropicConfig_FieldTerminalPathArrayOfValues{AnthropicConfig_FieldTerminalPath: *fp, values: values.([][]string)}
+	case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+		return &AnthropicConfig_FieldTerminalPathArrayOfValues{AnthropicConfig_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fp.selector))
 	}
@@ -7627,6 +7645,10 @@ func (fpv *AnthropicConfig_FieldTerminalPathValue) AsBetaFeaturesValue() ([]stri
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
+func (fpv *AnthropicConfig_FieldTerminalPathValue) AsDisableInputTokenCacheValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object AnthropicConfig
 func (fpv *AnthropicConfig_FieldTerminalPathValue) SetTo(target **AnthropicConfig) {
@@ -7638,6 +7660,8 @@ func (fpv *AnthropicConfig_FieldTerminalPathValue) SetTo(target **AnthropicConfi
 		(*target).Thinking = fpv.value.(*ThinkingConfig)
 	case AnthropicConfig_FieldPathSelectorBetaFeatures:
 		(*target).BetaFeatures = fpv.value.([]string)
+	case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+		(*target).DisableInputTokenCache = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fpv.selector))
 	}
@@ -7655,6 +7679,16 @@ func (fpv *AnthropicConfig_FieldTerminalPathValue) CompareWith(source *Anthropic
 		return 0, false
 	case AnthropicConfig_FieldPathSelectorBetaFeatures:
 		return 0, false
+	case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetDisableInputTokenCache()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AnthropicConfig: %d", fpv.selector))
 	}
@@ -7845,6 +7879,10 @@ func (fpaov *AnthropicConfig_FieldTerminalPathArrayOfValues) GetRawValues() (val
 		for _, v := range fpaov.values.([][]string) {
 			values = append(values, v)
 		}
+	case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7854,6 +7892,10 @@ func (fpaov *AnthropicConfig_FieldTerminalPathArrayOfValues) AsThinkingArrayOfVa
 }
 func (fpaov *AnthropicConfig_FieldTerminalPathArrayOfValues) AsBetaFeaturesArrayOfValues() ([][]string, bool) {
 	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *AnthropicConfig_FieldTerminalPathArrayOfValues) AsDisableInputTokenCacheArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

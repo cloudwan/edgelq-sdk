@@ -41,6 +41,8 @@ message ToolExecution {
 message ExecuteToolsResponse { repeated ToolExecutionResult results = 1; }
 
 message ToolExecutionResult {
+  // TODO: replace with common ToolResponse once all clients accept the richer
+  // proto.
   string tool_call_id = 1; // Echo back for correlation
 
   string tool_name = 2;

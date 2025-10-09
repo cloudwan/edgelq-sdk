@@ -28,9 +28,9 @@ message ContentPart {
 
     FileContent file = 4;
 
-    ToolCallContent tool_call = 5;
+    ToolCall tool_call = 5;
 
-    ToolResultContent tool_result = 6;
+    ToolResponse tool_result = 6;
 
     ThinkingContent thinking = 7;
   }
@@ -67,24 +67,6 @@ message FileContent {
     string url = 3;
 
     bytes data = 4;
-  }
-}
-
-message ToolCallContent {
-  string id = 1;
-
-  string name = 2;
-
-  string input = 3; // JSON arguments
-}
-
-message ToolResultContent {
-  string tool_call_id = 1;
-
-  oneof result {
-    string content = 2; // JSON result
-
-    string error = 3;
   }
 }
 
@@ -303,6 +285,9 @@ message URLReference {
   string filepath = 2; // Optional: for file-based URLs
 }
 
+// List of connectors for direct specification
+message ConnectorsList { repeated string connector = 1; }
+
 // Content channel type
 enum ContentChannel {
   CONTENT_CHANNEL_UNSPECIFIED = 0;
@@ -334,4 +319,19 @@ enum ReasoningLevel {
   REASONING_LEVEL_MEDIUM = 2; // Balanced reasoning
 
   REASONING_LEVEL_HIGH = 3; // Deeper reasoning
+}
+
+// Stop reason for response generation
+enum StopReason {
+  STOP_REASON_UNSPECIFIED = 0;
+
+  STOP_REASON_COMPLETED = 1; // Natural completion
+
+  STOP_REASON_MAX_TOKENS = 2; // Hit token limit
+
+  STOP_REASON_TOOL_CALLS = 3; // Stopped to execute tools
+
+  STOP_REASON_ERROR = 4; // Error occurred
+
+  STOP_REASON_CONTENT_FILTER = 5; // Content filtered
 }

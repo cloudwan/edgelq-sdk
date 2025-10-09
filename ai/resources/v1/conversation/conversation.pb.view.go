@@ -12,8 +12,6 @@ import (
 
 // proto imports
 import (
-	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
-	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -29,8 +27,6 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &chat_model.ChatModel{}
-	_ = &common_client.Message{}
 	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
 	_ = &timestamppb.Timestamp{}

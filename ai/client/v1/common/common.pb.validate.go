@@ -19,7 +19,10 @@ import (
 )
 
 // proto imports
-import ()
+import (
+	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
+	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+)
 
 var (
 	_ = bytes.Equal
@@ -35,7 +38,10 @@ var (
 )
 
 // make sure we're using proto imports
-var ()
+var (
+	_ = &connector.Connector{}
+	_ = &iam_project.Project{}
+)
 
 func (obj *Message) GotenValidate() error {
 	if obj == nil {
@@ -154,30 +160,6 @@ func (obj *FileContent) GotenValidate() error {
 	switch opt := obj.Source.(type) {
 	case *FileContent_Url:
 	case *FileContent_Data:
-	default:
-		_ = opt
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *ToolCallContent) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *ToolResultContent) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	switch opt := obj.Result.(type) {
-	case *ToolResultContent_Content:
-	case *ToolResultContent_Error:
 	default:
 		_ = opt
 	}
@@ -498,6 +480,15 @@ func (obj *PageReference) GotenValidate() error {
 	return nil
 }
 func (obj *URLReference) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ConnectorsList) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

@@ -65,6 +65,8 @@ func FullCapabilityTemplate_FieldMask() *CapabilityTemplate_FieldMask {
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisplayName})
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorReasoning})
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens})
+	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPrompt})
+	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache})
 	return res
 }
 
@@ -83,7 +85,7 @@ func (fieldMask *CapabilityTemplate_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 12)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CapabilityTemplate_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -113,7 +115,7 @@ func (fieldMask *CapabilityTemplate_FieldMask) Reset() {
 
 func (fieldMask *CapabilityTemplate_FieldMask) Subtract(other *CapabilityTemplate_FieldMask) *CapabilityTemplate_FieldMask {
 	result := &CapabilityTemplate_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 12)
 	otherSubMasks := map[CapabilityTemplate_FieldPathSelector]gotenobject.FieldMask{
 		CapabilityTemplate_FieldPathSelectorMetadata:  &meta.Meta_FieldMask{},
 		CapabilityTemplate_FieldPathSelectorRagConfig: &RAGConfig_FieldMask{},
@@ -348,6 +350,10 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 				wholeReasoningAccepted = true
 			case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 				result.MaxOutputTokens = source.MaxOutputTokens
+			case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+				result.SystemPrompt = source.SystemPrompt
+			case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+				result.DisableInputTokenCache = source.DisableInputTokenCache
 			}
 		case *CapabilityTemplate_FieldSubPath:
 			switch tp.selector {

@@ -47,13 +47,13 @@ message CreateRequest {
   // Requested reasoning level (optional, capped by template max)
   ReasoningLevel reasoning_level = 13;
 
+  // Override to disable Anthropic prompt caching for this request
+  bool disable_input_token_cache = 14;
+
   reserved 3, 10, 11;
 
   reserved "model_override", "client_request_id", "skip_save";
 }
-
-// List of connectors for direct specification
-message ConnectorsList { repeated string connector = 1; }
 
 // Server → Client messages
 message CreateResponseResult {
@@ -164,18 +164,4 @@ message Error {
   string code = 1;
 
   string message = 2;
-}
-
-enum StopReason {
-  STOP_REASON_UNSPECIFIED = 0;
-
-  STOP_REASON_COMPLETED = 1; // Natural completion
-
-  STOP_REASON_MAX_TOKENS = 2; // Hit token limit
-
-  STOP_REASON_TOOL_CALLS = 3; // Stopped to execute tools
-
-  STOP_REASON_ERROR = 4; // Error occurred
-
-  STOP_REASON_CONTENT_FILTER = 5; // Content filtered
 }

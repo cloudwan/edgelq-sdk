@@ -3019,6 +3019,7 @@ func FullAnthropicConfig_FieldMask() *AnthropicConfig_FieldMask {
 	res := &AnthropicConfig_FieldMask{}
 	res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorThinking})
 	res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorBetaFeatures})
+	res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorDisableInputTokenCache})
 	return res
 }
 
@@ -3037,7 +3038,7 @@ func (fieldMask *AnthropicConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AnthropicConfig_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3067,7 +3068,7 @@ func (fieldMask *AnthropicConfig_FieldMask) Reset() {
 
 func (fieldMask *AnthropicConfig_FieldMask) Subtract(other *AnthropicConfig_FieldMask) *AnthropicConfig_FieldMask {
 	result := &AnthropicConfig_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[AnthropicConfig_FieldPathSelector]gotenobject.FieldMask{
 		AnthropicConfig_FieldPathSelectorThinking: &ThinkingConfig_FieldMask{},
 	}
@@ -3254,6 +3255,8 @@ func (fieldMask *AnthropicConfig_FieldMask) Project(source *AnthropicConfig) *An
 				wholeThinkingAccepted = true
 			case AnthropicConfig_FieldPathSelectorBetaFeatures:
 				result.BetaFeatures = source.BetaFeatures
+			case AnthropicConfig_FieldPathSelectorDisableInputTokenCache:
+				result.DisableInputTokenCache = source.DisableInputTokenCache
 			}
 		case *AnthropicConfig_FieldSubPath:
 			switch tp.selector {

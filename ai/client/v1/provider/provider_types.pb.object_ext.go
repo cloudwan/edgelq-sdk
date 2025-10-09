@@ -1303,6 +1303,9 @@ func (o *AnthropicConfig) MakeDiffFieldMask(other *AnthropicConfig) *AnthropicCo
 	} else {
 		res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorBetaFeatures})
 	}
+	if o.GetDisableInputTokenCache() != other.GetDisableInputTokenCache() {
+		res.Paths = append(res.Paths, &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorDisableInputTokenCache})
+	}
 	return res
 }
 
@@ -1320,6 +1323,7 @@ func (o *AnthropicConfig) Clone() *AnthropicConfig {
 	for i, sourceValue := range o.BetaFeatures {
 		result.BetaFeatures[i] = sourceValue
 	}
+	result.DisableInputTokenCache = o.DisableInputTokenCache
 	return result
 }
 
@@ -1349,6 +1353,7 @@ func (o *AnthropicConfig) Merge(source *AnthropicConfig) {
 		}
 	}
 
+	o.DisableInputTokenCache = source.GetDisableInputTokenCache()
 }
 
 func (o *AnthropicConfig) MergeRaw(source gotenobject.GotenObjectExt) {

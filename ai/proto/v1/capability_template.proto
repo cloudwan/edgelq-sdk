@@ -56,6 +56,12 @@ message CapabilityTemplate {
 
   // Maximum output tokens (overrides ChatModel's default if set)
   int32 max_output_tokens = 10;
+
+  // When set, this prompt will be used instead of a default system prompt.
+  string system_prompt = 11;
+
+  // When true, disables Anthropic prompt caching (default: caching enabled)
+  bool disable_input_token_cache = 12;
 }
 
 // RAG (Retrieval-Augmented Generation) configuration

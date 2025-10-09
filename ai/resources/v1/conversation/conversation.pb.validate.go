@@ -21,10 +21,12 @@ import (
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -43,10 +45,12 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &capability_template.CapabilityTemplate{}
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
+	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
@@ -60,21 +64,16 @@ func (obj *Conversation) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Conversation", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
-	for idx, elem := range obj.Messages {
+	for idx, elem := range obj.Turns {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("Conversation", "messages", obj.Messages[idx], "nested object validation failed", err)
+				return gotenvalidate.NewValidationError("Conversation", "turns", obj.Turns[idx], "nested object validation failed", err)
 			}
 		}
 	}
-	if subobj, ok := interface{}(obj.ModelSnapshot).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.TotalUsage).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Conversation", "modelSnapshot", obj.ModelSnapshot, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.UsageStats).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Conversation", "usageStats", obj.UsageStats, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("Conversation", "totalUsage", obj.TotalUsage, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -82,18 +81,74 @@ func (obj *Conversation) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Conversation_ModelSnapshot) GotenValidate() error {
+func (obj *ConversationTurn) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.Messages {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ConversationTurn", "messages", obj.Messages[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.Config).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ConversationTurn", "config", obj.Config, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Usage).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ConversationTurn", "usage", obj.Usage, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
 	return nil
 }
-func (obj *Conversation_UsageStats) GotenValidate() error {
+func (obj *TurnConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	switch opt := obj.ServerToolsConfig.(type) {
+	case *TurnConfig_CapabilityTemplate:
+	case *TurnConfig_Connectors:
+		if subobj, ok := interface{}(opt.Connectors).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("TurnConfig", "connectors", opt.Connectors, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ModelUsageStats) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.AggregatedUsage).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ModelUsageStats", "aggregatedUsage", obj.AggregatedUsage, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *TotalUsageStats) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.AggregatedUsage).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TotalUsageStats", "aggregatedUsage", obj.AggregatedUsage, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

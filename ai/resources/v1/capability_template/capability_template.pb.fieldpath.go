@@ -76,16 +76,18 @@ type CapabilityTemplate_FieldPath interface {
 type CapabilityTemplate_FieldPathSelector int32
 
 const (
-	CapabilityTemplate_FieldPathSelectorName            CapabilityTemplate_FieldPathSelector = 0
-	CapabilityTemplate_FieldPathSelectorMetadata        CapabilityTemplate_FieldPathSelector = 1
-	CapabilityTemplate_FieldPathSelectorDescription     CapabilityTemplate_FieldPathSelector = 2
-	CapabilityTemplate_FieldPathSelectorConnectors      CapabilityTemplate_FieldPathSelector = 3
-	CapabilityTemplate_FieldPathSelectorRagConfig       CapabilityTemplate_FieldPathSelector = 4
-	CapabilityTemplate_FieldPathSelectorMaxToolRounds   CapabilityTemplate_FieldPathSelector = 5
-	CapabilityTemplate_FieldPathSelectorDefaultModel    CapabilityTemplate_FieldPathSelector = 6
-	CapabilityTemplate_FieldPathSelectorDisplayName     CapabilityTemplate_FieldPathSelector = 7
-	CapabilityTemplate_FieldPathSelectorReasoning       CapabilityTemplate_FieldPathSelector = 8
-	CapabilityTemplate_FieldPathSelectorMaxOutputTokens CapabilityTemplate_FieldPathSelector = 9
+	CapabilityTemplate_FieldPathSelectorName                   CapabilityTemplate_FieldPathSelector = 0
+	CapabilityTemplate_FieldPathSelectorMetadata               CapabilityTemplate_FieldPathSelector = 1
+	CapabilityTemplate_FieldPathSelectorDescription            CapabilityTemplate_FieldPathSelector = 2
+	CapabilityTemplate_FieldPathSelectorConnectors             CapabilityTemplate_FieldPathSelector = 3
+	CapabilityTemplate_FieldPathSelectorRagConfig              CapabilityTemplate_FieldPathSelector = 4
+	CapabilityTemplate_FieldPathSelectorMaxToolRounds          CapabilityTemplate_FieldPathSelector = 5
+	CapabilityTemplate_FieldPathSelectorDefaultModel           CapabilityTemplate_FieldPathSelector = 6
+	CapabilityTemplate_FieldPathSelectorDisplayName            CapabilityTemplate_FieldPathSelector = 7
+	CapabilityTemplate_FieldPathSelectorReasoning              CapabilityTemplate_FieldPathSelector = 8
+	CapabilityTemplate_FieldPathSelectorMaxOutputTokens        CapabilityTemplate_FieldPathSelector = 9
+	CapabilityTemplate_FieldPathSelectorSystemPrompt           CapabilityTemplate_FieldPathSelector = 10
+	CapabilityTemplate_FieldPathSelectorDisableInputTokenCache CapabilityTemplate_FieldPathSelector = 11
 )
 
 func (s CapabilityTemplate_FieldPathSelector) String() string {
@@ -110,6 +112,10 @@ func (s CapabilityTemplate_FieldPathSelector) String() string {
 		return "reasoning"
 	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 		return "max_output_tokens"
+	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+		return "system_prompt"
+	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+		return "disable_input_token_cache"
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", s))
 	}
@@ -141,6 +147,10 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorReasoning}, nil
 		case "max_output_tokens", "maxOutputTokens", "max-output-tokens":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens}, nil
+		case "system_prompt", "systemPrompt", "system-prompt":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPrompt}, nil
+		case "disable_input_token_cache", "disableInputTokenCache", "disable-input-token-cache":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -237,6 +247,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) Get(source *CapabilityTemplate) 
 			}
 		case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 			values = append(values, source.MaxOutputTokens)
+		case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+			values = append(values, source.SystemPrompt)
+		case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+			values = append(values, source.DisableInputTokenCache)
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -276,6 +290,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetSingle(source *CapabilityTemp
 		return res, res != nil
 	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 		return source.GetMaxOutputTokens(), source != nil
+	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+		return source.GetSystemPrompt(), source != nil
+	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+		return source.GetDisableInputTokenCache(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -308,6 +326,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetDefault() interface{} {
 		return (*ReasoningConfig)(nil)
 	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 		return int32(0)
+	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+		return ""
+	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -336,6 +358,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) ClearValue(item *CapabilityTempl
 			item.Reasoning = nil
 		case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 			item.MaxOutputTokens = int32(0)
+		case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+			item.SystemPrompt = ""
+		case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+			item.DisableInputTokenCache = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -354,7 +380,9 @@ func (fp *CapabilityTemplate_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == CapabilityTemplate_FieldPathSelectorMaxToolRounds ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorDefaultModel ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorDisplayName ||
-		fp.selector == CapabilityTemplate_FieldPathSelectorMaxOutputTokens
+		fp.selector == CapabilityTemplate_FieldPathSelectorMaxOutputTokens ||
+		fp.selector == CapabilityTemplate_FieldPathSelectorSystemPrompt ||
+		fp.selector == CapabilityTemplate_FieldPathSelectorDisableInputTokenCache
 }
 
 func (fp *CapabilityTemplate_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -383,6 +411,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIValue(value interface{}) Ca
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*ReasoningConfig)}
 	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(int32)}
+	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(string)}
+	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -415,6 +447,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*ReasoningConfig)}
 	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]int32)}
+	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]string)}
+	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -655,6 +691,14 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsMaxOutputTokensValue() (
 	res, ok := fpv.value.(int32)
 	return res, ok
 }
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsSystemPromptValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDisableInputTokenCacheValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object CapabilityTemplate
 func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityTemplate) {
@@ -682,6 +726,10 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityT
 		(*target).Reasoning = fpv.value.(*ReasoningConfig)
 	case CapabilityTemplate_FieldPathSelectorMaxOutputTokens:
 		(*target).MaxOutputTokens = fpv.value.(int32)
+	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+		(*target).SystemPrompt = fpv.value.(string)
+	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+		(*target).DisableInputTokenCache = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -768,6 +816,26 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) CompareWith(source *Capabi
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetSystemPrompt()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetDisableInputTokenCache()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -1022,6 +1090,14 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
 		}
+	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1063,6 +1139,14 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsReasoningArray
 }
 func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsMaxOutputTokensArrayOfValues() ([]int32, bool) {
 	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsSystemPromptArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDisableInputTokenCacheArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

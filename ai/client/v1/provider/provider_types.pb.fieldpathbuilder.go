@@ -7,11 +7,31 @@ package provider_client
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
+	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
+	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
+	meta "github.com/cloudwan/goten-sdk/types/meta"
+	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &common_client.Message{}
+	_ = &connector.Connector{}
+	_ = &iam_iam_common.PCR{}
+	_ = &iam_organization.Organization{}
+	_ = &iam_project.Project{}
+	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
+	_ = &meta_common.LabelledDomain{}
+	_ = &meta_service.Service{}
+	_ = &meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type ProviderChatRequestFieldPathBuilder struct{}
@@ -787,6 +807,10 @@ func (ProviderChatRequestPathSelectorAnthropicConfig) BetaFeatures() ProviderCha
 	return ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures{}
 }
 
+func (ProviderChatRequestPathSelectorAnthropicConfig) DisableInputTokenCache() ProviderChatRequestPathSelectorAnthropicConfigDisableInputTokenCache {
+	return ProviderChatRequestPathSelectorAnthropicConfigDisableInputTokenCache{}
+}
+
 type ProviderChatRequestPathSelectorAnthropicConfigThinking struct{}
 
 func (ProviderChatRequestPathSelectorAnthropicConfigThinking) FieldPath() *ProviderChatRequest_FieldSubPath {
@@ -865,6 +889,23 @@ func (s ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures) WithArrayOfV
 
 func (s ProviderChatRequestPathSelectorAnthropicConfigBetaFeatures) WithItemValue(value string) *ProviderChatRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProviderChatRequest_FieldSubPathArrayItemValue)
+}
+
+type ProviderChatRequestPathSelectorAnthropicConfigDisableInputTokenCache struct{}
+
+func (ProviderChatRequestPathSelectorAnthropicConfigDisableInputTokenCache) FieldPath() *ProviderChatRequest_FieldSubPath {
+	return &ProviderChatRequest_FieldSubPath{
+		selector: ProviderChatRequest_FieldPathSelectorAnthropicConfig,
+		subPath:  NewAnthropicConfigFieldPathBuilder().DisableInputTokenCache().FieldPath(),
+	}
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigDisableInputTokenCache) WithValue(value bool) *ProviderChatRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProviderChatRequest_FieldSubPathValue)
+}
+
+func (s ProviderChatRequestPathSelectorAnthropicConfigDisableInputTokenCache) WithArrayOfValues(values []bool) *ProviderChatRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProviderChatRequest_FieldSubPathArrayOfValues)
 }
 
 type ProviderChatRequestPathSelectorGeminiConfig struct{}
@@ -2001,6 +2042,9 @@ func (AnthropicConfigFieldPathBuilder) Thinking() AnthropicConfigPathSelectorThi
 func (AnthropicConfigFieldPathBuilder) BetaFeatures() AnthropicConfigPathSelectorBetaFeatures {
 	return AnthropicConfigPathSelectorBetaFeatures{}
 }
+func (AnthropicConfigFieldPathBuilder) DisableInputTokenCache() AnthropicConfigPathSelectorDisableInputTokenCache {
+	return AnthropicConfigPathSelectorDisableInputTokenCache{}
+}
 
 type AnthropicConfigPathSelectorThinking struct{}
 
@@ -2090,6 +2134,20 @@ func (s AnthropicConfigPathSelectorBetaFeatures) WithArrayOfValues(values [][]st
 
 func (s AnthropicConfigPathSelectorBetaFeatures) WithItemValue(value string) *AnthropicConfig_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AnthropicConfig_FieldTerminalPathArrayItemValue)
+}
+
+type AnthropicConfigPathSelectorDisableInputTokenCache struct{}
+
+func (AnthropicConfigPathSelectorDisableInputTokenCache) FieldPath() *AnthropicConfig_FieldTerminalPath {
+	return &AnthropicConfig_FieldTerminalPath{selector: AnthropicConfig_FieldPathSelectorDisableInputTokenCache}
+}
+
+func (s AnthropicConfigPathSelectorDisableInputTokenCache) WithValue(value bool) *AnthropicConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AnthropicConfig_FieldTerminalPathValue)
+}
+
+func (s AnthropicConfigPathSelectorDisableInputTokenCache) WithArrayOfValues(values []bool) *AnthropicConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AnthropicConfig_FieldTerminalPathArrayOfValues)
 }
 
 type ThinkingConfigFieldPathBuilder struct{}

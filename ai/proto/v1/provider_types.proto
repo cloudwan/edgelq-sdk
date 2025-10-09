@@ -202,6 +202,9 @@ message AnthropicConfig {
   // Beta features to enable (e.g., ["prompt-caching-2024-07-31",
   // "pdfs-2024-09-25"])
   repeated string beta_features = 2;
+
+  // When true, disables prompt caching
+  bool disable_input_token_cache = 3;
 }
 
 // Thinking configuration for Anthropic models

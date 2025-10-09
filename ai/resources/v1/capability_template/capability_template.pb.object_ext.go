@@ -122,6 +122,12 @@ func (o *CapabilityTemplate) MakeDiffFieldMask(other *CapabilityTemplate) *Capab
 	if o.GetMaxOutputTokens() != other.GetMaxOutputTokens() {
 		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens})
 	}
+	if o.GetSystemPrompt() != other.GetSystemPrompt() {
+		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPrompt})
+	}
+	if o.GetDisableInputTokenCache() != other.GetDisableInputTokenCache() {
+		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache})
+	}
 	return res
 }
 
@@ -165,6 +171,8 @@ func (o *CapabilityTemplate) Clone() *CapabilityTemplate {
 	result.DisplayName = o.DisplayName
 	result.Reasoning = o.Reasoning.Clone()
 	result.MaxOutputTokens = o.MaxOutputTokens
+	result.SystemPrompt = o.SystemPrompt
+	result.DisableInputTokenCache = o.DisableInputTokenCache
 	return result
 }
 
@@ -234,6 +242,8 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 		o.Reasoning.Merge(source.GetReasoning())
 	}
 	o.MaxOutputTokens = source.GetMaxOutputTokens()
+	o.SystemPrompt = source.GetSystemPrompt()
+	o.DisableInputTokenCache = source.GetDisableInputTokenCache()
 }
 
 func (o *CapabilityTemplate) MergeRaw(source gotenobject.GotenObjectExt) {

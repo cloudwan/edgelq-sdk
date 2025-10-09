@@ -264,6 +264,14 @@ func (b *filterCndBuilder) MaxOutputTokens() *filterCndBuilderMaxOutputTokens {
 	return &filterCndBuilderMaxOutputTokens{builder: b.builder}
 }
 
+func (b *filterCndBuilder) SystemPrompt() *filterCndBuilderSystemPrompt {
+	return &filterCndBuilderSystemPrompt{builder: b.builder}
+}
+
+func (b *filterCndBuilder) DisableInputTokenCache() *filterCndBuilderDisableInputTokenCache {
+	return &filterCndBuilderDisableInputTokenCache{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -3830,5 +3838,123 @@ func (b *filterCndBuilderMaxOutputTokens) compare(op gotenfilter.CompareOperator
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().MaxOutputTokens().WithValue(value),
+	})
+}
+
+type filterCndBuilderSystemPrompt struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSystemPrompt) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSystemPrompt) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSystemPrompt) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSystemPrompt) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSystemPrompt) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSystemPrompt) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSystemPrompt) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPrompt().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPrompt) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPrompt().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPrompt) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPrompt().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPrompt) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPrompt().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPrompt) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().SystemPrompt().WithValue(value),
+	})
+}
+
+type filterCndBuilderDisableInputTokenCache struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().DisableInputTokenCache().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().DisableInputTokenCache().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().DisableInputTokenCache().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().DisableInputTokenCache().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisableInputTokenCache) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().DisableInputTokenCache().WithValue(value),
 	})
 }

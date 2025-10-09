@@ -17,10 +17,12 @@ import (
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -37,10 +39,12 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &capability_template.CapabilityTemplate{}
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
+	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
@@ -83,40 +87,42 @@ func (o *Conversation) MakeDiffFieldMask(other *Conversation) *Conversation_Fiel
 	if o.GetArchived() != other.GetArchived() {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorArchived})
 	}
+	if !proto.Equal(o.GetLastActivityTime(), other.GetLastActivityTime()) {
+		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorLastActivityTime})
+	}
 
-	if len(o.GetMessages()) == len(other.GetMessages()) {
-		for i, lValue := range o.GetMessages() {
-			rValue := other.GetMessages()[i]
-			if !proto.Equal(lValue, rValue) {
-				res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorMessages})
+	if len(o.GetTurns()) == len(other.GetTurns()) {
+		for i, lValue := range o.GetTurns() {
+			rValue := other.GetTurns()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTurns})
 				break
 			}
 		}
 	} else {
-		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorMessages})
+		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTurns})
 	}
-	{
-		subMask := o.GetModelSnapshot().MakeDiffFieldMask(other.GetModelSnapshot())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorModelSnapshot})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorModelSnapshot, subPath: subpath})
+
+	if len(o.GetUsageByModel()) == len(other.GetUsageByModel()) {
+		for i, lValue := range o.GetUsageByModel() {
+			rValue := other.GetUsageByModel()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel})
+				break
 			}
 		}
+	} else {
+		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel})
 	}
 	{
-		subMask := o.GetUsageStats().MakeDiffFieldMask(other.GetUsageStats())
+		subMask := o.GetTotalUsage().MakeDiffFieldMask(other.GetTotalUsage())
 		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageStats})
+			res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTotalUsage})
 		} else {
 			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorUsageStats, subPath: subpath})
+				res.Paths = append(res.Paths, &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorTotalUsage, subPath: subpath})
 			}
 		}
-	}
-	if !proto.Equal(o.GetLastActivityTime(), other.GetLastActivityTime()) {
-		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorLastActivityTime})
 	}
 	return res
 }
@@ -143,13 +149,16 @@ func (o *Conversation) Clone() *Conversation {
 	result.Metadata = o.Metadata.Clone()
 	result.Title = o.Title
 	result.Archived = o.Archived
-	result.Messages = make([]*common_client.Message, len(o.Messages))
-	for i, sourceValue := range o.Messages {
-		result.Messages[i] = proto.Clone(sourceValue).(*common_client.Message)
-	}
-	result.ModelSnapshot = o.ModelSnapshot.Clone()
-	result.UsageStats = o.UsageStats.Clone()
 	result.LastActivityTime = proto.Clone(o.LastActivityTime).(*timestamppb.Timestamp)
+	result.Turns = make([]*ConversationTurn, len(o.Turns))
+	for i, sourceValue := range o.Turns {
+		result.Turns[i] = sourceValue.Clone()
+	}
+	result.UsageByModel = map[string]*ModelUsageStats{}
+	for key, sourceValue := range o.UsageByModel {
+		result.UsageByModel[key] = sourceValue.Clone()
+	}
+	result.TotalUsage = o.TotalUsage.Clone()
 	return result
 }
 
@@ -178,6 +187,164 @@ func (o *Conversation) Merge(source *Conversation) {
 	}
 	o.Title = source.GetTitle()
 	o.Archived = source.GetArchived()
+	if source.GetLastActivityTime() != nil {
+		if o.LastActivityTime == nil {
+			o.LastActivityTime = new(timestamppb.Timestamp)
+		}
+		proto.Merge(o.LastActivityTime, source.GetLastActivityTime())
+	}
+	for _, sourceValue := range source.GetTurns() {
+		exists := false
+		for _, currentValue := range o.Turns {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *ConversationTurn
+			if sourceValue != nil {
+				newDstElement = new(ConversationTurn)
+				newDstElement.Merge(sourceValue)
+			}
+			o.Turns = append(o.Turns, newDstElement)
+		}
+	}
+
+	if source.GetUsageByModel() != nil {
+		if o.UsageByModel == nil {
+			o.UsageByModel = make(map[string]*ModelUsageStats, len(source.GetUsageByModel()))
+		}
+		for key, sourceValue := range source.GetUsageByModel() {
+			if sourceValue != nil {
+				if o.UsageByModel[key] == nil {
+					o.UsageByModel[key] = new(ModelUsageStats)
+				}
+				o.UsageByModel[key].Merge(sourceValue)
+			}
+		}
+	}
+	if source.GetTotalUsage() != nil {
+		if o.TotalUsage == nil {
+			o.TotalUsage = new(TotalUsageStats)
+		}
+		o.TotalUsage.Merge(source.GetTotalUsage())
+	}
+}
+
+func (o *Conversation) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Conversation))
+}
+
+func (o *ConversationTurn) GotenObjectExt() {}
+
+func (o *ConversationTurn) MakeFullFieldMask() *ConversationTurn_FieldMask {
+	return FullConversationTurn_FieldMask()
+}
+
+func (o *ConversationTurn) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullConversationTurn_FieldMask()
+}
+
+func (o *ConversationTurn) MakeDiffFieldMask(other *ConversationTurn) *ConversationTurn_FieldMask {
+	if o == nil && other == nil {
+		return &ConversationTurn_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullConversationTurn_FieldMask()
+	}
+
+	res := &ConversationTurn_FieldMask{}
+	if o.GetTurnNumber() != other.GetTurnNumber() {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorTurnNumber})
+	}
+	if !proto.Equal(o.GetTimestamp(), other.GetTimestamp()) {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorTimestamp})
+	}
+
+	if len(o.GetMessages()) == len(other.GetMessages()) {
+		for i, lValue := range o.GetMessages() {
+			rValue := other.GetMessages()[i]
+			if !proto.Equal(lValue, rValue) {
+				res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorMessages})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorMessages})
+	}
+	{
+		subMask := o.GetConfig().MakeDiffFieldMask(other.GetConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ConversationTurn_FieldSubPath{selector: ConversationTurn_FieldPathSelectorConfig, subPath: subpath})
+			}
+		}
+	}
+	if !proto.Equal(o.GetUsage(), other.GetUsage()) {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorUsage})
+	}
+	if o.GetStopReason() != other.GetStopReason() {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorStopReason})
+	}
+	if !proto.Equal(o.GetDuration(), other.GetDuration()) {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorDuration})
+	}
+
+	if len(o.GetAvailableTools()) == len(other.GetAvailableTools()) {
+		for i, lValue := range o.GetAvailableTools() {
+			rValue := other.GetAvailableTools()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableTools})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableTools})
+	}
+	return res
+}
+
+func (o *ConversationTurn) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ConversationTurn))
+}
+
+func (o *ConversationTurn) Clone() *ConversationTurn {
+	if o == nil {
+		return nil
+	}
+	result := &ConversationTurn{}
+	result.TurnNumber = o.TurnNumber
+	result.Timestamp = proto.Clone(o.Timestamp).(*timestamppb.Timestamp)
+	result.Messages = make([]*common_client.Message, len(o.Messages))
+	for i, sourceValue := range o.Messages {
+		result.Messages[i] = proto.Clone(sourceValue).(*common_client.Message)
+	}
+	result.Config = o.Config.Clone()
+	result.Usage = proto.Clone(o.Usage).(*common_client.TokenUsage)
+	result.StopReason = o.StopReason
+	result.Duration = proto.Clone(o.Duration).(*durationpb.Duration)
+	result.AvailableTools = make([]string, len(o.AvailableTools))
+	for i, sourceValue := range o.AvailableTools {
+		result.AvailableTools[i] = sourceValue
+	}
+	return result
+}
+
+func (o *ConversationTurn) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ConversationTurn) Merge(source *ConversationTurn) {
+	o.TurnNumber = source.GetTurnNumber()
+	if source.GetTimestamp() != nil {
+		if o.Timestamp == nil {
+			o.Timestamp = new(timestamppb.Timestamp)
+		}
+		proto.Merge(o.Timestamp, source.GetTimestamp())
+	}
 	for _, sourceValue := range source.GetMessages() {
 		exists := false
 		for _, currentValue := range o.Messages {
@@ -196,73 +363,114 @@ func (o *Conversation) Merge(source *Conversation) {
 		}
 	}
 
-	if source.GetModelSnapshot() != nil {
-		if o.ModelSnapshot == nil {
-			o.ModelSnapshot = new(Conversation_ModelSnapshot)
+	if source.GetConfig() != nil {
+		if o.Config == nil {
+			o.Config = new(TurnConfig)
 		}
-		o.ModelSnapshot.Merge(source.GetModelSnapshot())
+		o.Config.Merge(source.GetConfig())
 	}
-	if source.GetUsageStats() != nil {
-		if o.UsageStats == nil {
-			o.UsageStats = new(Conversation_UsageStats)
+	if source.GetUsage() != nil {
+		if o.Usage == nil {
+			o.Usage = new(common_client.TokenUsage)
 		}
-		o.UsageStats.Merge(source.GetUsageStats())
+		proto.Merge(o.Usage, source.GetUsage())
 	}
-	if source.GetLastActivityTime() != nil {
-		if o.LastActivityTime == nil {
-			o.LastActivityTime = new(timestamppb.Timestamp)
+	o.StopReason = source.GetStopReason()
+	if source.GetDuration() != nil {
+		if o.Duration == nil {
+			o.Duration = new(durationpb.Duration)
 		}
-		proto.Merge(o.LastActivityTime, source.GetLastActivityTime())
+		proto.Merge(o.Duration, source.GetDuration())
 	}
+	for _, sourceValue := range source.GetAvailableTools() {
+		exists := false
+		for _, currentValue := range o.AvailableTools {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.AvailableTools = append(o.AvailableTools, newDstElement)
+		}
+	}
+
 }
 
-func (o *Conversation) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*Conversation))
+func (o *ConversationTurn) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ConversationTurn))
 }
 
-func (o *Conversation_ModelSnapshot) GotenObjectExt() {}
+func (o *TurnConfig) GotenObjectExt() {}
 
-func (o *Conversation_ModelSnapshot) MakeFullFieldMask() *Conversation_ModelSnapshot_FieldMask {
-	return FullConversation_ModelSnapshot_FieldMask()
+func (o *TurnConfig) MakeFullFieldMask() *TurnConfig_FieldMask {
+	return FullTurnConfig_FieldMask()
 }
 
-func (o *Conversation_ModelSnapshot) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullConversation_ModelSnapshot_FieldMask()
+func (o *TurnConfig) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullTurnConfig_FieldMask()
 }
 
-func (o *Conversation_ModelSnapshot) MakeDiffFieldMask(other *Conversation_ModelSnapshot) *Conversation_ModelSnapshot_FieldMask {
+func (o *TurnConfig) MakeDiffFieldMask(other *TurnConfig) *TurnConfig_FieldMask {
 	if o == nil && other == nil {
-		return &Conversation_ModelSnapshot_FieldMask{}
+		return &TurnConfig_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullConversation_ModelSnapshot_FieldMask()
+		return FullTurnConfig_FieldMask()
 	}
 
-	res := &Conversation_ModelSnapshot_FieldMask{}
+	res := &TurnConfig_FieldMask{}
 	if o.GetModel().String() != other.GetModel().String() {
-		res.Paths = append(res.Paths, &ConversationModelSnapshot_FieldTerminalPath{selector: ConversationModelSnapshot_FieldPathSelectorModel})
+		res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorModel})
 	}
 	if o.GetModelUsed() != other.GetModelUsed() {
-		res.Paths = append(res.Paths, &ConversationModelSnapshot_FieldTerminalPath{selector: ConversationModelSnapshot_FieldPathSelectorModelUsed})
+		res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorModelUsed})
 	}
 	if o.GetTemperature() != other.GetTemperature() {
-		res.Paths = append(res.Paths, &ConversationModelSnapshot_FieldTerminalPath{selector: ConversationModelSnapshot_FieldPathSelectorTemperature})
+		res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorTemperature})
 	}
 	if o.GetMaxTokens() != other.GetMaxTokens() {
-		res.Paths = append(res.Paths, &ConversationModelSnapshot_FieldTerminalPath{selector: ConversationModelSnapshot_FieldPathSelectorMaxTokens})
+		res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorMaxTokens})
+	}
+	if o.GetReasoningLevel() != other.GetReasoningLevel() {
+		res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorReasoningLevel})
+	}
+	{
+		_, leftSelected := o.ServerToolsConfig.(*TurnConfig_CapabilityTemplate)
+		_, rightSelected := other.ServerToolsConfig.(*TurnConfig_CapabilityTemplate)
+		if leftSelected == rightSelected {
+			if o.GetCapabilityTemplate().String() != other.GetCapabilityTemplate().String() {
+				res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorCapabilityTemplate})
+			}
+		} else {
+			res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorCapabilityTemplate})
+		}
+	}
+	{
+		_, leftSelected := o.ServerToolsConfig.(*TurnConfig_Connectors)
+		_, rightSelected := other.ServerToolsConfig.(*TurnConfig_Connectors)
+		if leftSelected == rightSelected {
+			if !proto.Equal(o.GetConnectors(), other.GetConnectors()) {
+				res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorConnectors})
+			}
+		} else {
+			res.Paths = append(res.Paths, &TurnConfig_FieldTerminalPath{selector: TurnConfig_FieldPathSelectorConnectors})
+		}
 	}
 	return res
 }
 
-func (o *Conversation_ModelSnapshot) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*Conversation_ModelSnapshot))
+func (o *TurnConfig) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*TurnConfig))
 }
 
-func (o *Conversation_ModelSnapshot) Clone() *Conversation_ModelSnapshot {
+func (o *TurnConfig) Clone() *TurnConfig {
 	if o == nil {
 		return nil
 	}
-	result := &Conversation_ModelSnapshot{}
+	result := &TurnConfig{}
 	if o.Model == nil {
 		result.Model = nil
 	} else if data, err := o.Model.ProtoString(); err != nil {
@@ -276,14 +484,40 @@ func (o *Conversation_ModelSnapshot) Clone() *Conversation_ModelSnapshot {
 	result.ModelUsed = o.ModelUsed
 	result.Temperature = o.Temperature
 	result.MaxTokens = o.MaxTokens
+	result.ReasoningLevel = o.ReasoningLevel
+	if o, ok := o.ServerToolsConfig.(*TurnConfig_CapabilityTemplate); ok {
+		result.ServerToolsConfig = (*TurnConfig_CapabilityTemplate)(nil)
+		if o != nil {
+			result.ServerToolsConfig = &TurnConfig_CapabilityTemplate{}
+			result := result.ServerToolsConfig.(*TurnConfig_CapabilityTemplate)
+			if o.CapabilityTemplate == nil {
+				result.CapabilityTemplate = nil
+			} else if data, err := o.CapabilityTemplate.ProtoString(); err != nil {
+				panic(err)
+			} else {
+				result.CapabilityTemplate = &capability_template.Name{}
+				if err := result.CapabilityTemplate.ParseProtoString(data); err != nil {
+					panic(err)
+				}
+			}
+		}
+	}
+	if o, ok := o.ServerToolsConfig.(*TurnConfig_Connectors); ok {
+		result.ServerToolsConfig = (*TurnConfig_Connectors)(nil)
+		if o != nil {
+			result.ServerToolsConfig = &TurnConfig_Connectors{}
+			result := result.ServerToolsConfig.(*TurnConfig_Connectors)
+			result.Connectors = proto.Clone(o.Connectors).(*common_client.ConnectorsList)
+		}
+	}
 	return result
 }
 
-func (o *Conversation_ModelSnapshot) CloneRaw() gotenobject.GotenObjectExt {
+func (o *TurnConfig) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *Conversation_ModelSnapshot) Merge(source *Conversation_ModelSnapshot) {
+func (o *TurnConfig) Merge(source *TurnConfig) {
 	if source.GetModel() != nil {
 		if data, err := source.GetModel().ProtoString(); err != nil {
 			panic(err)
@@ -299,73 +533,168 @@ func (o *Conversation_ModelSnapshot) Merge(source *Conversation_ModelSnapshot) {
 	o.ModelUsed = source.GetModelUsed()
 	o.Temperature = source.GetTemperature()
 	o.MaxTokens = source.GetMaxTokens()
+	o.ReasoningLevel = source.GetReasoningLevel()
+	if source, ok := source.GetServerToolsConfig().(*TurnConfig_CapabilityTemplate); ok {
+		if dstOneOf, ok := o.ServerToolsConfig.(*TurnConfig_CapabilityTemplate); !ok || dstOneOf == nil {
+			o.ServerToolsConfig = &TurnConfig_CapabilityTemplate{}
+		}
+		if source != nil {
+			o := o.ServerToolsConfig.(*TurnConfig_CapabilityTemplate)
+			if source.CapabilityTemplate != nil {
+				if data, err := source.CapabilityTemplate.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					o.CapabilityTemplate = &capability_template.Name{}
+					if err := o.CapabilityTemplate.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			} else {
+				o.CapabilityTemplate = nil
+			}
+		}
+	}
+	if source, ok := source.GetServerToolsConfig().(*TurnConfig_Connectors); ok {
+		if dstOneOf, ok := o.ServerToolsConfig.(*TurnConfig_Connectors); !ok || dstOneOf == nil {
+			o.ServerToolsConfig = &TurnConfig_Connectors{}
+		}
+		if source != nil {
+			o := o.ServerToolsConfig.(*TurnConfig_Connectors)
+			if source.Connectors != nil {
+				if o.Connectors == nil {
+					o.Connectors = new(common_client.ConnectorsList)
+				}
+				proto.Merge(o.Connectors, source.Connectors)
+			}
+		}
+	}
 }
 
-func (o *Conversation_ModelSnapshot) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*Conversation_ModelSnapshot))
+func (o *TurnConfig) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*TurnConfig))
 }
 
-func (o *Conversation_UsageStats) GotenObjectExt() {}
+func (o *ModelUsageStats) GotenObjectExt() {}
 
-func (o *Conversation_UsageStats) MakeFullFieldMask() *Conversation_UsageStats_FieldMask {
-	return FullConversation_UsageStats_FieldMask()
+func (o *ModelUsageStats) MakeFullFieldMask() *ModelUsageStats_FieldMask {
+	return FullModelUsageStats_FieldMask()
 }
 
-func (o *Conversation_UsageStats) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullConversation_UsageStats_FieldMask()
+func (o *ModelUsageStats) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullModelUsageStats_FieldMask()
 }
 
-func (o *Conversation_UsageStats) MakeDiffFieldMask(other *Conversation_UsageStats) *Conversation_UsageStats_FieldMask {
+func (o *ModelUsageStats) MakeDiffFieldMask(other *ModelUsageStats) *ModelUsageStats_FieldMask {
 	if o == nil && other == nil {
-		return &Conversation_UsageStats_FieldMask{}
+		return &ModelUsageStats_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullConversation_UsageStats_FieldMask()
+		return FullModelUsageStats_FieldMask()
 	}
 
-	res := &Conversation_UsageStats_FieldMask{}
-	if o.GetMessageCount() != other.GetMessageCount() {
-		res.Paths = append(res.Paths, &ConversationUsageStats_FieldTerminalPath{selector: ConversationUsageStats_FieldPathSelectorMessageCount})
+	res := &ModelUsageStats_FieldMask{}
+	if o.GetTurnCount() != other.GetTurnCount() {
+		res.Paths = append(res.Paths, &ModelUsageStats_FieldTerminalPath{selector: ModelUsageStats_FieldPathSelectorTurnCount})
 	}
-	if o.GetTotalInputTokens() != other.GetTotalInputTokens() {
-		res.Paths = append(res.Paths, &ConversationUsageStats_FieldTerminalPath{selector: ConversationUsageStats_FieldPathSelectorTotalInputTokens})
-	}
-	if o.GetTotalOutputTokens() != other.GetTotalOutputTokens() {
-		res.Paths = append(res.Paths, &ConversationUsageStats_FieldTerminalPath{selector: ConversationUsageStats_FieldPathSelectorTotalOutputTokens})
-	}
-	if o.GetTotalTokens() != other.GetTotalTokens() {
-		res.Paths = append(res.Paths, &ConversationUsageStats_FieldTerminalPath{selector: ConversationUsageStats_FieldPathSelectorTotalTokens})
+	if !proto.Equal(o.GetAggregatedUsage(), other.GetAggregatedUsage()) {
+		res.Paths = append(res.Paths, &ModelUsageStats_FieldTerminalPath{selector: ModelUsageStats_FieldPathSelectorAggregatedUsage})
 	}
 	return res
 }
 
-func (o *Conversation_UsageStats) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*Conversation_UsageStats))
+func (o *ModelUsageStats) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ModelUsageStats))
 }
 
-func (o *Conversation_UsageStats) Clone() *Conversation_UsageStats {
+func (o *ModelUsageStats) Clone() *ModelUsageStats {
 	if o == nil {
 		return nil
 	}
-	result := &Conversation_UsageStats{}
-	result.MessageCount = o.MessageCount
-	result.TotalInputTokens = o.TotalInputTokens
-	result.TotalOutputTokens = o.TotalOutputTokens
-	result.TotalTokens = o.TotalTokens
+	result := &ModelUsageStats{}
+	result.TurnCount = o.TurnCount
+	result.AggregatedUsage = proto.Clone(o.AggregatedUsage).(*common_client.TokenUsage)
 	return result
 }
 
-func (o *Conversation_UsageStats) CloneRaw() gotenobject.GotenObjectExt {
+func (o *ModelUsageStats) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *Conversation_UsageStats) Merge(source *Conversation_UsageStats) {
-	o.MessageCount = source.GetMessageCount()
-	o.TotalInputTokens = source.GetTotalInputTokens()
-	o.TotalOutputTokens = source.GetTotalOutputTokens()
-	o.TotalTokens = source.GetTotalTokens()
+func (o *ModelUsageStats) Merge(source *ModelUsageStats) {
+	o.TurnCount = source.GetTurnCount()
+	if source.GetAggregatedUsage() != nil {
+		if o.AggregatedUsage == nil {
+			o.AggregatedUsage = new(common_client.TokenUsage)
+		}
+		proto.Merge(o.AggregatedUsage, source.GetAggregatedUsage())
+	}
 }
 
-func (o *Conversation_UsageStats) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*Conversation_UsageStats))
+func (o *ModelUsageStats) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ModelUsageStats))
+}
+
+func (o *TotalUsageStats) GotenObjectExt() {}
+
+func (o *TotalUsageStats) MakeFullFieldMask() *TotalUsageStats_FieldMask {
+	return FullTotalUsageStats_FieldMask()
+}
+
+func (o *TotalUsageStats) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullTotalUsageStats_FieldMask()
+}
+
+func (o *TotalUsageStats) MakeDiffFieldMask(other *TotalUsageStats) *TotalUsageStats_FieldMask {
+	if o == nil && other == nil {
+		return &TotalUsageStats_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullTotalUsageStats_FieldMask()
+	}
+
+	res := &TotalUsageStats_FieldMask{}
+	if o.GetTotalTurns() != other.GetTotalTurns() {
+		res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalTurns})
+	}
+	if o.GetTotalMessages() != other.GetTotalMessages() {
+		res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalMessages})
+	}
+	if !proto.Equal(o.GetAggregatedUsage(), other.GetAggregatedUsage()) {
+		res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorAggregatedUsage})
+	}
+	return res
+}
+
+func (o *TotalUsageStats) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*TotalUsageStats))
+}
+
+func (o *TotalUsageStats) Clone() *TotalUsageStats {
+	if o == nil {
+		return nil
+	}
+	result := &TotalUsageStats{}
+	result.TotalTurns = o.TotalTurns
+	result.TotalMessages = o.TotalMessages
+	result.AggregatedUsage = proto.Clone(o.AggregatedUsage).(*common_client.TokenUsage)
+	return result
+}
+
+func (o *TotalUsageStats) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *TotalUsageStats) Merge(source *TotalUsageStats) {
+	o.TotalTurns = source.GetTotalTurns()
+	o.TotalMessages = source.GetTotalMessages()
+	if source.GetAggregatedUsage() != nil {
+		if o.AggregatedUsage == nil {
+			o.AggregatedUsage = new(common_client.TokenUsage)
+		}
+		proto.Merge(o.AggregatedUsage, source.GetAggregatedUsage())
+	}
+}
+
+func (o *TotalUsageStats) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*TotalUsageStats))
 }

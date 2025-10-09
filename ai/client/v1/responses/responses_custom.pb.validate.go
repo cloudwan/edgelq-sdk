@@ -101,15 +101,6 @@ func (obj *CreateRequest) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *ConnectorsList) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
 func (obj *CreateResponseResult) GotenValidate() error {
 	if obj == nil {
 		return nil
