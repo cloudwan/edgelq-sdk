@@ -24,6 +24,7 @@ import (
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	money "google.golang.org/genproto/googleapis/type/money"
 )
 
 // ensure the imports are used
@@ -43,6 +44,7 @@ var (
 var (
 	_ = &iam_project.Project{}
 	_ = &secrets_secret.Secret{}
+	_ = &money.Money{}
 	_ = &meta.Meta{}
 )
 

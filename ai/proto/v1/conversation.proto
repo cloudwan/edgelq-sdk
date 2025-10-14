@@ -49,9 +49,6 @@ message Conversation {
 
   // Aggregate statistics by model (for easy analytics/billing)
   map<string, ModelUsageStats> usage_by_model = 7;
-
-  // Total statistics across all models
-  TotalUsageStats total_usage = 8;
 }
 
 // Represents one CreateResponse API call
@@ -111,14 +108,4 @@ message ModelUsageStats {
 
   // Aggregated token usage for this model (sum of all turns)
   TokenUsage aggregated_usage = 2;
-}
-
-// Total usage across all models
-message TotalUsageStats {
-  int32 total_turns = 1;
-
-  int32 total_messages = 2;
-
-  // Aggregated token usage across all models
-  TokenUsage aggregated_usage = 3;
 }

@@ -89,7 +89,6 @@ const (
 	Conversation_FieldPathSelectorLastActivityTime Conversation_FieldPathSelector = 4
 	Conversation_FieldPathSelectorTurns            Conversation_FieldPathSelector = 5
 	Conversation_FieldPathSelectorUsageByModel     Conversation_FieldPathSelector = 6
-	Conversation_FieldPathSelectorTotalUsage       Conversation_FieldPathSelector = 7
 )
 
 func (s Conversation_FieldPathSelector) String() string {
@@ -108,8 +107,6 @@ func (s Conversation_FieldPathSelector) String() string {
 		return "turns"
 	case Conversation_FieldPathSelectorUsageByModel:
 		return "usage_by_model"
-	case Conversation_FieldPathSelectorTotalUsage:
-		return "total_usage"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", s))
 	}
@@ -135,8 +132,6 @@ func BuildConversation_FieldPath(fp gotenobject.RawFieldPath) (Conversation_Fiel
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTurns}, nil
 		case "usage_by_model", "usageByModel", "usage-by-model":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel}, nil
-		case "total_usage", "totalUsage", "total-usage":
-			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTotalUsage}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -151,12 +146,6 @@ func BuildConversation_FieldPath(fp gotenobject.RawFieldPath) (Conversation_Fiel
 				return nil, err
 			} else {
 				return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorTurns, subPath: subpath}, nil
-			}
-		case "total_usage", "totalUsage", "total-usage":
-			if subpath, err := BuildTotalUsageStats_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorTotalUsage, subPath: subpath}, nil
 			}
 		case "usage_by_model", "usageByModel", "usage-by-model":
 			if len(fp) > 2 {
@@ -232,10 +221,6 @@ func (fp *Conversation_FieldTerminalPath) Get(source *Conversation) (values []in
 			if source.UsageByModel != nil {
 				values = append(values, source.UsageByModel)
 			}
-		case Conversation_FieldPathSelectorTotalUsage:
-			if source.TotalUsage != nil {
-				values = append(values, source.TotalUsage)
-			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 		}
@@ -269,9 +254,6 @@ func (fp *Conversation_FieldTerminalPath) GetSingle(source *Conversation) (inter
 	case Conversation_FieldPathSelectorUsageByModel:
 		res := source.GetUsageByModel()
 		return res, res != nil
-	case Conversation_FieldPathSelectorTotalUsage:
-		res := source.GetTotalUsage()
-		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -298,8 +280,6 @@ func (fp *Conversation_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*ConversationTurn)(nil)
 	case Conversation_FieldPathSelectorUsageByModel:
 		return (map[string]*ModelUsageStats)(nil)
-	case Conversation_FieldPathSelectorTotalUsage:
-		return (*TotalUsageStats)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -322,8 +302,6 @@ func (fp *Conversation_FieldTerminalPath) ClearValue(item *Conversation) {
 			item.Turns = nil
 		case Conversation_FieldPathSelectorUsageByModel:
 			item.UsageByModel = nil
-		case Conversation_FieldPathSelectorTotalUsage:
-			item.TotalUsage = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 		}
@@ -362,8 +340,6 @@ func (fp *Conversation_FieldTerminalPath) WithIValue(value interface{}) Conversa
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.([]*ConversationTurn)}
 	case Conversation_FieldPathSelectorUsageByModel:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(map[string]*ModelUsageStats)}
-	case Conversation_FieldPathSelectorTotalUsage:
-		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(*TotalUsageStats)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -390,8 +366,6 @@ func (fp *Conversation_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([][]*ConversationTurn)}
 	case Conversation_FieldPathSelectorUsageByModel:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]map[string]*ModelUsageStats)}
-	case Conversation_FieldPathSelectorTotalUsage:
-		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]*TotalUsageStats)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -565,10 +539,6 @@ func (fps *Conversation_FieldSubPath) AsTurnsSubPath() (ConversationTurn_FieldPa
 	res, ok := fps.subPath.(ConversationTurn_FieldPath)
 	return res, ok
 }
-func (fps *Conversation_FieldSubPath) AsTotalUsageSubPath() (TotalUsageStats_FieldPath, bool) {
-	res, ok := fps.subPath.(TotalUsageStats_FieldPath)
-	return res, ok
-}
 
 // String returns path representation in proto convention
 func (fps *Conversation_FieldSubPath) String() string {
@@ -589,8 +559,6 @@ func (fps *Conversation_FieldSubPath) Get(source *Conversation) (values []interf
 		for _, item := range source.GetTurns() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	case Conversation_FieldPathSelectorTotalUsage:
-		values = append(values, fps.subPath.GetRaw(source.GetTotalUsage())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fps.selector))
 	}
@@ -614,11 +582,6 @@ func (fps *Conversation_FieldSubPath) GetSingle(source *Conversation) (interface
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetTurns()[0])
-	case Conversation_FieldPathSelectorTotalUsage:
-		if source.GetTotalUsage() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetTotalUsage())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fps.selector))
 	}
@@ -642,8 +605,6 @@ func (fps *Conversation_FieldSubPath) ClearValue(item *Conversation) {
 			for _, subItem := range item.Turns {
 				fps.subPath.ClearValueRaw(subItem)
 			}
-		case Conversation_FieldPathSelectorTotalUsage:
-			fps.subPath.ClearValueRaw(item.TotalUsage)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fps.selector))
 		}
@@ -756,10 +717,6 @@ func (fpv *Conversation_FieldTerminalPathValue) AsUsageByModelValue() (map[strin
 	res, ok := fpv.value.(map[string]*ModelUsageStats)
 	return res, ok
 }
-func (fpv *Conversation_FieldTerminalPathValue) AsTotalUsageValue() (*TotalUsageStats, bool) {
-	res, ok := fpv.value.(*TotalUsageStats)
-	return res, ok
-}
 
 // SetTo stores value for selected field for object Conversation
 func (fpv *Conversation_FieldTerminalPathValue) SetTo(target **Conversation) {
@@ -781,8 +738,6 @@ func (fpv *Conversation_FieldTerminalPathValue) SetTo(target **Conversation) {
 		(*target).Turns = fpv.value.([]*ConversationTurn)
 	case Conversation_FieldPathSelectorUsageByModel:
 		(*target).UsageByModel = fpv.value.(map[string]*ModelUsageStats)
-	case Conversation_FieldPathSelectorTotalUsage:
-		(*target).TotalUsage = fpv.value.(*TotalUsageStats)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpv.selector))
 	}
@@ -860,8 +815,6 @@ func (fpv *Conversation_FieldTerminalPathValue) CompareWith(source *Conversation
 		return 0, false
 	case Conversation_FieldPathSelectorUsageByModel:
 		return 0, false
-	case Conversation_FieldPathSelectorTotalUsage:
-		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpv.selector))
 	}
@@ -937,10 +890,6 @@ func (fpvs *Conversation_FieldSubPathValue) AsTurnsPathValue() (ConversationTurn
 	res, ok := fpvs.subPathValue.(ConversationTurn_FieldPathValue)
 	return res, ok
 }
-func (fpvs *Conversation_FieldSubPathValue) AsTotalUsagePathValue() (TotalUsageStats_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(TotalUsageStats_FieldPathValue)
-	return res, ok
-}
 
 func (fpvs *Conversation_FieldSubPathValue) SetTo(target **Conversation) {
 	if *target == nil {
@@ -951,8 +900,6 @@ func (fpvs *Conversation_FieldSubPathValue) SetTo(target **Conversation) {
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Conversation_FieldPathSelectorTurns:
 		panic("FieldPath setter is unsupported for array subpaths")
-	case Conversation_FieldPathSelectorTotalUsage:
-		fpvs.subPathValue.(TotalUsageStats_FieldPathValue).SetTo(&(*target).TotalUsage)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpvs.Selector()))
 	}
@@ -973,8 +920,6 @@ func (fpvs *Conversation_FieldSubPathValue) CompareWith(source *Conversation) (i
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Conversation_FieldPathSelectorTurns:
 		return 0, false // repeated field
-	case Conversation_FieldPathSelectorTotalUsage:
-		return fpvs.subPathValue.(TotalUsageStats_FieldPathValue).CompareWith(source.GetTotalUsage())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpvs.Selector()))
 	}
@@ -1069,10 +1014,6 @@ func (fpaivs *Conversation_FieldSubPathArrayItemValue) AsTurnsPathItemValue() (C
 	res, ok := fpaivs.subPathItemValue.(ConversationTurn_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *Conversation_FieldSubPathArrayItemValue) AsTotalUsagePathItemValue() (TotalUsageStats_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(TotalUsageStats_FieldPathArrayItemValue)
-	return res, ok
-}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Conversation'
 func (fpaivs *Conversation_FieldSubPathArrayItemValue) ContainsValue(source *Conversation) bool {
@@ -1081,8 +1022,6 @@ func (fpaivs *Conversation_FieldSubPathArrayItemValue) ContainsValue(source *Con
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Conversation_FieldPathSelectorTurns:
 		return false // repeated/map field
-	case Conversation_FieldPathSelectorTotalUsage:
-		return fpaivs.subPathItemValue.(TotalUsageStats_FieldPathArrayItemValue).ContainsValue(source.GetTotalUsage())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpaivs.Selector()))
 	}
@@ -1151,10 +1090,6 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([]map[string]*ModelUsageStats) {
 			values = append(values, v)
 		}
-	case Conversation_FieldPathSelectorTotalUsage:
-		for _, v := range fpaov.values.([]*TotalUsageStats) {
-			values = append(values, v)
-		}
 	}
 	return
 }
@@ -1184,10 +1119,6 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsTurnsArrayOfValues()
 }
 func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsUsageByModelArrayOfValues() ([]map[string]*ModelUsageStats, bool) {
 	res, ok := fpaov.values.([]map[string]*ModelUsageStats)
-	return res, ok
-}
-func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsTotalUsageArrayOfValues() ([]*TotalUsageStats, bool) {
-	res, ok := fpaov.values.([]*TotalUsageStats)
 	return res, ok
 }
 
@@ -1228,10 +1159,6 @@ func (fpsaov *Conversation_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValue
 }
 func (fpsaov *Conversation_FieldSubPathArrayOfValues) AsTurnsPathArrayOfValues() (ConversationTurn_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ConversationTurn_FieldPathArrayOfValues)
-	return res, ok
-}
-func (fpsaov *Conversation_FieldSubPathArrayOfValues) AsTotalUsagePathArrayOfValues() (TotalUsageStats_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(TotalUsageStats_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -3221,464 +3148,6 @@ func (fpaov *ModelUsageStats_FieldTerminalPathArrayOfValues) AsTurnCountArrayOfV
 	return res, ok
 }
 func (fpaov *ModelUsageStats_FieldTerminalPathArrayOfValues) AsAggregatedUsageArrayOfValues() ([]*common_client.TokenUsage, bool) {
-	res, ok := fpaov.values.([]*common_client.TokenUsage)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type TotalUsageStats_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() TotalUsageStats_FieldPathSelector
-	Get(source *TotalUsageStats) []interface{}
-	GetSingle(source *TotalUsageStats) (interface{}, bool)
-	ClearValue(item *TotalUsageStats)
-
-	// Those methods build corresponding TotalUsageStats_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) TotalUsageStats_FieldPathValue
-	WithIArrayOfValues(values interface{}) TotalUsageStats_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) TotalUsageStats_FieldPathArrayItemValue
-}
-
-type TotalUsageStats_FieldPathSelector int32
-
-const (
-	TotalUsageStats_FieldPathSelectorTotalTurns      TotalUsageStats_FieldPathSelector = 0
-	TotalUsageStats_FieldPathSelectorTotalMessages   TotalUsageStats_FieldPathSelector = 1
-	TotalUsageStats_FieldPathSelectorAggregatedUsage TotalUsageStats_FieldPathSelector = 2
-)
-
-func (s TotalUsageStats_FieldPathSelector) String() string {
-	switch s {
-	case TotalUsageStats_FieldPathSelectorTotalTurns:
-		return "total_turns"
-	case TotalUsageStats_FieldPathSelectorTotalMessages:
-		return "total_messages"
-	case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-		return "aggregated_usage"
-	default:
-		panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", s))
-	}
-}
-
-func BuildTotalUsageStats_FieldPath(fp gotenobject.RawFieldPath) (TotalUsageStats_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object TotalUsageStats")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "total_turns", "totalTurns", "total-turns":
-			return &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalTurns}, nil
-		case "total_messages", "totalMessages", "total-messages":
-			return &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalMessages}, nil
-		case "aggregated_usage", "aggregatedUsage", "aggregated-usage":
-			return &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorAggregatedUsage}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TotalUsageStats", fp)
-}
-
-func ParseTotalUsageStats_FieldPath(rawField string) (TotalUsageStats_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildTotalUsageStats_FieldPath(fp)
-}
-
-func MustParseTotalUsageStats_FieldPath(rawField string) TotalUsageStats_FieldPath {
-	fp, err := ParseTotalUsageStats_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type TotalUsageStats_FieldTerminalPath struct {
-	selector TotalUsageStats_FieldPathSelector
-}
-
-var _ TotalUsageStats_FieldPath = (*TotalUsageStats_FieldTerminalPath)(nil)
-
-func (fp *TotalUsageStats_FieldTerminalPath) Selector() TotalUsageStats_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *TotalUsageStats_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *TotalUsageStats_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source TotalUsageStats
-func (fp *TotalUsageStats_FieldTerminalPath) Get(source *TotalUsageStats) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case TotalUsageStats_FieldPathSelectorTotalTurns:
-			values = append(values, source.TotalTurns)
-		case TotalUsageStats_FieldPathSelectorTotalMessages:
-			values = append(values, source.TotalMessages)
-		case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-			if source.AggregatedUsage != nil {
-				values = append(values, source.AggregatedUsage)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*TotalUsageStats))
-}
-
-// GetSingle returns value pointed by specific field of from source TotalUsageStats
-func (fp *TotalUsageStats_FieldTerminalPath) GetSingle(source *TotalUsageStats) (interface{}, bool) {
-	switch fp.selector {
-	case TotalUsageStats_FieldPathSelectorTotalTurns:
-		return source.GetTotalTurns(), source != nil
-	case TotalUsageStats_FieldPathSelectorTotalMessages:
-		return source.GetTotalMessages(), source != nil
-	case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-		res := source.GetAggregatedUsage()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fp.selector))
-	}
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*TotalUsageStats))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *TotalUsageStats_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case TotalUsageStats_FieldPathSelectorTotalTurns:
-		return int32(0)
-	case TotalUsageStats_FieldPathSelectorTotalMessages:
-		return int32(0)
-	case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-		return (*common_client.TokenUsage)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fp.selector))
-	}
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) ClearValue(item *TotalUsageStats) {
-	if item != nil {
-		switch fp.selector {
-		case TotalUsageStats_FieldPathSelectorTotalTurns:
-			item.TotalTurns = int32(0)
-		case TotalUsageStats_FieldPathSelectorTotalMessages:
-			item.TotalMessages = int32(0)
-		case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-			item.AggregatedUsage = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*TotalUsageStats))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *TotalUsageStats_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == TotalUsageStats_FieldPathSelectorTotalTurns ||
-		fp.selector == TotalUsageStats_FieldPathSelectorTotalMessages ||
-		fp.selector == TotalUsageStats_FieldPathSelectorAggregatedUsage
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) WithIValue(value interface{}) TotalUsageStats_FieldPathValue {
-	switch fp.selector {
-	case TotalUsageStats_FieldPathSelectorTotalTurns:
-		return &TotalUsageStats_FieldTerminalPathValue{TotalUsageStats_FieldTerminalPath: *fp, value: value.(int32)}
-	case TotalUsageStats_FieldPathSelectorTotalMessages:
-		return &TotalUsageStats_FieldTerminalPathValue{TotalUsageStats_FieldTerminalPath: *fp, value: value.(int32)}
-	case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-		return &TotalUsageStats_FieldTerminalPathValue{TotalUsageStats_FieldTerminalPath: *fp, value: value.(*common_client.TokenUsage)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fp.selector))
-	}
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) WithIArrayOfValues(values interface{}) TotalUsageStats_FieldPathArrayOfValues {
-	fpaov := &TotalUsageStats_FieldTerminalPathArrayOfValues{TotalUsageStats_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case TotalUsageStats_FieldPathSelectorTotalTurns:
-		return &TotalUsageStats_FieldTerminalPathArrayOfValues{TotalUsageStats_FieldTerminalPath: *fp, values: values.([]int32)}
-	case TotalUsageStats_FieldPathSelectorTotalMessages:
-		return &TotalUsageStats_FieldTerminalPathArrayOfValues{TotalUsageStats_FieldTerminalPath: *fp, values: values.([]int32)}
-	case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-		return &TotalUsageStats_FieldTerminalPathArrayOfValues{TotalUsageStats_FieldTerminalPath: *fp, values: values.([]*common_client.TokenUsage)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) WithIArrayItemValue(value interface{}) TotalUsageStats_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fp.selector))
-	}
-}
-
-func (fp *TotalUsageStats_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// TotalUsageStats_FieldPathValue allows storing values for TotalUsageStats fields according to their type
-type TotalUsageStats_FieldPathValue interface {
-	TotalUsageStats_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **TotalUsageStats)
-	CompareWith(*TotalUsageStats) (cmp int, comparable bool)
-}
-
-func ParseTotalUsageStats_FieldPathValue(pathStr, valueStr string) (TotalUsageStats_FieldPathValue, error) {
-	fp, err := ParseTotalUsageStats_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing TotalUsageStats field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(TotalUsageStats_FieldPathValue), nil
-}
-
-func MustParseTotalUsageStats_FieldPathValue(pathStr, valueStr string) TotalUsageStats_FieldPathValue {
-	fpv, err := ParseTotalUsageStats_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type TotalUsageStats_FieldTerminalPathValue struct {
-	TotalUsageStats_FieldTerminalPath
-	value interface{}
-}
-
-var _ TotalUsageStats_FieldPathValue = (*TotalUsageStats_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'TotalUsageStats' as interface{}
-func (fpv *TotalUsageStats_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *TotalUsageStats_FieldTerminalPathValue) AsTotalTurnsValue() (int32, bool) {
-	res, ok := fpv.value.(int32)
-	return res, ok
-}
-func (fpv *TotalUsageStats_FieldTerminalPathValue) AsTotalMessagesValue() (int32, bool) {
-	res, ok := fpv.value.(int32)
-	return res, ok
-}
-func (fpv *TotalUsageStats_FieldTerminalPathValue) AsAggregatedUsageValue() (*common_client.TokenUsage, bool) {
-	res, ok := fpv.value.(*common_client.TokenUsage)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object TotalUsageStats
-func (fpv *TotalUsageStats_FieldTerminalPathValue) SetTo(target **TotalUsageStats) {
-	if *target == nil {
-		*target = new(TotalUsageStats)
-	}
-	switch fpv.selector {
-	case TotalUsageStats_FieldPathSelectorTotalTurns:
-		(*target).TotalTurns = fpv.value.(int32)
-	case TotalUsageStats_FieldPathSelectorTotalMessages:
-		(*target).TotalMessages = fpv.value.(int32)
-	case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-		(*target).AggregatedUsage = fpv.value.(*common_client.TokenUsage)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fpv.selector))
-	}
-}
-
-func (fpv *TotalUsageStats_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TotalUsageStats)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'TotalUsageStats_FieldTerminalPathValue' with the value under path in 'TotalUsageStats'.
-func (fpv *TotalUsageStats_FieldTerminalPathValue) CompareWith(source *TotalUsageStats) (int, bool) {
-	switch fpv.selector {
-	case TotalUsageStats_FieldPathSelectorTotalTurns:
-		leftValue := fpv.value.(int32)
-		rightValue := source.GetTotalTurns()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TotalUsageStats_FieldPathSelectorTotalMessages:
-		leftValue := fpv.value.(int32)
-		rightValue := source.GetTotalMessages()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-		return 0, false
-	default:
-		panic(fmt.Sprintf("Invalid selector for TotalUsageStats: %d", fpv.selector))
-	}
-}
-
-func (fpv *TotalUsageStats_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*TotalUsageStats))
-}
-
-// TotalUsageStats_FieldPathArrayItemValue allows storing single item in Path-specific values for TotalUsageStats according to their type
-// Present only for array (repeated) types.
-type TotalUsageStats_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	TotalUsageStats_FieldPath
-	ContainsValue(*TotalUsageStats) bool
-}
-
-// ParseTotalUsageStats_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseTotalUsageStats_FieldPathArrayItemValue(pathStr, valueStr string) (TotalUsageStats_FieldPathArrayItemValue, error) {
-	fp, err := ParseTotalUsageStats_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing TotalUsageStats field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(TotalUsageStats_FieldPathArrayItemValue), nil
-}
-
-func MustParseTotalUsageStats_FieldPathArrayItemValue(pathStr, valueStr string) TotalUsageStats_FieldPathArrayItemValue {
-	fpaiv, err := ParseTotalUsageStats_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type TotalUsageStats_FieldTerminalPathArrayItemValue struct {
-	TotalUsageStats_FieldTerminalPath
-	value interface{}
-}
-
-var _ TotalUsageStats_FieldPathArrayItemValue = (*TotalUsageStats_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object TotalUsageStats as interface{}
-func (fpaiv *TotalUsageStats_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *TotalUsageStats_FieldTerminalPathArrayItemValue) GetSingle(source *TotalUsageStats) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *TotalUsageStats_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*TotalUsageStats))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'TotalUsageStats'
-func (fpaiv *TotalUsageStats_FieldTerminalPathArrayItemValue) ContainsValue(source *TotalUsageStats) bool {
-	slice := fpaiv.TotalUsageStats_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// TotalUsageStats_FieldPathArrayOfValues allows storing slice of values for TotalUsageStats fields according to their type
-type TotalUsageStats_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	TotalUsageStats_FieldPath
-}
-
-func ParseTotalUsageStats_FieldPathArrayOfValues(pathStr, valuesStr string) (TotalUsageStats_FieldPathArrayOfValues, error) {
-	fp, err := ParseTotalUsageStats_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing TotalUsageStats field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(TotalUsageStats_FieldPathArrayOfValues), nil
-}
-
-func MustParseTotalUsageStats_FieldPathArrayOfValues(pathStr, valuesStr string) TotalUsageStats_FieldPathArrayOfValues {
-	fpaov, err := ParseTotalUsageStats_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type TotalUsageStats_FieldTerminalPathArrayOfValues struct {
-	TotalUsageStats_FieldTerminalPath
-	values interface{}
-}
-
-var _ TotalUsageStats_FieldPathArrayOfValues = (*TotalUsageStats_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *TotalUsageStats_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case TotalUsageStats_FieldPathSelectorTotalTurns:
-		for _, v := range fpaov.values.([]int32) {
-			values = append(values, v)
-		}
-	case TotalUsageStats_FieldPathSelectorTotalMessages:
-		for _, v := range fpaov.values.([]int32) {
-			values = append(values, v)
-		}
-	case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-		for _, v := range fpaov.values.([]*common_client.TokenUsage) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *TotalUsageStats_FieldTerminalPathArrayOfValues) AsTotalTurnsArrayOfValues() ([]int32, bool) {
-	res, ok := fpaov.values.([]int32)
-	return res, ok
-}
-func (fpaov *TotalUsageStats_FieldTerminalPathArrayOfValues) AsTotalMessagesArrayOfValues() ([]int32, bool) {
-	res, ok := fpaov.values.([]int32)
-	return res, ok
-}
-func (fpaov *TotalUsageStats_FieldTerminalPathArrayOfValues) AsAggregatedUsageArrayOfValues() ([]*common_client.TokenUsage, bool) {
 	res, ok := fpaov.values.([]*common_client.TokenUsage)
 	return res, ok
 }

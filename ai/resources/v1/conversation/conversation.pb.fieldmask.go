@@ -68,7 +68,6 @@ func FullConversation_FieldMask() *Conversation_FieldMask {
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorLastActivityTime})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTurns})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel})
-	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTotalUsage})
 	return res
 }
 
@@ -87,7 +86,7 @@ func (fieldMask *Conversation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Conversation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -117,16 +116,14 @@ func (fieldMask *Conversation_FieldMask) Reset() {
 
 func (fieldMask *Conversation_FieldMask) Subtract(other *Conversation_FieldMask) *Conversation_FieldMask {
 	result := &Conversation_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[Conversation_FieldPathSelector]gotenobject.FieldMask{
-		Conversation_FieldPathSelectorMetadata:   &meta.Meta_FieldMask{},
-		Conversation_FieldPathSelectorTurns:      &ConversationTurn_FieldMask{},
-		Conversation_FieldPathSelectorTotalUsage: &TotalUsageStats_FieldMask{},
+		Conversation_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
+		Conversation_FieldPathSelectorTurns:    &ConversationTurn_FieldMask{},
 	}
 	mySubMasks := map[Conversation_FieldPathSelector]gotenobject.FieldMask{
-		Conversation_FieldPathSelectorMetadata:   &meta.Meta_FieldMask{},
-		Conversation_FieldPathSelectorTurns:      &ConversationTurn_FieldMask{},
-		Conversation_FieldPathSelectorTotalUsage: &TotalUsageStats_FieldMask{},
+		Conversation_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
+		Conversation_FieldPathSelectorTurns:    &ConversationTurn_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -146,8 +143,6 @@ func (fieldMask *Conversation_FieldMask) Subtract(other *Conversation_FieldMask)
 						mySubMasks[Conversation_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Conversation_FieldPathSelectorTurns:
 						mySubMasks[Conversation_FieldPathSelectorTurns] = FullConversationTurn_FieldMask()
-					case Conversation_FieldPathSelectorTotalUsage:
-						mySubMasks[Conversation_FieldPathSelectorTotalUsage] = FullTotalUsageStats_FieldMask()
 					}
 				} else if tp, ok := path.(*Conversation_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -322,8 +317,6 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 	wholeMetadataAccepted := false
 	turnsMask := &ConversationTurn_FieldMask{}
 	wholeTurnsAccepted := false
-	totalUsageMask := &TotalUsageStats_FieldMask{}
-	wholeTotalUsageAccepted := false
 	var usageByModelMapKeys []string
 	wholeUsageByModelAccepted := false
 
@@ -348,9 +341,6 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 			case Conversation_FieldPathSelectorUsageByModel:
 				result.UsageByModel = source.UsageByModel
 				wholeUsageByModelAccepted = true
-			case Conversation_FieldPathSelectorTotalUsage:
-				result.TotalUsage = source.TotalUsage
-				wholeTotalUsageAccepted = true
 			}
 		case *Conversation_FieldSubPath:
 			switch tp.selector {
@@ -358,8 +348,6 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Conversation_FieldPathSelectorTurns:
 				turnsMask.AppendPath(tp.subPath.(ConversationTurn_FieldPath))
-			case Conversation_FieldPathSelectorTotalUsage:
-				totalUsageMask.AppendPath(tp.subPath.(TotalUsageStats_FieldPath))
 			}
 		case *Conversation_FieldPathMap:
 			switch tp.selector {
@@ -383,9 +371,6 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 			copiedMap[key] = sourceMap[key]
 		}
 		result.UsageByModel = copiedMap
-	}
-	if wholeTotalUsageAccepted == false && len(totalUsageMask.Paths) > 0 {
-		result.TotalUsage = totalUsageMask.Project(source.GetTotalUsage())
 	}
 	return result
 }
@@ -1166,240 +1151,6 @@ func (fieldMask *ModelUsageStats_FieldMask) ProjectRaw(source gotenobject.GotenO
 }
 
 func (fieldMask *ModelUsageStats_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type TotalUsageStats_FieldMask struct {
-	Paths []TotalUsageStats_FieldPath
-}
-
-func FullTotalUsageStats_FieldMask() *TotalUsageStats_FieldMask {
-	res := &TotalUsageStats_FieldMask{}
-	res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalTurns})
-	res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalMessages})
-	res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorAggregatedUsage})
-	return res
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 3)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*TotalUsageStats_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseTotalUsageStats_FieldPath(raw)
-	})
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) ProtoMessage() {}
-
-func (fieldMask *TotalUsageStats_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) Subtract(other *TotalUsageStats_FieldMask) *TotalUsageStats_FieldMask {
-	result := &TotalUsageStats_FieldMask{}
-	removedSelectors := make([]bool, 3)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *TotalUsageStats_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*TotalUsageStats_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *TotalUsageStats_FieldMask) FilterInputFields() *TotalUsageStats_FieldMask {
-	result := &TotalUsageStats_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *TotalUsageStats_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]TotalUsageStats_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseTotalUsageStats_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask TotalUsageStats_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask TotalUsageStats_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) AppendPath(path TotalUsageStats_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(TotalUsageStats_FieldPath))
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) GetPaths() []TotalUsageStats_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseTotalUsageStats_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) Set(target, source *TotalUsageStats) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*TotalUsageStats), source.(*TotalUsageStats))
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) Project(source *TotalUsageStats) *TotalUsageStats {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &TotalUsageStats{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *TotalUsageStats_FieldTerminalPath:
-			switch tp.selector {
-			case TotalUsageStats_FieldPathSelectorTotalTurns:
-				result.TotalTurns = source.TotalTurns
-			case TotalUsageStats_FieldPathSelectorTotalMessages:
-				result.TotalMessages = source.TotalMessages
-			case TotalUsageStats_FieldPathSelectorAggregatedUsage:
-				result.AggregatedUsage = source.AggregatedUsage
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*TotalUsageStats))
-}
-
-func (fieldMask *TotalUsageStats_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

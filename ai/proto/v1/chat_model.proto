@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.ai.v1;
 
 import "google/api/resource.proto";
+import "google/type/money.proto";
 import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model;chat_model";
@@ -43,6 +44,9 @@ message ChatModel {
 
   // Human-readable display name
   string display_name = 8;
+
+  // Optional cost metadata (pricing per 1M tokens).
+  Cost cost = 9;
 
   message OpenAICompatible {
     string api_key = 1;
@@ -105,6 +109,24 @@ message ChatModel {
 
     // Maximum output tokens
     int32 max_output_tokens = 5;
+  }
+
+  // Cost captures pricing per 1M tokens for each billing bucket.
+  message Cost {
+    // Cost for uncached input tokens per 1M tokens.
+    google.type.Money input_per_million = 1;
+
+    // Cost for cached input tokens per 1M tokens (discounted rate).
+    google.type.Money cached_input_per_million = 2;
+
+    // Cost for cache writes with a 5 minute TTL per 1M tokens.
+    google.type.Money cache_write_five_min_per_million = 3;
+
+    // Cost for cache writes with a 1 hour TTL per 1M tokens.
+    google.type.Money cache_write_one_hour_per_million = 4;
+
+    // Cost for output tokens per 1M tokens.
+    google.type.Money output_per_million = 5;
   }
 
   reserved 3;

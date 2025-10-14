@@ -15,6 +15,7 @@ import (
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	money "google.golang.org/genproto/googleapis/type/money"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -26,6 +27,7 @@ var (
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
 	_ = &timestamppb.Timestamp{}
+	_ = &money.Money{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
@@ -57,6 +59,9 @@ func (ChatModelFieldPathBuilder) Gemini() ChatModelPathSelectorGemini {
 }
 func (ChatModelFieldPathBuilder) DisplayName() ChatModelPathSelectorDisplayName {
 	return ChatModelPathSelectorDisplayName{}
+}
+func (ChatModelFieldPathBuilder) Cost() ChatModelPathSelectorCost {
+	return ChatModelPathSelectorCost{}
 }
 
 type ChatModelPathSelectorName struct{}
@@ -1288,6 +1293,141 @@ func (s ChatModelPathSelectorDisplayName) WithArrayOfValues(values []string) *Ch
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldTerminalPathArrayOfValues)
 }
 
+type ChatModelPathSelectorCost struct{}
+
+func (ChatModelPathSelectorCost) FieldPath() *ChatModel_FieldTerminalPath {
+	return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorCost}
+}
+
+func (s ChatModelPathSelectorCost) WithValue(value *ChatModel_Cost) *ChatModel_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldTerminalPathValue)
+}
+
+func (s ChatModelPathSelectorCost) WithArrayOfValues(values []*ChatModel_Cost) *ChatModel_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldTerminalPathArrayOfValues)
+}
+
+func (ChatModelPathSelectorCost) WithSubPath(subPath ChatModelCost_FieldPath) *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorCost, subPath: subPath}
+}
+
+func (s ChatModelPathSelectorCost) WithSubValue(subPathValue ChatModelCost_FieldPathValue) *ChatModel_FieldSubPathValue {
+	return &ChatModel_FieldSubPathValue{ChatModel_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ChatModelPathSelectorCost) WithSubArrayOfValues(subPathArrayOfValues ChatModelCost_FieldPathArrayOfValues) *ChatModel_FieldSubPathArrayOfValues {
+	return &ChatModel_FieldSubPathArrayOfValues{ChatModel_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ChatModelPathSelectorCost) WithSubArrayItemValue(subPathArrayItemValue ChatModelCost_FieldPathArrayItemValue) *ChatModel_FieldSubPathArrayItemValue {
+	return &ChatModel_FieldSubPathArrayItemValue{ChatModel_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ChatModelPathSelectorCost) InputPerMillion() ChatModelPathSelectorCostInputPerMillion {
+	return ChatModelPathSelectorCostInputPerMillion{}
+}
+
+func (ChatModelPathSelectorCost) CachedInputPerMillion() ChatModelPathSelectorCostCachedInputPerMillion {
+	return ChatModelPathSelectorCostCachedInputPerMillion{}
+}
+
+func (ChatModelPathSelectorCost) CacheWriteFiveMinPerMillion() ChatModelPathSelectorCostCacheWriteFiveMinPerMillion {
+	return ChatModelPathSelectorCostCacheWriteFiveMinPerMillion{}
+}
+
+func (ChatModelPathSelectorCost) CacheWriteOneHourPerMillion() ChatModelPathSelectorCostCacheWriteOneHourPerMillion {
+	return ChatModelPathSelectorCostCacheWriteOneHourPerMillion{}
+}
+
+func (ChatModelPathSelectorCost) OutputPerMillion() ChatModelPathSelectorCostOutputPerMillion {
+	return ChatModelPathSelectorCostOutputPerMillion{}
+}
+
+type ChatModelPathSelectorCostInputPerMillion struct{}
+
+func (ChatModelPathSelectorCostInputPerMillion) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorCost,
+		subPath:  NewChatModelCostFieldPathBuilder().InputPerMillion().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorCostInputPerMillion) WithValue(value *money.Money) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorCostInputPerMillion) WithArrayOfValues(values []*money.Money) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorCostCachedInputPerMillion struct{}
+
+func (ChatModelPathSelectorCostCachedInputPerMillion) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorCost,
+		subPath:  NewChatModelCostFieldPathBuilder().CachedInputPerMillion().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorCostCachedInputPerMillion) WithValue(value *money.Money) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorCostCachedInputPerMillion) WithArrayOfValues(values []*money.Money) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorCostCacheWriteFiveMinPerMillion struct{}
+
+func (ChatModelPathSelectorCostCacheWriteFiveMinPerMillion) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorCost,
+		subPath:  NewChatModelCostFieldPathBuilder().CacheWriteFiveMinPerMillion().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorCostCacheWriteFiveMinPerMillion) WithValue(value *money.Money) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorCostCacheWriteFiveMinPerMillion) WithArrayOfValues(values []*money.Money) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorCostCacheWriteOneHourPerMillion struct{}
+
+func (ChatModelPathSelectorCostCacheWriteOneHourPerMillion) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorCost,
+		subPath:  NewChatModelCostFieldPathBuilder().CacheWriteOneHourPerMillion().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorCostCacheWriteOneHourPerMillion) WithValue(value *money.Money) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorCostCacheWriteOneHourPerMillion) WithArrayOfValues(values []*money.Money) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorCostOutputPerMillion struct{}
+
+func (ChatModelPathSelectorCostOutputPerMillion) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorCost,
+		subPath:  NewChatModelCostFieldPathBuilder().OutputPerMillion().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorCostOutputPerMillion) WithValue(value *money.Money) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorCostOutputPerMillion) WithArrayOfValues(values []*money.Money) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
 type ChatModelOpenAICompatibleFieldPathBuilder struct{}
 
 func NewChatModelOpenAICompatibleFieldPathBuilder() ChatModelOpenAICompatibleFieldPathBuilder {
@@ -1633,4 +1773,95 @@ func (s ChatModel_AzureOpenAiPathSelectorMaxOutputTokens) WithValue(value int32)
 
 func (s ChatModel_AzureOpenAiPathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModelCostFieldPathBuilder struct{}
+
+func NewChatModelCostFieldPathBuilder() ChatModelCostFieldPathBuilder {
+	return ChatModelCostFieldPathBuilder{}
+}
+func (ChatModelCostFieldPathBuilder) InputPerMillion() ChatModel_CostPathSelectorInputPerMillion {
+	return ChatModel_CostPathSelectorInputPerMillion{}
+}
+func (ChatModelCostFieldPathBuilder) CachedInputPerMillion() ChatModel_CostPathSelectorCachedInputPerMillion {
+	return ChatModel_CostPathSelectorCachedInputPerMillion{}
+}
+func (ChatModelCostFieldPathBuilder) CacheWriteFiveMinPerMillion() ChatModel_CostPathSelectorCacheWriteFiveMinPerMillion {
+	return ChatModel_CostPathSelectorCacheWriteFiveMinPerMillion{}
+}
+func (ChatModelCostFieldPathBuilder) CacheWriteOneHourPerMillion() ChatModel_CostPathSelectorCacheWriteOneHourPerMillion {
+	return ChatModel_CostPathSelectorCacheWriteOneHourPerMillion{}
+}
+func (ChatModelCostFieldPathBuilder) OutputPerMillion() ChatModel_CostPathSelectorOutputPerMillion {
+	return ChatModel_CostPathSelectorOutputPerMillion{}
+}
+
+type ChatModel_CostPathSelectorInputPerMillion struct{}
+
+func (ChatModel_CostPathSelectorInputPerMillion) FieldPath() *ChatModelCost_FieldTerminalPath {
+	return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorInputPerMillion}
+}
+
+func (s ChatModel_CostPathSelectorInputPerMillion) WithValue(value *money.Money) *ChatModelCost_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelCost_FieldTerminalPathValue)
+}
+
+func (s ChatModel_CostPathSelectorInputPerMillion) WithArrayOfValues(values []*money.Money) *ChatModelCost_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelCost_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_CostPathSelectorCachedInputPerMillion struct{}
+
+func (ChatModel_CostPathSelectorCachedInputPerMillion) FieldPath() *ChatModelCost_FieldTerminalPath {
+	return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCachedInputPerMillion}
+}
+
+func (s ChatModel_CostPathSelectorCachedInputPerMillion) WithValue(value *money.Money) *ChatModelCost_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelCost_FieldTerminalPathValue)
+}
+
+func (s ChatModel_CostPathSelectorCachedInputPerMillion) WithArrayOfValues(values []*money.Money) *ChatModelCost_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelCost_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_CostPathSelectorCacheWriteFiveMinPerMillion struct{}
+
+func (ChatModel_CostPathSelectorCacheWriteFiveMinPerMillion) FieldPath() *ChatModelCost_FieldTerminalPath {
+	return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion}
+}
+
+func (s ChatModel_CostPathSelectorCacheWriteFiveMinPerMillion) WithValue(value *money.Money) *ChatModelCost_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelCost_FieldTerminalPathValue)
+}
+
+func (s ChatModel_CostPathSelectorCacheWriteFiveMinPerMillion) WithArrayOfValues(values []*money.Money) *ChatModelCost_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelCost_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_CostPathSelectorCacheWriteOneHourPerMillion struct{}
+
+func (ChatModel_CostPathSelectorCacheWriteOneHourPerMillion) FieldPath() *ChatModelCost_FieldTerminalPath {
+	return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion}
+}
+
+func (s ChatModel_CostPathSelectorCacheWriteOneHourPerMillion) WithValue(value *money.Money) *ChatModelCost_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelCost_FieldTerminalPathValue)
+}
+
+func (s ChatModel_CostPathSelectorCacheWriteOneHourPerMillion) WithArrayOfValues(values []*money.Money) *ChatModelCost_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelCost_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_CostPathSelectorOutputPerMillion struct{}
+
+func (ChatModel_CostPathSelectorOutputPerMillion) FieldPath() *ChatModelCost_FieldTerminalPath {
+	return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorOutputPerMillion}
+}
+
+func (s ChatModel_CostPathSelectorOutputPerMillion) WithValue(value *money.Money) *ChatModelCost_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelCost_FieldTerminalPathValue)
+}
+
+func (s ChatModel_CostPathSelectorOutputPerMillion) WithArrayOfValues(values []*money.Money) *ChatModelCost_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelCost_FieldTerminalPathArrayOfValues)
 }

@@ -23,6 +23,7 @@ import (
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	money "google.golang.org/genproto/googleapis/type/money"
 )
 
 var (
@@ -42,6 +43,7 @@ var (
 var (
 	_ = &iam_project.Project{}
 	_ = &secrets_secret.Secret{}
+	_ = &money.Money{}
 	_ = &meta.Meta{}
 )
 
@@ -59,6 +61,11 @@ func (obj *ChatModel) GotenValidate() error {
 	}
 	if obj.DisplayName == "" {
 		return gotenvalidate.NewValidationError("ChatModel", "displayName", obj.DisplayName, "field is required", nil)
+	}
+	if subobj, ok := interface{}(obj.Cost).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ChatModel", "cost", obj.Cost, "nested object validation failed", err)
+		}
 	}
 	switch opt := obj.Provider.(type) {
 	case *ChatModel_AzureOpenAi_:
@@ -123,6 +130,40 @@ func (obj *ChatModel_Gemini) GotenValidate() error {
 func (obj *ChatModel_AzureOpenAi) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ChatModel_Cost) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.InputPerMillion).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Cost", "inputPerMillion", obj.InputPerMillion, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.CachedInputPerMillion).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Cost", "cachedInputPerMillion", obj.CachedInputPerMillion, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.CacheWriteFiveMinPerMillion).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Cost", "cacheWriteFiveMinPerMillion", obj.CacheWriteFiveMinPerMillion, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.CacheWriteOneHourPerMillion).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Cost", "cacheWriteOneHourPerMillion", obj.CacheWriteOneHourPerMillion, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.OutputPerMillion).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Cost", "outputPerMillion", obj.OutputPerMillion, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

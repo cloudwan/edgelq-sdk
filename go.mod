@@ -5,7 +5,7 @@ go 1.22.7
 toolchain go1.22.10
 
 require (
-	github.com/cloudwan/goten-sdk v1.11.9
+	github.com/cloudwan/goten-sdk v1.11.11
 	github.com/spf13/pflag v1.0.5
 	go.opencensus.io v0.23.0
 	golang.org/x/oauth2 v0.23.0

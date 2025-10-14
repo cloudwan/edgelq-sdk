@@ -22,6 +22,7 @@ import (
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	money "google.golang.org/genproto/googleapis/type/money"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -42,6 +43,7 @@ var (
 	_ = &secrets_secret.Secret{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
+	_ = &money.Money{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
@@ -73,9 +75,6 @@ func (ConversationFieldPathBuilder) Turns() ConversationPathSelectorTurns {
 }
 func (ConversationFieldPathBuilder) UsageByModel() ConversationPathSelectorUsageByModel {
 	return ConversationPathSelectorUsageByModel{}
-}
-func (ConversationFieldPathBuilder) TotalUsage() ConversationPathSelectorTotalUsage {
-	return ConversationPathSelectorTotalUsage{}
 }
 
 type ConversationPathSelectorName struct{}
@@ -1206,99 +1205,6 @@ func (s ConversationMapPathSelectorUsageByModel) WithArrayOfValues(values []*Mod
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldPathMapArrayOfValues)
 }
 
-type ConversationPathSelectorTotalUsage struct{}
-
-func (ConversationPathSelectorTotalUsage) FieldPath() *Conversation_FieldTerminalPath {
-	return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTotalUsage}
-}
-
-func (s ConversationPathSelectorTotalUsage) WithValue(value *TotalUsageStats) *Conversation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Conversation_FieldTerminalPathValue)
-}
-
-func (s ConversationPathSelectorTotalUsage) WithArrayOfValues(values []*TotalUsageStats) *Conversation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldTerminalPathArrayOfValues)
-}
-
-func (ConversationPathSelectorTotalUsage) WithSubPath(subPath TotalUsageStats_FieldPath) *Conversation_FieldSubPath {
-	return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorTotalUsage, subPath: subPath}
-}
-
-func (s ConversationPathSelectorTotalUsage) WithSubValue(subPathValue TotalUsageStats_FieldPathValue) *Conversation_FieldSubPathValue {
-	return &Conversation_FieldSubPathValue{Conversation_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s ConversationPathSelectorTotalUsage) WithSubArrayOfValues(subPathArrayOfValues TotalUsageStats_FieldPathArrayOfValues) *Conversation_FieldSubPathArrayOfValues {
-	return &Conversation_FieldSubPathArrayOfValues{Conversation_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s ConversationPathSelectorTotalUsage) WithSubArrayItemValue(subPathArrayItemValue TotalUsageStats_FieldPathArrayItemValue) *Conversation_FieldSubPathArrayItemValue {
-	return &Conversation_FieldSubPathArrayItemValue{Conversation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (ConversationPathSelectorTotalUsage) TotalTurns() ConversationPathSelectorTotalUsageTotalTurns {
-	return ConversationPathSelectorTotalUsageTotalTurns{}
-}
-
-func (ConversationPathSelectorTotalUsage) TotalMessages() ConversationPathSelectorTotalUsageTotalMessages {
-	return ConversationPathSelectorTotalUsageTotalMessages{}
-}
-
-func (ConversationPathSelectorTotalUsage) AggregatedUsage() ConversationPathSelectorTotalUsageAggregatedUsage {
-	return ConversationPathSelectorTotalUsageAggregatedUsage{}
-}
-
-type ConversationPathSelectorTotalUsageTotalTurns struct{}
-
-func (ConversationPathSelectorTotalUsageTotalTurns) FieldPath() *Conversation_FieldSubPath {
-	return &Conversation_FieldSubPath{
-		selector: Conversation_FieldPathSelectorTotalUsage,
-		subPath:  NewTotalUsageStatsFieldPathBuilder().TotalTurns().FieldPath(),
-	}
-}
-
-func (s ConversationPathSelectorTotalUsageTotalTurns) WithValue(value int32) *Conversation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
-}
-
-func (s ConversationPathSelectorTotalUsageTotalTurns) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
-}
-
-type ConversationPathSelectorTotalUsageTotalMessages struct{}
-
-func (ConversationPathSelectorTotalUsageTotalMessages) FieldPath() *Conversation_FieldSubPath {
-	return &Conversation_FieldSubPath{
-		selector: Conversation_FieldPathSelectorTotalUsage,
-		subPath:  NewTotalUsageStatsFieldPathBuilder().TotalMessages().FieldPath(),
-	}
-}
-
-func (s ConversationPathSelectorTotalUsageTotalMessages) WithValue(value int32) *Conversation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
-}
-
-func (s ConversationPathSelectorTotalUsageTotalMessages) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
-}
-
-type ConversationPathSelectorTotalUsageAggregatedUsage struct{}
-
-func (ConversationPathSelectorTotalUsageAggregatedUsage) FieldPath() *Conversation_FieldSubPath {
-	return &Conversation_FieldSubPath{
-		selector: Conversation_FieldPathSelectorTotalUsage,
-		subPath:  NewTotalUsageStatsFieldPathBuilder().AggregatedUsage().FieldPath(),
-	}
-}
-
-func (s ConversationPathSelectorTotalUsageAggregatedUsage) WithValue(value *common_client.TokenUsage) *Conversation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
-}
-
-func (s ConversationPathSelectorTotalUsageAggregatedUsage) WithArrayOfValues(values []*common_client.TokenUsage) *Conversation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
-}
-
 type ConversationTurnFieldPathBuilder struct{}
 
 func NewConversationTurnFieldPathBuilder() ConversationTurnFieldPathBuilder {
@@ -1775,61 +1681,4 @@ func (s ModelUsageStatsPathSelectorAggregatedUsage) WithValue(value *common_clie
 
 func (s ModelUsageStatsPathSelectorAggregatedUsage) WithArrayOfValues(values []*common_client.TokenUsage) *ModelUsageStats_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ModelUsageStats_FieldTerminalPathArrayOfValues)
-}
-
-type TotalUsageStatsFieldPathBuilder struct{}
-
-func NewTotalUsageStatsFieldPathBuilder() TotalUsageStatsFieldPathBuilder {
-	return TotalUsageStatsFieldPathBuilder{}
-}
-func (TotalUsageStatsFieldPathBuilder) TotalTurns() TotalUsageStatsPathSelectorTotalTurns {
-	return TotalUsageStatsPathSelectorTotalTurns{}
-}
-func (TotalUsageStatsFieldPathBuilder) TotalMessages() TotalUsageStatsPathSelectorTotalMessages {
-	return TotalUsageStatsPathSelectorTotalMessages{}
-}
-func (TotalUsageStatsFieldPathBuilder) AggregatedUsage() TotalUsageStatsPathSelectorAggregatedUsage {
-	return TotalUsageStatsPathSelectorAggregatedUsage{}
-}
-
-type TotalUsageStatsPathSelectorTotalTurns struct{}
-
-func (TotalUsageStatsPathSelectorTotalTurns) FieldPath() *TotalUsageStats_FieldTerminalPath {
-	return &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalTurns}
-}
-
-func (s TotalUsageStatsPathSelectorTotalTurns) WithValue(value int32) *TotalUsageStats_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TotalUsageStats_FieldTerminalPathValue)
-}
-
-func (s TotalUsageStatsPathSelectorTotalTurns) WithArrayOfValues(values []int32) *TotalUsageStats_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TotalUsageStats_FieldTerminalPathArrayOfValues)
-}
-
-type TotalUsageStatsPathSelectorTotalMessages struct{}
-
-func (TotalUsageStatsPathSelectorTotalMessages) FieldPath() *TotalUsageStats_FieldTerminalPath {
-	return &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalMessages}
-}
-
-func (s TotalUsageStatsPathSelectorTotalMessages) WithValue(value int32) *TotalUsageStats_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TotalUsageStats_FieldTerminalPathValue)
-}
-
-func (s TotalUsageStatsPathSelectorTotalMessages) WithArrayOfValues(values []int32) *TotalUsageStats_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TotalUsageStats_FieldTerminalPathArrayOfValues)
-}
-
-type TotalUsageStatsPathSelectorAggregatedUsage struct{}
-
-func (TotalUsageStatsPathSelectorAggregatedUsage) FieldPath() *TotalUsageStats_FieldTerminalPath {
-	return &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorAggregatedUsage}
-}
-
-func (s TotalUsageStatsPathSelectorAggregatedUsage) WithValue(value *common_client.TokenUsage) *TotalUsageStats_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TotalUsageStats_FieldTerminalPathValue)
-}
-
-func (s TotalUsageStatsPathSelectorAggregatedUsage) WithArrayOfValues(values []*common_client.TokenUsage) *TotalUsageStats_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TotalUsageStats_FieldTerminalPathArrayOfValues)
 }

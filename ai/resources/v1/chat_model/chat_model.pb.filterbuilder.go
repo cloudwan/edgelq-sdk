@@ -20,6 +20,7 @@ import (
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	money "google.golang.org/genproto/googleapis/type/money"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -37,6 +38,7 @@ var (
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
 	_ = &timestamppb.Timestamp{}
+	_ = &money.Money{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
@@ -240,6 +242,10 @@ func (b *filterCndBuilder) Gemini() *filterCndBuilderGemini {
 
 func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
 	return &filterCndBuilderDisplayName{builder: b.builder}
+}
+
+func (b *filterCndBuilder) Cost() *filterCndBuilderCost {
+	return &filterCndBuilderCost{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -3878,5 +3884,379 @@ func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, va
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().DisplayName().WithValue(value),
+	})
+}
+
+type filterCndBuilderCost struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCost) Eq(value *ChatModel_Cost) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCost) Neq(value *ChatModel_Cost) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCost) Gt(value *ChatModel_Cost) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCost) Gte(value *ChatModel_Cost) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCost) Lt(value *ChatModel_Cost) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCost) Lte(value *ChatModel_Cost) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCost) In(values []*ChatModel_Cost) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCost) NotIn(values []*ChatModel_Cost) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCost) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCost) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCost) compare(op gotenfilter.CompareOperator, value *ChatModel_Cost) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Cost().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderCost) InputPerMillion() *filterCndBuilderCostInputPerMillion {
+	return &filterCndBuilderCostInputPerMillion{builder: b.builder}
+}
+
+func (b *filterCndBuilderCost) CachedInputPerMillion() *filterCndBuilderCostCachedInputPerMillion {
+	return &filterCndBuilderCostCachedInputPerMillion{builder: b.builder}
+}
+
+func (b *filterCndBuilderCost) CacheWriteFiveMinPerMillion() *filterCndBuilderCostCacheWriteFiveMinPerMillion {
+	return &filterCndBuilderCostCacheWriteFiveMinPerMillion{builder: b.builder}
+}
+
+func (b *filterCndBuilderCost) CacheWriteOneHourPerMillion() *filterCndBuilderCostCacheWriteOneHourPerMillion {
+	return &filterCndBuilderCostCacheWriteOneHourPerMillion{builder: b.builder}
+}
+
+func (b *filterCndBuilderCost) OutputPerMillion() *filterCndBuilderCostOutputPerMillion {
+	return &filterCndBuilderCostOutputPerMillion{builder: b.builder}
+}
+
+type filterCndBuilderCostInputPerMillion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCostInputPerMillion) Eq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCostInputPerMillion) Neq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCostInputPerMillion) Gt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCostInputPerMillion) Gte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCostInputPerMillion) Lt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCostInputPerMillion) Lte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCostInputPerMillion) In(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().InputPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostInputPerMillion) NotIn(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().InputPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostInputPerMillion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().InputPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostInputPerMillion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().InputPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostInputPerMillion) compare(op gotenfilter.CompareOperator, value *money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Cost().InputPerMillion().WithValue(value),
+	})
+}
+
+type filterCndBuilderCostCachedInputPerMillion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) Eq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) Neq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) Gt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) Gte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) Lt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) Lte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) In(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().CachedInputPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) NotIn(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().CachedInputPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().CachedInputPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().CachedInputPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostCachedInputPerMillion) compare(op gotenfilter.CompareOperator, value *money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Cost().CachedInputPerMillion().WithValue(value),
+	})
+}
+
+type filterCndBuilderCostCacheWriteFiveMinPerMillion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) Eq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) Neq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) Gt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) Gte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) Lt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) Lte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) In(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().CacheWriteFiveMinPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) NotIn(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().CacheWriteFiveMinPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().CacheWriteFiveMinPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().CacheWriteFiveMinPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostCacheWriteFiveMinPerMillion) compare(op gotenfilter.CompareOperator, value *money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Cost().CacheWriteFiveMinPerMillion().WithValue(value),
+	})
+}
+
+type filterCndBuilderCostCacheWriteOneHourPerMillion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) Eq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) Neq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) Gt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) Gte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) Lt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) Lte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) In(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().CacheWriteOneHourPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) NotIn(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().CacheWriteOneHourPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().CacheWriteOneHourPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().CacheWriteOneHourPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostCacheWriteOneHourPerMillion) compare(op gotenfilter.CompareOperator, value *money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Cost().CacheWriteOneHourPerMillion().WithValue(value),
+	})
+}
+
+type filterCndBuilderCostOutputPerMillion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) Eq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) Neq(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) Gt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) Gte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) Lt(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) Lte(value *money.Money) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) In(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().OutputPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) NotIn(values []*money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Cost().OutputPerMillion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().OutputPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Cost().OutputPerMillion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCostOutputPerMillion) compare(op gotenfilter.CompareOperator, value *money.Money) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Cost().OutputPerMillion().WithValue(value),
 	})
 }

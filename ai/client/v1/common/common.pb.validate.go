@@ -22,6 +22,7 @@ import (
 import (
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	money "google.golang.org/genproto/googleapis/type/money"
 )
 
 var (
@@ -41,6 +42,7 @@ var (
 var (
 	_ = &connector.Connector{}
 	_ = &iam_project.Project{}
+	_ = &money.Money{}
 )
 
 func (obj *Message) GotenValidate() error {
@@ -194,6 +196,36 @@ func (obj *TokenUsage) GotenValidate() error {
 	if subobj, ok := interface{}(obj.Metadata).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("TokenUsage", "metadata", obj.Metadata, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.InputCost).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "inputCost", obj.InputCost, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.CachedInputCost).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "cachedInputCost", obj.CachedInputCost, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.CacheWriteFiveMinCost).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "cacheWriteFiveMinCost", obj.CacheWriteFiveMinCost, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.CacheWriteOneHourCost).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "cacheWriteOneHourCost", obj.CacheWriteOneHourCost, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.OutputCost).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "outputCost", obj.OutputCost, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.TotalCost).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "totalCost", obj.TotalCost, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

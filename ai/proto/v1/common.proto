@@ -4,6 +4,7 @@ package ntt.ai.v1;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "google/type/money.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/common;common_client";
 option java_multiple_files = false;
@@ -91,6 +92,20 @@ message TokenUsage {
   OutputTokenDetails output_details = 5;
 
   TokenUsageMetadata metadata = 6;
+
+  // Cost for this usage record, computed using the serving model's pricing.
+  // Costs are zero when pricing is unknown.
+  google.type.Money input_cost = 7;
+
+  google.type.Money cached_input_cost = 8;
+
+  google.type.Money cache_write_five_min_cost = 9;
+
+  google.type.Money cache_write_one_hour_cost = 10;
+
+  google.type.Money output_cost = 11;
+
+  google.type.Money total_cost = 12;
 }
 
 // Metadata about the request (provider, model, service tier)

@@ -19,6 +19,7 @@ import (
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	money "google.golang.org/genproto/googleapis/type/money"
 )
 
 // ensure the imports are used
@@ -36,6 +37,7 @@ var (
 var (
 	_ = &iam_project.Project{}
 	_ = &secrets_secret.Secret{}
+	_ = &money.Money{}
 	_ = &meta.Meta{}
 )
 
@@ -138,6 +140,16 @@ func (o *ChatModel) MakeDiffFieldMask(other *ChatModel) *ChatModel_FieldMask {
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorDisplayName})
 	}
+	{
+		subMask := o.GetCost().MakeDiffFieldMask(other.GetCost())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorCost})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorCost, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -194,6 +206,7 @@ func (o *ChatModel) Clone() *ChatModel {
 		}
 	}
 	result.DisplayName = o.DisplayName
+	result.Cost = o.Cost.Clone()
 	return result
 }
 
@@ -277,6 +290,12 @@ func (o *ChatModel) Merge(source *ChatModel) {
 		}
 	}
 	o.DisplayName = source.GetDisplayName()
+	if source.GetCost() != nil {
+		if o.Cost == nil {
+			o.Cost = new(ChatModel_Cost)
+		}
+		o.Cost.Merge(source.GetCost())
+	}
 }
 
 func (o *ChatModel) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -636,4 +655,99 @@ func (o *ChatModel_AzureOpenAi) Merge(source *ChatModel_AzureOpenAi) {
 
 func (o *ChatModel_AzureOpenAi) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ChatModel_AzureOpenAi))
+}
+
+func (o *ChatModel_Cost) GotenObjectExt() {}
+
+func (o *ChatModel_Cost) MakeFullFieldMask() *ChatModel_Cost_FieldMask {
+	return FullChatModel_Cost_FieldMask()
+}
+
+func (o *ChatModel_Cost) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullChatModel_Cost_FieldMask()
+}
+
+func (o *ChatModel_Cost) MakeDiffFieldMask(other *ChatModel_Cost) *ChatModel_Cost_FieldMask {
+	if o == nil && other == nil {
+		return &ChatModel_Cost_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullChatModel_Cost_FieldMask()
+	}
+
+	res := &ChatModel_Cost_FieldMask{}
+	if !proto.Equal(o.GetInputPerMillion(), other.GetInputPerMillion()) {
+		res.Paths = append(res.Paths, &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorInputPerMillion})
+	}
+	if !proto.Equal(o.GetCachedInputPerMillion(), other.GetCachedInputPerMillion()) {
+		res.Paths = append(res.Paths, &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCachedInputPerMillion})
+	}
+	if !proto.Equal(o.GetCacheWriteFiveMinPerMillion(), other.GetCacheWriteFiveMinPerMillion()) {
+		res.Paths = append(res.Paths, &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion})
+	}
+	if !proto.Equal(o.GetCacheWriteOneHourPerMillion(), other.GetCacheWriteOneHourPerMillion()) {
+		res.Paths = append(res.Paths, &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion})
+	}
+	if !proto.Equal(o.GetOutputPerMillion(), other.GetOutputPerMillion()) {
+		res.Paths = append(res.Paths, &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorOutputPerMillion})
+	}
+	return res
+}
+
+func (o *ChatModel_Cost) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ChatModel_Cost))
+}
+
+func (o *ChatModel_Cost) Clone() *ChatModel_Cost {
+	if o == nil {
+		return nil
+	}
+	result := &ChatModel_Cost{}
+	result.InputPerMillion = proto.Clone(o.InputPerMillion).(*money.Money)
+	result.CachedInputPerMillion = proto.Clone(o.CachedInputPerMillion).(*money.Money)
+	result.CacheWriteFiveMinPerMillion = proto.Clone(o.CacheWriteFiveMinPerMillion).(*money.Money)
+	result.CacheWriteOneHourPerMillion = proto.Clone(o.CacheWriteOneHourPerMillion).(*money.Money)
+	result.OutputPerMillion = proto.Clone(o.OutputPerMillion).(*money.Money)
+	return result
+}
+
+func (o *ChatModel_Cost) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ChatModel_Cost) Merge(source *ChatModel_Cost) {
+	if source.GetInputPerMillion() != nil {
+		if o.InputPerMillion == nil {
+			o.InputPerMillion = new(money.Money)
+		}
+		proto.Merge(o.InputPerMillion, source.GetInputPerMillion())
+	}
+	if source.GetCachedInputPerMillion() != nil {
+		if o.CachedInputPerMillion == nil {
+			o.CachedInputPerMillion = new(money.Money)
+		}
+		proto.Merge(o.CachedInputPerMillion, source.GetCachedInputPerMillion())
+	}
+	if source.GetCacheWriteFiveMinPerMillion() != nil {
+		if o.CacheWriteFiveMinPerMillion == nil {
+			o.CacheWriteFiveMinPerMillion = new(money.Money)
+		}
+		proto.Merge(o.CacheWriteFiveMinPerMillion, source.GetCacheWriteFiveMinPerMillion())
+	}
+	if source.GetCacheWriteOneHourPerMillion() != nil {
+		if o.CacheWriteOneHourPerMillion == nil {
+			o.CacheWriteOneHourPerMillion = new(money.Money)
+		}
+		proto.Merge(o.CacheWriteOneHourPerMillion, source.GetCacheWriteOneHourPerMillion())
+	}
+	if source.GetOutputPerMillion() != nil {
+		if o.OutputPerMillion == nil {
+			o.OutputPerMillion = new(money.Money)
+		}
+		proto.Merge(o.OutputPerMillion, source.GetOutputPerMillion())
+	}
+}
+
+func (o *ChatModel_Cost) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ChatModel_Cost))
 }

@@ -71,11 +71,6 @@ func (obj *Conversation) GotenValidate() error {
 			}
 		}
 	}
-	if subobj, ok := interface{}(obj.TotalUsage).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Conversation", "totalUsage", obj.TotalUsage, "nested object validation failed", err)
-		}
-	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -134,20 +129,6 @@ func (obj *ModelUsageStats) GotenValidate() error {
 	if subobj, ok := interface{}(obj.AggregatedUsage).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("ModelUsageStats", "aggregatedUsage", obj.AggregatedUsage, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *TotalUsageStats) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if subobj, ok := interface{}(obj.AggregatedUsage).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("TotalUsageStats", "aggregatedUsage", obj.AggregatedUsage, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

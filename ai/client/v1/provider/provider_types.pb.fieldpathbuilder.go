@@ -15,6 +15,7 @@ import (
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	money "google.golang.org/genproto/googleapis/type/money"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -28,6 +29,7 @@ var (
 	_ = &iam_project.Project{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
+	_ = &money.Money{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}

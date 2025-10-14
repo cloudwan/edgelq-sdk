@@ -114,16 +114,6 @@ func (o *Conversation) MakeDiffFieldMask(other *Conversation) *Conversation_Fiel
 	} else {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel})
 	}
-	{
-		subMask := o.GetTotalUsage().MakeDiffFieldMask(other.GetTotalUsage())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTotalUsage})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorTotalUsage, subPath: subpath})
-			}
-		}
-	}
 	return res
 }
 
@@ -158,7 +148,6 @@ func (o *Conversation) Clone() *Conversation {
 	for key, sourceValue := range o.UsageByModel {
 		result.UsageByModel[key] = sourceValue.Clone()
 	}
-	result.TotalUsage = o.TotalUsage.Clone()
 	return result
 }
 
@@ -223,12 +212,6 @@ func (o *Conversation) Merge(source *Conversation) {
 				o.UsageByModel[key].Merge(sourceValue)
 			}
 		}
-	}
-	if source.GetTotalUsage() != nil {
-		if o.TotalUsage == nil {
-			o.TotalUsage = new(TotalUsageStats)
-		}
-		o.TotalUsage.Merge(source.GetTotalUsage())
 	}
 }
 
@@ -632,69 +615,4 @@ func (o *ModelUsageStats) Merge(source *ModelUsageStats) {
 
 func (o *ModelUsageStats) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ModelUsageStats))
-}
-
-func (o *TotalUsageStats) GotenObjectExt() {}
-
-func (o *TotalUsageStats) MakeFullFieldMask() *TotalUsageStats_FieldMask {
-	return FullTotalUsageStats_FieldMask()
-}
-
-func (o *TotalUsageStats) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullTotalUsageStats_FieldMask()
-}
-
-func (o *TotalUsageStats) MakeDiffFieldMask(other *TotalUsageStats) *TotalUsageStats_FieldMask {
-	if o == nil && other == nil {
-		return &TotalUsageStats_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullTotalUsageStats_FieldMask()
-	}
-
-	res := &TotalUsageStats_FieldMask{}
-	if o.GetTotalTurns() != other.GetTotalTurns() {
-		res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalTurns})
-	}
-	if o.GetTotalMessages() != other.GetTotalMessages() {
-		res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorTotalMessages})
-	}
-	if !proto.Equal(o.GetAggregatedUsage(), other.GetAggregatedUsage()) {
-		res.Paths = append(res.Paths, &TotalUsageStats_FieldTerminalPath{selector: TotalUsageStats_FieldPathSelectorAggregatedUsage})
-	}
-	return res
-}
-
-func (o *TotalUsageStats) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*TotalUsageStats))
-}
-
-func (o *TotalUsageStats) Clone() *TotalUsageStats {
-	if o == nil {
-		return nil
-	}
-	result := &TotalUsageStats{}
-	result.TotalTurns = o.TotalTurns
-	result.TotalMessages = o.TotalMessages
-	result.AggregatedUsage = proto.Clone(o.AggregatedUsage).(*common_client.TokenUsage)
-	return result
-}
-
-func (o *TotalUsageStats) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *TotalUsageStats) Merge(source *TotalUsageStats) {
-	o.TotalTurns = source.GetTotalTurns()
-	o.TotalMessages = source.GetTotalMessages()
-	if source.GetAggregatedUsage() != nil {
-		if o.AggregatedUsage == nil {
-			o.AggregatedUsage = new(common_client.TokenUsage)
-		}
-		proto.Merge(o.AggregatedUsage, source.GetAggregatedUsage())
-	}
-}
-
-func (o *TotalUsageStats) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*TotalUsageStats))
 }

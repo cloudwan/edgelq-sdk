@@ -26,6 +26,7 @@ import (
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	money "google.golang.org/genproto/googleapis/type/money"
 )
 
 // ensure the imports are used
@@ -50,6 +51,7 @@ var (
 var (
 	_ = &iam_project.Project{}
 	_ = &secrets_secret.Secret{}
+	_ = &money.Money{}
 	_ = &meta.Meta{}
 )
 
@@ -79,6 +81,7 @@ const (
 	ChatModel_FieldPathSelectorAnthropic        ChatModel_FieldPathSelector = 4
 	ChatModel_FieldPathSelectorGemini           ChatModel_FieldPathSelector = 5
 	ChatModel_FieldPathSelectorDisplayName      ChatModel_FieldPathSelector = 6
+	ChatModel_FieldPathSelectorCost             ChatModel_FieldPathSelector = 7
 )
 
 func (s ChatModel_FieldPathSelector) String() string {
@@ -97,6 +100,8 @@ func (s ChatModel_FieldPathSelector) String() string {
 		return "gemini"
 	case ChatModel_FieldPathSelectorDisplayName:
 		return "display_name"
+	case ChatModel_FieldPathSelectorCost:
+		return "cost"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", s))
 	}
@@ -122,6 +127,8 @@ func BuildChatModel_FieldPath(fp gotenobject.RawFieldPath) (ChatModel_FieldPath,
 			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorGemini}, nil
 		case "display_name", "displayName", "display-name":
 			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorDisplayName}, nil
+		case "cost":
+			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorCost}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -154,6 +161,12 @@ func BuildChatModel_FieldPath(fp gotenobject.RawFieldPath) (ChatModel_FieldPath,
 				return nil, err
 			} else {
 				return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorGemini, subPath: subpath}, nil
+			}
+		case "cost":
+			if subpath, err := BuildChatModelCost_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ChatModel_FieldSubPath{selector: ChatModel_FieldPathSelectorCost, subPath: subpath}, nil
 			}
 		}
 	}
@@ -234,6 +247,10 @@ func (fp *ChatModel_FieldTerminalPath) Get(source *ChatModel) (values []interfac
 			}
 		case ChatModel_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case ChatModel_FieldPathSelectorCost:
+			if source.Cost != nil {
+				values = append(values, source.Cost)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 		}
@@ -300,6 +317,9 @@ func (fp *ChatModel_FieldTerminalPath) GetSingle(source *ChatModel) (interface{}
 		return res, res != nil
 	case ChatModel_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case ChatModel_FieldPathSelectorCost:
+		res := source.GetCost()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -326,6 +346,8 @@ func (fp *ChatModel_FieldTerminalPath) GetDefault() interface{} {
 		return (*ChatModel_Gemini)(nil)
 	case ChatModel_FieldPathSelectorDisplayName:
 		return ""
+	case ChatModel_FieldPathSelectorCost:
+		return (*ChatModel_Cost)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -356,6 +378,8 @@ func (fp *ChatModel_FieldTerminalPath) ClearValue(item *ChatModel) {
 			}
 		case ChatModel_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case ChatModel_FieldPathSelectorCost:
+			item.Cost = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 		}
@@ -392,6 +416,8 @@ func (fp *ChatModel_FieldTerminalPath) WithIValue(value interface{}) ChatModel_F
 		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(*ChatModel_Gemini)}
 	case ChatModel_FieldPathSelectorDisplayName:
 		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(string)}
+	case ChatModel_FieldPathSelectorCost:
+		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(*ChatModel_Cost)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -418,6 +444,8 @@ func (fp *ChatModel_FieldTerminalPath) WithIArrayOfValues(values interface{}) Ch
 		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]*ChatModel_Gemini)}
 	case ChatModel_FieldPathSelectorDisplayName:
 		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]string)}
+	case ChatModel_FieldPathSelectorCost:
+		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]*ChatModel_Cost)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -469,6 +497,10 @@ func (fps *ChatModel_FieldSubPath) AsGeminiSubPath() (ChatModelGemini_FieldPath,
 	res, ok := fps.subPath.(ChatModelGemini_FieldPath)
 	return res, ok
 }
+func (fps *ChatModel_FieldSubPath) AsCostSubPath() (ChatModelCost_FieldPath, bool) {
+	res, ok := fps.subPath.(ChatModelCost_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ChatModel_FieldSubPath) String() string {
@@ -493,6 +525,8 @@ func (fps *ChatModel_FieldSubPath) Get(source *ChatModel) (values []interface{})
 		values = append(values, fps.subPath.GetRaw(source.GetAnthropic())...)
 	case ChatModel_FieldPathSelectorGemini:
 		values = append(values, fps.subPath.GetRaw(source.GetGemini())...)
+	case ChatModel_FieldPathSelectorCost:
+		values = append(values, fps.subPath.GetRaw(source.GetCost())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fps.selector))
 	}
@@ -531,6 +565,11 @@ func (fps *ChatModel_FieldSubPath) GetSingle(source *ChatModel) (interface{}, bo
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetGemini())
+	case ChatModel_FieldPathSelectorCost:
+		if source.GetCost() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetCost())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fps.selector))
 	}
@@ -574,6 +613,8 @@ func (fps *ChatModel_FieldSubPath) ClearValue(item *ChatModel) {
 					fps.subPath.ClearValueRaw(item.Gemini)
 				}
 			}
+		case ChatModel_FieldPathSelectorCost:
+			fps.subPath.ClearValueRaw(item.Cost)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fps.selector))
 		}
@@ -686,6 +727,10 @@ func (fpv *ChatModel_FieldTerminalPathValue) AsDisplayNameValue() (string, bool)
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *ChatModel_FieldTerminalPathValue) AsCostValue() (*ChatModel_Cost, bool) {
+	res, ok := fpv.value.(*ChatModel_Cost)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ChatModel
 func (fpv *ChatModel_FieldTerminalPathValue) SetTo(target **ChatModel) {
@@ -719,6 +764,8 @@ func (fpv *ChatModel_FieldTerminalPathValue) SetTo(target **ChatModel) {
 		(*target).Provider.(*ChatModel_Gemini_).Gemini = fpv.value.(*ChatModel_Gemini)
 	case ChatModel_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case ChatModel_FieldPathSelectorCost:
+		(*target).Cost = fpv.value.(*ChatModel_Cost)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpv.selector))
 	}
@@ -771,6 +818,8 @@ func (fpv *ChatModel_FieldTerminalPathValue) CompareWith(source *ChatModel) (int
 		} else {
 			return 1, true
 		}
+	case ChatModel_FieldPathSelectorCost:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpv.selector))
 	}
@@ -807,6 +856,10 @@ func (fpvs *ChatModel_FieldSubPathValue) AsGeminiPathValue() (ChatModelGemini_Fi
 	res, ok := fpvs.subPathValue.(ChatModelGemini_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ChatModel_FieldSubPathValue) AsCostPathValue() (ChatModelCost_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ChatModelCost_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ChatModel_FieldSubPathValue) SetTo(target **ChatModel) {
 	if *target == nil {
@@ -835,6 +888,8 @@ func (fpvs *ChatModel_FieldSubPathValue) SetTo(target **ChatModel) {
 			(*target).Provider = &ChatModel_Gemini_{}
 		}
 		fpvs.subPathValue.(ChatModelGemini_FieldPathValue).SetTo(&(*target).Provider.(*ChatModel_Gemini_).Gemini)
+	case ChatModel_FieldPathSelectorCost:
+		fpvs.subPathValue.(ChatModelCost_FieldPathValue).SetTo(&(*target).Cost)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpvs.Selector()))
 	}
@@ -861,6 +916,8 @@ func (fpvs *ChatModel_FieldSubPathValue) CompareWith(source *ChatModel) (int, bo
 		return fpvs.subPathValue.(ChatModelAnthropic_FieldPathValue).CompareWith(source.GetAnthropic())
 	case ChatModel_FieldPathSelectorGemini:
 		return fpvs.subPathValue.(ChatModelGemini_FieldPathValue).CompareWith(source.GetGemini())
+	case ChatModel_FieldPathSelectorCost:
+		return fpvs.subPathValue.(ChatModelCost_FieldPathValue).CompareWith(source.GetCost())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpvs.Selector()))
 	}
@@ -963,6 +1020,10 @@ func (fpaivs *ChatModel_FieldSubPathArrayItemValue) AsGeminiPathItemValue() (Cha
 	res, ok := fpaivs.subPathItemValue.(ChatModelGemini_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ChatModel_FieldSubPathArrayItemValue) AsCostPathItemValue() (ChatModelCost_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ChatModelCost_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ChatModel'
 func (fpaivs *ChatModel_FieldSubPathArrayItemValue) ContainsValue(source *ChatModel) bool {
@@ -977,6 +1038,8 @@ func (fpaivs *ChatModel_FieldSubPathArrayItemValue) ContainsValue(source *ChatMo
 		return fpaivs.subPathItemValue.(ChatModelAnthropic_FieldPathArrayItemValue).ContainsValue(source.GetAnthropic())
 	case ChatModel_FieldPathSelectorGemini:
 		return fpaivs.subPathItemValue.(ChatModelGemini_FieldPathArrayItemValue).ContainsValue(source.GetGemini())
+	case ChatModel_FieldPathSelectorCost:
+		return fpaivs.subPathItemValue.(ChatModelCost_FieldPathArrayItemValue).ContainsValue(source.GetCost())
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpaivs.Selector()))
 	}
@@ -1045,6 +1108,10 @@ func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case ChatModel_FieldPathSelectorCost:
+		for _, v := range fpaov.values.([]*ChatModel_Cost) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1076,6 +1143,10 @@ func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValue
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
+func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsCostArrayOfValues() ([]*ChatModel_Cost, bool) {
+	res, ok := fpaov.values.([]*ChatModel_Cost)
+	return res, ok
+}
 
 type ChatModel_FieldSubPathArrayOfValues struct {
 	ChatModel_FieldPath
@@ -1105,6 +1176,10 @@ func (fpsaov *ChatModel_FieldSubPathArrayOfValues) AsAnthropicPathArrayOfValues(
 }
 func (fpsaov *ChatModel_FieldSubPathArrayOfValues) AsGeminiPathArrayOfValues() (ChatModelGemini_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ChatModelGemini_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ChatModel_FieldSubPathArrayOfValues) AsCostPathArrayOfValues() (ChatModelCost_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ChatModelCost_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -3299,5 +3374,527 @@ func (fpaov *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues) AsApiVersionAr
 }
 func (fpaov *ChatModelAzureOpenAi_FieldTerminalPathArrayOfValues) AsMaxOutputTokensArrayOfValues() ([]int32, bool) {
 	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ChatModelCost_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ChatModelCost_FieldPathSelector
+	Get(source *ChatModel_Cost) []interface{}
+	GetSingle(source *ChatModel_Cost) (interface{}, bool)
+	ClearValue(item *ChatModel_Cost)
+
+	// Those methods build corresponding ChatModelCost_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ChatModelCost_FieldPathValue
+	WithIArrayOfValues(values interface{}) ChatModelCost_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ChatModelCost_FieldPathArrayItemValue
+}
+
+type ChatModelCost_FieldPathSelector int32
+
+const (
+	ChatModelCost_FieldPathSelectorInputPerMillion             ChatModelCost_FieldPathSelector = 0
+	ChatModelCost_FieldPathSelectorCachedInputPerMillion       ChatModelCost_FieldPathSelector = 1
+	ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion ChatModelCost_FieldPathSelector = 2
+	ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion ChatModelCost_FieldPathSelector = 3
+	ChatModelCost_FieldPathSelectorOutputPerMillion            ChatModelCost_FieldPathSelector = 4
+)
+
+func (s ChatModelCost_FieldPathSelector) String() string {
+	switch s {
+	case ChatModelCost_FieldPathSelectorInputPerMillion:
+		return "input_per_million"
+	case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+		return "cached_input_per_million"
+	case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+		return "cache_write_five_min_per_million"
+	case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+		return "cache_write_one_hour_per_million"
+	case ChatModelCost_FieldPathSelectorOutputPerMillion:
+		return "output_per_million"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", s))
+	}
+}
+
+func BuildChatModelCost_FieldPath(fp gotenobject.RawFieldPath) (ChatModelCost_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ChatModel_Cost")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "input_per_million", "inputPerMillion", "input-per-million":
+			return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorInputPerMillion}, nil
+		case "cached_input_per_million", "cachedInputPerMillion", "cached-input-per-million":
+			return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCachedInputPerMillion}, nil
+		case "cache_write_five_min_per_million", "cacheWriteFiveMinPerMillion", "cache-write-five-min-per-million":
+			return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion}, nil
+		case "cache_write_one_hour_per_million", "cacheWriteOneHourPerMillion", "cache-write-one-hour-per-million":
+			return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion}, nil
+		case "output_per_million", "outputPerMillion", "output-per-million":
+			return &ChatModelCost_FieldTerminalPath{selector: ChatModelCost_FieldPathSelectorOutputPerMillion}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ChatModel_Cost", fp)
+}
+
+func ParseChatModelCost_FieldPath(rawField string) (ChatModelCost_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildChatModelCost_FieldPath(fp)
+}
+
+func MustParseChatModelCost_FieldPath(rawField string) ChatModelCost_FieldPath {
+	fp, err := ParseChatModelCost_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ChatModelCost_FieldTerminalPath struct {
+	selector ChatModelCost_FieldPathSelector
+}
+
+var _ ChatModelCost_FieldPath = (*ChatModelCost_FieldTerminalPath)(nil)
+
+func (fp *ChatModelCost_FieldTerminalPath) Selector() ChatModelCost_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ChatModelCost_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ChatModelCost_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ChatModel_Cost
+func (fp *ChatModelCost_FieldTerminalPath) Get(source *ChatModel_Cost) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ChatModelCost_FieldPathSelectorInputPerMillion:
+			if source.InputPerMillion != nil {
+				values = append(values, source.InputPerMillion)
+			}
+		case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+			if source.CachedInputPerMillion != nil {
+				values = append(values, source.CachedInputPerMillion)
+			}
+		case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+			if source.CacheWriteFiveMinPerMillion != nil {
+				values = append(values, source.CacheWriteFiveMinPerMillion)
+			}
+		case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+			if source.CacheWriteOneHourPerMillion != nil {
+				values = append(values, source.CacheWriteOneHourPerMillion)
+			}
+		case ChatModelCost_FieldPathSelectorOutputPerMillion:
+			if source.OutputPerMillion != nil {
+				values = append(values, source.OutputPerMillion)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ChatModel_Cost))
+}
+
+// GetSingle returns value pointed by specific field of from source ChatModel_Cost
+func (fp *ChatModelCost_FieldTerminalPath) GetSingle(source *ChatModel_Cost) (interface{}, bool) {
+	switch fp.selector {
+	case ChatModelCost_FieldPathSelectorInputPerMillion:
+		res := source.GetInputPerMillion()
+		return res, res != nil
+	case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+		res := source.GetCachedInputPerMillion()
+		return res, res != nil
+	case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+		res := source.GetCacheWriteFiveMinPerMillion()
+		return res, res != nil
+	case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+		res := source.GetCacheWriteOneHourPerMillion()
+		return res, res != nil
+	case ChatModelCost_FieldPathSelectorOutputPerMillion:
+		res := source.GetOutputPerMillion()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ChatModel_Cost))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ChatModelCost_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ChatModelCost_FieldPathSelectorInputPerMillion:
+		return (*money.Money)(nil)
+	case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+		return (*money.Money)(nil)
+	case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+		return (*money.Money)(nil)
+	case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+		return (*money.Money)(nil)
+	case ChatModelCost_FieldPathSelectorOutputPerMillion:
+		return (*money.Money)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) ClearValue(item *ChatModel_Cost) {
+	if item != nil {
+		switch fp.selector {
+		case ChatModelCost_FieldPathSelectorInputPerMillion:
+			item.InputPerMillion = nil
+		case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+			item.CachedInputPerMillion = nil
+		case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+			item.CacheWriteFiveMinPerMillion = nil
+		case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+			item.CacheWriteOneHourPerMillion = nil
+		case ChatModelCost_FieldPathSelectorOutputPerMillion:
+			item.OutputPerMillion = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ChatModel_Cost))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ChatModelCost_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ChatModelCost_FieldPathSelectorInputPerMillion ||
+		fp.selector == ChatModelCost_FieldPathSelectorCachedInputPerMillion ||
+		fp.selector == ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion ||
+		fp.selector == ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion ||
+		fp.selector == ChatModelCost_FieldPathSelectorOutputPerMillion
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) WithIValue(value interface{}) ChatModelCost_FieldPathValue {
+	switch fp.selector {
+	case ChatModelCost_FieldPathSelectorInputPerMillion:
+		return &ChatModelCost_FieldTerminalPathValue{ChatModelCost_FieldTerminalPath: *fp, value: value.(*money.Money)}
+	case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+		return &ChatModelCost_FieldTerminalPathValue{ChatModelCost_FieldTerminalPath: *fp, value: value.(*money.Money)}
+	case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+		return &ChatModelCost_FieldTerminalPathValue{ChatModelCost_FieldTerminalPath: *fp, value: value.(*money.Money)}
+	case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+		return &ChatModelCost_FieldTerminalPathValue{ChatModelCost_FieldTerminalPath: *fp, value: value.(*money.Money)}
+	case ChatModelCost_FieldPathSelectorOutputPerMillion:
+		return &ChatModelCost_FieldTerminalPathValue{ChatModelCost_FieldTerminalPath: *fp, value: value.(*money.Money)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) WithIArrayOfValues(values interface{}) ChatModelCost_FieldPathArrayOfValues {
+	fpaov := &ChatModelCost_FieldTerminalPathArrayOfValues{ChatModelCost_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ChatModelCost_FieldPathSelectorInputPerMillion:
+		return &ChatModelCost_FieldTerminalPathArrayOfValues{ChatModelCost_FieldTerminalPath: *fp, values: values.([]*money.Money)}
+	case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+		return &ChatModelCost_FieldTerminalPathArrayOfValues{ChatModelCost_FieldTerminalPath: *fp, values: values.([]*money.Money)}
+	case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+		return &ChatModelCost_FieldTerminalPathArrayOfValues{ChatModelCost_FieldTerminalPath: *fp, values: values.([]*money.Money)}
+	case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+		return &ChatModelCost_FieldTerminalPathArrayOfValues{ChatModelCost_FieldTerminalPath: *fp, values: values.([]*money.Money)}
+	case ChatModelCost_FieldPathSelectorOutputPerMillion:
+		return &ChatModelCost_FieldTerminalPathArrayOfValues{ChatModelCost_FieldTerminalPath: *fp, values: values.([]*money.Money)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) WithIArrayItemValue(value interface{}) ChatModelCost_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fp.selector))
+	}
+}
+
+func (fp *ChatModelCost_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ChatModelCost_FieldPathValue allows storing values for Cost fields according to their type
+type ChatModelCost_FieldPathValue interface {
+	ChatModelCost_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ChatModel_Cost)
+	CompareWith(*ChatModel_Cost) (cmp int, comparable bool)
+}
+
+func ParseChatModelCost_FieldPathValue(pathStr, valueStr string) (ChatModelCost_FieldPathValue, error) {
+	fp, err := ParseChatModelCost_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Cost field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ChatModelCost_FieldPathValue), nil
+}
+
+func MustParseChatModelCost_FieldPathValue(pathStr, valueStr string) ChatModelCost_FieldPathValue {
+	fpv, err := ParseChatModelCost_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ChatModelCost_FieldTerminalPathValue struct {
+	ChatModelCost_FieldTerminalPath
+	value interface{}
+}
+
+var _ ChatModelCost_FieldPathValue = (*ChatModelCost_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Cost' as interface{}
+func (fpv *ChatModelCost_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ChatModelCost_FieldTerminalPathValue) AsInputPerMillionValue() (*money.Money, bool) {
+	res, ok := fpv.value.(*money.Money)
+	return res, ok
+}
+func (fpv *ChatModelCost_FieldTerminalPathValue) AsCachedInputPerMillionValue() (*money.Money, bool) {
+	res, ok := fpv.value.(*money.Money)
+	return res, ok
+}
+func (fpv *ChatModelCost_FieldTerminalPathValue) AsCacheWriteFiveMinPerMillionValue() (*money.Money, bool) {
+	res, ok := fpv.value.(*money.Money)
+	return res, ok
+}
+func (fpv *ChatModelCost_FieldTerminalPathValue) AsCacheWriteOneHourPerMillionValue() (*money.Money, bool) {
+	res, ok := fpv.value.(*money.Money)
+	return res, ok
+}
+func (fpv *ChatModelCost_FieldTerminalPathValue) AsOutputPerMillionValue() (*money.Money, bool) {
+	res, ok := fpv.value.(*money.Money)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Cost
+func (fpv *ChatModelCost_FieldTerminalPathValue) SetTo(target **ChatModel_Cost) {
+	if *target == nil {
+		*target = new(ChatModel_Cost)
+	}
+	switch fpv.selector {
+	case ChatModelCost_FieldPathSelectorInputPerMillion:
+		(*target).InputPerMillion = fpv.value.(*money.Money)
+	case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+		(*target).CachedInputPerMillion = fpv.value.(*money.Money)
+	case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+		(*target).CacheWriteFiveMinPerMillion = fpv.value.(*money.Money)
+	case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+		(*target).CacheWriteOneHourPerMillion = fpv.value.(*money.Money)
+	case ChatModelCost_FieldPathSelectorOutputPerMillion:
+		(*target).OutputPerMillion = fpv.value.(*money.Money)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fpv.selector))
+	}
+}
+
+func (fpv *ChatModelCost_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ChatModel_Cost)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ChatModelCost_FieldTerminalPathValue' with the value under path in 'ChatModel_Cost'.
+func (fpv *ChatModelCost_FieldTerminalPathValue) CompareWith(source *ChatModel_Cost) (int, bool) {
+	switch fpv.selector {
+	case ChatModelCost_FieldPathSelectorInputPerMillion:
+		return 0, false
+	case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+		return 0, false
+	case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+		return 0, false
+	case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+		return 0, false
+	case ChatModelCost_FieldPathSelectorOutputPerMillion:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for ChatModel_Cost: %d", fpv.selector))
+	}
+}
+
+func (fpv *ChatModelCost_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ChatModel_Cost))
+}
+
+// ChatModelCost_FieldPathArrayItemValue allows storing single item in Path-specific values for Cost according to their type
+// Present only for array (repeated) types.
+type ChatModelCost_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ChatModelCost_FieldPath
+	ContainsValue(*ChatModel_Cost) bool
+}
+
+// ParseChatModelCost_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseChatModelCost_FieldPathArrayItemValue(pathStr, valueStr string) (ChatModelCost_FieldPathArrayItemValue, error) {
+	fp, err := ParseChatModelCost_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Cost field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ChatModelCost_FieldPathArrayItemValue), nil
+}
+
+func MustParseChatModelCost_FieldPathArrayItemValue(pathStr, valueStr string) ChatModelCost_FieldPathArrayItemValue {
+	fpaiv, err := ParseChatModelCost_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ChatModelCost_FieldTerminalPathArrayItemValue struct {
+	ChatModelCost_FieldTerminalPath
+	value interface{}
+}
+
+var _ ChatModelCost_FieldPathArrayItemValue = (*ChatModelCost_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ChatModel_Cost as interface{}
+func (fpaiv *ChatModelCost_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ChatModelCost_FieldTerminalPathArrayItemValue) GetSingle(source *ChatModel_Cost) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ChatModelCost_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ChatModel_Cost))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Cost'
+func (fpaiv *ChatModelCost_FieldTerminalPathArrayItemValue) ContainsValue(source *ChatModel_Cost) bool {
+	slice := fpaiv.ChatModelCost_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ChatModelCost_FieldPathArrayOfValues allows storing slice of values for Cost fields according to their type
+type ChatModelCost_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ChatModelCost_FieldPath
+}
+
+func ParseChatModelCost_FieldPathArrayOfValues(pathStr, valuesStr string) (ChatModelCost_FieldPathArrayOfValues, error) {
+	fp, err := ParseChatModelCost_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Cost field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ChatModelCost_FieldPathArrayOfValues), nil
+}
+
+func MustParseChatModelCost_FieldPathArrayOfValues(pathStr, valuesStr string) ChatModelCost_FieldPathArrayOfValues {
+	fpaov, err := ParseChatModelCost_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ChatModelCost_FieldTerminalPathArrayOfValues struct {
+	ChatModelCost_FieldTerminalPath
+	values interface{}
+}
+
+var _ ChatModelCost_FieldPathArrayOfValues = (*ChatModelCost_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ChatModelCost_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ChatModelCost_FieldPathSelectorInputPerMillion:
+		for _, v := range fpaov.values.([]*money.Money) {
+			values = append(values, v)
+		}
+	case ChatModelCost_FieldPathSelectorCachedInputPerMillion:
+		for _, v := range fpaov.values.([]*money.Money) {
+			values = append(values, v)
+		}
+	case ChatModelCost_FieldPathSelectorCacheWriteFiveMinPerMillion:
+		for _, v := range fpaov.values.([]*money.Money) {
+			values = append(values, v)
+		}
+	case ChatModelCost_FieldPathSelectorCacheWriteOneHourPerMillion:
+		for _, v := range fpaov.values.([]*money.Money) {
+			values = append(values, v)
+		}
+	case ChatModelCost_FieldPathSelectorOutputPerMillion:
+		for _, v := range fpaov.values.([]*money.Money) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ChatModelCost_FieldTerminalPathArrayOfValues) AsInputPerMillionArrayOfValues() ([]*money.Money, bool) {
+	res, ok := fpaov.values.([]*money.Money)
+	return res, ok
+}
+func (fpaov *ChatModelCost_FieldTerminalPathArrayOfValues) AsCachedInputPerMillionArrayOfValues() ([]*money.Money, bool) {
+	res, ok := fpaov.values.([]*money.Money)
+	return res, ok
+}
+func (fpaov *ChatModelCost_FieldTerminalPathArrayOfValues) AsCacheWriteFiveMinPerMillionArrayOfValues() ([]*money.Money, bool) {
+	res, ok := fpaov.values.([]*money.Money)
+	return res, ok
+}
+func (fpaov *ChatModelCost_FieldTerminalPathArrayOfValues) AsCacheWriteOneHourPerMillionArrayOfValues() ([]*money.Money, bool) {
+	res, ok := fpaov.values.([]*money.Money)
+	return res, ok
+}
+func (fpaov *ChatModelCost_FieldTerminalPathArrayOfValues) AsOutputPerMillionArrayOfValues() ([]*money.Money, bool) {
+	res, ok := fpaov.values.([]*money.Money)
 	return res, ok
 }
