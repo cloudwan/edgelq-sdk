@@ -17,6 +17,7 @@ import (
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -36,6 +37,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_index.SearchIndex{}
@@ -128,6 +130,18 @@ func (o *CapabilityTemplate) MakeDiffFieldMask(other *CapabilityTemplate) *Capab
 	if o.GetDisableInputTokenCache() != other.GetDisableInputTokenCache() {
 		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache})
 	}
+
+	if len(o.GetAllowedModels()) == len(other.GetAllowedModels()) {
+		for i, lValue := range o.GetAllowedModels() {
+			rValue := other.GetAllowedModels()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorAllowedModels})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorAllowedModels})
+	}
 	return res
 }
 
@@ -173,6 +187,19 @@ func (o *CapabilityTemplate) Clone() *CapabilityTemplate {
 	result.MaxOutputTokens = o.MaxOutputTokens
 	result.SystemPrompt = o.SystemPrompt
 	result.DisableInputTokenCache = o.DisableInputTokenCache
+	result.AllowedModels = make([]*chat_model.Reference, len(o.AllowedModels))
+	for i, sourceValue := range o.AllowedModels {
+		if sourceValue == nil {
+			result.AllowedModels[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.AllowedModels[i] = &chat_model.Reference{}
+			if err := result.AllowedModels[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	}
 	return result
 }
 
@@ -244,6 +271,32 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 	o.MaxOutputTokens = source.GetMaxOutputTokens()
 	o.SystemPrompt = source.GetSystemPrompt()
 	o.DisableInputTokenCache = source.GetDisableInputTokenCache()
+	for _, sourceValue := range source.GetAllowedModels() {
+		exists := false
+		for _, currentValue := range o.AllowedModels {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *chat_model.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &chat_model.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.AllowedModels = append(o.AllowedModels, newDstElement)
+		}
+	}
+
 }
 
 func (o *CapabilityTemplate) MergeRaw(source gotenobject.GotenObjectExt) {

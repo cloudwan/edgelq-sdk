@@ -7,6 +7,7 @@ package capability_template
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -26,6 +27,7 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
@@ -84,6 +86,9 @@ func (CapabilityTemplateFieldPathBuilder) SystemPrompt() CapabilityTemplatePathS
 }
 func (CapabilityTemplateFieldPathBuilder) DisableInputTokenCache() CapabilityTemplatePathSelectorDisableInputTokenCache {
 	return CapabilityTemplatePathSelectorDisableInputTokenCache{}
+}
+func (CapabilityTemplateFieldPathBuilder) AllowedModels() CapabilityTemplatePathSelectorAllowedModels {
+	return CapabilityTemplatePathSelectorAllowedModels{}
 }
 
 type CapabilityTemplatePathSelectorName struct{}
@@ -1254,6 +1259,24 @@ func (s CapabilityTemplatePathSelectorDisableInputTokenCache) WithValue(value bo
 
 func (s CapabilityTemplatePathSelectorDisableInputTokenCache) WithArrayOfValues(values []bool) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorAllowedModels struct{}
+
+func (CapabilityTemplatePathSelectorAllowedModels) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorAllowedModels}
+}
+
+func (s CapabilityTemplatePathSelectorAllowedModels) WithValue(value []*chat_model.Reference) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorAllowedModels) WithArrayOfValues(values [][]*chat_model.Reference) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+func (s CapabilityTemplatePathSelectorAllowedModels) WithItemValue(value *chat_model.Reference) *CapabilityTemplate_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CapabilityTemplate_FieldTerminalPathArrayItemValue)
 }
 
 type RAGConfigFieldPathBuilder struct{}

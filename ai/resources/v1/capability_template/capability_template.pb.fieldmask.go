@@ -20,6 +20,7 @@ import (
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -42,6 +43,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_index.SearchIndex{}
@@ -67,6 +69,7 @@ func FullCapabilityTemplate_FieldMask() *CapabilityTemplate_FieldMask {
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens})
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPrompt})
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache})
+	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorAllowedModels})
 	return res
 }
 
@@ -85,7 +88,7 @@ func (fieldMask *CapabilityTemplate_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 12)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CapabilityTemplate_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -115,7 +118,7 @@ func (fieldMask *CapabilityTemplate_FieldMask) Reset() {
 
 func (fieldMask *CapabilityTemplate_FieldMask) Subtract(other *CapabilityTemplate_FieldMask) *CapabilityTemplate_FieldMask {
 	result := &CapabilityTemplate_FieldMask{}
-	removedSelectors := make([]bool, 12)
+	removedSelectors := make([]bool, 13)
 	otherSubMasks := map[CapabilityTemplate_FieldPathSelector]gotenobject.FieldMask{
 		CapabilityTemplate_FieldPathSelectorMetadata:  &meta.Meta_FieldMask{},
 		CapabilityTemplate_FieldPathSelectorRagConfig: &RAGConfig_FieldMask{},
@@ -354,6 +357,8 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 				result.SystemPrompt = source.SystemPrompt
 			case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 				result.DisableInputTokenCache = source.DisableInputTokenCache
+			case CapabilityTemplate_FieldPathSelectorAllowedModels:
+				result.AllowedModels = source.AllowedModels
 			}
 		case *CapabilityTemplate_FieldSubPath:
 			switch tp.selector {

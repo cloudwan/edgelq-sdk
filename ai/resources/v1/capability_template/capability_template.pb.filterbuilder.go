@@ -12,6 +12,7 @@ import (
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -37,6 +38,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
@@ -272,6 +274,10 @@ func (b *filterCndBuilder) SystemPrompt() *filterCndBuilderSystemPrompt {
 
 func (b *filterCndBuilder) DisableInputTokenCache() *filterCndBuilderDisableInputTokenCache {
 	return &filterCndBuilderDisableInputTokenCache{builder: b.builder}
+}
+
+func (b *filterCndBuilder) AllowedModels() *filterCndBuilderAllowedModels {
+	return &filterCndBuilderAllowedModels{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -3958,5 +3964,98 @@ func (b *filterCndBuilderDisableInputTokenCache) compare(op gotenfilter.CompareO
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().DisableInputTokenCache().WithValue(value),
+	})
+}
+
+type filterCndBuilderAllowedModels struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAllowedModels) Eq(value []*chat_model.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAllowedModels) Neq(value []*chat_model.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAllowedModels) Gt(value []*chat_model.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAllowedModels) Gte(value []*chat_model.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAllowedModels) Lt(value []*chat_model.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAllowedModels) Lte(value []*chat_model.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAllowedModels) In(values [][]*chat_model.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().AllowedModels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAllowedModels) NotIn(values [][]*chat_model.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().AllowedModels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAllowedModels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().AllowedModels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAllowedModels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().AllowedModels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAllowedModels) Contains(value *chat_model.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().AllowedModels().FieldPath(),
+		Value:     NewCapabilityTemplateFieldPathBuilder().AllowedModels().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderAllowedModels) ContainsAnyOf(values []*chat_model.Reference) *FilterBuilder {
+	pathSelector := NewCapabilityTemplateFieldPathBuilder().AllowedModels()
+	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().AllowedModels().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAllowedModels) ContainsAll(values []*chat_model.Reference) *FilterBuilder {
+	pathSelector := NewCapabilityTemplateFieldPathBuilder().AllowedModels()
+	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().AllowedModels().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAllowedModels) compare(op gotenfilter.CompareOperator, value []*chat_model.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().AllowedModels().WithValue(value),
 	})
 }

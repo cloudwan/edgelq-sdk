@@ -21,6 +21,7 @@ import (
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -42,6 +43,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_index.SearchIndex{}

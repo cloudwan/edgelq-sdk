@@ -24,6 +24,7 @@ import (
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -50,6 +51,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_index.SearchIndex{}
@@ -88,6 +90,7 @@ const (
 	CapabilityTemplate_FieldPathSelectorMaxOutputTokens        CapabilityTemplate_FieldPathSelector = 9
 	CapabilityTemplate_FieldPathSelectorSystemPrompt           CapabilityTemplate_FieldPathSelector = 10
 	CapabilityTemplate_FieldPathSelectorDisableInputTokenCache CapabilityTemplate_FieldPathSelector = 11
+	CapabilityTemplate_FieldPathSelectorAllowedModels          CapabilityTemplate_FieldPathSelector = 12
 )
 
 func (s CapabilityTemplate_FieldPathSelector) String() string {
@@ -116,6 +119,8 @@ func (s CapabilityTemplate_FieldPathSelector) String() string {
 		return "system_prompt"
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return "disable_input_token_cache"
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		return "allowed_models"
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", s))
 	}
@@ -151,6 +156,8 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPrompt}, nil
 		case "disable_input_token_cache", "disableInputTokenCache", "disable-input-token-cache":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache}, nil
+		case "allowed_models", "allowedModels", "allowed-models":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorAllowedModels}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -251,6 +258,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) Get(source *CapabilityTemplate) 
 			values = append(values, source.SystemPrompt)
 		case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 			values = append(values, source.DisableInputTokenCache)
+		case CapabilityTemplate_FieldPathSelectorAllowedModels:
+			for _, value := range source.GetAllowedModels() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -294,6 +305,9 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetSingle(source *CapabilityTemp
 		return source.GetSystemPrompt(), source != nil
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return source.GetDisableInputTokenCache(), source != nil
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		res := source.GetAllowedModels()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -330,6 +344,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return false
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		return ([]*chat_model.Reference)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -362,6 +378,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) ClearValue(item *CapabilityTempl
 			item.SystemPrompt = ""
 		case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 			item.DisableInputTokenCache = false
+		case CapabilityTemplate_FieldPathSelectorAllowedModels:
+			item.AllowedModels = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -382,7 +400,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == CapabilityTemplate_FieldPathSelectorDisplayName ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorMaxOutputTokens ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorSystemPrompt ||
-		fp.selector == CapabilityTemplate_FieldPathSelectorDisableInputTokenCache
+		fp.selector == CapabilityTemplate_FieldPathSelectorDisableInputTokenCache ||
+		fp.selector == CapabilityTemplate_FieldPathSelectorAllowedModels
 }
 
 func (fp *CapabilityTemplate_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -415,6 +434,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIValue(value interface{}) Ca
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(string)}
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(bool)}
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.([]*chat_model.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -451,6 +472,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]string)}
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]bool)}
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([][]*chat_model.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -465,6 +488,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayItemValue(value interf
 	switch fp.selector {
 	case CapabilityTemplate_FieldPathSelectorConnectors:
 		return &CapabilityTemplate_FieldTerminalPathArrayItemValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*connector.Reference)}
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		return &CapabilityTemplate_FieldTerminalPathArrayItemValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*chat_model.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -699,6 +724,10 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDisableInputTokenCacheVa
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsAllowedModelsValue() ([]*chat_model.Reference, bool) {
+	res, ok := fpv.value.([]*chat_model.Reference)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object CapabilityTemplate
 func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityTemplate) {
@@ -730,6 +759,8 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityT
 		(*target).SystemPrompt = fpv.value.(string)
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		(*target).DisableInputTokenCache = fpv.value.(bool)
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		(*target).AllowedModels = fpv.value.([]*chat_model.Reference)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -840,6 +871,8 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) CompareWith(source *Capabi
 		} else {
 			return 1, true
 		}
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -953,6 +986,10 @@ func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) GetRawItemValue
 }
 func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) AsConnectorsItemValue() (*connector.Reference, bool) {
 	res, ok := fpaiv.value.(*connector.Reference)
+	return res, ok
+}
+func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) AsAllowedModelsItemValue() (*chat_model.Reference, bool) {
+	res, ok := fpaiv.value.(*chat_model.Reference)
 	return res, ok
 }
 
@@ -1098,6 +1135,10 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
+	case CapabilityTemplate_FieldPathSelectorAllowedModels:
+		for _, v := range fpaov.values.([][]*chat_model.Reference) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1147,6 +1188,10 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsSystemPromptAr
 }
 func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDisableInputTokenCacheArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsAllowedModelsArrayOfValues() ([][]*chat_model.Reference, bool) {
+	res, ok := fpaov.values.([][]*chat_model.Reference)
 	return res, ok
 }
 
