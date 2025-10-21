@@ -83,14 +83,14 @@ const (
 	CapabilityTemplate_FieldPathSelectorDescription            CapabilityTemplate_FieldPathSelector = 2
 	CapabilityTemplate_FieldPathSelectorConnectors             CapabilityTemplate_FieldPathSelector = 3
 	CapabilityTemplate_FieldPathSelectorRagConfig              CapabilityTemplate_FieldPathSelector = 4
-	CapabilityTemplate_FieldPathSelectorMaxToolRounds          CapabilityTemplate_FieldPathSelector = 5
-	CapabilityTemplate_FieldPathSelectorDefaultModel           CapabilityTemplate_FieldPathSelector = 6
-	CapabilityTemplate_FieldPathSelectorDisplayName            CapabilityTemplate_FieldPathSelector = 7
-	CapabilityTemplate_FieldPathSelectorReasoning              CapabilityTemplate_FieldPathSelector = 8
-	CapabilityTemplate_FieldPathSelectorMaxOutputTokens        CapabilityTemplate_FieldPathSelector = 9
-	CapabilityTemplate_FieldPathSelectorSystemPrompt           CapabilityTemplate_FieldPathSelector = 10
-	CapabilityTemplate_FieldPathSelectorDisableInputTokenCache CapabilityTemplate_FieldPathSelector = 11
-	CapabilityTemplate_FieldPathSelectorAllowedModels          CapabilityTemplate_FieldPathSelector = 12
+	CapabilityTemplate_FieldPathSelectorDisplayName            CapabilityTemplate_FieldPathSelector = 5
+	CapabilityTemplate_FieldPathSelectorReasoning              CapabilityTemplate_FieldPathSelector = 6
+	CapabilityTemplate_FieldPathSelectorMaxOutputTokens        CapabilityTemplate_FieldPathSelector = 7
+	CapabilityTemplate_FieldPathSelectorSystemPrompt           CapabilityTemplate_FieldPathSelector = 8
+	CapabilityTemplate_FieldPathSelectorDisableInputTokenCache CapabilityTemplate_FieldPathSelector = 9
+	CapabilityTemplate_FieldPathSelectorAllowedModels          CapabilityTemplate_FieldPathSelector = 10
+	CapabilityTemplate_FieldPathSelectorToolSafety             CapabilityTemplate_FieldPathSelector = 11
+	CapabilityTemplate_FieldPathSelectorDefaultModel           CapabilityTemplate_FieldPathSelector = 12
 )
 
 func (s CapabilityTemplate_FieldPathSelector) String() string {
@@ -105,10 +105,6 @@ func (s CapabilityTemplate_FieldPathSelector) String() string {
 		return "connectors"
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return "rag_config"
-	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-		return "max_tool_rounds"
-	case CapabilityTemplate_FieldPathSelectorDefaultModel:
-		return "default_model"
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return "display_name"
 	case CapabilityTemplate_FieldPathSelectorReasoning:
@@ -121,6 +117,10 @@ func (s CapabilityTemplate_FieldPathSelector) String() string {
 		return "disable_input_token_cache"
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
 		return "allowed_models"
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		return "tool_safety"
+	case CapabilityTemplate_FieldPathSelectorDefaultModel:
+		return "default_model"
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", s))
 	}
@@ -142,10 +142,6 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorConnectors}, nil
 		case "rag_config", "ragConfig", "rag-config":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorRagConfig}, nil
-		case "max_tool_rounds", "maxToolRounds", "max-tool-rounds":
-			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxToolRounds}, nil
-		case "default_model", "defaultModel", "default-model":
-			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel}, nil
 		case "display_name", "displayName", "display-name":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisplayName}, nil
 		case "reasoning":
@@ -158,6 +154,10 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache}, nil
 		case "allowed_models", "allowedModels", "allowed-models":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorAllowedModels}, nil
+		case "tool_safety", "toolSafety", "tool-safety":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety}, nil
+		case "default_model", "defaultModel", "default-model":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -178,6 +178,12 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 				return nil, err
 			} else {
 				return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorReasoning, subPath: subpath}, nil
+			}
+		case "tool_safety", "toolSafety", "tool-safety":
+			if subpath, err := BuildToolSafetyConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety, subPath: subpath}, nil
 			}
 		}
 	}
@@ -242,10 +248,6 @@ func (fp *CapabilityTemplate_FieldTerminalPath) Get(source *CapabilityTemplate) 
 			if source.RagConfig != nil {
 				values = append(values, source.RagConfig)
 			}
-		case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-			values = append(values, source.MaxToolRounds)
-		case CapabilityTemplate_FieldPathSelectorDefaultModel:
-			values = append(values, source.DefaultModel)
 		case CapabilityTemplate_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
 		case CapabilityTemplate_FieldPathSelectorReasoning:
@@ -261,6 +263,14 @@ func (fp *CapabilityTemplate_FieldTerminalPath) Get(source *CapabilityTemplate) 
 		case CapabilityTemplate_FieldPathSelectorAllowedModels:
 			for _, value := range source.GetAllowedModels() {
 				values = append(values, value)
+			}
+		case CapabilityTemplate_FieldPathSelectorToolSafety:
+			if source.ToolSafety != nil {
+				values = append(values, source.ToolSafety)
+			}
+		case CapabilityTemplate_FieldPathSelectorDefaultModel:
+			if source.DefaultModel != nil {
+				values = append(values, source.DefaultModel)
 			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
@@ -290,10 +300,6 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetSingle(source *CapabilityTemp
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		res := source.GetRagConfig()
 		return res, res != nil
-	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-		return source.GetMaxToolRounds(), source != nil
-	case CapabilityTemplate_FieldPathSelectorDefaultModel:
-		return source.GetDefaultModel(), source != nil
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
 	case CapabilityTemplate_FieldPathSelectorReasoning:
@@ -307,6 +313,12 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetSingle(source *CapabilityTemp
 		return source.GetDisableInputTokenCache(), source != nil
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
 		res := source.GetAllowedModels()
+		return res, res != nil
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		res := source.GetToolSafety()
+		return res, res != nil
+	case CapabilityTemplate_FieldPathSelectorDefaultModel:
+		res := source.GetDefaultModel()
 		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
@@ -330,10 +342,6 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*connector.Reference)(nil)
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return (*RAGConfig)(nil)
-	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-		return uint32(0)
-	case CapabilityTemplate_FieldPathSelectorDefaultModel:
-		return ""
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return ""
 	case CapabilityTemplate_FieldPathSelectorReasoning:
@@ -346,6 +354,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetDefault() interface{} {
 		return false
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
 		return ([]*chat_model.Reference)(nil)
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		return (*ToolSafetyConfig)(nil)
+	case CapabilityTemplate_FieldPathSelectorDefaultModel:
+		return (*chat_model.Name)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -364,10 +376,6 @@ func (fp *CapabilityTemplate_FieldTerminalPath) ClearValue(item *CapabilityTempl
 			item.Connectors = nil
 		case CapabilityTemplate_FieldPathSelectorRagConfig:
 			item.RagConfig = nil
-		case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-			item.MaxToolRounds = uint32(0)
-		case CapabilityTemplate_FieldPathSelectorDefaultModel:
-			item.DefaultModel = ""
 		case CapabilityTemplate_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
 		case CapabilityTemplate_FieldPathSelectorReasoning:
@@ -380,6 +388,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) ClearValue(item *CapabilityTempl
 			item.DisableInputTokenCache = false
 		case CapabilityTemplate_FieldPathSelectorAllowedModels:
 			item.AllowedModels = nil
+		case CapabilityTemplate_FieldPathSelectorToolSafety:
+			item.ToolSafety = nil
+		case CapabilityTemplate_FieldPathSelectorDefaultModel:
+			item.DefaultModel = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -395,13 +407,12 @@ func (fp *CapabilityTemplate_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CapabilityTemplate_FieldPathSelectorName ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorDescription ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorConnectors ||
-		fp.selector == CapabilityTemplate_FieldPathSelectorMaxToolRounds ||
-		fp.selector == CapabilityTemplate_FieldPathSelectorDefaultModel ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorDisplayName ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorMaxOutputTokens ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorSystemPrompt ||
 		fp.selector == CapabilityTemplate_FieldPathSelectorDisableInputTokenCache ||
-		fp.selector == CapabilityTemplate_FieldPathSelectorAllowedModels
+		fp.selector == CapabilityTemplate_FieldPathSelectorAllowedModels ||
+		fp.selector == CapabilityTemplate_FieldPathSelectorDefaultModel
 }
 
 func (fp *CapabilityTemplate_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -420,10 +431,6 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIValue(value interface{}) Ca
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.([]*connector.Reference)}
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*RAGConfig)}
-	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(uint32)}
-	case CapabilityTemplate_FieldPathSelectorDefaultModel:
-		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(string)}
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(string)}
 	case CapabilityTemplate_FieldPathSelectorReasoning:
@@ -436,6 +443,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIValue(value interface{}) Ca
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(bool)}
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.([]*chat_model.Reference)}
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*ToolSafetyConfig)}
+	case CapabilityTemplate_FieldPathSelectorDefaultModel:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*chat_model.Name)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -458,10 +469,6 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([][]*connector.Reference)}
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*RAGConfig)}
-	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]uint32)}
-	case CapabilityTemplate_FieldPathSelectorDefaultModel:
-		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]string)}
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]string)}
 	case CapabilityTemplate_FieldPathSelectorReasoning:
@@ -474,6 +481,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]bool)}
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([][]*chat_model.Reference)}
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*ToolSafetyConfig)}
+	case CapabilityTemplate_FieldPathSelectorDefaultModel:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*chat_model.Name)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -521,6 +532,10 @@ func (fps *CapabilityTemplate_FieldSubPath) AsReasoningSubPath() (ReasoningConfi
 	res, ok := fps.subPath.(ReasoningConfig_FieldPath)
 	return res, ok
 }
+func (fps *CapabilityTemplate_FieldSubPath) AsToolSafetySubPath() (ToolSafetyConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(ToolSafetyConfig_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *CapabilityTemplate_FieldSubPath) String() string {
@@ -541,6 +556,8 @@ func (fps *CapabilityTemplate_FieldSubPath) Get(source *CapabilityTemplate) (val
 		values = append(values, fps.subPath.GetRaw(source.GetRagConfig())...)
 	case CapabilityTemplate_FieldPathSelectorReasoning:
 		values = append(values, fps.subPath.GetRaw(source.GetReasoning())...)
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		values = append(values, fps.subPath.GetRaw(source.GetToolSafety())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 	}
@@ -569,6 +586,11 @@ func (fps *CapabilityTemplate_FieldSubPath) GetSingle(source *CapabilityTemplate
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetReasoning())
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		if source.GetToolSafety() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetToolSafety())
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 	}
@@ -592,6 +614,8 @@ func (fps *CapabilityTemplate_FieldSubPath) ClearValue(item *CapabilityTemplate)
 			fps.subPath.ClearValueRaw(item.RagConfig)
 		case CapabilityTemplate_FieldPathSelectorReasoning:
 			fps.subPath.ClearValueRaw(item.Reasoning)
+		case CapabilityTemplate_FieldPathSelectorToolSafety:
+			fps.subPath.ClearValueRaw(item.ToolSafety)
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 		}
@@ -696,14 +720,6 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsRagConfigValue() (*RAGCo
 	res, ok := fpv.value.(*RAGConfig)
 	return res, ok
 }
-func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsMaxToolRoundsValue() (uint32, bool) {
-	res, ok := fpv.value.(uint32)
-	return res, ok
-}
-func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDefaultModelValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
 func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
@@ -728,6 +744,14 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsAllowedModelsValue() ([]
 	res, ok := fpv.value.([]*chat_model.Reference)
 	return res, ok
 }
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsToolSafetyValue() (*ToolSafetyConfig, bool) {
+	res, ok := fpv.value.(*ToolSafetyConfig)
+	return res, ok
+}
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDefaultModelValue() (*chat_model.Name, bool) {
+	res, ok := fpv.value.(*chat_model.Name)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object CapabilityTemplate
 func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityTemplate) {
@@ -745,10 +769,6 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityT
 		(*target).Connectors = fpv.value.([]*connector.Reference)
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		(*target).RagConfig = fpv.value.(*RAGConfig)
-	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-		(*target).MaxToolRounds = fpv.value.(uint32)
-	case CapabilityTemplate_FieldPathSelectorDefaultModel:
-		(*target).DefaultModel = fpv.value.(string)
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
 	case CapabilityTemplate_FieldPathSelectorReasoning:
@@ -761,6 +781,10 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityT
 		(*target).DisableInputTokenCache = fpv.value.(bool)
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
 		(*target).AllowedModels = fpv.value.([]*chat_model.Reference)
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		(*target).ToolSafety = fpv.value.(*ToolSafetyConfig)
+	case CapabilityTemplate_FieldPathSelectorDefaultModel:
+		(*target).DefaultModel = fpv.value.(*chat_model.Name)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -809,26 +833,6 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) CompareWith(source *Capabi
 		return 0, false
 	case CapabilityTemplate_FieldPathSelectorRagConfig:
 		return 0, false
-	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-		leftValue := fpv.value.(uint32)
-		rightValue := source.GetMaxToolRounds()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case CapabilityTemplate_FieldPathSelectorDefaultModel:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetDefaultModel()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
@@ -873,6 +877,27 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) CompareWith(source *Capabi
 		}
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
 		return 0, false
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		return 0, false
+	case CapabilityTemplate_FieldPathSelectorDefaultModel:
+		leftValue := fpv.value.(*chat_model.Name)
+		rightValue := source.GetDefaultModel()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -901,6 +926,10 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) AsReasoningPathValue() (Reason
 	res, ok := fpvs.subPathValue.(ReasoningConfig_FieldPathValue)
 	return res, ok
 }
+func (fpvs *CapabilityTemplate_FieldSubPathValue) AsToolSafetyPathValue() (ToolSafetyConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *CapabilityTemplate_FieldSubPathValue) SetTo(target **CapabilityTemplate) {
 	if *target == nil {
@@ -913,6 +942,8 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) SetTo(target **CapabilityTempl
 		fpvs.subPathValue.(RAGConfig_FieldPathValue).SetTo(&(*target).RagConfig)
 	case CapabilityTemplate_FieldPathSelectorReasoning:
 		fpvs.subPathValue.(ReasoningConfig_FieldPathValue).SetTo(&(*target).Reasoning)
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue).SetTo(&(*target).ToolSafety)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpvs.Selector()))
 	}
@@ -935,6 +966,8 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) CompareWith(source *Capability
 		return fpvs.subPathValue.(RAGConfig_FieldPathValue).CompareWith(source.GetRagConfig())
 	case CapabilityTemplate_FieldPathSelectorReasoning:
 		return fpvs.subPathValue.(ReasoningConfig_FieldPathValue).CompareWith(source.GetReasoning())
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		return fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue).CompareWith(source.GetToolSafety())
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpvs.Selector()))
 	}
@@ -1037,6 +1070,10 @@ func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsReasoningPathItem
 	res, ok := fpaivs.subPathItemValue.(ReasoningConfig_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsToolSafetyPathItemValue() (ToolSafetyConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ToolSafetyConfig_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'CapabilityTemplate'
 func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) ContainsValue(source *CapabilityTemplate) bool {
@@ -1047,6 +1084,8 @@ func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) ContainsValue(sourc
 		return fpaivs.subPathItemValue.(RAGConfig_FieldPathArrayItemValue).ContainsValue(source.GetRagConfig())
 	case CapabilityTemplate_FieldPathSelectorReasoning:
 		return fpaivs.subPathItemValue.(ReasoningConfig_FieldPathArrayItemValue).ContainsValue(source.GetReasoning())
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		return fpaivs.subPathItemValue.(ToolSafetyConfig_FieldPathArrayItemValue).ContainsValue(source.GetToolSafety())
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpaivs.Selector()))
 	}
@@ -1107,14 +1146,6 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]*RAGConfig) {
 			values = append(values, v)
 		}
-	case CapabilityTemplate_FieldPathSelectorMaxToolRounds:
-		for _, v := range fpaov.values.([]uint32) {
-			values = append(values, v)
-		}
-	case CapabilityTemplate_FieldPathSelectorDefaultModel:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
 	case CapabilityTemplate_FieldPathSelectorDisplayName:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
@@ -1139,6 +1170,14 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([][]*chat_model.Reference) {
 			values = append(values, v)
 		}
+	case CapabilityTemplate_FieldPathSelectorToolSafety:
+		for _, v := range fpaov.values.([]*ToolSafetyConfig) {
+			values = append(values, v)
+		}
+	case CapabilityTemplate_FieldPathSelectorDefaultModel:
+		for _, v := range fpaov.values.([]*chat_model.Name) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1160,14 +1199,6 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsConnectorsArra
 }
 func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsRagConfigArrayOfValues() ([]*RAGConfig, bool) {
 	res, ok := fpaov.values.([]*RAGConfig)
-	return res, ok
-}
-func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsMaxToolRoundsArrayOfValues() ([]uint32, bool) {
-	res, ok := fpaov.values.([]uint32)
-	return res, ok
-}
-func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDefaultModelArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
@@ -1194,6 +1225,14 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsAllowedModelsA
 	res, ok := fpaov.values.([][]*chat_model.Reference)
 	return res, ok
 }
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsToolSafetyArrayOfValues() ([]*ToolSafetyConfig, bool) {
+	res, ok := fpaov.values.([]*ToolSafetyConfig)
+	return res, ok
+}
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDefaultModelArrayOfValues() ([]*chat_model.Name, bool) {
+	res, ok := fpaov.values.([]*chat_model.Name)
+	return res, ok
+}
 
 type CapabilityTemplate_FieldSubPathArrayOfValues struct {
 	CapabilityTemplate_FieldPath
@@ -1215,6 +1254,10 @@ func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsRagConfigPathArray
 }
 func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsReasoningPathArrayOfValues() (ReasoningConfig_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ReasoningConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsToolSafetyPathArrayOfValues() (ToolSafetyConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ToolSafetyConfig_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -3383,5 +3426,468 @@ func (fpaov *ReasoningConfig_FieldTerminalPathArrayOfValues) AsMaxLevelArrayOfVa
 }
 func (fpaov *ReasoningConfig_FieldTerminalPathArrayOfValues) AsDefaultLevelArrayOfValues() ([]common_client.ReasoningLevel, bool) {
 	res, ok := fpaov.values.([]common_client.ReasoningLevel)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ToolSafetyConfig_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ToolSafetyConfig_FieldPathSelector
+	Get(source *ToolSafetyConfig) []interface{}
+	GetSingle(source *ToolSafetyConfig) (interface{}, bool)
+	ClearValue(item *ToolSafetyConfig)
+
+	// Those methods build corresponding ToolSafetyConfig_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ToolSafetyConfig_FieldPathValue
+	WithIArrayOfValues(values interface{}) ToolSafetyConfig_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ToolSafetyConfig_FieldPathArrayItemValue
+}
+
+type ToolSafetyConfig_FieldPathSelector int32
+
+const (
+	ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls          ToolSafetyConfig_FieldPathSelector = 0
+	ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls ToolSafetyConfig_FieldPathSelector = 1
+	ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls      ToolSafetyConfig_FieldPathSelector = 2
+)
+
+func (s ToolSafetyConfig_FieldPathSelector) String() string {
+	switch s {
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+		return "max_consecutive_tool_calls"
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+		return "max_consecutive_identical_tool_calls"
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+		return "max_consecutive_same_tool_calls"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", s))
+	}
+}
+
+func BuildToolSafetyConfig_FieldPath(fp gotenobject.RawFieldPath) (ToolSafetyConfig_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ToolSafetyConfig")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "max_consecutive_tool_calls", "maxConsecutiveToolCalls", "max-consecutive-tool-calls":
+			return &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls}, nil
+		case "max_consecutive_identical_tool_calls", "maxConsecutiveIdenticalToolCalls", "max-consecutive-identical-tool-calls":
+			return &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls}, nil
+		case "max_consecutive_same_tool_calls", "maxConsecutiveSameToolCalls", "max-consecutive-same-tool-calls":
+			return &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ToolSafetyConfig", fp)
+}
+
+func ParseToolSafetyConfig_FieldPath(rawField string) (ToolSafetyConfig_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildToolSafetyConfig_FieldPath(fp)
+}
+
+func MustParseToolSafetyConfig_FieldPath(rawField string) ToolSafetyConfig_FieldPath {
+	fp, err := ParseToolSafetyConfig_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ToolSafetyConfig_FieldTerminalPath struct {
+	selector ToolSafetyConfig_FieldPathSelector
+}
+
+var _ ToolSafetyConfig_FieldPath = (*ToolSafetyConfig_FieldTerminalPath)(nil)
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) Selector() ToolSafetyConfig_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ToolSafetyConfig_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ToolSafetyConfig_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ToolSafetyConfig
+func (fp *ToolSafetyConfig_FieldTerminalPath) Get(source *ToolSafetyConfig) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+			values = append(values, source.MaxConsecutiveToolCalls)
+		case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+			values = append(values, source.MaxConsecutiveIdenticalToolCalls)
+		case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+			values = append(values, source.MaxConsecutiveSameToolCalls)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ToolSafetyConfig))
+}
+
+// GetSingle returns value pointed by specific field of from source ToolSafetyConfig
+func (fp *ToolSafetyConfig_FieldTerminalPath) GetSingle(source *ToolSafetyConfig) (interface{}, bool) {
+	switch fp.selector {
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+		return source.GetMaxConsecutiveToolCalls(), source != nil
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+		return source.GetMaxConsecutiveIdenticalToolCalls(), source != nil
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+		return source.GetMaxConsecutiveSameToolCalls(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ToolSafetyConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ToolSafetyConfig_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+		return uint32(0)
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+		return uint32(0)
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+		return uint32(0)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) ClearValue(item *ToolSafetyConfig) {
+	if item != nil {
+		switch fp.selector {
+		case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+			item.MaxConsecutiveToolCalls = uint32(0)
+		case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+			item.MaxConsecutiveIdenticalToolCalls = uint32(0)
+		case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+			item.MaxConsecutiveSameToolCalls = uint32(0)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ToolSafetyConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ToolSafetyConfig_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls ||
+		fp.selector == ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls ||
+		fp.selector == ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) WithIValue(value interface{}) ToolSafetyConfig_FieldPathValue {
+	switch fp.selector {
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+		return &ToolSafetyConfig_FieldTerminalPathValue{ToolSafetyConfig_FieldTerminalPath: *fp, value: value.(uint32)}
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+		return &ToolSafetyConfig_FieldTerminalPathValue{ToolSafetyConfig_FieldTerminalPath: *fp, value: value.(uint32)}
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+		return &ToolSafetyConfig_FieldTerminalPathValue{ToolSafetyConfig_FieldTerminalPath: *fp, value: value.(uint32)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) ToolSafetyConfig_FieldPathArrayOfValues {
+	fpaov := &ToolSafetyConfig_FieldTerminalPathArrayOfValues{ToolSafetyConfig_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+		return &ToolSafetyConfig_FieldTerminalPathArrayOfValues{ToolSafetyConfig_FieldTerminalPath: *fp, values: values.([]uint32)}
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+		return &ToolSafetyConfig_FieldTerminalPathArrayOfValues{ToolSafetyConfig_FieldTerminalPath: *fp, values: values.([]uint32)}
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+		return &ToolSafetyConfig_FieldTerminalPathArrayOfValues{ToolSafetyConfig_FieldTerminalPath: *fp, values: values.([]uint32)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) ToolSafetyConfig_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ToolSafetyConfig_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ToolSafetyConfig_FieldPathValue allows storing values for ToolSafetyConfig fields according to their type
+type ToolSafetyConfig_FieldPathValue interface {
+	ToolSafetyConfig_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ToolSafetyConfig)
+	CompareWith(*ToolSafetyConfig) (cmp int, comparable bool)
+}
+
+func ParseToolSafetyConfig_FieldPathValue(pathStr, valueStr string) (ToolSafetyConfig_FieldPathValue, error) {
+	fp, err := ParseToolSafetyConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ToolSafetyConfig field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ToolSafetyConfig_FieldPathValue), nil
+}
+
+func MustParseToolSafetyConfig_FieldPathValue(pathStr, valueStr string) ToolSafetyConfig_FieldPathValue {
+	fpv, err := ParseToolSafetyConfig_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ToolSafetyConfig_FieldTerminalPathValue struct {
+	ToolSafetyConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ ToolSafetyConfig_FieldPathValue = (*ToolSafetyConfig_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ToolSafetyConfig' as interface{}
+func (fpv *ToolSafetyConfig_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ToolSafetyConfig_FieldTerminalPathValue) AsMaxConsecutiveToolCallsValue() (uint32, bool) {
+	res, ok := fpv.value.(uint32)
+	return res, ok
+}
+func (fpv *ToolSafetyConfig_FieldTerminalPathValue) AsMaxConsecutiveIdenticalToolCallsValue() (uint32, bool) {
+	res, ok := fpv.value.(uint32)
+	return res, ok
+}
+func (fpv *ToolSafetyConfig_FieldTerminalPathValue) AsMaxConsecutiveSameToolCallsValue() (uint32, bool) {
+	res, ok := fpv.value.(uint32)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ToolSafetyConfig
+func (fpv *ToolSafetyConfig_FieldTerminalPathValue) SetTo(target **ToolSafetyConfig) {
+	if *target == nil {
+		*target = new(ToolSafetyConfig)
+	}
+	switch fpv.selector {
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+		(*target).MaxConsecutiveToolCalls = fpv.value.(uint32)
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+		(*target).MaxConsecutiveIdenticalToolCalls = fpv.value.(uint32)
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+		(*target).MaxConsecutiveSameToolCalls = fpv.value.(uint32)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *ToolSafetyConfig_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ToolSafetyConfig)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ToolSafetyConfig_FieldTerminalPathValue' with the value under path in 'ToolSafetyConfig'.
+func (fpv *ToolSafetyConfig_FieldTerminalPathValue) CompareWith(source *ToolSafetyConfig) (int, bool) {
+	switch fpv.selector {
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+		leftValue := fpv.value.(uint32)
+		rightValue := source.GetMaxConsecutiveToolCalls()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+		leftValue := fpv.value.(uint32)
+		rightValue := source.GetMaxConsecutiveIdenticalToolCalls()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+		leftValue := fpv.value.(uint32)
+		rightValue := source.GetMaxConsecutiveSameToolCalls()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ToolSafetyConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *ToolSafetyConfig_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ToolSafetyConfig))
+}
+
+// ToolSafetyConfig_FieldPathArrayItemValue allows storing single item in Path-specific values for ToolSafetyConfig according to their type
+// Present only for array (repeated) types.
+type ToolSafetyConfig_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ToolSafetyConfig_FieldPath
+	ContainsValue(*ToolSafetyConfig) bool
+}
+
+// ParseToolSafetyConfig_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseToolSafetyConfig_FieldPathArrayItemValue(pathStr, valueStr string) (ToolSafetyConfig_FieldPathArrayItemValue, error) {
+	fp, err := ParseToolSafetyConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ToolSafetyConfig field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ToolSafetyConfig_FieldPathArrayItemValue), nil
+}
+
+func MustParseToolSafetyConfig_FieldPathArrayItemValue(pathStr, valueStr string) ToolSafetyConfig_FieldPathArrayItemValue {
+	fpaiv, err := ParseToolSafetyConfig_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ToolSafetyConfig_FieldTerminalPathArrayItemValue struct {
+	ToolSafetyConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ ToolSafetyConfig_FieldPathArrayItemValue = (*ToolSafetyConfig_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ToolSafetyConfig as interface{}
+func (fpaiv *ToolSafetyConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ToolSafetyConfig_FieldTerminalPathArrayItemValue) GetSingle(source *ToolSafetyConfig) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ToolSafetyConfig_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ToolSafetyConfig))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ToolSafetyConfig'
+func (fpaiv *ToolSafetyConfig_FieldTerminalPathArrayItemValue) ContainsValue(source *ToolSafetyConfig) bool {
+	slice := fpaiv.ToolSafetyConfig_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ToolSafetyConfig_FieldPathArrayOfValues allows storing slice of values for ToolSafetyConfig fields according to their type
+type ToolSafetyConfig_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ToolSafetyConfig_FieldPath
+}
+
+func ParseToolSafetyConfig_FieldPathArrayOfValues(pathStr, valuesStr string) (ToolSafetyConfig_FieldPathArrayOfValues, error) {
+	fp, err := ParseToolSafetyConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ToolSafetyConfig field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ToolSafetyConfig_FieldPathArrayOfValues), nil
+}
+
+func MustParseToolSafetyConfig_FieldPathArrayOfValues(pathStr, valuesStr string) ToolSafetyConfig_FieldPathArrayOfValues {
+	fpaov, err := ParseToolSafetyConfig_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ToolSafetyConfig_FieldTerminalPathArrayOfValues struct {
+	ToolSafetyConfig_FieldTerminalPath
+	values interface{}
+}
+
+var _ ToolSafetyConfig_FieldPathArrayOfValues = (*ToolSafetyConfig_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ToolSafetyConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls:
+		for _, v := range fpaov.values.([]uint32) {
+			values = append(values, v)
+		}
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls:
+		for _, v := range fpaov.values.([]uint32) {
+			values = append(values, v)
+		}
+	case ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls:
+		for _, v := range fpaov.values.([]uint32) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ToolSafetyConfig_FieldTerminalPathArrayOfValues) AsMaxConsecutiveToolCallsArrayOfValues() ([]uint32, bool) {
+	res, ok := fpaov.values.([]uint32)
+	return res, ok
+}
+func (fpaov *ToolSafetyConfig_FieldTerminalPathArrayOfValues) AsMaxConsecutiveIdenticalToolCallsArrayOfValues() ([]uint32, bool) {
+	res, ok := fpaov.values.([]uint32)
+	return res, ok
+}
+func (fpaov *ToolSafetyConfig_FieldTerminalPathArrayOfValues) AsMaxConsecutiveSameToolCallsArrayOfValues() ([]uint32, bool) {
+	res, ok := fpaov.values.([]uint32)
 	return res, ok
 }

@@ -42,12 +42,6 @@ message CapabilityTemplate {
   // RAG configuration (optional)
   RAGConfig rag_config = 5;
 
-  // Maximum number of tool call rounds (default: 20)
-  uint32 max_tool_rounds = 6;
-
-  // Default model for this template
-  string default_model = 7;
-
   // Human-readable display name
   string display_name = 8;
 
@@ -69,6 +63,14 @@ message CapabilityTemplate {
   // This allows organizations to control which models are used for specific
   // use cases, capabilities, or compliance requirements
   repeated string allowed_models = 13;
+
+  // Tool safety configuration for loop detection (optional)
+  ToolSafetyConfig tool_safety = 14;
+
+  // Default model for this template (optional)
+  string default_model = 15;
+
+  reserved 6, 7;
 }
 
 // RAG (Retrieval-Augmented Generation) configuration
@@ -115,4 +117,28 @@ message ReasoningConfig {
 
   // Default level if not specified in request
   ReasoningLevel default_level = 2;
+}
+
+// Tool safety configuration for loop detection
+message ToolSafetyConfig {
+  // Maximum consecutive tool-calling assistant messages (default: 20)
+  // This detects infinite tool loops, NOT total tool usage.
+  // Counter resets when assistant message doesn't contain tool calls.
+  // Example: 20 consecutive turns with tools → blocked
+  //          19 turns with tools + 1 text-only turn + 19 more → allowed
+  uint32 max_consecutive_tool_calls = 1;
+
+  // Maximum consecutive identical tool+args calls (default: 3)
+  // This detects stuck loops where same tool+args is called repeatedly.
+  // Example: search_docs("query") called 3 times in a row → blocked
+  //          search_docs("query1"), search_docs("query2"), ... → allowed
+  uint32 max_consecutive_identical_tool_calls = 2;
+
+  // Maximum consecutive calls to the same tool name (default: 6)
+  // Similar to the identical check but ignores arguments, only tool names.
+  // Example: search_docs("q1"), search_docs("q2"), ... (same tool name) →
+  // blocked
+  //          weather_lookup(...), search_docs(...), weather_lookup(...) →
+  //          allowed
+  uint32 max_consecutive_same_tool_calls = 3;
 }

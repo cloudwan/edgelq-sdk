@@ -66,12 +66,6 @@ func (CapabilityTemplateFieldPathBuilder) Connectors() CapabilityTemplatePathSel
 func (CapabilityTemplateFieldPathBuilder) RagConfig() CapabilityTemplatePathSelectorRagConfig {
 	return CapabilityTemplatePathSelectorRagConfig{}
 }
-func (CapabilityTemplateFieldPathBuilder) MaxToolRounds() CapabilityTemplatePathSelectorMaxToolRounds {
-	return CapabilityTemplatePathSelectorMaxToolRounds{}
-}
-func (CapabilityTemplateFieldPathBuilder) DefaultModel() CapabilityTemplatePathSelectorDefaultModel {
-	return CapabilityTemplatePathSelectorDefaultModel{}
-}
 func (CapabilityTemplateFieldPathBuilder) DisplayName() CapabilityTemplatePathSelectorDisplayName {
 	return CapabilityTemplatePathSelectorDisplayName{}
 }
@@ -89,6 +83,12 @@ func (CapabilityTemplateFieldPathBuilder) DisableInputTokenCache() CapabilityTem
 }
 func (CapabilityTemplateFieldPathBuilder) AllowedModels() CapabilityTemplatePathSelectorAllowedModels {
 	return CapabilityTemplatePathSelectorAllowedModels{}
+}
+func (CapabilityTemplateFieldPathBuilder) ToolSafety() CapabilityTemplatePathSelectorToolSafety {
+	return CapabilityTemplatePathSelectorToolSafety{}
+}
+func (CapabilityTemplateFieldPathBuilder) DefaultModel() CapabilityTemplatePathSelectorDefaultModel {
+	return CapabilityTemplatePathSelectorDefaultModel{}
 }
 
 type CapabilityTemplatePathSelectorName struct{}
@@ -1105,34 +1105,6 @@ func (s CapabilityTemplatePathSelectorRagConfigUseAzureNativeRag) WithArrayOfVal
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
 }
 
-type CapabilityTemplatePathSelectorMaxToolRounds struct{}
-
-func (CapabilityTemplatePathSelectorMaxToolRounds) FieldPath() *CapabilityTemplate_FieldTerminalPath {
-	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxToolRounds}
-}
-
-func (s CapabilityTemplatePathSelectorMaxToolRounds) WithValue(value uint32) *CapabilityTemplate_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
-}
-
-func (s CapabilityTemplatePathSelectorMaxToolRounds) WithArrayOfValues(values []uint32) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
-}
-
-type CapabilityTemplatePathSelectorDefaultModel struct{}
-
-func (CapabilityTemplatePathSelectorDefaultModel) FieldPath() *CapabilityTemplate_FieldTerminalPath {
-	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel}
-}
-
-func (s CapabilityTemplatePathSelectorDefaultModel) WithValue(value string) *CapabilityTemplate_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
-}
-
-func (s CapabilityTemplatePathSelectorDefaultModel) WithArrayOfValues(values []string) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
-}
-
 type CapabilityTemplatePathSelectorDisplayName struct{}
 
 func (CapabilityTemplatePathSelectorDisplayName) FieldPath() *CapabilityTemplate_FieldTerminalPath {
@@ -1277,6 +1249,113 @@ func (s CapabilityTemplatePathSelectorAllowedModels) WithArrayOfValues(values []
 
 func (s CapabilityTemplatePathSelectorAllowedModels) WithItemValue(value *chat_model.Reference) *CapabilityTemplate_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CapabilityTemplate_FieldTerminalPathArrayItemValue)
+}
+
+type CapabilityTemplatePathSelectorToolSafety struct{}
+
+func (CapabilityTemplatePathSelectorToolSafety) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety}
+}
+
+func (s CapabilityTemplatePathSelectorToolSafety) WithValue(value *ToolSafetyConfig) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorToolSafety) WithArrayOfValues(values []*ToolSafetyConfig) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+func (CapabilityTemplatePathSelectorToolSafety) WithSubPath(subPath ToolSafetyConfig_FieldPath) *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety, subPath: subPath}
+}
+
+func (s CapabilityTemplatePathSelectorToolSafety) WithSubValue(subPathValue ToolSafetyConfig_FieldPathValue) *CapabilityTemplate_FieldSubPathValue {
+	return &CapabilityTemplate_FieldSubPathValue{CapabilityTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s CapabilityTemplatePathSelectorToolSafety) WithSubArrayOfValues(subPathArrayOfValues ToolSafetyConfig_FieldPathArrayOfValues) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return &CapabilityTemplate_FieldSubPathArrayOfValues{CapabilityTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s CapabilityTemplatePathSelectorToolSafety) WithSubArrayItemValue(subPathArrayItemValue ToolSafetyConfig_FieldPathArrayItemValue) *CapabilityTemplate_FieldSubPathArrayItemValue {
+	return &CapabilityTemplate_FieldSubPathArrayItemValue{CapabilityTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (CapabilityTemplatePathSelectorToolSafety) MaxConsecutiveToolCalls() CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveToolCalls {
+	return CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveToolCalls{}
+}
+
+func (CapabilityTemplatePathSelectorToolSafety) MaxConsecutiveIdenticalToolCalls() CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveIdenticalToolCalls {
+	return CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveIdenticalToolCalls{}
+}
+
+func (CapabilityTemplatePathSelectorToolSafety) MaxConsecutiveSameToolCalls() CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveSameToolCalls {
+	return CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveSameToolCalls{}
+}
+
+type CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveToolCalls struct{}
+
+func (CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveToolCalls) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorToolSafety,
+		subPath:  NewToolSafetyConfigFieldPathBuilder().MaxConsecutiveToolCalls().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveToolCalls) WithValue(value uint32) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveToolCalls) WithArrayOfValues(values []uint32) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveIdenticalToolCalls struct{}
+
+func (CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveIdenticalToolCalls) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorToolSafety,
+		subPath:  NewToolSafetyConfigFieldPathBuilder().MaxConsecutiveIdenticalToolCalls().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveIdenticalToolCalls) WithValue(value uint32) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveIdenticalToolCalls) WithArrayOfValues(values []uint32) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveSameToolCalls struct{}
+
+func (CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveSameToolCalls) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorToolSafety,
+		subPath:  NewToolSafetyConfigFieldPathBuilder().MaxConsecutiveSameToolCalls().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveSameToolCalls) WithValue(value uint32) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorToolSafetyMaxConsecutiveSameToolCalls) WithArrayOfValues(values []uint32) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorDefaultModel struct{}
+
+func (CapabilityTemplatePathSelectorDefaultModel) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel}
+}
+
+func (s CapabilityTemplatePathSelectorDefaultModel) WithValue(value *chat_model.Name) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorDefaultModel) WithArrayOfValues(values []*chat_model.Name) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
 }
 
 type RAGConfigFieldPathBuilder struct{}
@@ -1743,4 +1822,61 @@ func (s ReasoningConfigPathSelectorDefaultLevel) WithValue(value common_client.R
 
 func (s ReasoningConfigPathSelectorDefaultLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *ReasoningConfig_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ReasoningConfig_FieldTerminalPathArrayOfValues)
+}
+
+type ToolSafetyConfigFieldPathBuilder struct{}
+
+func NewToolSafetyConfigFieldPathBuilder() ToolSafetyConfigFieldPathBuilder {
+	return ToolSafetyConfigFieldPathBuilder{}
+}
+func (ToolSafetyConfigFieldPathBuilder) MaxConsecutiveToolCalls() ToolSafetyConfigPathSelectorMaxConsecutiveToolCalls {
+	return ToolSafetyConfigPathSelectorMaxConsecutiveToolCalls{}
+}
+func (ToolSafetyConfigFieldPathBuilder) MaxConsecutiveIdenticalToolCalls() ToolSafetyConfigPathSelectorMaxConsecutiveIdenticalToolCalls {
+	return ToolSafetyConfigPathSelectorMaxConsecutiveIdenticalToolCalls{}
+}
+func (ToolSafetyConfigFieldPathBuilder) MaxConsecutiveSameToolCalls() ToolSafetyConfigPathSelectorMaxConsecutiveSameToolCalls {
+	return ToolSafetyConfigPathSelectorMaxConsecutiveSameToolCalls{}
+}
+
+type ToolSafetyConfigPathSelectorMaxConsecutiveToolCalls struct{}
+
+func (ToolSafetyConfigPathSelectorMaxConsecutiveToolCalls) FieldPath() *ToolSafetyConfig_FieldTerminalPath {
+	return &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls}
+}
+
+func (s ToolSafetyConfigPathSelectorMaxConsecutiveToolCalls) WithValue(value uint32) *ToolSafetyConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ToolSafetyConfig_FieldTerminalPathValue)
+}
+
+func (s ToolSafetyConfigPathSelectorMaxConsecutiveToolCalls) WithArrayOfValues(values []uint32) *ToolSafetyConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ToolSafetyConfig_FieldTerminalPathArrayOfValues)
+}
+
+type ToolSafetyConfigPathSelectorMaxConsecutiveIdenticalToolCalls struct{}
+
+func (ToolSafetyConfigPathSelectorMaxConsecutiveIdenticalToolCalls) FieldPath() *ToolSafetyConfig_FieldTerminalPath {
+	return &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls}
+}
+
+func (s ToolSafetyConfigPathSelectorMaxConsecutiveIdenticalToolCalls) WithValue(value uint32) *ToolSafetyConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ToolSafetyConfig_FieldTerminalPathValue)
+}
+
+func (s ToolSafetyConfigPathSelectorMaxConsecutiveIdenticalToolCalls) WithArrayOfValues(values []uint32) *ToolSafetyConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ToolSafetyConfig_FieldTerminalPathArrayOfValues)
+}
+
+type ToolSafetyConfigPathSelectorMaxConsecutiveSameToolCalls struct{}
+
+func (ToolSafetyConfigPathSelectorMaxConsecutiveSameToolCalls) FieldPath() *ToolSafetyConfig_FieldTerminalPath {
+	return &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls}
+}
+
+func (s ToolSafetyConfigPathSelectorMaxConsecutiveSameToolCalls) WithValue(value uint32) *ToolSafetyConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ToolSafetyConfig_FieldTerminalPathValue)
+}
+
+func (s ToolSafetyConfigPathSelectorMaxConsecutiveSameToolCalls) WithArrayOfValues(values []uint32) *ToolSafetyConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ToolSafetyConfig_FieldTerminalPathArrayOfValues)
 }

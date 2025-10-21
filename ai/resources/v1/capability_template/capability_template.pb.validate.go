@@ -76,6 +76,11 @@ func (obj *CapabilityTemplate) GotenValidate() error {
 			return gotenvalidate.NewValidationError("CapabilityTemplate", "reasoning", obj.Reasoning, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ToolSafety).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CapabilityTemplate", "toolSafety", obj.ToolSafety, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -119,6 +124,15 @@ func (obj *RetrievalLimits) GotenValidate() error {
 	return nil
 }
 func (obj *ReasoningConfig) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ToolSafetyConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

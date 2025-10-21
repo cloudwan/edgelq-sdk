@@ -315,6 +315,11 @@ func (obj *ResponseComplete) GotenValidate() error {
 			return gotenvalidate.NewValidationError("ResponseComplete", "usage", obj.Usage, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.CumulativeUsage).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ResponseComplete", "cumulativeUsage", obj.CumulativeUsage, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

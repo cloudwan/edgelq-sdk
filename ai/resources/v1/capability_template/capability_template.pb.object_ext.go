@@ -102,12 +102,6 @@ func (o *CapabilityTemplate) MakeDiffFieldMask(other *CapabilityTemplate) *Capab
 			}
 		}
 	}
-	if o.GetMaxToolRounds() != other.GetMaxToolRounds() {
-		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxToolRounds})
-	}
-	if o.GetDefaultModel() != other.GetDefaultModel() {
-		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel})
-	}
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisplayName})
 	}
@@ -141,6 +135,19 @@ func (o *CapabilityTemplate) MakeDiffFieldMask(other *CapabilityTemplate) *Capab
 		}
 	} else {
 		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorAllowedModels})
+	}
+	{
+		subMask := o.GetToolSafety().MakeDiffFieldMask(other.GetToolSafety())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety, subPath: subpath})
+			}
+		}
+	}
+	if o.GetDefaultModel().String() != other.GetDefaultModel().String() {
+		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel})
 	}
 	return res
 }
@@ -180,8 +187,6 @@ func (o *CapabilityTemplate) Clone() *CapabilityTemplate {
 		}
 	}
 	result.RagConfig = o.RagConfig.Clone()
-	result.MaxToolRounds = o.MaxToolRounds
-	result.DefaultModel = o.DefaultModel
 	result.DisplayName = o.DisplayName
 	result.Reasoning = o.Reasoning.Clone()
 	result.MaxOutputTokens = o.MaxOutputTokens
@@ -198,6 +203,17 @@ func (o *CapabilityTemplate) Clone() *CapabilityTemplate {
 			if err := result.AllowedModels[i].ParseProtoString(data); err != nil {
 				panic(err)
 			}
+		}
+	}
+	result.ToolSafety = o.ToolSafety.Clone()
+	if o.DefaultModel == nil {
+		result.DefaultModel = nil
+	} else if data, err := o.DefaultModel.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.DefaultModel = &chat_model.Name{}
+		if err := result.DefaultModel.ParseProtoString(data); err != nil {
+			panic(err)
 		}
 	}
 	return result
@@ -259,8 +275,6 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 		}
 		o.RagConfig.Merge(source.GetRagConfig())
 	}
-	o.MaxToolRounds = source.GetMaxToolRounds()
-	o.DefaultModel = source.GetDefaultModel()
 	o.DisplayName = source.GetDisplayName()
 	if source.GetReasoning() != nil {
 		if o.Reasoning == nil {
@@ -297,6 +311,24 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 		}
 	}
 
+	if source.GetToolSafety() != nil {
+		if o.ToolSafety == nil {
+			o.ToolSafety = new(ToolSafetyConfig)
+		}
+		o.ToolSafety.Merge(source.GetToolSafety())
+	}
+	if source.GetDefaultModel() != nil {
+		if data, err := source.GetDefaultModel().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.DefaultModel = &chat_model.Name{}
+			if err := o.DefaultModel.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.DefaultModel = nil
+	}
 }
 
 func (o *CapabilityTemplate) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -621,4 +653,64 @@ func (o *ReasoningConfig) Merge(source *ReasoningConfig) {
 
 func (o *ReasoningConfig) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ReasoningConfig))
+}
+
+func (o *ToolSafetyConfig) GotenObjectExt() {}
+
+func (o *ToolSafetyConfig) MakeFullFieldMask() *ToolSafetyConfig_FieldMask {
+	return FullToolSafetyConfig_FieldMask()
+}
+
+func (o *ToolSafetyConfig) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullToolSafetyConfig_FieldMask()
+}
+
+func (o *ToolSafetyConfig) MakeDiffFieldMask(other *ToolSafetyConfig) *ToolSafetyConfig_FieldMask {
+	if o == nil && other == nil {
+		return &ToolSafetyConfig_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullToolSafetyConfig_FieldMask()
+	}
+
+	res := &ToolSafetyConfig_FieldMask{}
+	if o.GetMaxConsecutiveToolCalls() != other.GetMaxConsecutiveToolCalls() {
+		res.Paths = append(res.Paths, &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveToolCalls})
+	}
+	if o.GetMaxConsecutiveIdenticalToolCalls() != other.GetMaxConsecutiveIdenticalToolCalls() {
+		res.Paths = append(res.Paths, &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveIdenticalToolCalls})
+	}
+	if o.GetMaxConsecutiveSameToolCalls() != other.GetMaxConsecutiveSameToolCalls() {
+		res.Paths = append(res.Paths, &ToolSafetyConfig_FieldTerminalPath{selector: ToolSafetyConfig_FieldPathSelectorMaxConsecutiveSameToolCalls})
+	}
+	return res
+}
+
+func (o *ToolSafetyConfig) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ToolSafetyConfig))
+}
+
+func (o *ToolSafetyConfig) Clone() *ToolSafetyConfig {
+	if o == nil {
+		return nil
+	}
+	result := &ToolSafetyConfig{}
+	result.MaxConsecutiveToolCalls = o.MaxConsecutiveToolCalls
+	result.MaxConsecutiveIdenticalToolCalls = o.MaxConsecutiveIdenticalToolCalls
+	result.MaxConsecutiveSameToolCalls = o.MaxConsecutiveSameToolCalls
+	return result
+}
+
+func (o *ToolSafetyConfig) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ToolSafetyConfig) Merge(source *ToolSafetyConfig) {
+	o.MaxConsecutiveToolCalls = source.GetMaxConsecutiveToolCalls()
+	o.MaxConsecutiveIdenticalToolCalls = source.GetMaxConsecutiveIdenticalToolCalls()
+	o.MaxConsecutiveSameToolCalls = source.GetMaxConsecutiveSameToolCalls()
+}
+
+func (o *ToolSafetyConfig) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ToolSafetyConfig))
 }

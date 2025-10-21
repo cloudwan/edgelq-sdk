@@ -51,8 +51,6 @@ message CreateRequest {
   bool disable_input_token_cache = 14;
 
   reserved 3, 10, 11;
-
-  reserved "model_override", "client_request_id", "skip_save";
 }
 
 // Server → Client messages
@@ -157,7 +155,11 @@ message ResponseComplete {
 
   StopReason stop_reason = 2;
 
-  TokenUsage usage = 3; // Token usage for the entire request
+  TokenUsage usage = 3; // Token usage for the current turn/request
+
+  // Cumulative usage across entire conversation (aggregates all turns)
+  // Only set for conversation requests, not set for non-conversation requests
+  TokenUsage cumulative_usage = 4;
 }
 
 message Error {

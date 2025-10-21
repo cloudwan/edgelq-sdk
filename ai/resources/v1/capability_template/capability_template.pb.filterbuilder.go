@@ -248,14 +248,6 @@ func (b *filterCndBuilder) RagConfig() *filterCndBuilderRagConfig {
 	return &filterCndBuilderRagConfig{builder: b.builder}
 }
 
-func (b *filterCndBuilder) MaxToolRounds() *filterCndBuilderMaxToolRounds {
-	return &filterCndBuilderMaxToolRounds{builder: b.builder}
-}
-
-func (b *filterCndBuilder) DefaultModel() *filterCndBuilderDefaultModel {
-	return &filterCndBuilderDefaultModel{builder: b.builder}
-}
-
 func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
 	return &filterCndBuilderDisplayName{builder: b.builder}
 }
@@ -278,6 +270,14 @@ func (b *filterCndBuilder) DisableInputTokenCache() *filterCndBuilderDisableInpu
 
 func (b *filterCndBuilder) AllowedModels() *filterCndBuilderAllowedModels {
 	return &filterCndBuilderAllowedModels{builder: b.builder}
+}
+
+func (b *filterCndBuilder) ToolSafety() *filterCndBuilderToolSafety {
+	return &filterCndBuilderToolSafety{builder: b.builder}
+}
+
+func (b *filterCndBuilder) DefaultModel() *filterCndBuilderDefaultModel {
+	return &filterCndBuilderDefaultModel{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -3428,124 +3428,6 @@ func (b *filterCndBuilderRagConfigUseAzureNativeRag) compare(op gotenfilter.Comp
 	})
 }
 
-type filterCndBuilderMaxToolRounds struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMaxToolRounds) Eq(value uint32) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMaxToolRounds) Neq(value uint32) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMaxToolRounds) Gt(value uint32) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMaxToolRounds) Gte(value uint32) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMaxToolRounds) Lt(value uint32) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMaxToolRounds) Lte(value uint32) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMaxToolRounds) In(values []uint32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().MaxToolRounds().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMaxToolRounds) NotIn(values []uint32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().MaxToolRounds().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMaxToolRounds) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewCapabilityTemplateFieldPathBuilder().MaxToolRounds().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMaxToolRounds) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewCapabilityTemplateFieldPathBuilder().MaxToolRounds().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMaxToolRounds) compare(op gotenfilter.CompareOperator, value uint32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                          op,
-		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().MaxToolRounds().WithValue(value),
-	})
-}
-
-type filterCndBuilderDefaultModel struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderDefaultModel) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderDefaultModel) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderDefaultModel) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderDefaultModel) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderDefaultModel) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderDefaultModel) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderDefaultModel) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().DefaultModel().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDefaultModel) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().DefaultModel().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDefaultModel) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewCapabilityTemplateFieldPathBuilder().DefaultModel().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDefaultModel) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewCapabilityTemplateFieldPathBuilder().DefaultModel().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDefaultModel) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                          op,
-		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().DefaultModel().WithValue(value),
-	})
-}
-
 type filterCndBuilderDisplayName struct {
 	builder *FilterBuilder
 }
@@ -4057,5 +3939,312 @@ func (b *filterCndBuilderAllowedModels) compare(op gotenfilter.CompareOperator, 
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().AllowedModels().WithValue(value),
+	})
+}
+
+type filterCndBuilderToolSafety struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderToolSafety) Eq(value *ToolSafetyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderToolSafety) Neq(value *ToolSafetyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderToolSafety) Gt(value *ToolSafetyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderToolSafety) Gte(value *ToolSafetyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderToolSafety) Lt(value *ToolSafetyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderToolSafety) Lte(value *ToolSafetyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderToolSafety) In(values []*ToolSafetyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().ToolSafety().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderToolSafety) NotIn(values []*ToolSafetyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().ToolSafety().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderToolSafety) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().ToolSafety().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderToolSafety) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().ToolSafety().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderToolSafety) compare(op gotenfilter.CompareOperator, value *ToolSafetyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().ToolSafety().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderToolSafety) MaxConsecutiveToolCalls() *filterCndBuilderToolSafetyMaxConsecutiveToolCalls {
+	return &filterCndBuilderToolSafetyMaxConsecutiveToolCalls{builder: b.builder}
+}
+
+func (b *filterCndBuilderToolSafety) MaxConsecutiveIdenticalToolCalls() *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls {
+	return &filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls{builder: b.builder}
+}
+
+func (b *filterCndBuilderToolSafety) MaxConsecutiveSameToolCalls() *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls {
+	return &filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls{builder: b.builder}
+}
+
+type filterCndBuilderToolSafetyMaxConsecutiveToolCalls struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) Eq(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) Neq(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) Gt(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) Gte(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) Lt(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) Lte(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) In(values []uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveToolCalls().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) NotIn(values []uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveToolCalls().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveToolCalls().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveToolCalls().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveToolCalls) compare(op gotenfilter.CompareOperator, value uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveToolCalls().WithValue(value),
+	})
+}
+
+type filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) Eq(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) Neq(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) Gt(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) Gte(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) Lt(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) Lte(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) In(values []uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveIdenticalToolCalls().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) NotIn(values []uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveIdenticalToolCalls().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveIdenticalToolCalls().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveIdenticalToolCalls().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveIdenticalToolCalls) compare(op gotenfilter.CompareOperator, value uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveIdenticalToolCalls().WithValue(value),
+	})
+}
+
+type filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) Eq(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) Neq(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) Gt(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) Gte(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) Lt(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) Lte(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) In(values []uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveSameToolCalls().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) NotIn(values []uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveSameToolCalls().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveSameToolCalls().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveSameToolCalls().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderToolSafetyMaxConsecutiveSameToolCalls) compare(op gotenfilter.CompareOperator, value uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().ToolSafety().MaxConsecutiveSameToolCalls().WithValue(value),
+	})
+}
+
+type filterCndBuilderDefaultModel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultModel) Eq(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultModel) Neq(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultModel) Gt(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultModel) Gte(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultModel) Lt(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultModel) Lte(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultModel) In(values []*chat_model.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().DefaultModel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultModel) NotIn(values []*chat_model.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().DefaultModel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultModel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().DefaultModel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultModel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().DefaultModel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultModel) compare(op gotenfilter.CompareOperator, value *chat_model.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().DefaultModel().WithValue(value),
 	})
 }
