@@ -81,31 +81,62 @@ message ThinkingContent {
 
 // Token usage information
 message TokenUsage {
-  int32 input_tokens = 1;
+  // === TOKEN TOTALS ===
+  int32 input_tokens = 1; // Total: fresh + cached + cache_writes
 
-  int32 output_tokens = 2;
+  int32 output_tokens = 2; // Total: regular + reasoning + audio
 
-  int32 total_tokens = 3;
+  int32 total_tokens = 3; // input_tokens + output_tokens
 
-  InputTokenDetails input_details = 4;
+  // === UNIVERSAL BREAKDOWNS (all providers map here) ===
+  InputTokenBreakdown input_breakdown = 13;
 
-  OutputTokenDetails output_details = 5;
+  OutputTokenBreakdown output_breakdown = 14;
+
+  // === PROVIDER-SPECIFIC ADVANCED DETAILS (optional) ===
+  InputTokenDetails input_details = 4; // Anthropic TTL, Gemini modality, etc.
+
+  OutputTokenDetails output_details =
+      5; // OpenAI predictions, Gemini modality, etc.
 
   TokenUsageMetadata metadata = 6;
 
-  // Cost for this usage record, computed using the serving model's pricing.
+  // === COST BREAKDOWN (1:1 mapping to breakdown categories) ===
   // Costs are zero when pricing is unknown.
-  google.type.Money input_cost = 7;
+  google.type.Money input_cost = 7; // Cost for fresh_input tokens
 
-  google.type.Money cached_input_cost = 8;
+  google.type.Money cached_input_cost = 8; // Cost for cached_input tokens
 
-  google.type.Money cache_write_five_min_cost = 9;
+  google.type.Money cache_write_five_min_cost =
+      9; // Cost for cache_write_five_min tokens
 
-  google.type.Money cache_write_one_hour_cost = 10;
+  google.type.Money cache_write_one_hour_cost =
+      10; // Cost for cache_write_one_hour tokens
 
-  google.type.Money output_cost = 11;
+  google.type.Money output_cost = 11; // Cost for output tokens (all types)
 
-  google.type.Money total_cost = 12;
+  google.type.Money total_cost = 12; // Sum of all costs
+}
+
+// Universal input token breakdown (all providers map here)
+message InputTokenBreakdown {
+  int32 fresh_input = 1; // New input tokens processed (not from cache)
+
+  int32 cached_input = 2; // Input tokens served from cache (cache hits)
+
+  int32 cache_write_five_min = 3; // Tokens written to cache with 5-minute TTL
+
+  int32 cache_write_one_hour = 4; // Tokens written to cache with 1-hour TTL
+}
+
+// Universal output token breakdown (all providers map here)
+message OutputTokenBreakdown {
+  int32 regular_output = 1; // Regular completion tokens
+
+  int32 reasoning_output =
+      2; // Reasoning/thinking tokens (o1, Gemini thinking, DeepSeek-R1, etc.)
+
+  int32 audio_output = 3; // Audio output tokens
 }
 
 // Metadata about the request (provider, model, service tier)

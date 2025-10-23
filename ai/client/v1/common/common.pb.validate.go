@@ -183,6 +183,16 @@ func (obj *TokenUsage) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	if subobj, ok := interface{}(obj.InputBreakdown).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "inputBreakdown", obj.InputBreakdown, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.OutputBreakdown).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("TokenUsage", "outputBreakdown", obj.OutputBreakdown, "nested object validation failed", err)
+		}
+	}
 	if subobj, ok := interface{}(obj.InputDetails).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("TokenUsage", "inputDetails", obj.InputDetails, "nested object validation failed", err)
@@ -227,6 +237,24 @@ func (obj *TokenUsage) GotenValidate() error {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("TokenUsage", "totalCost", obj.TotalCost, "nested object validation failed", err)
 		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *InputTokenBreakdown) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *OutputTokenBreakdown) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
