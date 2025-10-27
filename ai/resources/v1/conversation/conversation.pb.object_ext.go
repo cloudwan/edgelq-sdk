@@ -315,16 +315,16 @@ func (o *ConversationTurn) MakeDiffFieldMask(other *ConversationTurn) *Conversat
 		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorDuration})
 	}
 
-	if len(o.GetAvailableTools()) == len(other.GetAvailableTools()) {
-		for i, lValue := range o.GetAvailableTools() {
-			rValue := other.GetAvailableTools()[i]
-			if lValue != rValue {
-				res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableTools})
+	if len(o.GetAvailableToolsBySource()) == len(other.GetAvailableToolsBySource()) {
+		for i, lValue := range o.GetAvailableToolsBySource() {
+			rValue := other.GetAvailableToolsBySource()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource})
 				break
 			}
 		}
 	} else {
-		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableTools})
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource})
 	}
 	return res
 }
@@ -348,9 +348,9 @@ func (o *ConversationTurn) Clone() *ConversationTurn {
 	result.Usage = proto.Clone(o.Usage).(*common_client.TokenUsage)
 	result.StopReason = o.StopReason
 	result.Duration = proto.Clone(o.Duration).(*durationpb.Duration)
-	result.AvailableTools = make([]string, len(o.AvailableTools))
-	for i, sourceValue := range o.AvailableTools {
-		result.AvailableTools[i] = sourceValue
+	result.AvailableToolsBySource = make([]*TurnToolsBySourceGroup, len(o.AvailableToolsBySource))
+	for i, sourceValue := range o.AvailableToolsBySource {
+		result.AvailableToolsBySource[i] = sourceValue.Clone()
 	}
 	return result
 }
@@ -404,9 +404,187 @@ func (o *ConversationTurn) Merge(source *ConversationTurn) {
 		}
 		proto.Merge(o.Duration, source.GetDuration())
 	}
-	for _, sourceValue := range source.GetAvailableTools() {
+	for _, sourceValue := range source.GetAvailableToolsBySource() {
 		exists := false
-		for _, currentValue := range o.AvailableTools {
+		for _, currentValue := range o.AvailableToolsBySource {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *TurnToolsBySourceGroup
+			if sourceValue != nil {
+				newDstElement = new(TurnToolsBySourceGroup)
+				newDstElement.Merge(sourceValue)
+			}
+			o.AvailableToolsBySource = append(o.AvailableToolsBySource, newDstElement)
+		}
+	}
+
+}
+
+func (o *ConversationTurn) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ConversationTurn))
+}
+
+func (o *TurnToolsBySourceGroup) GotenObjectExt() {}
+
+func (o *TurnToolsBySourceGroup) MakeFullFieldMask() *TurnToolsBySourceGroup_FieldMask {
+	return FullTurnToolsBySourceGroup_FieldMask()
+}
+
+func (o *TurnToolsBySourceGroup) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullTurnToolsBySourceGroup_FieldMask()
+}
+
+func (o *TurnToolsBySourceGroup) MakeDiffFieldMask(other *TurnToolsBySourceGroup) *TurnToolsBySourceGroup_FieldMask {
+	if o == nil && other == nil {
+		return &TurnToolsBySourceGroup_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullTurnToolsBySourceGroup_FieldMask()
+	}
+
+	res := &TurnToolsBySourceGroup_FieldMask{}
+	{
+		_, leftSelected := o.Source.(*TurnToolsBySourceGroup_Client)
+		_, rightSelected := other.Source.(*TurnToolsBySourceGroup_Client)
+		if leftSelected == rightSelected {
+			if !proto.Equal(o.GetClient(), other.GetClient()) {
+				res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorClient})
+			}
+		} else {
+			res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorClient})
+		}
+	}
+	{
+		_, leftSelected := o.Source.(*TurnToolsBySourceGroup_Connector)
+		_, rightSelected := other.Source.(*TurnToolsBySourceGroup_Connector)
+		if leftSelected == rightSelected {
+			if !proto.Equal(o.GetConnector(), other.GetConnector()) {
+				res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorConnector})
+			}
+		} else {
+			res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorConnector})
+		}
+	}
+	{
+		_, leftSelected := o.Source.(*TurnToolsBySourceGroup_Internal)
+		_, rightSelected := other.Source.(*TurnToolsBySourceGroup_Internal)
+		if leftSelected == rightSelected {
+			if !proto.Equal(o.GetInternal(), other.GetInternal()) {
+				res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorInternal})
+			}
+		} else {
+			res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorInternal})
+		}
+	}
+
+	if len(o.GetToolNames()) == len(other.GetToolNames()) {
+		for i, lValue := range o.GetToolNames() {
+			rValue := other.GetToolNames()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorToolNames})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorToolNames})
+	}
+	return res
+}
+
+func (o *TurnToolsBySourceGroup) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*TurnToolsBySourceGroup))
+}
+
+func (o *TurnToolsBySourceGroup) Clone() *TurnToolsBySourceGroup {
+	if o == nil {
+		return nil
+	}
+	result := &TurnToolsBySourceGroup{}
+	if o, ok := o.Source.(*TurnToolsBySourceGroup_Client); ok {
+		result.Source = (*TurnToolsBySourceGroup_Client)(nil)
+		if o != nil {
+			result.Source = &TurnToolsBySourceGroup_Client{}
+			result := result.Source.(*TurnToolsBySourceGroup_Client)
+			result.Client = proto.Clone(o.Client).(*common_client.ClientToolSource)
+		}
+	}
+	if o, ok := o.Source.(*TurnToolsBySourceGroup_Connector); ok {
+		result.Source = (*TurnToolsBySourceGroup_Connector)(nil)
+		if o != nil {
+			result.Source = &TurnToolsBySourceGroup_Connector{}
+			result := result.Source.(*TurnToolsBySourceGroup_Connector)
+			result.Connector = proto.Clone(o.Connector).(*common_client.ConnectorToolSource)
+		}
+	}
+	if o, ok := o.Source.(*TurnToolsBySourceGroup_Internal); ok {
+		result.Source = (*TurnToolsBySourceGroup_Internal)(nil)
+		if o != nil {
+			result.Source = &TurnToolsBySourceGroup_Internal{}
+			result := result.Source.(*TurnToolsBySourceGroup_Internal)
+			result.Internal = proto.Clone(o.Internal).(*common_client.InternalToolSource)
+		}
+	}
+	result.ToolNames = make([]string, len(o.ToolNames))
+	for i, sourceValue := range o.ToolNames {
+		result.ToolNames[i] = sourceValue
+	}
+	return result
+}
+
+func (o *TurnToolsBySourceGroup) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *TurnToolsBySourceGroup) Merge(source *TurnToolsBySourceGroup) {
+	if source, ok := source.GetSource().(*TurnToolsBySourceGroup_Client); ok {
+		if dstOneOf, ok := o.Source.(*TurnToolsBySourceGroup_Client); !ok || dstOneOf == nil {
+			o.Source = &TurnToolsBySourceGroup_Client{}
+		}
+		if source != nil {
+			o := o.Source.(*TurnToolsBySourceGroup_Client)
+			if source.Client != nil {
+				if o.Client == nil {
+					o.Client = new(common_client.ClientToolSource)
+				}
+				proto.Merge(o.Client, source.Client)
+			}
+		}
+	}
+	if source, ok := source.GetSource().(*TurnToolsBySourceGroup_Connector); ok {
+		if dstOneOf, ok := o.Source.(*TurnToolsBySourceGroup_Connector); !ok || dstOneOf == nil {
+			o.Source = &TurnToolsBySourceGroup_Connector{}
+		}
+		if source != nil {
+			o := o.Source.(*TurnToolsBySourceGroup_Connector)
+			if source.Connector != nil {
+				if o.Connector == nil {
+					o.Connector = new(common_client.ConnectorToolSource)
+				}
+				proto.Merge(o.Connector, source.Connector)
+			}
+		}
+	}
+	if source, ok := source.GetSource().(*TurnToolsBySourceGroup_Internal); ok {
+		if dstOneOf, ok := o.Source.(*TurnToolsBySourceGroup_Internal); !ok || dstOneOf == nil {
+			o.Source = &TurnToolsBySourceGroup_Internal{}
+		}
+		if source != nil {
+			o := o.Source.(*TurnToolsBySourceGroup_Internal)
+			if source.Internal != nil {
+				if o.Internal == nil {
+					o.Internal = new(common_client.InternalToolSource)
+				}
+				proto.Merge(o.Internal, source.Internal)
+			}
+		}
+	}
+	for _, sourceValue := range source.GetToolNames() {
+		exists := false
+		for _, currentValue := range o.ToolNames {
 			if currentValue == sourceValue {
 				exists = true
 				break
@@ -415,14 +593,14 @@ func (o *ConversationTurn) Merge(source *ConversationTurn) {
 		if !exists {
 			var newDstElement string
 			newDstElement = sourceValue
-			o.AvailableTools = append(o.AvailableTools, newDstElement)
+			o.ToolNames = append(o.ToolNames, newDstElement)
 		}
 	}
 
 }
 
-func (o *ConversationTurn) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*ConversationTurn))
+func (o *TurnToolsBySourceGroup) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*TurnToolsBySourceGroup))
 }
 
 func (o *TurnConfig) GotenObjectExt() {}

@@ -84,8 +84,23 @@ message ConversationTurn {
   // Duration of the API call
   google.protobuf.Duration duration = 7;
 
-  // Tool names that were available in this turn
-  repeated string available_tools = 8;
+  // Tools grouped by source (authoritative for resume)
+  repeated TurnToolsBySourceGroup available_tools_by_source = 9;
+
+  reserved 8;
+}
+
+// Group tools by source to avoid duplicating source per tool
+message TurnToolsBySourceGroup {
+  oneof source {
+    ClientToolSource client = 1;
+
+    ConnectorToolSource connector = 2;
+
+    InternalToolSource internal = 3;
+  }
+
+  repeated string tool_names = 4; // exact names as sent to LLM
 }
 
 // Configuration snapshot for a single turn

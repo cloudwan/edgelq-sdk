@@ -1306,14 +1306,14 @@ type ConversationTurn_FieldPath interface {
 type ConversationTurn_FieldPathSelector int32
 
 const (
-	ConversationTurn_FieldPathSelectorTurnNumber     ConversationTurn_FieldPathSelector = 0
-	ConversationTurn_FieldPathSelectorTimestamp      ConversationTurn_FieldPathSelector = 1
-	ConversationTurn_FieldPathSelectorMessages       ConversationTurn_FieldPathSelector = 2
-	ConversationTurn_FieldPathSelectorConfig         ConversationTurn_FieldPathSelector = 3
-	ConversationTurn_FieldPathSelectorUsage          ConversationTurn_FieldPathSelector = 4
-	ConversationTurn_FieldPathSelectorStopReason     ConversationTurn_FieldPathSelector = 5
-	ConversationTurn_FieldPathSelectorDuration       ConversationTurn_FieldPathSelector = 6
-	ConversationTurn_FieldPathSelectorAvailableTools ConversationTurn_FieldPathSelector = 7
+	ConversationTurn_FieldPathSelectorTurnNumber             ConversationTurn_FieldPathSelector = 0
+	ConversationTurn_FieldPathSelectorTimestamp              ConversationTurn_FieldPathSelector = 1
+	ConversationTurn_FieldPathSelectorMessages               ConversationTurn_FieldPathSelector = 2
+	ConversationTurn_FieldPathSelectorConfig                 ConversationTurn_FieldPathSelector = 3
+	ConversationTurn_FieldPathSelectorUsage                  ConversationTurn_FieldPathSelector = 4
+	ConversationTurn_FieldPathSelectorStopReason             ConversationTurn_FieldPathSelector = 5
+	ConversationTurn_FieldPathSelectorDuration               ConversationTurn_FieldPathSelector = 6
+	ConversationTurn_FieldPathSelectorAvailableToolsBySource ConversationTurn_FieldPathSelector = 7
 )
 
 func (s ConversationTurn_FieldPathSelector) String() string {
@@ -1332,8 +1332,8 @@ func (s ConversationTurn_FieldPathSelector) String() string {
 		return "stop_reason"
 	case ConversationTurn_FieldPathSelectorDuration:
 		return "duration"
-	case ConversationTurn_FieldPathSelectorAvailableTools:
-		return "available_tools"
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		return "available_tools_by_source"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", s))
 	}
@@ -1359,8 +1359,8 @@ func BuildConversationTurn_FieldPath(fp gotenobject.RawFieldPath) (ConversationT
 			return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorStopReason}, nil
 		case "duration":
 			return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorDuration}, nil
-		case "available_tools", "availableTools", "available-tools":
-			return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableTools}, nil
+		case "available_tools_by_source", "availableToolsBySource", "available-tools-by-source":
+			return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1369,6 +1369,12 @@ func BuildConversationTurn_FieldPath(fp gotenobject.RawFieldPath) (ConversationT
 				return nil, err
 			} else {
 				return &ConversationTurn_FieldSubPath{selector: ConversationTurn_FieldPathSelectorConfig, subPath: subpath}, nil
+			}
+		case "available_tools_by_source", "availableToolsBySource", "available-tools-by-source":
+			if subpath, err := BuildTurnToolsBySourceGroup_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ConversationTurn_FieldSubPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource, subPath: subpath}, nil
 			}
 		}
 	}
@@ -1439,8 +1445,8 @@ func (fp *ConversationTurn_FieldTerminalPath) Get(source *ConversationTurn) (val
 			if source.Duration != nil {
 				values = append(values, source.Duration)
 			}
-		case ConversationTurn_FieldPathSelectorAvailableTools:
-			for _, value := range source.GetAvailableTools() {
+		case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+			for _, value := range source.GetAvailableToolsBySource() {
 				values = append(values, value)
 			}
 		default:
@@ -1476,8 +1482,8 @@ func (fp *ConversationTurn_FieldTerminalPath) GetSingle(source *ConversationTurn
 	case ConversationTurn_FieldPathSelectorDuration:
 		res := source.GetDuration()
 		return res, res != nil
-	case ConversationTurn_FieldPathSelectorAvailableTools:
-		res := source.GetAvailableTools()
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		res := source.GetAvailableToolsBySource()
 		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
@@ -1505,8 +1511,8 @@ func (fp *ConversationTurn_FieldTerminalPath) GetDefault() interface{} {
 		return common_client.StopReason_STOP_REASON_UNSPECIFIED
 	case ConversationTurn_FieldPathSelectorDuration:
 		return (*durationpb.Duration)(nil)
-	case ConversationTurn_FieldPathSelectorAvailableTools:
-		return ([]string)(nil)
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		return ([]*TurnToolsBySourceGroup)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 	}
@@ -1529,8 +1535,8 @@ func (fp *ConversationTurn_FieldTerminalPath) ClearValue(item *ConversationTurn)
 			item.StopReason = common_client.StopReason_STOP_REASON_UNSPECIFIED
 		case ConversationTurn_FieldPathSelectorDuration:
 			item.Duration = nil
-		case ConversationTurn_FieldPathSelectorAvailableTools:
-			item.AvailableTools = nil
+		case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+			item.AvailableToolsBySource = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 		}
@@ -1548,8 +1554,7 @@ func (fp *ConversationTurn_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ConversationTurn_FieldPathSelectorMessages ||
 		fp.selector == ConversationTurn_FieldPathSelectorUsage ||
 		fp.selector == ConversationTurn_FieldPathSelectorStopReason ||
-		fp.selector == ConversationTurn_FieldPathSelectorDuration ||
-		fp.selector == ConversationTurn_FieldPathSelectorAvailableTools
+		fp.selector == ConversationTurn_FieldPathSelectorDuration
 }
 
 func (fp *ConversationTurn_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1572,8 +1577,8 @@ func (fp *ConversationTurn_FieldTerminalPath) WithIValue(value interface{}) Conv
 		return &ConversationTurn_FieldTerminalPathValue{ConversationTurn_FieldTerminalPath: *fp, value: value.(common_client.StopReason)}
 	case ConversationTurn_FieldPathSelectorDuration:
 		return &ConversationTurn_FieldTerminalPathValue{ConversationTurn_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case ConversationTurn_FieldPathSelectorAvailableTools:
-		return &ConversationTurn_FieldTerminalPathValue{ConversationTurn_FieldTerminalPath: *fp, value: value.([]string)}
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		return &ConversationTurn_FieldTerminalPathValue{ConversationTurn_FieldTerminalPath: *fp, value: value.([]*TurnToolsBySourceGroup)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 	}
@@ -1600,8 +1605,8 @@ func (fp *ConversationTurn_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &ConversationTurn_FieldTerminalPathArrayOfValues{ConversationTurn_FieldTerminalPath: *fp, values: values.([]common_client.StopReason)}
 	case ConversationTurn_FieldPathSelectorDuration:
 		return &ConversationTurn_FieldTerminalPathArrayOfValues{ConversationTurn_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case ConversationTurn_FieldPathSelectorAvailableTools:
-		return &ConversationTurn_FieldTerminalPathArrayOfValues{ConversationTurn_FieldTerminalPath: *fp, values: values.([][]string)}
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		return &ConversationTurn_FieldTerminalPathArrayOfValues{ConversationTurn_FieldTerminalPath: *fp, values: values.([][]*TurnToolsBySourceGroup)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 	}
@@ -1616,8 +1621,8 @@ func (fp *ConversationTurn_FieldTerminalPath) WithIArrayItemValue(value interfac
 	switch fp.selector {
 	case ConversationTurn_FieldPathSelectorMessages:
 		return &ConversationTurn_FieldTerminalPathArrayItemValue{ConversationTurn_FieldTerminalPath: *fp, value: value.(*common_client.Message)}
-	case ConversationTurn_FieldPathSelectorAvailableTools:
-		return &ConversationTurn_FieldTerminalPathArrayItemValue{ConversationTurn_FieldTerminalPath: *fp, value: value.(string)}
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		return &ConversationTurn_FieldTerminalPathArrayItemValue{ConversationTurn_FieldTerminalPath: *fp, value: value.(*TurnToolsBySourceGroup)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 	}
@@ -1641,6 +1646,10 @@ func (fps *ConversationTurn_FieldSubPath) AsConfigSubPath() (TurnConfig_FieldPat
 	res, ok := fps.subPath.(TurnConfig_FieldPath)
 	return res, ok
 }
+func (fps *ConversationTurn_FieldSubPath) AsAvailableToolsBySourceSubPath() (TurnToolsBySourceGroup_FieldPath, bool) {
+	res, ok := fps.subPath.(TurnToolsBySourceGroup_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ConversationTurn_FieldSubPath) String() string {
@@ -1657,6 +1666,10 @@ func (fps *ConversationTurn_FieldSubPath) Get(source *ConversationTurn) (values 
 	switch fps.selector {
 	case ConversationTurn_FieldPathSelectorConfig:
 		values = append(values, fps.subPath.GetRaw(source.GetConfig())...)
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		for _, item := range source.GetAvailableToolsBySource() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fps.selector))
 	}
@@ -1675,6 +1688,11 @@ func (fps *ConversationTurn_FieldSubPath) GetSingle(source *ConversationTurn) (i
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetConfig())
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		if len(source.GetAvailableToolsBySource()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetAvailableToolsBySource()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fps.selector))
 	}
@@ -1694,6 +1712,10 @@ func (fps *ConversationTurn_FieldSubPath) ClearValue(item *ConversationTurn) {
 		switch fps.selector {
 		case ConversationTurn_FieldPathSelectorConfig:
 			fps.subPath.ClearValueRaw(item.Config)
+		case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+			for _, subItem := range item.AvailableToolsBySource {
+				fps.subPath.ClearValueRaw(subItem)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fps.selector))
 		}
@@ -1806,8 +1828,8 @@ func (fpv *ConversationTurn_FieldTerminalPathValue) AsDurationValue() (*duration
 	res, ok := fpv.value.(*durationpb.Duration)
 	return res, ok
 }
-func (fpv *ConversationTurn_FieldTerminalPathValue) AsAvailableToolsValue() ([]string, bool) {
-	res, ok := fpv.value.([]string)
+func (fpv *ConversationTurn_FieldTerminalPathValue) AsAvailableToolsBySourceValue() ([]*TurnToolsBySourceGroup, bool) {
+	res, ok := fpv.value.([]*TurnToolsBySourceGroup)
 	return res, ok
 }
 
@@ -1831,8 +1853,8 @@ func (fpv *ConversationTurn_FieldTerminalPathValue) SetTo(target **ConversationT
 		(*target).StopReason = fpv.value.(common_client.StopReason)
 	case ConversationTurn_FieldPathSelectorDuration:
 		(*target).Duration = fpv.value.(*durationpb.Duration)
-	case ConversationTurn_FieldPathSelectorAvailableTools:
-		(*target).AvailableTools = fpv.value.([]string)
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		(*target).AvailableToolsBySource = fpv.value.([]*TurnToolsBySourceGroup)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fpv.selector))
 	}
@@ -1910,7 +1932,7 @@ func (fpv *ConversationTurn_FieldTerminalPathValue) CompareWith(source *Conversa
 		} else {
 			return 1, true
 		}
-	case ConversationTurn_FieldPathSelectorAvailableTools:
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fpv.selector))
@@ -1932,6 +1954,10 @@ func (fpvs *ConversationTurn_FieldSubPathValue) AsConfigPathValue() (TurnConfig_
 	res, ok := fpvs.subPathValue.(TurnConfig_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ConversationTurn_FieldSubPathValue) AsAvailableToolsBySourcePathValue() (TurnToolsBySourceGroup_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(TurnToolsBySourceGroup_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ConversationTurn_FieldSubPathValue) SetTo(target **ConversationTurn) {
 	if *target == nil {
@@ -1940,6 +1966,8 @@ func (fpvs *ConversationTurn_FieldSubPathValue) SetTo(target **ConversationTurn)
 	switch fpvs.Selector() {
 	case ConversationTurn_FieldPathSelectorConfig:
 		fpvs.subPathValue.(TurnConfig_FieldPathValue).SetTo(&(*target).Config)
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fpvs.Selector()))
 	}
@@ -1958,6 +1986,8 @@ func (fpvs *ConversationTurn_FieldSubPathValue) CompareWith(source *Conversation
 	switch fpvs.Selector() {
 	case ConversationTurn_FieldPathSelectorConfig:
 		return fpvs.subPathValue.(TurnConfig_FieldPathValue).CompareWith(source.GetConfig())
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fpvs.Selector()))
 	}
@@ -2011,8 +2041,8 @@ func (fpaiv *ConversationTurn_FieldTerminalPathArrayItemValue) AsMessagesItemVal
 	res, ok := fpaiv.value.(*common_client.Message)
 	return res, ok
 }
-func (fpaiv *ConversationTurn_FieldTerminalPathArrayItemValue) AsAvailableToolsItemValue() (string, bool) {
-	res, ok := fpaiv.value.(string)
+func (fpaiv *ConversationTurn_FieldTerminalPathArrayItemValue) AsAvailableToolsBySourceItemValue() (*TurnToolsBySourceGroup, bool) {
+	res, ok := fpaiv.value.(*TurnToolsBySourceGroup)
 	return res, ok
 }
 
@@ -2052,12 +2082,18 @@ func (fpaivs *ConversationTurn_FieldSubPathArrayItemValue) AsConfigPathItemValue
 	res, ok := fpaivs.subPathItemValue.(TurnConfig_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ConversationTurn_FieldSubPathArrayItemValue) AsAvailableToolsBySourcePathItemValue() (TurnToolsBySourceGroup_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(TurnToolsBySourceGroup_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ConversationTurn'
 func (fpaivs *ConversationTurn_FieldSubPathArrayItemValue) ContainsValue(source *ConversationTurn) bool {
 	switch fpaivs.Selector() {
 	case ConversationTurn_FieldPathSelectorConfig:
 		return fpaivs.subPathItemValue.(TurnConfig_FieldPathArrayItemValue).ContainsValue(source.GetConfig())
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fpaivs.Selector()))
 	}
@@ -2126,8 +2162,8 @@ func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]*durationpb.Duration) {
 			values = append(values, v)
 		}
-	case ConversationTurn_FieldPathSelectorAvailableTools:
-		for _, v := range fpaov.values.([][]string) {
+	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+		for _, v := range fpaov.values.([][]*TurnToolsBySourceGroup) {
 			values = append(values, v)
 		}
 	}
@@ -2161,8 +2197,8 @@ func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) AsDurationArrayOfV
 	res, ok := fpaov.values.([]*durationpb.Duration)
 	return res, ok
 }
-func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) AsAvailableToolsArrayOfValues() ([][]string, bool) {
-	res, ok := fpaov.values.([][]string)
+func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) AsAvailableToolsBySourceArrayOfValues() ([][]*TurnToolsBySourceGroup, bool) {
+	res, ok := fpaov.values.([][]*TurnToolsBySourceGroup)
 	return res, ok
 }
 
@@ -2178,6 +2214,546 @@ func (fpsaov *ConversationTurn_FieldSubPathArrayOfValues) GetRawValues() []inter
 }
 func (fpsaov *ConversationTurn_FieldSubPathArrayOfValues) AsConfigPathArrayOfValues() (TurnConfig_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(TurnConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ConversationTurn_FieldSubPathArrayOfValues) AsAvailableToolsBySourcePathArrayOfValues() (TurnToolsBySourceGroup_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(TurnToolsBySourceGroup_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type TurnToolsBySourceGroup_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() TurnToolsBySourceGroup_FieldPathSelector
+	Get(source *TurnToolsBySourceGroup) []interface{}
+	GetSingle(source *TurnToolsBySourceGroup) (interface{}, bool)
+	ClearValue(item *TurnToolsBySourceGroup)
+
+	// Those methods build corresponding TurnToolsBySourceGroup_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) TurnToolsBySourceGroup_FieldPathValue
+	WithIArrayOfValues(values interface{}) TurnToolsBySourceGroup_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) TurnToolsBySourceGroup_FieldPathArrayItemValue
+}
+
+type TurnToolsBySourceGroup_FieldPathSelector int32
+
+const (
+	TurnToolsBySourceGroup_FieldPathSelectorClient    TurnToolsBySourceGroup_FieldPathSelector = 0
+	TurnToolsBySourceGroup_FieldPathSelectorConnector TurnToolsBySourceGroup_FieldPathSelector = 1
+	TurnToolsBySourceGroup_FieldPathSelectorInternal  TurnToolsBySourceGroup_FieldPathSelector = 2
+	TurnToolsBySourceGroup_FieldPathSelectorToolNames TurnToolsBySourceGroup_FieldPathSelector = 3
+)
+
+func (s TurnToolsBySourceGroup_FieldPathSelector) String() string {
+	switch s {
+	case TurnToolsBySourceGroup_FieldPathSelectorClient:
+		return "client"
+	case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+		return "connector"
+	case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+		return "internal"
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		return "tool_names"
+	default:
+		panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", s))
+	}
+}
+
+func BuildTurnToolsBySourceGroup_FieldPath(fp gotenobject.RawFieldPath) (TurnToolsBySourceGroup_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object TurnToolsBySourceGroup")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "client":
+			return &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorClient}, nil
+		case "connector":
+			return &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorConnector}, nil
+		case "internal":
+			return &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorInternal}, nil
+		case "tool_names", "toolNames", "tool-names":
+			return &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorToolNames}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TurnToolsBySourceGroup", fp)
+}
+
+func ParseTurnToolsBySourceGroup_FieldPath(rawField string) (TurnToolsBySourceGroup_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildTurnToolsBySourceGroup_FieldPath(fp)
+}
+
+func MustParseTurnToolsBySourceGroup_FieldPath(rawField string) TurnToolsBySourceGroup_FieldPath {
+	fp, err := ParseTurnToolsBySourceGroup_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type TurnToolsBySourceGroup_FieldTerminalPath struct {
+	selector TurnToolsBySourceGroup_FieldPathSelector
+}
+
+var _ TurnToolsBySourceGroup_FieldPath = (*TurnToolsBySourceGroup_FieldTerminalPath)(nil)
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) Selector() TurnToolsBySourceGroup_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source TurnToolsBySourceGroup
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) Get(source *TurnToolsBySourceGroup) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case TurnToolsBySourceGroup_FieldPathSelectorClient:
+			if source, ok := source.Source.(*TurnToolsBySourceGroup_Client); ok && source != nil {
+				if source.Client != nil {
+					values = append(values, source.Client)
+				}
+			}
+		case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+			if source, ok := source.Source.(*TurnToolsBySourceGroup_Connector); ok && source != nil {
+				if source.Connector != nil {
+					values = append(values, source.Connector)
+				}
+			}
+		case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+			if source, ok := source.Source.(*TurnToolsBySourceGroup_Internal); ok && source != nil {
+				if source.Internal != nil {
+					values = append(values, source.Internal)
+				}
+			}
+		case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+			for _, value := range source.GetToolNames() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*TurnToolsBySourceGroup))
+}
+
+// GetSingle returns value pointed by specific field of from source TurnToolsBySourceGroup
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) GetSingle(source *TurnToolsBySourceGroup) (interface{}, bool) {
+	switch fp.selector {
+	case TurnToolsBySourceGroup_FieldPathSelectorClient:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetClient(), false
+		}
+		_, oneOfSelected := source.Source.(*TurnToolsBySourceGroup_Client)
+		if !oneOfSelected {
+			return source.GetClient(), false // to return "type" information
+		}
+		res := source.GetClient()
+		return res, res != nil
+	case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetConnector(), false
+		}
+		_, oneOfSelected := source.Source.(*TurnToolsBySourceGroup_Connector)
+		if !oneOfSelected {
+			return source.GetConnector(), false // to return "type" information
+		}
+		res := source.GetConnector()
+		return res, res != nil
+	case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetInternal(), false
+		}
+		_, oneOfSelected := source.Source.(*TurnToolsBySourceGroup_Internal)
+		if !oneOfSelected {
+			return source.GetInternal(), false // to return "type" information
+		}
+		res := source.GetInternal()
+		return res, res != nil
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		res := source.GetToolNames()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fp.selector))
+	}
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*TurnToolsBySourceGroup))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case TurnToolsBySourceGroup_FieldPathSelectorClient:
+		return (*common_client.ClientToolSource)(nil)
+	case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+		return (*common_client.ConnectorToolSource)(nil)
+	case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+		return (*common_client.InternalToolSource)(nil)
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fp.selector))
+	}
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) ClearValue(item *TurnToolsBySourceGroup) {
+	if item != nil {
+		switch fp.selector {
+		case TurnToolsBySourceGroup_FieldPathSelectorClient:
+			if item, ok := item.Source.(*TurnToolsBySourceGroup_Client); ok {
+				item.Client = nil
+			}
+		case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+			if item, ok := item.Source.(*TurnToolsBySourceGroup_Connector); ok {
+				item.Connector = nil
+			}
+		case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+			if item, ok := item.Source.(*TurnToolsBySourceGroup_Internal); ok {
+				item.Internal = nil
+			}
+		case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+			item.ToolNames = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*TurnToolsBySourceGroup))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == TurnToolsBySourceGroup_FieldPathSelectorClient ||
+		fp.selector == TurnToolsBySourceGroup_FieldPathSelectorConnector ||
+		fp.selector == TurnToolsBySourceGroup_FieldPathSelectorInternal ||
+		fp.selector == TurnToolsBySourceGroup_FieldPathSelectorToolNames
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) WithIValue(value interface{}) TurnToolsBySourceGroup_FieldPathValue {
+	switch fp.selector {
+	case TurnToolsBySourceGroup_FieldPathSelectorClient:
+		return &TurnToolsBySourceGroup_FieldTerminalPathValue{TurnToolsBySourceGroup_FieldTerminalPath: *fp, value: value.(*common_client.ClientToolSource)}
+	case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+		return &TurnToolsBySourceGroup_FieldTerminalPathValue{TurnToolsBySourceGroup_FieldTerminalPath: *fp, value: value.(*common_client.ConnectorToolSource)}
+	case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+		return &TurnToolsBySourceGroup_FieldTerminalPathValue{TurnToolsBySourceGroup_FieldTerminalPath: *fp, value: value.(*common_client.InternalToolSource)}
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		return &TurnToolsBySourceGroup_FieldTerminalPathValue{TurnToolsBySourceGroup_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fp.selector))
+	}
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) WithIArrayOfValues(values interface{}) TurnToolsBySourceGroup_FieldPathArrayOfValues {
+	fpaov := &TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues{TurnToolsBySourceGroup_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case TurnToolsBySourceGroup_FieldPathSelectorClient:
+		return &TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues{TurnToolsBySourceGroup_FieldTerminalPath: *fp, values: values.([]*common_client.ClientToolSource)}
+	case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+		return &TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues{TurnToolsBySourceGroup_FieldTerminalPath: *fp, values: values.([]*common_client.ConnectorToolSource)}
+	case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+		return &TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues{TurnToolsBySourceGroup_FieldTerminalPath: *fp, values: values.([]*common_client.InternalToolSource)}
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		return &TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues{TurnToolsBySourceGroup_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) WithIArrayItemValue(value interface{}) TurnToolsBySourceGroup_FieldPathArrayItemValue {
+	switch fp.selector {
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		return &TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue{TurnToolsBySourceGroup_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fp.selector))
+	}
+}
+
+func (fp *TurnToolsBySourceGroup_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// TurnToolsBySourceGroup_FieldPathValue allows storing values for TurnToolsBySourceGroup fields according to their type
+type TurnToolsBySourceGroup_FieldPathValue interface {
+	TurnToolsBySourceGroup_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **TurnToolsBySourceGroup)
+	CompareWith(*TurnToolsBySourceGroup) (cmp int, comparable bool)
+}
+
+func ParseTurnToolsBySourceGroup_FieldPathValue(pathStr, valueStr string) (TurnToolsBySourceGroup_FieldPathValue, error) {
+	fp, err := ParseTurnToolsBySourceGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TurnToolsBySourceGroup field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(TurnToolsBySourceGroup_FieldPathValue), nil
+}
+
+func MustParseTurnToolsBySourceGroup_FieldPathValue(pathStr, valueStr string) TurnToolsBySourceGroup_FieldPathValue {
+	fpv, err := ParseTurnToolsBySourceGroup_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type TurnToolsBySourceGroup_FieldTerminalPathValue struct {
+	TurnToolsBySourceGroup_FieldTerminalPath
+	value interface{}
+}
+
+var _ TurnToolsBySourceGroup_FieldPathValue = (*TurnToolsBySourceGroup_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'TurnToolsBySourceGroup' as interface{}
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) AsClientValue() (*common_client.ClientToolSource, bool) {
+	res, ok := fpv.value.(*common_client.ClientToolSource)
+	return res, ok
+}
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) AsConnectorValue() (*common_client.ConnectorToolSource, bool) {
+	res, ok := fpv.value.(*common_client.ConnectorToolSource)
+	return res, ok
+}
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) AsInternalValue() (*common_client.InternalToolSource, bool) {
+	res, ok := fpv.value.(*common_client.InternalToolSource)
+	return res, ok
+}
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) AsToolNamesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object TurnToolsBySourceGroup
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) SetTo(target **TurnToolsBySourceGroup) {
+	if *target == nil {
+		*target = new(TurnToolsBySourceGroup)
+	}
+	switch fpv.selector {
+	case TurnToolsBySourceGroup_FieldPathSelectorClient:
+		if _, ok := (*target).Source.(*TurnToolsBySourceGroup_Client); !ok {
+			(*target).Source = &TurnToolsBySourceGroup_Client{}
+		}
+		(*target).Source.(*TurnToolsBySourceGroup_Client).Client = fpv.value.(*common_client.ClientToolSource)
+	case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+		if _, ok := (*target).Source.(*TurnToolsBySourceGroup_Connector); !ok {
+			(*target).Source = &TurnToolsBySourceGroup_Connector{}
+		}
+		(*target).Source.(*TurnToolsBySourceGroup_Connector).Connector = fpv.value.(*common_client.ConnectorToolSource)
+	case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+		if _, ok := (*target).Source.(*TurnToolsBySourceGroup_Internal); !ok {
+			(*target).Source = &TurnToolsBySourceGroup_Internal{}
+		}
+		(*target).Source.(*TurnToolsBySourceGroup_Internal).Internal = fpv.value.(*common_client.InternalToolSource)
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		(*target).ToolNames = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fpv.selector))
+	}
+}
+
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*TurnToolsBySourceGroup)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'TurnToolsBySourceGroup_FieldTerminalPathValue' with the value under path in 'TurnToolsBySourceGroup'.
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) CompareWith(source *TurnToolsBySourceGroup) (int, bool) {
+	switch fpv.selector {
+	case TurnToolsBySourceGroup_FieldPathSelectorClient:
+		return 0, false
+	case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+		return 0, false
+	case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+		return 0, false
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for TurnToolsBySourceGroup: %d", fpv.selector))
+	}
+}
+
+func (fpv *TurnToolsBySourceGroup_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*TurnToolsBySourceGroup))
+}
+
+// TurnToolsBySourceGroup_FieldPathArrayItemValue allows storing single item in Path-specific values for TurnToolsBySourceGroup according to their type
+// Present only for array (repeated) types.
+type TurnToolsBySourceGroup_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	TurnToolsBySourceGroup_FieldPath
+	ContainsValue(*TurnToolsBySourceGroup) bool
+}
+
+// ParseTurnToolsBySourceGroup_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseTurnToolsBySourceGroup_FieldPathArrayItemValue(pathStr, valueStr string) (TurnToolsBySourceGroup_FieldPathArrayItemValue, error) {
+	fp, err := ParseTurnToolsBySourceGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TurnToolsBySourceGroup field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(TurnToolsBySourceGroup_FieldPathArrayItemValue), nil
+}
+
+func MustParseTurnToolsBySourceGroup_FieldPathArrayItemValue(pathStr, valueStr string) TurnToolsBySourceGroup_FieldPathArrayItemValue {
+	fpaiv, err := ParseTurnToolsBySourceGroup_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue struct {
+	TurnToolsBySourceGroup_FieldTerminalPath
+	value interface{}
+}
+
+var _ TurnToolsBySourceGroup_FieldPathArrayItemValue = (*TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object TurnToolsBySourceGroup as interface{}
+func (fpaiv *TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue) AsToolNamesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue) GetSingle(source *TurnToolsBySourceGroup) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*TurnToolsBySourceGroup))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'TurnToolsBySourceGroup'
+func (fpaiv *TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue) ContainsValue(source *TurnToolsBySourceGroup) bool {
+	slice := fpaiv.TurnToolsBySourceGroup_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// TurnToolsBySourceGroup_FieldPathArrayOfValues allows storing slice of values for TurnToolsBySourceGroup fields according to their type
+type TurnToolsBySourceGroup_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	TurnToolsBySourceGroup_FieldPath
+}
+
+func ParseTurnToolsBySourceGroup_FieldPathArrayOfValues(pathStr, valuesStr string) (TurnToolsBySourceGroup_FieldPathArrayOfValues, error) {
+	fp, err := ParseTurnToolsBySourceGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TurnToolsBySourceGroup field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(TurnToolsBySourceGroup_FieldPathArrayOfValues), nil
+}
+
+func MustParseTurnToolsBySourceGroup_FieldPathArrayOfValues(pathStr, valuesStr string) TurnToolsBySourceGroup_FieldPathArrayOfValues {
+	fpaov, err := ParseTurnToolsBySourceGroup_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues struct {
+	TurnToolsBySourceGroup_FieldTerminalPath
+	values interface{}
+}
+
+var _ TurnToolsBySourceGroup_FieldPathArrayOfValues = (*TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case TurnToolsBySourceGroup_FieldPathSelectorClient:
+		for _, v := range fpaov.values.([]*common_client.ClientToolSource) {
+			values = append(values, v)
+		}
+	case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+		for _, v := range fpaov.values.([]*common_client.ConnectorToolSource) {
+			values = append(values, v)
+		}
+	case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+		for _, v := range fpaov.values.([]*common_client.InternalToolSource) {
+			values = append(values, v)
+		}
+	case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues) AsClientArrayOfValues() ([]*common_client.ClientToolSource, bool) {
+	res, ok := fpaov.values.([]*common_client.ClientToolSource)
+	return res, ok
+}
+func (fpaov *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues) AsConnectorArrayOfValues() ([]*common_client.ConnectorToolSource, bool) {
+	res, ok := fpaov.values.([]*common_client.ConnectorToolSource)
+	return res, ok
+}
+func (fpaov *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues) AsInternalArrayOfValues() ([]*common_client.InternalToolSource, bool) {
+	res, ok := fpaov.values.([]*common_client.InternalToolSource)
+	return res, ok
+}
+func (fpaov *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues) AsToolNamesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
 

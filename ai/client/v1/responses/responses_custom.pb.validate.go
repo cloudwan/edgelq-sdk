@@ -23,7 +23,6 @@ import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
-	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
@@ -47,7 +46,6 @@ var (
 	_ = &capability_template.CapabilityTemplate{}
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
-	_ = &connector.Connector{}
 	_ = &conversation.Conversation{}
 	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
@@ -214,33 +212,6 @@ func (obj *ToolInfo) GotenValidate() error {
 		}
 	default:
 		_ = opt
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *ClientToolSource) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *ConnectorToolSource) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *InternalToolSource) GotenValidate() error {
-	if obj == nil {
-		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

@@ -266,6 +266,52 @@ func (StopReason) EnumDescriptor() ([]byte, []int) {
 	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{3}
 }
 
+type InternalToolSource_Type int32
+
+const (
+	InternalToolSource_TYPE_UNSPECIFIED InternalToolSource_Type = 0
+	InternalToolSource_RAG              InternalToolSource_Type = 1
+)
+
+var (
+	InternalToolSource_Type_name = map[int32]string{
+		0: "TYPE_UNSPECIFIED",
+		1: "RAG",
+	}
+
+	InternalToolSource_Type_value = map[string]int32{
+		"TYPE_UNSPECIFIED": 0,
+		"RAG":              1,
+	}
+)
+
+func (x InternalToolSource_Type) Enum() *InternalToolSource_Type {
+	p := new(InternalToolSource_Type)
+	*p = x
+	return p
+}
+
+func (x InternalToolSource_Type) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), preflect.EnumNumber(x))
+}
+
+func (InternalToolSource_Type) Descriptor() preflect.EnumDescriptor {
+	return edgelq_ai_proto_v1_common_proto_enumTypes[4].Descriptor()
+}
+
+func (InternalToolSource_Type) Type() preflect.EnumType {
+	return &edgelq_ai_proto_v1_common_proto_enumTypes[4]
+}
+
+func (x InternalToolSource_Type) Number() preflect.EnumNumber {
+	return preflect.EnumNumber(x)
+}
+
+// Deprecated, Use InternalToolSource_Type.ProtoReflect.Descriptor instead.
+func (InternalToolSource_Type) EnumDescriptor() ([]byte, []int) {
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{18, 0}
+}
+
 // Message structure for conversations
 type Message struct {
 	state         protoimpl.MessageState
@@ -2196,6 +2242,225 @@ func (m *ToolCalls) SetCalls(fv []*ToolCall) {
 	m.Calls = fv
 }
 
+// Tool source types (shared across chat and conversation persistence)
+// Client tool - executed by client locally
+type ClientToolSource struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (m *ClientToolSource) Reset() {
+	*m = ClientToolSource{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *ClientToolSource) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*ClientToolSource) ProtoMessage() {}
+
+func (m *ClientToolSource) ProtoReflect() preflect.Message {
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*ClientToolSource) GotenMessage() {}
+
+// Deprecated, Use ClientToolSource.ProtoReflect.Descriptor instead.
+func (*ClientToolSource) Descriptor() ([]byte, []int) {
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{16}
+}
+
+func (m *ClientToolSource) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *ClientToolSource) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *ClientToolSource) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *ClientToolSource) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+// Connector tool - executed via MCP/other connector
+type ConnectorToolSource struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	ConnectorName *connector.Name `protobuf:"bytes,1,opt,customtype=Name,name=connector_name,json=connectorName,proto3" json:"connector_name,omitempty"`
+}
+
+func (m *ConnectorToolSource) Reset() {
+	*m = ConnectorToolSource{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *ConnectorToolSource) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*ConnectorToolSource) ProtoMessage() {}
+
+func (m *ConnectorToolSource) ProtoReflect() preflect.Message {
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*ConnectorToolSource) GotenMessage() {}
+
+// Deprecated, Use ConnectorToolSource.ProtoReflect.Descriptor instead.
+func (*ConnectorToolSource) Descriptor() ([]byte, []int) {
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{17}
+}
+
+func (m *ConnectorToolSource) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *ConnectorToolSource) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *ConnectorToolSource) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *ConnectorToolSource) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *ConnectorToolSource) GetConnectorName() *connector.Name {
+	if m != nil {
+		return m.ConnectorName
+	}
+	return nil
+}
+
+func (m *ConnectorToolSource) SetConnectorName(fv *connector.Name) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ConnectorName", "ConnectorToolSource"))
+	}
+	m.ConnectorName = fv
+}
+
+// Internal server tool (e.g., RAG)
+type InternalToolSource struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	Type          InternalToolSource_Type `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.ai.v1.InternalToolSource_Type" json:"type,omitempty"`
+	// Capability Template name for internal tools
+	// Server knows how to extract the right config from the template
+	TemplateName string `protobuf:"bytes,2,opt,name=template_name,json=templateName,proto3" json:"template_name,omitempty"`
+}
+
+func (m *InternalToolSource) Reset() {
+	*m = InternalToolSource{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *InternalToolSource) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*InternalToolSource) ProtoMessage() {}
+
+func (m *InternalToolSource) ProtoReflect() preflect.Message {
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*InternalToolSource) GotenMessage() {}
+
+// Deprecated, Use InternalToolSource.ProtoReflect.Descriptor instead.
+func (*InternalToolSource) Descriptor() ([]byte, []int) {
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{18}
+}
+
+func (m *InternalToolSource) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *InternalToolSource) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *InternalToolSource) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *InternalToolSource) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *InternalToolSource) GetType() InternalToolSource_Type {
+	if m != nil {
+		return m.Type
+	}
+	return InternalToolSource_TYPE_UNSPECIFIED
+}
+
+func (m *InternalToolSource) GetTemplateName() string {
+	if m != nil {
+		return m.TemplateName
+	}
+	return ""
+}
+
+func (m *InternalToolSource) SetType(fv InternalToolSource_Type) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Type", "InternalToolSource"))
+	}
+	m.Type = fv
+}
+
+func (m *InternalToolSource) SetTemplateName(fv string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "TemplateName", "InternalToolSource"))
+	}
+	m.TemplateName = fv
+}
+
 // Citation - reference to source material (provider-agnostic)
 type Citation struct {
 	state         protoimpl.MessageState
@@ -2212,7 +2477,7 @@ type Citation struct {
 func (m *Citation) Reset() {
 	*m = Citation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[16]
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2225,7 +2490,7 @@ func (m *Citation) String() string {
 func (*Citation) ProtoMessage() {}
 
 func (m *Citation) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[16]
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2240,7 +2505,7 @@ func (*Citation) GotenMessage() {}
 
 // Deprecated, Use Citation.ProtoReflect.Descriptor instead.
 func (*Citation) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{16}
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{19}
 }
 
 func (m *Citation) Unmarshal(b []byte) error {
@@ -2338,7 +2603,7 @@ type CitationSource struct {
 func (m *CitationSource) Reset() {
 	*m = CitationSource{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[17]
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2351,7 +2616,7 @@ func (m *CitationSource) String() string {
 func (*CitationSource) ProtoMessage() {}
 
 func (m *CitationSource) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[17]
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2366,7 +2631,7 @@ func (*CitationSource) GotenMessage() {}
 
 // Deprecated, Use CitationSource.ProtoReflect.Descriptor instead.
 func (*CitationSource) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{17}
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{20}
 }
 
 func (m *CitationSource) Unmarshal(b []byte) error {
@@ -2510,7 +2775,7 @@ type CharacterRange struct {
 func (m *CharacterRange) Reset() {
 	*m = CharacterRange{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[18]
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2523,7 +2788,7 @@ func (m *CharacterRange) String() string {
 func (*CharacterRange) ProtoMessage() {}
 
 func (m *CharacterRange) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[18]
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2538,7 +2803,7 @@ func (*CharacterRange) GotenMessage() {}
 
 // Deprecated, Use CharacterRange.ProtoReflect.Descriptor instead.
 func (*CharacterRange) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{18}
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{21}
 }
 
 func (m *CharacterRange) Unmarshal(b []byte) error {
@@ -2596,7 +2861,7 @@ type PageReference struct {
 func (m *PageReference) Reset() {
 	*m = PageReference{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[19]
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2609,7 +2874,7 @@ func (m *PageReference) String() string {
 func (*PageReference) ProtoMessage() {}
 
 func (m *PageReference) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[19]
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2624,7 +2889,7 @@ func (*PageReference) GotenMessage() {}
 
 // Deprecated, Use PageReference.ProtoReflect.Descriptor instead.
 func (*PageReference) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{19}
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{22}
 }
 
 func (m *PageReference) Unmarshal(b []byte) error {
@@ -2669,7 +2934,7 @@ type URLReference struct {
 func (m *URLReference) Reset() {
 	*m = URLReference{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[20]
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2682,7 +2947,7 @@ func (m *URLReference) String() string {
 func (*URLReference) ProtoMessage() {}
 
 func (m *URLReference) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[20]
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2697,7 +2962,7 @@ func (*URLReference) GotenMessage() {}
 
 // Deprecated, Use URLReference.ProtoReflect.Descriptor instead.
 func (*URLReference) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{20}
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{23}
 }
 
 func (m *URLReference) Unmarshal(b []byte) error {
@@ -2755,7 +3020,7 @@ type ConnectorsList struct {
 func (m *ConnectorsList) Reset() {
 	*m = ConnectorsList{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[21]
+		mi := &edgelq_ai_proto_v1_common_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2768,7 +3033,7 @@ func (m *ConnectorsList) String() string {
 func (*ConnectorsList) ProtoMessage() {}
 
 func (m *ConnectorsList) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[21]
+	mi := &edgelq_ai_proto_v1_common_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -2783,7 +3048,7 @@ func (*ConnectorsList) GotenMessage() {}
 
 // Deprecated, Use ConnectorsList.ProtoReflect.Descriptor instead.
 func (*ConnectorsList) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{21}
+	return edgelq_ai_proto_v1_common_proto_rawDescGZIP(), []int{24}
 }
 
 func (m *ConnectorsList) Unmarshal(b []byte) error {
@@ -2994,7 +3259,23 @@ var edgelq_ai_proto_v1_common_proto_rawDesc = []byte{
 	0x36, 0x0a, 0x09, 0x54, 0x6f, 0x6f, 0x6c, 0x43, 0x61, 0x6c, 0x6c, 0x73, 0x12, 0x29, 0x0a, 0x05,
 	0x63, 0x61, 0x6c, 0x6c, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x6e, 0x74,
 	0x74, 0x2e, 0x61, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f, 0x6f, 0x6c, 0x43, 0x61, 0x6c, 0x6c,
-	0x52, 0x05, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x22, 0x8f, 0x01, 0x0a, 0x08, 0x43, 0x69, 0x74, 0x61,
+	0x52, 0x05, 0x63, 0x61, 0x6c, 0x6c, 0x73, 0x22, 0x12, 0x0a, 0x10, 0x43, 0x6c, 0x69, 0x65, 0x6e,
+	0x74, 0x54, 0x6f, 0x6f, 0x6c, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x4f, 0x0a, 0x13, 0x43,
+	0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x54, 0x6f, 0x6f, 0x6c, 0x53, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x12, 0x38, 0x0a, 0x0e, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x5f,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x11, 0xb2, 0xda, 0x21, 0x0d,
+	0x0a, 0x0b, 0x0a, 0x09, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x52, 0x0d, 0x63,
+	0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x98, 0x01, 0x0a,
+	0x12, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x54, 0x6f, 0x6f, 0x6c, 0x53, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x12, 0x36, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0e, 0x32, 0x22, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x6e,
+	0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x54, 0x6f, 0x6f, 0x6c, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x2e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x74,
+	0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0c, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x4e, 0x61, 0x6d, 0x65,
+	0x22, 0x25, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x12, 0x14, 0x0a, 0x10, 0x54, 0x59, 0x50, 0x45,
+	0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x07,
+	0x0a, 0x03, 0x52, 0x41, 0x47, 0x10, 0x01, 0x22, 0x8f, 0x01, 0x0a, 0x08, 0x43, 0x69, 0x74, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x69, 0x6e,
 	0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x73, 0x74, 0x61, 0x72, 0x74,
 	0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x1b, 0x0a, 0x09, 0x65, 0x6e, 0x64, 0x5f, 0x69, 0x6e, 0x64,
@@ -3098,68 +3379,73 @@ func edgelq_ai_proto_v1_common_proto_rawDescGZIP() []byte {
 	return edgelq_ai_proto_v1_common_proto_rawDescData
 }
 
-var edgelq_ai_proto_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var edgelq_ai_proto_v1_common_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var edgelq_ai_proto_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var edgelq_ai_proto_v1_common_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var edgelq_ai_proto_v1_common_proto_goTypes = []interface{}{
 	(ContentChannel)(0),          // 0: ntt.ai.v1.ContentChannel
 	(LLMError)(0),                // 1: ntt.ai.v1.LLMError
 	(ReasoningLevel)(0),          // 2: ntt.ai.v1.ReasoningLevel
 	(StopReason)(0),              // 3: ntt.ai.v1.StopReason
-	(*Message)(nil),              // 4: ntt.ai.v1.Message
-	(*ContentPart)(nil),          // 5: ntt.ai.v1.ContentPart
-	(*TextContent)(nil),          // 6: ntt.ai.v1.TextContent
-	(*ImageContent)(nil),         // 7: ntt.ai.v1.ImageContent
-	(*AudioContent)(nil),         // 8: ntt.ai.v1.AudioContent
-	(*FileContent)(nil),          // 9: ntt.ai.v1.FileContent
-	(*ThinkingContent)(nil),      // 10: ntt.ai.v1.ThinkingContent
-	(*TokenUsage)(nil),           // 11: ntt.ai.v1.TokenUsage
-	(*InputTokenBreakdown)(nil),  // 12: ntt.ai.v1.InputTokenBreakdown
-	(*OutputTokenBreakdown)(nil), // 13: ntt.ai.v1.OutputTokenBreakdown
-	(*TokenUsageMetadata)(nil),   // 14: ntt.ai.v1.TokenUsageMetadata
-	(*Payload)(nil),              // 15: ntt.ai.v1.Payload
-	(*ToolDefinition)(nil),       // 16: ntt.ai.v1.ToolDefinition
-	(*ToolCall)(nil),             // 17: ntt.ai.v1.ToolCall
-	(*ToolResponse)(nil),         // 18: ntt.ai.v1.ToolResponse
-	(*ToolCalls)(nil),            // 19: ntt.ai.v1.ToolCalls
-	(*Citation)(nil),             // 20: ntt.ai.v1.Citation
-	(*CitationSource)(nil),       // 21: ntt.ai.v1.CitationSource
-	(*CharacterRange)(nil),       // 22: ntt.ai.v1.CharacterRange
-	(*PageReference)(nil),        // 23: ntt.ai.v1.PageReference
-	(*URLReference)(nil),         // 24: ntt.ai.v1.URLReference
-	(*ConnectorsList)(nil),       // 25: ntt.ai.v1.ConnectorsList
-	nil,                          // 26: ntt.ai.v1.CitationSource.MetadataEntry
-	(*money.Money)(nil),          // 27: google.type.Money
+	(InternalToolSource_Type)(0), // 4: ntt.ai.v1.InternalToolSource_Type
+	(*Message)(nil),              // 5: ntt.ai.v1.Message
+	(*ContentPart)(nil),          // 6: ntt.ai.v1.ContentPart
+	(*TextContent)(nil),          // 7: ntt.ai.v1.TextContent
+	(*ImageContent)(nil),         // 8: ntt.ai.v1.ImageContent
+	(*AudioContent)(nil),         // 9: ntt.ai.v1.AudioContent
+	(*FileContent)(nil),          // 10: ntt.ai.v1.FileContent
+	(*ThinkingContent)(nil),      // 11: ntt.ai.v1.ThinkingContent
+	(*TokenUsage)(nil),           // 12: ntt.ai.v1.TokenUsage
+	(*InputTokenBreakdown)(nil),  // 13: ntt.ai.v1.InputTokenBreakdown
+	(*OutputTokenBreakdown)(nil), // 14: ntt.ai.v1.OutputTokenBreakdown
+	(*TokenUsageMetadata)(nil),   // 15: ntt.ai.v1.TokenUsageMetadata
+	(*Payload)(nil),              // 16: ntt.ai.v1.Payload
+	(*ToolDefinition)(nil),       // 17: ntt.ai.v1.ToolDefinition
+	(*ToolCall)(nil),             // 18: ntt.ai.v1.ToolCall
+	(*ToolResponse)(nil),         // 19: ntt.ai.v1.ToolResponse
+	(*ToolCalls)(nil),            // 20: ntt.ai.v1.ToolCalls
+	(*ClientToolSource)(nil),     // 21: ntt.ai.v1.ClientToolSource
+	(*ConnectorToolSource)(nil),  // 22: ntt.ai.v1.ConnectorToolSource
+	(*InternalToolSource)(nil),   // 23: ntt.ai.v1.InternalToolSource
+	(*Citation)(nil),             // 24: ntt.ai.v1.Citation
+	(*CitationSource)(nil),       // 25: ntt.ai.v1.CitationSource
+	(*CharacterRange)(nil),       // 26: ntt.ai.v1.CharacterRange
+	(*PageReference)(nil),        // 27: ntt.ai.v1.PageReference
+	(*URLReference)(nil),         // 28: ntt.ai.v1.URLReference
+	(*ConnectorsList)(nil),       // 29: ntt.ai.v1.ConnectorsList
+	nil,                          // 30: ntt.ai.v1.CitationSource.MetadataEntry
+	(*money.Money)(nil),          // 31: google.type.Money
 }
 var edgelq_ai_proto_v1_common_proto_depIdxs = []int32{
-	5,  // 0: ntt.ai.v1.Message.parts:type_name -> ntt.ai.v1.ContentPart
-	6,  // 1: ntt.ai.v1.ContentPart.text:type_name -> ntt.ai.v1.TextContent
-	7,  // 2: ntt.ai.v1.ContentPart.image:type_name -> ntt.ai.v1.ImageContent
-	8,  // 3: ntt.ai.v1.ContentPart.audio:type_name -> ntt.ai.v1.AudioContent
-	9,  // 4: ntt.ai.v1.ContentPart.file:type_name -> ntt.ai.v1.FileContent
-	17, // 5: ntt.ai.v1.ContentPart.tool_call:type_name -> ntt.ai.v1.ToolCall
-	18, // 6: ntt.ai.v1.ContentPart.tool_result:type_name -> ntt.ai.v1.ToolResponse
-	10, // 7: ntt.ai.v1.ContentPart.thinking:type_name -> ntt.ai.v1.ThinkingContent
-	12, // 8: ntt.ai.v1.TokenUsage.input_breakdown:type_name -> ntt.ai.v1.InputTokenBreakdown
-	13, // 9: ntt.ai.v1.TokenUsage.output_breakdown:type_name -> ntt.ai.v1.OutputTokenBreakdown
-	14, // 10: ntt.ai.v1.TokenUsage.metadata:type_name -> ntt.ai.v1.TokenUsageMetadata
-	27, // 11: ntt.ai.v1.TokenUsage.input_cost:type_name -> google.type.Money
-	27, // 12: ntt.ai.v1.TokenUsage.cached_input_cost:type_name -> google.type.Money
-	27, // 13: ntt.ai.v1.TokenUsage.cache_write_five_min_cost:type_name -> google.type.Money
-	27, // 14: ntt.ai.v1.TokenUsage.cache_write_one_hour_cost:type_name -> google.type.Money
-	27, // 15: ntt.ai.v1.TokenUsage.output_cost:type_name -> google.type.Money
-	27, // 16: ntt.ai.v1.TokenUsage.total_cost:type_name -> google.type.Money
-	15, // 17: ntt.ai.v1.ToolResponse.output:type_name -> ntt.ai.v1.Payload
-	17, // 18: ntt.ai.v1.ToolCalls.calls:type_name -> ntt.ai.v1.ToolCall
-	21, // 19: ntt.ai.v1.Citation.source:type_name -> ntt.ai.v1.CitationSource
-	22, // 20: ntt.ai.v1.CitationSource.char_range:type_name -> ntt.ai.v1.CharacterRange
-	23, // 21: ntt.ai.v1.CitationSource.page:type_name -> ntt.ai.v1.PageReference
-	24, // 22: ntt.ai.v1.CitationSource.url:type_name -> ntt.ai.v1.URLReference
-	26, // 23: ntt.ai.v1.CitationSource.metadata:type_name -> ntt.ai.v1.CitationSource.MetadataEntry
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	6,  // 0: ntt.ai.v1.Message.parts:type_name -> ntt.ai.v1.ContentPart
+	7,  // 1: ntt.ai.v1.ContentPart.text:type_name -> ntt.ai.v1.TextContent
+	8,  // 2: ntt.ai.v1.ContentPart.image:type_name -> ntt.ai.v1.ImageContent
+	9,  // 3: ntt.ai.v1.ContentPart.audio:type_name -> ntt.ai.v1.AudioContent
+	10, // 4: ntt.ai.v1.ContentPart.file:type_name -> ntt.ai.v1.FileContent
+	18, // 5: ntt.ai.v1.ContentPart.tool_call:type_name -> ntt.ai.v1.ToolCall
+	19, // 6: ntt.ai.v1.ContentPart.tool_result:type_name -> ntt.ai.v1.ToolResponse
+	11, // 7: ntt.ai.v1.ContentPart.thinking:type_name -> ntt.ai.v1.ThinkingContent
+	13, // 8: ntt.ai.v1.TokenUsage.input_breakdown:type_name -> ntt.ai.v1.InputTokenBreakdown
+	14, // 9: ntt.ai.v1.TokenUsage.output_breakdown:type_name -> ntt.ai.v1.OutputTokenBreakdown
+	15, // 10: ntt.ai.v1.TokenUsage.metadata:type_name -> ntt.ai.v1.TokenUsageMetadata
+	31, // 11: ntt.ai.v1.TokenUsage.input_cost:type_name -> google.type.Money
+	31, // 12: ntt.ai.v1.TokenUsage.cached_input_cost:type_name -> google.type.Money
+	31, // 13: ntt.ai.v1.TokenUsage.cache_write_five_min_cost:type_name -> google.type.Money
+	31, // 14: ntt.ai.v1.TokenUsage.cache_write_one_hour_cost:type_name -> google.type.Money
+	31, // 15: ntt.ai.v1.TokenUsage.output_cost:type_name -> google.type.Money
+	31, // 16: ntt.ai.v1.TokenUsage.total_cost:type_name -> google.type.Money
+	16, // 17: ntt.ai.v1.ToolResponse.output:type_name -> ntt.ai.v1.Payload
+	18, // 18: ntt.ai.v1.ToolCalls.calls:type_name -> ntt.ai.v1.ToolCall
+	4,  // 19: ntt.ai.v1.InternalToolSource.type:type_name -> ntt.ai.v1.InternalToolSource_Type
+	25, // 20: ntt.ai.v1.Citation.source:type_name -> ntt.ai.v1.CitationSource
+	26, // 21: ntt.ai.v1.CitationSource.char_range:type_name -> ntt.ai.v1.CharacterRange
+	27, // 22: ntt.ai.v1.CitationSource.page:type_name -> ntt.ai.v1.PageReference
+	28, // 23: ntt.ai.v1.CitationSource.url:type_name -> ntt.ai.v1.URLReference
+	30, // 24: ntt.ai.v1.CitationSource.metadata:type_name -> ntt.ai.v1.CitationSource.MetadataEntry
+	25, // [25:25] is the sub-list for method output_type
+	25, // [25:25] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
+	0,  // [0:25] is the sub-list for field type_name
 }
 
 func init() { edgelq_ai_proto_v1_common_proto_init() }
@@ -3362,7 +3648,7 @@ func edgelq_ai_proto_v1_common_proto_init() {
 			}
 		}
 		edgelq_ai_proto_v1_common_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Citation); i {
+			switch v := v.(*ClientToolSource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3374,7 +3660,7 @@ func edgelq_ai_proto_v1_common_proto_init() {
 			}
 		}
 		edgelq_ai_proto_v1_common_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CitationSource); i {
+			switch v := v.(*ConnectorToolSource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3386,7 +3672,7 @@ func edgelq_ai_proto_v1_common_proto_init() {
 			}
 		}
 		edgelq_ai_proto_v1_common_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CharacterRange); i {
+			switch v := v.(*InternalToolSource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3398,7 +3684,7 @@ func edgelq_ai_proto_v1_common_proto_init() {
 			}
 		}
 		edgelq_ai_proto_v1_common_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PageReference); i {
+			switch v := v.(*Citation); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3410,7 +3696,7 @@ func edgelq_ai_proto_v1_common_proto_init() {
 			}
 		}
 		edgelq_ai_proto_v1_common_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*URLReference); i {
+			switch v := v.(*CitationSource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3422,6 +3708,42 @@ func edgelq_ai_proto_v1_common_proto_init() {
 			}
 		}
 		edgelq_ai_proto_v1_common_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CharacterRange); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_ai_proto_v1_common_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PageReference); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_ai_proto_v1_common_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*URLReference); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_ai_proto_v1_common_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ConnectorsList); i {
 			case 0:
 				return &v.state
@@ -3464,7 +3786,7 @@ func edgelq_ai_proto_v1_common_proto_init() {
 		(*ToolResponse_Output)(nil),
 		(*ToolResponse_Error)(nil),
 	}
-	edgelq_ai_proto_v1_common_proto_msgTypes[17].OneofWrappers = []interface{}{
+	edgelq_ai_proto_v1_common_proto_msgTypes[20].OneofWrappers = []interface{}{
 		(*CitationSource_CharRange)(nil),
 		(*CitationSource_Page)(nil),
 		(*CitationSource_Url)(nil),
@@ -3474,8 +3796,8 @@ func edgelq_ai_proto_v1_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_ai_proto_v1_common_proto_rawDesc,
-			NumEnums:      4,
-			NumMessages:   23,
+			NumEnums:      5,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

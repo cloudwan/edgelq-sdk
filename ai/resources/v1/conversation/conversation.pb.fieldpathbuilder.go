@@ -896,8 +896,8 @@ func (ConversationPathSelectorTurns) Duration() ConversationPathSelectorTurnsDur
 	return ConversationPathSelectorTurnsDuration{}
 }
 
-func (ConversationPathSelectorTurns) AvailableTools() ConversationPathSelectorTurnsAvailableTools {
-	return ConversationPathSelectorTurnsAvailableTools{}
+func (ConversationPathSelectorTurns) AvailableToolsBySource() ConversationPathSelectorTurnsAvailableToolsBySource {
+	return ConversationPathSelectorTurnsAvailableToolsBySource{}
 }
 
 type ConversationPathSelectorTurnsTurnNumber struct{}
@@ -1170,24 +1170,112 @@ func (s ConversationPathSelectorTurnsDuration) WithArrayOfValues(values []*durat
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
 }
 
-type ConversationPathSelectorTurnsAvailableTools struct{}
+type ConversationPathSelectorTurnsAvailableToolsBySource struct{}
 
-func (ConversationPathSelectorTurnsAvailableTools) FieldPath() *Conversation_FieldSubPath {
+func (ConversationPathSelectorTurnsAvailableToolsBySource) FieldPath() *Conversation_FieldSubPath {
 	return &Conversation_FieldSubPath{
 		selector: Conversation_FieldPathSelectorTurns,
-		subPath:  NewConversationTurnFieldPathBuilder().AvailableTools().FieldPath(),
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().FieldPath(),
 	}
 }
 
-func (s ConversationPathSelectorTurnsAvailableTools) WithValue(value []string) *Conversation_FieldSubPathValue {
+func (s ConversationPathSelectorTurnsAvailableToolsBySource) WithValue(value []*TurnToolsBySourceGroup) *Conversation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
 }
 
-func (s ConversationPathSelectorTurnsAvailableTools) WithArrayOfValues(values [][]string) *Conversation_FieldSubPathArrayOfValues {
+func (s ConversationPathSelectorTurnsAvailableToolsBySource) WithArrayOfValues(values [][]*TurnToolsBySourceGroup) *Conversation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
 }
 
-func (s ConversationPathSelectorTurnsAvailableTools) WithItemValue(value string) *Conversation_FieldSubPathArrayItemValue {
+func (s ConversationPathSelectorTurnsAvailableToolsBySource) WithItemValue(value *TurnToolsBySourceGroup) *Conversation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
+}
+
+func (ConversationPathSelectorTurnsAvailableToolsBySource) Client() ConversationPathSelectorTurnsAvailableToolsBySourceClient {
+	return ConversationPathSelectorTurnsAvailableToolsBySourceClient{}
+}
+
+func (ConversationPathSelectorTurnsAvailableToolsBySource) Connector() ConversationPathSelectorTurnsAvailableToolsBySourceConnector {
+	return ConversationPathSelectorTurnsAvailableToolsBySourceConnector{}
+}
+
+func (ConversationPathSelectorTurnsAvailableToolsBySource) Internal() ConversationPathSelectorTurnsAvailableToolsBySourceInternal {
+	return ConversationPathSelectorTurnsAvailableToolsBySourceInternal{}
+}
+
+func (ConversationPathSelectorTurnsAvailableToolsBySource) ToolNames() ConversationPathSelectorTurnsAvailableToolsBySourceToolNames {
+	return ConversationPathSelectorTurnsAvailableToolsBySourceToolNames{}
+}
+
+type ConversationPathSelectorTurnsAvailableToolsBySourceClient struct{}
+
+func (ConversationPathSelectorTurnsAvailableToolsBySourceClient) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Client().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceClient) WithValue(value *common_client.ClientToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceClient) WithArrayOfValues(values []*common_client.ClientToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorTurnsAvailableToolsBySourceConnector struct{}
+
+func (ConversationPathSelectorTurnsAvailableToolsBySourceConnector) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Connector().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceConnector) WithValue(value *common_client.ConnectorToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceConnector) WithArrayOfValues(values []*common_client.ConnectorToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorTurnsAvailableToolsBySourceInternal struct{}
+
+func (ConversationPathSelectorTurnsAvailableToolsBySourceInternal) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Internal().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceInternal) WithValue(value *common_client.InternalToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceInternal) WithArrayOfValues(values []*common_client.InternalToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorTurnsAvailableToolsBySourceToolNames struct{}
+
+func (ConversationPathSelectorTurnsAvailableToolsBySourceToolNames) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().ToolNames().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceToolNames) WithValue(value []string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceToolNames) WithArrayOfValues(values [][]string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorTurnsAvailableToolsBySourceToolNames) WithItemValue(value string) *Conversation_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
 }
 
@@ -1286,8 +1374,8 @@ func (ConversationPathSelectorFailedTurns) Duration() ConversationPathSelectorFa
 	return ConversationPathSelectorFailedTurnsDuration{}
 }
 
-func (ConversationPathSelectorFailedTurns) AvailableTools() ConversationPathSelectorFailedTurnsAvailableTools {
-	return ConversationPathSelectorFailedTurnsAvailableTools{}
+func (ConversationPathSelectorFailedTurns) AvailableToolsBySource() ConversationPathSelectorFailedTurnsAvailableToolsBySource {
+	return ConversationPathSelectorFailedTurnsAvailableToolsBySource{}
 }
 
 type ConversationPathSelectorFailedTurnsTurnNumber struct{}
@@ -1560,24 +1648,112 @@ func (s ConversationPathSelectorFailedTurnsDuration) WithArrayOfValues(values []
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
 }
 
-type ConversationPathSelectorFailedTurnsAvailableTools struct{}
+type ConversationPathSelectorFailedTurnsAvailableToolsBySource struct{}
 
-func (ConversationPathSelectorFailedTurnsAvailableTools) FieldPath() *Conversation_FieldSubPath {
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySource) FieldPath() *Conversation_FieldSubPath {
 	return &Conversation_FieldSubPath{
 		selector: Conversation_FieldPathSelectorFailedTurns,
-		subPath:  NewConversationTurnFieldPathBuilder().AvailableTools().FieldPath(),
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().FieldPath(),
 	}
 }
 
-func (s ConversationPathSelectorFailedTurnsAvailableTools) WithValue(value []string) *Conversation_FieldSubPathValue {
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySource) WithValue(value []*TurnToolsBySourceGroup) *Conversation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
 }
 
-func (s ConversationPathSelectorFailedTurnsAvailableTools) WithArrayOfValues(values [][]string) *Conversation_FieldSubPathArrayOfValues {
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySource) WithArrayOfValues(values [][]*TurnToolsBySourceGroup) *Conversation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
 }
 
-func (s ConversationPathSelectorFailedTurnsAvailableTools) WithItemValue(value string) *Conversation_FieldSubPathArrayItemValue {
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySource) WithItemValue(value *TurnToolsBySourceGroup) *Conversation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
+}
+
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySource) Client() ConversationPathSelectorFailedTurnsAvailableToolsBySourceClient {
+	return ConversationPathSelectorFailedTurnsAvailableToolsBySourceClient{}
+}
+
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySource) Connector() ConversationPathSelectorFailedTurnsAvailableToolsBySourceConnector {
+	return ConversationPathSelectorFailedTurnsAvailableToolsBySourceConnector{}
+}
+
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySource) Internal() ConversationPathSelectorFailedTurnsAvailableToolsBySourceInternal {
+	return ConversationPathSelectorFailedTurnsAvailableToolsBySourceInternal{}
+}
+
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySource) ToolNames() ConversationPathSelectorFailedTurnsAvailableToolsBySourceToolNames {
+	return ConversationPathSelectorFailedTurnsAvailableToolsBySourceToolNames{}
+}
+
+type ConversationPathSelectorFailedTurnsAvailableToolsBySourceClient struct{}
+
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySourceClient) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Client().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceClient) WithValue(value *common_client.ClientToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceClient) WithArrayOfValues(values []*common_client.ClientToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsAvailableToolsBySourceConnector struct{}
+
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySourceConnector) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Connector().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceConnector) WithValue(value *common_client.ConnectorToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceConnector) WithArrayOfValues(values []*common_client.ConnectorToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsAvailableToolsBySourceInternal struct{}
+
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySourceInternal) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Internal().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceInternal) WithValue(value *common_client.InternalToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceInternal) WithArrayOfValues(values []*common_client.InternalToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsAvailableToolsBySourceToolNames struct{}
+
+func (ConversationPathSelectorFailedTurnsAvailableToolsBySourceToolNames) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().ToolNames().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceToolNames) WithValue(value []string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceToolNames) WithArrayOfValues(values [][]string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceToolNames) WithItemValue(value string) *Conversation_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
 }
 
@@ -1607,8 +1783,8 @@ func (ConversationTurnFieldPathBuilder) StopReason() ConversationTurnPathSelecto
 func (ConversationTurnFieldPathBuilder) Duration() ConversationTurnPathSelectorDuration {
 	return ConversationTurnPathSelectorDuration{}
 }
-func (ConversationTurnFieldPathBuilder) AvailableTools() ConversationTurnPathSelectorAvailableTools {
-	return ConversationTurnPathSelectorAvailableTools{}
+func (ConversationTurnFieldPathBuilder) AvailableToolsBySource() ConversationTurnPathSelectorAvailableToolsBySource {
+	return ConversationTurnPathSelectorAvailableToolsBySource{}
 }
 
 type ConversationTurnPathSelectorTurnNumber struct{}
@@ -1876,22 +2052,203 @@ func (s ConversationTurnPathSelectorDuration) WithArrayOfValues(values []*durati
 	return s.FieldPath().WithIArrayOfValues(values).(*ConversationTurn_FieldTerminalPathArrayOfValues)
 }
 
-type ConversationTurnPathSelectorAvailableTools struct{}
+type ConversationTurnPathSelectorAvailableToolsBySource struct{}
 
-func (ConversationTurnPathSelectorAvailableTools) FieldPath() *ConversationTurn_FieldTerminalPath {
-	return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableTools}
+func (ConversationTurnPathSelectorAvailableToolsBySource) FieldPath() *ConversationTurn_FieldTerminalPath {
+	return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource}
 }
 
-func (s ConversationTurnPathSelectorAvailableTools) WithValue(value []string) *ConversationTurn_FieldTerminalPathValue {
+func (s ConversationTurnPathSelectorAvailableToolsBySource) WithValue(value []*TurnToolsBySourceGroup) *ConversationTurn_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ConversationTurn_FieldTerminalPathValue)
 }
 
-func (s ConversationTurnPathSelectorAvailableTools) WithArrayOfValues(values [][]string) *ConversationTurn_FieldTerminalPathArrayOfValues {
+func (s ConversationTurnPathSelectorAvailableToolsBySource) WithArrayOfValues(values [][]*TurnToolsBySourceGroup) *ConversationTurn_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConversationTurn_FieldTerminalPathArrayOfValues)
 }
 
-func (s ConversationTurnPathSelectorAvailableTools) WithItemValue(value string) *ConversationTurn_FieldTerminalPathArrayItemValue {
+func (s ConversationTurnPathSelectorAvailableToolsBySource) WithItemValue(value *TurnToolsBySourceGroup) *ConversationTurn_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ConversationTurn_FieldTerminalPathArrayItemValue)
+}
+func (ConversationTurnPathSelectorAvailableToolsBySource) WithSubPath(subPath TurnToolsBySourceGroup_FieldPath) *ConversationTurn_FieldSubPath {
+	return &ConversationTurn_FieldSubPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource, subPath: subPath}
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySource) WithSubValue(subPathValue TurnToolsBySourceGroup_FieldPathValue) *ConversationTurn_FieldSubPathValue {
+	return &ConversationTurn_FieldSubPathValue{ConversationTurn_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySource) WithSubArrayOfValues(subPathArrayOfValues TurnToolsBySourceGroup_FieldPathArrayOfValues) *ConversationTurn_FieldSubPathArrayOfValues {
+	return &ConversationTurn_FieldSubPathArrayOfValues{ConversationTurn_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySource) WithSubArrayItemValue(subPathArrayItemValue TurnToolsBySourceGroup_FieldPathArrayItemValue) *ConversationTurn_FieldSubPathArrayItemValue {
+	return &ConversationTurn_FieldSubPathArrayItemValue{ConversationTurn_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ConversationTurnPathSelectorAvailableToolsBySource) Client() ConversationTurnPathSelectorAvailableToolsBySourceClient {
+	return ConversationTurnPathSelectorAvailableToolsBySourceClient{}
+}
+
+func (ConversationTurnPathSelectorAvailableToolsBySource) Connector() ConversationTurnPathSelectorAvailableToolsBySourceConnector {
+	return ConversationTurnPathSelectorAvailableToolsBySourceConnector{}
+}
+
+func (ConversationTurnPathSelectorAvailableToolsBySource) Internal() ConversationTurnPathSelectorAvailableToolsBySourceInternal {
+	return ConversationTurnPathSelectorAvailableToolsBySourceInternal{}
+}
+
+func (ConversationTurnPathSelectorAvailableToolsBySource) ToolNames() ConversationTurnPathSelectorAvailableToolsBySourceToolNames {
+	return ConversationTurnPathSelectorAvailableToolsBySourceToolNames{}
+}
+
+type ConversationTurnPathSelectorAvailableToolsBySourceClient struct{}
+
+func (ConversationTurnPathSelectorAvailableToolsBySourceClient) FieldPath() *ConversationTurn_FieldSubPath {
+	return &ConversationTurn_FieldSubPath{
+		selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource,
+		subPath:  NewTurnToolsBySourceGroupFieldPathBuilder().Client().FieldPath(),
+	}
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceClient) WithValue(value *common_client.ClientToolSource) *ConversationTurn_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConversationTurn_FieldSubPathValue)
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceClient) WithArrayOfValues(values []*common_client.ClientToolSource) *ConversationTurn_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConversationTurn_FieldSubPathArrayOfValues)
+}
+
+type ConversationTurnPathSelectorAvailableToolsBySourceConnector struct{}
+
+func (ConversationTurnPathSelectorAvailableToolsBySourceConnector) FieldPath() *ConversationTurn_FieldSubPath {
+	return &ConversationTurn_FieldSubPath{
+		selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource,
+		subPath:  NewTurnToolsBySourceGroupFieldPathBuilder().Connector().FieldPath(),
+	}
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceConnector) WithValue(value *common_client.ConnectorToolSource) *ConversationTurn_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConversationTurn_FieldSubPathValue)
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceConnector) WithArrayOfValues(values []*common_client.ConnectorToolSource) *ConversationTurn_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConversationTurn_FieldSubPathArrayOfValues)
+}
+
+type ConversationTurnPathSelectorAvailableToolsBySourceInternal struct{}
+
+func (ConversationTurnPathSelectorAvailableToolsBySourceInternal) FieldPath() *ConversationTurn_FieldSubPath {
+	return &ConversationTurn_FieldSubPath{
+		selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource,
+		subPath:  NewTurnToolsBySourceGroupFieldPathBuilder().Internal().FieldPath(),
+	}
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceInternal) WithValue(value *common_client.InternalToolSource) *ConversationTurn_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConversationTurn_FieldSubPathValue)
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceInternal) WithArrayOfValues(values []*common_client.InternalToolSource) *ConversationTurn_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConversationTurn_FieldSubPathArrayOfValues)
+}
+
+type ConversationTurnPathSelectorAvailableToolsBySourceToolNames struct{}
+
+func (ConversationTurnPathSelectorAvailableToolsBySourceToolNames) FieldPath() *ConversationTurn_FieldSubPath {
+	return &ConversationTurn_FieldSubPath{
+		selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource,
+		subPath:  NewTurnToolsBySourceGroupFieldPathBuilder().ToolNames().FieldPath(),
+	}
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceToolNames) WithValue(value []string) *ConversationTurn_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConversationTurn_FieldSubPathValue)
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceToolNames) WithArrayOfValues(values [][]string) *ConversationTurn_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConversationTurn_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationTurnPathSelectorAvailableToolsBySourceToolNames) WithItemValue(value string) *ConversationTurn_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ConversationTurn_FieldSubPathArrayItemValue)
+}
+
+type TurnToolsBySourceGroupFieldPathBuilder struct{}
+
+func NewTurnToolsBySourceGroupFieldPathBuilder() TurnToolsBySourceGroupFieldPathBuilder {
+	return TurnToolsBySourceGroupFieldPathBuilder{}
+}
+func (TurnToolsBySourceGroupFieldPathBuilder) Client() TurnToolsBySourceGroupPathSelectorClient {
+	return TurnToolsBySourceGroupPathSelectorClient{}
+}
+func (TurnToolsBySourceGroupFieldPathBuilder) Connector() TurnToolsBySourceGroupPathSelectorConnector {
+	return TurnToolsBySourceGroupPathSelectorConnector{}
+}
+func (TurnToolsBySourceGroupFieldPathBuilder) Internal() TurnToolsBySourceGroupPathSelectorInternal {
+	return TurnToolsBySourceGroupPathSelectorInternal{}
+}
+func (TurnToolsBySourceGroupFieldPathBuilder) ToolNames() TurnToolsBySourceGroupPathSelectorToolNames {
+	return TurnToolsBySourceGroupPathSelectorToolNames{}
+}
+
+type TurnToolsBySourceGroupPathSelectorClient struct{}
+
+func (TurnToolsBySourceGroupPathSelectorClient) FieldPath() *TurnToolsBySourceGroup_FieldTerminalPath {
+	return &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorClient}
+}
+
+func (s TurnToolsBySourceGroupPathSelectorClient) WithValue(value *common_client.ClientToolSource) *TurnToolsBySourceGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TurnToolsBySourceGroup_FieldTerminalPathValue)
+}
+
+func (s TurnToolsBySourceGroupPathSelectorClient) WithArrayOfValues(values []*common_client.ClientToolSource) *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues)
+}
+
+type TurnToolsBySourceGroupPathSelectorConnector struct{}
+
+func (TurnToolsBySourceGroupPathSelectorConnector) FieldPath() *TurnToolsBySourceGroup_FieldTerminalPath {
+	return &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorConnector}
+}
+
+func (s TurnToolsBySourceGroupPathSelectorConnector) WithValue(value *common_client.ConnectorToolSource) *TurnToolsBySourceGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TurnToolsBySourceGroup_FieldTerminalPathValue)
+}
+
+func (s TurnToolsBySourceGroupPathSelectorConnector) WithArrayOfValues(values []*common_client.ConnectorToolSource) *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues)
+}
+
+type TurnToolsBySourceGroupPathSelectorInternal struct{}
+
+func (TurnToolsBySourceGroupPathSelectorInternal) FieldPath() *TurnToolsBySourceGroup_FieldTerminalPath {
+	return &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorInternal}
+}
+
+func (s TurnToolsBySourceGroupPathSelectorInternal) WithValue(value *common_client.InternalToolSource) *TurnToolsBySourceGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TurnToolsBySourceGroup_FieldTerminalPathValue)
+}
+
+func (s TurnToolsBySourceGroupPathSelectorInternal) WithArrayOfValues(values []*common_client.InternalToolSource) *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues)
+}
+
+type TurnToolsBySourceGroupPathSelectorToolNames struct{}
+
+func (TurnToolsBySourceGroupPathSelectorToolNames) FieldPath() *TurnToolsBySourceGroup_FieldTerminalPath {
+	return &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorToolNames}
+}
+
+func (s TurnToolsBySourceGroupPathSelectorToolNames) WithValue(value []string) *TurnToolsBySourceGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TurnToolsBySourceGroup_FieldTerminalPathValue)
+}
+
+func (s TurnToolsBySourceGroupPathSelectorToolNames) WithArrayOfValues(values [][]string) *TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TurnToolsBySourceGroup_FieldTerminalPathArrayOfValues)
+}
+
+func (s TurnToolsBySourceGroupPathSelectorToolNames) WithItemValue(value string) *TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*TurnToolsBySourceGroup_FieldTerminalPathArrayItemValue)
 }
 
 type TurnConfigFieldPathBuilder struct{}

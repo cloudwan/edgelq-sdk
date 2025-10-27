@@ -20,7 +20,6 @@ import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
-	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
@@ -43,7 +42,6 @@ var (
 	_ = &capability_template.CapabilityTemplate{}
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
-	_ = &connector.Connector{}
 	_ = &conversation.Conversation{}
 	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
@@ -55,52 +53,6 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
-
-type InternalToolSource_Type int32
-
-const (
-	InternalToolSource_TYPE_UNSPECIFIED InternalToolSource_Type = 0
-	InternalToolSource_RAG              InternalToolSource_Type = 1
-)
-
-var (
-	InternalToolSource_Type_name = map[int32]string{
-		0: "TYPE_UNSPECIFIED",
-		1: "RAG",
-	}
-
-	InternalToolSource_Type_value = map[string]int32{
-		"TYPE_UNSPECIFIED": 0,
-		"RAG":              1,
-	}
-)
-
-func (x InternalToolSource_Type) Enum() *InternalToolSource_Type {
-	p := new(InternalToolSource_Type)
-	*p = x
-	return p
-}
-
-func (x InternalToolSource_Type) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), preflect.EnumNumber(x))
-}
-
-func (InternalToolSource_Type) Descriptor() preflect.EnumDescriptor {
-	return edgelq_ai_proto_v1_responses_custom_proto_enumTypes[0].Descriptor()
-}
-
-func (InternalToolSource_Type) Type() preflect.EnumType {
-	return &edgelq_ai_proto_v1_responses_custom_proto_enumTypes[0]
-}
-
-func (x InternalToolSource_Type) Number() preflect.EnumNumber {
-	return preflect.EnumNumber(x)
-}
-
-// Deprecated, Use InternalToolSource_Type.ProtoReflect.Descriptor instead.
-func (InternalToolSource_Type) EnumDescriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{7, 0}
-}
 
 // Client → Server messages
 type CreateResponseRequest struct {
@@ -814,13 +766,13 @@ type isToolInfo_Source interface {
 }
 
 type ToolInfo_Client struct {
-	Client *ClientToolSource `protobuf:"bytes,2,opt,name=client,proto3,oneof"`
+	Client *common_client.ClientToolSource `protobuf:"bytes,2,opt,name=client,proto3,oneof"`
 }
 type ToolInfo_Connector struct {
-	Connector *ConnectorToolSource `protobuf:"bytes,3,opt,name=connector,proto3,oneof"`
+	Connector *common_client.ConnectorToolSource `protobuf:"bytes,3,opt,name=connector,proto3,oneof"`
 }
 type ToolInfo_Internal struct {
-	Internal *InternalToolSource `protobuf:"bytes,4,opt,name=internal,proto3,oneof"`
+	Internal *common_client.InternalToolSource `protobuf:"bytes,4,opt,name=internal,proto3,oneof"`
 }
 
 func (*ToolInfo_Client) isToolInfo_Source()    {}
@@ -839,19 +791,19 @@ func (m *ToolInfo) GetSource() isToolInfo_Source {
 	}
 	return nil
 }
-func (m *ToolInfo) GetClient() *ClientToolSource {
+func (m *ToolInfo) GetClient() *common_client.ClientToolSource {
 	if x, ok := m.GetSource().(*ToolInfo_Client); ok {
 		return x.Client
 	}
 	return nil
 }
-func (m *ToolInfo) GetConnector() *ConnectorToolSource {
+func (m *ToolInfo) GetConnector() *common_client.ConnectorToolSource {
 	if x, ok := m.GetSource().(*ToolInfo_Connector); ok {
 		return x.Connector
 	}
 	return nil
 }
-func (m *ToolInfo) GetInternal() *InternalToolSource {
+func (m *ToolInfo) GetInternal() *common_client.InternalToolSource {
 	if x, ok := m.GetSource().(*ToolInfo_Internal); ok {
 		return x.Internal
 	}
@@ -870,232 +822,14 @@ func (m *ToolInfo) SetSource(ofv isToolInfo_Source) {
 	}
 	m.Source = ofv
 }
-func (m *ToolInfo) SetClient(fv *ClientToolSource) {
+func (m *ToolInfo) SetClient(fv *common_client.ClientToolSource) {
 	m.SetSource(&ToolInfo_Client{Client: fv})
 }
-func (m *ToolInfo) SetConnector(fv *ConnectorToolSource) {
+func (m *ToolInfo) SetConnector(fv *common_client.ConnectorToolSource) {
 	m.SetSource(&ToolInfo_Connector{Connector: fv})
 }
-func (m *ToolInfo) SetInternal(fv *InternalToolSource) {
+func (m *ToolInfo) SetInternal(fv *common_client.InternalToolSource) {
 	m.SetSource(&ToolInfo_Internal{Internal: fv})
-}
-
-// Client tool - executed by client locally
-type ClientToolSource struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (m *ClientToolSource) Reset() {
-	*m = ClientToolSource{}
-	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (m *ClientToolSource) String() string {
-	return protoimpl.X.MessageStringOf(m)
-}
-
-func (*ClientToolSource) ProtoMessage() {}
-
-func (m *ClientToolSource) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && m != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(m)
-}
-
-func (*ClientToolSource) GotenMessage() {}
-
-// Deprecated, Use ClientToolSource.ProtoReflect.Descriptor instead.
-func (*ClientToolSource) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{5}
-}
-
-func (m *ClientToolSource) Unmarshal(b []byte) error {
-	return proto.Unmarshal(b, m)
-}
-
-func (m *ClientToolSource) Marshal() ([]byte, error) {
-	return proto.Marshal(m)
-}
-
-func (m *ClientToolSource) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{}.Marshal(m)
-}
-
-func (m *ClientToolSource) UnmarshalJSON(data []byte) error {
-	return protojson.Unmarshal(data, m)
-}
-
-// Connector tool - executed via MCP/other connector
-type ConnectorToolSource struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-	ConnectorName *connector.Name `protobuf:"bytes,1,opt,customtype=Name,name=connector_name,json=connectorName,proto3" json:"connector_name,omitempty"`
-}
-
-func (m *ConnectorToolSource) Reset() {
-	*m = ConnectorToolSource{}
-	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (m *ConnectorToolSource) String() string {
-	return protoimpl.X.MessageStringOf(m)
-}
-
-func (*ConnectorToolSource) ProtoMessage() {}
-
-func (m *ConnectorToolSource) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && m != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(m)
-}
-
-func (*ConnectorToolSource) GotenMessage() {}
-
-// Deprecated, Use ConnectorToolSource.ProtoReflect.Descriptor instead.
-func (*ConnectorToolSource) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{6}
-}
-
-func (m *ConnectorToolSource) Unmarshal(b []byte) error {
-	return proto.Unmarshal(b, m)
-}
-
-func (m *ConnectorToolSource) Marshal() ([]byte, error) {
-	return proto.Marshal(m)
-}
-
-func (m *ConnectorToolSource) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{}.Marshal(m)
-}
-
-func (m *ConnectorToolSource) UnmarshalJSON(data []byte) error {
-	return protojson.Unmarshal(data, m)
-}
-
-func (m *ConnectorToolSource) GetConnectorName() *connector.Name {
-	if m != nil {
-		return m.ConnectorName
-	}
-	return nil
-}
-
-func (m *ConnectorToolSource) SetConnectorName(fv *connector.Name) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "ConnectorName", "ConnectorToolSource"))
-	}
-	m.ConnectorName = fv
-}
-
-// Internal server tool (e.g., RAG)
-type InternalToolSource struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-	Type          InternalToolSource_Type `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.ai.v1.InternalToolSource_Type" json:"type,omitempty"`
-	// Template name for internal tools
-	// Server knows how to extract the right config from the template
-	TemplateName *capability_template.Name `protobuf:"bytes,2,opt,customtype=Name,name=template_name,json=templateName,proto3" json:"template_name,omitempty"`
-}
-
-func (m *InternalToolSource) Reset() {
-	*m = InternalToolSource{}
-	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (m *InternalToolSource) String() string {
-	return protoimpl.X.MessageStringOf(m)
-}
-
-func (*InternalToolSource) ProtoMessage() {}
-
-func (m *InternalToolSource) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && m != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(m)
-}
-
-func (*InternalToolSource) GotenMessage() {}
-
-// Deprecated, Use InternalToolSource.ProtoReflect.Descriptor instead.
-func (*InternalToolSource) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{7}
-}
-
-func (m *InternalToolSource) Unmarshal(b []byte) error {
-	return proto.Unmarshal(b, m)
-}
-
-func (m *InternalToolSource) Marshal() ([]byte, error) {
-	return proto.Marshal(m)
-}
-
-func (m *InternalToolSource) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{}.Marshal(m)
-}
-
-func (m *InternalToolSource) UnmarshalJSON(data []byte) error {
-	return protojson.Unmarshal(data, m)
-}
-
-func (m *InternalToolSource) GetType() InternalToolSource_Type {
-	if m != nil {
-		return m.Type
-	}
-	return InternalToolSource_TYPE_UNSPECIFIED
-}
-
-func (m *InternalToolSource) GetTemplateName() *capability_template.Name {
-	if m != nil {
-		return m.TemplateName
-	}
-	return nil
-}
-
-func (m *InternalToolSource) SetType(fv InternalToolSource_Type) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "Type", "InternalToolSource"))
-	}
-	m.Type = fv
-}
-
-func (m *InternalToolSource) SetTemplateName(fv *capability_template.Name) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "TemplateName", "InternalToolSource"))
-	}
-	m.TemplateName = fv
 }
 
 type ModelCapabilities struct {
@@ -1112,7 +846,7 @@ type ModelCapabilities struct {
 func (m *ModelCapabilities) Reset() {
 	*m = ModelCapabilities{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[8]
+		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1125,7 +859,7 @@ func (m *ModelCapabilities) String() string {
 func (*ModelCapabilities) ProtoMessage() {}
 
 func (m *ModelCapabilities) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[8]
+	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1140,7 +874,7 @@ func (*ModelCapabilities) GotenMessage() {}
 
 // Deprecated, Use ModelCapabilities.ProtoReflect.Descriptor instead.
 func (*ModelCapabilities) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{8}
+	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{5}
 }
 
 func (m *ModelCapabilities) Unmarshal(b []byte) error {
@@ -1239,7 +973,7 @@ type ContentDelta struct {
 func (m *ContentDelta) Reset() {
 	*m = ContentDelta{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[9]
+		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1252,7 +986,7 @@ func (m *ContentDelta) String() string {
 func (*ContentDelta) ProtoMessage() {}
 
 func (m *ContentDelta) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[9]
+	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1267,7 +1001,7 @@ func (*ContentDelta) GotenMessage() {}
 
 // Deprecated, Use ContentDelta.ProtoReflect.Descriptor instead.
 func (*ContentDelta) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{9}
+	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{6}
 }
 
 func (m *ContentDelta) Unmarshal(b []byte) error {
@@ -1310,7 +1044,7 @@ type ContentDone struct {
 func (m *ContentDone) Reset() {
 	*m = ContentDone{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[10]
+		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1323,7 +1057,7 @@ func (m *ContentDone) String() string {
 func (*ContentDone) ProtoMessage() {}
 
 func (m *ContentDone) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[10]
+	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1338,7 +1072,7 @@ func (*ContentDone) GotenMessage() {}
 
 // Deprecated, Use ContentDone.ProtoReflect.Descriptor instead.
 func (*ContentDone) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{10}
+	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{7}
 }
 
 func (m *ContentDone) Unmarshal(b []byte) error {
@@ -1381,7 +1115,7 @@ type ThinkingDelta struct {
 func (m *ThinkingDelta) Reset() {
 	*m = ThinkingDelta{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[11]
+		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1394,7 +1128,7 @@ func (m *ThinkingDelta) String() string {
 func (*ThinkingDelta) ProtoMessage() {}
 
 func (m *ThinkingDelta) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[11]
+	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1409,7 +1143,7 @@ func (*ThinkingDelta) GotenMessage() {}
 
 // Deprecated, Use ThinkingDelta.ProtoReflect.Descriptor instead.
 func (*ThinkingDelta) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{11}
+	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{8}
 }
 
 func (m *ThinkingDelta) Unmarshal(b []byte) error {
@@ -1453,7 +1187,7 @@ type ThinkingDone struct {
 func (m *ThinkingDone) Reset() {
 	*m = ThinkingDone{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[12]
+		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1466,7 +1200,7 @@ func (m *ThinkingDone) String() string {
 func (*ThinkingDone) ProtoMessage() {}
 
 func (m *ThinkingDone) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[12]
+	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1481,7 +1215,7 @@ func (*ThinkingDone) GotenMessage() {}
 
 // Deprecated, Use ThinkingDone.ProtoReflect.Descriptor instead.
 func (*ThinkingDone) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{12}
+	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{9}
 }
 
 func (m *ThinkingDone) Unmarshal(b []byte) error {
@@ -1539,7 +1273,7 @@ type CitationDelta struct {
 func (m *CitationDelta) Reset() {
 	*m = CitationDelta{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[13]
+		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1552,7 +1286,7 @@ func (m *CitationDelta) String() string {
 func (*CitationDelta) ProtoMessage() {}
 
 func (m *CitationDelta) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[13]
+	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1567,7 +1301,7 @@ func (*CitationDelta) GotenMessage() {}
 
 // Deprecated, Use CitationDelta.ProtoReflect.Descriptor instead.
 func (*CitationDelta) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{13}
+	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{10}
 }
 
 func (m *CitationDelta) Unmarshal(b []byte) error {
@@ -1615,7 +1349,7 @@ type ResponseComplete struct {
 func (m *ResponseComplete) Reset() {
 	*m = ResponseComplete{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[14]
+		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1628,7 +1362,7 @@ func (m *ResponseComplete) String() string {
 func (*ResponseComplete) ProtoMessage() {}
 
 func (m *ResponseComplete) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[14]
+	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1643,7 +1377,7 @@ func (*ResponseComplete) GotenMessage() {}
 
 // Deprecated, Use ResponseComplete.ProtoReflect.Descriptor instead.
 func (*ResponseComplete) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{14}
+	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{11}
 }
 
 func (m *ResponseComplete) Unmarshal(b []byte) error {
@@ -1729,7 +1463,7 @@ type Error struct {
 func (m *Error) Reset() {
 	*m = Error{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[15]
+		mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1742,7 +1476,7 @@ func (m *Error) String() string {
 func (*Error) ProtoMessage() {}
 
 func (m *Error) ProtoReflect() preflect.Message {
-	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[15]
+	mi := &edgelq_ai_proto_v1_responses_custom_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1757,7 +1491,7 @@ func (*Error) GotenMessage() {}
 
 // Deprecated, Use Error.ProtoReflect.Descriptor instead.
 func (*Error) Descriptor() ([]byte, []int) {
-	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{15}
+	return edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP(), []int{12}
 }
 
 func (m *Error) Unmarshal(b []byte) error {
@@ -1933,81 +1667,63 @@ var edgelq_ai_proto_v1_responses_custom_proto_rawDesc = []byte{
 	0x6c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x69,
 	0x2e, 0x76, 0x31, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x54, 0x6f, 0x6f, 0x6c,
 	0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x48, 0x00, 0x52, 0x08, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e,
-	0x61, 0x6c, 0x42, 0x08, 0x0a, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0x12, 0x0a, 0x10,
-	0x43, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x54, 0x6f, 0x6f, 0x6c, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x22, 0x4f, 0x0a, 0x13, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x54, 0x6f, 0x6f,
-	0x6c, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x38, 0x0a, 0x0e, 0x63, 0x6f, 0x6e, 0x6e, 0x65,
-	0x63, 0x74, 0x6f, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42,
-	0x11, 0xb2, 0xda, 0x21, 0x0d, 0x0a, 0x0b, 0x0a, 0x09, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74,
-	0x6f, 0x72, 0x52, 0x0d, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x4e, 0x61, 0x6d,
-	0x65, 0x22, 0xb4, 0x01, 0x0a, 0x12, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x54, 0x6f,
-	0x6f, 0x6c, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x36, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x22, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x69, 0x2e,
-	0x76, 0x31, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x54, 0x6f, 0x6f, 0x6c, 0x53,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65,
-	0x12, 0x3f, 0x0a, 0x0d, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x5f, 0x6e, 0x61, 0x6d,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x1a, 0xb2, 0xda, 0x21, 0x16, 0x0a, 0x14, 0x0a,
-	0x12, 0x43, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x54, 0x65, 0x6d, 0x70, 0x6c,
-	0x61, 0x74, 0x65, 0x52, 0x0c, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x4e, 0x61, 0x6d,
-	0x65, 0x22, 0x25, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x12, 0x14, 0x0a, 0x10, 0x54, 0x59, 0x50,
-	0x45, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12,
-	0x07, 0x0a, 0x03, 0x52, 0x41, 0x47, 0x10, 0x01, 0x22, 0xed, 0x01, 0x0a, 0x11, 0x4d, 0x6f, 0x64,
-	0x65, 0x6c, 0x43, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x69, 0x65, 0x73, 0x12, 0x25,
-	0x0a, 0x0e, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x5f, 0x77, 0x69, 0x6e, 0x64, 0x6f, 0x77,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0d, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x57,
-	0x69, 0x6e, 0x64, 0x6f, 0x77, 0x12, 0x2a, 0x0a, 0x11, 0x6d, 0x61, 0x78, 0x5f, 0x6f, 0x75, 0x74,
-	0x70, 0x75, 0x74, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05,
-	0x52, 0x0f, 0x6d, 0x61, 0x78, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
-	0x73, 0x12, 0x25, 0x0a, 0x0e, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74, 0x73, 0x5f, 0x74, 0x6f,
-	0x6f, 0x6c, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0d, 0x73, 0x75, 0x70, 0x70, 0x6f,
-	0x72, 0x74, 0x73, 0x54, 0x6f, 0x6f, 0x6c, 0x73, 0x12, 0x2b, 0x0a, 0x11, 0x73, 0x75, 0x70, 0x70,
-	0x6f, 0x72, 0x74, 0x73, 0x5f, 0x74, 0x68, 0x69, 0x6e, 0x6b, 0x69, 0x6e, 0x67, 0x18, 0x04, 0x20,
-	0x01, 0x28, 0x08, 0x52, 0x10, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74, 0x73, 0x54, 0x68, 0x69,
-	0x6e, 0x6b, 0x69, 0x6e, 0x67, 0x12, 0x31, 0x0a, 0x14, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74,
-	0x65, 0x64, 0x5f, 0x6d, 0x6f, 0x64, 0x61, 0x6c, 0x69, 0x74, 0x69, 0x65, 0x73, 0x18, 0x05, 0x20,
-	0x03, 0x28, 0x09, 0x52, 0x13, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x4d, 0x6f,
-	0x64, 0x61, 0x6c, 0x69, 0x74, 0x69, 0x65, 0x73, 0x22, 0x22, 0x0a, 0x0c, 0x43, 0x6f, 0x6e, 0x74,
-	0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65, 0x78, 0x74,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x22, 0x21, 0x0a, 0x0b,
-	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x44, 0x6f, 0x6e, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x74,
-	0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x22,
-	0x23, 0x0a, 0x0d, 0x54, 0x68, 0x69, 0x6e, 0x6b, 0x69, 0x6e, 0x67, 0x44, 0x65, 0x6c, 0x74, 0x61,
-	0x12, 0x12, 0x0a, 0x04, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x74, 0x65, 0x78, 0x74, 0x22, 0x40, 0x0a, 0x0c, 0x54, 0x68, 0x69, 0x6e, 0x6b, 0x69, 0x6e, 0x67,
-	0x44, 0x6f, 0x6e, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x69, 0x67, 0x6e,
-	0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x69, 0x67,
-	0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x22, 0x40, 0x0a, 0x0d, 0x43, 0x69, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x44, 0x65, 0x6c, 0x74, 0x61, 0x12, 0x2f, 0x0a, 0x08, 0x63, 0x69, 0x74, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x6e, 0x74, 0x74, 0x2e,
-	0x61, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08,
-	0x63, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xed, 0x01, 0x0a, 0x10, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x32, 0x0a,
-	0x15, 0x72, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x73, 0x5f, 0x74, 0x6f, 0x6f, 0x6c, 0x5f, 0x72,
-	0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x13, 0x72, 0x65,
-	0x71, 0x75, 0x69, 0x72, 0x65, 0x73, 0x54, 0x6f, 0x6f, 0x6c, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74,
-	0x73, 0x12, 0x36, 0x0a, 0x0b, 0x73, 0x74, 0x6f, 0x70, 0x5f, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x15, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x69, 0x2e,
-	0x76, 0x31, 0x2e, 0x53, 0x74, 0x6f, 0x70, 0x52, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x52, 0x0a, 0x73,
-	0x74, 0x6f, 0x70, 0x52, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x2b, 0x0a, 0x05, 0x75, 0x73, 0x61,
-	0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61,
-	0x69, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x55, 0x73, 0x61, 0x67, 0x65, 0x52,
-	0x05, 0x75, 0x73, 0x61, 0x67, 0x65, 0x12, 0x40, 0x0a, 0x10, 0x63, 0x75, 0x6d, 0x75, 0x6c, 0x61,
-	0x74, 0x69, 0x76, 0x65, 0x5f, 0x75, 0x73, 0x61, 0x67, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x15, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f, 0x6b,
-	0x65, 0x6e, 0x55, 0x73, 0x61, 0x67, 0x65, 0x52, 0x0f, 0x63, 0x75, 0x6d, 0x75, 0x6c, 0x61, 0x74,
-	0x69, 0x76, 0x65, 0x55, 0x73, 0x61, 0x67, 0x65, 0x22, 0x35, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f,
-	0x72, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x42,
-	0x72, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61,
-	0x69, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x14, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x73, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x00, 0x5a,
-	0x42, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75,
-	0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x61, 0x69, 0x2f, 0x63,
-	0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x73, 0x3b, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x5f, 0x63, 0x6c, 0x69,
-	0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x6c, 0x42, 0x08, 0x0a, 0x06, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x22, 0xed, 0x01, 0x0a,
+	0x11, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x43, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x69,
+	0x65, 0x73, 0x12, 0x25, 0x0a, 0x0e, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x5f, 0x77, 0x69,
+	0x6e, 0x64, 0x6f, 0x77, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0d, 0x63, 0x6f, 0x6e, 0x74,
+	0x65, 0x78, 0x74, 0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x12, 0x2a, 0x0a, 0x11, 0x6d, 0x61, 0x78,
+	0x5f, 0x6f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x0f, 0x6d, 0x61, 0x78, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x12, 0x25, 0x0a, 0x0e, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74,
+	0x73, 0x5f, 0x74, 0x6f, 0x6f, 0x6c, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0d, 0x73,
+	0x75, 0x70, 0x70, 0x6f, 0x72, 0x74, 0x73, 0x54, 0x6f, 0x6f, 0x6c, 0x73, 0x12, 0x2b, 0x0a, 0x11,
+	0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74, 0x73, 0x5f, 0x74, 0x68, 0x69, 0x6e, 0x6b, 0x69, 0x6e,
+	0x67, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x10, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74,
+	0x73, 0x54, 0x68, 0x69, 0x6e, 0x6b, 0x69, 0x6e, 0x67, 0x12, 0x31, 0x0a, 0x14, 0x73, 0x75, 0x70,
+	0x70, 0x6f, 0x72, 0x74, 0x65, 0x64, 0x5f, 0x6d, 0x6f, 0x64, 0x61, 0x6c, 0x69, 0x74, 0x69, 0x65,
+	0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x13, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74,
+	0x65, 0x64, 0x4d, 0x6f, 0x64, 0x61, 0x6c, 0x69, 0x74, 0x69, 0x65, 0x73, 0x22, 0x22, 0x0a, 0x0c,
+	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x44, 0x65, 0x6c, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04,
+	0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74,
+	0x22, 0x21, 0x0a, 0x0b, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x44, 0x6f, 0x6e, 0x65, 0x12,
+	0x12, 0x0a, 0x04, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74,
+	0x65, 0x78, 0x74, 0x22, 0x23, 0x0a, 0x0d, 0x54, 0x68, 0x69, 0x6e, 0x6b, 0x69, 0x6e, 0x67, 0x44,
+	0x65, 0x6c, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x22, 0x40, 0x0a, 0x0c, 0x54, 0x68, 0x69, 0x6e,
+	0x6b, 0x69, 0x6e, 0x67, 0x44, 0x6f, 0x6e, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65, 0x78, 0x74,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x12, 0x1c, 0x0a, 0x09,
+	0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x22, 0x40, 0x0a, 0x0d, 0x43, 0x69,
+	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x44, 0x65, 0x6c, 0x74, 0x61, 0x12, 0x2f, 0x0a, 0x08, 0x63,
+	0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e,
+	0x6e, 0x74, 0x74, 0x2e, 0x61, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x69, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x08, 0x63, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xed, 0x01, 0x0a,
+	0x10, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74,
+	0x65, 0x12, 0x32, 0x0a, 0x15, 0x72, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x73, 0x5f, 0x74, 0x6f,
+	0x6f, 0x6c, 0x5f, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x13, 0x72, 0x65, 0x71, 0x75, 0x69, 0x72, 0x65, 0x73, 0x54, 0x6f, 0x6f, 0x6c, 0x52, 0x65,
+	0x73, 0x75, 0x6c, 0x74, 0x73, 0x12, 0x36, 0x0a, 0x0b, 0x73, 0x74, 0x6f, 0x70, 0x5f, 0x72, 0x65,
+	0x61, 0x73, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x15, 0x2e, 0x6e, 0x74, 0x74,
+	0x2e, 0x61, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x74, 0x6f, 0x70, 0x52, 0x65, 0x61, 0x73, 0x6f,
+	0x6e, 0x52, 0x0a, 0x73, 0x74, 0x6f, 0x70, 0x52, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x2b, 0x0a,
+	0x05, 0x75, 0x73, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x6e,
+	0x74, 0x74, 0x2e, 0x61, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x55, 0x73,
+	0x61, 0x67, 0x65, 0x52, 0x05, 0x75, 0x73, 0x61, 0x67, 0x65, 0x12, 0x40, 0x0a, 0x10, 0x63, 0x75,
+	0x6d, 0x75, 0x6c, 0x61, 0x74, 0x69, 0x76, 0x65, 0x5f, 0x75, 0x73, 0x61, 0x67, 0x65, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x69, 0x2e, 0x76, 0x31,
+	0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x55, 0x73, 0x61, 0x67, 0x65, 0x52, 0x0f, 0x63, 0x75, 0x6d,
+	0x75, 0x6c, 0x61, 0x74, 0x69, 0x76, 0x65, 0x55, 0x73, 0x61, 0x67, 0x65, 0x22, 0x35, 0x0a, 0x05,
+	0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x42, 0x72, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x6e,
+	0x74, 0x74, 0x2e, 0x61, 0x69, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x14, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74,
+	0x6f, 0x50, 0x00, 0x5a, 0x42, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f,
+	0x61, 0x69, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x72, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x3b, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73,
+	0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2022,65 +1738,62 @@ func edgelq_ai_proto_v1_responses_custom_proto_rawDescGZIP() []byte {
 	return edgelq_ai_proto_v1_responses_custom_proto_rawDescData
 }
 
-var edgelq_ai_proto_v1_responses_custom_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var edgelq_ai_proto_v1_responses_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var edgelq_ai_proto_v1_responses_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var edgelq_ai_proto_v1_responses_custom_proto_goTypes = []interface{}{
-	(InternalToolSource_Type)(0),         // 0: ntt.ai.v1.InternalToolSource_Type
-	(*CreateResponseRequest)(nil),        // 1: ntt.ai.v1.CreateResponseRequest
-	(*CreateRequest)(nil),                // 2: ntt.ai.v1.CreateRequest
-	(*CreateResponseResult)(nil),         // 3: ntt.ai.v1.CreateResponseResult
-	(*ResponseStarted)(nil),              // 4: ntt.ai.v1.ResponseStarted
-	(*ToolInfo)(nil),                     // 5: ntt.ai.v1.ToolInfo
-	(*ClientToolSource)(nil),             // 6: ntt.ai.v1.ClientToolSource
-	(*ConnectorToolSource)(nil),          // 7: ntt.ai.v1.ConnectorToolSource
-	(*InternalToolSource)(nil),           // 8: ntt.ai.v1.InternalToolSource
-	(*ModelCapabilities)(nil),            // 9: ntt.ai.v1.ModelCapabilities
-	(*ContentDelta)(nil),                 // 10: ntt.ai.v1.ContentDelta
-	(*ContentDone)(nil),                  // 11: ntt.ai.v1.ContentDone
-	(*ThinkingDelta)(nil),                // 12: ntt.ai.v1.ThinkingDelta
-	(*ThinkingDone)(nil),                 // 13: ntt.ai.v1.ThinkingDone
-	(*CitationDelta)(nil),                // 14: ntt.ai.v1.CitationDelta
-	(*ResponseComplete)(nil),             // 15: ntt.ai.v1.ResponseComplete
-	(*Error)(nil),                        // 16: ntt.ai.v1.Error
-	(*common_client.Message)(nil),        // 17: ntt.ai.v1.Message
-	(*common_client.ToolDefinition)(nil), // 18: ntt.ai.v1.ToolDefinition
-	(*common_client.ConnectorsList)(nil), // 19: ntt.ai.v1.ConnectorsList
-	(common_client.ReasoningLevel)(0),    // 20: ntt.ai.v1.ReasoningLevel
-	(*common_client.ToolCalls)(nil),      // 21: ntt.ai.v1.ToolCalls
-	(*common_client.Citation)(nil),       // 22: ntt.ai.v1.Citation
-	(common_client.StopReason)(0),        // 23: ntt.ai.v1.StopReason
-	(*common_client.TokenUsage)(nil),     // 24: ntt.ai.v1.TokenUsage
+	(*CreateResponseRequest)(nil),             // 0: ntt.ai.v1.CreateResponseRequest
+	(*CreateRequest)(nil),                     // 1: ntt.ai.v1.CreateRequest
+	(*CreateResponseResult)(nil),              // 2: ntt.ai.v1.CreateResponseResult
+	(*ResponseStarted)(nil),                   // 3: ntt.ai.v1.ResponseStarted
+	(*ToolInfo)(nil),                          // 4: ntt.ai.v1.ToolInfo
+	(*ModelCapabilities)(nil),                 // 5: ntt.ai.v1.ModelCapabilities
+	(*ContentDelta)(nil),                      // 6: ntt.ai.v1.ContentDelta
+	(*ContentDone)(nil),                       // 7: ntt.ai.v1.ContentDone
+	(*ThinkingDelta)(nil),                     // 8: ntt.ai.v1.ThinkingDelta
+	(*ThinkingDone)(nil),                      // 9: ntt.ai.v1.ThinkingDone
+	(*CitationDelta)(nil),                     // 10: ntt.ai.v1.CitationDelta
+	(*ResponseComplete)(nil),                  // 11: ntt.ai.v1.ResponseComplete
+	(*Error)(nil),                             // 12: ntt.ai.v1.Error
+	(*common_client.Message)(nil),             // 13: ntt.ai.v1.Message
+	(*common_client.ToolDefinition)(nil),      // 14: ntt.ai.v1.ToolDefinition
+	(*common_client.ConnectorsList)(nil),      // 15: ntt.ai.v1.ConnectorsList
+	(common_client.ReasoningLevel)(0),         // 16: ntt.ai.v1.ReasoningLevel
+	(*common_client.ToolCalls)(nil),           // 17: ntt.ai.v1.ToolCalls
+	(*common_client.ClientToolSource)(nil),    // 18: ntt.ai.v1.ClientToolSource
+	(*common_client.ConnectorToolSource)(nil), // 19: ntt.ai.v1.ConnectorToolSource
+	(*common_client.InternalToolSource)(nil),  // 20: ntt.ai.v1.InternalToolSource
+	(*common_client.Citation)(nil),            // 21: ntt.ai.v1.Citation
+	(common_client.StopReason)(0),             // 22: ntt.ai.v1.StopReason
+	(*common_client.TokenUsage)(nil),          // 23: ntt.ai.v1.TokenUsage
 }
 var edgelq_ai_proto_v1_responses_custom_proto_depIdxs = []int32{
-	2,  // 0: ntt.ai.v1.CreateResponseRequest.create_request:type_name -> ntt.ai.v1.CreateRequest
-	17, // 1: ntt.ai.v1.CreateRequest.messages:type_name -> ntt.ai.v1.Message
-	18, // 2: ntt.ai.v1.CreateRequest.client_tools:type_name -> ntt.ai.v1.ToolDefinition
-	19, // 3: ntt.ai.v1.CreateRequest.connectors:type_name -> ntt.ai.v1.ConnectorsList
-	20, // 4: ntt.ai.v1.CreateRequest.reasoning_level:type_name -> ntt.ai.v1.ReasoningLevel
-	4,  // 5: ntt.ai.v1.CreateResponseResult.response_started:type_name -> ntt.ai.v1.ResponseStarted
-	10, // 6: ntt.ai.v1.CreateResponseResult.content_delta:type_name -> ntt.ai.v1.ContentDelta
-	11, // 7: ntt.ai.v1.CreateResponseResult.content_done:type_name -> ntt.ai.v1.ContentDone
-	12, // 8: ntt.ai.v1.CreateResponseResult.thinking_delta:type_name -> ntt.ai.v1.ThinkingDelta
-	13, // 9: ntt.ai.v1.CreateResponseResult.thinking_done:type_name -> ntt.ai.v1.ThinkingDone
-	21, // 10: ntt.ai.v1.CreateResponseResult.tool_calls:type_name -> ntt.ai.v1.ToolCalls
-	15, // 11: ntt.ai.v1.CreateResponseResult.response_complete:type_name -> ntt.ai.v1.ResponseComplete
-	16, // 12: ntt.ai.v1.CreateResponseResult.error:type_name -> ntt.ai.v1.Error
-	14, // 13: ntt.ai.v1.CreateResponseResult.citation_delta:type_name -> ntt.ai.v1.CitationDelta
-	5,  // 14: ntt.ai.v1.ResponseStarted.available_tools:type_name -> ntt.ai.v1.ToolInfo
-	9,  // 15: ntt.ai.v1.ResponseStarted.capabilities:type_name -> ntt.ai.v1.ModelCapabilities
-	6,  // 16: ntt.ai.v1.ToolInfo.client:type_name -> ntt.ai.v1.ClientToolSource
-	7,  // 17: ntt.ai.v1.ToolInfo.connector:type_name -> ntt.ai.v1.ConnectorToolSource
-	8,  // 18: ntt.ai.v1.ToolInfo.internal:type_name -> ntt.ai.v1.InternalToolSource
-	0,  // 19: ntt.ai.v1.InternalToolSource.type:type_name -> ntt.ai.v1.InternalToolSource_Type
-	22, // 20: ntt.ai.v1.CitationDelta.citation:type_name -> ntt.ai.v1.Citation
-	23, // 21: ntt.ai.v1.ResponseComplete.stop_reason:type_name -> ntt.ai.v1.StopReason
-	24, // 22: ntt.ai.v1.ResponseComplete.usage:type_name -> ntt.ai.v1.TokenUsage
-	24, // 23: ntt.ai.v1.ResponseComplete.cumulative_usage:type_name -> ntt.ai.v1.TokenUsage
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	1,  // 0: ntt.ai.v1.CreateResponseRequest.create_request:type_name -> ntt.ai.v1.CreateRequest
+	13, // 1: ntt.ai.v1.CreateRequest.messages:type_name -> ntt.ai.v1.Message
+	14, // 2: ntt.ai.v1.CreateRequest.client_tools:type_name -> ntt.ai.v1.ToolDefinition
+	15, // 3: ntt.ai.v1.CreateRequest.connectors:type_name -> ntt.ai.v1.ConnectorsList
+	16, // 4: ntt.ai.v1.CreateRequest.reasoning_level:type_name -> ntt.ai.v1.ReasoningLevel
+	3,  // 5: ntt.ai.v1.CreateResponseResult.response_started:type_name -> ntt.ai.v1.ResponseStarted
+	6,  // 6: ntt.ai.v1.CreateResponseResult.content_delta:type_name -> ntt.ai.v1.ContentDelta
+	7,  // 7: ntt.ai.v1.CreateResponseResult.content_done:type_name -> ntt.ai.v1.ContentDone
+	8,  // 8: ntt.ai.v1.CreateResponseResult.thinking_delta:type_name -> ntt.ai.v1.ThinkingDelta
+	9,  // 9: ntt.ai.v1.CreateResponseResult.thinking_done:type_name -> ntt.ai.v1.ThinkingDone
+	17, // 10: ntt.ai.v1.CreateResponseResult.tool_calls:type_name -> ntt.ai.v1.ToolCalls
+	11, // 11: ntt.ai.v1.CreateResponseResult.response_complete:type_name -> ntt.ai.v1.ResponseComplete
+	12, // 12: ntt.ai.v1.CreateResponseResult.error:type_name -> ntt.ai.v1.Error
+	10, // 13: ntt.ai.v1.CreateResponseResult.citation_delta:type_name -> ntt.ai.v1.CitationDelta
+	4,  // 14: ntt.ai.v1.ResponseStarted.available_tools:type_name -> ntt.ai.v1.ToolInfo
+	5,  // 15: ntt.ai.v1.ResponseStarted.capabilities:type_name -> ntt.ai.v1.ModelCapabilities
+	18, // 16: ntt.ai.v1.ToolInfo.client:type_name -> ntt.ai.v1.ClientToolSource
+	19, // 17: ntt.ai.v1.ToolInfo.connector:type_name -> ntt.ai.v1.ConnectorToolSource
+	20, // 18: ntt.ai.v1.ToolInfo.internal:type_name -> ntt.ai.v1.InternalToolSource
+	21, // 19: ntt.ai.v1.CitationDelta.citation:type_name -> ntt.ai.v1.Citation
+	22, // 20: ntt.ai.v1.ResponseComplete.stop_reason:type_name -> ntt.ai.v1.StopReason
+	23, // 21: ntt.ai.v1.ResponseComplete.usage:type_name -> ntt.ai.v1.TokenUsage
+	23, // 22: ntt.ai.v1.ResponseComplete.cumulative_usage:type_name -> ntt.ai.v1.TokenUsage
+	23, // [23:23] is the sub-list for method output_type
+	23, // [23:23] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { edgelq_ai_proto_v1_responses_custom_proto_init() }
@@ -2151,42 +1864,6 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 			}
 		}
 		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ClientToolSource); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ConnectorToolSource); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*InternalToolSource); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ModelCapabilities); i {
 			case 0:
 				return &v.state
@@ -2198,7 +1875,7 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 				return nil
 			}
 		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ContentDelta); i {
 			case 0:
 				return &v.state
@@ -2210,7 +1887,7 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 				return nil
 			}
 		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ContentDone); i {
 			case 0:
 				return &v.state
@@ -2222,7 +1899,7 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 				return nil
 			}
 		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ThinkingDelta); i {
 			case 0:
 				return &v.state
@@ -2234,7 +1911,7 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 				return nil
 			}
 		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ThinkingDone); i {
 			case 0:
 				return &v.state
@@ -2246,7 +1923,7 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 				return nil
 			}
 		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CitationDelta); i {
 			case 0:
 				return &v.state
@@ -2258,7 +1935,7 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 				return nil
 			}
 		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ResponseComplete); i {
 			case 0:
 				return &v.state
@@ -2270,7 +1947,7 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 				return nil
 			}
 		}
-		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		edgelq_ai_proto_v1_responses_custom_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Error); i {
 			case 0:
 				return &v.state
@@ -2309,14 +1986,13 @@ func edgelq_ai_proto_v1_responses_custom_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_ai_proto_v1_responses_custom_proto_rawDesc,
-			NumEnums:      1,
-			NumMessages:   16,
+			NumEnums:      0,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           edgelq_ai_proto_v1_responses_custom_proto_goTypes,
 		DependencyIndexes: edgelq_ai_proto_v1_responses_custom_proto_depIdxs,
-		EnumInfos:         edgelq_ai_proto_v1_responses_custom_proto_enumTypes,
 		MessageInfos:      edgelq_ai_proto_v1_responses_custom_proto_msgTypes,
 	}.Build()
 	edgelq_ai_proto_v1_responses_custom_proto = out.File

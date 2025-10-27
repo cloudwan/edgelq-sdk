@@ -419,7 +419,7 @@ func FullConversationTurn_FieldMask() *ConversationTurn_FieldMask {
 	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorUsage})
 	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorStopReason})
 	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorDuration})
-	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableTools})
+	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource})
 	return res
 }
 
@@ -470,10 +470,12 @@ func (fieldMask *ConversationTurn_FieldMask) Subtract(other *ConversationTurn_Fi
 	result := &ConversationTurn_FieldMask{}
 	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[ConversationTurn_FieldPathSelector]gotenobject.FieldMask{
-		ConversationTurn_FieldPathSelectorConfig: &TurnConfig_FieldMask{},
+		ConversationTurn_FieldPathSelectorConfig:                 &TurnConfig_FieldMask{},
+		ConversationTurn_FieldPathSelectorAvailableToolsBySource: &TurnToolsBySourceGroup_FieldMask{},
 	}
 	mySubMasks := map[ConversationTurn_FieldPathSelector]gotenobject.FieldMask{
-		ConversationTurn_FieldPathSelectorConfig: &TurnConfig_FieldMask{},
+		ConversationTurn_FieldPathSelectorConfig:                 &TurnConfig_FieldMask{},
+		ConversationTurn_FieldPathSelectorAvailableToolsBySource: &TurnToolsBySourceGroup_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -491,6 +493,8 @@ func (fieldMask *ConversationTurn_FieldMask) Subtract(other *ConversationTurn_Fi
 					switch tp.selector {
 					case ConversationTurn_FieldPathSelectorConfig:
 						mySubMasks[ConversationTurn_FieldPathSelectorConfig] = FullTurnConfig_FieldMask()
+					case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+						mySubMasks[ConversationTurn_FieldPathSelectorAvailableToolsBySource] = FullTurnToolsBySourceGroup_FieldMask()
 					}
 				} else if tp, ok := path.(*ConversationTurn_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -645,6 +649,8 @@ func (fieldMask *ConversationTurn_FieldMask) Project(source *ConversationTurn) *
 	result := &ConversationTurn{}
 	configMask := &TurnConfig_FieldMask{}
 	wholeConfigAccepted := false
+	availableToolsBySourceMask := &TurnToolsBySourceGroup_FieldMask{}
+	wholeAvailableToolsBySourceAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -665,18 +671,26 @@ func (fieldMask *ConversationTurn_FieldMask) Project(source *ConversationTurn) *
 				result.StopReason = source.StopReason
 			case ConversationTurn_FieldPathSelectorDuration:
 				result.Duration = source.Duration
-			case ConversationTurn_FieldPathSelectorAvailableTools:
-				result.AvailableTools = source.AvailableTools
+			case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+				result.AvailableToolsBySource = source.AvailableToolsBySource
+				wholeAvailableToolsBySourceAccepted = true
 			}
 		case *ConversationTurn_FieldSubPath:
 			switch tp.selector {
 			case ConversationTurn_FieldPathSelectorConfig:
 				configMask.AppendPath(tp.subPath.(TurnConfig_FieldPath))
+			case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
+				availableToolsBySourceMask.AppendPath(tp.subPath.(TurnToolsBySourceGroup_FieldPath))
 			}
 		}
 	}
 	if wholeConfigAccepted == false && len(configMask.Paths) > 0 {
 		result.Config = configMask.Project(source.GetConfig())
+	}
+	if wholeAvailableToolsBySourceAccepted == false && len(availableToolsBySourceMask.Paths) > 0 {
+		for _, sourceItem := range source.GetAvailableToolsBySource() {
+			result.AvailableToolsBySource = append(result.AvailableToolsBySource, availableToolsBySourceMask.Project(sourceItem))
+		}
 	}
 	return result
 }
@@ -686,6 +700,255 @@ func (fieldMask *ConversationTurn_FieldMask) ProjectRaw(source gotenobject.Goten
 }
 
 func (fieldMask *ConversationTurn_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type TurnToolsBySourceGroup_FieldMask struct {
+	Paths []TurnToolsBySourceGroup_FieldPath
+}
+
+func FullTurnToolsBySourceGroup_FieldMask() *TurnToolsBySourceGroup_FieldMask {
+	res := &TurnToolsBySourceGroup_FieldMask{}
+	res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorClient})
+	res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorConnector})
+	res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorInternal})
+	res.Paths = append(res.Paths, &TurnToolsBySourceGroup_FieldTerminalPath{selector: TurnToolsBySourceGroup_FieldPathSelectorToolNames})
+	return res
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*TurnToolsBySourceGroup_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseTurnToolsBySourceGroup_FieldPath(raw)
+	})
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) ProtoMessage() {}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) Subtract(other *TurnToolsBySourceGroup_FieldMask) *TurnToolsBySourceGroup_FieldMask {
+	result := &TurnToolsBySourceGroup_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *TurnToolsBySourceGroup_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*TurnToolsBySourceGroup_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) FilterInputFields() *TurnToolsBySourceGroup_FieldMask {
+	result := &TurnToolsBySourceGroup_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]TurnToolsBySourceGroup_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseTurnToolsBySourceGroup_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask TurnToolsBySourceGroup_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask TurnToolsBySourceGroup_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) AppendPath(path TurnToolsBySourceGroup_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(TurnToolsBySourceGroup_FieldPath))
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) GetPaths() []TurnToolsBySourceGroup_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseTurnToolsBySourceGroup_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) Set(target, source *TurnToolsBySourceGroup) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*TurnToolsBySourceGroup), source.(*TurnToolsBySourceGroup))
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) Project(source *TurnToolsBySourceGroup) *TurnToolsBySourceGroup {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &TurnToolsBySourceGroup{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *TurnToolsBySourceGroup_FieldTerminalPath:
+			switch tp.selector {
+			case TurnToolsBySourceGroup_FieldPathSelectorClient:
+				if source, ok := source.Source.(*TurnToolsBySourceGroup_Client); ok {
+					result.Source = &TurnToolsBySourceGroup_Client{
+						Client: source.Client,
+					}
+				}
+			case TurnToolsBySourceGroup_FieldPathSelectorConnector:
+				if source, ok := source.Source.(*TurnToolsBySourceGroup_Connector); ok {
+					result.Source = &TurnToolsBySourceGroup_Connector{
+						Connector: source.Connector,
+					}
+				}
+			case TurnToolsBySourceGroup_FieldPathSelectorInternal:
+				if source, ok := source.Source.(*TurnToolsBySourceGroup_Internal); ok {
+					result.Source = &TurnToolsBySourceGroup_Internal{
+						Internal: source.Internal,
+					}
+				}
+			case TurnToolsBySourceGroup_FieldPathSelectorToolNames:
+				result.ToolNames = source.ToolNames
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*TurnToolsBySourceGroup))
+}
+
+func (fieldMask *TurnToolsBySourceGroup_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

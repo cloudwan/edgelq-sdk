@@ -194,6 +194,28 @@ message ToolResponse {
 // Tool calls container
 message ToolCalls { repeated ToolCall calls = 1; }
 
+// Tool source types (shared across chat and conversation persistence)
+// Client tool - executed by client locally
+message ClientToolSource {}
+
+// Connector tool - executed via MCP/other connector
+message ConnectorToolSource { string connector_name = 1; }
+
+// Internal server tool (e.g., RAG)
+message InternalToolSource {
+  Type type = 1;
+
+  // Capability Template name for internal tools
+  // Server knows how to extract the right config from the template
+  string template_name = 2;
+
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+
+    RAG = 1;
+  }
+}
+
 // Citation - reference to source material (provider-agnostic)
 message Citation {
   // Text reference in AI response (which part is cited)

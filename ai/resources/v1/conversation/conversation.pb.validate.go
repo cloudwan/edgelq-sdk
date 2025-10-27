@@ -104,6 +104,44 @@ func (obj *ConversationTurn) GotenValidate() error {
 			return gotenvalidate.NewValidationError("ConversationTurn", "usage", obj.Usage, "nested object validation failed", err)
 		}
 	}
+	for idx, elem := range obj.AvailableToolsBySource {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ConversationTurn", "availableToolsBySource", obj.AvailableToolsBySource[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *TurnToolsBySourceGroup) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Source.(type) {
+	case *TurnToolsBySourceGroup_Client:
+		if subobj, ok := interface{}(opt.Client).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("TurnToolsBySourceGroup", "client", opt.Client, "nested object validation failed", err)
+			}
+		}
+	case *TurnToolsBySourceGroup_Connector:
+		if subobj, ok := interface{}(opt.Connector).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("TurnToolsBySourceGroup", "connector", opt.Connector, "nested object validation failed", err)
+			}
+		}
+	case *TurnToolsBySourceGroup_Internal:
+		if subobj, ok := interface{}(opt.Internal).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("TurnToolsBySourceGroup", "internal", opt.Internal, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

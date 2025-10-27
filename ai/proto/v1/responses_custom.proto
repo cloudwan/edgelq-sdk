@@ -99,27 +99,6 @@ message ToolInfo {
   }
 }
 
-// Client tool - executed by client locally
-message ClientToolSource {}
-
-// Connector tool - executed via MCP/other connector
-message ConnectorToolSource { string connector_name = 1; }
-
-// Internal server tool (e.g., RAG)
-message InternalToolSource {
-  Type type = 1;
-
-  // Template name for internal tools
-  // Server knows how to extract the right config from the template
-  string template_name = 2;
-
-  enum Type {
-    TYPE_UNSPECIFIED = 0;
-
-    RAG = 1; // Future: other internal tools
-  }
-}
-
 message ModelCapabilities {
   int32 context_window = 1;
 
