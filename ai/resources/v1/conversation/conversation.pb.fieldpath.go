@@ -86,9 +86,11 @@ const (
 	Conversation_FieldPathSelectorMetadata         Conversation_FieldPathSelector = 1
 	Conversation_FieldPathSelectorTitle            Conversation_FieldPathSelector = 2
 	Conversation_FieldPathSelectorArchived         Conversation_FieldPathSelector = 3
-	Conversation_FieldPathSelectorLastActivityTime Conversation_FieldPathSelector = 4
-	Conversation_FieldPathSelectorTurns            Conversation_FieldPathSelector = 5
-	Conversation_FieldPathSelectorUsageByModel     Conversation_FieldPathSelector = 6
+	Conversation_FieldPathSelectorIsPrivate        Conversation_FieldPathSelector = 4
+	Conversation_FieldPathSelectorLastActivityTime Conversation_FieldPathSelector = 5
+	Conversation_FieldPathSelectorTurns            Conversation_FieldPathSelector = 6
+	Conversation_FieldPathSelectorUsageByModel     Conversation_FieldPathSelector = 7
+	Conversation_FieldPathSelectorFailedTurns      Conversation_FieldPathSelector = 8
 )
 
 func (s Conversation_FieldPathSelector) String() string {
@@ -101,12 +103,16 @@ func (s Conversation_FieldPathSelector) String() string {
 		return "title"
 	case Conversation_FieldPathSelectorArchived:
 		return "archived"
+	case Conversation_FieldPathSelectorIsPrivate:
+		return "is_private"
 	case Conversation_FieldPathSelectorLastActivityTime:
 		return "last_activity_time"
 	case Conversation_FieldPathSelectorTurns:
 		return "turns"
 	case Conversation_FieldPathSelectorUsageByModel:
 		return "usage_by_model"
+	case Conversation_FieldPathSelectorFailedTurns:
+		return "failed_turns"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", s))
 	}
@@ -126,12 +132,16 @@ func BuildConversation_FieldPath(fp gotenobject.RawFieldPath) (Conversation_Fiel
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTitle}, nil
 		case "archived":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorArchived}, nil
+		case "is_private", "isPrivate", "is-private":
+			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorIsPrivate}, nil
 		case "last_activity_time", "lastActivityTime", "last-activity-time":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorLastActivityTime}, nil
 		case "turns":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTurns}, nil
 		case "usage_by_model", "usageByModel", "usage-by-model":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel}, nil
+		case "failed_turns", "failedTurns", "failed-turns":
+			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -146,6 +156,12 @@ func BuildConversation_FieldPath(fp gotenobject.RawFieldPath) (Conversation_Fiel
 				return nil, err
 			} else {
 				return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorTurns, subPath: subpath}, nil
+			}
+		case "failed_turns", "failedTurns", "failed-turns":
+			if subpath, err := BuildConversationTurn_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorFailedTurns, subPath: subpath}, nil
 			}
 		case "usage_by_model", "usageByModel", "usage-by-model":
 			if len(fp) > 2 {
@@ -209,6 +225,8 @@ func (fp *Conversation_FieldTerminalPath) Get(source *Conversation) (values []in
 			values = append(values, source.Title)
 		case Conversation_FieldPathSelectorArchived:
 			values = append(values, source.Archived)
+		case Conversation_FieldPathSelectorIsPrivate:
+			values = append(values, source.IsPrivate)
 		case Conversation_FieldPathSelectorLastActivityTime:
 			if source.LastActivityTime != nil {
 				values = append(values, source.LastActivityTime)
@@ -220,6 +238,10 @@ func (fp *Conversation_FieldTerminalPath) Get(source *Conversation) (values []in
 		case Conversation_FieldPathSelectorUsageByModel:
 			if source.UsageByModel != nil {
 				values = append(values, source.UsageByModel)
+			}
+		case Conversation_FieldPathSelectorFailedTurns:
+			for _, value := range source.GetFailedTurns() {
+				values = append(values, value)
 			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
@@ -245,6 +267,8 @@ func (fp *Conversation_FieldTerminalPath) GetSingle(source *Conversation) (inter
 		return source.GetTitle(), source != nil
 	case Conversation_FieldPathSelectorArchived:
 		return source.GetArchived(), source != nil
+	case Conversation_FieldPathSelectorIsPrivate:
+		return source.GetIsPrivate(), source != nil
 	case Conversation_FieldPathSelectorLastActivityTime:
 		res := source.GetLastActivityTime()
 		return res, res != nil
@@ -253,6 +277,9 @@ func (fp *Conversation_FieldTerminalPath) GetSingle(source *Conversation) (inter
 		return res, res != nil
 	case Conversation_FieldPathSelectorUsageByModel:
 		res := source.GetUsageByModel()
+		return res, res != nil
+	case Conversation_FieldPathSelectorFailedTurns:
+		res := source.GetFailedTurns()
 		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
@@ -274,12 +301,16 @@ func (fp *Conversation_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case Conversation_FieldPathSelectorArchived:
 		return false
+	case Conversation_FieldPathSelectorIsPrivate:
+		return false
 	case Conversation_FieldPathSelectorLastActivityTime:
 		return (*timestamppb.Timestamp)(nil)
 	case Conversation_FieldPathSelectorTurns:
 		return ([]*ConversationTurn)(nil)
 	case Conversation_FieldPathSelectorUsageByModel:
 		return (map[string]*ModelUsageStats)(nil)
+	case Conversation_FieldPathSelectorFailedTurns:
+		return ([]*ConversationTurn)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -296,12 +327,16 @@ func (fp *Conversation_FieldTerminalPath) ClearValue(item *Conversation) {
 			item.Title = ""
 		case Conversation_FieldPathSelectorArchived:
 			item.Archived = false
+		case Conversation_FieldPathSelectorIsPrivate:
+			item.IsPrivate = false
 		case Conversation_FieldPathSelectorLastActivityTime:
 			item.LastActivityTime = nil
 		case Conversation_FieldPathSelectorTurns:
 			item.Turns = nil
 		case Conversation_FieldPathSelectorUsageByModel:
 			item.UsageByModel = nil
+		case Conversation_FieldPathSelectorFailedTurns:
+			item.FailedTurns = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 		}
@@ -317,6 +352,7 @@ func (fp *Conversation_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Conversation_FieldPathSelectorName ||
 		fp.selector == Conversation_FieldPathSelectorTitle ||
 		fp.selector == Conversation_FieldPathSelectorArchived ||
+		fp.selector == Conversation_FieldPathSelectorIsPrivate ||
 		fp.selector == Conversation_FieldPathSelectorLastActivityTime
 }
 
@@ -334,12 +370,16 @@ func (fp *Conversation_FieldTerminalPath) WithIValue(value interface{}) Conversa
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(string)}
 	case Conversation_FieldPathSelectorArchived:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(bool)}
+	case Conversation_FieldPathSelectorIsPrivate:
+		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(bool)}
 	case Conversation_FieldPathSelectorLastActivityTime:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case Conversation_FieldPathSelectorTurns:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.([]*ConversationTurn)}
 	case Conversation_FieldPathSelectorUsageByModel:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(map[string]*ModelUsageStats)}
+	case Conversation_FieldPathSelectorFailedTurns:
+		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.([]*ConversationTurn)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -360,12 +400,16 @@ func (fp *Conversation_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]string)}
 	case Conversation_FieldPathSelectorArchived:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]bool)}
+	case Conversation_FieldPathSelectorIsPrivate:
+		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]bool)}
 	case Conversation_FieldPathSelectorLastActivityTime:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case Conversation_FieldPathSelectorTurns:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([][]*ConversationTurn)}
 	case Conversation_FieldPathSelectorUsageByModel:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]map[string]*ModelUsageStats)}
+	case Conversation_FieldPathSelectorFailedTurns:
+		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([][]*ConversationTurn)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -379,6 +423,8 @@ func (fp *Conversation_FieldTerminalPath) WithRawIArrayOfValues(values interface
 func (fp *Conversation_FieldTerminalPath) WithIArrayItemValue(value interface{}) Conversation_FieldPathArrayItemValue {
 	switch fp.selector {
 	case Conversation_FieldPathSelectorTurns:
+		return &Conversation_FieldTerminalPathArrayItemValue{Conversation_FieldTerminalPath: *fp, value: value.(*ConversationTurn)}
+	case Conversation_FieldPathSelectorFailedTurns:
 		return &Conversation_FieldTerminalPathArrayItemValue{Conversation_FieldTerminalPath: *fp, value: value.(*ConversationTurn)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
@@ -539,6 +585,10 @@ func (fps *Conversation_FieldSubPath) AsTurnsSubPath() (ConversationTurn_FieldPa
 	res, ok := fps.subPath.(ConversationTurn_FieldPath)
 	return res, ok
 }
+func (fps *Conversation_FieldSubPath) AsFailedTurnsSubPath() (ConversationTurn_FieldPath, bool) {
+	res, ok := fps.subPath.(ConversationTurn_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *Conversation_FieldSubPath) String() string {
@@ -557,6 +607,10 @@ func (fps *Conversation_FieldSubPath) Get(source *Conversation) (values []interf
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
 	case Conversation_FieldPathSelectorTurns:
 		for _, item := range source.GetTurns() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case Conversation_FieldPathSelectorFailedTurns:
+		for _, item := range source.GetFailedTurns() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
 	default:
@@ -582,6 +636,11 @@ func (fps *Conversation_FieldSubPath) GetSingle(source *Conversation) (interface
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetTurns()[0])
+	case Conversation_FieldPathSelectorFailedTurns:
+		if len(source.GetFailedTurns()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetFailedTurns()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fps.selector))
 	}
@@ -603,6 +662,10 @@ func (fps *Conversation_FieldSubPath) ClearValue(item *Conversation) {
 			fps.subPath.ClearValueRaw(item.Metadata)
 		case Conversation_FieldPathSelectorTurns:
 			for _, subItem := range item.Turns {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case Conversation_FieldPathSelectorFailedTurns:
+			for _, subItem := range item.FailedTurns {
 				fps.subPath.ClearValueRaw(subItem)
 			}
 		default:
@@ -705,6 +768,10 @@ func (fpv *Conversation_FieldTerminalPathValue) AsArchivedValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
+func (fpv *Conversation_FieldTerminalPathValue) AsIsPrivateValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 func (fpv *Conversation_FieldTerminalPathValue) AsLastActivityTimeValue() (*timestamppb.Timestamp, bool) {
 	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
@@ -715,6 +782,10 @@ func (fpv *Conversation_FieldTerminalPathValue) AsTurnsValue() ([]*ConversationT
 }
 func (fpv *Conversation_FieldTerminalPathValue) AsUsageByModelValue() (map[string]*ModelUsageStats, bool) {
 	res, ok := fpv.value.(map[string]*ModelUsageStats)
+	return res, ok
+}
+func (fpv *Conversation_FieldTerminalPathValue) AsFailedTurnsValue() ([]*ConversationTurn, bool) {
+	res, ok := fpv.value.([]*ConversationTurn)
 	return res, ok
 }
 
@@ -732,12 +803,16 @@ func (fpv *Conversation_FieldTerminalPathValue) SetTo(target **Conversation) {
 		(*target).Title = fpv.value.(string)
 	case Conversation_FieldPathSelectorArchived:
 		(*target).Archived = fpv.value.(bool)
+	case Conversation_FieldPathSelectorIsPrivate:
+		(*target).IsPrivate = fpv.value.(bool)
 	case Conversation_FieldPathSelectorLastActivityTime:
 		(*target).LastActivityTime = fpv.value.(*timestamppb.Timestamp)
 	case Conversation_FieldPathSelectorTurns:
 		(*target).Turns = fpv.value.([]*ConversationTurn)
 	case Conversation_FieldPathSelectorUsageByModel:
 		(*target).UsageByModel = fpv.value.(map[string]*ModelUsageStats)
+	case Conversation_FieldPathSelectorFailedTurns:
+		(*target).FailedTurns = fpv.value.([]*ConversationTurn)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpv.selector))
 	}
@@ -792,6 +867,16 @@ func (fpv *Conversation_FieldTerminalPathValue) CompareWith(source *Conversation
 		} else {
 			return 1, true
 		}
+	case Conversation_FieldPathSelectorIsPrivate:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIsPrivate()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	case Conversation_FieldPathSelectorLastActivityTime:
 		leftValue := fpv.value.(*timestamppb.Timestamp)
 		rightValue := source.GetLastActivityTime()
@@ -814,6 +899,8 @@ func (fpv *Conversation_FieldTerminalPathValue) CompareWith(source *Conversation
 	case Conversation_FieldPathSelectorTurns:
 		return 0, false
 	case Conversation_FieldPathSelectorUsageByModel:
+		return 0, false
+	case Conversation_FieldPathSelectorFailedTurns:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpv.selector))
@@ -890,6 +977,10 @@ func (fpvs *Conversation_FieldSubPathValue) AsTurnsPathValue() (ConversationTurn
 	res, ok := fpvs.subPathValue.(ConversationTurn_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Conversation_FieldSubPathValue) AsFailedTurnsPathValue() (ConversationTurn_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ConversationTurn_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *Conversation_FieldSubPathValue) SetTo(target **Conversation) {
 	if *target == nil {
@@ -899,6 +990,8 @@ func (fpvs *Conversation_FieldSubPathValue) SetTo(target **Conversation) {
 	case Conversation_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Conversation_FieldPathSelectorTurns:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case Conversation_FieldPathSelectorFailedTurns:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpvs.Selector()))
@@ -919,6 +1012,8 @@ func (fpvs *Conversation_FieldSubPathValue) CompareWith(source *Conversation) (i
 	case Conversation_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Conversation_FieldPathSelectorTurns:
+		return 0, false // repeated field
+	case Conversation_FieldPathSelectorFailedTurns:
 		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpvs.Selector()))
@@ -973,6 +1068,10 @@ func (fpaiv *Conversation_FieldTerminalPathArrayItemValue) AsTurnsItemValue() (*
 	res, ok := fpaiv.value.(*ConversationTurn)
 	return res, ok
 }
+func (fpaiv *Conversation_FieldTerminalPathArrayItemValue) AsFailedTurnsItemValue() (*ConversationTurn, bool) {
+	res, ok := fpaiv.value.(*ConversationTurn)
+	return res, ok
+}
 
 func (fpaiv *Conversation_FieldTerminalPathArrayItemValue) GetSingle(source *Conversation) (interface{}, bool) {
 	return nil, false
@@ -1014,6 +1113,10 @@ func (fpaivs *Conversation_FieldSubPathArrayItemValue) AsTurnsPathItemValue() (C
 	res, ok := fpaivs.subPathItemValue.(ConversationTurn_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Conversation_FieldSubPathArrayItemValue) AsFailedTurnsPathItemValue() (ConversationTurn_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ConversationTurn_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Conversation'
 func (fpaivs *Conversation_FieldSubPathArrayItemValue) ContainsValue(source *Conversation) bool {
@@ -1021,6 +1124,8 @@ func (fpaivs *Conversation_FieldSubPathArrayItemValue) ContainsValue(source *Con
 	case Conversation_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Conversation_FieldPathSelectorTurns:
+		return false // repeated/map field
+	case Conversation_FieldPathSelectorFailedTurns:
 		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpaivs.Selector()))
@@ -1078,6 +1183,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
+	case Conversation_FieldPathSelectorIsPrivate:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	case Conversation_FieldPathSelectorLastActivityTime:
 		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
@@ -1088,6 +1197,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		}
 	case Conversation_FieldPathSelectorUsageByModel:
 		for _, v := range fpaov.values.([]map[string]*ModelUsageStats) {
+			values = append(values, v)
+		}
+	case Conversation_FieldPathSelectorFailedTurns:
+		for _, v := range fpaov.values.([][]*ConversationTurn) {
 			values = append(values, v)
 		}
 	}
@@ -1109,6 +1222,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsArchivedArrayOfValue
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
+func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsIsPrivateArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsLastActivityTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
 	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
@@ -1119,6 +1236,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsTurnsArrayOfValues()
 }
 func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsUsageByModelArrayOfValues() ([]map[string]*ModelUsageStats, bool) {
 	res, ok := fpaov.values.([]map[string]*ModelUsageStats)
+	return res, ok
+}
+func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsFailedTurnsArrayOfValues() ([][]*ConversationTurn, bool) {
+	res, ok := fpaov.values.([][]*ConversationTurn)
 	return res, ok
 }
 
@@ -1158,6 +1279,10 @@ func (fpsaov *Conversation_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValue
 	return res, ok
 }
 func (fpsaov *Conversation_FieldSubPathArrayOfValues) AsTurnsPathArrayOfValues() (ConversationTurn_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ConversationTurn_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Conversation_FieldSubPathArrayOfValues) AsFailedTurnsPathArrayOfValues() (ConversationTurn_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ConversationTurn_FieldPathArrayOfValues)
 	return res, ok
 }

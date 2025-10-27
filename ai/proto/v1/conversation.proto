@@ -40,6 +40,11 @@ message Conversation {
   // Whether the conversation has been archived
   bool archived = 4;
 
+  // Privacy level - if true, only visible to creator
+  // Private conversations are only accessible to the user who created them
+  // Shared (non-private) conversations are visible to all project members
+  bool is_private = 10;
+
   // Timestamp of the last activity
   google.protobuf.Timestamp last_activity_time = 5;
 
@@ -49,6 +54,10 @@ message Conversation {
 
   // Aggregate statistics by model (for easy analytics/billing)
   map<string, ModelUsageStats> usage_by_model = 7;
+
+  // Failed turns - stored separately for audit/debugging
+  // These turns ended with STOP_REASON_ERROR and should not be replayed
+  repeated ConversationTurn failed_turns = 11;
 }
 
 // Represents one CreateResponse API call

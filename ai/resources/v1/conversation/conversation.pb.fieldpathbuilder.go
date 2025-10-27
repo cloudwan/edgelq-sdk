@@ -67,6 +67,9 @@ func (ConversationFieldPathBuilder) Title() ConversationPathSelectorTitle {
 func (ConversationFieldPathBuilder) Archived() ConversationPathSelectorArchived {
 	return ConversationPathSelectorArchived{}
 }
+func (ConversationFieldPathBuilder) IsPrivate() ConversationPathSelectorIsPrivate {
+	return ConversationPathSelectorIsPrivate{}
+}
 func (ConversationFieldPathBuilder) LastActivityTime() ConversationPathSelectorLastActivityTime {
 	return ConversationPathSelectorLastActivityTime{}
 }
@@ -75,6 +78,9 @@ func (ConversationFieldPathBuilder) Turns() ConversationPathSelectorTurns {
 }
 func (ConversationFieldPathBuilder) UsageByModel() ConversationPathSelectorUsageByModel {
 	return ConversationPathSelectorUsageByModel{}
+}
+func (ConversationFieldPathBuilder) FailedTurns() ConversationPathSelectorFailedTurns {
+	return ConversationPathSelectorFailedTurns{}
 }
 
 type ConversationPathSelectorName struct{}
@@ -801,6 +807,20 @@ func (s ConversationPathSelectorArchived) WithArrayOfValues(values []bool) *Conv
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldTerminalPathArrayOfValues)
 }
 
+type ConversationPathSelectorIsPrivate struct{}
+
+func (ConversationPathSelectorIsPrivate) FieldPath() *Conversation_FieldTerminalPath {
+	return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorIsPrivate}
+}
+
+func (s ConversationPathSelectorIsPrivate) WithValue(value bool) *Conversation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldTerminalPathValue)
+}
+
+func (s ConversationPathSelectorIsPrivate) WithArrayOfValues(values []bool) *Conversation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldTerminalPathArrayOfValues)
+}
+
 type ConversationPathSelectorLastActivityTime struct{}
 
 func (ConversationPathSelectorLastActivityTime) FieldPath() *Conversation_FieldTerminalPath {
@@ -1203,6 +1223,362 @@ func (s ConversationMapPathSelectorUsageByModel) WithValue(value *ModelUsageStat
 
 func (s ConversationMapPathSelectorUsageByModel) WithArrayOfValues(values []*ModelUsageStats) *Conversation_FieldPathMapArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldPathMapArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurns struct{}
+
+func (ConversationPathSelectorFailedTurns) FieldPath() *Conversation_FieldTerminalPath {
+	return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns}
+}
+
+func (s ConversationPathSelectorFailedTurns) WithValue(value []*ConversationTurn) *Conversation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldTerminalPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurns) WithArrayOfValues(values [][]*ConversationTurn) *Conversation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldTerminalPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorFailedTurns) WithItemValue(value *ConversationTurn) *Conversation_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldTerminalPathArrayItemValue)
+}
+func (ConversationPathSelectorFailedTurns) WithSubPath(subPath ConversationTurn_FieldPath) *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorFailedTurns, subPath: subPath}
+}
+
+func (s ConversationPathSelectorFailedTurns) WithSubValue(subPathValue ConversationTurn_FieldPathValue) *Conversation_FieldSubPathValue {
+	return &Conversation_FieldSubPathValue{Conversation_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ConversationPathSelectorFailedTurns) WithSubArrayOfValues(subPathArrayOfValues ConversationTurn_FieldPathArrayOfValues) *Conversation_FieldSubPathArrayOfValues {
+	return &Conversation_FieldSubPathArrayOfValues{Conversation_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ConversationPathSelectorFailedTurns) WithSubArrayItemValue(subPathArrayItemValue ConversationTurn_FieldPathArrayItemValue) *Conversation_FieldSubPathArrayItemValue {
+	return &Conversation_FieldSubPathArrayItemValue{Conversation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ConversationPathSelectorFailedTurns) TurnNumber() ConversationPathSelectorFailedTurnsTurnNumber {
+	return ConversationPathSelectorFailedTurnsTurnNumber{}
+}
+
+func (ConversationPathSelectorFailedTurns) Timestamp() ConversationPathSelectorFailedTurnsTimestamp {
+	return ConversationPathSelectorFailedTurnsTimestamp{}
+}
+
+func (ConversationPathSelectorFailedTurns) Messages() ConversationPathSelectorFailedTurnsMessages {
+	return ConversationPathSelectorFailedTurnsMessages{}
+}
+
+func (ConversationPathSelectorFailedTurns) Config() ConversationPathSelectorFailedTurnsConfig {
+	return ConversationPathSelectorFailedTurnsConfig{}
+}
+
+func (ConversationPathSelectorFailedTurns) Usage() ConversationPathSelectorFailedTurnsUsage {
+	return ConversationPathSelectorFailedTurnsUsage{}
+}
+
+func (ConversationPathSelectorFailedTurns) StopReason() ConversationPathSelectorFailedTurnsStopReason {
+	return ConversationPathSelectorFailedTurnsStopReason{}
+}
+
+func (ConversationPathSelectorFailedTurns) Duration() ConversationPathSelectorFailedTurnsDuration {
+	return ConversationPathSelectorFailedTurnsDuration{}
+}
+
+func (ConversationPathSelectorFailedTurns) AvailableTools() ConversationPathSelectorFailedTurnsAvailableTools {
+	return ConversationPathSelectorFailedTurnsAvailableTools{}
+}
+
+type ConversationPathSelectorFailedTurnsTurnNumber struct{}
+
+func (ConversationPathSelectorFailedTurnsTurnNumber) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().TurnNumber().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsTurnNumber) WithValue(value int32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsTurnNumber) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsTimestamp struct{}
+
+func (ConversationPathSelectorFailedTurnsTimestamp) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Timestamp().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsTimestamp) WithValue(value *timestamppb.Timestamp) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsTimestamp) WithArrayOfValues(values []*timestamppb.Timestamp) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsMessages struct{}
+
+func (ConversationPathSelectorFailedTurnsMessages) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Messages().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsMessages) WithValue(value []*common_client.Message) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsMessages) WithArrayOfValues(values [][]*common_client.Message) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorFailedTurnsMessages) WithItemValue(value *common_client.Message) *Conversation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
+}
+
+type ConversationPathSelectorFailedTurnsConfig struct{}
+
+func (ConversationPathSelectorFailedTurnsConfig) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsConfig) WithValue(value *TurnConfig) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsConfig) WithArrayOfValues(values []*TurnConfig) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (ConversationPathSelectorFailedTurnsConfig) Model() ConversationPathSelectorFailedTurnsConfigModel {
+	return ConversationPathSelectorFailedTurnsConfigModel{}
+}
+
+func (ConversationPathSelectorFailedTurnsConfig) ModelUsed() ConversationPathSelectorFailedTurnsConfigModelUsed {
+	return ConversationPathSelectorFailedTurnsConfigModelUsed{}
+}
+
+func (ConversationPathSelectorFailedTurnsConfig) Temperature() ConversationPathSelectorFailedTurnsConfigTemperature {
+	return ConversationPathSelectorFailedTurnsConfigTemperature{}
+}
+
+func (ConversationPathSelectorFailedTurnsConfig) MaxTokens() ConversationPathSelectorFailedTurnsConfigMaxTokens {
+	return ConversationPathSelectorFailedTurnsConfigMaxTokens{}
+}
+
+func (ConversationPathSelectorFailedTurnsConfig) ReasoningLevel() ConversationPathSelectorFailedTurnsConfigReasoningLevel {
+	return ConversationPathSelectorFailedTurnsConfigReasoningLevel{}
+}
+
+func (ConversationPathSelectorFailedTurnsConfig) CapabilityTemplate() ConversationPathSelectorFailedTurnsConfigCapabilityTemplate {
+	return ConversationPathSelectorFailedTurnsConfigCapabilityTemplate{}
+}
+
+func (ConversationPathSelectorFailedTurnsConfig) Connectors() ConversationPathSelectorFailedTurnsConfigConnectors {
+	return ConversationPathSelectorFailedTurnsConfigConnectors{}
+}
+
+type ConversationPathSelectorFailedTurnsConfigModel struct{}
+
+func (ConversationPathSelectorFailedTurnsConfigModel) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().Model().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigModel) WithValue(value *chat_model.Name) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigModel) WithArrayOfValues(values []*chat_model.Name) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsConfigModelUsed struct{}
+
+func (ConversationPathSelectorFailedTurnsConfigModelUsed) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().ModelUsed().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigModelUsed) WithValue(value string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigModelUsed) WithArrayOfValues(values []string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsConfigTemperature struct{}
+
+func (ConversationPathSelectorFailedTurnsConfigTemperature) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().Temperature().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigTemperature) WithValue(value float32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigTemperature) WithArrayOfValues(values []float32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsConfigMaxTokens struct{}
+
+func (ConversationPathSelectorFailedTurnsConfigMaxTokens) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().MaxTokens().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigMaxTokens) WithValue(value int32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigMaxTokens) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsConfigReasoningLevel struct{}
+
+func (ConversationPathSelectorFailedTurnsConfigReasoningLevel) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().ReasoningLevel().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigReasoningLevel) WithValue(value common_client.ReasoningLevel) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigReasoningLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsConfigCapabilityTemplate struct{}
+
+func (ConversationPathSelectorFailedTurnsConfigCapabilityTemplate) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().CapabilityTemplate().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigCapabilityTemplate) WithValue(value *capability_template.Name) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigCapabilityTemplate) WithArrayOfValues(values []*capability_template.Name) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsConfigConnectors struct{}
+
+func (ConversationPathSelectorFailedTurnsConfigConnectors) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().Connectors().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigConnectors) WithValue(value *common_client.ConnectorsList) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsConfigConnectors) WithArrayOfValues(values []*common_client.ConnectorsList) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsUsage struct{}
+
+func (ConversationPathSelectorFailedTurnsUsage) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Usage().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsUsage) WithValue(value *common_client.TokenUsage) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsUsage) WithArrayOfValues(values []*common_client.TokenUsage) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsStopReason struct{}
+
+func (ConversationPathSelectorFailedTurnsStopReason) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().StopReason().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsStopReason) WithValue(value common_client.StopReason) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsStopReason) WithArrayOfValues(values []common_client.StopReason) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsDuration struct{}
+
+func (ConversationPathSelectorFailedTurnsDuration) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Duration().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsDuration) WithValue(value *durationpb.Duration) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsDuration) WithArrayOfValues(values []*durationpb.Duration) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsAvailableTools struct{}
+
+func (ConversationPathSelectorFailedTurnsAvailableTools) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableTools().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableTools) WithValue(value []string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableTools) WithArrayOfValues(values [][]string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorFailedTurnsAvailableTools) WithItemValue(value string) *Conversation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
 }
 
 type ConversationTurnFieldPathBuilder struct{}

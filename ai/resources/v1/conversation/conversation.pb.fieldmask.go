@@ -65,9 +65,11 @@ func FullConversation_FieldMask() *Conversation_FieldMask {
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTitle})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorArchived})
+	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorIsPrivate})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorLastActivityTime})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTurns})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel})
+	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns})
 	return res
 }
 
@@ -86,7 +88,7 @@ func (fieldMask *Conversation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Conversation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -116,14 +118,16 @@ func (fieldMask *Conversation_FieldMask) Reset() {
 
 func (fieldMask *Conversation_FieldMask) Subtract(other *Conversation_FieldMask) *Conversation_FieldMask {
 	result := &Conversation_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[Conversation_FieldPathSelector]gotenobject.FieldMask{
-		Conversation_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
-		Conversation_FieldPathSelectorTurns:    &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
+		Conversation_FieldPathSelectorTurns:       &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorFailedTurns: &ConversationTurn_FieldMask{},
 	}
 	mySubMasks := map[Conversation_FieldPathSelector]gotenobject.FieldMask{
-		Conversation_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
-		Conversation_FieldPathSelectorTurns:    &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
+		Conversation_FieldPathSelectorTurns:       &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorFailedTurns: &ConversationTurn_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -143,6 +147,8 @@ func (fieldMask *Conversation_FieldMask) Subtract(other *Conversation_FieldMask)
 						mySubMasks[Conversation_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Conversation_FieldPathSelectorTurns:
 						mySubMasks[Conversation_FieldPathSelectorTurns] = FullConversationTurn_FieldMask()
+					case Conversation_FieldPathSelectorFailedTurns:
+						mySubMasks[Conversation_FieldPathSelectorFailedTurns] = FullConversationTurn_FieldMask()
 					}
 				} else if tp, ok := path.(*Conversation_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -317,6 +323,8 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 	wholeMetadataAccepted := false
 	turnsMask := &ConversationTurn_FieldMask{}
 	wholeTurnsAccepted := false
+	failedTurnsMask := &ConversationTurn_FieldMask{}
+	wholeFailedTurnsAccepted := false
 	var usageByModelMapKeys []string
 	wholeUsageByModelAccepted := false
 
@@ -333,6 +341,8 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 				result.Title = source.Title
 			case Conversation_FieldPathSelectorArchived:
 				result.Archived = source.Archived
+			case Conversation_FieldPathSelectorIsPrivate:
+				result.IsPrivate = source.IsPrivate
 			case Conversation_FieldPathSelectorLastActivityTime:
 				result.LastActivityTime = source.LastActivityTime
 			case Conversation_FieldPathSelectorTurns:
@@ -341,6 +351,9 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 			case Conversation_FieldPathSelectorUsageByModel:
 				result.UsageByModel = source.UsageByModel
 				wholeUsageByModelAccepted = true
+			case Conversation_FieldPathSelectorFailedTurns:
+				result.FailedTurns = source.FailedTurns
+				wholeFailedTurnsAccepted = true
 			}
 		case *Conversation_FieldSubPath:
 			switch tp.selector {
@@ -348,6 +361,8 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Conversation_FieldPathSelectorTurns:
 				turnsMask.AppendPath(tp.subPath.(ConversationTurn_FieldPath))
+			case Conversation_FieldPathSelectorFailedTurns:
+				failedTurnsMask.AppendPath(tp.subPath.(ConversationTurn_FieldPath))
 			}
 		case *Conversation_FieldPathMap:
 			switch tp.selector {
@@ -371,6 +386,11 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 			copiedMap[key] = sourceMap[key]
 		}
 		result.UsageByModel = copiedMap
+	}
+	if wholeFailedTurnsAccepted == false && len(failedTurnsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetFailedTurns() {
+			result.FailedTurns = append(result.FailedTurns, failedTurnsMask.Project(sourceItem))
+		}
 	}
 	return result
 }

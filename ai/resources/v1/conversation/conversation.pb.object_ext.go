@@ -87,6 +87,9 @@ func (o *Conversation) MakeDiffFieldMask(other *Conversation) *Conversation_Fiel
 	if o.GetArchived() != other.GetArchived() {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorArchived})
 	}
+	if o.GetIsPrivate() != other.GetIsPrivate() {
+		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorIsPrivate})
+	}
 	if !proto.Equal(o.GetLastActivityTime(), other.GetLastActivityTime()) {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorLastActivityTime})
 	}
@@ -114,6 +117,18 @@ func (o *Conversation) MakeDiffFieldMask(other *Conversation) *Conversation_Fiel
 	} else {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel})
 	}
+
+	if len(o.GetFailedTurns()) == len(other.GetFailedTurns()) {
+		for i, lValue := range o.GetFailedTurns() {
+			rValue := other.GetFailedTurns()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns})
+	}
 	return res
 }
 
@@ -139,6 +154,7 @@ func (o *Conversation) Clone() *Conversation {
 	result.Metadata = o.Metadata.Clone()
 	result.Title = o.Title
 	result.Archived = o.Archived
+	result.IsPrivate = o.IsPrivate
 	result.LastActivityTime = proto.Clone(o.LastActivityTime).(*timestamppb.Timestamp)
 	result.Turns = make([]*ConversationTurn, len(o.Turns))
 	for i, sourceValue := range o.Turns {
@@ -147,6 +163,10 @@ func (o *Conversation) Clone() *Conversation {
 	result.UsageByModel = map[string]*ModelUsageStats{}
 	for key, sourceValue := range o.UsageByModel {
 		result.UsageByModel[key] = sourceValue.Clone()
+	}
+	result.FailedTurns = make([]*ConversationTurn, len(o.FailedTurns))
+	for i, sourceValue := range o.FailedTurns {
+		result.FailedTurns[i] = sourceValue.Clone()
 	}
 	return result
 }
@@ -176,6 +196,7 @@ func (o *Conversation) Merge(source *Conversation) {
 	}
 	o.Title = source.GetTitle()
 	o.Archived = source.GetArchived()
+	o.IsPrivate = source.GetIsPrivate()
 	if source.GetLastActivityTime() != nil {
 		if o.LastActivityTime == nil {
 			o.LastActivityTime = new(timestamppb.Timestamp)
@@ -213,6 +234,24 @@ func (o *Conversation) Merge(source *Conversation) {
 			}
 		}
 	}
+	for _, sourceValue := range source.GetFailedTurns() {
+		exists := false
+		for _, currentValue := range o.FailedTurns {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *ConversationTurn
+			if sourceValue != nil {
+				newDstElement = new(ConversationTurn)
+				newDstElement.Merge(sourceValue)
+			}
+			o.FailedTurns = append(o.FailedTurns, newDstElement)
+		}
+	}
+
 }
 
 func (o *Conversation) MergeRaw(source gotenobject.GotenObjectExt) {

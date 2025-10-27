@@ -71,6 +71,13 @@ func (obj *Conversation) GotenValidate() error {
 			}
 		}
 	}
+	for idx, elem := range obj.FailedTurns {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Conversation", "failedTurns", obj.FailedTurns[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
