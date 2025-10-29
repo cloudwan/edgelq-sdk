@@ -78,6 +78,9 @@ func (CapabilityTemplateFieldPathBuilder) MaxOutputTokens() CapabilityTemplatePa
 func (CapabilityTemplateFieldPathBuilder) SystemPrompt() CapabilityTemplatePathSelectorSystemPrompt {
 	return CapabilityTemplatePathSelectorSystemPrompt{}
 }
+func (CapabilityTemplateFieldPathBuilder) SystemPromptAppend() CapabilityTemplatePathSelectorSystemPromptAppend {
+	return CapabilityTemplatePathSelectorSystemPromptAppend{}
+}
 func (CapabilityTemplateFieldPathBuilder) DisableInputTokenCache() CapabilityTemplatePathSelectorDisableInputTokenCache {
 	return CapabilityTemplatePathSelectorDisableInputTokenCache{}
 }
@@ -1219,6 +1222,99 @@ func (s CapabilityTemplatePathSelectorSystemPrompt) WithArrayOfValues(values []s
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
 }
 
+type CapabilityTemplatePathSelectorSystemPromptAppend struct{}
+
+func (CapabilityTemplatePathSelectorSystemPromptAppend) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend}
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppend) WithValue(value *PromptAppendTemplate) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppend) WithArrayOfValues(values []*PromptAppendTemplate) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+func (CapabilityTemplatePathSelectorSystemPromptAppend) WithSubPath(subPath PromptAppendTemplate_FieldPath) *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend, subPath: subPath}
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppend) WithSubValue(subPathValue PromptAppendTemplate_FieldPathValue) *CapabilityTemplate_FieldSubPathValue {
+	return &CapabilityTemplate_FieldSubPathValue{CapabilityTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppend) WithSubArrayOfValues(subPathArrayOfValues PromptAppendTemplate_FieldPathArrayOfValues) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return &CapabilityTemplate_FieldSubPathArrayOfValues{CapabilityTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppend) WithSubArrayItemValue(subPathArrayItemValue PromptAppendTemplate_FieldPathArrayItemValue) *CapabilityTemplate_FieldSubPathArrayItemValue {
+	return &CapabilityTemplate_FieldSubPathArrayItemValue{CapabilityTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (CapabilityTemplatePathSelectorSystemPromptAppend) Text() CapabilityTemplatePathSelectorSystemPromptAppendText {
+	return CapabilityTemplatePathSelectorSystemPromptAppendText{}
+}
+
+func (CapabilityTemplatePathSelectorSystemPromptAppend) Mode() CapabilityTemplatePathSelectorSystemPromptAppendMode {
+	return CapabilityTemplatePathSelectorSystemPromptAppendMode{}
+}
+
+func (CapabilityTemplatePathSelectorSystemPromptAppend) OnMissing() CapabilityTemplatePathSelectorSystemPromptAppendOnMissing {
+	return CapabilityTemplatePathSelectorSystemPromptAppendOnMissing{}
+}
+
+type CapabilityTemplatePathSelectorSystemPromptAppendText struct{}
+
+func (CapabilityTemplatePathSelectorSystemPromptAppendText) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend,
+		subPath:  NewPromptAppendTemplateFieldPathBuilder().Text().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppendText) WithValue(value string) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppendText) WithArrayOfValues(values []string) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorSystemPromptAppendMode struct{}
+
+func (CapabilityTemplatePathSelectorSystemPromptAppendMode) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend,
+		subPath:  NewPromptAppendTemplateFieldPathBuilder().Mode().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppendMode) WithValue(value PromptVariableMode) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppendMode) WithArrayOfValues(values []PromptVariableMode) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorSystemPromptAppendOnMissing struct{}
+
+func (CapabilityTemplatePathSelectorSystemPromptAppendOnMissing) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend,
+		subPath:  NewPromptAppendTemplateFieldPathBuilder().OnMissing().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppendOnMissing) WithValue(value PromptMissingVarPolicy) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorSystemPromptAppendOnMissing) WithArrayOfValues(values []PromptMissingVarPolicy) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
 type CapabilityTemplatePathSelectorDisableInputTokenCache struct{}
 
 func (CapabilityTemplatePathSelectorDisableInputTokenCache) FieldPath() *CapabilityTemplate_FieldTerminalPath {
@@ -1356,6 +1452,63 @@ func (s CapabilityTemplatePathSelectorDefaultModel) WithValue(value *chat_model.
 
 func (s CapabilityTemplatePathSelectorDefaultModel) WithArrayOfValues(values []*chat_model.Name) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type PromptAppendTemplateFieldPathBuilder struct{}
+
+func NewPromptAppendTemplateFieldPathBuilder() PromptAppendTemplateFieldPathBuilder {
+	return PromptAppendTemplateFieldPathBuilder{}
+}
+func (PromptAppendTemplateFieldPathBuilder) Text() PromptAppendTemplatePathSelectorText {
+	return PromptAppendTemplatePathSelectorText{}
+}
+func (PromptAppendTemplateFieldPathBuilder) Mode() PromptAppendTemplatePathSelectorMode {
+	return PromptAppendTemplatePathSelectorMode{}
+}
+func (PromptAppendTemplateFieldPathBuilder) OnMissing() PromptAppendTemplatePathSelectorOnMissing {
+	return PromptAppendTemplatePathSelectorOnMissing{}
+}
+
+type PromptAppendTemplatePathSelectorText struct{}
+
+func (PromptAppendTemplatePathSelectorText) FieldPath() *PromptAppendTemplate_FieldTerminalPath {
+	return &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorText}
+}
+
+func (s PromptAppendTemplatePathSelectorText) WithValue(value string) *PromptAppendTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PromptAppendTemplate_FieldTerminalPathValue)
+}
+
+func (s PromptAppendTemplatePathSelectorText) WithArrayOfValues(values []string) *PromptAppendTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PromptAppendTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type PromptAppendTemplatePathSelectorMode struct{}
+
+func (PromptAppendTemplatePathSelectorMode) FieldPath() *PromptAppendTemplate_FieldTerminalPath {
+	return &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorMode}
+}
+
+func (s PromptAppendTemplatePathSelectorMode) WithValue(value PromptVariableMode) *PromptAppendTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PromptAppendTemplate_FieldTerminalPathValue)
+}
+
+func (s PromptAppendTemplatePathSelectorMode) WithArrayOfValues(values []PromptVariableMode) *PromptAppendTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PromptAppendTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type PromptAppendTemplatePathSelectorOnMissing struct{}
+
+func (PromptAppendTemplatePathSelectorOnMissing) FieldPath() *PromptAppendTemplate_FieldTerminalPath {
+	return &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorOnMissing}
+}
+
+func (s PromptAppendTemplatePathSelectorOnMissing) WithValue(value PromptMissingVarPolicy) *PromptAppendTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PromptAppendTemplate_FieldTerminalPathValue)
+}
+
+func (s PromptAppendTemplatePathSelectorOnMissing) WithArrayOfValues(values []PromptMissingVarPolicy) *PromptAppendTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PromptAppendTemplate_FieldTerminalPathArrayOfValues)
 }
 
 type RAGConfigFieldPathBuilder struct{}

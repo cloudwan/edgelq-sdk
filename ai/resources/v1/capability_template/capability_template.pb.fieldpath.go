@@ -87,10 +87,11 @@ const (
 	CapabilityTemplate_FieldPathSelectorReasoning              CapabilityTemplate_FieldPathSelector = 6
 	CapabilityTemplate_FieldPathSelectorMaxOutputTokens        CapabilityTemplate_FieldPathSelector = 7
 	CapabilityTemplate_FieldPathSelectorSystemPrompt           CapabilityTemplate_FieldPathSelector = 8
-	CapabilityTemplate_FieldPathSelectorDisableInputTokenCache CapabilityTemplate_FieldPathSelector = 9
-	CapabilityTemplate_FieldPathSelectorAllowedModels          CapabilityTemplate_FieldPathSelector = 10
-	CapabilityTemplate_FieldPathSelectorToolSafety             CapabilityTemplate_FieldPathSelector = 11
-	CapabilityTemplate_FieldPathSelectorDefaultModel           CapabilityTemplate_FieldPathSelector = 12
+	CapabilityTemplate_FieldPathSelectorSystemPromptAppend     CapabilityTemplate_FieldPathSelector = 9
+	CapabilityTemplate_FieldPathSelectorDisableInputTokenCache CapabilityTemplate_FieldPathSelector = 10
+	CapabilityTemplate_FieldPathSelectorAllowedModels          CapabilityTemplate_FieldPathSelector = 11
+	CapabilityTemplate_FieldPathSelectorToolSafety             CapabilityTemplate_FieldPathSelector = 12
+	CapabilityTemplate_FieldPathSelectorDefaultModel           CapabilityTemplate_FieldPathSelector = 13
 )
 
 func (s CapabilityTemplate_FieldPathSelector) String() string {
@@ -113,6 +114,8 @@ func (s CapabilityTemplate_FieldPathSelector) String() string {
 		return "max_output_tokens"
 	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
 		return "system_prompt"
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		return "system_prompt_append"
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return "disable_input_token_cache"
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
@@ -150,6 +153,8 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorMaxOutputTokens}, nil
 		case "system_prompt", "systemPrompt", "system-prompt":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPrompt}, nil
+		case "system_prompt_append", "systemPromptAppend", "system-prompt-append":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend}, nil
 		case "disable_input_token_cache", "disableInputTokenCache", "disable-input-token-cache":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache}, nil
 		case "allowed_models", "allowedModels", "allowed-models":
@@ -178,6 +183,12 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 				return nil, err
 			} else {
 				return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorReasoning, subPath: subpath}, nil
+			}
+		case "system_prompt_append", "systemPromptAppend", "system-prompt-append":
+			if subpath, err := BuildPromptAppendTemplate_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend, subPath: subpath}, nil
 			}
 		case "tool_safety", "toolSafety", "tool-safety":
 			if subpath, err := BuildToolSafetyConfig_FieldPath(fp[1:]); err != nil {
@@ -258,6 +269,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) Get(source *CapabilityTemplate) 
 			values = append(values, source.MaxOutputTokens)
 		case CapabilityTemplate_FieldPathSelectorSystemPrompt:
 			values = append(values, source.SystemPrompt)
+		case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+			if source.SystemPromptAppend != nil {
+				values = append(values, source.SystemPromptAppend)
+			}
 		case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 			values = append(values, source.DisableInputTokenCache)
 		case CapabilityTemplate_FieldPathSelectorAllowedModels:
@@ -309,6 +324,9 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetSingle(source *CapabilityTemp
 		return source.GetMaxOutputTokens(), source != nil
 	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
 		return source.GetSystemPrompt(), source != nil
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		res := source.GetSystemPromptAppend()
+		return res, res != nil
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return source.GetDisableInputTokenCache(), source != nil
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
@@ -350,6 +368,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetDefault() interface{} {
 		return int32(0)
 	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
 		return ""
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		return (*PromptAppendTemplate)(nil)
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return false
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
@@ -384,6 +404,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) ClearValue(item *CapabilityTempl
 			item.MaxOutputTokens = int32(0)
 		case CapabilityTemplate_FieldPathSelectorSystemPrompt:
 			item.SystemPrompt = ""
+		case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+			item.SystemPromptAppend = nil
 		case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 			item.DisableInputTokenCache = false
 		case CapabilityTemplate_FieldPathSelectorAllowedModels:
@@ -439,6 +461,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIValue(value interface{}) Ca
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(int32)}
 	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(string)}
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*PromptAppendTemplate)}
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(bool)}
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
@@ -477,6 +501,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]int32)}
 	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]string)}
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*PromptAppendTemplate)}
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]bool)}
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
@@ -532,6 +558,10 @@ func (fps *CapabilityTemplate_FieldSubPath) AsReasoningSubPath() (ReasoningConfi
 	res, ok := fps.subPath.(ReasoningConfig_FieldPath)
 	return res, ok
 }
+func (fps *CapabilityTemplate_FieldSubPath) AsSystemPromptAppendSubPath() (PromptAppendTemplate_FieldPath, bool) {
+	res, ok := fps.subPath.(PromptAppendTemplate_FieldPath)
+	return res, ok
+}
 func (fps *CapabilityTemplate_FieldSubPath) AsToolSafetySubPath() (ToolSafetyConfig_FieldPath, bool) {
 	res, ok := fps.subPath.(ToolSafetyConfig_FieldPath)
 	return res, ok
@@ -556,6 +586,8 @@ func (fps *CapabilityTemplate_FieldSubPath) Get(source *CapabilityTemplate) (val
 		values = append(values, fps.subPath.GetRaw(source.GetRagConfig())...)
 	case CapabilityTemplate_FieldPathSelectorReasoning:
 		values = append(values, fps.subPath.GetRaw(source.GetReasoning())...)
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		values = append(values, fps.subPath.GetRaw(source.GetSystemPromptAppend())...)
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		values = append(values, fps.subPath.GetRaw(source.GetToolSafety())...)
 	default:
@@ -586,6 +618,11 @@ func (fps *CapabilityTemplate_FieldSubPath) GetSingle(source *CapabilityTemplate
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetReasoning())
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		if source.GetSystemPromptAppend() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetSystemPromptAppend())
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		if source.GetToolSafety() == nil {
 			return nil, false
@@ -614,6 +651,8 @@ func (fps *CapabilityTemplate_FieldSubPath) ClearValue(item *CapabilityTemplate)
 			fps.subPath.ClearValueRaw(item.RagConfig)
 		case CapabilityTemplate_FieldPathSelectorReasoning:
 			fps.subPath.ClearValueRaw(item.Reasoning)
+		case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+			fps.subPath.ClearValueRaw(item.SystemPromptAppend)
 		case CapabilityTemplate_FieldPathSelectorToolSafety:
 			fps.subPath.ClearValueRaw(item.ToolSafety)
 		default:
@@ -736,6 +775,10 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsSystemPromptValue() (str
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsSystemPromptAppendValue() (*PromptAppendTemplate, bool) {
+	res, ok := fpv.value.(*PromptAppendTemplate)
+	return res, ok
+}
 func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDisableInputTokenCacheValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
@@ -777,6 +820,8 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityT
 		(*target).MaxOutputTokens = fpv.value.(int32)
 	case CapabilityTemplate_FieldPathSelectorSystemPrompt:
 		(*target).SystemPrompt = fpv.value.(string)
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		(*target).SystemPromptAppend = fpv.value.(*PromptAppendTemplate)
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		(*target).DisableInputTokenCache = fpv.value.(bool)
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
@@ -865,6 +910,8 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) CompareWith(source *Capabi
 		} else {
 			return 1, true
 		}
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		return 0, false
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		leftValue := fpv.value.(bool)
 		rightValue := source.GetDisableInputTokenCache()
@@ -926,6 +973,10 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) AsReasoningPathValue() (Reason
 	res, ok := fpvs.subPathValue.(ReasoningConfig_FieldPathValue)
 	return res, ok
 }
+func (fpvs *CapabilityTemplate_FieldSubPathValue) AsSystemPromptAppendPathValue() (PromptAppendTemplate_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(PromptAppendTemplate_FieldPathValue)
+	return res, ok
+}
 func (fpvs *CapabilityTemplate_FieldSubPathValue) AsToolSafetyPathValue() (ToolSafetyConfig_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue)
 	return res, ok
@@ -942,6 +993,8 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) SetTo(target **CapabilityTempl
 		fpvs.subPathValue.(RAGConfig_FieldPathValue).SetTo(&(*target).RagConfig)
 	case CapabilityTemplate_FieldPathSelectorReasoning:
 		fpvs.subPathValue.(ReasoningConfig_FieldPathValue).SetTo(&(*target).Reasoning)
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		fpvs.subPathValue.(PromptAppendTemplate_FieldPathValue).SetTo(&(*target).SystemPromptAppend)
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue).SetTo(&(*target).ToolSafety)
 	default:
@@ -966,6 +1019,8 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) CompareWith(source *Capability
 		return fpvs.subPathValue.(RAGConfig_FieldPathValue).CompareWith(source.GetRagConfig())
 	case CapabilityTemplate_FieldPathSelectorReasoning:
 		return fpvs.subPathValue.(ReasoningConfig_FieldPathValue).CompareWith(source.GetReasoning())
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		return fpvs.subPathValue.(PromptAppendTemplate_FieldPathValue).CompareWith(source.GetSystemPromptAppend())
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		return fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue).CompareWith(source.GetToolSafety())
 	default:
@@ -1070,6 +1125,10 @@ func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsReasoningPathItem
 	res, ok := fpaivs.subPathItemValue.(ReasoningConfig_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsSystemPromptAppendPathItemValue() (PromptAppendTemplate_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(PromptAppendTemplate_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsToolSafetyPathItemValue() (ToolSafetyConfig_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(ToolSafetyConfig_FieldPathArrayItemValue)
 	return res, ok
@@ -1084,6 +1143,8 @@ func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) ContainsValue(sourc
 		return fpaivs.subPathItemValue.(RAGConfig_FieldPathArrayItemValue).ContainsValue(source.GetRagConfig())
 	case CapabilityTemplate_FieldPathSelectorReasoning:
 		return fpaivs.subPathItemValue.(ReasoningConfig_FieldPathArrayItemValue).ContainsValue(source.GetReasoning())
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		return fpaivs.subPathItemValue.(PromptAppendTemplate_FieldPathArrayItemValue).ContainsValue(source.GetSystemPromptAppend())
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		return fpaivs.subPathItemValue.(ToolSafetyConfig_FieldPathArrayItemValue).ContainsValue(source.GetToolSafety())
 	default:
@@ -1162,6 +1223,10 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case CapabilityTemplate_FieldPathSelectorSystemPromptAppend:
+		for _, v := range fpaov.values.([]*PromptAppendTemplate) {
+			values = append(values, v)
+		}
 	case CapabilityTemplate_FieldPathSelectorDisableInputTokenCache:
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
@@ -1217,6 +1282,10 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsSystemPromptAr
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsSystemPromptAppendArrayOfValues() ([]*PromptAppendTemplate, bool) {
+	res, ok := fpaov.values.([]*PromptAppendTemplate)
+	return res, ok
+}
 func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDisableInputTokenCacheArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
@@ -1256,8 +1325,475 @@ func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsReasoningPathArray
 	res, ok := fpsaov.subPathArrayOfValues.(ReasoningConfig_FieldPathArrayOfValues)
 	return res, ok
 }
+func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsSystemPromptAppendPathArrayOfValues() (PromptAppendTemplate_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(PromptAppendTemplate_FieldPathArrayOfValues)
+	return res, ok
+}
 func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsToolSafetyPathArrayOfValues() (ToolSafetyConfig_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ToolSafetyConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type PromptAppendTemplate_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() PromptAppendTemplate_FieldPathSelector
+	Get(source *PromptAppendTemplate) []interface{}
+	GetSingle(source *PromptAppendTemplate) (interface{}, bool)
+	ClearValue(item *PromptAppendTemplate)
+
+	// Those methods build corresponding PromptAppendTemplate_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) PromptAppendTemplate_FieldPathValue
+	WithIArrayOfValues(values interface{}) PromptAppendTemplate_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) PromptAppendTemplate_FieldPathArrayItemValue
+}
+
+type PromptAppendTemplate_FieldPathSelector int32
+
+const (
+	PromptAppendTemplate_FieldPathSelectorText      PromptAppendTemplate_FieldPathSelector = 0
+	PromptAppendTemplate_FieldPathSelectorMode      PromptAppendTemplate_FieldPathSelector = 1
+	PromptAppendTemplate_FieldPathSelectorOnMissing PromptAppendTemplate_FieldPathSelector = 2
+)
+
+func (s PromptAppendTemplate_FieldPathSelector) String() string {
+	switch s {
+	case PromptAppendTemplate_FieldPathSelectorText:
+		return "text"
+	case PromptAppendTemplate_FieldPathSelectorMode:
+		return "mode"
+	case PromptAppendTemplate_FieldPathSelectorOnMissing:
+		return "on_missing"
+	default:
+		panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", s))
+	}
+}
+
+func BuildPromptAppendTemplate_FieldPath(fp gotenobject.RawFieldPath) (PromptAppendTemplate_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object PromptAppendTemplate")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "text":
+			return &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorText}, nil
+		case "mode":
+			return &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorMode}, nil
+		case "on_missing", "onMissing", "on-missing":
+			return &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorOnMissing}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PromptAppendTemplate", fp)
+}
+
+func ParsePromptAppendTemplate_FieldPath(rawField string) (PromptAppendTemplate_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildPromptAppendTemplate_FieldPath(fp)
+}
+
+func MustParsePromptAppendTemplate_FieldPath(rawField string) PromptAppendTemplate_FieldPath {
+	fp, err := ParsePromptAppendTemplate_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type PromptAppendTemplate_FieldTerminalPath struct {
+	selector PromptAppendTemplate_FieldPathSelector
+}
+
+var _ PromptAppendTemplate_FieldPath = (*PromptAppendTemplate_FieldTerminalPath)(nil)
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) Selector() PromptAppendTemplate_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *PromptAppendTemplate_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *PromptAppendTemplate_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source PromptAppendTemplate
+func (fp *PromptAppendTemplate_FieldTerminalPath) Get(source *PromptAppendTemplate) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case PromptAppendTemplate_FieldPathSelectorText:
+			values = append(values, source.Text)
+		case PromptAppendTemplate_FieldPathSelectorMode:
+			values = append(values, source.Mode)
+		case PromptAppendTemplate_FieldPathSelectorOnMissing:
+			values = append(values, source.OnMissing)
+		default:
+			panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*PromptAppendTemplate))
+}
+
+// GetSingle returns value pointed by specific field of from source PromptAppendTemplate
+func (fp *PromptAppendTemplate_FieldTerminalPath) GetSingle(source *PromptAppendTemplate) (interface{}, bool) {
+	switch fp.selector {
+	case PromptAppendTemplate_FieldPathSelectorText:
+		return source.GetText(), source != nil
+	case PromptAppendTemplate_FieldPathSelectorMode:
+		return source.GetMode(), source != nil
+	case PromptAppendTemplate_FieldPathSelectorOnMissing:
+		return source.GetOnMissing(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fp.selector))
+	}
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*PromptAppendTemplate))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *PromptAppendTemplate_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case PromptAppendTemplate_FieldPathSelectorText:
+		return ""
+	case PromptAppendTemplate_FieldPathSelectorMode:
+		return PromptVariableMode_MODE_SERVER
+	case PromptAppendTemplate_FieldPathSelectorOnMissing:
+		return PromptMissingVarPolicy_PROMPT_MISSING_VAR_POLICY_ERROR
+	default:
+		panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fp.selector))
+	}
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) ClearValue(item *PromptAppendTemplate) {
+	if item != nil {
+		switch fp.selector {
+		case PromptAppendTemplate_FieldPathSelectorText:
+			item.Text = ""
+		case PromptAppendTemplate_FieldPathSelectorMode:
+			item.Mode = PromptVariableMode_MODE_SERVER
+		case PromptAppendTemplate_FieldPathSelectorOnMissing:
+			item.OnMissing = PromptMissingVarPolicy_PROMPT_MISSING_VAR_POLICY_ERROR
+		default:
+			panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*PromptAppendTemplate))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *PromptAppendTemplate_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == PromptAppendTemplate_FieldPathSelectorText ||
+		fp.selector == PromptAppendTemplate_FieldPathSelectorMode ||
+		fp.selector == PromptAppendTemplate_FieldPathSelectorOnMissing
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) WithIValue(value interface{}) PromptAppendTemplate_FieldPathValue {
+	switch fp.selector {
+	case PromptAppendTemplate_FieldPathSelectorText:
+		return &PromptAppendTemplate_FieldTerminalPathValue{PromptAppendTemplate_FieldTerminalPath: *fp, value: value.(string)}
+	case PromptAppendTemplate_FieldPathSelectorMode:
+		return &PromptAppendTemplate_FieldTerminalPathValue{PromptAppendTemplate_FieldTerminalPath: *fp, value: value.(PromptVariableMode)}
+	case PromptAppendTemplate_FieldPathSelectorOnMissing:
+		return &PromptAppendTemplate_FieldTerminalPathValue{PromptAppendTemplate_FieldTerminalPath: *fp, value: value.(PromptMissingVarPolicy)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fp.selector))
+	}
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) WithIArrayOfValues(values interface{}) PromptAppendTemplate_FieldPathArrayOfValues {
+	fpaov := &PromptAppendTemplate_FieldTerminalPathArrayOfValues{PromptAppendTemplate_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case PromptAppendTemplate_FieldPathSelectorText:
+		return &PromptAppendTemplate_FieldTerminalPathArrayOfValues{PromptAppendTemplate_FieldTerminalPath: *fp, values: values.([]string)}
+	case PromptAppendTemplate_FieldPathSelectorMode:
+		return &PromptAppendTemplate_FieldTerminalPathArrayOfValues{PromptAppendTemplate_FieldTerminalPath: *fp, values: values.([]PromptVariableMode)}
+	case PromptAppendTemplate_FieldPathSelectorOnMissing:
+		return &PromptAppendTemplate_FieldTerminalPathArrayOfValues{PromptAppendTemplate_FieldTerminalPath: *fp, values: values.([]PromptMissingVarPolicy)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) WithIArrayItemValue(value interface{}) PromptAppendTemplate_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fp.selector))
+	}
+}
+
+func (fp *PromptAppendTemplate_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// PromptAppendTemplate_FieldPathValue allows storing values for PromptAppendTemplate fields according to their type
+type PromptAppendTemplate_FieldPathValue interface {
+	PromptAppendTemplate_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **PromptAppendTemplate)
+	CompareWith(*PromptAppendTemplate) (cmp int, comparable bool)
+}
+
+func ParsePromptAppendTemplate_FieldPathValue(pathStr, valueStr string) (PromptAppendTemplate_FieldPathValue, error) {
+	fp, err := ParsePromptAppendTemplate_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PromptAppendTemplate field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(PromptAppendTemplate_FieldPathValue), nil
+}
+
+func MustParsePromptAppendTemplate_FieldPathValue(pathStr, valueStr string) PromptAppendTemplate_FieldPathValue {
+	fpv, err := ParsePromptAppendTemplate_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type PromptAppendTemplate_FieldTerminalPathValue struct {
+	PromptAppendTemplate_FieldTerminalPath
+	value interface{}
+}
+
+var _ PromptAppendTemplate_FieldPathValue = (*PromptAppendTemplate_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'PromptAppendTemplate' as interface{}
+func (fpv *PromptAppendTemplate_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *PromptAppendTemplate_FieldTerminalPathValue) AsTextValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *PromptAppendTemplate_FieldTerminalPathValue) AsModeValue() (PromptVariableMode, bool) {
+	res, ok := fpv.value.(PromptVariableMode)
+	return res, ok
+}
+func (fpv *PromptAppendTemplate_FieldTerminalPathValue) AsOnMissingValue() (PromptMissingVarPolicy, bool) {
+	res, ok := fpv.value.(PromptMissingVarPolicy)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object PromptAppendTemplate
+func (fpv *PromptAppendTemplate_FieldTerminalPathValue) SetTo(target **PromptAppendTemplate) {
+	if *target == nil {
+		*target = new(PromptAppendTemplate)
+	}
+	switch fpv.selector {
+	case PromptAppendTemplate_FieldPathSelectorText:
+		(*target).Text = fpv.value.(string)
+	case PromptAppendTemplate_FieldPathSelectorMode:
+		(*target).Mode = fpv.value.(PromptVariableMode)
+	case PromptAppendTemplate_FieldPathSelectorOnMissing:
+		(*target).OnMissing = fpv.value.(PromptMissingVarPolicy)
+	default:
+		panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fpv.selector))
+	}
+}
+
+func (fpv *PromptAppendTemplate_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PromptAppendTemplate)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'PromptAppendTemplate_FieldTerminalPathValue' with the value under path in 'PromptAppendTemplate'.
+func (fpv *PromptAppendTemplate_FieldTerminalPathValue) CompareWith(source *PromptAppendTemplate) (int, bool) {
+	switch fpv.selector {
+	case PromptAppendTemplate_FieldPathSelectorText:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetText()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case PromptAppendTemplate_FieldPathSelectorMode:
+		leftValue := fpv.value.(PromptVariableMode)
+		rightValue := source.GetMode()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case PromptAppendTemplate_FieldPathSelectorOnMissing:
+		leftValue := fpv.value.(PromptMissingVarPolicy)
+		rightValue := source.GetOnMissing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PromptAppendTemplate: %d", fpv.selector))
+	}
+}
+
+func (fpv *PromptAppendTemplate_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*PromptAppendTemplate))
+}
+
+// PromptAppendTemplate_FieldPathArrayItemValue allows storing single item in Path-specific values for PromptAppendTemplate according to their type
+// Present only for array (repeated) types.
+type PromptAppendTemplate_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	PromptAppendTemplate_FieldPath
+	ContainsValue(*PromptAppendTemplate) bool
+}
+
+// ParsePromptAppendTemplate_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePromptAppendTemplate_FieldPathArrayItemValue(pathStr, valueStr string) (PromptAppendTemplate_FieldPathArrayItemValue, error) {
+	fp, err := ParsePromptAppendTemplate_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PromptAppendTemplate field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(PromptAppendTemplate_FieldPathArrayItemValue), nil
+}
+
+func MustParsePromptAppendTemplate_FieldPathArrayItemValue(pathStr, valueStr string) PromptAppendTemplate_FieldPathArrayItemValue {
+	fpaiv, err := ParsePromptAppendTemplate_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type PromptAppendTemplate_FieldTerminalPathArrayItemValue struct {
+	PromptAppendTemplate_FieldTerminalPath
+	value interface{}
+}
+
+var _ PromptAppendTemplate_FieldPathArrayItemValue = (*PromptAppendTemplate_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object PromptAppendTemplate as interface{}
+func (fpaiv *PromptAppendTemplate_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *PromptAppendTemplate_FieldTerminalPathArrayItemValue) GetSingle(source *PromptAppendTemplate) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *PromptAppendTemplate_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*PromptAppendTemplate))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PromptAppendTemplate'
+func (fpaiv *PromptAppendTemplate_FieldTerminalPathArrayItemValue) ContainsValue(source *PromptAppendTemplate) bool {
+	slice := fpaiv.PromptAppendTemplate_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// PromptAppendTemplate_FieldPathArrayOfValues allows storing slice of values for PromptAppendTemplate fields according to their type
+type PromptAppendTemplate_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	PromptAppendTemplate_FieldPath
+}
+
+func ParsePromptAppendTemplate_FieldPathArrayOfValues(pathStr, valuesStr string) (PromptAppendTemplate_FieldPathArrayOfValues, error) {
+	fp, err := ParsePromptAppendTemplate_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PromptAppendTemplate field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(PromptAppendTemplate_FieldPathArrayOfValues), nil
+}
+
+func MustParsePromptAppendTemplate_FieldPathArrayOfValues(pathStr, valuesStr string) PromptAppendTemplate_FieldPathArrayOfValues {
+	fpaov, err := ParsePromptAppendTemplate_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type PromptAppendTemplate_FieldTerminalPathArrayOfValues struct {
+	PromptAppendTemplate_FieldTerminalPath
+	values interface{}
+}
+
+var _ PromptAppendTemplate_FieldPathArrayOfValues = (*PromptAppendTemplate_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *PromptAppendTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case PromptAppendTemplate_FieldPathSelectorText:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case PromptAppendTemplate_FieldPathSelectorMode:
+		for _, v := range fpaov.values.([]PromptVariableMode) {
+			values = append(values, v)
+		}
+	case PromptAppendTemplate_FieldPathSelectorOnMissing:
+		for _, v := range fpaov.values.([]PromptMissingVarPolicy) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *PromptAppendTemplate_FieldTerminalPathArrayOfValues) AsTextArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *PromptAppendTemplate_FieldTerminalPathArrayOfValues) AsModeArrayOfValues() ([]PromptVariableMode, bool) {
+	res, ok := fpaov.values.([]PromptVariableMode)
+	return res, ok
+}
+func (fpaov *PromptAppendTemplate_FieldTerminalPathArrayOfValues) AsOnMissingArrayOfValues() ([]PromptMissingVarPolicy, bool) {
+	res, ok := fpaov.values.([]PromptMissingVarPolicy)
 	return res, ok
 }
 

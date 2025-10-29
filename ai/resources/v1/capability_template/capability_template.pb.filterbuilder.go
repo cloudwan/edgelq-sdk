@@ -264,6 +264,10 @@ func (b *filterCndBuilder) SystemPrompt() *filterCndBuilderSystemPrompt {
 	return &filterCndBuilderSystemPrompt{builder: b.builder}
 }
 
+func (b *filterCndBuilder) SystemPromptAppend() *filterCndBuilderSystemPromptAppend {
+	return &filterCndBuilderSystemPromptAppend{builder: b.builder}
+}
+
 func (b *filterCndBuilder) DisableInputTokenCache() *filterCndBuilderDisableInputTokenCache {
 	return &filterCndBuilderDisableInputTokenCache{builder: b.builder}
 }
@@ -3787,6 +3791,254 @@ func (b *filterCndBuilderSystemPrompt) compare(op gotenfilter.CompareOperator, v
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().SystemPrompt().WithValue(value),
+	})
+}
+
+type filterCndBuilderSystemPromptAppend struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSystemPromptAppend) Eq(value *PromptAppendTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppend) Neq(value *PromptAppendTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppend) Gt(value *PromptAppendTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppend) Gte(value *PromptAppendTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppend) Lt(value *PromptAppendTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppend) Lte(value *PromptAppendTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppend) In(values []*PromptAppendTemplate) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppend) NotIn(values []*PromptAppendTemplate) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppend) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppend) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppend) compare(op gotenfilter.CompareOperator, value *PromptAppendTemplate) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppend) Text() *filterCndBuilderSystemPromptAppendText {
+	return &filterCndBuilderSystemPromptAppendText{builder: b.builder}
+}
+
+func (b *filterCndBuilderSystemPromptAppend) Mode() *filterCndBuilderSystemPromptAppendMode {
+	return &filterCndBuilderSystemPromptAppendMode{builder: b.builder}
+}
+
+func (b *filterCndBuilderSystemPromptAppend) OnMissing() *filterCndBuilderSystemPromptAppendOnMissing {
+	return &filterCndBuilderSystemPromptAppendOnMissing{builder: b.builder}
+}
+
+type filterCndBuilderSystemPromptAppendText struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Text().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Text().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Text().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Text().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendText) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Text().WithValue(value),
+	})
+}
+
+type filterCndBuilderSystemPromptAppendMode struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) Eq(value PromptVariableMode) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) Neq(value PromptVariableMode) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) Gt(value PromptVariableMode) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) Gte(value PromptVariableMode) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) Lt(value PromptVariableMode) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) Lte(value PromptVariableMode) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) In(values []PromptVariableMode) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Mode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) NotIn(values []PromptVariableMode) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Mode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Mode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Mode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendMode) compare(op gotenfilter.CompareOperator, value PromptVariableMode) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().Mode().WithValue(value),
+	})
+}
+
+type filterCndBuilderSystemPromptAppendOnMissing struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) Eq(value PromptMissingVarPolicy) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) Neq(value PromptMissingVarPolicy) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) Gt(value PromptMissingVarPolicy) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) Gte(value PromptMissingVarPolicy) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) Lt(value PromptMissingVarPolicy) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) Lte(value PromptMissingVarPolicy) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) In(values []PromptMissingVarPolicy) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().OnMissing().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) NotIn(values []PromptMissingVarPolicy) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().OnMissing().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().OnMissing().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().OnMissing().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSystemPromptAppendOnMissing) compare(op gotenfilter.CompareOperator, value PromptMissingVarPolicy) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().SystemPromptAppend().OnMissing().WithValue(value),
 	})
 }
 

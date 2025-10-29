@@ -121,6 +121,16 @@ func (o *CapabilityTemplate) MakeDiffFieldMask(other *CapabilityTemplate) *Capab
 	if o.GetSystemPrompt() != other.GetSystemPrompt() {
 		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPrompt})
 	}
+	{
+		subMask := o.GetSystemPromptAppend().MakeDiffFieldMask(other.GetSystemPromptAppend())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorSystemPromptAppend, subPath: subpath})
+			}
+		}
+	}
 	if o.GetDisableInputTokenCache() != other.GetDisableInputTokenCache() {
 		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDisableInputTokenCache})
 	}
@@ -191,6 +201,7 @@ func (o *CapabilityTemplate) Clone() *CapabilityTemplate {
 	result.Reasoning = o.Reasoning.Clone()
 	result.MaxOutputTokens = o.MaxOutputTokens
 	result.SystemPrompt = o.SystemPrompt
+	result.SystemPromptAppend = o.SystemPromptAppend.Clone()
 	result.DisableInputTokenCache = o.DisableInputTokenCache
 	result.AllowedModels = make([]*chat_model.Reference, len(o.AllowedModels))
 	for i, sourceValue := range o.AllowedModels {
@@ -284,6 +295,12 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 	}
 	o.MaxOutputTokens = source.GetMaxOutputTokens()
 	o.SystemPrompt = source.GetSystemPrompt()
+	if source.GetSystemPromptAppend() != nil {
+		if o.SystemPromptAppend == nil {
+			o.SystemPromptAppend = new(PromptAppendTemplate)
+		}
+		o.SystemPromptAppend.Merge(source.GetSystemPromptAppend())
+	}
 	o.DisableInputTokenCache = source.GetDisableInputTokenCache()
 	for _, sourceValue := range source.GetAllowedModels() {
 		exists := false
@@ -333,6 +350,66 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 
 func (o *CapabilityTemplate) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*CapabilityTemplate))
+}
+
+func (o *PromptAppendTemplate) GotenObjectExt() {}
+
+func (o *PromptAppendTemplate) MakeFullFieldMask() *PromptAppendTemplate_FieldMask {
+	return FullPromptAppendTemplate_FieldMask()
+}
+
+func (o *PromptAppendTemplate) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPromptAppendTemplate_FieldMask()
+}
+
+func (o *PromptAppendTemplate) MakeDiffFieldMask(other *PromptAppendTemplate) *PromptAppendTemplate_FieldMask {
+	if o == nil && other == nil {
+		return &PromptAppendTemplate_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullPromptAppendTemplate_FieldMask()
+	}
+
+	res := &PromptAppendTemplate_FieldMask{}
+	if o.GetText() != other.GetText() {
+		res.Paths = append(res.Paths, &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorText})
+	}
+	if o.GetMode() != other.GetMode() {
+		res.Paths = append(res.Paths, &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorMode})
+	}
+	if o.GetOnMissing() != other.GetOnMissing() {
+		res.Paths = append(res.Paths, &PromptAppendTemplate_FieldTerminalPath{selector: PromptAppendTemplate_FieldPathSelectorOnMissing})
+	}
+	return res
+}
+
+func (o *PromptAppendTemplate) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*PromptAppendTemplate))
+}
+
+func (o *PromptAppendTemplate) Clone() *PromptAppendTemplate {
+	if o == nil {
+		return nil
+	}
+	result := &PromptAppendTemplate{}
+	result.Text = o.Text
+	result.Mode = o.Mode
+	result.OnMissing = o.OnMissing
+	return result
+}
+
+func (o *PromptAppendTemplate) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *PromptAppendTemplate) Merge(source *PromptAppendTemplate) {
+	o.Text = source.GetText()
+	o.Mode = source.GetMode()
+	o.OnMissing = source.GetOnMissing()
+}
+
+func (o *PromptAppendTemplate) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*PromptAppendTemplate))
 }
 
 func (o *RAGConfig) GotenObjectExt() {}

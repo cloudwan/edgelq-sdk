@@ -54,6 +54,10 @@ message CapabilityTemplate {
   // When set, this prompt will be used instead of a default system prompt.
   string system_prompt = 11;
 
+  // Optional: a templated append that will be rendered and appended to
+  // the base system prompt (or the user input for client provided variables).
+  PromptAppendTemplate system_prompt_append = 16;
+
   // When true, disables Anthropic prompt caching (default: caching enabled)
   bool disable_input_token_cache = 12;
 
@@ -71,6 +75,32 @@ message CapabilityTemplate {
   string default_model = 15;
 
   reserved 6, 7;
+}
+
+// Templated append to the system prompt using Go template syntax ({{.var}})
+// The server always renders templates - clients supply variable
+// values via CreateRequest.prompt_variables
+//
+// - Server applies automatic sanitization (8000 chars per value, 64000 chars
+// total, control chars stripped)
+//
+// Example (server variables - auto-detected):
+//   text: "User: {{.userEmail}}, Project: {{.projectName}}"
+//   mode: MODE_SERVER
+//   on_missing: PROMPT_MISSING_VAR_POLICY_ERROR
+//
+// Example (client variables with optional sections):
+//   text: "Task: {{.task}}{{if .priority}}, Priority: {{.priority}}{{end}}"
+//   mode: MODE_CLIENT
+//   on_missing: PROMPT_MISSING_VAR_POLICY_SKIP_APPEND
+//   // Variables automatically detected: task, priority
+//   // Use {{if}} for optional sections instead of defaults
+message PromptAppendTemplate {
+  string text = 1; // templated body using Go template syntax
+
+  PromptVariableMode mode = 2; // where variables come from (server or client)
+
+  PromptMissingVarPolicy on_missing = 3; // missing var behavior
 }
 
 // RAG (Retrieval-Augmented Generation) configuration
@@ -141,4 +171,25 @@ message ToolSafetyConfig {
   //          weather_lookup(...), search_docs(...), weather_lookup(...) →
   //          allowed
   uint32 max_consecutive_same_tool_calls = 3;
+}
+
+// Policy for how to handle missing variables during rendering
+enum PromptMissingVarPolicy {
+  PROMPT_MISSING_VAR_POLICY_ERROR = 0;
+
+  PROMPT_MISSING_VAR_POLICY_SKIP_APPEND = 1;
+}
+
+// Variable source mode - determines where template variables come from
+// Variables are auto-detected from template text (e.g., {{.userEmail}})
+enum PromptVariableMode {
+  // Server-provided variables (trusted, from auth context)
+  // Rendered text is injected into the system prompt
+  // Known server variables: userEmail, projectName
+  MODE_SERVER = 0;
+
+  // Client-provided variables (untrusted, sanitized)
+  // Rendered text is injected into the first user message for prompt injection
+  // isolation Variables looked up from CreateRequest.prompt_variables map
+  MODE_CLIENT = 1;
 }

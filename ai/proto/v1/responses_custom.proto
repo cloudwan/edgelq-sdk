@@ -50,6 +50,14 @@ message CreateRequest {
   // Override to disable Anthropic prompt caching for this request
   bool disable_input_token_cache = 14;
 
+  // Optional prompt variables passed by the client for template rendering
+  // Used by capability templates' system_prompt_append when variables use
+  // request_key source Server applies automatic sanitization:
+  // - Max 8KB per value, 64KB total
+  // - Control characters stripped (except \n and \t)
+  // - Values are treated as untrusted user input
+  map<string, string> prompt_variables = 15;
+
   reserved 3, 10, 11;
 }
 
