@@ -248,9 +248,6 @@ func (obj *TsCndSpec) GotenValidate() error {
 			values[v] = struct{}{}
 		}
 	}
-	if obj.ThresholdAlerting == nil {
-		return gotenvalidate.NewValidationError("TsCndSpec", "thresholdAlerting", obj.ThresholdAlerting, "field is required", nil)
-	}
 	if subobj, ok := interface{}(obj.ThresholdAlerting).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("TsCndSpec", "thresholdAlerting", obj.ThresholdAlerting, "nested object validation failed", err)
@@ -440,6 +437,9 @@ func (obj *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GotenValidate() er
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("AlertingThresholds", "minLower", obj.MinLower, "nested object validation failed", err)
 		}
+	}
+	if !(obj.ExtraRoomFactor >= 0) {
+		return gotenvalidate.NewValidationError("AlertingThresholds", "extraRoomFactor", obj.ExtraRoomFactor, "field must be greater or equal to 0", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

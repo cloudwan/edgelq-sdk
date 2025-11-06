@@ -5532,12 +5532,13 @@ type TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath interface {
 type TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector int32
 
 const (
-	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 0
-	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 1
-	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper       TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 2
-	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower       TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 3
-	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper       TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 4
-	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower       TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 5
+	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper  TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 0
+	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower  TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 1
+	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper        TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 2
+	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower        TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 3
+	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper        TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 4
+	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower        TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 5
+	TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 6
 )
 
 func (s TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector) String() string {
@@ -5554,6 +5555,8 @@ func (s TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector) Strin
 		return "min_upper"
 	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 		return "min_lower"
+	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+		return "extra_room_factor"
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", s))
 	}
@@ -5577,6 +5580,8 @@ func BuildTsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath(fp gotenobje
 			return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper}, nil
 		case "min_lower", "minLower", "min-lower":
 			return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower}, nil
+		case "extra_room_factor", "extraRoomFactor", "extra-room-factor":
+			return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -5669,6 +5674,8 @@ func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Get
 			if source.MinLower != nil {
 				values = append(values, source.MinLower)
 			}
+		case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+			values = append(values, source.ExtraRoomFactor)
 		default:
 			panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
 		}
@@ -5699,6 +5706,8 @@ func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Get
 	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 		res := source.GetMinLower()
 		return res, res != nil
+	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+		return source.GetExtraRoomFactor(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
 	}
@@ -5723,6 +5732,8 @@ func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Get
 		return (*AlertingThreshold)(nil)
 	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 		return (*AlertingThreshold)(nil)
+	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+		return float32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
 	}
@@ -5743,6 +5754,8 @@ func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Cle
 			item.MinUpper = nil
 		case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 			item.MinLower = nil
+		case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+			item.ExtraRoomFactor = float32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
 		}
@@ -5756,7 +5769,8 @@ func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Cle
 // IsLeaf - whether field path is holds simple value
 func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper ||
-		fp.selector == TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower
+		fp.selector == TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower ||
+		fp.selector == TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor
 }
 
 func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -5777,6 +5791,8 @@ func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Wit
 		return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, value: value.(*AlertingThreshold)}
 	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 		return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, value: value.(*AlertingThreshold)}
+	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+		return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, value: value.(float32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
 	}
@@ -5801,6 +5817,8 @@ func (fp *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Wit
 		return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, values: values.([]*AlertingThreshold)}
 	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 		return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, values: values.([]*AlertingThreshold)}
+	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+		return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, values: values.([]float32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
 	}
@@ -6036,6 +6054,10 @@ func (fpv *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValu
 	res, ok := fpv.value.(*AlertingThreshold)
 	return res, ok
 }
+func (fpv *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) AsExtraRoomFactorValue() (float32, bool) {
+	res, ok := fpv.value.(float32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object AlertingThresholds
 func (fpv *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) SetTo(target **TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) {
@@ -6055,6 +6077,8 @@ func (fpv *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValu
 		(*target).MinUpper = fpv.value.(*AlertingThreshold)
 	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 		(*target).MinLower = fpv.value.(*AlertingThreshold)
+	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+		(*target).ExtraRoomFactor = fpv.value.(float32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", fpv.selector))
 	}
@@ -6096,6 +6120,16 @@ func (fpv *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValu
 		return 0, false
 	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 		return 0, false
+	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+		leftValue := fpv.value.(float32)
+		rightValue := source.GetExtraRoomFactor()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCndSpec_ThresholdAlertingCfg_AlertingThresholds: %d", fpv.selector))
 	}
@@ -6340,6 +6374,10 @@ func (fpaov *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathAr
 		for _, v := range fpaov.values.([]*AlertingThreshold) {
 			values = append(values, v)
 		}
+	case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
+		for _, v := range fpaov.values.([]float32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -6365,6 +6403,10 @@ func (fpaov *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathAr
 }
 func (fpaov *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues) AsMinLowerArrayOfValues() ([]*AlertingThreshold, bool) {
 	res, ok := fpaov.values.([]*AlertingThreshold)
+	return res, ok
+}
+func (fpaov *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues) AsExtraRoomFactorArrayOfValues() ([]float32, bool) {
+	res, ok := fpaov.values.([]float32)
 	return res, ok
 }
 

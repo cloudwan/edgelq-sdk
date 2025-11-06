@@ -3658,6 +3658,10 @@ func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) MinLower() *fi
 	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) ExtraRoomFactor() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor {
+	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor{builder: b.builder}
+}
+
 type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsAutoAdaptUpper struct {
 	builder *FilterBuilder
 }
@@ -4513,6 +4517,65 @@ func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclus
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) Eq(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) Neq(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) Gt(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) Gte(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) Lt(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) Lte(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) In(values []float32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().ExtraRoomFactor().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) NotIn(values []float32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().ExtraRoomFactor().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().ExtraRoomFactor().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().ExtraRoomFactor().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) compare(op gotenfilter.CompareOperator, value float32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().ExtraRoomFactor().WithValue(value),
 	})
 }
 

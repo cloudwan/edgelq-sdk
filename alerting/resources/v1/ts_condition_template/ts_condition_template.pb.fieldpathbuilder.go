@@ -1177,6 +1177,10 @@ func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresh
 	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower{}
 }
 
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholds) ExtraRoomFactor() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsExtraRoomFactor {
+	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsExtraRoomFactor{}
+}
+
 type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsAutoAdaptUpper struct{}
 
 func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsAutoAdaptUpper) FieldPath() *TsConditionTemplate_FieldSubPath {
@@ -1444,6 +1448,23 @@ func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThre
 }
 
 func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsConditionTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
+}
+
+type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsExtraRoomFactor struct{}
+
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsExtraRoomFactor) FieldPath() *TsConditionTemplate_FieldSubPath {
+	return &TsConditionTemplate_FieldSubPath{
+		selector: TsConditionTemplate_FieldPathSelectorSpecTemplate,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().ExtraRoomFactor().FieldPath(),
+	}
+}
+
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsExtraRoomFactor) WithValue(value float32) *TsConditionTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsConditionTemplate_FieldSubPathValue)
+}
+
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsExtraRoomFactor) WithArrayOfValues(values []float32) *TsConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 

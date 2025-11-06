@@ -1192,6 +1192,10 @@ func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) MinLower()
 	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower{}
 }
 
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) ExtraRoomFactor() TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor {
+	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor{}
+}
+
 type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsAutoAdaptUpper struct{}
 
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsAutoAdaptUpper) FieldPath() *TsCondition_FieldSubPath {
@@ -1459,6 +1463,23 @@ func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerIs
 }
 
 func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
+}
+
+type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor struct{}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorSpec,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().ExtraRoomFactor().FieldPath(),
+	}
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) WithValue(value float32) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor) WithArrayOfValues(values []float32) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
