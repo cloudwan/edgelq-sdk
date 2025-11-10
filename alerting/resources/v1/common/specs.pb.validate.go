@@ -441,6 +441,9 @@ func (obj *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GotenValidate() er
 	if !(obj.ExtraRoomFactor >= 0) {
 		return gotenvalidate.NewValidationError("AlertingThresholds", "extraRoomFactor", obj.ExtraRoomFactor, "field must be greater or equal to 0", nil)
 	}
+	if !(obj.ExtraRoom >= 0) {
+		return gotenvalidate.NewValidationError("AlertingThresholds", "extraRoom", obj.ExtraRoom, "field must be greater or equal to 0", nil)
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

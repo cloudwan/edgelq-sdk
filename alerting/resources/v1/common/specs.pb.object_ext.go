@@ -1034,6 +1034,9 @@ func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) MakeDiffFieldMask(ot
 	if o.GetExtraRoomFactor() != other.GetExtraRoomFactor() {
 		res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor})
 	}
+	if o.GetExtraRoom() != other.GetExtraRoom() {
+		res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoom})
+	}
 	return res
 }
 
@@ -1053,6 +1056,7 @@ func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) Clone() *TsCndSpec_T
 	result.MinUpper = o.MinUpper.Clone()
 	result.MinLower = o.MinLower.Clone()
 	result.ExtraRoomFactor = o.ExtraRoomFactor
+	result.ExtraRoom = o.ExtraRoom
 	return result
 }
 
@@ -1088,6 +1092,7 @@ func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) Merge(source *TsCndS
 		o.MinLower.Merge(source.GetMinLower())
 	}
 	o.ExtraRoomFactor = source.GetExtraRoomFactor()
+	o.ExtraRoom = source.GetExtraRoom()
 }
 
 func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) MergeRaw(source gotenobject.GotenObjectExt) {

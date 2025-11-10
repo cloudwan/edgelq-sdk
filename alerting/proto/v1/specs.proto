@@ -217,12 +217,26 @@ message TsCndSpec {
       // It must be bigger than max_lower.
       AlertingThreshold min_lower = 6;
 
-      // Extra room factor for adaptive threshold calculation. This multiplier
-      // determines additional buffer space above and below detected min/max
-      // values. Formula: buffer = (highest_value - lowest_value) *
-      // extra_room_factor Higher values create more tolerant thresholds,
-      // reducing false positives. Default: 0.5
+      // Extra room factor for adaptive threshold calculation.
+      // This multiplier determines additional buffer space above and below
+      // detected min/max values. Formula: buffer = (highest_value -
+      // lowest_value)
+      // * extra_room_factor. Higher values create more tolerant thresholds,
+      // reducing false positives. When both extra_room_factor and extra_room
+      // are set, they are combined: total_buffer = (highest_value -
+      // lowest_value)
+      // * extra_room_factor + extra_room. Default: 0.5
       float extra_room_factor = 7;
+
+      // Absolute extra room value for adaptive thresholds.
+      // This value is added above the detected maximum and below the detected
+      // minimum to create additional buffer space. Unlike extra_room_factor,
+      // this is an absolute value rather than a multiplier. Can be used instead
+      // of or in addition to extra_room_factor. When both are set, they are
+      // combined: total_buffer = (highest_value - lowest_value) *
+      // extra_room_factor
+      // + extra_room.
+      float extra_room = 9;
     }
 
     // Operator informs if whether all or one of queries must be crossed

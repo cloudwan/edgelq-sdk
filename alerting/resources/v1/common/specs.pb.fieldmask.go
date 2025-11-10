@@ -2377,6 +2377,7 @@ func FullTsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask() *TsCndSpe
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper})
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower})
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor})
+	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoom})
 	return res
 }
 
@@ -2395,7 +2396,7 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Is
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2425,7 +2426,7 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Re
 
 func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Subtract(other *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask {
 	result := &TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector]gotenobject.FieldMask{
 		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper: &AlertingThreshold_FieldMask{},
 		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower: &AlertingThreshold_FieldMask{},
@@ -2643,6 +2644,8 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Pr
 				wholeMinLowerAccepted = true
 			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
 				result.ExtraRoomFactor = source.ExtraRoomFactor
+			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoom:
+				result.ExtraRoom = source.ExtraRoom
 			}
 		case *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath:
 			switch tp.selector {
