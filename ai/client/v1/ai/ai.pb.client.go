@@ -15,6 +15,7 @@ import (
 	chat_model_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat_model"
 	connector_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector"
 	conversation_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation"
+	conversation_feedback_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation_feedback"
 	document_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/document"
 	responses_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/responses"
 	search_db_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/search_db"
@@ -24,6 +25,7 @@ import (
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
+	conversation_feedback "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation_feedback"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -43,6 +45,8 @@ var (
 	_ = &connector.Connector{}
 	_ = &connector_client.GetConnectorRequest{}
 	_ = &conversation.Conversation{}
+	_ = &conversation_feedback.ConversationFeedback{}
+	_ = &conversation_feedback_client.GetConversationFeedbackRequest{}
 	_ = &conversation_client.GetConversationRequest{}
 	_ = &document.Document{}
 	_ = &document_client.GetDocumentRequest{}
@@ -57,6 +61,7 @@ type AIClient interface {
 	chat_model_client.ChatModelServiceClient
 	chat_client.ChatServiceClient
 	connector_client.ConnectorServiceClient
+	conversation_feedback_client.ConversationFeedbackServiceClient
 	conversation_client.ConversationServiceClient
 	document_client.DocumentServiceClient
 	responses_client.ResponsesServiceClient
@@ -70,6 +75,7 @@ type aiClient struct {
 	chat_model_client.ChatModelServiceClient
 	chat_client.ChatServiceClient
 	connector_client.ConnectorServiceClient
+	conversation_feedback_client.ConversationFeedbackServiceClient
 	conversation_client.ConversationServiceClient
 	document_client.DocumentServiceClient
 	responses_client.ResponsesServiceClient
@@ -80,15 +86,16 @@ type aiClient struct {
 
 func NewAIClient(cc grpc.ClientConnInterface) AIClient {
 	return &aiClient{
-		CapabilityTemplateServiceClient: capability_template_client.NewCapabilityTemplateServiceClient(cc),
-		ChatModelServiceClient:          chat_model_client.NewChatModelServiceClient(cc),
-		ChatServiceClient:               chat_client.NewChatServiceClient(cc),
-		ConnectorServiceClient:          connector_client.NewConnectorServiceClient(cc),
-		ConversationServiceClient:       conversation_client.NewConversationServiceClient(cc),
-		DocumentServiceClient:           document_client.NewDocumentServiceClient(cc),
-		ResponsesServiceClient:          responses_client.NewResponsesServiceClient(cc),
-		SearchDbServiceClient:           search_db_client.NewSearchDbServiceClient(cc),
-		SearchIndexServiceClient:        search_index_client.NewSearchIndexServiceClient(cc),
-		ToolsServiceClient:              tools_client.NewToolsServiceClient(cc),
+		CapabilityTemplateServiceClient:   capability_template_client.NewCapabilityTemplateServiceClient(cc),
+		ChatModelServiceClient:            chat_model_client.NewChatModelServiceClient(cc),
+		ChatServiceClient:                 chat_client.NewChatServiceClient(cc),
+		ConnectorServiceClient:            connector_client.NewConnectorServiceClient(cc),
+		ConversationFeedbackServiceClient: conversation_feedback_client.NewConversationFeedbackServiceClient(cc),
+		ConversationServiceClient:         conversation_client.NewConversationServiceClient(cc),
+		DocumentServiceClient:             document_client.NewDocumentServiceClient(cc),
+		ResponsesServiceClient:            responses_client.NewResponsesServiceClient(cc),
+		SearchDbServiceClient:             search_db_client.NewSearchDbServiceClient(cc),
+		SearchIndexServiceClient:          search_index_client.NewSearchIndexServiceClient(cc),
+		ToolsServiceClient:                tools_client.NewToolsServiceClient(cc),
 	}
 }

@@ -78,6 +78,13 @@ func (obj *Conversation) GotenValidate() error {
 			}
 		}
 	}
+	for idx, elem := range obj.ReplacedTurnGroups {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Conversation", "replacedTurnGroups", obj.ReplacedTurnGroups[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -174,6 +181,22 @@ func (obj *ModelUsageStats) GotenValidate() error {
 	if subobj, ok := interface{}(obj.AggregatedUsage).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("ModelUsageStats", "aggregatedUsage", obj.AggregatedUsage, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ReplacedTurnGroup) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Turns {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ReplacedTurnGroup", "turns", obj.Turns[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

@@ -284,6 +284,10 @@ func (b *filterCndBuilder) DefaultModel() *filterCndBuilderDefaultModel {
 	return &filterCndBuilderDefaultModel{builder: b.builder}
 }
 
+func (b *filterCndBuilder) UserPromptTemplates() *filterCndBuilderUserPromptTemplates {
+	return &filterCndBuilderUserPromptTemplates{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -4498,5 +4502,511 @@ func (b *filterCndBuilderDefaultModel) compare(op gotenfilter.CompareOperator, v
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().DefaultModel().WithValue(value),
+	})
+}
+
+type filterCndBuilderUserPromptTemplates struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Eq(value []*UserPromptTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Neq(value []*UserPromptTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Gt(value []*UserPromptTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Gte(value []*UserPromptTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Lt(value []*UserPromptTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Lte(value []*UserPromptTemplate) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplates) In(values [][]*UserPromptTemplate) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplates) NotIn(values [][]*UserPromptTemplate) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplates) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplates) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Contains(value *UserPromptTemplate) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().FieldPath(),
+		Value:     NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplates) ContainsAnyOf(values []*UserPromptTemplate) *FilterBuilder {
+	pathSelector := NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates()
+	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplates) ContainsAll(values []*UserPromptTemplate) *FilterBuilder {
+	pathSelector := NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates()
+	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplates) compare(op gotenfilter.CompareOperator, value []*UserPromptTemplate) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplates) DisplayName() *filterCndBuilderUserPromptTemplatesDisplayName {
+	return &filterCndBuilderUserPromptTemplatesDisplayName{builder: b.builder}
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Description() *filterCndBuilderUserPromptTemplatesDescription {
+	return &filterCndBuilderUserPromptTemplatesDescription{builder: b.builder}
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Tags() *filterCndBuilderUserPromptTemplatesTags {
+	return &filterCndBuilderUserPromptTemplatesTags{builder: b.builder}
+}
+
+func (b *filterCndBuilderUserPromptTemplates) TemplateText() *filterCndBuilderUserPromptTemplatesTemplateText {
+	return &filterCndBuilderUserPromptTemplatesTemplateText{builder: b.builder}
+}
+
+func (b *filterCndBuilderUserPromptTemplates) Variables() *filterCndBuilderUserPromptTemplatesVariables {
+	return &filterCndBuilderUserPromptTemplatesVariables{builder: b.builder}
+}
+
+type filterCndBuilderUserPromptTemplatesDisplayName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDisplayName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().DisplayName().WithValue(value),
+	})
+}
+
+type filterCndBuilderUserPromptTemplatesDescription struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Description().WithValue(value),
+	})
+}
+
+type filterCndBuilderUserPromptTemplatesTags struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().FieldPath(),
+		Value:     NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags()
+	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags()
+	itemValues := make([]CapabilityTemplate_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTags) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Tags().WithValue(value),
+	})
+}
+
+type filterCndBuilderUserPromptTemplatesTemplateText struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().TemplateText().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().TemplateText().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().TemplateText().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().TemplateText().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesTemplateText) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().TemplateText().WithValue(value),
+	})
+}
+
+type filterCndBuilderUserPromptTemplatesVariables struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) Eq(value map[string]*TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) Neq(value map[string]*TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) Gt(value map[string]*TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) Gte(value map[string]*TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) Lt(value map[string]*TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) Lte(value map[string]*TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) In(values []map[string]*TemplateVariable) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) NotIn(values []map[string]*TemplateVariable) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) compare(op gotenfilter.CompareOperator, value map[string]*TemplateVariable) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderUserPromptTemplatesVariables) WithKey(key string) *mapFilterCndBuilderUserPromptTemplatesVariables {
+	return &mapFilterCndBuilderUserPromptTemplatesVariables{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderUserPromptTemplatesVariables struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) Eq(value *TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) Neq(value *TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) Gt(value *TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) Gte(value *TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) Lt(value *TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) Lte(value *TemplateVariable) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) In(values []*TemplateVariable) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) NotIn(values []*TemplateVariable) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CapabilityTemplate_FieldPathArrayOfValues: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderUserPromptTemplatesVariables) compare(op gotenfilter.CompareOperator, value *TemplateVariable) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		CapabilityTemplate_FieldPathValue: NewCapabilityTemplateFieldPathBuilder().UserPromptTemplates().Variables().WithKey(b.key).WithValue(value),
 	})
 }

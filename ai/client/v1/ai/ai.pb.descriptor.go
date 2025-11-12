@@ -16,6 +16,7 @@ import (
 	chat_model_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat_model"
 	connector_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector"
 	conversation_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation"
+	conversation_feedback_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation_feedback"
 	document_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/document"
 	responses_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/responses"
 	search_db_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/search_db"
@@ -25,6 +26,7 @@ import (
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
+	conversation_feedback "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation_feedback"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -45,6 +47,8 @@ var (
 	_ = &connector.Connector{}
 	_ = &connector_client.GetConnectorRequest{}
 	_ = &conversation.Conversation{}
+	_ = &conversation_feedback.ConversationFeedback{}
+	_ = &conversation_feedback_client.GetConversationFeedbackRequest{}
 	_ = &conversation_client.GetConversationRequest{}
 	_ = &document.Document{}
 	_ = &document_client.GetDocumentRequest{}
@@ -84,6 +88,7 @@ func (d *AIDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 		chat_model.GetDescriptor(),
 		connector.GetDescriptor(),
 		conversation.GetDescriptor(),
+		conversation_feedback.GetDescriptor(),
 		document.GetDescriptor(),
 		search_db.GetDescriptor(),
 		search_index.GetDescriptor(),
@@ -96,6 +101,7 @@ func (d *AIDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 		chat_model_client.GetChatModelServiceDescriptor(),
 		chat_client.GetChatServiceDescriptor(),
 		connector_client.GetConnectorServiceDescriptor(),
+		conversation_feedback_client.GetConversationFeedbackServiceDescriptor(),
 		conversation_client.GetConversationServiceDescriptor(),
 		document_client.GetDocumentServiceDescriptor(),
 		responses_client.GetResponsesServiceDescriptor(),
@@ -109,6 +115,10 @@ func (d *AIDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo
 	return []gotenclient.ServiceImportInfo{
 		{
 			Domain:  "iam.edgelq.com",
+			Version: "v1",
+		},
+		{
+			Domain:  "meta.goten.com",
 			Version: "v1",
 		},
 		{

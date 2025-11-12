@@ -129,6 +129,18 @@ func (o *Conversation) MakeDiffFieldMask(other *Conversation) *Conversation_Fiel
 	} else {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns})
 	}
+
+	if len(o.GetReplacedTurnGroups()) == len(other.GetReplacedTurnGroups()) {
+		for i, lValue := range o.GetReplacedTurnGroups() {
+			rValue := other.GetReplacedTurnGroups()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups})
+	}
 	return res
 }
 
@@ -167,6 +179,10 @@ func (o *Conversation) Clone() *Conversation {
 	result.FailedTurns = make([]*ConversationTurn, len(o.FailedTurns))
 	for i, sourceValue := range o.FailedTurns {
 		result.FailedTurns[i] = sourceValue.Clone()
+	}
+	result.ReplacedTurnGroups = make([]*ReplacedTurnGroup, len(o.ReplacedTurnGroups))
+	for i, sourceValue := range o.ReplacedTurnGroups {
+		result.ReplacedTurnGroups[i] = sourceValue.Clone()
 	}
 	return result
 }
@@ -252,6 +268,24 @@ func (o *Conversation) Merge(source *Conversation) {
 		}
 	}
 
+	for _, sourceValue := range source.GetReplacedTurnGroups() {
+		exists := false
+		for _, currentValue := range o.ReplacedTurnGroups {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *ReplacedTurnGroup
+			if sourceValue != nil {
+				newDstElement = new(ReplacedTurnGroup)
+				newDstElement.Merge(sourceValue)
+			}
+			o.ReplacedTurnGroups = append(o.ReplacedTurnGroups, newDstElement)
+		}
+	}
+
 }
 
 func (o *Conversation) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -326,6 +360,12 @@ func (o *ConversationTurn) MakeDiffFieldMask(other *ConversationTurn) *Conversat
 	} else {
 		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource})
 	}
+	if o.GetReplacedTurnNumber() != other.GetReplacedTurnNumber() {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorReplacedTurnNumber})
+	}
+	if o.GetErrorDetails() != other.GetErrorDetails() {
+		res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorErrorDetails})
+	}
 	return res
 }
 
@@ -352,6 +392,8 @@ func (o *ConversationTurn) Clone() *ConversationTurn {
 	for i, sourceValue := range o.AvailableToolsBySource {
 		result.AvailableToolsBySource[i] = sourceValue.Clone()
 	}
+	result.ReplacedTurnNumber = o.ReplacedTurnNumber
+	result.ErrorDetails = o.ErrorDetails
 	return result
 }
 
@@ -422,6 +464,8 @@ func (o *ConversationTurn) Merge(source *ConversationTurn) {
 		}
 	}
 
+	o.ReplacedTurnNumber = source.GetReplacedTurnNumber()
+	o.ErrorDetails = source.GetErrorDetails()
 }
 
 func (o *ConversationTurn) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -832,4 +876,108 @@ func (o *ModelUsageStats) Merge(source *ModelUsageStats) {
 
 func (o *ModelUsageStats) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ModelUsageStats))
+}
+
+func (o *ReplacedTurnGroup) GotenObjectExt() {}
+
+func (o *ReplacedTurnGroup) MakeFullFieldMask() *ReplacedTurnGroup_FieldMask {
+	return FullReplacedTurnGroup_FieldMask()
+}
+
+func (o *ReplacedTurnGroup) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullReplacedTurnGroup_FieldMask()
+}
+
+func (o *ReplacedTurnGroup) MakeDiffFieldMask(other *ReplacedTurnGroup) *ReplacedTurnGroup_FieldMask {
+	if o == nil && other == nil {
+		return &ReplacedTurnGroup_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullReplacedTurnGroup_FieldMask()
+	}
+
+	res := &ReplacedTurnGroup_FieldMask{}
+	if !proto.Equal(o.GetReplacedAt(), other.GetReplacedAt()) {
+		res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorReplacedAt})
+	}
+	if o.GetResumedFromTurn() != other.GetResumedFromTurn() {
+		res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorResumedFromTurn})
+	}
+
+	if len(o.GetTurns()) == len(other.GetTurns()) {
+		for i, lValue := range o.GetTurns() {
+			rValue := other.GetTurns()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorTurns})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorTurns})
+	}
+	if o.GetHadMessageEdit() != other.GetHadMessageEdit() {
+		res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorHadMessageEdit})
+	}
+	if o.GetResumeReason() != other.GetResumeReason() {
+		res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorResumeReason})
+	}
+	return res
+}
+
+func (o *ReplacedTurnGroup) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ReplacedTurnGroup))
+}
+
+func (o *ReplacedTurnGroup) Clone() *ReplacedTurnGroup {
+	if o == nil {
+		return nil
+	}
+	result := &ReplacedTurnGroup{}
+	result.ReplacedAt = proto.Clone(o.ReplacedAt).(*timestamppb.Timestamp)
+	result.ResumedFromTurn = o.ResumedFromTurn
+	result.Turns = make([]*ConversationTurn, len(o.Turns))
+	for i, sourceValue := range o.Turns {
+		result.Turns[i] = sourceValue.Clone()
+	}
+	result.HadMessageEdit = o.HadMessageEdit
+	result.ResumeReason = o.ResumeReason
+	return result
+}
+
+func (o *ReplacedTurnGroup) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ReplacedTurnGroup) Merge(source *ReplacedTurnGroup) {
+	if source.GetReplacedAt() != nil {
+		if o.ReplacedAt == nil {
+			o.ReplacedAt = new(timestamppb.Timestamp)
+		}
+		proto.Merge(o.ReplacedAt, source.GetReplacedAt())
+	}
+	o.ResumedFromTurn = source.GetResumedFromTurn()
+	for _, sourceValue := range source.GetTurns() {
+		exists := false
+		for _, currentValue := range o.Turns {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *ConversationTurn
+			if sourceValue != nil {
+				newDstElement = new(ConversationTurn)
+				newDstElement.Merge(sourceValue)
+			}
+			o.Turns = append(o.Turns, newDstElement)
+		}
+	}
+
+	o.HadMessageEdit = source.GetHadMessageEdit()
+	o.ResumeReason = source.GetResumeReason()
+}
+
+func (o *ReplacedTurnGroup) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ReplacedTurnGroup))
 }

@@ -28,6 +28,7 @@ var (
 	descriptorsInitialized     bool
 	responsesServiceDescriptor *ResponsesServiceDescriptor
 	createResponseDescriptor   *CreateResponseDescriptor
+	chatStreamDescriptor       *ChatStreamDescriptor
 )
 
 type CreateResponseDescriptor struct{}
@@ -160,11 +161,142 @@ func GetCreateResponseDescriptor() *CreateResponseDescriptor {
 	return createResponseDescriptor
 }
 
+type ChatStreamDescriptor struct{}
+
+type ChatStreamDescriptorClientMsgHandle struct{}
+
+type ChatStreamDescriptorServerMsgHandle struct{}
+
+func (d *ChatStreamDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ChatStreamRequest{}
+}
+
+func (d *ChatStreamDescriptor) NewEmptyServerMsg() proto.Message {
+	return &ChatStreamResponse{}
+}
+
+func (d *ChatStreamDescriptor) IsUnary() bool {
+	return false
+}
+
+func (d *ChatStreamDescriptor) IsClientStream() bool {
+	return true
+}
+
+func (d *ChatStreamDescriptor) IsServerStream() bool {
+	return true
+}
+
+func (d *ChatStreamDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *ChatStreamDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *ChatStreamDescriptor) HasResource() bool {
+	return false
+}
+
+func (d *ChatStreamDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ChatStreamDescriptor) GetVerb() string {
+	return "chatStream"
+}
+
+func (d *ChatStreamDescriptor) GetMethodName() string {
+	return "ChatStream"
+}
+
+func (d *ChatStreamDescriptor) GetFullMethodName() string {
+	return "/ntt.ai.v1.ResponsesService/ChatStream"
+}
+
+func (d *ChatStreamDescriptor) GetProtoPkgName() string {
+	return "ntt.ai.v1"
+}
+
+func (d *ChatStreamDescriptor) GetApiName() string {
+	return "ResponsesService"
+}
+
+func (d *ChatStreamDescriptor) GetServiceDomain() string {
+	return "ai.edgelq.com"
+}
+
+func (d *ChatStreamDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *ChatStreamDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return responsesServiceDescriptor
+}
+
+func (d *ChatStreamDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return nil
+}
+
+func (d *ChatStreamDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ChatStreamDescriptorClientMsgHandle{}
+}
+
+func (d *ChatStreamDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ChatStreamDescriptorServerMsgHandle{}
+}
+
+func (h *ChatStreamDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ChatStreamDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	return nil
+}
+
+func (h *ChatStreamDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ChatStreamDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return nil
+}
+
+func (h *ChatStreamDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	return nil
+}
+
+func (h *ChatStreamDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ChatStreamDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	return nil
+}
+
+func (h *ChatStreamDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ChatStreamDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return nil
+}
+
+func (h *ChatStreamDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	return nil
+}
+
+func GetChatStreamDescriptor() *ChatStreamDescriptor {
+	return chatStreamDescriptor
+}
+
 type ResponsesServiceDescriptor struct{}
 
 func (d *ResponsesServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
 	return []gotenclient.MethodDescriptor{
 		createResponseDescriptor,
+		chatStreamDescriptor,
 	}
 }
 
@@ -195,8 +327,10 @@ func GetResponsesServiceDescriptor() *ResponsesServiceDescriptor {
 func initDescriptors() {
 	responsesServiceDescriptor = &ResponsesServiceDescriptor{}
 	createResponseDescriptor = &CreateResponseDescriptor{}
+	chatStreamDescriptor = &ChatStreamDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(responsesServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createResponseDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(chatStreamDescriptor)
 }
 
 func init() {

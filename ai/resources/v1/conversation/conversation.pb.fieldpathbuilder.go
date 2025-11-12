@@ -82,6 +82,9 @@ func (ConversationFieldPathBuilder) UsageByModel() ConversationPathSelectorUsage
 func (ConversationFieldPathBuilder) FailedTurns() ConversationPathSelectorFailedTurns {
 	return ConversationPathSelectorFailedTurns{}
 }
+func (ConversationFieldPathBuilder) ReplacedTurnGroups() ConversationPathSelectorReplacedTurnGroups {
+	return ConversationPathSelectorReplacedTurnGroups{}
+}
 
 type ConversationPathSelectorName struct{}
 
@@ -900,6 +903,14 @@ func (ConversationPathSelectorTurns) AvailableToolsBySource() ConversationPathSe
 	return ConversationPathSelectorTurnsAvailableToolsBySource{}
 }
 
+func (ConversationPathSelectorTurns) ReplacedTurnNumber() ConversationPathSelectorTurnsReplacedTurnNumber {
+	return ConversationPathSelectorTurnsReplacedTurnNumber{}
+}
+
+func (ConversationPathSelectorTurns) ErrorDetails() ConversationPathSelectorTurnsErrorDetails {
+	return ConversationPathSelectorTurnsErrorDetails{}
+}
+
 type ConversationPathSelectorTurnsTurnNumber struct{}
 
 func (ConversationPathSelectorTurnsTurnNumber) FieldPath() *Conversation_FieldSubPath {
@@ -1279,6 +1290,40 @@ func (s ConversationPathSelectorTurnsAvailableToolsBySourceToolNames) WithItemVa
 	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
 }
 
+type ConversationPathSelectorTurnsReplacedTurnNumber struct{}
+
+func (ConversationPathSelectorTurnsReplacedTurnNumber) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().ReplacedTurnNumber().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorTurnsReplacedTurnNumber) WithValue(value int32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorTurnsReplacedTurnNumber) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorTurnsErrorDetails struct{}
+
+func (ConversationPathSelectorTurnsErrorDetails) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().ErrorDetails().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorTurnsErrorDetails) WithValue(value string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorTurnsErrorDetails) WithArrayOfValues(values []string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
 type ConversationPathSelectorUsageByModel struct{}
 
 func (ConversationPathSelectorUsageByModel) FieldPath() *Conversation_FieldTerminalPath {
@@ -1376,6 +1421,14 @@ func (ConversationPathSelectorFailedTurns) Duration() ConversationPathSelectorFa
 
 func (ConversationPathSelectorFailedTurns) AvailableToolsBySource() ConversationPathSelectorFailedTurnsAvailableToolsBySource {
 	return ConversationPathSelectorFailedTurnsAvailableToolsBySource{}
+}
+
+func (ConversationPathSelectorFailedTurns) ReplacedTurnNumber() ConversationPathSelectorFailedTurnsReplacedTurnNumber {
+	return ConversationPathSelectorFailedTurnsReplacedTurnNumber{}
+}
+
+func (ConversationPathSelectorFailedTurns) ErrorDetails() ConversationPathSelectorFailedTurnsErrorDetails {
+	return ConversationPathSelectorFailedTurnsErrorDetails{}
 }
 
 type ConversationPathSelectorFailedTurnsTurnNumber struct{}
@@ -1757,6 +1810,635 @@ func (s ConversationPathSelectorFailedTurnsAvailableToolsBySourceToolNames) With
 	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
 }
 
+type ConversationPathSelectorFailedTurnsReplacedTurnNumber struct{}
+
+func (ConversationPathSelectorFailedTurnsReplacedTurnNumber) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().ReplacedTurnNumber().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsReplacedTurnNumber) WithValue(value int32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsReplacedTurnNumber) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorFailedTurnsErrorDetails struct{}
+
+func (ConversationPathSelectorFailedTurnsErrorDetails) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorFailedTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().ErrorDetails().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorFailedTurnsErrorDetails) WithValue(value string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorFailedTurnsErrorDetails) WithArrayOfValues(values []string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroups struct{}
+
+func (ConversationPathSelectorReplacedTurnGroups) FieldPath() *Conversation_FieldTerminalPath {
+	return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroups) WithValue(value []*ReplacedTurnGroup) *Conversation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldTerminalPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroups) WithArrayOfValues(values [][]*ReplacedTurnGroup) *Conversation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldTerminalPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroups) WithItemValue(value *ReplacedTurnGroup) *Conversation_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldTerminalPathArrayItemValue)
+}
+func (ConversationPathSelectorReplacedTurnGroups) WithSubPath(subPath ReplacedTurnGroup_FieldPath) *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups, subPath: subPath}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroups) WithSubValue(subPathValue ReplacedTurnGroup_FieldPathValue) *Conversation_FieldSubPathValue {
+	return &Conversation_FieldSubPathValue{Conversation_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroups) WithSubArrayOfValues(subPathArrayOfValues ReplacedTurnGroup_FieldPathArrayOfValues) *Conversation_FieldSubPathArrayOfValues {
+	return &Conversation_FieldSubPathArrayOfValues{Conversation_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroups) WithSubArrayItemValue(subPathArrayItemValue ReplacedTurnGroup_FieldPathArrayItemValue) *Conversation_FieldSubPathArrayItemValue {
+	return &Conversation_FieldSubPathArrayItemValue{Conversation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ConversationPathSelectorReplacedTurnGroups) ReplacedAt() ConversationPathSelectorReplacedTurnGroupsReplacedAt {
+	return ConversationPathSelectorReplacedTurnGroupsReplacedAt{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroups) ResumedFromTurn() ConversationPathSelectorReplacedTurnGroupsResumedFromTurn {
+	return ConversationPathSelectorReplacedTurnGroupsResumedFromTurn{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroups) Turns() ConversationPathSelectorReplacedTurnGroupsTurns {
+	return ConversationPathSelectorReplacedTurnGroupsTurns{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroups) HadMessageEdit() ConversationPathSelectorReplacedTurnGroupsHadMessageEdit {
+	return ConversationPathSelectorReplacedTurnGroupsHadMessageEdit{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroups) ResumeReason() ConversationPathSelectorReplacedTurnGroupsResumeReason {
+	return ConversationPathSelectorReplacedTurnGroupsResumeReason{}
+}
+
+type ConversationPathSelectorReplacedTurnGroupsReplacedAt struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsReplacedAt) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().ReplacedAt().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsReplacedAt) WithValue(value *timestamppb.Timestamp) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsReplacedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsResumedFromTurn struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsResumedFromTurn) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().ResumedFromTurn().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsResumedFromTurn) WithValue(value int32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsResumedFromTurn) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurns struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurns) WithValue(value []*ConversationTurn) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurns) WithArrayOfValues(values [][]*ConversationTurn) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurns) WithItemValue(value *ConversationTurn) *Conversation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) TurnNumber() ConversationPathSelectorReplacedTurnGroupsTurnsTurnNumber {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsTurnNumber{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) Timestamp() ConversationPathSelectorReplacedTurnGroupsTurnsTimestamp {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsTimestamp{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) Messages() ConversationPathSelectorReplacedTurnGroupsTurnsMessages {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsMessages{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) Config() ConversationPathSelectorReplacedTurnGroupsTurnsConfig {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsConfig{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) Usage() ConversationPathSelectorReplacedTurnGroupsTurnsUsage {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsUsage{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) StopReason() ConversationPathSelectorReplacedTurnGroupsTurnsStopReason {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsStopReason{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) Duration() ConversationPathSelectorReplacedTurnGroupsTurnsDuration {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsDuration{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) AvailableToolsBySource() ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) ReplacedTurnNumber() ConversationPathSelectorReplacedTurnGroupsTurnsReplacedTurnNumber {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsReplacedTurnNumber{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurns) ErrorDetails() ConversationPathSelectorReplacedTurnGroupsTurnsErrorDetails {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsErrorDetails{}
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsTurnNumber struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsTurnNumber) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().TurnNumber().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsTurnNumber) WithValue(value int32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsTurnNumber) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsTimestamp struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsTimestamp) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Timestamp().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsTimestamp) WithValue(value *timestamppb.Timestamp) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsTimestamp) WithArrayOfValues(values []*timestamppb.Timestamp) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsMessages struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsMessages) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Messages().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsMessages) WithValue(value []*common_client.Message) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsMessages) WithArrayOfValues(values [][]*common_client.Message) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsMessages) WithItemValue(value *common_client.Message) *Conversation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsConfig struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfig) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Config().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfig) WithValue(value *TurnConfig) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfig) WithArrayOfValues(values []*TurnConfig) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfig) Model() ConversationPathSelectorReplacedTurnGroupsTurnsConfigModel {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsConfigModel{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfig) ModelUsed() ConversationPathSelectorReplacedTurnGroupsTurnsConfigModelUsed {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsConfigModelUsed{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfig) Temperature() ConversationPathSelectorReplacedTurnGroupsTurnsConfigTemperature {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsConfigTemperature{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfig) MaxTokens() ConversationPathSelectorReplacedTurnGroupsTurnsConfigMaxTokens {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsConfigMaxTokens{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfig) ReasoningLevel() ConversationPathSelectorReplacedTurnGroupsTurnsConfigReasoningLevel {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsConfigReasoningLevel{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfig) CapabilityTemplate() ConversationPathSelectorReplacedTurnGroupsTurnsConfigCapabilityTemplate {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsConfigCapabilityTemplate{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfig) Connectors() ConversationPathSelectorReplacedTurnGroupsTurnsConfigConnectors {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsConfigConnectors{}
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsConfigModel struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfigModel) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Config().Model().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigModel) WithValue(value *chat_model.Name) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigModel) WithArrayOfValues(values []*chat_model.Name) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsConfigModelUsed struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfigModelUsed) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Config().ModelUsed().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigModelUsed) WithValue(value string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigModelUsed) WithArrayOfValues(values []string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsConfigTemperature struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfigTemperature) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Config().Temperature().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigTemperature) WithValue(value float32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigTemperature) WithArrayOfValues(values []float32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsConfigMaxTokens struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfigMaxTokens) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Config().MaxTokens().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigMaxTokens) WithValue(value int32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigMaxTokens) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsConfigReasoningLevel struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfigReasoningLevel) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Config().ReasoningLevel().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigReasoningLevel) WithValue(value common_client.ReasoningLevel) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigReasoningLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsConfigCapabilityTemplate struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfigCapabilityTemplate) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Config().CapabilityTemplate().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigCapabilityTemplate) WithValue(value *capability_template.Name) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigCapabilityTemplate) WithArrayOfValues(values []*capability_template.Name) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsConfigConnectors struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsConfigConnectors) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Config().Connectors().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigConnectors) WithValue(value *common_client.ConnectorsList) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsConfigConnectors) WithArrayOfValues(values []*common_client.ConnectorsList) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsUsage struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsUsage) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Usage().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsUsage) WithValue(value *common_client.TokenUsage) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsUsage) WithArrayOfValues(values []*common_client.TokenUsage) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsStopReason struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsStopReason) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().StopReason().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsStopReason) WithValue(value common_client.StopReason) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsStopReason) WithArrayOfValues(values []common_client.StopReason) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsDuration struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsDuration) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().Duration().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsDuration) WithValue(value *durationpb.Duration) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsDuration) WithArrayOfValues(values []*durationpb.Duration) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().AvailableToolsBySource().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource) WithValue(value []*TurnToolsBySourceGroup) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource) WithArrayOfValues(values [][]*TurnToolsBySourceGroup) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource) WithItemValue(value *TurnToolsBySourceGroup) *Conversation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource) Client() ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceClient {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceClient{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource) Connector() ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceConnector {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceConnector{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource) Internal() ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceInternal {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceInternal{}
+}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySource) ToolNames() ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames {
+	return ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames{}
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceClient struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceClient) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().AvailableToolsBySource().Client().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceClient) WithValue(value *common_client.ClientToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceClient) WithArrayOfValues(values []*common_client.ClientToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceConnector struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().AvailableToolsBySource().Connector().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) WithValue(value *common_client.ConnectorToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) WithArrayOfValues(values []*common_client.ConnectorToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceInternal struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().AvailableToolsBySource().Internal().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) WithValue(value *common_client.InternalToolSource) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) WithArrayOfValues(values []*common_client.InternalToolSource) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().AvailableToolsBySource().ToolNames().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) WithValue(value []string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) WithArrayOfValues(values [][]string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) WithItemValue(value string) *Conversation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Conversation_FieldSubPathArrayItemValue)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsReplacedTurnNumber struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsReplacedTurnNumber) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().ReplacedTurnNumber().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsReplacedTurnNumber) WithValue(value int32) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsReplacedTurnNumber) WithArrayOfValues(values []int32) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsTurnsErrorDetails struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsTurnsErrorDetails) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().Turns().ErrorDetails().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsErrorDetails) WithValue(value string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsTurnsErrorDetails) WithArrayOfValues(values []string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsHadMessageEdit struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsHadMessageEdit) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().HadMessageEdit().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsHadMessageEdit) WithValue(value bool) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsHadMessageEdit) WithArrayOfValues(values []bool) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorReplacedTurnGroupsResumeReason struct{}
+
+func (ConversationPathSelectorReplacedTurnGroupsResumeReason) FieldPath() *Conversation_FieldSubPath {
+	return &Conversation_FieldSubPath{
+		selector: Conversation_FieldPathSelectorReplacedTurnGroups,
+		subPath:  NewReplacedTurnGroupFieldPathBuilder().ResumeReason().FieldPath(),
+	}
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsResumeReason) WithValue(value string) *Conversation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldSubPathValue)
+}
+
+func (s ConversationPathSelectorReplacedTurnGroupsResumeReason) WithArrayOfValues(values []string) *Conversation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
 type ConversationTurnFieldPathBuilder struct{}
 
 func NewConversationTurnFieldPathBuilder() ConversationTurnFieldPathBuilder {
@@ -1785,6 +2467,12 @@ func (ConversationTurnFieldPathBuilder) Duration() ConversationTurnPathSelectorD
 }
 func (ConversationTurnFieldPathBuilder) AvailableToolsBySource() ConversationTurnPathSelectorAvailableToolsBySource {
 	return ConversationTurnPathSelectorAvailableToolsBySource{}
+}
+func (ConversationTurnFieldPathBuilder) ReplacedTurnNumber() ConversationTurnPathSelectorReplacedTurnNumber {
+	return ConversationTurnPathSelectorReplacedTurnNumber{}
+}
+func (ConversationTurnFieldPathBuilder) ErrorDetails() ConversationTurnPathSelectorErrorDetails {
+	return ConversationTurnPathSelectorErrorDetails{}
 }
 
 type ConversationTurnPathSelectorTurnNumber struct{}
@@ -2173,6 +2861,34 @@ func (s ConversationTurnPathSelectorAvailableToolsBySourceToolNames) WithItemVal
 	return s.FieldPath().WithIArrayItemValue(value).(*ConversationTurn_FieldSubPathArrayItemValue)
 }
 
+type ConversationTurnPathSelectorReplacedTurnNumber struct{}
+
+func (ConversationTurnPathSelectorReplacedTurnNumber) FieldPath() *ConversationTurn_FieldTerminalPath {
+	return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorReplacedTurnNumber}
+}
+
+func (s ConversationTurnPathSelectorReplacedTurnNumber) WithValue(value int32) *ConversationTurn_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConversationTurn_FieldTerminalPathValue)
+}
+
+func (s ConversationTurnPathSelectorReplacedTurnNumber) WithArrayOfValues(values []int32) *ConversationTurn_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConversationTurn_FieldTerminalPathArrayOfValues)
+}
+
+type ConversationTurnPathSelectorErrorDetails struct{}
+
+func (ConversationTurnPathSelectorErrorDetails) FieldPath() *ConversationTurn_FieldTerminalPath {
+	return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorErrorDetails}
+}
+
+func (s ConversationTurnPathSelectorErrorDetails) WithValue(value string) *ConversationTurn_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConversationTurn_FieldTerminalPathValue)
+}
+
+func (s ConversationTurnPathSelectorErrorDetails) WithArrayOfValues(values []string) *ConversationTurn_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConversationTurn_FieldTerminalPathArrayOfValues)
+}
+
 type TurnToolsBySourceGroupFieldPathBuilder struct{}
 
 func NewTurnToolsBySourceGroupFieldPathBuilder() TurnToolsBySourceGroupFieldPathBuilder {
@@ -2414,4 +3130,567 @@ func (s ModelUsageStatsPathSelectorAggregatedUsage) WithValue(value *common_clie
 
 func (s ModelUsageStatsPathSelectorAggregatedUsage) WithArrayOfValues(values []*common_client.TokenUsage) *ModelUsageStats_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ModelUsageStats_FieldTerminalPathArrayOfValues)
+}
+
+type ReplacedTurnGroupFieldPathBuilder struct{}
+
+func NewReplacedTurnGroupFieldPathBuilder() ReplacedTurnGroupFieldPathBuilder {
+	return ReplacedTurnGroupFieldPathBuilder{}
+}
+func (ReplacedTurnGroupFieldPathBuilder) ReplacedAt() ReplacedTurnGroupPathSelectorReplacedAt {
+	return ReplacedTurnGroupPathSelectorReplacedAt{}
+}
+func (ReplacedTurnGroupFieldPathBuilder) ResumedFromTurn() ReplacedTurnGroupPathSelectorResumedFromTurn {
+	return ReplacedTurnGroupPathSelectorResumedFromTurn{}
+}
+func (ReplacedTurnGroupFieldPathBuilder) Turns() ReplacedTurnGroupPathSelectorTurns {
+	return ReplacedTurnGroupPathSelectorTurns{}
+}
+func (ReplacedTurnGroupFieldPathBuilder) HadMessageEdit() ReplacedTurnGroupPathSelectorHadMessageEdit {
+	return ReplacedTurnGroupPathSelectorHadMessageEdit{}
+}
+func (ReplacedTurnGroupFieldPathBuilder) ResumeReason() ReplacedTurnGroupPathSelectorResumeReason {
+	return ReplacedTurnGroupPathSelectorResumeReason{}
+}
+
+type ReplacedTurnGroupPathSelectorReplacedAt struct{}
+
+func (ReplacedTurnGroupPathSelectorReplacedAt) FieldPath() *ReplacedTurnGroup_FieldTerminalPath {
+	return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorReplacedAt}
+}
+
+func (s ReplacedTurnGroupPathSelectorReplacedAt) WithValue(value *timestamppb.Timestamp) *ReplacedTurnGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldTerminalPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorReplacedAt) WithArrayOfValues(values []*timestamppb.Timestamp) *ReplacedTurnGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldTerminalPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorResumedFromTurn struct{}
+
+func (ReplacedTurnGroupPathSelectorResumedFromTurn) FieldPath() *ReplacedTurnGroup_FieldTerminalPath {
+	return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorResumedFromTurn}
+}
+
+func (s ReplacedTurnGroupPathSelectorResumedFromTurn) WithValue(value int32) *ReplacedTurnGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldTerminalPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorResumedFromTurn) WithArrayOfValues(values []int32) *ReplacedTurnGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldTerminalPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurns struct{}
+
+func (ReplacedTurnGroupPathSelectorTurns) FieldPath() *ReplacedTurnGroup_FieldTerminalPath {
+	return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorTurns}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurns) WithValue(value []*ConversationTurn) *ReplacedTurnGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldTerminalPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurns) WithArrayOfValues(values [][]*ConversationTurn) *ReplacedTurnGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldTerminalPathArrayOfValues)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurns) WithItemValue(value *ConversationTurn) *ReplacedTurnGroup_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ReplacedTurnGroup_FieldTerminalPathArrayItemValue)
+}
+func (ReplacedTurnGroupPathSelectorTurns) WithSubPath(subPath ConversationTurn_FieldPath) *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{selector: ReplacedTurnGroup_FieldPathSelectorTurns, subPath: subPath}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurns) WithSubValue(subPathValue ConversationTurn_FieldPathValue) *ReplacedTurnGroup_FieldSubPathValue {
+	return &ReplacedTurnGroup_FieldSubPathValue{ReplacedTurnGroup_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurns) WithSubArrayOfValues(subPathArrayOfValues ConversationTurn_FieldPathArrayOfValues) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return &ReplacedTurnGroup_FieldSubPathArrayOfValues{ReplacedTurnGroup_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurns) WithSubArrayItemValue(subPathArrayItemValue ConversationTurn_FieldPathArrayItemValue) *ReplacedTurnGroup_FieldSubPathArrayItemValue {
+	return &ReplacedTurnGroup_FieldSubPathArrayItemValue{ReplacedTurnGroup_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) TurnNumber() ReplacedTurnGroupPathSelectorTurnsTurnNumber {
+	return ReplacedTurnGroupPathSelectorTurnsTurnNumber{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) Timestamp() ReplacedTurnGroupPathSelectorTurnsTimestamp {
+	return ReplacedTurnGroupPathSelectorTurnsTimestamp{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) Messages() ReplacedTurnGroupPathSelectorTurnsMessages {
+	return ReplacedTurnGroupPathSelectorTurnsMessages{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) Config() ReplacedTurnGroupPathSelectorTurnsConfig {
+	return ReplacedTurnGroupPathSelectorTurnsConfig{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) Usage() ReplacedTurnGroupPathSelectorTurnsUsage {
+	return ReplacedTurnGroupPathSelectorTurnsUsage{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) StopReason() ReplacedTurnGroupPathSelectorTurnsStopReason {
+	return ReplacedTurnGroupPathSelectorTurnsStopReason{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) Duration() ReplacedTurnGroupPathSelectorTurnsDuration {
+	return ReplacedTurnGroupPathSelectorTurnsDuration{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) AvailableToolsBySource() ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource {
+	return ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) ReplacedTurnNumber() ReplacedTurnGroupPathSelectorTurnsReplacedTurnNumber {
+	return ReplacedTurnGroupPathSelectorTurnsReplacedTurnNumber{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurns) ErrorDetails() ReplacedTurnGroupPathSelectorTurnsErrorDetails {
+	return ReplacedTurnGroupPathSelectorTurnsErrorDetails{}
+}
+
+type ReplacedTurnGroupPathSelectorTurnsTurnNumber struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsTurnNumber) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().TurnNumber().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsTurnNumber) WithValue(value int32) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsTurnNumber) WithArrayOfValues(values []int32) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsTimestamp struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsTimestamp) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Timestamp().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsTimestamp) WithValue(value *timestamppb.Timestamp) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsTimestamp) WithArrayOfValues(values []*timestamppb.Timestamp) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsMessages struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsMessages) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Messages().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsMessages) WithValue(value []*common_client.Message) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsMessages) WithArrayOfValues(values [][]*common_client.Message) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsMessages) WithItemValue(value *common_client.Message) *ReplacedTurnGroup_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ReplacedTurnGroup_FieldSubPathArrayItemValue)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsConfig struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfig) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfig) WithValue(value *TurnConfig) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfig) WithArrayOfValues(values []*TurnConfig) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfig) Model() ReplacedTurnGroupPathSelectorTurnsConfigModel {
+	return ReplacedTurnGroupPathSelectorTurnsConfigModel{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfig) ModelUsed() ReplacedTurnGroupPathSelectorTurnsConfigModelUsed {
+	return ReplacedTurnGroupPathSelectorTurnsConfigModelUsed{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfig) Temperature() ReplacedTurnGroupPathSelectorTurnsConfigTemperature {
+	return ReplacedTurnGroupPathSelectorTurnsConfigTemperature{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfig) MaxTokens() ReplacedTurnGroupPathSelectorTurnsConfigMaxTokens {
+	return ReplacedTurnGroupPathSelectorTurnsConfigMaxTokens{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfig) ReasoningLevel() ReplacedTurnGroupPathSelectorTurnsConfigReasoningLevel {
+	return ReplacedTurnGroupPathSelectorTurnsConfigReasoningLevel{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfig) CapabilityTemplate() ReplacedTurnGroupPathSelectorTurnsConfigCapabilityTemplate {
+	return ReplacedTurnGroupPathSelectorTurnsConfigCapabilityTemplate{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfig) Connectors() ReplacedTurnGroupPathSelectorTurnsConfigConnectors {
+	return ReplacedTurnGroupPathSelectorTurnsConfigConnectors{}
+}
+
+type ReplacedTurnGroupPathSelectorTurnsConfigModel struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfigModel) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().Model().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigModel) WithValue(value *chat_model.Name) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigModel) WithArrayOfValues(values []*chat_model.Name) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsConfigModelUsed struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfigModelUsed) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().ModelUsed().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigModelUsed) WithValue(value string) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigModelUsed) WithArrayOfValues(values []string) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsConfigTemperature struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfigTemperature) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().Temperature().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigTemperature) WithValue(value float32) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigTemperature) WithArrayOfValues(values []float32) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsConfigMaxTokens struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfigMaxTokens) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().MaxTokens().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigMaxTokens) WithValue(value int32) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigMaxTokens) WithArrayOfValues(values []int32) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsConfigReasoningLevel struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfigReasoningLevel) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().ReasoningLevel().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigReasoningLevel) WithValue(value common_client.ReasoningLevel) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigReasoningLevel) WithArrayOfValues(values []common_client.ReasoningLevel) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsConfigCapabilityTemplate struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfigCapabilityTemplate) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().CapabilityTemplate().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigCapabilityTemplate) WithValue(value *capability_template.Name) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigCapabilityTemplate) WithArrayOfValues(values []*capability_template.Name) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsConfigConnectors struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsConfigConnectors) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Config().Connectors().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigConnectors) WithValue(value *common_client.ConnectorsList) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsConfigConnectors) WithArrayOfValues(values []*common_client.ConnectorsList) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsUsage struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsUsage) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Usage().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsUsage) WithValue(value *common_client.TokenUsage) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsUsage) WithArrayOfValues(values []*common_client.TokenUsage) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsStopReason struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsStopReason) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().StopReason().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsStopReason) WithValue(value common_client.StopReason) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsStopReason) WithArrayOfValues(values []common_client.StopReason) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsDuration struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsDuration) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().Duration().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsDuration) WithValue(value *durationpb.Duration) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsDuration) WithArrayOfValues(values []*durationpb.Duration) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource) WithValue(value []*TurnToolsBySourceGroup) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource) WithArrayOfValues(values [][]*TurnToolsBySourceGroup) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource) WithItemValue(value *TurnToolsBySourceGroup) *ReplacedTurnGroup_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ReplacedTurnGroup_FieldSubPathArrayItemValue)
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource) Client() ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceClient {
+	return ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceClient{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource) Connector() ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceConnector {
+	return ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceConnector{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource) Internal() ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceInternal {
+	return ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceInternal{}
+}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySource) ToolNames() ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceToolNames {
+	return ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceToolNames{}
+}
+
+type ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceClient struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceClient) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Client().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceClient) WithValue(value *common_client.ClientToolSource) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceClient) WithArrayOfValues(values []*common_client.ClientToolSource) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceConnector struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceConnector) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Connector().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceConnector) WithValue(value *common_client.ConnectorToolSource) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceConnector) WithArrayOfValues(values []*common_client.ConnectorToolSource) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceInternal struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceInternal) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().Internal().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceInternal) WithValue(value *common_client.InternalToolSource) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceInternal) WithArrayOfValues(values []*common_client.InternalToolSource) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceToolNames struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceToolNames) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().AvailableToolsBySource().ToolNames().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceToolNames) WithValue(value []string) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceToolNames) WithArrayOfValues(values [][]string) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsAvailableToolsBySourceToolNames) WithItemValue(value string) *ReplacedTurnGroup_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ReplacedTurnGroup_FieldSubPathArrayItemValue)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsReplacedTurnNumber struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsReplacedTurnNumber) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().ReplacedTurnNumber().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsReplacedTurnNumber) WithValue(value int32) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsReplacedTurnNumber) WithArrayOfValues(values []int32) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorTurnsErrorDetails struct{}
+
+func (ReplacedTurnGroupPathSelectorTurnsErrorDetails) FieldPath() *ReplacedTurnGroup_FieldSubPath {
+	return &ReplacedTurnGroup_FieldSubPath{
+		selector: ReplacedTurnGroup_FieldPathSelectorTurns,
+		subPath:  NewConversationTurnFieldPathBuilder().ErrorDetails().FieldPath(),
+	}
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsErrorDetails) WithValue(value string) *ReplacedTurnGroup_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldSubPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorTurnsErrorDetails) WithArrayOfValues(values []string) *ReplacedTurnGroup_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldSubPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorHadMessageEdit struct{}
+
+func (ReplacedTurnGroupPathSelectorHadMessageEdit) FieldPath() *ReplacedTurnGroup_FieldTerminalPath {
+	return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorHadMessageEdit}
+}
+
+func (s ReplacedTurnGroupPathSelectorHadMessageEdit) WithValue(value bool) *ReplacedTurnGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldTerminalPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorHadMessageEdit) WithArrayOfValues(values []bool) *ReplacedTurnGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldTerminalPathArrayOfValues)
+}
+
+type ReplacedTurnGroupPathSelectorResumeReason struct{}
+
+func (ReplacedTurnGroupPathSelectorResumeReason) FieldPath() *ReplacedTurnGroup_FieldTerminalPath {
+	return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorResumeReason}
+}
+
+func (s ReplacedTurnGroupPathSelectorResumeReason) WithValue(value string) *ReplacedTurnGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ReplacedTurnGroup_FieldTerminalPathValue)
+}
+
+func (s ReplacedTurnGroupPathSelectorResumeReason) WithArrayOfValues(values []string) *ReplacedTurnGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ReplacedTurnGroup_FieldTerminalPathArrayOfValues)
 }

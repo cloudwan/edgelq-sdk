@@ -437,3 +437,57 @@ func (obj *ConnectorsList) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *ToolInfo) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Source.(type) {
+	case *ToolInfo_Client:
+		if subobj, ok := interface{}(opt.Client).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ToolInfo", "client", opt.Client, "nested object validation failed", err)
+			}
+		}
+	case *ToolInfo_Connector:
+		if subobj, ok := interface{}(opt.Connector).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ToolInfo", "connector", opt.Connector, "nested object validation failed", err)
+			}
+		}
+	case *ToolInfo_Internal:
+		if subobj, ok := interface{}(opt.Internal).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ToolInfo", "internal", opt.Internal, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ModelCapabilities) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ResumeConfig) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.ReplaceMessage).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ResumeConfig", "replaceMessage", obj.ReplaceMessage, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

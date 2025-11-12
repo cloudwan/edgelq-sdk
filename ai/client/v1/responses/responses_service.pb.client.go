@@ -44,6 +44,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ResponsesServiceClient interface {
 	CreateResponse(ctx context.Context, in *CreateResponseRequest, opts ...grpc.CallOption) (CreateResponseClientStream, error)
+	ChatStream(ctx context.Context, opts ...grpc.CallOption) (ChatStreamClientStream, error)
 }
 
 type client struct {
@@ -85,6 +86,43 @@ type createResponseCreateResponseClient struct {
 
 func (x *createResponseCreateResponseClient) Recv() (*CreateResponseResult, error) {
 	m := new(CreateResponseResult)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *client) ChatStream(ctx context.Context, opts ...grpc.CallOption) (ChatStreamClientStream, error) {
+	stream, err := c.cc.NewStream(ctx,
+		&grpc.StreamDesc{
+			StreamName:    "ChatStream",
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		"/ntt.ai.v1.ResponsesService/ChatStream", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &chatStreamChatStreamClient{stream}
+	return x, nil
+}
+
+type ChatStreamClientStream interface {
+	Send(*ChatStreamRequest) error
+	Recv() (*ChatStreamResponse, error)
+	grpc.ClientStream
+}
+
+type chatStreamChatStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *chatStreamChatStreamClient) Send(m *ChatStreamRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *chatStreamChatStreamClient) Recv() (*ChatStreamResponse, error) {
+	m := new(ChatStreamResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}

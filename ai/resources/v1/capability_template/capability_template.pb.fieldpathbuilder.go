@@ -93,6 +93,9 @@ func (CapabilityTemplateFieldPathBuilder) ToolSafety() CapabilityTemplatePathSel
 func (CapabilityTemplateFieldPathBuilder) DefaultModel() CapabilityTemplatePathSelectorDefaultModel {
 	return CapabilityTemplatePathSelectorDefaultModel{}
 }
+func (CapabilityTemplateFieldPathBuilder) UserPromptTemplates() CapabilityTemplatePathSelectorUserPromptTemplates {
+	return CapabilityTemplatePathSelectorUserPromptTemplates{}
+}
 
 type CapabilityTemplatePathSelectorName struct{}
 
@@ -1454,6 +1457,171 @@ func (s CapabilityTemplatePathSelectorDefaultModel) WithArrayOfValues(values []*
 	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
 }
 
+type CapabilityTemplatePathSelectorUserPromptTemplates struct{}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplates) FieldPath() *CapabilityTemplate_FieldTerminalPath {
+	return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplates) WithValue(value []*UserPromptTemplate) *CapabilityTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldTerminalPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplates) WithArrayOfValues(values [][]*UserPromptTemplate) *CapabilityTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldTerminalPathArrayOfValues)
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplates) WithItemValue(value *UserPromptTemplate) *CapabilityTemplate_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CapabilityTemplate_FieldTerminalPathArrayItemValue)
+}
+func (CapabilityTemplatePathSelectorUserPromptTemplates) WithSubPath(subPath UserPromptTemplate_FieldPath) *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates, subPath: subPath}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplates) WithSubValue(subPathValue UserPromptTemplate_FieldPathValue) *CapabilityTemplate_FieldSubPathValue {
+	return &CapabilityTemplate_FieldSubPathValue{CapabilityTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplates) WithSubArrayOfValues(subPathArrayOfValues UserPromptTemplate_FieldPathArrayOfValues) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return &CapabilityTemplate_FieldSubPathArrayOfValues{CapabilityTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplates) WithSubArrayItemValue(subPathArrayItemValue UserPromptTemplate_FieldPathArrayItemValue) *CapabilityTemplate_FieldSubPathArrayItemValue {
+	return &CapabilityTemplate_FieldSubPathArrayItemValue{CapabilityTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplates) DisplayName() CapabilityTemplatePathSelectorUserPromptTemplatesDisplayName {
+	return CapabilityTemplatePathSelectorUserPromptTemplatesDisplayName{}
+}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplates) Description() CapabilityTemplatePathSelectorUserPromptTemplatesDescription {
+	return CapabilityTemplatePathSelectorUserPromptTemplatesDescription{}
+}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplates) Tags() CapabilityTemplatePathSelectorUserPromptTemplatesTags {
+	return CapabilityTemplatePathSelectorUserPromptTemplatesTags{}
+}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplates) TemplateText() CapabilityTemplatePathSelectorUserPromptTemplatesTemplateText {
+	return CapabilityTemplatePathSelectorUserPromptTemplatesTemplateText{}
+}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplates) Variables() CapabilityTemplatePathSelectorUserPromptTemplatesVariables {
+	return CapabilityTemplatePathSelectorUserPromptTemplatesVariables{}
+}
+
+type CapabilityTemplatePathSelectorUserPromptTemplatesDisplayName struct{}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplatesDisplayName) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates,
+		subPath:  NewUserPromptTemplateFieldPathBuilder().DisplayName().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesDisplayName) WithValue(value string) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesDisplayName) WithArrayOfValues(values []string) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorUserPromptTemplatesDescription struct{}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplatesDescription) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates,
+		subPath:  NewUserPromptTemplateFieldPathBuilder().Description().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesDescription) WithValue(value string) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesDescription) WithArrayOfValues(values []string) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorUserPromptTemplatesTags struct{}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplatesTags) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates,
+		subPath:  NewUserPromptTemplateFieldPathBuilder().Tags().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesTags) WithValue(value []string) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesTags) WithArrayOfValues(values [][]string) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesTags) WithItemValue(value string) *CapabilityTemplate_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CapabilityTemplate_FieldSubPathArrayItemValue)
+}
+
+type CapabilityTemplatePathSelectorUserPromptTemplatesTemplateText struct{}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplatesTemplateText) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates,
+		subPath:  NewUserPromptTemplateFieldPathBuilder().TemplateText().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesTemplateText) WithValue(value string) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesTemplateText) WithArrayOfValues(values []string) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+type CapabilityTemplatePathSelectorUserPromptTemplatesVariables struct{}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplatesVariables) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates,
+		subPath:  NewUserPromptTemplateFieldPathBuilder().Variables().FieldPath(),
+	}
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesVariables) WithValue(value map[string]*TemplateVariable) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplatePathSelectorUserPromptTemplatesVariables) WithArrayOfValues(values []map[string]*TemplateVariable) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
+func (CapabilityTemplatePathSelectorUserPromptTemplatesVariables) WithKey(key string) CapabilityTemplateMapPathSelectorUserPromptTemplatesVariables {
+	return CapabilityTemplateMapPathSelectorUserPromptTemplatesVariables{key: key}
+}
+
+type CapabilityTemplateMapPathSelectorUserPromptTemplatesVariables struct {
+	key string
+}
+
+func (s CapabilityTemplateMapPathSelectorUserPromptTemplatesVariables) FieldPath() *CapabilityTemplate_FieldSubPath {
+	return &CapabilityTemplate_FieldSubPath{
+		selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates,
+		subPath:  NewUserPromptTemplateFieldPathBuilder().Variables().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s CapabilityTemplateMapPathSelectorUserPromptTemplatesVariables) WithValue(value *TemplateVariable) *CapabilityTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CapabilityTemplate_FieldSubPathValue)
+}
+
+func (s CapabilityTemplateMapPathSelectorUserPromptTemplatesVariables) WithArrayOfValues(values []*TemplateVariable) *CapabilityTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CapabilityTemplate_FieldSubPathArrayOfValues)
+}
+
 type PromptAppendTemplateFieldPathBuilder struct{}
 
 func NewPromptAppendTemplateFieldPathBuilder() PromptAppendTemplateFieldPathBuilder {
@@ -2032,4 +2200,231 @@ func (s ToolSafetyConfigPathSelectorMaxConsecutiveSameToolCalls) WithValue(value
 
 func (s ToolSafetyConfigPathSelectorMaxConsecutiveSameToolCalls) WithArrayOfValues(values []uint32) *ToolSafetyConfig_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ToolSafetyConfig_FieldTerminalPathArrayOfValues)
+}
+
+type UserPromptTemplateFieldPathBuilder struct{}
+
+func NewUserPromptTemplateFieldPathBuilder() UserPromptTemplateFieldPathBuilder {
+	return UserPromptTemplateFieldPathBuilder{}
+}
+func (UserPromptTemplateFieldPathBuilder) DisplayName() UserPromptTemplatePathSelectorDisplayName {
+	return UserPromptTemplatePathSelectorDisplayName{}
+}
+func (UserPromptTemplateFieldPathBuilder) Description() UserPromptTemplatePathSelectorDescription {
+	return UserPromptTemplatePathSelectorDescription{}
+}
+func (UserPromptTemplateFieldPathBuilder) Tags() UserPromptTemplatePathSelectorTags {
+	return UserPromptTemplatePathSelectorTags{}
+}
+func (UserPromptTemplateFieldPathBuilder) TemplateText() UserPromptTemplatePathSelectorTemplateText {
+	return UserPromptTemplatePathSelectorTemplateText{}
+}
+func (UserPromptTemplateFieldPathBuilder) Variables() UserPromptTemplatePathSelectorVariables {
+	return UserPromptTemplatePathSelectorVariables{}
+}
+
+type UserPromptTemplatePathSelectorDisplayName struct{}
+
+func (UserPromptTemplatePathSelectorDisplayName) FieldPath() *UserPromptTemplate_FieldTerminalPath {
+	return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorDisplayName}
+}
+
+func (s UserPromptTemplatePathSelectorDisplayName) WithValue(value string) *UserPromptTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserPromptTemplate_FieldTerminalPathValue)
+}
+
+func (s UserPromptTemplatePathSelectorDisplayName) WithArrayOfValues(values []string) *UserPromptTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserPromptTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type UserPromptTemplatePathSelectorDescription struct{}
+
+func (UserPromptTemplatePathSelectorDescription) FieldPath() *UserPromptTemplate_FieldTerminalPath {
+	return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorDescription}
+}
+
+func (s UserPromptTemplatePathSelectorDescription) WithValue(value string) *UserPromptTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserPromptTemplate_FieldTerminalPathValue)
+}
+
+func (s UserPromptTemplatePathSelectorDescription) WithArrayOfValues(values []string) *UserPromptTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserPromptTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type UserPromptTemplatePathSelectorTags struct{}
+
+func (UserPromptTemplatePathSelectorTags) FieldPath() *UserPromptTemplate_FieldTerminalPath {
+	return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTags}
+}
+
+func (s UserPromptTemplatePathSelectorTags) WithValue(value []string) *UserPromptTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserPromptTemplate_FieldTerminalPathValue)
+}
+
+func (s UserPromptTemplatePathSelectorTags) WithArrayOfValues(values [][]string) *UserPromptTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserPromptTemplate_FieldTerminalPathArrayOfValues)
+}
+
+func (s UserPromptTemplatePathSelectorTags) WithItemValue(value string) *UserPromptTemplate_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UserPromptTemplate_FieldTerminalPathArrayItemValue)
+}
+
+type UserPromptTemplatePathSelectorTemplateText struct{}
+
+func (UserPromptTemplatePathSelectorTemplateText) FieldPath() *UserPromptTemplate_FieldTerminalPath {
+	return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTemplateText}
+}
+
+func (s UserPromptTemplatePathSelectorTemplateText) WithValue(value string) *UserPromptTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserPromptTemplate_FieldTerminalPathValue)
+}
+
+func (s UserPromptTemplatePathSelectorTemplateText) WithArrayOfValues(values []string) *UserPromptTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserPromptTemplate_FieldTerminalPathArrayOfValues)
+}
+
+type UserPromptTemplatePathSelectorVariables struct{}
+
+func (UserPromptTemplatePathSelectorVariables) FieldPath() *UserPromptTemplate_FieldTerminalPath {
+	return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorVariables}
+}
+
+func (s UserPromptTemplatePathSelectorVariables) WithValue(value map[string]*TemplateVariable) *UserPromptTemplate_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserPromptTemplate_FieldTerminalPathValue)
+}
+
+func (s UserPromptTemplatePathSelectorVariables) WithArrayOfValues(values []map[string]*TemplateVariable) *UserPromptTemplate_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserPromptTemplate_FieldTerminalPathArrayOfValues)
+}
+
+func (UserPromptTemplatePathSelectorVariables) WithKey(key string) UserPromptTemplateMapPathSelectorVariables {
+	return UserPromptTemplateMapPathSelectorVariables{key: key}
+}
+
+type UserPromptTemplateMapPathSelectorVariables struct {
+	key string
+}
+
+func (s UserPromptTemplateMapPathSelectorVariables) FieldPath() *UserPromptTemplate_FieldPathMap {
+	return &UserPromptTemplate_FieldPathMap{selector: UserPromptTemplate_FieldPathSelectorVariables, key: s.key}
+}
+
+func (s UserPromptTemplateMapPathSelectorVariables) WithValue(value *TemplateVariable) *UserPromptTemplate_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*UserPromptTemplate_FieldPathMapValue)
+}
+
+func (s UserPromptTemplateMapPathSelectorVariables) WithArrayOfValues(values []*TemplateVariable) *UserPromptTemplate_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserPromptTemplate_FieldPathMapArrayOfValues)
+}
+
+type TemplateVariableFieldPathBuilder struct{}
+
+func NewTemplateVariableFieldPathBuilder() TemplateVariableFieldPathBuilder {
+	return TemplateVariableFieldPathBuilder{}
+}
+func (TemplateVariableFieldPathBuilder) Label() TemplateVariablePathSelectorLabel {
+	return TemplateVariablePathSelectorLabel{}
+}
+func (TemplateVariableFieldPathBuilder) HelpText() TemplateVariablePathSelectorHelpText {
+	return TemplateVariablePathSelectorHelpText{}
+}
+func (TemplateVariableFieldPathBuilder) InputType() TemplateVariablePathSelectorInputType {
+	return TemplateVariablePathSelectorInputType{}
+}
+func (TemplateVariableFieldPathBuilder) Suggestions() TemplateVariablePathSelectorSuggestions {
+	return TemplateVariablePathSelectorSuggestions{}
+}
+func (TemplateVariableFieldPathBuilder) DefaultValue() TemplateVariablePathSelectorDefaultValue {
+	return TemplateVariablePathSelectorDefaultValue{}
+}
+func (TemplateVariableFieldPathBuilder) ResourceType() TemplateVariablePathSelectorResourceType {
+	return TemplateVariablePathSelectorResourceType{}
+}
+
+type TemplateVariablePathSelectorLabel struct{}
+
+func (TemplateVariablePathSelectorLabel) FieldPath() *TemplateVariable_FieldTerminalPath {
+	return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorLabel}
+}
+
+func (s TemplateVariablePathSelectorLabel) WithValue(value string) *TemplateVariable_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TemplateVariable_FieldTerminalPathValue)
+}
+
+func (s TemplateVariablePathSelectorLabel) WithArrayOfValues(values []string) *TemplateVariable_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TemplateVariable_FieldTerminalPathArrayOfValues)
+}
+
+type TemplateVariablePathSelectorHelpText struct{}
+
+func (TemplateVariablePathSelectorHelpText) FieldPath() *TemplateVariable_FieldTerminalPath {
+	return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorHelpText}
+}
+
+func (s TemplateVariablePathSelectorHelpText) WithValue(value string) *TemplateVariable_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TemplateVariable_FieldTerminalPathValue)
+}
+
+func (s TemplateVariablePathSelectorHelpText) WithArrayOfValues(values []string) *TemplateVariable_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TemplateVariable_FieldTerminalPathArrayOfValues)
+}
+
+type TemplateVariablePathSelectorInputType struct{}
+
+func (TemplateVariablePathSelectorInputType) FieldPath() *TemplateVariable_FieldTerminalPath {
+	return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorInputType}
+}
+
+func (s TemplateVariablePathSelectorInputType) WithValue(value InputType) *TemplateVariable_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TemplateVariable_FieldTerminalPathValue)
+}
+
+func (s TemplateVariablePathSelectorInputType) WithArrayOfValues(values []InputType) *TemplateVariable_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TemplateVariable_FieldTerminalPathArrayOfValues)
+}
+
+type TemplateVariablePathSelectorSuggestions struct{}
+
+func (TemplateVariablePathSelectorSuggestions) FieldPath() *TemplateVariable_FieldTerminalPath {
+	return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorSuggestions}
+}
+
+func (s TemplateVariablePathSelectorSuggestions) WithValue(value []string) *TemplateVariable_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TemplateVariable_FieldTerminalPathValue)
+}
+
+func (s TemplateVariablePathSelectorSuggestions) WithArrayOfValues(values [][]string) *TemplateVariable_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TemplateVariable_FieldTerminalPathArrayOfValues)
+}
+
+func (s TemplateVariablePathSelectorSuggestions) WithItemValue(value string) *TemplateVariable_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*TemplateVariable_FieldTerminalPathArrayItemValue)
+}
+
+type TemplateVariablePathSelectorDefaultValue struct{}
+
+func (TemplateVariablePathSelectorDefaultValue) FieldPath() *TemplateVariable_FieldTerminalPath {
+	return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorDefaultValue}
+}
+
+func (s TemplateVariablePathSelectorDefaultValue) WithValue(value string) *TemplateVariable_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TemplateVariable_FieldTerminalPathValue)
+}
+
+func (s TemplateVariablePathSelectorDefaultValue) WithArrayOfValues(values []string) *TemplateVariable_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TemplateVariable_FieldTerminalPathArrayOfValues)
+}
+
+type TemplateVariablePathSelectorResourceType struct{}
+
+func (TemplateVariablePathSelectorResourceType) FieldPath() *TemplateVariable_FieldTerminalPath {
+	return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorResourceType}
+}
+
+func (s TemplateVariablePathSelectorResourceType) WithValue(value string) *TemplateVariable_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TemplateVariable_FieldTerminalPathValue)
+}
+
+func (s TemplateVariablePathSelectorResourceType) WithArrayOfValues(values []string) *TemplateVariable_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TemplateVariable_FieldTerminalPathArrayOfValues)
 }

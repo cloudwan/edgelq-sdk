@@ -92,6 +92,7 @@ const (
 	CapabilityTemplate_FieldPathSelectorAllowedModels          CapabilityTemplate_FieldPathSelector = 11
 	CapabilityTemplate_FieldPathSelectorToolSafety             CapabilityTemplate_FieldPathSelector = 12
 	CapabilityTemplate_FieldPathSelectorDefaultModel           CapabilityTemplate_FieldPathSelector = 13
+	CapabilityTemplate_FieldPathSelectorUserPromptTemplates    CapabilityTemplate_FieldPathSelector = 14
 )
 
 func (s CapabilityTemplate_FieldPathSelector) String() string {
@@ -124,6 +125,8 @@ func (s CapabilityTemplate_FieldPathSelector) String() string {
 		return "tool_safety"
 	case CapabilityTemplate_FieldPathSelectorDefaultModel:
 		return "default_model"
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		return "user_prompt_templates"
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", s))
 	}
@@ -163,6 +166,8 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety}, nil
 		case "default_model", "defaultModel", "default-model":
 			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel}, nil
+		case "user_prompt_templates", "userPromptTemplates", "user-prompt-templates":
+			return &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -195,6 +200,12 @@ func BuildCapabilityTemplate_FieldPath(fp gotenobject.RawFieldPath) (CapabilityT
 				return nil, err
 			} else {
 				return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety, subPath: subpath}, nil
+			}
+		case "user_prompt_templates", "userPromptTemplates", "user-prompt-templates":
+			if subpath, err := BuildUserPromptTemplate_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &CapabilityTemplate_FieldSubPath{selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates, subPath: subpath}, nil
 			}
 		}
 	}
@@ -287,6 +298,10 @@ func (fp *CapabilityTemplate_FieldTerminalPath) Get(source *CapabilityTemplate) 
 			if source.DefaultModel != nil {
 				values = append(values, source.DefaultModel)
 			}
+		case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+			for _, value := range source.GetUserPromptTemplates() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -338,6 +353,9 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetSingle(source *CapabilityTemp
 	case CapabilityTemplate_FieldPathSelectorDefaultModel:
 		res := source.GetDefaultModel()
 		return res, res != nil
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		res := source.GetUserPromptTemplates()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -378,6 +396,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) GetDefault() interface{} {
 		return (*ToolSafetyConfig)(nil)
 	case CapabilityTemplate_FieldPathSelectorDefaultModel:
 		return (*chat_model.Name)(nil)
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		return ([]*UserPromptTemplate)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -414,6 +434,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) ClearValue(item *CapabilityTempl
 			item.ToolSafety = nil
 		case CapabilityTemplate_FieldPathSelectorDefaultModel:
 			item.DefaultModel = nil
+		case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+			item.UserPromptTemplates = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 		}
@@ -471,6 +493,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIValue(value interface{}) Ca
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*ToolSafetyConfig)}
 	case CapabilityTemplate_FieldPathSelectorDefaultModel:
 		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*chat_model.Name)}
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		return &CapabilityTemplate_FieldTerminalPathValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.([]*UserPromptTemplate)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -511,6 +535,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*ToolSafetyConfig)}
 	case CapabilityTemplate_FieldPathSelectorDefaultModel:
 		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([]*chat_model.Name)}
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		return &CapabilityTemplate_FieldTerminalPathArrayOfValues{CapabilityTemplate_FieldTerminalPath: *fp, values: values.([][]*UserPromptTemplate)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -527,6 +553,8 @@ func (fp *CapabilityTemplate_FieldTerminalPath) WithIArrayItemValue(value interf
 		return &CapabilityTemplate_FieldTerminalPathArrayItemValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*connector.Reference)}
 	case CapabilityTemplate_FieldPathSelectorAllowedModels:
 		return &CapabilityTemplate_FieldTerminalPathArrayItemValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*chat_model.Reference)}
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		return &CapabilityTemplate_FieldTerminalPathArrayItemValue{CapabilityTemplate_FieldTerminalPath: *fp, value: value.(*UserPromptTemplate)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fp.selector))
 	}
@@ -566,6 +594,10 @@ func (fps *CapabilityTemplate_FieldSubPath) AsToolSafetySubPath() (ToolSafetyCon
 	res, ok := fps.subPath.(ToolSafetyConfig_FieldPath)
 	return res, ok
 }
+func (fps *CapabilityTemplate_FieldSubPath) AsUserPromptTemplatesSubPath() (UserPromptTemplate_FieldPath, bool) {
+	res, ok := fps.subPath.(UserPromptTemplate_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *CapabilityTemplate_FieldSubPath) String() string {
@@ -590,6 +622,10 @@ func (fps *CapabilityTemplate_FieldSubPath) Get(source *CapabilityTemplate) (val
 		values = append(values, fps.subPath.GetRaw(source.GetSystemPromptAppend())...)
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		values = append(values, fps.subPath.GetRaw(source.GetToolSafety())...)
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		for _, item := range source.GetUserPromptTemplates() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 	}
@@ -628,6 +664,11 @@ func (fps *CapabilityTemplate_FieldSubPath) GetSingle(source *CapabilityTemplate
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetToolSafety())
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		if len(source.GetUserPromptTemplates()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetUserPromptTemplates()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 	}
@@ -655,6 +696,10 @@ func (fps *CapabilityTemplate_FieldSubPath) ClearValue(item *CapabilityTemplate)
 			fps.subPath.ClearValueRaw(item.SystemPromptAppend)
 		case CapabilityTemplate_FieldPathSelectorToolSafety:
 			fps.subPath.ClearValueRaw(item.ToolSafety)
+		case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+			for _, subItem := range item.UserPromptTemplates {
+				fps.subPath.ClearValueRaw(subItem)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fps.selector))
 		}
@@ -795,6 +840,10 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsDefaultModelValue() (*ch
 	res, ok := fpv.value.(*chat_model.Name)
 	return res, ok
 }
+func (fpv *CapabilityTemplate_FieldTerminalPathValue) AsUserPromptTemplatesValue() ([]*UserPromptTemplate, bool) {
+	res, ok := fpv.value.([]*UserPromptTemplate)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object CapabilityTemplate
 func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityTemplate) {
@@ -830,6 +879,8 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) SetTo(target **CapabilityT
 		(*target).ToolSafety = fpv.value.(*ToolSafetyConfig)
 	case CapabilityTemplate_FieldPathSelectorDefaultModel:
 		(*target).DefaultModel = fpv.value.(*chat_model.Name)
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		(*target).UserPromptTemplates = fpv.value.([]*UserPromptTemplate)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -945,6 +996,8 @@ func (fpv *CapabilityTemplate_FieldTerminalPathValue) CompareWith(source *Capabi
 		} else {
 			return 1, true
 		}
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpv.selector))
 	}
@@ -981,6 +1034,10 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) AsToolSafetyPathValue() (ToolS
 	res, ok := fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue)
 	return res, ok
 }
+func (fpvs *CapabilityTemplate_FieldSubPathValue) AsUserPromptTemplatesPathValue() (UserPromptTemplate_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(UserPromptTemplate_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *CapabilityTemplate_FieldSubPathValue) SetTo(target **CapabilityTemplate) {
 	if *target == nil {
@@ -997,6 +1054,8 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) SetTo(target **CapabilityTempl
 		fpvs.subPathValue.(PromptAppendTemplate_FieldPathValue).SetTo(&(*target).SystemPromptAppend)
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue).SetTo(&(*target).ToolSafety)
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpvs.Selector()))
 	}
@@ -1023,6 +1082,8 @@ func (fpvs *CapabilityTemplate_FieldSubPathValue) CompareWith(source *Capability
 		return fpvs.subPathValue.(PromptAppendTemplate_FieldPathValue).CompareWith(source.GetSystemPromptAppend())
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		return fpvs.subPathValue.(ToolSafetyConfig_FieldPathValue).CompareWith(source.GetToolSafety())
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpvs.Selector()))
 	}
@@ -1080,6 +1141,10 @@ func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) AsAllowedModels
 	res, ok := fpaiv.value.(*chat_model.Reference)
 	return res, ok
 }
+func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) AsUserPromptTemplatesItemValue() (*UserPromptTemplate, bool) {
+	res, ok := fpaiv.value.(*UserPromptTemplate)
+	return res, ok
+}
 
 func (fpaiv *CapabilityTemplate_FieldTerminalPathArrayItemValue) GetSingle(source *CapabilityTemplate) (interface{}, bool) {
 	return nil, false
@@ -1133,6 +1198,10 @@ func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsToolSafetyPathIte
 	res, ok := fpaivs.subPathItemValue.(ToolSafetyConfig_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) AsUserPromptTemplatesPathItemValue() (UserPromptTemplate_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(UserPromptTemplate_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'CapabilityTemplate'
 func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) ContainsValue(source *CapabilityTemplate) bool {
@@ -1147,6 +1216,8 @@ func (fpaivs *CapabilityTemplate_FieldSubPathArrayItemValue) ContainsValue(sourc
 		return fpaivs.subPathItemValue.(PromptAppendTemplate_FieldPathArrayItemValue).ContainsValue(source.GetSystemPromptAppend())
 	case CapabilityTemplate_FieldPathSelectorToolSafety:
 		return fpaivs.subPathItemValue.(ToolSafetyConfig_FieldPathArrayItemValue).ContainsValue(source.GetToolSafety())
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for CapabilityTemplate: %d", fpaivs.Selector()))
 	}
@@ -1243,6 +1314,10 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]*chat_model.Name) {
 			values = append(values, v)
 		}
+	case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+		for _, v := range fpaov.values.([][]*UserPromptTemplate) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1302,6 +1377,10 @@ func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsDefaultModelAr
 	res, ok := fpaov.values.([]*chat_model.Name)
 	return res, ok
 }
+func (fpaov *CapabilityTemplate_FieldTerminalPathArrayOfValues) AsUserPromptTemplatesArrayOfValues() ([][]*UserPromptTemplate, bool) {
+	res, ok := fpaov.values.([][]*UserPromptTemplate)
+	return res, ok
+}
 
 type CapabilityTemplate_FieldSubPathArrayOfValues struct {
 	CapabilityTemplate_FieldPath
@@ -1331,6 +1410,10 @@ func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsSystemPromptAppend
 }
 func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsToolSafetyPathArrayOfValues() (ToolSafetyConfig_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ToolSafetyConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *CapabilityTemplate_FieldSubPathArrayOfValues) AsUserPromptTemplatesPathArrayOfValues() (UserPromptTemplate_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(UserPromptTemplate_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -4425,5 +4508,1349 @@ func (fpaov *ToolSafetyConfig_FieldTerminalPathArrayOfValues) AsMaxConsecutiveId
 }
 func (fpaov *ToolSafetyConfig_FieldTerminalPathArrayOfValues) AsMaxConsecutiveSameToolCallsArrayOfValues() ([]uint32, bool) {
 	res, ok := fpaov.values.([]uint32)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type UserPromptTemplate_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() UserPromptTemplate_FieldPathSelector
+	Get(source *UserPromptTemplate) []interface{}
+	GetSingle(source *UserPromptTemplate) (interface{}, bool)
+	ClearValue(item *UserPromptTemplate)
+
+	// Those methods build corresponding UserPromptTemplate_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) UserPromptTemplate_FieldPathValue
+	WithIArrayOfValues(values interface{}) UserPromptTemplate_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) UserPromptTemplate_FieldPathArrayItemValue
+}
+
+type UserPromptTemplate_FieldPathSelector int32
+
+const (
+	UserPromptTemplate_FieldPathSelectorDisplayName  UserPromptTemplate_FieldPathSelector = 0
+	UserPromptTemplate_FieldPathSelectorDescription  UserPromptTemplate_FieldPathSelector = 1
+	UserPromptTemplate_FieldPathSelectorTags         UserPromptTemplate_FieldPathSelector = 2
+	UserPromptTemplate_FieldPathSelectorTemplateText UserPromptTemplate_FieldPathSelector = 3
+	UserPromptTemplate_FieldPathSelectorVariables    UserPromptTemplate_FieldPathSelector = 4
+)
+
+func (s UserPromptTemplate_FieldPathSelector) String() string {
+	switch s {
+	case UserPromptTemplate_FieldPathSelectorDisplayName:
+		return "display_name"
+	case UserPromptTemplate_FieldPathSelectorDescription:
+		return "description"
+	case UserPromptTemplate_FieldPathSelectorTags:
+		return "tags"
+	case UserPromptTemplate_FieldPathSelectorTemplateText:
+		return "template_text"
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return "variables"
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", s))
+	}
+}
+
+func BuildUserPromptTemplate_FieldPath(fp gotenobject.RawFieldPath) (UserPromptTemplate_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object UserPromptTemplate")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "display_name", "displayName", "display-name":
+			return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorDescription}, nil
+		case "tags":
+			return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTags}, nil
+		case "template_text", "templateText", "template-text":
+			return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTemplateText}, nil
+		case "variables":
+			return &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorVariables}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "variables":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object UserPromptTemplate)", fp)
+			}
+			return &UserPromptTemplate_FieldPathMap{selector: UserPromptTemplate_FieldPathSelectorVariables, key: fp[1]}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object UserPromptTemplate", fp)
+}
+
+func ParseUserPromptTemplate_FieldPath(rawField string) (UserPromptTemplate_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildUserPromptTemplate_FieldPath(fp)
+}
+
+func MustParseUserPromptTemplate_FieldPath(rawField string) UserPromptTemplate_FieldPath {
+	fp, err := ParseUserPromptTemplate_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type UserPromptTemplate_FieldTerminalPath struct {
+	selector UserPromptTemplate_FieldPathSelector
+}
+
+var _ UserPromptTemplate_FieldPath = (*UserPromptTemplate_FieldTerminalPath)(nil)
+
+func (fp *UserPromptTemplate_FieldTerminalPath) Selector() UserPromptTemplate_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *UserPromptTemplate_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *UserPromptTemplate_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source UserPromptTemplate
+func (fp *UserPromptTemplate_FieldTerminalPath) Get(source *UserPromptTemplate) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case UserPromptTemplate_FieldPathSelectorDisplayName:
+			values = append(values, source.DisplayName)
+		case UserPromptTemplate_FieldPathSelectorDescription:
+			values = append(values, source.Description)
+		case UserPromptTemplate_FieldPathSelectorTags:
+			for _, value := range source.GetTags() {
+				values = append(values, value)
+			}
+		case UserPromptTemplate_FieldPathSelectorTemplateText:
+			values = append(values, source.TemplateText)
+		case UserPromptTemplate_FieldPathSelectorVariables:
+			if source.Variables != nil {
+				values = append(values, source.Variables)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*UserPromptTemplate))
+}
+
+// GetSingle returns value pointed by specific field of from source UserPromptTemplate
+func (fp *UserPromptTemplate_FieldTerminalPath) GetSingle(source *UserPromptTemplate) (interface{}, bool) {
+	switch fp.selector {
+	case UserPromptTemplate_FieldPathSelectorDisplayName:
+		return source.GetDisplayName(), source != nil
+	case UserPromptTemplate_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
+	case UserPromptTemplate_FieldPathSelectorTags:
+		res := source.GetTags()
+		return res, res != nil
+	case UserPromptTemplate_FieldPathSelectorTemplateText:
+		return source.GetTemplateText(), source != nil
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		res := source.GetVariables()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fp.selector))
+	}
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*UserPromptTemplate))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *UserPromptTemplate_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case UserPromptTemplate_FieldPathSelectorDisplayName:
+		return ""
+	case UserPromptTemplate_FieldPathSelectorDescription:
+		return ""
+	case UserPromptTemplate_FieldPathSelectorTags:
+		return ([]string)(nil)
+	case UserPromptTemplate_FieldPathSelectorTemplateText:
+		return ""
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return (map[string]*TemplateVariable)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fp.selector))
+	}
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) ClearValue(item *UserPromptTemplate) {
+	if item != nil {
+		switch fp.selector {
+		case UserPromptTemplate_FieldPathSelectorDisplayName:
+			item.DisplayName = ""
+		case UserPromptTemplate_FieldPathSelectorDescription:
+			item.Description = ""
+		case UserPromptTemplate_FieldPathSelectorTags:
+			item.Tags = nil
+		case UserPromptTemplate_FieldPathSelectorTemplateText:
+			item.TemplateText = ""
+		case UserPromptTemplate_FieldPathSelectorVariables:
+			item.Variables = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*UserPromptTemplate))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *UserPromptTemplate_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == UserPromptTemplate_FieldPathSelectorDisplayName ||
+		fp.selector == UserPromptTemplate_FieldPathSelectorDescription ||
+		fp.selector == UserPromptTemplate_FieldPathSelectorTags ||
+		fp.selector == UserPromptTemplate_FieldPathSelectorTemplateText
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) WithIValue(value interface{}) UserPromptTemplate_FieldPathValue {
+	switch fp.selector {
+	case UserPromptTemplate_FieldPathSelectorDisplayName:
+		return &UserPromptTemplate_FieldTerminalPathValue{UserPromptTemplate_FieldTerminalPath: *fp, value: value.(string)}
+	case UserPromptTemplate_FieldPathSelectorDescription:
+		return &UserPromptTemplate_FieldTerminalPathValue{UserPromptTemplate_FieldTerminalPath: *fp, value: value.(string)}
+	case UserPromptTemplate_FieldPathSelectorTags:
+		return &UserPromptTemplate_FieldTerminalPathValue{UserPromptTemplate_FieldTerminalPath: *fp, value: value.([]string)}
+	case UserPromptTemplate_FieldPathSelectorTemplateText:
+		return &UserPromptTemplate_FieldTerminalPathValue{UserPromptTemplate_FieldTerminalPath: *fp, value: value.(string)}
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return &UserPromptTemplate_FieldTerminalPathValue{UserPromptTemplate_FieldTerminalPath: *fp, value: value.(map[string]*TemplateVariable)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fp.selector))
+	}
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) WithIArrayOfValues(values interface{}) UserPromptTemplate_FieldPathArrayOfValues {
+	fpaov := &UserPromptTemplate_FieldTerminalPathArrayOfValues{UserPromptTemplate_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case UserPromptTemplate_FieldPathSelectorDisplayName:
+		return &UserPromptTemplate_FieldTerminalPathArrayOfValues{UserPromptTemplate_FieldTerminalPath: *fp, values: values.([]string)}
+	case UserPromptTemplate_FieldPathSelectorDescription:
+		return &UserPromptTemplate_FieldTerminalPathArrayOfValues{UserPromptTemplate_FieldTerminalPath: *fp, values: values.([]string)}
+	case UserPromptTemplate_FieldPathSelectorTags:
+		return &UserPromptTemplate_FieldTerminalPathArrayOfValues{UserPromptTemplate_FieldTerminalPath: *fp, values: values.([][]string)}
+	case UserPromptTemplate_FieldPathSelectorTemplateText:
+		return &UserPromptTemplate_FieldTerminalPathArrayOfValues{UserPromptTemplate_FieldTerminalPath: *fp, values: values.([]string)}
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return &UserPromptTemplate_FieldTerminalPathArrayOfValues{UserPromptTemplate_FieldTerminalPath: *fp, values: values.([]map[string]*TemplateVariable)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) WithIArrayItemValue(value interface{}) UserPromptTemplate_FieldPathArrayItemValue {
+	switch fp.selector {
+	case UserPromptTemplate_FieldPathSelectorTags:
+		return &UserPromptTemplate_FieldTerminalPathArrayItemValue{UserPromptTemplate_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fp.selector))
+	}
+}
+
+func (fp *UserPromptTemplate_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// FieldPath for map type with additional Key information
+type UserPromptTemplate_FieldPathMap struct {
+	key      string
+	selector UserPromptTemplate_FieldPathSelector
+}
+
+var _ UserPromptTemplate_FieldPath = (*UserPromptTemplate_FieldPathMap)(nil)
+
+func (fpm *UserPromptTemplate_FieldPathMap) Selector() UserPromptTemplate_FieldPathSelector {
+	return fpm.selector
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) Key() string {
+	return fpm.key
+}
+
+// String returns path representation in proto convention
+func (fpm *UserPromptTemplate_FieldPathMap) String() string {
+	return fpm.selector.String() + "." + fpm.key
+}
+
+// JSONString returns path representation is JSON convention. Note that map keys are not transformed
+func (fpm *UserPromptTemplate_FieldPathMap) JSONString() string {
+	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
+}
+
+// Get returns all values pointed by selected field map key from source UserPromptTemplate
+func (fpm *UserPromptTemplate_FieldPathMap) Get(source *UserPromptTemplate) (values []interface{}) {
+	switch fpm.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		if value, ok := source.GetVariables()[fpm.key]; ok {
+			values = append(values, value)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpm.selector))
+	}
+	return
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) GetRaw(source proto.Message) []interface{} {
+	return fpm.Get(source.(*UserPromptTemplate))
+}
+
+// GetSingle returns value by selected field map key from source UserPromptTemplate
+func (fpm *UserPromptTemplate_FieldPathMap) GetSingle(source *UserPromptTemplate) (interface{}, bool) {
+	switch fpm.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		res, ok := source.GetVariables()[fpm.key]
+		return res, ok
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpm.selector))
+	}
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpm.GetSingle(source.(*UserPromptTemplate))
+}
+
+// GetDefault returns a default value of the field type
+func (fpm *UserPromptTemplate_FieldPathMap) GetDefault() interface{} {
+	switch fpm.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		var v *TemplateVariable
+		return v
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpm.selector))
+	}
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) ClearValue(item *UserPromptTemplate) {
+	if item != nil {
+		switch fpm.selector {
+		case UserPromptTemplate_FieldPathSelectorVariables:
+			delete(item.Variables, fpm.key)
+		default:
+			panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpm.selector))
+		}
+	}
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) ClearValueRaw(item proto.Message) {
+	fpm.ClearValue(item.(*UserPromptTemplate))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fpm *UserPromptTemplate_FieldPathMap) IsLeaf() bool {
+	switch fpm.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpm.selector))
+	}
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) WithIValue(value interface{}) UserPromptTemplate_FieldPathValue {
+	switch fpm.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return &UserPromptTemplate_FieldPathMapValue{UserPromptTemplate_FieldPathMap: *fpm, value: value.(*TemplateVariable)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpm.selector))
+	}
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fpm.WithIValue(value)
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) WithIArrayOfValues(values interface{}) UserPromptTemplate_FieldPathArrayOfValues {
+	switch fpm.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return &UserPromptTemplate_FieldPathMapArrayOfValues{UserPromptTemplate_FieldPathMap: *fpm, values: values.([]*TemplateVariable)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpm.selector))
+	}
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fpm.WithIArrayOfValues(values)
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) WithIArrayItemValue(value interface{}) UserPromptTemplate_FieldPathArrayItemValue {
+	panic("Cannot create array item value from map fieldpath")
+}
+
+func (fpm *UserPromptTemplate_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fpm.WithIArrayItemValue(value)
+}
+
+// UserPromptTemplate_FieldPathValue allows storing values for UserPromptTemplate fields according to their type
+type UserPromptTemplate_FieldPathValue interface {
+	UserPromptTemplate_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **UserPromptTemplate)
+	CompareWith(*UserPromptTemplate) (cmp int, comparable bool)
+}
+
+func ParseUserPromptTemplate_FieldPathValue(pathStr, valueStr string) (UserPromptTemplate_FieldPathValue, error) {
+	fp, err := ParseUserPromptTemplate_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserPromptTemplate field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(UserPromptTemplate_FieldPathValue), nil
+}
+
+func MustParseUserPromptTemplate_FieldPathValue(pathStr, valueStr string) UserPromptTemplate_FieldPathValue {
+	fpv, err := ParseUserPromptTemplate_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type UserPromptTemplate_FieldTerminalPathValue struct {
+	UserPromptTemplate_FieldTerminalPath
+	value interface{}
+}
+
+var _ UserPromptTemplate_FieldPathValue = (*UserPromptTemplate_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'UserPromptTemplate' as interface{}
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) AsTagsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) AsTemplateTextValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) AsVariablesValue() (map[string]*TemplateVariable, bool) {
+	res, ok := fpv.value.(map[string]*TemplateVariable)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object UserPromptTemplate
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) SetTo(target **UserPromptTemplate) {
+	if *target == nil {
+		*target = new(UserPromptTemplate)
+	}
+	switch fpv.selector {
+	case UserPromptTemplate_FieldPathSelectorDisplayName:
+		(*target).DisplayName = fpv.value.(string)
+	case UserPromptTemplate_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
+	case UserPromptTemplate_FieldPathSelectorTags:
+		(*target).Tags = fpv.value.([]string)
+	case UserPromptTemplate_FieldPathSelectorTemplateText:
+		(*target).TemplateText = fpv.value.(string)
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		(*target).Variables = fpv.value.(map[string]*TemplateVariable)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpv.selector))
+	}
+}
+
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UserPromptTemplate)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'UserPromptTemplate_FieldTerminalPathValue' with the value under path in 'UserPromptTemplate'.
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) CompareWith(source *UserPromptTemplate) (int, bool) {
+	switch fpv.selector {
+	case UserPromptTemplate_FieldPathSelectorDisplayName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case UserPromptTemplate_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case UserPromptTemplate_FieldPathSelectorTags:
+		return 0, false
+	case UserPromptTemplate_FieldPathSelectorTemplateText:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetTemplateText()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpv.selector))
+	}
+}
+
+func (fpv *UserPromptTemplate_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*UserPromptTemplate))
+}
+
+type UserPromptTemplate_FieldPathMapValue struct {
+	UserPromptTemplate_FieldPathMap
+	value interface{}
+}
+
+var _ UserPromptTemplate_FieldPathValue = (*UserPromptTemplate_FieldPathMapValue)(nil)
+
+// GetValue returns value stored under selected field in UserPromptTemplate as interface{}
+func (fpmv *UserPromptTemplate_FieldPathMapValue) GetRawValue() interface{} {
+	return fpmv.value
+}
+func (fpmv *UserPromptTemplate_FieldPathMapValue) AsVariablesElementValue() (*TemplateVariable, bool) {
+	res, ok := fpmv.value.(*TemplateVariable)
+	return res, ok
+}
+
+// SetTo stores value for selected field in UserPromptTemplate
+func (fpmv *UserPromptTemplate_FieldPathMapValue) SetTo(target **UserPromptTemplate) {
+	if *target == nil {
+		*target = new(UserPromptTemplate)
+	}
+	switch fpmv.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		if (*target).Variables == nil {
+			(*target).Variables = make(map[string]*TemplateVariable)
+		}
+		(*target).Variables[fpmv.key] = fpmv.value.(*TemplateVariable)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *UserPromptTemplate_FieldPathMapValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UserPromptTemplate)
+	fpmv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'UserPromptTemplate_FieldPathMapValue' with the value under path in 'UserPromptTemplate'.
+func (fpmv *UserPromptTemplate_FieldPathMapValue) CompareWith(source *UserPromptTemplate) (int, bool) {
+	switch fpmv.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserPromptTemplate: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *UserPromptTemplate_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpmv.CompareWith(source.(*UserPromptTemplate))
+}
+
+// UserPromptTemplate_FieldPathArrayItemValue allows storing single item in Path-specific values for UserPromptTemplate according to their type
+// Present only for array (repeated) types.
+type UserPromptTemplate_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	UserPromptTemplate_FieldPath
+	ContainsValue(*UserPromptTemplate) bool
+}
+
+// ParseUserPromptTemplate_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseUserPromptTemplate_FieldPathArrayItemValue(pathStr, valueStr string) (UserPromptTemplate_FieldPathArrayItemValue, error) {
+	fp, err := ParseUserPromptTemplate_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserPromptTemplate field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(UserPromptTemplate_FieldPathArrayItemValue), nil
+}
+
+func MustParseUserPromptTemplate_FieldPathArrayItemValue(pathStr, valueStr string) UserPromptTemplate_FieldPathArrayItemValue {
+	fpaiv, err := ParseUserPromptTemplate_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type UserPromptTemplate_FieldTerminalPathArrayItemValue struct {
+	UserPromptTemplate_FieldTerminalPath
+	value interface{}
+}
+
+var _ UserPromptTemplate_FieldPathArrayItemValue = (*UserPromptTemplate_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object UserPromptTemplate as interface{}
+func (fpaiv *UserPromptTemplate_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *UserPromptTemplate_FieldTerminalPathArrayItemValue) AsTagsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *UserPromptTemplate_FieldTerminalPathArrayItemValue) GetSingle(source *UserPromptTemplate) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *UserPromptTemplate_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*UserPromptTemplate))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'UserPromptTemplate'
+func (fpaiv *UserPromptTemplate_FieldTerminalPathArrayItemValue) ContainsValue(source *UserPromptTemplate) bool {
+	slice := fpaiv.UserPromptTemplate_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// UserPromptTemplate_FieldPathArrayOfValues allows storing slice of values for UserPromptTemplate fields according to their type
+type UserPromptTemplate_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	UserPromptTemplate_FieldPath
+}
+
+func ParseUserPromptTemplate_FieldPathArrayOfValues(pathStr, valuesStr string) (UserPromptTemplate_FieldPathArrayOfValues, error) {
+	fp, err := ParseUserPromptTemplate_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserPromptTemplate field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(UserPromptTemplate_FieldPathArrayOfValues), nil
+}
+
+func MustParseUserPromptTemplate_FieldPathArrayOfValues(pathStr, valuesStr string) UserPromptTemplate_FieldPathArrayOfValues {
+	fpaov, err := ParseUserPromptTemplate_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type UserPromptTemplate_FieldTerminalPathArrayOfValues struct {
+	UserPromptTemplate_FieldTerminalPath
+	values interface{}
+}
+
+var _ UserPromptTemplate_FieldPathArrayOfValues = (*UserPromptTemplate_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *UserPromptTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case UserPromptTemplate_FieldPathSelectorDisplayName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case UserPromptTemplate_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case UserPromptTemplate_FieldPathSelectorTags:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case UserPromptTemplate_FieldPathSelectorTemplateText:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		for _, v := range fpaov.values.([]map[string]*TemplateVariable) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *UserPromptTemplate_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *UserPromptTemplate_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *UserPromptTemplate_FieldTerminalPathArrayOfValues) AsTagsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *UserPromptTemplate_FieldTerminalPathArrayOfValues) AsTemplateTextArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *UserPromptTemplate_FieldTerminalPathArrayOfValues) AsVariablesArrayOfValues() ([]map[string]*TemplateVariable, bool) {
+	res, ok := fpaov.values.([]map[string]*TemplateVariable)
+	return res, ok
+}
+
+type UserPromptTemplate_FieldPathMapArrayOfValues struct {
+	UserPromptTemplate_FieldPathMap
+	values interface{}
+}
+
+var _ UserPromptTemplate_FieldPathArrayOfValues = (*UserPromptTemplate_FieldPathMapArrayOfValues)(nil)
+
+func (fpmaov *UserPromptTemplate_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpmaov.selector {
+	case UserPromptTemplate_FieldPathSelectorVariables:
+		for _, v := range fpmaov.values.([]*TemplateVariable) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpmaov *UserPromptTemplate_FieldPathMapArrayOfValues) AsVariablesArrayOfElementValues() ([]*TemplateVariable, bool) {
+	res, ok := fpmaov.values.([]*TemplateVariable)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type TemplateVariable_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() TemplateVariable_FieldPathSelector
+	Get(source *TemplateVariable) []interface{}
+	GetSingle(source *TemplateVariable) (interface{}, bool)
+	ClearValue(item *TemplateVariable)
+
+	// Those methods build corresponding TemplateVariable_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) TemplateVariable_FieldPathValue
+	WithIArrayOfValues(values interface{}) TemplateVariable_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) TemplateVariable_FieldPathArrayItemValue
+}
+
+type TemplateVariable_FieldPathSelector int32
+
+const (
+	TemplateVariable_FieldPathSelectorLabel        TemplateVariable_FieldPathSelector = 0
+	TemplateVariable_FieldPathSelectorHelpText     TemplateVariable_FieldPathSelector = 1
+	TemplateVariable_FieldPathSelectorInputType    TemplateVariable_FieldPathSelector = 2
+	TemplateVariable_FieldPathSelectorSuggestions  TemplateVariable_FieldPathSelector = 3
+	TemplateVariable_FieldPathSelectorDefaultValue TemplateVariable_FieldPathSelector = 4
+	TemplateVariable_FieldPathSelectorResourceType TemplateVariable_FieldPathSelector = 5
+)
+
+func (s TemplateVariable_FieldPathSelector) String() string {
+	switch s {
+	case TemplateVariable_FieldPathSelectorLabel:
+		return "label"
+	case TemplateVariable_FieldPathSelectorHelpText:
+		return "help_text"
+	case TemplateVariable_FieldPathSelectorInputType:
+		return "input_type"
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		return "suggestions"
+	case TemplateVariable_FieldPathSelectorDefaultValue:
+		return "default_value"
+	case TemplateVariable_FieldPathSelectorResourceType:
+		return "resource_type"
+	default:
+		panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", s))
+	}
+}
+
+func BuildTemplateVariable_FieldPath(fp gotenobject.RawFieldPath) (TemplateVariable_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object TemplateVariable")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "label":
+			return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorLabel}, nil
+		case "help_text", "helpText", "help-text":
+			return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorHelpText}, nil
+		case "input_type", "inputType", "input-type":
+			return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorInputType}, nil
+		case "suggestions":
+			return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorSuggestions}, nil
+		case "default_value", "defaultValue", "default-value":
+			return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorDefaultValue}, nil
+		case "resource_type", "resourceType", "resource-type":
+			return &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorResourceType}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TemplateVariable", fp)
+}
+
+func ParseTemplateVariable_FieldPath(rawField string) (TemplateVariable_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildTemplateVariable_FieldPath(fp)
+}
+
+func MustParseTemplateVariable_FieldPath(rawField string) TemplateVariable_FieldPath {
+	fp, err := ParseTemplateVariable_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type TemplateVariable_FieldTerminalPath struct {
+	selector TemplateVariable_FieldPathSelector
+}
+
+var _ TemplateVariable_FieldPath = (*TemplateVariable_FieldTerminalPath)(nil)
+
+func (fp *TemplateVariable_FieldTerminalPath) Selector() TemplateVariable_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *TemplateVariable_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *TemplateVariable_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source TemplateVariable
+func (fp *TemplateVariable_FieldTerminalPath) Get(source *TemplateVariable) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case TemplateVariable_FieldPathSelectorLabel:
+			values = append(values, source.Label)
+		case TemplateVariable_FieldPathSelectorHelpText:
+			values = append(values, source.HelpText)
+		case TemplateVariable_FieldPathSelectorInputType:
+			values = append(values, source.InputType)
+		case TemplateVariable_FieldPathSelectorSuggestions:
+			for _, value := range source.GetSuggestions() {
+				values = append(values, value)
+			}
+		case TemplateVariable_FieldPathSelectorDefaultValue:
+			values = append(values, source.DefaultValue)
+		case TemplateVariable_FieldPathSelectorResourceType:
+			values = append(values, source.ResourceType)
+		default:
+			panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*TemplateVariable))
+}
+
+// GetSingle returns value pointed by specific field of from source TemplateVariable
+func (fp *TemplateVariable_FieldTerminalPath) GetSingle(source *TemplateVariable) (interface{}, bool) {
+	switch fp.selector {
+	case TemplateVariable_FieldPathSelectorLabel:
+		return source.GetLabel(), source != nil
+	case TemplateVariable_FieldPathSelectorHelpText:
+		return source.GetHelpText(), source != nil
+	case TemplateVariable_FieldPathSelectorInputType:
+		return source.GetInputType(), source != nil
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		res := source.GetSuggestions()
+		return res, res != nil
+	case TemplateVariable_FieldPathSelectorDefaultValue:
+		return source.GetDefaultValue(), source != nil
+	case TemplateVariable_FieldPathSelectorResourceType:
+		return source.GetResourceType(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fp.selector))
+	}
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*TemplateVariable))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *TemplateVariable_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case TemplateVariable_FieldPathSelectorLabel:
+		return ""
+	case TemplateVariable_FieldPathSelectorHelpText:
+		return ""
+	case TemplateVariable_FieldPathSelectorInputType:
+		return InputType_INPUT_TYPE_UNSPECIFIED
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		return ([]string)(nil)
+	case TemplateVariable_FieldPathSelectorDefaultValue:
+		return ""
+	case TemplateVariable_FieldPathSelectorResourceType:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fp.selector))
+	}
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) ClearValue(item *TemplateVariable) {
+	if item != nil {
+		switch fp.selector {
+		case TemplateVariable_FieldPathSelectorLabel:
+			item.Label = ""
+		case TemplateVariable_FieldPathSelectorHelpText:
+			item.HelpText = ""
+		case TemplateVariable_FieldPathSelectorInputType:
+			item.InputType = InputType_INPUT_TYPE_UNSPECIFIED
+		case TemplateVariable_FieldPathSelectorSuggestions:
+			item.Suggestions = nil
+		case TemplateVariable_FieldPathSelectorDefaultValue:
+			item.DefaultValue = ""
+		case TemplateVariable_FieldPathSelectorResourceType:
+			item.ResourceType = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*TemplateVariable))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *TemplateVariable_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == TemplateVariable_FieldPathSelectorLabel ||
+		fp.selector == TemplateVariable_FieldPathSelectorHelpText ||
+		fp.selector == TemplateVariable_FieldPathSelectorInputType ||
+		fp.selector == TemplateVariable_FieldPathSelectorSuggestions ||
+		fp.selector == TemplateVariable_FieldPathSelectorDefaultValue ||
+		fp.selector == TemplateVariable_FieldPathSelectorResourceType
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) WithIValue(value interface{}) TemplateVariable_FieldPathValue {
+	switch fp.selector {
+	case TemplateVariable_FieldPathSelectorLabel:
+		return &TemplateVariable_FieldTerminalPathValue{TemplateVariable_FieldTerminalPath: *fp, value: value.(string)}
+	case TemplateVariable_FieldPathSelectorHelpText:
+		return &TemplateVariable_FieldTerminalPathValue{TemplateVariable_FieldTerminalPath: *fp, value: value.(string)}
+	case TemplateVariable_FieldPathSelectorInputType:
+		return &TemplateVariable_FieldTerminalPathValue{TemplateVariable_FieldTerminalPath: *fp, value: value.(InputType)}
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		return &TemplateVariable_FieldTerminalPathValue{TemplateVariable_FieldTerminalPath: *fp, value: value.([]string)}
+	case TemplateVariable_FieldPathSelectorDefaultValue:
+		return &TemplateVariable_FieldTerminalPathValue{TemplateVariable_FieldTerminalPath: *fp, value: value.(string)}
+	case TemplateVariable_FieldPathSelectorResourceType:
+		return &TemplateVariable_FieldTerminalPathValue{TemplateVariable_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fp.selector))
+	}
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) WithIArrayOfValues(values interface{}) TemplateVariable_FieldPathArrayOfValues {
+	fpaov := &TemplateVariable_FieldTerminalPathArrayOfValues{TemplateVariable_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case TemplateVariable_FieldPathSelectorLabel:
+		return &TemplateVariable_FieldTerminalPathArrayOfValues{TemplateVariable_FieldTerminalPath: *fp, values: values.([]string)}
+	case TemplateVariable_FieldPathSelectorHelpText:
+		return &TemplateVariable_FieldTerminalPathArrayOfValues{TemplateVariable_FieldTerminalPath: *fp, values: values.([]string)}
+	case TemplateVariable_FieldPathSelectorInputType:
+		return &TemplateVariable_FieldTerminalPathArrayOfValues{TemplateVariable_FieldTerminalPath: *fp, values: values.([]InputType)}
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		return &TemplateVariable_FieldTerminalPathArrayOfValues{TemplateVariable_FieldTerminalPath: *fp, values: values.([][]string)}
+	case TemplateVariable_FieldPathSelectorDefaultValue:
+		return &TemplateVariable_FieldTerminalPathArrayOfValues{TemplateVariable_FieldTerminalPath: *fp, values: values.([]string)}
+	case TemplateVariable_FieldPathSelectorResourceType:
+		return &TemplateVariable_FieldTerminalPathArrayOfValues{TemplateVariable_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) WithIArrayItemValue(value interface{}) TemplateVariable_FieldPathArrayItemValue {
+	switch fp.selector {
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		return &TemplateVariable_FieldTerminalPathArrayItemValue{TemplateVariable_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fp.selector))
+	}
+}
+
+func (fp *TemplateVariable_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// TemplateVariable_FieldPathValue allows storing values for TemplateVariable fields according to their type
+type TemplateVariable_FieldPathValue interface {
+	TemplateVariable_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **TemplateVariable)
+	CompareWith(*TemplateVariable) (cmp int, comparable bool)
+}
+
+func ParseTemplateVariable_FieldPathValue(pathStr, valueStr string) (TemplateVariable_FieldPathValue, error) {
+	fp, err := ParseTemplateVariable_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateVariable field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(TemplateVariable_FieldPathValue), nil
+}
+
+func MustParseTemplateVariable_FieldPathValue(pathStr, valueStr string) TemplateVariable_FieldPathValue {
+	fpv, err := ParseTemplateVariable_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type TemplateVariable_FieldTerminalPathValue struct {
+	TemplateVariable_FieldTerminalPath
+	value interface{}
+}
+
+var _ TemplateVariable_FieldPathValue = (*TemplateVariable_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'TemplateVariable' as interface{}
+func (fpv *TemplateVariable_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *TemplateVariable_FieldTerminalPathValue) AsLabelValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *TemplateVariable_FieldTerminalPathValue) AsHelpTextValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *TemplateVariable_FieldTerminalPathValue) AsInputTypeValue() (InputType, bool) {
+	res, ok := fpv.value.(InputType)
+	return res, ok
+}
+func (fpv *TemplateVariable_FieldTerminalPathValue) AsSuggestionsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *TemplateVariable_FieldTerminalPathValue) AsDefaultValueValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *TemplateVariable_FieldTerminalPathValue) AsResourceTypeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object TemplateVariable
+func (fpv *TemplateVariable_FieldTerminalPathValue) SetTo(target **TemplateVariable) {
+	if *target == nil {
+		*target = new(TemplateVariable)
+	}
+	switch fpv.selector {
+	case TemplateVariable_FieldPathSelectorLabel:
+		(*target).Label = fpv.value.(string)
+	case TemplateVariable_FieldPathSelectorHelpText:
+		(*target).HelpText = fpv.value.(string)
+	case TemplateVariable_FieldPathSelectorInputType:
+		(*target).InputType = fpv.value.(InputType)
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		(*target).Suggestions = fpv.value.([]string)
+	case TemplateVariable_FieldPathSelectorDefaultValue:
+		(*target).DefaultValue = fpv.value.(string)
+	case TemplateVariable_FieldPathSelectorResourceType:
+		(*target).ResourceType = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fpv.selector))
+	}
+}
+
+func (fpv *TemplateVariable_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*TemplateVariable)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'TemplateVariable_FieldTerminalPathValue' with the value under path in 'TemplateVariable'.
+func (fpv *TemplateVariable_FieldTerminalPathValue) CompareWith(source *TemplateVariable) (int, bool) {
+	switch fpv.selector {
+	case TemplateVariable_FieldPathSelectorLabel:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetLabel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case TemplateVariable_FieldPathSelectorHelpText:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetHelpText()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case TemplateVariable_FieldPathSelectorInputType:
+		leftValue := fpv.value.(InputType)
+		rightValue := source.GetInputType()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		return 0, false
+	case TemplateVariable_FieldPathSelectorDefaultValue:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDefaultValue()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case TemplateVariable_FieldPathSelectorResourceType:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetResourceType()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for TemplateVariable: %d", fpv.selector))
+	}
+}
+
+func (fpv *TemplateVariable_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*TemplateVariable))
+}
+
+// TemplateVariable_FieldPathArrayItemValue allows storing single item in Path-specific values for TemplateVariable according to their type
+// Present only for array (repeated) types.
+type TemplateVariable_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	TemplateVariable_FieldPath
+	ContainsValue(*TemplateVariable) bool
+}
+
+// ParseTemplateVariable_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseTemplateVariable_FieldPathArrayItemValue(pathStr, valueStr string) (TemplateVariable_FieldPathArrayItemValue, error) {
+	fp, err := ParseTemplateVariable_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateVariable field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(TemplateVariable_FieldPathArrayItemValue), nil
+}
+
+func MustParseTemplateVariable_FieldPathArrayItemValue(pathStr, valueStr string) TemplateVariable_FieldPathArrayItemValue {
+	fpaiv, err := ParseTemplateVariable_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type TemplateVariable_FieldTerminalPathArrayItemValue struct {
+	TemplateVariable_FieldTerminalPath
+	value interface{}
+}
+
+var _ TemplateVariable_FieldPathArrayItemValue = (*TemplateVariable_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object TemplateVariable as interface{}
+func (fpaiv *TemplateVariable_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *TemplateVariable_FieldTerminalPathArrayItemValue) AsSuggestionsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *TemplateVariable_FieldTerminalPathArrayItemValue) GetSingle(source *TemplateVariable) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *TemplateVariable_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*TemplateVariable))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'TemplateVariable'
+func (fpaiv *TemplateVariable_FieldTerminalPathArrayItemValue) ContainsValue(source *TemplateVariable) bool {
+	slice := fpaiv.TemplateVariable_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// TemplateVariable_FieldPathArrayOfValues allows storing slice of values for TemplateVariable fields according to their type
+type TemplateVariable_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	TemplateVariable_FieldPath
+}
+
+func ParseTemplateVariable_FieldPathArrayOfValues(pathStr, valuesStr string) (TemplateVariable_FieldPathArrayOfValues, error) {
+	fp, err := ParseTemplateVariable_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateVariable field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(TemplateVariable_FieldPathArrayOfValues), nil
+}
+
+func MustParseTemplateVariable_FieldPathArrayOfValues(pathStr, valuesStr string) TemplateVariable_FieldPathArrayOfValues {
+	fpaov, err := ParseTemplateVariable_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type TemplateVariable_FieldTerminalPathArrayOfValues struct {
+	TemplateVariable_FieldTerminalPath
+	values interface{}
+}
+
+var _ TemplateVariable_FieldPathArrayOfValues = (*TemplateVariable_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *TemplateVariable_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case TemplateVariable_FieldPathSelectorLabel:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case TemplateVariable_FieldPathSelectorHelpText:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case TemplateVariable_FieldPathSelectorInputType:
+		for _, v := range fpaov.values.([]InputType) {
+			values = append(values, v)
+		}
+	case TemplateVariable_FieldPathSelectorSuggestions:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case TemplateVariable_FieldPathSelectorDefaultValue:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case TemplateVariable_FieldPathSelectorResourceType:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *TemplateVariable_FieldTerminalPathArrayOfValues) AsLabelArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *TemplateVariable_FieldTerminalPathArrayOfValues) AsHelpTextArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *TemplateVariable_FieldTerminalPathArrayOfValues) AsInputTypeArrayOfValues() ([]InputType, bool) {
+	res, ok := fpaov.values.([]InputType)
+	return res, ok
+}
+func (fpaov *TemplateVariable_FieldTerminalPathArrayOfValues) AsSuggestionsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *TemplateVariable_FieldTerminalPathArrayOfValues) AsDefaultValueArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *TemplateVariable_FieldTerminalPathArrayOfValues) AsResourceTypeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }

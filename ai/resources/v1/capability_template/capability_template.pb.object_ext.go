@@ -159,6 +159,18 @@ func (o *CapabilityTemplate) MakeDiffFieldMask(other *CapabilityTemplate) *Capab
 	if o.GetDefaultModel().String() != other.GetDefaultModel().String() {
 		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel})
 	}
+
+	if len(o.GetUserPromptTemplates()) == len(other.GetUserPromptTemplates()) {
+		for i, lValue := range o.GetUserPromptTemplates() {
+			rValue := other.GetUserPromptTemplates()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates})
+	}
 	return res
 }
 
@@ -226,6 +238,10 @@ func (o *CapabilityTemplate) Clone() *CapabilityTemplate {
 		if err := result.DefaultModel.ParseProtoString(data); err != nil {
 			panic(err)
 		}
+	}
+	result.UserPromptTemplates = make([]*UserPromptTemplate, len(o.UserPromptTemplates))
+	for i, sourceValue := range o.UserPromptTemplates {
+		result.UserPromptTemplates[i] = sourceValue.Clone()
 	}
 	return result
 }
@@ -346,6 +362,24 @@ func (o *CapabilityTemplate) Merge(source *CapabilityTemplate) {
 	} else {
 		o.DefaultModel = nil
 	}
+	for _, sourceValue := range source.GetUserPromptTemplates() {
+		exists := false
+		for _, currentValue := range o.UserPromptTemplates {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *UserPromptTemplate
+			if sourceValue != nil {
+				newDstElement = new(UserPromptTemplate)
+				newDstElement.Merge(sourceValue)
+			}
+			o.UserPromptTemplates = append(o.UserPromptTemplates, newDstElement)
+		}
+	}
+
 }
 
 func (o *CapabilityTemplate) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -790,4 +824,225 @@ func (o *ToolSafetyConfig) Merge(source *ToolSafetyConfig) {
 
 func (o *ToolSafetyConfig) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ToolSafetyConfig))
+}
+
+func (o *UserPromptTemplate) GotenObjectExt() {}
+
+func (o *UserPromptTemplate) MakeFullFieldMask() *UserPromptTemplate_FieldMask {
+	return FullUserPromptTemplate_FieldMask()
+}
+
+func (o *UserPromptTemplate) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullUserPromptTemplate_FieldMask()
+}
+
+func (o *UserPromptTemplate) MakeDiffFieldMask(other *UserPromptTemplate) *UserPromptTemplate_FieldMask {
+	if o == nil && other == nil {
+		return &UserPromptTemplate_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullUserPromptTemplate_FieldMask()
+	}
+
+	res := &UserPromptTemplate_FieldMask{}
+	if o.GetDisplayName() != other.GetDisplayName() {
+		res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorDisplayName})
+	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorDescription})
+	}
+
+	if len(o.GetTags()) == len(other.GetTags()) {
+		for i, lValue := range o.GetTags() {
+			rValue := other.GetTags()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTags})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTags})
+	}
+	if o.GetTemplateText() != other.GetTemplateText() {
+		res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTemplateText})
+	}
+
+	if len(o.GetVariables()) == len(other.GetVariables()) {
+		for i, lValue := range o.GetVariables() {
+			rValue := other.GetVariables()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorVariables})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorVariables})
+	}
+	return res
+}
+
+func (o *UserPromptTemplate) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*UserPromptTemplate))
+}
+
+func (o *UserPromptTemplate) Clone() *UserPromptTemplate {
+	if o == nil {
+		return nil
+	}
+	result := &UserPromptTemplate{}
+	result.DisplayName = o.DisplayName
+	result.Description = o.Description
+	result.Tags = make([]string, len(o.Tags))
+	for i, sourceValue := range o.Tags {
+		result.Tags[i] = sourceValue
+	}
+	result.TemplateText = o.TemplateText
+	result.Variables = map[string]*TemplateVariable{}
+	for key, sourceValue := range o.Variables {
+		result.Variables[key] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *UserPromptTemplate) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *UserPromptTemplate) Merge(source *UserPromptTemplate) {
+	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
+	for _, sourceValue := range source.GetTags() {
+		exists := false
+		for _, currentValue := range o.Tags {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Tags = append(o.Tags, newDstElement)
+		}
+	}
+
+	o.TemplateText = source.GetTemplateText()
+	if source.GetVariables() != nil {
+		if o.Variables == nil {
+			o.Variables = make(map[string]*TemplateVariable, len(source.GetVariables()))
+		}
+		for key, sourceValue := range source.GetVariables() {
+			if sourceValue != nil {
+				if o.Variables[key] == nil {
+					o.Variables[key] = new(TemplateVariable)
+				}
+				o.Variables[key].Merge(sourceValue)
+			}
+		}
+	}
+}
+
+func (o *UserPromptTemplate) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*UserPromptTemplate))
+}
+
+func (o *TemplateVariable) GotenObjectExt() {}
+
+func (o *TemplateVariable) MakeFullFieldMask() *TemplateVariable_FieldMask {
+	return FullTemplateVariable_FieldMask()
+}
+
+func (o *TemplateVariable) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullTemplateVariable_FieldMask()
+}
+
+func (o *TemplateVariable) MakeDiffFieldMask(other *TemplateVariable) *TemplateVariable_FieldMask {
+	if o == nil && other == nil {
+		return &TemplateVariable_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullTemplateVariable_FieldMask()
+	}
+
+	res := &TemplateVariable_FieldMask{}
+	if o.GetLabel() != other.GetLabel() {
+		res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorLabel})
+	}
+	if o.GetHelpText() != other.GetHelpText() {
+		res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorHelpText})
+	}
+	if o.GetInputType() != other.GetInputType() {
+		res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorInputType})
+	}
+
+	if len(o.GetSuggestions()) == len(other.GetSuggestions()) {
+		for i, lValue := range o.GetSuggestions() {
+			rValue := other.GetSuggestions()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorSuggestions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorSuggestions})
+	}
+	if o.GetDefaultValue() != other.GetDefaultValue() {
+		res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorDefaultValue})
+	}
+	if o.GetResourceType() != other.GetResourceType() {
+		res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorResourceType})
+	}
+	return res
+}
+
+func (o *TemplateVariable) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*TemplateVariable))
+}
+
+func (o *TemplateVariable) Clone() *TemplateVariable {
+	if o == nil {
+		return nil
+	}
+	result := &TemplateVariable{}
+	result.Label = o.Label
+	result.HelpText = o.HelpText
+	result.InputType = o.InputType
+	result.Suggestions = make([]string, len(o.Suggestions))
+	for i, sourceValue := range o.Suggestions {
+		result.Suggestions[i] = sourceValue
+	}
+	result.DefaultValue = o.DefaultValue
+	result.ResourceType = o.ResourceType
+	return result
+}
+
+func (o *TemplateVariable) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *TemplateVariable) Merge(source *TemplateVariable) {
+	o.Label = source.GetLabel()
+	o.HelpText = source.GetHelpText()
+	o.InputType = source.GetInputType()
+	for _, sourceValue := range source.GetSuggestions() {
+		exists := false
+		for _, currentValue := range o.Suggestions {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Suggestions = append(o.Suggestions, newDstElement)
+		}
+	}
+
+	o.DefaultValue = source.GetDefaultValue()
+	o.ResourceType = source.GetResourceType()
+}
+
+func (o *TemplateVariable) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*TemplateVariable))
 }

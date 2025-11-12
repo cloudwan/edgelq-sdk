@@ -26,6 +26,7 @@ import (
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 var (
@@ -49,6 +50,7 @@ var (
 	_ = &conversation.Conversation{}
 	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
+	_ = &wrapperspb.DoubleValue{}
 )
 
 func (obj *CreateResponseRequest) GotenValidate() error {
@@ -81,6 +83,11 @@ func (obj *CreateRequest) GotenValidate() error {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("CreateRequest", "clientTools", obj.ClientTools[idx], "nested object validation failed", err)
 			}
+		}
+	}
+	if subobj, ok := interface{}(obj.ResumeConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CreateRequest", "resumeConfig", obj.ResumeConfig, "nested object validation failed", err)
 		}
 	}
 	switch opt := obj.ServerToolsConfig.(type) {
@@ -187,46 +194,6 @@ func (obj *ResponseStarted) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *ToolInfo) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	switch opt := obj.Source.(type) {
-	case *ToolInfo_Client:
-		if subobj, ok := interface{}(opt.Client).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("ToolInfo", "client", opt.Client, "nested object validation failed", err)
-			}
-		}
-	case *ToolInfo_Connector:
-		if subobj, ok := interface{}(opt.Connector).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("ToolInfo", "connector", opt.Connector, "nested object validation failed", err)
-			}
-		}
-	case *ToolInfo_Internal:
-		if subobj, ok := interface{}(opt.Internal).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("ToolInfo", "internal", opt.Internal, "nested object validation failed", err)
-			}
-		}
-	default:
-		_ = opt
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *ModelCapabilities) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
 func (obj *ContentDelta) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -299,6 +266,195 @@ func (obj *ResponseComplete) GotenValidate() error {
 func (obj *Error) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ChatStreamRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Payload.(type) {
+	case *ChatStreamRequest_Init:
+		if subobj, ok := interface{}(opt.Init).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamRequest", "init", opt.Init, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamRequest_Input:
+		if subobj, ok := interface{}(opt.Input).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamRequest", "input", opt.Input, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *InitializeSession) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.ClientTools {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("InitializeSession", "clientTools", obj.ClientTools[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.Parameters).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("InitializeSession", "parameters", obj.Parameters, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ChatInput) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Messages {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatInput", "messages", obj.Messages[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.Overrides).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ChatInput", "overrides", obj.Overrides, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Resume).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ChatInput", "resume", obj.Resume, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *InputOverrides) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Parameters).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("InputOverrides", "parameters", obj.Parameters, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.ClientTools {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("InputOverrides", "clientTools", obj.ClientTools[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *GenerationParameters) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ChatStreamResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Event.(type) {
+	case *ChatStreamResponse_SessionInitialized:
+		if subobj, ok := interface{}(opt.SessionInitialized).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "sessionInitialized", opt.SessionInitialized, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_ResponseStarted:
+		if subobj, ok := interface{}(opt.ResponseStarted).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "responseStarted", opt.ResponseStarted, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_ContentDelta:
+		if subobj, ok := interface{}(opt.ContentDelta).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "contentDelta", opt.ContentDelta, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_ContentDone:
+		if subobj, ok := interface{}(opt.ContentDone).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "contentDone", opt.ContentDone, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_ThinkingDelta:
+		if subobj, ok := interface{}(opt.ThinkingDelta).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "thinkingDelta", opt.ThinkingDelta, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_ThinkingDone:
+		if subobj, ok := interface{}(opt.ThinkingDone).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "thinkingDone", opt.ThinkingDone, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_ToolCalls:
+		if subobj, ok := interface{}(opt.ToolCalls).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "toolCalls", opt.ToolCalls, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_ResponseComplete:
+		if subobj, ok := interface{}(opt.ResponseComplete).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "responseComplete", opt.ResponseComplete, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_Error:
+		if subobj, ok := interface{}(opt.Error).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "error", opt.Error, "nested object validation failed", err)
+			}
+		}
+	case *ChatStreamResponse_CitationDelta:
+		if subobj, ok := interface{}(opt.CitationDelta).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ChatStreamResponse", "citationDelta", opt.CitationDelta, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *SessionInitialized) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Capabilities).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("SessionInitialized", "capabilities", obj.Capabilities, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

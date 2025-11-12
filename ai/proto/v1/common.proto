@@ -271,6 +271,55 @@ message URLReference {
 // List of connectors for direct specification
 message ConnectorsList { repeated string connector = 1; }
 
+// Tool information including source
+message ToolInfo {
+  string name = 1; // Tool name as sent to LLM
+
+  // Tool source information
+  oneof source {
+    ClientToolSource client = 2;
+
+    ConnectorToolSource connector = 3;
+
+    InternalToolSource internal = 4;
+  }
+}
+
+// Model capabilities information
+message ModelCapabilities {
+  int32 context_window = 1;
+
+  int32 max_output_tokens = 2;
+
+  bool supports_tools = 3;
+
+  bool supports_thinking = 4;
+
+  repeated string supported_modalities = 5; // ["text", "image", "audio"]
+}
+
+// Resume configuration for editing conversation history
+message ResumeConfig {
+  // Resume conversation from this turn (0-indexed)
+  // The turn at from_turn and all turns after will be moved to
+  // replaced_turn_groups
+  int32 from_turn = 1;
+
+  // Optional: Replacement message for this turn
+  // Can be role="user" or role="tool" depending on turn type
+  // If not set, uses the original message from that turn
+  // Must match the role of the first message in the original turn
+  Message replace_message = 2;
+
+  // Optional: User comment/reason for the resume operation
+  // Will be stored in ReplacedTurnGroup.resume_reason
+  string resume_reason = 3;
+
+  // Explicit enable flag to avoid ambiguity when clients send an empty struct
+  // If false or unset, server must treat this as not a resume request
+  bool resume_enabled = 4;
+}
+
 // Content channel type
 enum ContentChannel {
   CONTENT_CHANNEL_UNSPECIFIED = 0;

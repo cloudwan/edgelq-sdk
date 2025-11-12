@@ -71,6 +71,7 @@ func FullCapabilityTemplate_FieldMask() *CapabilityTemplate_FieldMask {
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorAllowedModels})
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorToolSafety})
 	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorDefaultModel})
+	res.Paths = append(res.Paths, &CapabilityTemplate_FieldTerminalPath{selector: CapabilityTemplate_FieldPathSelectorUserPromptTemplates})
 	return res
 }
 
@@ -89,7 +90,7 @@ func (fieldMask *CapabilityTemplate_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 14)
+	presentSelectors := make([]bool, 15)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CapabilityTemplate_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -119,20 +120,22 @@ func (fieldMask *CapabilityTemplate_FieldMask) Reset() {
 
 func (fieldMask *CapabilityTemplate_FieldMask) Subtract(other *CapabilityTemplate_FieldMask) *CapabilityTemplate_FieldMask {
 	result := &CapabilityTemplate_FieldMask{}
-	removedSelectors := make([]bool, 14)
+	removedSelectors := make([]bool, 15)
 	otherSubMasks := map[CapabilityTemplate_FieldPathSelector]gotenobject.FieldMask{
-		CapabilityTemplate_FieldPathSelectorMetadata:           &meta.Meta_FieldMask{},
-		CapabilityTemplate_FieldPathSelectorRagConfig:          &RAGConfig_FieldMask{},
-		CapabilityTemplate_FieldPathSelectorReasoning:          &ReasoningConfig_FieldMask{},
-		CapabilityTemplate_FieldPathSelectorSystemPromptAppend: &PromptAppendTemplate_FieldMask{},
-		CapabilityTemplate_FieldPathSelectorToolSafety:         &ToolSafetyConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorMetadata:            &meta.Meta_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorRagConfig:           &RAGConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorReasoning:           &ReasoningConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorSystemPromptAppend:  &PromptAppendTemplate_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorToolSafety:          &ToolSafetyConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorUserPromptTemplates: &UserPromptTemplate_FieldMask{},
 	}
 	mySubMasks := map[CapabilityTemplate_FieldPathSelector]gotenobject.FieldMask{
-		CapabilityTemplate_FieldPathSelectorMetadata:           &meta.Meta_FieldMask{},
-		CapabilityTemplate_FieldPathSelectorRagConfig:          &RAGConfig_FieldMask{},
-		CapabilityTemplate_FieldPathSelectorReasoning:          &ReasoningConfig_FieldMask{},
-		CapabilityTemplate_FieldPathSelectorSystemPromptAppend: &PromptAppendTemplate_FieldMask{},
-		CapabilityTemplate_FieldPathSelectorToolSafety:         &ToolSafetyConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorMetadata:            &meta.Meta_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorRagConfig:           &RAGConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorReasoning:           &ReasoningConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorSystemPromptAppend:  &PromptAppendTemplate_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorToolSafety:          &ToolSafetyConfig_FieldMask{},
+		CapabilityTemplate_FieldPathSelectorUserPromptTemplates: &UserPromptTemplate_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -158,6 +161,8 @@ func (fieldMask *CapabilityTemplate_FieldMask) Subtract(other *CapabilityTemplat
 						mySubMasks[CapabilityTemplate_FieldPathSelectorSystemPromptAppend] = FullPromptAppendTemplate_FieldMask()
 					case CapabilityTemplate_FieldPathSelectorToolSafety:
 						mySubMasks[CapabilityTemplate_FieldPathSelectorToolSafety] = FullToolSafetyConfig_FieldMask()
+					case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+						mySubMasks[CapabilityTemplate_FieldPathSelectorUserPromptTemplates] = FullUserPromptTemplate_FieldMask()
 					}
 				} else if tp, ok := path.(*CapabilityTemplate_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -338,6 +343,8 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 	wholeSystemPromptAppendAccepted := false
 	toolSafetyMask := &ToolSafetyConfig_FieldMask{}
 	wholeToolSafetyAccepted := false
+	userPromptTemplatesMask := &UserPromptTemplate_FieldMask{}
+	wholeUserPromptTemplatesAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -376,6 +383,9 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 				wholeToolSafetyAccepted = true
 			case CapabilityTemplate_FieldPathSelectorDefaultModel:
 				result.DefaultModel = source.DefaultModel
+			case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+				result.UserPromptTemplates = source.UserPromptTemplates
+				wholeUserPromptTemplatesAccepted = true
 			}
 		case *CapabilityTemplate_FieldSubPath:
 			switch tp.selector {
@@ -389,6 +399,8 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 				systemPromptAppendMask.AppendPath(tp.subPath.(PromptAppendTemplate_FieldPath))
 			case CapabilityTemplate_FieldPathSelectorToolSafety:
 				toolSafetyMask.AppendPath(tp.subPath.(ToolSafetyConfig_FieldPath))
+			case CapabilityTemplate_FieldPathSelectorUserPromptTemplates:
+				userPromptTemplatesMask.AppendPath(tp.subPath.(UserPromptTemplate_FieldPath))
 			}
 		}
 	}
@@ -406,6 +418,11 @@ func (fieldMask *CapabilityTemplate_FieldMask) Project(source *CapabilityTemplat
 	}
 	if wholeToolSafetyAccepted == false && len(toolSafetyMask.Paths) > 0 {
 		result.ToolSafety = toolSafetyMask.Project(source.GetToolSafety())
+	}
+	if wholeUserPromptTemplatesAccepted == false && len(userPromptTemplatesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetUserPromptTemplates() {
+			result.UserPromptTemplates = append(result.UserPromptTemplates, userPromptTemplatesMask.Project(sourceItem))
+		}
 	}
 	return result
 }
@@ -1874,6 +1891,505 @@ func (fieldMask *ToolSafetyConfig_FieldMask) ProjectRaw(source gotenobject.Goten
 }
 
 func (fieldMask *ToolSafetyConfig_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type UserPromptTemplate_FieldMask struct {
+	Paths []UserPromptTemplate_FieldPath
+}
+
+func FullUserPromptTemplate_FieldMask() *UserPromptTemplate_FieldMask {
+	res := &UserPromptTemplate_FieldMask{}
+	res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorDescription})
+	res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTags})
+	res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorTemplateText})
+	res.Paths = append(res.Paths, &UserPromptTemplate_FieldTerminalPath{selector: UserPromptTemplate_FieldPathSelectorVariables})
+	return res
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*UserPromptTemplate_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseUserPromptTemplate_FieldPath(raw)
+	})
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) ProtoMessage() {}
+
+func (fieldMask *UserPromptTemplate_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) Subtract(other *UserPromptTemplate_FieldMask) *UserPromptTemplate_FieldMask {
+	result := &UserPromptTemplate_FieldMask{}
+	removedSelectors := make([]bool, 5)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *UserPromptTemplate_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*UserPromptTemplate_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *UserPromptTemplate_FieldMask) FilterInputFields() *UserPromptTemplate_FieldMask {
+	result := &UserPromptTemplate_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *UserPromptTemplate_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]UserPromptTemplate_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseUserPromptTemplate_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask UserPromptTemplate_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask UserPromptTemplate_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) AppendPath(path UserPromptTemplate_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(UserPromptTemplate_FieldPath))
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) GetPaths() []UserPromptTemplate_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseUserPromptTemplate_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) Set(target, source *UserPromptTemplate) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*UserPromptTemplate), source.(*UserPromptTemplate))
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) Project(source *UserPromptTemplate) *UserPromptTemplate {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &UserPromptTemplate{}
+	var variablesMapKeys []string
+	wholeVariablesAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *UserPromptTemplate_FieldTerminalPath:
+			switch tp.selector {
+			case UserPromptTemplate_FieldPathSelectorDisplayName:
+				result.DisplayName = source.DisplayName
+			case UserPromptTemplate_FieldPathSelectorDescription:
+				result.Description = source.Description
+			case UserPromptTemplate_FieldPathSelectorTags:
+				result.Tags = source.Tags
+			case UserPromptTemplate_FieldPathSelectorTemplateText:
+				result.TemplateText = source.TemplateText
+			case UserPromptTemplate_FieldPathSelectorVariables:
+				result.Variables = source.Variables
+				wholeVariablesAccepted = true
+			}
+		case *UserPromptTemplate_FieldPathMap:
+			switch tp.selector {
+			case UserPromptTemplate_FieldPathSelectorVariables:
+				variablesMapKeys = append(variablesMapKeys, tp.key)
+			}
+		}
+	}
+	if wholeVariablesAccepted == false && len(variablesMapKeys) > 0 && source.GetVariables() != nil {
+		copiedMap := map[string]*TemplateVariable{}
+		sourceMap := source.GetVariables()
+		for _, key := range variablesMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.Variables = copiedMap
+	}
+	return result
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*UserPromptTemplate))
+}
+
+func (fieldMask *UserPromptTemplate_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type TemplateVariable_FieldMask struct {
+	Paths []TemplateVariable_FieldPath
+}
+
+func FullTemplateVariable_FieldMask() *TemplateVariable_FieldMask {
+	res := &TemplateVariable_FieldMask{}
+	res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorLabel})
+	res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorHelpText})
+	res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorInputType})
+	res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorSuggestions})
+	res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorDefaultValue})
+	res.Paths = append(res.Paths, &TemplateVariable_FieldTerminalPath{selector: TemplateVariable_FieldPathSelectorResourceType})
+	return res
+}
+
+func (fieldMask *TemplateVariable_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *TemplateVariable_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 6)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*TemplateVariable_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *TemplateVariable_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseTemplateVariable_FieldPath(raw)
+	})
+}
+
+func (fieldMask *TemplateVariable_FieldMask) ProtoMessage() {}
+
+func (fieldMask *TemplateVariable_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *TemplateVariable_FieldMask) Subtract(other *TemplateVariable_FieldMask) *TemplateVariable_FieldMask {
+	result := &TemplateVariable_FieldMask{}
+	removedSelectors := make([]bool, 6)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *TemplateVariable_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *TemplateVariable_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*TemplateVariable_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *TemplateVariable_FieldMask) FilterInputFields() *TemplateVariable_FieldMask {
+	result := &TemplateVariable_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *TemplateVariable_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *TemplateVariable_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]TemplateVariable_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseTemplateVariable_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask TemplateVariable_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *TemplateVariable_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *TemplateVariable_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask TemplateVariable_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *TemplateVariable_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *TemplateVariable_FieldMask) AppendPath(path TemplateVariable_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *TemplateVariable_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(TemplateVariable_FieldPath))
+}
+
+func (fieldMask *TemplateVariable_FieldMask) GetPaths() []TemplateVariable_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *TemplateVariable_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *TemplateVariable_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseTemplateVariable_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *TemplateVariable_FieldMask) Set(target, source *TemplateVariable) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *TemplateVariable_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*TemplateVariable), source.(*TemplateVariable))
+}
+
+func (fieldMask *TemplateVariable_FieldMask) Project(source *TemplateVariable) *TemplateVariable {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &TemplateVariable{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *TemplateVariable_FieldTerminalPath:
+			switch tp.selector {
+			case TemplateVariable_FieldPathSelectorLabel:
+				result.Label = source.Label
+			case TemplateVariable_FieldPathSelectorHelpText:
+				result.HelpText = source.HelpText
+			case TemplateVariable_FieldPathSelectorInputType:
+				result.InputType = source.InputType
+			case TemplateVariable_FieldPathSelectorSuggestions:
+				result.Suggestions = source.Suggestions
+			case TemplateVariable_FieldPathSelectorDefaultValue:
+				result.DefaultValue = source.DefaultValue
+			case TemplateVariable_FieldPathSelectorResourceType:
+				result.ResourceType = source.ResourceType
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *TemplateVariable_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*TemplateVariable))
+}
+
+func (fieldMask *TemplateVariable_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

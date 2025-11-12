@@ -39,6 +39,8 @@ var (
 	_ = utf8.RuneCountInString
 	_ = url.Parse
 	_ = gotenvalidate.NewValidationError
+
+	validation_regex_TemplateVariable_resource_type_bbdc0354d8e985df08db6b585b6f1259 = regexp.MustCompile("^services/[^/]+/resources/[^/]+$")
 )
 
 // make sure we're using proto imports
@@ -84,6 +86,13 @@ func (obj *CapabilityTemplate) GotenValidate() error {
 	if subobj, ok := interface{}(obj.ToolSafety).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("CapabilityTemplate", "toolSafety", obj.ToolSafety, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.UserPromptTemplates {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CapabilityTemplate", "userPromptTemplates", obj.UserPromptTemplates[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -149,6 +158,30 @@ func (obj *ReasoningConfig) GotenValidate() error {
 func (obj *ToolSafetyConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UserPromptTemplate) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *TemplateVariable) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if !validation_regex_TemplateVariable_resource_type_bbdc0354d8e985df08db6b585b6f1259.Match([]byte(obj.ResourceType)) {
+		return gotenvalidate.NewValidationError("TemplateVariable", "resourceType", obj.ResourceType, "field must match the regex ^services/[^/]+/resources/[^/]+$", nil)
+	}
+	if obj.ResourceType == "" {
+		return gotenvalidate.NewValidationError("TemplateVariable", "resourceType", obj.ResourceType, "field is required", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

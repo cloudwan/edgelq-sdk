@@ -4,6 +4,7 @@ package ntt.ai.v1;
 
 import "edgelq-sdk/ai/proto/v1/common.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/responses;responses_client";
 option java_multiple_files = false;
@@ -58,6 +59,12 @@ message CreateRequest {
   // - Values are treated as untrusted user input
   map<string, string> prompt_variables = 15;
 
+  // Resume configuration for editing conversation history
+  // When set, resumes conversation from a specific turn
+  // Requires conversation_name to be set
+  // Incompatible with direct messages array
+  ResumeConfig resume_config = 16;
+
   reserved 3, 10, 11;
 }
 
@@ -94,31 +101,6 @@ message ResponseStarted {
   ModelCapabilities capabilities = 4;
 }
 
-message ToolInfo {
-  string name = 1; // Tool name as sent to LLM
-
-  // Tool source information
-  oneof source {
-    ClientToolSource client = 2;
-
-    ConnectorToolSource connector = 3;
-
-    InternalToolSource internal = 4;
-  }
-}
-
-message ModelCapabilities {
-  int32 context_window = 1;
-
-  int32 max_output_tokens = 2;
-
-  bool supports_tools = 3;
-
-  bool supports_thinking = 4;
-
-  repeated string supported_modalities = 5; // ["text", "image", "audio"]
-}
-
 message ContentDelta { string text = 1; }
 
 message ContentDone { string text = 1; }
@@ -153,4 +135,110 @@ message Error {
   string code = 1;
 
   string message = 2;
+}
+
+// Client → Server messages for ChatStream
+message ChatStreamRequest {
+  oneof payload {
+    InitializeSession init = 1;
+
+    ChatInput input = 2;
+  }
+}
+
+// Heavy initialization message - sent once at session start
+message InitializeSession {
+  // Model selection
+  string model = 1;
+
+  // Required capability template for ChatStream (connectors not supported here)
+  string capability_template = 2;
+
+  // Optional: Client declared tools
+  repeated ToolDefinition client_tools = 3;
+
+  // Default generation parameters
+  GenerationParameters parameters = 4;
+
+  // Default prompt variables for template rendering
+  map<string, string> prompt_variables = 5;
+
+  // Optional: bind to existing conversation (stateful mode)
+  string conversation_name = 6;
+
+  // Scope for authorization and tracking. Can be project, organization, or
+  // empty.
+  string parent = 7;
+}
+
+// Full-transcript input per turn with optional overrides
+message ChatInput {
+  repeated Message messages =
+      1; // stateless: full transcript; stateful: delta-only
+
+  InputOverrides overrides = 2; // optional
+
+  // Stateful only: resume/edit operation. Incompatible with messages.
+  ResumeConfig resume = 3;
+}
+
+// Per-input overrides grouped for clarity
+message InputOverrides {
+  GenerationParameters parameters = 1; // per-input generation params
+
+  repeated ToolDefinition client_tools = 2; // authoritative when set
+
+  map<string, string> prompt_variables = 3; // authoritative when set
+
+  string model = 4;
+}
+
+// Grouped generation parameters
+message GenerationParameters {
+  int32 max_tokens = 1;
+
+  float temperature = 2;
+
+  ReasoningLevel reasoning_level = 3;
+
+  google.protobuf.BoolValue disable_input_token_cache = 4;
+}
+
+// Server → Client messages for ChatStream
+message ChatStreamResponse {
+  oneof event {
+    // Session initialization complete
+    SessionInitialized session_initialized = 1;
+
+    // Reuse all existing event types from CreateResponseResult
+    ResponseStarted response_started = 2;
+
+    ContentDelta content_delta = 3;
+
+    ContentDone content_done = 4;
+
+    ThinkingDelta thinking_delta = 5;
+
+    ThinkingDone thinking_done = 6;
+
+    ToolCalls tool_calls = 7;
+
+    ResponseComplete response_complete = 8;
+
+    Error error = 9;
+
+    CitationDelta citation_delta = 10;
+  }
+}
+
+// Session initialization confirmation
+message SessionInitialized {
+  // Conversation name (created or resumed)
+  string conversation_name = 1;
+
+  // Model that will be used for this session
+  string model_used = 2;
+
+  // Model capabilities
+  ModelCapabilities capabilities = 3;
 }

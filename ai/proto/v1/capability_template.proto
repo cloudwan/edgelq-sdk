@@ -5,6 +5,8 @@ package ntt.ai.v1;
 import "edgelq-sdk/ai/proto/v1/common.proto";
 import "edgelq-sdk/ai/proto/v1/connector.proto";
 import "google/api/resource.proto";
+import "goten-sdk/meta-service/proto/v1/resource.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
 import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template;capability_template";
@@ -73,6 +75,10 @@ message CapabilityTemplate {
 
   // Default model for this template (optional)
   string default_model = 15;
+
+  // User prompt template library for this capability
+  // Client-side only: server stores, client renders and executes
+  repeated UserPromptTemplate user_prompt_templates = 17;
 
   reserved 6, 7;
 }
@@ -173,6 +179,47 @@ message ToolSafetyConfig {
   uint32 max_consecutive_same_tool_calls = 3;
 }
 
+// Prompt template for user-selectable prompt snippets
+// These are client-side only - server stores metadata, client renders/executes
+message UserPromptTemplate {
+  // Display name shown in template picker
+  string display_name = 1;
+
+  // Short explanation shown alongside the template picker entry
+  string description = 2;
+
+  // Tags for filtering/categorization (e.g., ["rca", "historical",
+  // "live-troubleshooting"])
+  repeated string tags = 3;
+
+  // The actual prompt text with {{placeholders}}
+  // Example: "Review this {{language}} code:\n\n{{code}}"
+  string template_text = 4;
+
+  // Template variables keyed by placeholder name
+  map<string, TemplateVariable> variables = 5;
+}
+
+// Variable definition with UI guidance
+message TemplateVariable {
+  // Form label (e.g., "Time range")
+  string label = 1;
+
+  // Placeholder/help text
+  string help_text = 2;
+
+  InputType input_type = 3;
+
+  // Suggested values for SELECT or DURATION inputs
+  repeated string suggestions = 4;
+
+  // Optional client-side default value
+  string default_value = 5;
+
+  // when input_type == RESOURCE
+  string resource_type = 6;
+}
+
 // Policy for how to handle missing variables during rendering
 enum PromptMissingVarPolicy {
   PROMPT_MISSING_VAR_POLICY_ERROR = 0;
@@ -189,7 +236,39 @@ enum PromptVariableMode {
   MODE_SERVER = 0;
 
   // Client-provided variables (untrusted, sanitized)
-  // Rendered text is injected into the first user message for prompt injection
-  // isolation Variables looked up from CreateRequest.prompt_variables map
+  // Rendered text is injected into the system prompt
+  // Variables looked up from CreateRequest.prompt_variables map
   MODE_CLIENT = 1;
+}
+
+// Supported input widgets for template variables
+enum InputType {
+  INPUT_TYPE_UNSPECIFIED = 0;
+
+  TEXT = 1; // Single-line input
+
+  LONG_TEXT = 2; // Multi-line textarea
+
+  SELECT = 3; // Dropdown or radio options
+
+  DATETIME = 4; // Exact timestamp selection
+
+  DATE_RANGE = 5; // Start/end timestamp pair
+
+  DURATION = 6; // Relative window (e.g., "last_24h")
+
+  DURATION_OR_DATE_RANGE =
+      7; // Start/end timestamp pair or Relative window (e.g., "last_24h")
+
+  NUMBER = 8;
+
+  RESOURCE = 9; // Reference to platform resource
+
+  FILE = 10;
+
+  BOOL = 11; // checkbox
+
+  URL = 12;
+
+  EMAIL = 13;
 }

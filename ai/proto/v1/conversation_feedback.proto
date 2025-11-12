@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation_feedback;conversation_feedback";
+option java_multiple_files = true;
+option java_outer_classname = "ConversationFeedbackProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// ConversationFeedback Resource
+message ConversationFeedback {
+  option (google.api.resource) = {
+    type : "ai.edgelq.com/ConversationFeedback"
+    pattern : "projects/{project}/conversations/{conversation}/"
+              "conversationFeedbacks/{conversation_feedback}"
+    pattern : "users/{user}/conversations/{conversation}/conversationFeedbacks/"
+              "{conversation_feedback}"
+  };
+
+  // Name of ConversationFeedback
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Rating scale 1 to 10
+  int32 rating = 3;
+
+  // Optional free-form comment
+  string comment = 4;
+
+  // Structured tags for analytics (e.g., "helpful", "incorrect")
+  repeated string tags = 5;
+
+  // Server-populated timestamp when feedback was created
+  google.protobuf.Timestamp created_at = 6;
+
+  // Server-populated email of the user who submitted feedback
+  string user_email = 7;
+}

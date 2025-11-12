@@ -13,6 +13,7 @@ proto:
 imports:
 - iam.edgelq.com
 - secrets.edgelq.com
+- meta.goten.com
 
 resources:
 - name: ChatModel
@@ -62,6 +63,10 @@ resources:
   - iam.edgelq.com/Project
   - iam.edgelq.com/User
 
+- name: ConversationFeedback
+  parents:
+  - Conversation
+
 apis:
 - name: Chat
   actions:
@@ -82,6 +87,15 @@ apis:
     streamingResponse: true
     responseName: CreateResponseResult
     skipResponseMsgGen: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    withStoreHandle:
+      transaction: MANUAL
+
+  - name: ChatStream
+    verb: chatStream
+    streamingRequest: true
+    streamingResponse: true
     multiRegionRouting:
       skipCodeGenBasedRouting: true
     withStoreHandle:

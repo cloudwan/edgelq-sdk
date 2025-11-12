@@ -58,6 +58,10 @@ message Conversation {
   // Failed turns - stored separately for audit/debugging
   // These turns ended with STOP_REASON_ERROR and should not be replayed
   repeated ConversationTurn failed_turns = 11;
+
+  // Groups of replaced turns from resume operations
+  // Each resume operation creates a new group, preserving context and order
+  repeated ReplacedTurnGroup replaced_turn_groups = 12;
 }
 
 // Represents one CreateResponse API call
@@ -86,6 +90,13 @@ message ConversationTurn {
 
   // Tools grouped by source (authoritative for resume)
   repeated TurnToolsBySourceGroup available_tools_by_source = 9;
+
+  // If this turn replaced a previous turn (from resume operation)
+  // Points to the turn number that was replaced
+  int32 replaced_turn_number = 10;
+
+  // Error details if stop_reason is ERROR
+  string error_details = 11;
 
   reserved 8;
 }
@@ -132,4 +143,24 @@ message ModelUsageStats {
 
   // Aggregated token usage for this model (sum of all turns)
   TokenUsage aggregated_usage = 2;
+}
+
+// Group of turns replaced during a single resume operation
+message ReplacedTurnGroup {
+  // When this resume operation happened
+  google.protobuf.Timestamp replaced_at = 1;
+
+  // Which turn the conversation was resumed from (0-indexed)
+  int32 resumed_from_turn = 2;
+
+  // The turns that were replaced/discarded in this operation
+  // Ordered by turn_number
+  repeated ConversationTurn turns = 3;
+
+  // Whether the message was edited when resuming (applies to user or tool
+  // messages)
+  bool had_message_edit = 4;
+
+  // Optional: User comment/reason for the resume
+  string resume_reason = 5;
 }

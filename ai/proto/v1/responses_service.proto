@@ -28,4 +28,11 @@ service ResponsesService {
       post : "/v1:createResponse"
     };
   }
+
+  // ChatStream
+  rpc ChatStream(stream ChatStreamRequest) returns (stream ChatStreamResponse) {
+    option (google.api.http) = {
+      post : "/v1:chatStream"
+    };
+  }
 }

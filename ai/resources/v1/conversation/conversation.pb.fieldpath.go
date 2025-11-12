@@ -82,15 +82,16 @@ type Conversation_FieldPath interface {
 type Conversation_FieldPathSelector int32
 
 const (
-	Conversation_FieldPathSelectorName             Conversation_FieldPathSelector = 0
-	Conversation_FieldPathSelectorMetadata         Conversation_FieldPathSelector = 1
-	Conversation_FieldPathSelectorTitle            Conversation_FieldPathSelector = 2
-	Conversation_FieldPathSelectorArchived         Conversation_FieldPathSelector = 3
-	Conversation_FieldPathSelectorIsPrivate        Conversation_FieldPathSelector = 4
-	Conversation_FieldPathSelectorLastActivityTime Conversation_FieldPathSelector = 5
-	Conversation_FieldPathSelectorTurns            Conversation_FieldPathSelector = 6
-	Conversation_FieldPathSelectorUsageByModel     Conversation_FieldPathSelector = 7
-	Conversation_FieldPathSelectorFailedTurns      Conversation_FieldPathSelector = 8
+	Conversation_FieldPathSelectorName               Conversation_FieldPathSelector = 0
+	Conversation_FieldPathSelectorMetadata           Conversation_FieldPathSelector = 1
+	Conversation_FieldPathSelectorTitle              Conversation_FieldPathSelector = 2
+	Conversation_FieldPathSelectorArchived           Conversation_FieldPathSelector = 3
+	Conversation_FieldPathSelectorIsPrivate          Conversation_FieldPathSelector = 4
+	Conversation_FieldPathSelectorLastActivityTime   Conversation_FieldPathSelector = 5
+	Conversation_FieldPathSelectorTurns              Conversation_FieldPathSelector = 6
+	Conversation_FieldPathSelectorUsageByModel       Conversation_FieldPathSelector = 7
+	Conversation_FieldPathSelectorFailedTurns        Conversation_FieldPathSelector = 8
+	Conversation_FieldPathSelectorReplacedTurnGroups Conversation_FieldPathSelector = 9
 )
 
 func (s Conversation_FieldPathSelector) String() string {
@@ -113,6 +114,8 @@ func (s Conversation_FieldPathSelector) String() string {
 		return "usage_by_model"
 	case Conversation_FieldPathSelectorFailedTurns:
 		return "failed_turns"
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		return "replaced_turn_groups"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", s))
 	}
@@ -142,6 +145,8 @@ func BuildConversation_FieldPath(fp gotenobject.RawFieldPath) (Conversation_Fiel
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel}, nil
 		case "failed_turns", "failedTurns", "failed-turns":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns}, nil
+		case "replaced_turn_groups", "replacedTurnGroups", "replaced-turn-groups":
+			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -162,6 +167,12 @@ func BuildConversation_FieldPath(fp gotenobject.RawFieldPath) (Conversation_Fiel
 				return nil, err
 			} else {
 				return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorFailedTurns, subPath: subpath}, nil
+			}
+		case "replaced_turn_groups", "replacedTurnGroups", "replaced-turn-groups":
+			if subpath, err := BuildReplacedTurnGroup_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Conversation_FieldSubPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups, subPath: subpath}, nil
 			}
 		case "usage_by_model", "usageByModel", "usage-by-model":
 			if len(fp) > 2 {
@@ -243,6 +254,10 @@ func (fp *Conversation_FieldTerminalPath) Get(source *Conversation) (values []in
 			for _, value := range source.GetFailedTurns() {
 				values = append(values, value)
 			}
+		case Conversation_FieldPathSelectorReplacedTurnGroups:
+			for _, value := range source.GetReplacedTurnGroups() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 		}
@@ -281,6 +296,9 @@ func (fp *Conversation_FieldTerminalPath) GetSingle(source *Conversation) (inter
 	case Conversation_FieldPathSelectorFailedTurns:
 		res := source.GetFailedTurns()
 		return res, res != nil
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		res := source.GetReplacedTurnGroups()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -311,6 +329,8 @@ func (fp *Conversation_FieldTerminalPath) GetDefault() interface{} {
 		return (map[string]*ModelUsageStats)(nil)
 	case Conversation_FieldPathSelectorFailedTurns:
 		return ([]*ConversationTurn)(nil)
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		return ([]*ReplacedTurnGroup)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -337,6 +357,8 @@ func (fp *Conversation_FieldTerminalPath) ClearValue(item *Conversation) {
 			item.UsageByModel = nil
 		case Conversation_FieldPathSelectorFailedTurns:
 			item.FailedTurns = nil
+		case Conversation_FieldPathSelectorReplacedTurnGroups:
+			item.ReplacedTurnGroups = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 		}
@@ -380,6 +402,8 @@ func (fp *Conversation_FieldTerminalPath) WithIValue(value interface{}) Conversa
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(map[string]*ModelUsageStats)}
 	case Conversation_FieldPathSelectorFailedTurns:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.([]*ConversationTurn)}
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.([]*ReplacedTurnGroup)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -410,6 +434,8 @@ func (fp *Conversation_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]map[string]*ModelUsageStats)}
 	case Conversation_FieldPathSelectorFailedTurns:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([][]*ConversationTurn)}
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([][]*ReplacedTurnGroup)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -426,6 +452,8 @@ func (fp *Conversation_FieldTerminalPath) WithIArrayItemValue(value interface{})
 		return &Conversation_FieldTerminalPathArrayItemValue{Conversation_FieldTerminalPath: *fp, value: value.(*ConversationTurn)}
 	case Conversation_FieldPathSelectorFailedTurns:
 		return &Conversation_FieldTerminalPathArrayItemValue{Conversation_FieldTerminalPath: *fp, value: value.(*ConversationTurn)}
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		return &Conversation_FieldTerminalPathArrayItemValue{Conversation_FieldTerminalPath: *fp, value: value.(*ReplacedTurnGroup)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -589,6 +617,10 @@ func (fps *Conversation_FieldSubPath) AsFailedTurnsSubPath() (ConversationTurn_F
 	res, ok := fps.subPath.(ConversationTurn_FieldPath)
 	return res, ok
 }
+func (fps *Conversation_FieldSubPath) AsReplacedTurnGroupsSubPath() (ReplacedTurnGroup_FieldPath, bool) {
+	res, ok := fps.subPath.(ReplacedTurnGroup_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *Conversation_FieldSubPath) String() string {
@@ -611,6 +643,10 @@ func (fps *Conversation_FieldSubPath) Get(source *Conversation) (values []interf
 		}
 	case Conversation_FieldPathSelectorFailedTurns:
 		for _, item := range source.GetFailedTurns() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		for _, item := range source.GetReplacedTurnGroups() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
 	default:
@@ -641,6 +677,11 @@ func (fps *Conversation_FieldSubPath) GetSingle(source *Conversation) (interface
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetFailedTurns()[0])
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		if len(source.GetReplacedTurnGroups()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetReplacedTurnGroups()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fps.selector))
 	}
@@ -666,6 +707,10 @@ func (fps *Conversation_FieldSubPath) ClearValue(item *Conversation) {
 			}
 		case Conversation_FieldPathSelectorFailedTurns:
 			for _, subItem := range item.FailedTurns {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case Conversation_FieldPathSelectorReplacedTurnGroups:
+			for _, subItem := range item.ReplacedTurnGroups {
 				fps.subPath.ClearValueRaw(subItem)
 			}
 		default:
@@ -788,6 +833,10 @@ func (fpv *Conversation_FieldTerminalPathValue) AsFailedTurnsValue() ([]*Convers
 	res, ok := fpv.value.([]*ConversationTurn)
 	return res, ok
 }
+func (fpv *Conversation_FieldTerminalPathValue) AsReplacedTurnGroupsValue() ([]*ReplacedTurnGroup, bool) {
+	res, ok := fpv.value.([]*ReplacedTurnGroup)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Conversation
 func (fpv *Conversation_FieldTerminalPathValue) SetTo(target **Conversation) {
@@ -813,6 +862,8 @@ func (fpv *Conversation_FieldTerminalPathValue) SetTo(target **Conversation) {
 		(*target).UsageByModel = fpv.value.(map[string]*ModelUsageStats)
 	case Conversation_FieldPathSelectorFailedTurns:
 		(*target).FailedTurns = fpv.value.([]*ConversationTurn)
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		(*target).ReplacedTurnGroups = fpv.value.([]*ReplacedTurnGroup)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpv.selector))
 	}
@@ -902,6 +953,8 @@ func (fpv *Conversation_FieldTerminalPathValue) CompareWith(source *Conversation
 		return 0, false
 	case Conversation_FieldPathSelectorFailedTurns:
 		return 0, false
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpv.selector))
 	}
@@ -981,6 +1034,10 @@ func (fpvs *Conversation_FieldSubPathValue) AsFailedTurnsPathValue() (Conversati
 	res, ok := fpvs.subPathValue.(ConversationTurn_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Conversation_FieldSubPathValue) AsReplacedTurnGroupsPathValue() (ReplacedTurnGroup_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ReplacedTurnGroup_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *Conversation_FieldSubPathValue) SetTo(target **Conversation) {
 	if *target == nil {
@@ -992,6 +1049,8 @@ func (fpvs *Conversation_FieldSubPathValue) SetTo(target **Conversation) {
 	case Conversation_FieldPathSelectorTurns:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case Conversation_FieldPathSelectorFailedTurns:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpvs.Selector()))
@@ -1014,6 +1073,8 @@ func (fpvs *Conversation_FieldSubPathValue) CompareWith(source *Conversation) (i
 	case Conversation_FieldPathSelectorTurns:
 		return 0, false // repeated field
 	case Conversation_FieldPathSelectorFailedTurns:
+		return 0, false // repeated field
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpvs.Selector()))
@@ -1072,6 +1133,10 @@ func (fpaiv *Conversation_FieldTerminalPathArrayItemValue) AsFailedTurnsItemValu
 	res, ok := fpaiv.value.(*ConversationTurn)
 	return res, ok
 }
+func (fpaiv *Conversation_FieldTerminalPathArrayItemValue) AsReplacedTurnGroupsItemValue() (*ReplacedTurnGroup, bool) {
+	res, ok := fpaiv.value.(*ReplacedTurnGroup)
+	return res, ok
+}
 
 func (fpaiv *Conversation_FieldTerminalPathArrayItemValue) GetSingle(source *Conversation) (interface{}, bool) {
 	return nil, false
@@ -1117,6 +1182,10 @@ func (fpaivs *Conversation_FieldSubPathArrayItemValue) AsFailedTurnsPathItemValu
 	res, ok := fpaivs.subPathItemValue.(ConversationTurn_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Conversation_FieldSubPathArrayItemValue) AsReplacedTurnGroupsPathItemValue() (ReplacedTurnGroup_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ReplacedTurnGroup_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Conversation'
 func (fpaivs *Conversation_FieldSubPathArrayItemValue) ContainsValue(source *Conversation) bool {
@@ -1126,6 +1195,8 @@ func (fpaivs *Conversation_FieldSubPathArrayItemValue) ContainsValue(source *Con
 	case Conversation_FieldPathSelectorTurns:
 		return false // repeated/map field
 	case Conversation_FieldPathSelectorFailedTurns:
+		return false // repeated/map field
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpaivs.Selector()))
@@ -1203,6 +1274,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([][]*ConversationTurn) {
 			values = append(values, v)
 		}
+	case Conversation_FieldPathSelectorReplacedTurnGroups:
+		for _, v := range fpaov.values.([][]*ReplacedTurnGroup) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1240,6 +1315,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsUsageByModelArrayOfV
 }
 func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsFailedTurnsArrayOfValues() ([][]*ConversationTurn, bool) {
 	res, ok := fpaov.values.([][]*ConversationTurn)
+	return res, ok
+}
+func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsReplacedTurnGroupsArrayOfValues() ([][]*ReplacedTurnGroup, bool) {
+	res, ok := fpaov.values.([][]*ReplacedTurnGroup)
 	return res, ok
 }
 
@@ -1286,6 +1365,10 @@ func (fpsaov *Conversation_FieldSubPathArrayOfValues) AsFailedTurnsPathArrayOfVa
 	res, ok := fpsaov.subPathArrayOfValues.(ConversationTurn_FieldPathArrayOfValues)
 	return res, ok
 }
+func (fpsaov *Conversation_FieldSubPathArrayOfValues) AsReplacedTurnGroupsPathArrayOfValues() (ReplacedTurnGroup_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ReplacedTurnGroup_FieldPathArrayOfValues)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -1314,6 +1397,8 @@ const (
 	ConversationTurn_FieldPathSelectorStopReason             ConversationTurn_FieldPathSelector = 5
 	ConversationTurn_FieldPathSelectorDuration               ConversationTurn_FieldPathSelector = 6
 	ConversationTurn_FieldPathSelectorAvailableToolsBySource ConversationTurn_FieldPathSelector = 7
+	ConversationTurn_FieldPathSelectorReplacedTurnNumber     ConversationTurn_FieldPathSelector = 8
+	ConversationTurn_FieldPathSelectorErrorDetails           ConversationTurn_FieldPathSelector = 9
 )
 
 func (s ConversationTurn_FieldPathSelector) String() string {
@@ -1334,6 +1419,10 @@ func (s ConversationTurn_FieldPathSelector) String() string {
 		return "duration"
 	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 		return "available_tools_by_source"
+	case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+		return "replaced_turn_number"
+	case ConversationTurn_FieldPathSelectorErrorDetails:
+		return "error_details"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", s))
 	}
@@ -1361,6 +1450,10 @@ func BuildConversationTurn_FieldPath(fp gotenobject.RawFieldPath) (ConversationT
 			return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorDuration}, nil
 		case "available_tools_by_source", "availableToolsBySource", "available-tools-by-source":
 			return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource}, nil
+		case "replaced_turn_number", "replacedTurnNumber", "replaced-turn-number":
+			return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorReplacedTurnNumber}, nil
+		case "error_details", "errorDetails", "error-details":
+			return &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorErrorDetails}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1449,6 +1542,10 @@ func (fp *ConversationTurn_FieldTerminalPath) Get(source *ConversationTurn) (val
 			for _, value := range source.GetAvailableToolsBySource() {
 				values = append(values, value)
 			}
+		case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+			values = append(values, source.ReplacedTurnNumber)
+		case ConversationTurn_FieldPathSelectorErrorDetails:
+			values = append(values, source.ErrorDetails)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 		}
@@ -1485,6 +1582,10 @@ func (fp *ConversationTurn_FieldTerminalPath) GetSingle(source *ConversationTurn
 	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 		res := source.GetAvailableToolsBySource()
 		return res, res != nil
+	case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+		return source.GetReplacedTurnNumber(), source != nil
+	case ConversationTurn_FieldPathSelectorErrorDetails:
+		return source.GetErrorDetails(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 	}
@@ -1513,6 +1614,10 @@ func (fp *ConversationTurn_FieldTerminalPath) GetDefault() interface{} {
 		return (*durationpb.Duration)(nil)
 	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 		return ([]*TurnToolsBySourceGroup)(nil)
+	case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+		return int32(0)
+	case ConversationTurn_FieldPathSelectorErrorDetails:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 	}
@@ -1537,6 +1642,10 @@ func (fp *ConversationTurn_FieldTerminalPath) ClearValue(item *ConversationTurn)
 			item.Duration = nil
 		case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 			item.AvailableToolsBySource = nil
+		case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+			item.ReplacedTurnNumber = int32(0)
+		case ConversationTurn_FieldPathSelectorErrorDetails:
+			item.ErrorDetails = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 		}
@@ -1554,7 +1663,9 @@ func (fp *ConversationTurn_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ConversationTurn_FieldPathSelectorMessages ||
 		fp.selector == ConversationTurn_FieldPathSelectorUsage ||
 		fp.selector == ConversationTurn_FieldPathSelectorStopReason ||
-		fp.selector == ConversationTurn_FieldPathSelectorDuration
+		fp.selector == ConversationTurn_FieldPathSelectorDuration ||
+		fp.selector == ConversationTurn_FieldPathSelectorReplacedTurnNumber ||
+		fp.selector == ConversationTurn_FieldPathSelectorErrorDetails
 }
 
 func (fp *ConversationTurn_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1579,6 +1690,10 @@ func (fp *ConversationTurn_FieldTerminalPath) WithIValue(value interface{}) Conv
 		return &ConversationTurn_FieldTerminalPathValue{ConversationTurn_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
 	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 		return &ConversationTurn_FieldTerminalPathValue{ConversationTurn_FieldTerminalPath: *fp, value: value.([]*TurnToolsBySourceGroup)}
+	case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+		return &ConversationTurn_FieldTerminalPathValue{ConversationTurn_FieldTerminalPath: *fp, value: value.(int32)}
+	case ConversationTurn_FieldPathSelectorErrorDetails:
+		return &ConversationTurn_FieldTerminalPathValue{ConversationTurn_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 	}
@@ -1607,6 +1722,10 @@ func (fp *ConversationTurn_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &ConversationTurn_FieldTerminalPathArrayOfValues{ConversationTurn_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
 	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 		return &ConversationTurn_FieldTerminalPathArrayOfValues{ConversationTurn_FieldTerminalPath: *fp, values: values.([][]*TurnToolsBySourceGroup)}
+	case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+		return &ConversationTurn_FieldTerminalPathArrayOfValues{ConversationTurn_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ConversationTurn_FieldPathSelectorErrorDetails:
+		return &ConversationTurn_FieldTerminalPathArrayOfValues{ConversationTurn_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fp.selector))
 	}
@@ -1832,6 +1951,14 @@ func (fpv *ConversationTurn_FieldTerminalPathValue) AsAvailableToolsBySourceValu
 	res, ok := fpv.value.([]*TurnToolsBySourceGroup)
 	return res, ok
 }
+func (fpv *ConversationTurn_FieldTerminalPathValue) AsReplacedTurnNumberValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ConversationTurn_FieldTerminalPathValue) AsErrorDetailsValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ConversationTurn
 func (fpv *ConversationTurn_FieldTerminalPathValue) SetTo(target **ConversationTurn) {
@@ -1855,6 +1982,10 @@ func (fpv *ConversationTurn_FieldTerminalPathValue) SetTo(target **ConversationT
 		(*target).Duration = fpv.value.(*durationpb.Duration)
 	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 		(*target).AvailableToolsBySource = fpv.value.([]*TurnToolsBySourceGroup)
+	case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+		(*target).ReplacedTurnNumber = fpv.value.(int32)
+	case ConversationTurn_FieldPathSelectorErrorDetails:
+		(*target).ErrorDetails = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fpv.selector))
 	}
@@ -1934,6 +2065,26 @@ func (fpv *ConversationTurn_FieldTerminalPathValue) CompareWith(source *Conversa
 		}
 	case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 		return 0, false
+	case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetReplacedTurnNumber()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ConversationTurn_FieldPathSelectorErrorDetails:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetErrorDetails()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConversationTurn: %d", fpv.selector))
 	}
@@ -2166,6 +2317,14 @@ func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([][]*TurnToolsBySourceGroup) {
 			values = append(values, v)
 		}
+	case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ConversationTurn_FieldPathSelectorErrorDetails:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2199,6 +2358,14 @@ func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) AsDurationArrayOfV
 }
 func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) AsAvailableToolsBySourceArrayOfValues() ([][]*TurnToolsBySourceGroup, bool) {
 	res, ok := fpaov.values.([][]*TurnToolsBySourceGroup)
+	return res, ok
+}
+func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) AsReplacedTurnNumberArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ConversationTurn_FieldTerminalPathArrayOfValues) AsErrorDetailsArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 
@@ -3850,5 +4017,774 @@ func (fpaov *ModelUsageStats_FieldTerminalPathArrayOfValues) AsTurnCountArrayOfV
 }
 func (fpaov *ModelUsageStats_FieldTerminalPathArrayOfValues) AsAggregatedUsageArrayOfValues() ([]*common_client.TokenUsage, bool) {
 	res, ok := fpaov.values.([]*common_client.TokenUsage)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ReplacedTurnGroup_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ReplacedTurnGroup_FieldPathSelector
+	Get(source *ReplacedTurnGroup) []interface{}
+	GetSingle(source *ReplacedTurnGroup) (interface{}, bool)
+	ClearValue(item *ReplacedTurnGroup)
+
+	// Those methods build corresponding ReplacedTurnGroup_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ReplacedTurnGroup_FieldPathValue
+	WithIArrayOfValues(values interface{}) ReplacedTurnGroup_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ReplacedTurnGroup_FieldPathArrayItemValue
+}
+
+type ReplacedTurnGroup_FieldPathSelector int32
+
+const (
+	ReplacedTurnGroup_FieldPathSelectorReplacedAt      ReplacedTurnGroup_FieldPathSelector = 0
+	ReplacedTurnGroup_FieldPathSelectorResumedFromTurn ReplacedTurnGroup_FieldPathSelector = 1
+	ReplacedTurnGroup_FieldPathSelectorTurns           ReplacedTurnGroup_FieldPathSelector = 2
+	ReplacedTurnGroup_FieldPathSelectorHadMessageEdit  ReplacedTurnGroup_FieldPathSelector = 3
+	ReplacedTurnGroup_FieldPathSelectorResumeReason    ReplacedTurnGroup_FieldPathSelector = 4
+)
+
+func (s ReplacedTurnGroup_FieldPathSelector) String() string {
+	switch s {
+	case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+		return "replaced_at"
+	case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+		return "resumed_from_turn"
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		return "turns"
+	case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+		return "had_message_edit"
+	case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+		return "resume_reason"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", s))
+	}
+}
+
+func BuildReplacedTurnGroup_FieldPath(fp gotenobject.RawFieldPath) (ReplacedTurnGroup_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ReplacedTurnGroup")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "replaced_at", "replacedAt", "replaced-at":
+			return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorReplacedAt}, nil
+		case "resumed_from_turn", "resumedFromTurn", "resumed-from-turn":
+			return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorResumedFromTurn}, nil
+		case "turns":
+			return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorTurns}, nil
+		case "had_message_edit", "hadMessageEdit", "had-message-edit":
+			return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorHadMessageEdit}, nil
+		case "resume_reason", "resumeReason", "resume-reason":
+			return &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorResumeReason}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "turns":
+			if subpath, err := BuildConversationTurn_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ReplacedTurnGroup_FieldSubPath{selector: ReplacedTurnGroup_FieldPathSelectorTurns, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ReplacedTurnGroup", fp)
+}
+
+func ParseReplacedTurnGroup_FieldPath(rawField string) (ReplacedTurnGroup_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildReplacedTurnGroup_FieldPath(fp)
+}
+
+func MustParseReplacedTurnGroup_FieldPath(rawField string) ReplacedTurnGroup_FieldPath {
+	fp, err := ParseReplacedTurnGroup_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ReplacedTurnGroup_FieldTerminalPath struct {
+	selector ReplacedTurnGroup_FieldPathSelector
+}
+
+var _ ReplacedTurnGroup_FieldPath = (*ReplacedTurnGroup_FieldTerminalPath)(nil)
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) Selector() ReplacedTurnGroup_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ReplacedTurnGroup_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ReplacedTurnGroup_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ReplacedTurnGroup
+func (fp *ReplacedTurnGroup_FieldTerminalPath) Get(source *ReplacedTurnGroup) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+			if source.ReplacedAt != nil {
+				values = append(values, source.ReplacedAt)
+			}
+		case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+			values = append(values, source.ResumedFromTurn)
+		case ReplacedTurnGroup_FieldPathSelectorTurns:
+			for _, value := range source.GetTurns() {
+				values = append(values, value)
+			}
+		case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+			values = append(values, source.HadMessageEdit)
+		case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+			values = append(values, source.ResumeReason)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ReplacedTurnGroup))
+}
+
+// GetSingle returns value pointed by specific field of from source ReplacedTurnGroup
+func (fp *ReplacedTurnGroup_FieldTerminalPath) GetSingle(source *ReplacedTurnGroup) (interface{}, bool) {
+	switch fp.selector {
+	case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+		res := source.GetReplacedAt()
+		return res, res != nil
+	case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+		return source.GetResumedFromTurn(), source != nil
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		res := source.GetTurns()
+		return res, res != nil
+	case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+		return source.GetHadMessageEdit(), source != nil
+	case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+		return source.GetResumeReason(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fp.selector))
+	}
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ReplacedTurnGroup))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ReplacedTurnGroup_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+		return (*timestamppb.Timestamp)(nil)
+	case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+		return int32(0)
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		return ([]*ConversationTurn)(nil)
+	case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+		return false
+	case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fp.selector))
+	}
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) ClearValue(item *ReplacedTurnGroup) {
+	if item != nil {
+		switch fp.selector {
+		case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+			item.ReplacedAt = nil
+		case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+			item.ResumedFromTurn = int32(0)
+		case ReplacedTurnGroup_FieldPathSelectorTurns:
+			item.Turns = nil
+		case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+			item.HadMessageEdit = false
+		case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+			item.ResumeReason = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ReplacedTurnGroup))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ReplacedTurnGroup_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ReplacedTurnGroup_FieldPathSelectorReplacedAt ||
+		fp.selector == ReplacedTurnGroup_FieldPathSelectorResumedFromTurn ||
+		fp.selector == ReplacedTurnGroup_FieldPathSelectorHadMessageEdit ||
+		fp.selector == ReplacedTurnGroup_FieldPathSelectorResumeReason
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) WithIValue(value interface{}) ReplacedTurnGroup_FieldPathValue {
+	switch fp.selector {
+	case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+		return &ReplacedTurnGroup_FieldTerminalPathValue{ReplacedTurnGroup_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
+	case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+		return &ReplacedTurnGroup_FieldTerminalPathValue{ReplacedTurnGroup_FieldTerminalPath: *fp, value: value.(int32)}
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		return &ReplacedTurnGroup_FieldTerminalPathValue{ReplacedTurnGroup_FieldTerminalPath: *fp, value: value.([]*ConversationTurn)}
+	case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+		return &ReplacedTurnGroup_FieldTerminalPathValue{ReplacedTurnGroup_FieldTerminalPath: *fp, value: value.(bool)}
+	case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+		return &ReplacedTurnGroup_FieldTerminalPathValue{ReplacedTurnGroup_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fp.selector))
+	}
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) WithIArrayOfValues(values interface{}) ReplacedTurnGroup_FieldPathArrayOfValues {
+	fpaov := &ReplacedTurnGroup_FieldTerminalPathArrayOfValues{ReplacedTurnGroup_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+		return &ReplacedTurnGroup_FieldTerminalPathArrayOfValues{ReplacedTurnGroup_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
+	case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+		return &ReplacedTurnGroup_FieldTerminalPathArrayOfValues{ReplacedTurnGroup_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		return &ReplacedTurnGroup_FieldTerminalPathArrayOfValues{ReplacedTurnGroup_FieldTerminalPath: *fp, values: values.([][]*ConversationTurn)}
+	case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+		return &ReplacedTurnGroup_FieldTerminalPathArrayOfValues{ReplacedTurnGroup_FieldTerminalPath: *fp, values: values.([]bool)}
+	case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+		return &ReplacedTurnGroup_FieldTerminalPathArrayOfValues{ReplacedTurnGroup_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) WithIArrayItemValue(value interface{}) ReplacedTurnGroup_FieldPathArrayItemValue {
+	switch fp.selector {
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		return &ReplacedTurnGroup_FieldTerminalPathArrayItemValue{ReplacedTurnGroup_FieldTerminalPath: *fp, value: value.(*ConversationTurn)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fp.selector))
+	}
+}
+
+func (fp *ReplacedTurnGroup_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type ReplacedTurnGroup_FieldSubPath struct {
+	selector ReplacedTurnGroup_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ ReplacedTurnGroup_FieldPath = (*ReplacedTurnGroup_FieldSubPath)(nil)
+
+func (fps *ReplacedTurnGroup_FieldSubPath) Selector() ReplacedTurnGroup_FieldPathSelector {
+	return fps.selector
+}
+func (fps *ReplacedTurnGroup_FieldSubPath) AsTurnsSubPath() (ConversationTurn_FieldPath, bool) {
+	res, ok := fps.subPath.(ConversationTurn_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *ReplacedTurnGroup_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *ReplacedTurnGroup_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source ReplacedTurnGroup
+func (fps *ReplacedTurnGroup_FieldSubPath) Get(source *ReplacedTurnGroup) (values []interface{}) {
+	switch fps.selector {
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		for _, item := range source.GetTurns() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*ReplacedTurnGroup))
+}
+
+// GetSingle returns value of selected field from source ReplacedTurnGroup
+func (fps *ReplacedTurnGroup_FieldSubPath) GetSingle(source *ReplacedTurnGroup) (interface{}, bool) {
+	switch fps.selector {
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		if len(source.GetTurns()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetTurns()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fps.selector))
+	}
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*ReplacedTurnGroup))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *ReplacedTurnGroup_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) ClearValue(item *ReplacedTurnGroup) {
+	if item != nil {
+		switch fps.selector {
+		case ReplacedTurnGroup_FieldPathSelectorTurns:
+			for _, subItem := range item.Turns {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*ReplacedTurnGroup))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *ReplacedTurnGroup_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ReplacedTurnGroup_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) WithIValue(value interface{}) ReplacedTurnGroup_FieldPathValue {
+	return &ReplacedTurnGroup_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) WithIArrayOfValues(values interface{}) ReplacedTurnGroup_FieldPathArrayOfValues {
+	return &ReplacedTurnGroup_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) WithIArrayItemValue(value interface{}) ReplacedTurnGroup_FieldPathArrayItemValue {
+	return &ReplacedTurnGroup_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *ReplacedTurnGroup_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// ReplacedTurnGroup_FieldPathValue allows storing values for ReplacedTurnGroup fields according to their type
+type ReplacedTurnGroup_FieldPathValue interface {
+	ReplacedTurnGroup_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ReplacedTurnGroup)
+	CompareWith(*ReplacedTurnGroup) (cmp int, comparable bool)
+}
+
+func ParseReplacedTurnGroup_FieldPathValue(pathStr, valueStr string) (ReplacedTurnGroup_FieldPathValue, error) {
+	fp, err := ParseReplacedTurnGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ReplacedTurnGroup field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ReplacedTurnGroup_FieldPathValue), nil
+}
+
+func MustParseReplacedTurnGroup_FieldPathValue(pathStr, valueStr string) ReplacedTurnGroup_FieldPathValue {
+	fpv, err := ParseReplacedTurnGroup_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ReplacedTurnGroup_FieldTerminalPathValue struct {
+	ReplacedTurnGroup_FieldTerminalPath
+	value interface{}
+}
+
+var _ ReplacedTurnGroup_FieldPathValue = (*ReplacedTurnGroup_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ReplacedTurnGroup' as interface{}
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) AsReplacedAtValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
+	return res, ok
+}
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) AsResumedFromTurnValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) AsTurnsValue() ([]*ConversationTurn, bool) {
+	res, ok := fpv.value.([]*ConversationTurn)
+	return res, ok
+}
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) AsHadMessageEditValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) AsResumeReasonValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ReplacedTurnGroup
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) SetTo(target **ReplacedTurnGroup) {
+	if *target == nil {
+		*target = new(ReplacedTurnGroup)
+	}
+	switch fpv.selector {
+	case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+		(*target).ReplacedAt = fpv.value.(*timestamppb.Timestamp)
+	case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+		(*target).ResumedFromTurn = fpv.value.(int32)
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		(*target).Turns = fpv.value.([]*ConversationTurn)
+	case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+		(*target).HadMessageEdit = fpv.value.(bool)
+	case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+		(*target).ResumeReason = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fpv.selector))
+	}
+}
+
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ReplacedTurnGroup)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ReplacedTurnGroup_FieldTerminalPathValue' with the value under path in 'ReplacedTurnGroup'.
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) CompareWith(source *ReplacedTurnGroup) (int, bool) {
+	switch fpv.selector {
+	case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+		leftValue := fpv.value.(*timestamppb.Timestamp)
+		rightValue := source.GetReplacedAt()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetResumedFromTurn()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		return 0, false
+	case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetHadMessageEdit()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetResumeReason()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fpv.selector))
+	}
+}
+
+func (fpv *ReplacedTurnGroup_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ReplacedTurnGroup))
+}
+
+type ReplacedTurnGroup_FieldSubPathValue struct {
+	ReplacedTurnGroup_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ ReplacedTurnGroup_FieldPathValue = (*ReplacedTurnGroup_FieldSubPathValue)(nil)
+
+func (fpvs *ReplacedTurnGroup_FieldSubPathValue) AsTurnsPathValue() (ConversationTurn_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ConversationTurn_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *ReplacedTurnGroup_FieldSubPathValue) SetTo(target **ReplacedTurnGroup) {
+	if *target == nil {
+		*target = new(ReplacedTurnGroup)
+	}
+	switch fpvs.Selector() {
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ReplacedTurnGroup_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ReplacedTurnGroup)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *ReplacedTurnGroup_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *ReplacedTurnGroup_FieldSubPathValue) CompareWith(source *ReplacedTurnGroup) (int, bool) {
+	switch fpvs.Selector() {
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ReplacedTurnGroup_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*ReplacedTurnGroup))
+}
+
+// ReplacedTurnGroup_FieldPathArrayItemValue allows storing single item in Path-specific values for ReplacedTurnGroup according to their type
+// Present only for array (repeated) types.
+type ReplacedTurnGroup_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ReplacedTurnGroup_FieldPath
+	ContainsValue(*ReplacedTurnGroup) bool
+}
+
+// ParseReplacedTurnGroup_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseReplacedTurnGroup_FieldPathArrayItemValue(pathStr, valueStr string) (ReplacedTurnGroup_FieldPathArrayItemValue, error) {
+	fp, err := ParseReplacedTurnGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ReplacedTurnGroup field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ReplacedTurnGroup_FieldPathArrayItemValue), nil
+}
+
+func MustParseReplacedTurnGroup_FieldPathArrayItemValue(pathStr, valueStr string) ReplacedTurnGroup_FieldPathArrayItemValue {
+	fpaiv, err := ParseReplacedTurnGroup_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ReplacedTurnGroup_FieldTerminalPathArrayItemValue struct {
+	ReplacedTurnGroup_FieldTerminalPath
+	value interface{}
+}
+
+var _ ReplacedTurnGroup_FieldPathArrayItemValue = (*ReplacedTurnGroup_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ReplacedTurnGroup as interface{}
+func (fpaiv *ReplacedTurnGroup_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *ReplacedTurnGroup_FieldTerminalPathArrayItemValue) AsTurnsItemValue() (*ConversationTurn, bool) {
+	res, ok := fpaiv.value.(*ConversationTurn)
+	return res, ok
+}
+
+func (fpaiv *ReplacedTurnGroup_FieldTerminalPathArrayItemValue) GetSingle(source *ReplacedTurnGroup) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ReplacedTurnGroup_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ReplacedTurnGroup))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ReplacedTurnGroup'
+func (fpaiv *ReplacedTurnGroup_FieldTerminalPathArrayItemValue) ContainsValue(source *ReplacedTurnGroup) bool {
+	slice := fpaiv.ReplacedTurnGroup_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type ReplacedTurnGroup_FieldSubPathArrayItemValue struct {
+	ReplacedTurnGroup_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *ReplacedTurnGroup_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *ReplacedTurnGroup_FieldSubPathArrayItemValue) AsTurnsPathItemValue() (ConversationTurn_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ConversationTurn_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ReplacedTurnGroup'
+func (fpaivs *ReplacedTurnGroup_FieldSubPathArrayItemValue) ContainsValue(source *ReplacedTurnGroup) bool {
+	switch fpaivs.Selector() {
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for ReplacedTurnGroup: %d", fpaivs.Selector()))
+	}
+}
+
+// ReplacedTurnGroup_FieldPathArrayOfValues allows storing slice of values for ReplacedTurnGroup fields according to their type
+type ReplacedTurnGroup_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ReplacedTurnGroup_FieldPath
+}
+
+func ParseReplacedTurnGroup_FieldPathArrayOfValues(pathStr, valuesStr string) (ReplacedTurnGroup_FieldPathArrayOfValues, error) {
+	fp, err := ParseReplacedTurnGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ReplacedTurnGroup field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ReplacedTurnGroup_FieldPathArrayOfValues), nil
+}
+
+func MustParseReplacedTurnGroup_FieldPathArrayOfValues(pathStr, valuesStr string) ReplacedTurnGroup_FieldPathArrayOfValues {
+	fpaov, err := ParseReplacedTurnGroup_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ReplacedTurnGroup_FieldTerminalPathArrayOfValues struct {
+	ReplacedTurnGroup_FieldTerminalPath
+	values interface{}
+}
+
+var _ ReplacedTurnGroup_FieldPathArrayOfValues = (*ReplacedTurnGroup_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ReplacedTurnGroup_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
+			values = append(values, v)
+		}
+	case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ReplacedTurnGroup_FieldPathSelectorTurns:
+		for _, v := range fpaov.values.([][]*ConversationTurn) {
+			values = append(values, v)
+		}
+	case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ReplacedTurnGroup_FieldTerminalPathArrayOfValues) AsReplacedAtArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
+	return res, ok
+}
+func (fpaov *ReplacedTurnGroup_FieldTerminalPathArrayOfValues) AsResumedFromTurnArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ReplacedTurnGroup_FieldTerminalPathArrayOfValues) AsTurnsArrayOfValues() ([][]*ConversationTurn, bool) {
+	res, ok := fpaov.values.([][]*ConversationTurn)
+	return res, ok
+}
+func (fpaov *ReplacedTurnGroup_FieldTerminalPathArrayOfValues) AsHadMessageEditArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *ReplacedTurnGroup_FieldTerminalPathArrayOfValues) AsResumeReasonArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+type ReplacedTurnGroup_FieldSubPathArrayOfValues struct {
+	ReplacedTurnGroup_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ ReplacedTurnGroup_FieldPathArrayOfValues = (*ReplacedTurnGroup_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *ReplacedTurnGroup_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ReplacedTurnGroup_FieldSubPathArrayOfValues) AsTurnsPathArrayOfValues() (ConversationTurn_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ConversationTurn_FieldPathArrayOfValues)
 	return res, ok
 }

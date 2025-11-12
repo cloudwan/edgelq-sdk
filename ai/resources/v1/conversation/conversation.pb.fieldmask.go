@@ -70,6 +70,7 @@ func FullConversation_FieldMask() *Conversation_FieldMask {
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTurns})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns})
+	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups})
 	return res
 }
 
@@ -88,7 +89,7 @@ func (fieldMask *Conversation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Conversation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -118,16 +119,18 @@ func (fieldMask *Conversation_FieldMask) Reset() {
 
 func (fieldMask *Conversation_FieldMask) Subtract(other *Conversation_FieldMask) *Conversation_FieldMask {
 	result := &Conversation_FieldMask{}
-	removedSelectors := make([]bool, 9)
+	removedSelectors := make([]bool, 10)
 	otherSubMasks := map[Conversation_FieldPathSelector]gotenobject.FieldMask{
-		Conversation_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
-		Conversation_FieldPathSelectorTurns:       &ConversationTurn_FieldMask{},
-		Conversation_FieldPathSelectorFailedTurns: &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorMetadata:           &meta.Meta_FieldMask{},
+		Conversation_FieldPathSelectorTurns:              &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorFailedTurns:        &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorReplacedTurnGroups: &ReplacedTurnGroup_FieldMask{},
 	}
 	mySubMasks := map[Conversation_FieldPathSelector]gotenobject.FieldMask{
-		Conversation_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
-		Conversation_FieldPathSelectorTurns:       &ConversationTurn_FieldMask{},
-		Conversation_FieldPathSelectorFailedTurns: &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorMetadata:           &meta.Meta_FieldMask{},
+		Conversation_FieldPathSelectorTurns:              &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorFailedTurns:        &ConversationTurn_FieldMask{},
+		Conversation_FieldPathSelectorReplacedTurnGroups: &ReplacedTurnGroup_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -149,6 +152,8 @@ func (fieldMask *Conversation_FieldMask) Subtract(other *Conversation_FieldMask)
 						mySubMasks[Conversation_FieldPathSelectorTurns] = FullConversationTurn_FieldMask()
 					case Conversation_FieldPathSelectorFailedTurns:
 						mySubMasks[Conversation_FieldPathSelectorFailedTurns] = FullConversationTurn_FieldMask()
+					case Conversation_FieldPathSelectorReplacedTurnGroups:
+						mySubMasks[Conversation_FieldPathSelectorReplacedTurnGroups] = FullReplacedTurnGroup_FieldMask()
 					}
 				} else if tp, ok := path.(*Conversation_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -325,6 +330,8 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 	wholeTurnsAccepted := false
 	failedTurnsMask := &ConversationTurn_FieldMask{}
 	wholeFailedTurnsAccepted := false
+	replacedTurnGroupsMask := &ReplacedTurnGroup_FieldMask{}
+	wholeReplacedTurnGroupsAccepted := false
 	var usageByModelMapKeys []string
 	wholeUsageByModelAccepted := false
 
@@ -354,6 +361,9 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 			case Conversation_FieldPathSelectorFailedTurns:
 				result.FailedTurns = source.FailedTurns
 				wholeFailedTurnsAccepted = true
+			case Conversation_FieldPathSelectorReplacedTurnGroups:
+				result.ReplacedTurnGroups = source.ReplacedTurnGroups
+				wholeReplacedTurnGroupsAccepted = true
 			}
 		case *Conversation_FieldSubPath:
 			switch tp.selector {
@@ -363,6 +373,8 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 				turnsMask.AppendPath(tp.subPath.(ConversationTurn_FieldPath))
 			case Conversation_FieldPathSelectorFailedTurns:
 				failedTurnsMask.AppendPath(tp.subPath.(ConversationTurn_FieldPath))
+			case Conversation_FieldPathSelectorReplacedTurnGroups:
+				replacedTurnGroupsMask.AppendPath(tp.subPath.(ReplacedTurnGroup_FieldPath))
 			}
 		case *Conversation_FieldPathMap:
 			switch tp.selector {
@@ -390,6 +402,11 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 	if wholeFailedTurnsAccepted == false && len(failedTurnsMask.Paths) > 0 {
 		for _, sourceItem := range source.GetFailedTurns() {
 			result.FailedTurns = append(result.FailedTurns, failedTurnsMask.Project(sourceItem))
+		}
+	}
+	if wholeReplacedTurnGroupsAccepted == false && len(replacedTurnGroupsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetReplacedTurnGroups() {
+			result.ReplacedTurnGroups = append(result.ReplacedTurnGroups, replacedTurnGroupsMask.Project(sourceItem))
 		}
 	}
 	return result
@@ -420,6 +437,8 @@ func FullConversationTurn_FieldMask() *ConversationTurn_FieldMask {
 	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorStopReason})
 	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorDuration})
 	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorAvailableToolsBySource})
+	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorReplacedTurnNumber})
+	res.Paths = append(res.Paths, &ConversationTurn_FieldTerminalPath{selector: ConversationTurn_FieldPathSelectorErrorDetails})
 	return res
 }
 
@@ -438,7 +457,7 @@ func (fieldMask *ConversationTurn_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ConversationTurn_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -468,7 +487,7 @@ func (fieldMask *ConversationTurn_FieldMask) Reset() {
 
 func (fieldMask *ConversationTurn_FieldMask) Subtract(other *ConversationTurn_FieldMask) *ConversationTurn_FieldMask {
 	result := &ConversationTurn_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 10)
 	otherSubMasks := map[ConversationTurn_FieldPathSelector]gotenobject.FieldMask{
 		ConversationTurn_FieldPathSelectorConfig:                 &TurnConfig_FieldMask{},
 		ConversationTurn_FieldPathSelectorAvailableToolsBySource: &TurnToolsBySourceGroup_FieldMask{},
@@ -674,6 +693,10 @@ func (fieldMask *ConversationTurn_FieldMask) Project(source *ConversationTurn) *
 			case ConversationTurn_FieldPathSelectorAvailableToolsBySource:
 				result.AvailableToolsBySource = source.AvailableToolsBySource
 				wholeAvailableToolsBySourceAccepted = true
+			case ConversationTurn_FieldPathSelectorReplacedTurnNumber:
+				result.ReplacedTurnNumber = source.ReplacedTurnNumber
+			case ConversationTurn_FieldPathSelectorErrorDetails:
+				result.ErrorDetails = source.ErrorDetails
 			}
 		case *ConversationTurn_FieldSubPath:
 			switch tp.selector {
@@ -1434,6 +1457,285 @@ func (fieldMask *ModelUsageStats_FieldMask) ProjectRaw(source gotenobject.GotenO
 }
 
 func (fieldMask *ModelUsageStats_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type ReplacedTurnGroup_FieldMask struct {
+	Paths []ReplacedTurnGroup_FieldPath
+}
+
+func FullReplacedTurnGroup_FieldMask() *ReplacedTurnGroup_FieldMask {
+	res := &ReplacedTurnGroup_FieldMask{}
+	res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorReplacedAt})
+	res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorResumedFromTurn})
+	res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorTurns})
+	res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorHadMessageEdit})
+	res.Paths = append(res.Paths, &ReplacedTurnGroup_FieldTerminalPath{selector: ReplacedTurnGroup_FieldPathSelectorResumeReason})
+	return res
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ReplacedTurnGroup_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseReplacedTurnGroup_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) Subtract(other *ReplacedTurnGroup_FieldMask) *ReplacedTurnGroup_FieldMask {
+	result := &ReplacedTurnGroup_FieldMask{}
+	removedSelectors := make([]bool, 5)
+	otherSubMasks := map[ReplacedTurnGroup_FieldPathSelector]gotenobject.FieldMask{
+		ReplacedTurnGroup_FieldPathSelectorTurns: &ConversationTurn_FieldMask{},
+	}
+	mySubMasks := map[ReplacedTurnGroup_FieldPathSelector]gotenobject.FieldMask{
+		ReplacedTurnGroup_FieldPathSelectorTurns: &ConversationTurn_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ReplacedTurnGroup_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *ReplacedTurnGroup_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*ReplacedTurnGroup_FieldTerminalPath); ok {
+					switch tp.selector {
+					case ReplacedTurnGroup_FieldPathSelectorTurns:
+						mySubMasks[ReplacedTurnGroup_FieldPathSelectorTurns] = FullConversationTurn_FieldMask()
+					}
+				} else if tp, ok := path.(*ReplacedTurnGroup_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &ReplacedTurnGroup_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ReplacedTurnGroup_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ReplacedTurnGroup_FieldMask) FilterInputFields() *ReplacedTurnGroup_FieldMask {
+	result := &ReplacedTurnGroup_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ReplacedTurnGroup_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ReplacedTurnGroup_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseReplacedTurnGroup_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ReplacedTurnGroup_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ReplacedTurnGroup_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) AppendPath(path ReplacedTurnGroup_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ReplacedTurnGroup_FieldPath))
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) GetPaths() []ReplacedTurnGroup_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseReplacedTurnGroup_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) Set(target, source *ReplacedTurnGroup) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ReplacedTurnGroup), source.(*ReplacedTurnGroup))
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) Project(source *ReplacedTurnGroup) *ReplacedTurnGroup {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ReplacedTurnGroup{}
+	turnsMask := &ConversationTurn_FieldMask{}
+	wholeTurnsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ReplacedTurnGroup_FieldTerminalPath:
+			switch tp.selector {
+			case ReplacedTurnGroup_FieldPathSelectorReplacedAt:
+				result.ReplacedAt = source.ReplacedAt
+			case ReplacedTurnGroup_FieldPathSelectorResumedFromTurn:
+				result.ResumedFromTurn = source.ResumedFromTurn
+			case ReplacedTurnGroup_FieldPathSelectorTurns:
+				result.Turns = source.Turns
+				wholeTurnsAccepted = true
+			case ReplacedTurnGroup_FieldPathSelectorHadMessageEdit:
+				result.HadMessageEdit = source.HadMessageEdit
+			case ReplacedTurnGroup_FieldPathSelectorResumeReason:
+				result.ResumeReason = source.ResumeReason
+			}
+		case *ReplacedTurnGroup_FieldSubPath:
+			switch tp.selector {
+			case ReplacedTurnGroup_FieldPathSelectorTurns:
+				turnsMask.AppendPath(tp.subPath.(ConversationTurn_FieldPath))
+			}
+		}
+	}
+	if wholeTurnsAccepted == false && len(turnsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetTurns() {
+			result.Turns = append(result.Turns, turnsMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ReplacedTurnGroup))
+}
+
+func (fieldMask *ReplacedTurnGroup_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

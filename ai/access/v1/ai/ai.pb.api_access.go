@@ -11,6 +11,7 @@ import (
 	chat_model_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/chat_model"
 	connector_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/connector"
 	conversation_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/conversation"
+	conversation_feedback_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/conversation_feedback"
 	document_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/document"
 	search_db_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/search_db"
 	search_index_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/search_index"
@@ -19,6 +20,7 @@ import (
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
+	conversation_feedback "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation_feedback"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
@@ -31,6 +33,7 @@ type AIApiAccess interface {
 	chat_model.ChatModelAccess
 	connector.ConnectorAccess
 	conversation.ConversationAccess
+	conversation_feedback.ConversationFeedbackAccess
 	document.DocumentAccess
 	search_db.SearchDbAccess
 	search_index.SearchIndexAccess
@@ -43,6 +46,7 @@ type apiAIAccess struct {
 	chat_model.ChatModelAccess
 	connector.ConnectorAccess
 	conversation.ConversationAccess
+	conversation_feedback.ConversationFeedbackAccess
 	document.DocumentAccess
 	search_db.SearchDbAccess
 	search_index.SearchIndexAccess
@@ -54,6 +58,7 @@ func NewApiAccess(client ai_client.AIClient) AIApiAccess {
 	chatModelAccess := chat_model_access.NewApiChatModelAccess(client)
 	connectorAccess := connector_access.NewApiConnectorAccess(client)
 	conversationAccess := conversation_access.NewApiConversationAccess(client)
+	conversationFeedbackAccess := conversation_feedback_access.NewApiConversationFeedbackAccess(client)
 	documentAccess := document_access.NewApiDocumentAccess(client)
 	searchDbAccess := search_db_access.NewApiSearchDbAccess(client)
 	searchIndexAccess := search_index_access.NewApiSearchIndexAccess(client)
@@ -65,17 +70,19 @@ func NewApiAccess(client ai_client.AIClient) AIApiAccess {
 			chat_model.AsAnyCastAccess(chatModelAccess),
 			connector.AsAnyCastAccess(connectorAccess),
 			conversation.AsAnyCastAccess(conversationAccess),
+			conversation_feedback.AsAnyCastAccess(conversationFeedbackAccess),
 			document.AsAnyCastAccess(documentAccess),
 			search_db.AsAnyCastAccess(searchDbAccess),
 			search_index.AsAnyCastAccess(searchIndexAccess),
 		),
 
-		CapabilityTemplateAccess: capabilityTemplateAccess,
-		ChatModelAccess:          chatModelAccess,
-		ConnectorAccess:          connectorAccess,
-		ConversationAccess:       conversationAccess,
-		DocumentAccess:           documentAccess,
-		SearchDbAccess:           searchDbAccess,
-		SearchIndexAccess:        searchIndexAccess,
+		CapabilityTemplateAccess:   capabilityTemplateAccess,
+		ChatModelAccess:            chatModelAccess,
+		ConnectorAccess:            connectorAccess,
+		ConversationAccess:         conversationAccess,
+		ConversationFeedbackAccess: conversationFeedbackAccess,
+		DocumentAccess:             documentAccess,
+		SearchDbAccess:             searchDbAccess,
+		SearchIndexAccess:          searchIndexAccess,
 	}
 }

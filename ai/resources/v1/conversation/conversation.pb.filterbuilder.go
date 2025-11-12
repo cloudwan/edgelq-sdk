@@ -268,6 +268,10 @@ func (b *filterCndBuilder) FailedTurns() *filterCndBuilderFailedTurns {
 	return &filterCndBuilderFailedTurns{builder: b.builder}
 }
 
+func (b *filterCndBuilder) ReplacedTurnGroups() *filterCndBuilderReplacedTurnGroups {
+	return &filterCndBuilderReplacedTurnGroups{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -2776,6 +2780,14 @@ func (b *filterCndBuilderTurns) AvailableToolsBySource() *filterCndBuilderTurnsA
 	return &filterCndBuilderTurnsAvailableToolsBySource{builder: b.builder}
 }
 
+func (b *filterCndBuilderTurns) ReplacedTurnNumber() *filterCndBuilderTurnsReplacedTurnNumber {
+	return &filterCndBuilderTurnsReplacedTurnNumber{builder: b.builder}
+}
+
+func (b *filterCndBuilderTurns) ErrorDetails() *filterCndBuilderTurnsErrorDetails {
+	return &filterCndBuilderTurnsErrorDetails{builder: b.builder}
+}
+
 type filterCndBuilderTurnsTurnNumber struct {
 	builder *FilterBuilder
 }
@@ -4043,6 +4055,124 @@ func (b *filterCndBuilderTurnsAvailableToolsBySourceToolNames) compare(op gotenf
 	})
 }
 
+type filterCndBuilderTurnsReplacedTurnNumber struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().Turns().ReplacedTurnNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().Turns().ReplacedTurnNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().Turns().ReplacedTurnNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().Turns().ReplacedTurnNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTurnsReplacedTurnNumber) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().Turns().ReplacedTurnNumber().WithValue(value),
+	})
+}
+
+type filterCndBuilderTurnsErrorDetails struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().Turns().ErrorDetails().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().Turns().ErrorDetails().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().Turns().ErrorDetails().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().Turns().ErrorDetails().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTurnsErrorDetails) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().Turns().ErrorDetails().WithValue(value),
+	})
+}
+
 type filterCndBuilderUsageByModel struct {
 	builder *FilterBuilder
 }
@@ -4289,6 +4419,14 @@ func (b *filterCndBuilderFailedTurns) Duration() *filterCndBuilderFailedTurnsDur
 
 func (b *filterCndBuilderFailedTurns) AvailableToolsBySource() *filterCndBuilderFailedTurnsAvailableToolsBySource {
 	return &filterCndBuilderFailedTurnsAvailableToolsBySource{builder: b.builder}
+}
+
+func (b *filterCndBuilderFailedTurns) ReplacedTurnNumber() *filterCndBuilderFailedTurnsReplacedTurnNumber {
+	return &filterCndBuilderFailedTurnsReplacedTurnNumber{builder: b.builder}
+}
+
+func (b *filterCndBuilderFailedTurns) ErrorDetails() *filterCndBuilderFailedTurnsErrorDetails {
+	return &filterCndBuilderFailedTurnsErrorDetails{builder: b.builder}
 }
 
 type filterCndBuilderFailedTurnsTurnNumber struct {
@@ -5555,5 +5693,1990 @@ func (b *filterCndBuilderFailedTurnsAvailableToolsBySourceToolNames) compare(op 
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Conversation_FieldPathValue: NewConversationFieldPathBuilder().FailedTurns().AvailableToolsBySource().ToolNames().WithValue(value),
+	})
+}
+
+type filterCndBuilderFailedTurnsReplacedTurnNumber struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().FailedTurns().ReplacedTurnNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().FailedTurns().ReplacedTurnNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().FailedTurns().ReplacedTurnNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().FailedTurns().ReplacedTurnNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFailedTurnsReplacedTurnNumber) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().FailedTurns().ReplacedTurnNumber().WithValue(value),
+	})
+}
+
+type filterCndBuilderFailedTurnsErrorDetails struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().FailedTurns().ErrorDetails().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().FailedTurns().ErrorDetails().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().FailedTurns().ErrorDetails().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().FailedTurns().ErrorDetails().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFailedTurnsErrorDetails) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().FailedTurns().ErrorDetails().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroups struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) Eq(value []*ReplacedTurnGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) Neq(value []*ReplacedTurnGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) Gt(value []*ReplacedTurnGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) Gte(value []*ReplacedTurnGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) Lt(value []*ReplacedTurnGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) Lte(value []*ReplacedTurnGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) In(values [][]*ReplacedTurnGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) NotIn(values [][]*ReplacedTurnGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) Contains(value *ReplacedTurnGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().FieldPath(),
+		Value:     NewConversationFieldPathBuilder().ReplacedTurnGroups().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) ContainsAnyOf(values []*ReplacedTurnGroup) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) ContainsAll(values []*ReplacedTurnGroup) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) compare(op gotenfilter.CompareOperator, value []*ReplacedTurnGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) ReplacedAt() *filterCndBuilderReplacedTurnGroupsReplacedAt {
+	return &filterCndBuilderReplacedTurnGroupsReplacedAt{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) ResumedFromTurn() *filterCndBuilderReplacedTurnGroupsResumedFromTurn {
+	return &filterCndBuilderReplacedTurnGroupsResumedFromTurn{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) Turns() *filterCndBuilderReplacedTurnGroupsTurns {
+	return &filterCndBuilderReplacedTurnGroupsTurns{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) HadMessageEdit() *filterCndBuilderReplacedTurnGroupsHadMessageEdit {
+	return &filterCndBuilderReplacedTurnGroupsHadMessageEdit{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroups) ResumeReason() *filterCndBuilderReplacedTurnGroupsResumeReason {
+	return &filterCndBuilderReplacedTurnGroupsResumeReason{builder: b.builder}
+}
+
+type filterCndBuilderReplacedTurnGroupsReplacedAt struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) Eq(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) Neq(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) Gt(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) Gte(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) Lt(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) Lte(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) In(values []*timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().ReplacedAt().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().ReplacedAt().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().ReplacedAt().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().ReplacedAt().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsReplacedAt) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().ReplacedAt().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsResumedFromTurn struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumedFromTurn().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumedFromTurn().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumedFromTurn().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumedFromTurn().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumedFromTurn) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumedFromTurn().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurns struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Eq(value []*ConversationTurn) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Neq(value []*ConversationTurn) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Gt(value []*ConversationTurn) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Gte(value []*ConversationTurn) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Lt(value []*ConversationTurn) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Lte(value []*ConversationTurn) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) In(values [][]*ConversationTurn) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) NotIn(values [][]*ConversationTurn) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Contains(value *ConversationTurn) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().FieldPath(),
+		Value:     NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) ContainsAnyOf(values []*ConversationTurn) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) ContainsAll(values []*ConversationTurn) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) compare(op gotenfilter.CompareOperator, value []*ConversationTurn) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) TurnNumber() *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber {
+	return &filterCndBuilderReplacedTurnGroupsTurnsTurnNumber{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Timestamp() *filterCndBuilderReplacedTurnGroupsTurnsTimestamp {
+	return &filterCndBuilderReplacedTurnGroupsTurnsTimestamp{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Messages() *filterCndBuilderReplacedTurnGroupsTurnsMessages {
+	return &filterCndBuilderReplacedTurnGroupsTurnsMessages{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Config() *filterCndBuilderReplacedTurnGroupsTurnsConfig {
+	return &filterCndBuilderReplacedTurnGroupsTurnsConfig{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Usage() *filterCndBuilderReplacedTurnGroupsTurnsUsage {
+	return &filterCndBuilderReplacedTurnGroupsTurnsUsage{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) StopReason() *filterCndBuilderReplacedTurnGroupsTurnsStopReason {
+	return &filterCndBuilderReplacedTurnGroupsTurnsStopReason{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) Duration() *filterCndBuilderReplacedTurnGroupsTurnsDuration {
+	return &filterCndBuilderReplacedTurnGroupsTurnsDuration{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) AvailableToolsBySource() *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource {
+	return &filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) ReplacedTurnNumber() *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber {
+	return &filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurns) ErrorDetails() *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails {
+	return &filterCndBuilderReplacedTurnGroupsTurnsErrorDetails{builder: b.builder}
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsTurnNumber struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().TurnNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().TurnNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().TurnNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().TurnNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTurnNumber) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().TurnNumber().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsTimestamp struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) Eq(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) Neq(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) Gt(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) Gte(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) Lt(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) Lte(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) In(values []*timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Timestamp().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Timestamp().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Timestamp().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Timestamp().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsTimestamp) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Timestamp().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsMessages struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) Eq(value []*common_client.Message) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) Neq(value []*common_client.Message) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) Gt(value []*common_client.Message) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) Gte(value []*common_client.Message) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) Lt(value []*common_client.Message) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) Lte(value []*common_client.Message) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) In(values [][]*common_client.Message) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) NotIn(values [][]*common_client.Message) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) Contains(value *common_client.Message) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().FieldPath(),
+		Value:     NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) ContainsAnyOf(values []*common_client.Message) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) ContainsAll(values []*common_client.Message) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsMessages) compare(op gotenfilter.CompareOperator, value []*common_client.Message) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Messages().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Eq(value *TurnConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Neq(value *TurnConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Gt(value *TurnConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Gte(value *TurnConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Lt(value *TurnConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Lte(value *TurnConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) In(values []*TurnConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) NotIn(values []*TurnConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) compare(op gotenfilter.CompareOperator, value *TurnConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Model() *filterCndBuilderReplacedTurnGroupsTurnsConfigModel {
+	return &filterCndBuilderReplacedTurnGroupsTurnsConfigModel{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) ModelUsed() *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed {
+	return &filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Temperature() *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature {
+	return &filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) MaxTokens() *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens {
+	return &filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) ReasoningLevel() *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel {
+	return &filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) CapabilityTemplate() *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate {
+	return &filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfig) Connectors() *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors {
+	return &filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors{builder: b.builder}
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsConfigModel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) Eq(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) Neq(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) Gt(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) Gte(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) Lt(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) Lte(value *chat_model.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) In(values []*chat_model.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Model().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) NotIn(values []*chat_model.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Model().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Model().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Model().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModel) compare(op gotenfilter.CompareOperator, value *chat_model.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Model().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ModelUsed().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ModelUsed().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ModelUsed().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ModelUsed().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigModelUsed) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ModelUsed().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) Eq(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) Neq(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) Gt(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) Gte(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) Lt(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) Lte(value float32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) In(values []float32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Temperature().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) NotIn(values []float32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Temperature().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Temperature().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Temperature().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigTemperature) compare(op gotenfilter.CompareOperator, value float32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Temperature().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().MaxTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().MaxTokens().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().MaxTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().MaxTokens().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigMaxTokens) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().MaxTokens().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) Eq(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) Neq(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) Gt(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) Gte(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) Lt(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) Lte(value common_client.ReasoningLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) In(values []common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ReasoningLevel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) NotIn(values []common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ReasoningLevel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ReasoningLevel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ReasoningLevel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigReasoningLevel) compare(op gotenfilter.CompareOperator, value common_client.ReasoningLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().ReasoningLevel().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) Eq(value *capability_template.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) Neq(value *capability_template.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) Gt(value *capability_template.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) Gte(value *capability_template.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) Lt(value *capability_template.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) Lte(value *capability_template.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) In(values []*capability_template.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().CapabilityTemplate().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) NotIn(values []*capability_template.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().CapabilityTemplate().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().CapabilityTemplate().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().CapabilityTemplate().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigCapabilityTemplate) compare(op gotenfilter.CompareOperator, value *capability_template.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().CapabilityTemplate().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) Eq(value *common_client.ConnectorsList) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) Neq(value *common_client.ConnectorsList) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) Gt(value *common_client.ConnectorsList) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) Gte(value *common_client.ConnectorsList) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) Lt(value *common_client.ConnectorsList) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) Lte(value *common_client.ConnectorsList) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) In(values []*common_client.ConnectorsList) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Connectors().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) NotIn(values []*common_client.ConnectorsList) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Connectors().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Connectors().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Connectors().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsConfigConnectors) compare(op gotenfilter.CompareOperator, value *common_client.ConnectorsList) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Config().Connectors().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsUsage struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) Eq(value *common_client.TokenUsage) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) Neq(value *common_client.TokenUsage) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) Gt(value *common_client.TokenUsage) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) Gte(value *common_client.TokenUsage) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) Lt(value *common_client.TokenUsage) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) Lte(value *common_client.TokenUsage) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) In(values []*common_client.TokenUsage) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Usage().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) NotIn(values []*common_client.TokenUsage) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Usage().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Usage().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Usage().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsUsage) compare(op gotenfilter.CompareOperator, value *common_client.TokenUsage) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Usage().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsStopReason struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) Eq(value common_client.StopReason) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) Neq(value common_client.StopReason) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) Gt(value common_client.StopReason) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) Gte(value common_client.StopReason) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) Lt(value common_client.StopReason) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) Lte(value common_client.StopReason) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) In(values []common_client.StopReason) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().StopReason().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) NotIn(values []common_client.StopReason) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().StopReason().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().StopReason().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().StopReason().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsStopReason) compare(op gotenfilter.CompareOperator, value common_client.StopReason) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().StopReason().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsDuration struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) Eq(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) Neq(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) Gt(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) Gte(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) Lt(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) Lte(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) In(values []*durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Duration().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) NotIn(values []*durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Duration().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Duration().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Duration().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsDuration) compare(op gotenfilter.CompareOperator, value *durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().Duration().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Eq(value []*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Neq(value []*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Gt(value []*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Gte(value []*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Lt(value []*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Lte(value []*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) In(values [][]*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) NotIn(values [][]*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Contains(value *TurnToolsBySourceGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().FieldPath(),
+		Value:     NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) ContainsAnyOf(values []*TurnToolsBySourceGroup) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) ContainsAll(values []*TurnToolsBySourceGroup) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) compare(op gotenfilter.CompareOperator, value []*TurnToolsBySourceGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Client() *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient {
+	return &filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Connector() *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector {
+	return &filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) Internal() *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal {
+	return &filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal{builder: b.builder}
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySource) ToolNames() *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames {
+	return &filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames{builder: b.builder}
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) Eq(value *common_client.ClientToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) Neq(value *common_client.ClientToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) Gt(value *common_client.ClientToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) Gte(value *common_client.ClientToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) Lt(value *common_client.ClientToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) Lte(value *common_client.ClientToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) In(values []*common_client.ClientToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Client().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) NotIn(values []*common_client.ClientToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Client().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Client().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Client().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceClient) compare(op gotenfilter.CompareOperator, value *common_client.ClientToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Client().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) Eq(value *common_client.ConnectorToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) Neq(value *common_client.ConnectorToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) Gt(value *common_client.ConnectorToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) Gte(value *common_client.ConnectorToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) Lt(value *common_client.ConnectorToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) Lte(value *common_client.ConnectorToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) In(values []*common_client.ConnectorToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Connector().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) NotIn(values []*common_client.ConnectorToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Connector().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Connector().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Connector().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceConnector) compare(op gotenfilter.CompareOperator, value *common_client.ConnectorToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Connector().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) Eq(value *common_client.InternalToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) Neq(value *common_client.InternalToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) Gt(value *common_client.InternalToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) Gte(value *common_client.InternalToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) Lt(value *common_client.InternalToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) Lte(value *common_client.InternalToolSource) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) In(values []*common_client.InternalToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Internal().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) NotIn(values []*common_client.InternalToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Internal().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Internal().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Internal().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceInternal) compare(op gotenfilter.CompareOperator, value *common_client.InternalToolSource) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().Internal().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().FieldPath(),
+		Value:     NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames()
+	itemValues := make([]Conversation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsAvailableToolsBySourceToolNames) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().AvailableToolsBySource().ToolNames().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ReplacedTurnNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ReplacedTurnNumber().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ReplacedTurnNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ReplacedTurnNumber().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsReplacedTurnNumber) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ReplacedTurnNumber().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsTurnsErrorDetails struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ErrorDetails().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ErrorDetails().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ErrorDetails().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ErrorDetails().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsTurnsErrorDetails) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().Turns().ErrorDetails().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsHadMessageEdit struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().HadMessageEdit().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().HadMessageEdit().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().HadMessageEdit().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().HadMessageEdit().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsHadMessageEdit) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().HadMessageEdit().WithValue(value),
+	})
+}
+
+type filterCndBuilderReplacedTurnGroupsResumeReason struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumeReason().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumeReason().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumeReason().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumeReason().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderReplacedTurnGroupsResumeReason) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumeReason().WithValue(value),
 	})
 }
