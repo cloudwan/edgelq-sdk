@@ -1165,16 +1165,16 @@ func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresh
 	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxUpper{}
 }
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholds) MaxLower() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower {
-	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower{}
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholds) MinLower() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower {
+	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower{}
 }
 
 func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholds) MinUpper() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinUpper {
 	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinUpper{}
 }
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholds) MinLower() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower {
-	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower{}
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholds) MaxLower() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower {
+	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower{}
 }
 
 func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholds) ExtraRoomFactor() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsExtraRoomFactor {
@@ -1278,62 +1278,62 @@ func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThre
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 
-type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower struct{}
+type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower struct{}
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) FieldPath() *TsConditionTemplate_FieldSubPath {
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) FieldPath() *TsConditionTemplate_FieldSubPath {
 	return &TsConditionTemplate_FieldSubPath{
 		selector: TsConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().FieldPath(),
 	}
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) WithValue(value *rcommon.AlertingThreshold) *TsConditionTemplate_FieldSubPathValue {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) WithValue(value *rcommon.AlertingThreshold) *TsConditionTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsConditionTemplate_FieldSubPathValue)
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsConditionTemplate_FieldSubPathArrayOfValues {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) Value() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue {
-	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue{}
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) Value() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue {
+	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue{}
 }
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) IsInclusive() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive {
-	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive{}
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) IsInclusive() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive {
+	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive{}
 }
 
-type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue struct{}
+type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue struct{}
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue) FieldPath() *TsConditionTemplate_FieldSubPath {
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue) FieldPath() *TsConditionTemplate_FieldSubPath {
 	return &TsConditionTemplate_FieldSubPath{
 		selector: TsConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().Value().FieldPath(),
 	}
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue) WithValue(value float64) *TsConditionTemplate_FieldSubPathValue {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue) WithValue(value float64) *TsConditionTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsConditionTemplate_FieldSubPathValue)
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue) WithArrayOfValues(values []float64) *TsConditionTemplate_FieldSubPathArrayOfValues {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue) WithArrayOfValues(values []float64) *TsConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 
-type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive struct{}
+type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive struct{}
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsConditionTemplate_FieldSubPath {
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) FieldPath() *TsConditionTemplate_FieldSubPath {
 	return &TsConditionTemplate_FieldSubPath{
 		selector: TsConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
 	}
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithValue(value bool) *TsConditionTemplate_FieldSubPathValue {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithValue(value bool) *TsConditionTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsConditionTemplate_FieldSubPathValue)
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsConditionTemplate_FieldSubPathArrayOfValues {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1396,62 +1396,62 @@ func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThre
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 
-type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower struct{}
+type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower struct{}
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) FieldPath() *TsConditionTemplate_FieldSubPath {
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) FieldPath() *TsConditionTemplate_FieldSubPath {
 	return &TsConditionTemplate_FieldSubPath{
 		selector: TsConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().FieldPath(),
 	}
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) WithValue(value *rcommon.AlertingThreshold) *TsConditionTemplate_FieldSubPathValue {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) WithValue(value *rcommon.AlertingThreshold) *TsConditionTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsConditionTemplate_FieldSubPathValue)
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsConditionTemplate_FieldSubPathArrayOfValues {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) Value() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue {
-	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue{}
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) Value() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue {
+	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue{}
 }
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLower) IsInclusive() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive {
-	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive{}
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLower) IsInclusive() TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive {
+	return TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive{}
 }
 
-type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue struct{}
+type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue struct{}
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue) FieldPath() *TsConditionTemplate_FieldSubPath {
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue) FieldPath() *TsConditionTemplate_FieldSubPath {
 	return &TsConditionTemplate_FieldSubPath{
 		selector: TsConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().Value().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().FieldPath(),
 	}
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue) WithValue(value float64) *TsConditionTemplate_FieldSubPathValue {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue) WithValue(value float64) *TsConditionTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsConditionTemplate_FieldSubPathValue)
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerValue) WithArrayOfValues(values []float64) *TsConditionTemplate_FieldSubPathArrayOfValues {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerValue) WithArrayOfValues(values []float64) *TsConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 
-type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive struct{}
+type TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive struct{}
 
-func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) FieldPath() *TsConditionTemplate_FieldSubPath {
+func (TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsConditionTemplate_FieldSubPath {
 	return &TsConditionTemplate_FieldSubPath{
 		selector: TsConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
 	}
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithValue(value bool) *TsConditionTemplate_FieldSubPathValue {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithValue(value bool) *TsConditionTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsConditionTemplate_FieldSubPathValue)
 }
 
-func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsConditionTemplate_FieldSubPathArrayOfValues {
+func (s TsConditionTemplatePathSelectorSpecTemplateThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplate_FieldSubPathArrayOfValues)
 }
 

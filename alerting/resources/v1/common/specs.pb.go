@@ -2123,16 +2123,16 @@ func (m *TsCndSpec_AnomalyAlertingCfg) SetLstmAutoencoder(fv *TsCndSpec_AnomalyA
 
 // AlertingThresholds represents all thresholds.
 // When they are crossed by time series values, alert will be raised.
-// Max thresholds are active all the time.
+// max_upper and min_lower are active all the time.
 // Adaptive thresholds are active when anomaly detectors
 // are not available (not defined or in training).
-// It is also possible to set minimal lower/upper thresholds,
+// It is also possible to set min_upper and max_lower thresholds,
 // to avoid adaptive thresholds being to insensitive.
 // Overall, alert is raised when value drops below
 // lower threshold or above upper threshold. Working
 // allowed range is between.
 // Values must always satisfy condition:
-// Upper max > Upper min > Lower min > Lower max
+// Upper max > Upper min > Lower max > Lower min
 type TsCndSpec_ThresholdAlertingCfg_AlertingThresholds struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2143,24 +2143,24 @@ type TsCndSpec_ThresholdAlertingCfg_AlertingThresholds struct {
 	AutoAdaptLower bool `protobuf:"varint,2,opt,name=auto_adapt_lower,json=autoAdaptLower,proto3" json:"auto_adapt_lower,omitempty"`
 	// Maximum allowed upper threshold. When crossed ABOVE,
 	// alert is raised. Can be set to nil, but in that
-	// case max_lower is mandatory.
-	// Adaptive upper threshold cannot be set below it.
+	// case min_lower is mandatory.
+	// Adaptive upper threshold cannot be set above it.
 	MaxUpper *AlertingThreshold `protobuf:"bytes,3,opt,name=max_upper,json=maxUpper,proto3" json:"max_upper,omitempty"`
-	// Maximum allowed lower threshold. When crossed BELOW,
+	// Minimum allowed lower threshold. When crossed BELOW,
 	// alert is raised. Can be set to nil, but in that
 	// case max_upper is mandatory.
 	// Adaptive lower threshold cannot be set below it.
-	MaxLower *AlertingThreshold `protobuf:"bytes,4,opt,name=max_lower,json=maxLower,proto3" json:"max_lower,omitempty"`
+	MinLower *AlertingThreshold `protobuf:"bytes,4,opt,name=min_lower,json=minLower,proto3" json:"min_lower,omitempty"`
 	// Minimal allowed adaptive upper threshold.
 	// It is applicable only if auto_adapt_upper is true.
 	// Adaptive upper threshold cannot be set below it.
 	// It must be smaller than max_upper.
 	MinUpper *AlertingThreshold `protobuf:"bytes,5,opt,name=min_upper,json=minUpper,proto3" json:"min_upper,omitempty"`
-	// Minimal allowed adaptive lower threshold.
+	// Maximum allowed adaptive lower threshold.
 	// It is applicable only if auto_adapt_lower is true.
 	// Adaptive lower threshold cannot be set above it.
-	// It must be bigger than max_lower.
-	MinLower *AlertingThreshold `protobuf:"bytes,6,opt,name=min_lower,json=minLower,proto3" json:"min_lower,omitempty"`
+	// It must be bigger than min_lower.
+	MaxLower *AlertingThreshold `protobuf:"bytes,6,opt,name=max_lower,json=maxLower,proto3" json:"max_lower,omitempty"`
 	// Extra room factor for adaptive threshold calculation.
 	// This multiplier determines additional buffer space above and below
 	// detected min/max values. Formula: buffer = (highest_value -
@@ -2253,9 +2253,9 @@ func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GetMaxUpper() *Alert
 	return nil
 }
 
-func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GetMaxLower() *AlertingThreshold {
+func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GetMinLower() *AlertingThreshold {
 	if m != nil {
-		return m.MaxLower
+		return m.MinLower
 	}
 	return nil
 }
@@ -2267,9 +2267,9 @@ func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GetMinUpper() *Alert
 	return nil
 }
 
-func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GetMinLower() *AlertingThreshold {
+func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GetMaxLower() *AlertingThreshold {
 	if m != nil {
-		return m.MinLower
+		return m.MaxLower
 	}
 	return nil
 }
@@ -2309,11 +2309,11 @@ func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) SetMaxUpper(fv *Aler
 	m.MaxUpper = fv
 }
 
-func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) SetMaxLower(fv *AlertingThreshold) {
+func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) SetMinLower(fv *AlertingThreshold) {
 	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "MaxLower", "TsCndSpec_ThresholdAlertingCfg_AlertingThresholds"))
+		panic(fmt.Errorf("can't set %s on nil %s", "MinLower", "TsCndSpec_ThresholdAlertingCfg_AlertingThresholds"))
 	}
-	m.MaxLower = fv
+	m.MinLower = fv
 }
 
 func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) SetMinUpper(fv *AlertingThreshold) {
@@ -2323,11 +2323,11 @@ func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) SetMinUpper(fv *Aler
 	m.MinUpper = fv
 }
 
-func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) SetMinLower(fv *AlertingThreshold) {
+func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) SetMaxLower(fv *AlertingThreshold) {
 	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "MinLower", "TsCndSpec_ThresholdAlertingCfg_AlertingThresholds"))
+		panic(fmt.Errorf("can't set %s on nil %s", "MaxLower", "TsCndSpec_ThresholdAlertingCfg_AlertingThresholds"))
 	}
-	m.MinLower = fv
+	m.MaxLower = fv
 }
 
 func (m *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) SetExtraRoomFactor(fv float32) {
@@ -4943,18 +4943,18 @@ var edgelq_alerting_proto_v1_specs_proto_rawDesc = []byte{
 	0x6e, 0x74, 0x74, 0x2e, 0x61, 0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e,
 	0x41, 0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x54, 0x68, 0x72, 0x65, 0x73, 0x68, 0x6f, 0x6c,
 	0x64, 0x52, 0x08, 0x6d, 0x61, 0x78, 0x55, 0x70, 0x70, 0x65, 0x72, 0x12, 0x3f, 0x0a, 0x09, 0x6d,
-	0x61, 0x78, 0x5f, 0x6c, 0x6f, 0x77, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22,
+	0x69, 0x6e, 0x5f, 0x6c, 0x6f, 0x77, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22,
 	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31,
 	0x2e, 0x41, 0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x54, 0x68, 0x72, 0x65, 0x73, 0x68, 0x6f,
-	0x6c, 0x64, 0x52, 0x08, 0x6d, 0x61, 0x78, 0x4c, 0x6f, 0x77, 0x65, 0x72, 0x12, 0x3f, 0x0a, 0x09,
+	0x6c, 0x64, 0x52, 0x08, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x77, 0x65, 0x72, 0x12, 0x3f, 0x0a, 0x09,
 	0x6d, 0x69, 0x6e, 0x5f, 0x75, 0x70, 0x70, 0x65, 0x72, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x22, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x76,
 	0x31, 0x2e, 0x41, 0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x54, 0x68, 0x72, 0x65, 0x73, 0x68,
 	0x6f, 0x6c, 0x64, 0x52, 0x08, 0x6d, 0x69, 0x6e, 0x55, 0x70, 0x70, 0x65, 0x72, 0x12, 0x3f, 0x0a,
-	0x09, 0x6d, 0x69, 0x6e, 0x5f, 0x6c, 0x6f, 0x77, 0x65, 0x72, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b,
+	0x09, 0x6d, 0x61, 0x78, 0x5f, 0x6c, 0x6f, 0x77, 0x65, 0x72, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x22, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x2e,
 	0x76, 0x31, 0x2e, 0x41, 0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x54, 0x68, 0x72, 0x65, 0x73,
-	0x68, 0x6f, 0x6c, 0x64, 0x52, 0x08, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x77, 0x65, 0x72, 0x12, 0x34,
+	0x68, 0x6f, 0x6c, 0x64, 0x52, 0x08, 0x6d, 0x61, 0x78, 0x4c, 0x6f, 0x77, 0x65, 0x72, 0x12, 0x34,
 	0x0a, 0x11, 0x65, 0x78, 0x74, 0x72, 0x61, 0x5f, 0x72, 0x6f, 0x6f, 0x6d, 0x5f, 0x66, 0x61, 0x63,
 	0x74, 0x6f, 0x72, 0x18, 0x07, 0x20, 0x01, 0x28, 0x02, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x0a,
 	0x02, 0x2a, 0x00, 0x52, 0x0f, 0x65, 0x78, 0x74, 0x72, 0x61, 0x52, 0x6f, 0x6f, 0x6d, 0x46, 0x61,
@@ -5462,9 +5462,9 @@ var edgelq_alerting_proto_v1_specs_proto_depIdxs = []int32{
 	41, // 34: ntt.alerting.v1.TsCndSpec.AnomalyAlertingCfg.raise_after:type_name -> google.protobuf.Duration
 	41, // 35: ntt.alerting.v1.TsCndSpec.AnomalyAlertingCfg.silence_after:type_name -> google.protobuf.Duration
 	10, // 36: ntt.alerting.v1.TsCndSpec.ThresholdAlertingCfg.AlertingThresholds.max_upper:type_name -> ntt.alerting.v1.AlertingThreshold
-	10, // 37: ntt.alerting.v1.TsCndSpec.ThresholdAlertingCfg.AlertingThresholds.max_lower:type_name -> ntt.alerting.v1.AlertingThreshold
+	10, // 37: ntt.alerting.v1.TsCndSpec.ThresholdAlertingCfg.AlertingThresholds.min_lower:type_name -> ntt.alerting.v1.AlertingThreshold
 	10, // 38: ntt.alerting.v1.TsCndSpec.ThresholdAlertingCfg.AlertingThresholds.min_upper:type_name -> ntt.alerting.v1.AlertingThreshold
-	10, // 39: ntt.alerting.v1.TsCndSpec.ThresholdAlertingCfg.AlertingThresholds.min_lower:type_name -> ntt.alerting.v1.AlertingThreshold
+	10, // 39: ntt.alerting.v1.TsCndSpec.ThresholdAlertingCfg.AlertingThresholds.max_lower:type_name -> ntt.alerting.v1.AlertingThreshold
 	41, // 40: ntt.alerting.v1.TsCndSpec.AnomalyAlertingCfg.LstmAutoEncoder.training_period:type_name -> google.protobuf.Duration
 	24, // 41: ntt.alerting.v1.PolicySpec.ResourceIdentity.labels:type_name -> ntt.alerting.v1.PolicySpec.ResourceIdentity.LabelInfo
 	25, // 42: ntt.alerting.v1.PolicySpec.SupportingAlertQuery.ts_query:type_name -> ntt.alerting.v1.PolicySpec.SupportingAlertQuery.TsQuery

@@ -423,9 +423,9 @@ func (obj *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GotenValidate() er
 			return gotenvalidate.NewValidationError("AlertingThresholds", "maxUpper", obj.MaxUpper, "nested object validation failed", err)
 		}
 	}
-	if subobj, ok := interface{}(obj.MaxLower).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.MinLower).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("AlertingThresholds", "maxLower", obj.MaxLower, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("AlertingThresholds", "minLower", obj.MinLower, "nested object validation failed", err)
 		}
 	}
 	if subobj, ok := interface{}(obj.MinUpper).(gotenvalidate.Validator); ok {
@@ -433,9 +433,9 @@ func (obj *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) GotenValidate() er
 			return gotenvalidate.NewValidationError("AlertingThresholds", "minUpper", obj.MinUpper, "nested object validation failed", err)
 		}
 	}
-	if subobj, ok := interface{}(obj.MinLower).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.MaxLower).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("AlertingThresholds", "minLower", obj.MinLower, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("AlertingThresholds", "maxLower", obj.MaxLower, "nested object validation failed", err)
 		}
 	}
 	if !(obj.ExtraRoomFactor >= 0) {

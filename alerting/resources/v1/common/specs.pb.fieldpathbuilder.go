@@ -695,16 +695,16 @@ func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholds) MaxUpper() TsCnd
 	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper{}
 }
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholds) MaxLower() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower {
-	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower{}
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholds) MinLower() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower {
+	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower{}
 }
 
 func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholds) MinUpper() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinUpper {
 	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinUpper{}
 }
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholds) MinLower() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower {
-	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower{}
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholds) MaxLower() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower {
+	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower{}
 }
 
 func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholds) ExtraRoomFactor() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsExtraRoomFactor {
@@ -808,62 +808,62 @@ func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperIsInclus
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpec_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower struct{}
+type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower struct{}
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) FieldPath() *TsCndSpec_FieldSubPath {
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) FieldPath() *TsCndSpec_FieldSubPath {
 	return &TsCndSpec_FieldSubPath{
 		selector: TsCndSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MinLower().FieldPath(),
 	}
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) WithValue(value *AlertingThreshold) *TsCndSpec_FieldSubPathValue {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) WithValue(value *AlertingThreshold) *TsCndSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpec_FieldSubPathValue)
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpec_FieldSubPathArrayOfValues {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpec_FieldSubPathArrayOfValues)
 }
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) Value() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue {
-	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue{}
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) Value() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue {
+	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue{}
 }
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) IsInclusive() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive {
-	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive{}
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) IsInclusive() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive {
+	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive{}
 }
 
-type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue struct{}
+type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue struct{}
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) FieldPath() *TsCndSpec_FieldSubPath {
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue) FieldPath() *TsCndSpec_FieldSubPath {
 	return &TsCndSpec_FieldSubPath{
 		selector: TsCndSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().Value().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MinLower().Value().FieldPath(),
 	}
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) WithValue(value float64) *TsCndSpec_FieldSubPathValue {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue) WithValue(value float64) *TsCndSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpec_FieldSubPathValue)
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) WithArrayOfValues(values []float64) *TsCndSpec_FieldSubPathArrayOfValues {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue) WithArrayOfValues(values []float64) *TsCndSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpec_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive struct{}
+type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive struct{}
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsCndSpec_FieldSubPath {
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) FieldPath() *TsCndSpec_FieldSubPath {
 	return &TsCndSpec_FieldSubPath{
 		selector: TsCndSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
 	}
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithValue(value bool) *TsCndSpec_FieldSubPathValue {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithValue(value bool) *TsCndSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpec_FieldSubPathValue)
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpec_FieldSubPathArrayOfValues {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpec_FieldSubPathArrayOfValues)
 }
 
@@ -926,62 +926,62 @@ func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinUpperIsInclus
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpec_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower struct{}
+type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower struct{}
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) FieldPath() *TsCndSpec_FieldSubPath {
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) FieldPath() *TsCndSpec_FieldSubPath {
 	return &TsCndSpec_FieldSubPath{
 		selector: TsCndSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MinLower().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().FieldPath(),
 	}
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) WithValue(value *AlertingThreshold) *TsCndSpec_FieldSubPathValue {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) WithValue(value *AlertingThreshold) *TsCndSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpec_FieldSubPathValue)
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpec_FieldSubPathArrayOfValues {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpec_FieldSubPathArrayOfValues)
 }
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) Value() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue {
-	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue{}
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) Value() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue {
+	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue{}
 }
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLower) IsInclusive() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive {
-	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive{}
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) IsInclusive() TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive {
+	return TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive{}
 }
 
-type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue struct{}
+type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue struct{}
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue) FieldPath() *TsCndSpec_FieldSubPath {
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) FieldPath() *TsCndSpec_FieldSubPath {
 	return &TsCndSpec_FieldSubPath{
 		selector: TsCndSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MinLower().Value().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().Value().FieldPath(),
 	}
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue) WithValue(value float64) *TsCndSpec_FieldSubPathValue {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) WithValue(value float64) *TsCndSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpec_FieldSubPathValue)
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerValue) WithArrayOfValues(values []float64) *TsCndSpec_FieldSubPathArrayOfValues {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) WithArrayOfValues(values []float64) *TsCndSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpec_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive struct{}
+type TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive struct{}
 
-func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) FieldPath() *TsCndSpec_FieldSubPath {
+func (TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsCndSpec_FieldSubPath {
 	return &TsCndSpec_FieldSubPath{
 		selector: TsCndSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
 	}
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithValue(value bool) *TsCndSpec_FieldSubPathValue {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithValue(value bool) *TsCndSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpec_FieldSubPathValue)
 }
 
-func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpec_FieldSubPathArrayOfValues {
+func (s TsCndSpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpec_FieldSubPathArrayOfValues)
 }
 
@@ -1600,16 +1600,16 @@ func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) MaxUpper() T
 	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper{}
 }
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) MaxLower() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower {
-	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower{}
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) MinLower() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower {
+	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower{}
 }
 
 func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) MinUpper() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinUpper {
 	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinUpper{}
 }
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) MinLower() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower {
-	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower{}
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) MaxLower() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower {
+	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower{}
 }
 
 func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) ExtraRoomFactor() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsExtraRoomFactor {
@@ -1713,62 +1713,62 @@ func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperIsIn
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower struct{}
+type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower struct{}
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfg_FieldSubPath{
 		selector: TsCndSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MinLower().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) WithValue(value *AlertingThreshold) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) WithValue(value *AlertingThreshold) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfg_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
 }
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) Value() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue {
-	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue{}
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) Value() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue {
+	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue{}
 }
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) IsInclusive() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive {
-	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive{}
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) IsInclusive() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive {
+	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive{}
 }
 
-type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue struct{}
+type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue struct{}
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfg_FieldSubPath{
 		selector: TsCndSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().Value().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MinLower().Value().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) WithValue(value float64) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue) WithValue(value float64) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfg_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) WithArrayOfValues(values []float64) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue) WithArrayOfValues(values []float64) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive struct{}
+type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive struct{}
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfg_FieldSubPath{
 		selector: TsCndSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().IsInclusive().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MinLower().IsInclusive().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) WithValue(value bool) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive) WithValue(value bool) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfg_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
 }
 
@@ -1831,62 +1831,62 @@ func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinUpperIsIn
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower struct{}
+type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower struct{}
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfg_FieldSubPath{
 		selector: TsCndSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MinLower().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) WithValue(value *AlertingThreshold) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) WithValue(value *AlertingThreshold) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfg_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
 }
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) Value() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue {
-	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue{}
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) Value() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue {
+	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue{}
 }
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLower) IsInclusive() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive {
-	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive{}
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) IsInclusive() TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive {
+	return TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive{}
 }
 
-type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue struct{}
+type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue struct{}
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfg_FieldSubPath{
 		selector: TsCndSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MinLower().Value().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().Value().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue) WithValue(value float64) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) WithValue(value float64) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfg_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerValue) WithArrayOfValues(values []float64) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) WithArrayOfValues(values []float64) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive struct{}
+type TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive struct{}
 
-func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsCndSpecThresholdAlertingCfg_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfg_FieldSubPath{
 		selector: TsCndSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MinLower().IsInclusive().FieldPath(),
+		subPath:  NewTsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().IsInclusive().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive) WithValue(value bool) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) WithValue(value bool) *TsCndSpecThresholdAlertingCfg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfg_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
 }
 
@@ -2261,14 +2261,14 @@ func (TsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) AutoAdapt
 func (TsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) MaxUpper() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper {
 	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper{}
 }
-func (TsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) MaxLower() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower {
-	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower{}
+func (TsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) MinLower() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower {
+	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower{}
 }
 func (TsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) MinUpper() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinUpper {
 	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinUpper{}
 }
-func (TsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) MinLower() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower {
-	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower{}
+func (TsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) MaxLower() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower {
+	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower{}
 }
 func (TsCndSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) ExtraRoomFactor() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorExtraRoomFactor {
 	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorExtraRoomFactor{}
@@ -2377,75 +2377,75 @@ func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperIsI
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower struct{}
+type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower struct{}
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath {
-	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower}
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath {
+	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithValue(value *AlertingThreshold) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithValue(value *AlertingThreshold) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues)
 }
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubPath(subPath AlertingThreshold_FieldPath) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
-	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower, subPath: subPath}
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithSubPath(subPath AlertingThreshold_FieldPath) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
+	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower, subPath: subPath}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubValue(subPathValue AlertingThreshold_FieldPathValue) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithSubValue(subPathValue AlertingThreshold_FieldPathValue) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubArrayOfValues(subPathArrayOfValues AlertingThreshold_FieldPathArrayOfValues) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithSubArrayOfValues(subPathArrayOfValues AlertingThreshold_FieldPathArrayOfValues) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubArrayItemValue(subPathArrayItemValue AlertingThreshold_FieldPathArrayItemValue) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithSubArrayItemValue(subPathArrayItemValue AlertingThreshold_FieldPathArrayItemValue) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) Value() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue {
-	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue{}
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) Value() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue {
+	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue{}
 }
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) IsInclusive() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive {
-	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive{}
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) IsInclusive() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive {
+	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive{}
 }
 
-type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue struct{}
+type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue struct{}
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{
-		selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower,
+		selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower,
 		subPath:  NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) WithValue(value float64) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue) WithValue(value float64) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) WithArrayOfValues(values []float64) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue) WithArrayOfValues(values []float64) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive struct{}
+type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive struct{}
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{
-		selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower,
+		selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower,
 		subPath:  NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) WithValue(value bool) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive) WithValue(value bool) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
 }
 
@@ -2521,75 +2521,75 @@ func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinUpperIsI
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower struct{}
+type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower struct{}
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath {
-	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower}
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath {
+	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithValue(value *AlertingThreshold) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithValue(value *AlertingThreshold) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues)
 }
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithSubPath(subPath AlertingThreshold_FieldPath) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
-	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower, subPath: subPath}
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubPath(subPath AlertingThreshold_FieldPath) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
+	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower, subPath: subPath}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithSubValue(subPathValue AlertingThreshold_FieldPathValue) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubValue(subPathValue AlertingThreshold_FieldPathValue) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithSubArrayOfValues(subPathArrayOfValues AlertingThreshold_FieldPathArrayOfValues) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubArrayOfValues(subPathArrayOfValues AlertingThreshold_FieldPathArrayOfValues) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) WithSubArrayItemValue(subPathArrayItemValue AlertingThreshold_FieldPathArrayItemValue) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubArrayItemValue(subPathArrayItemValue AlertingThreshold_FieldPathArrayItemValue) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue{TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) Value() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue {
-	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue{}
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) Value() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue {
+	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue{}
 }
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLower) IsInclusive() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive {
-	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive{}
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) IsInclusive() TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive {
+	return TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive{}
 }
 
-type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue struct{}
+type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue struct{}
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{
-		selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower,
+		selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower,
 		subPath:  NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue) WithValue(value float64) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) WithValue(value float64) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerValue) WithArrayOfValues(values []float64) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) WithArrayOfValues(values []float64) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
 }
 
-type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive struct{}
+type TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive struct{}
 
-func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
+func (TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) FieldPath() *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
 	return &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{
-		selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower,
+		selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower,
 		subPath:  NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
 	}
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive) WithValue(value bool) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) WithValue(value bool) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)
 }
 
-func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
+func (s TsCndSpec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
 }
 

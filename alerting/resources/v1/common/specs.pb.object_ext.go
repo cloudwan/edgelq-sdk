@@ -1002,12 +1002,12 @@ func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) MakeDiffFieldMask(ot
 		}
 	}
 	{
-		subMask := o.GetMaxLower().MakeDiffFieldMask(other.GetMaxLower())
+		subMask := o.GetMinLower().MakeDiffFieldMask(other.GetMinLower())
 		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower})
+			res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower})
 		} else {
 			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower, subPath: subpath})
+				res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower, subPath: subpath})
 			}
 		}
 	}
@@ -1022,12 +1022,12 @@ func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) MakeDiffFieldMask(ot
 		}
 	}
 	{
-		subMask := o.GetMinLower().MakeDiffFieldMask(other.GetMinLower())
+		subMask := o.GetMaxLower().MakeDiffFieldMask(other.GetMaxLower())
 		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower})
+			res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower})
 		} else {
 			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower, subPath: subpath})
+				res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower, subPath: subpath})
 			}
 		}
 	}
@@ -1052,9 +1052,9 @@ func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) Clone() *TsCndSpec_T
 	result.AutoAdaptUpper = o.AutoAdaptUpper
 	result.AutoAdaptLower = o.AutoAdaptLower
 	result.MaxUpper = o.MaxUpper.Clone()
-	result.MaxLower = o.MaxLower.Clone()
-	result.MinUpper = o.MinUpper.Clone()
 	result.MinLower = o.MinLower.Clone()
+	result.MinUpper = o.MinUpper.Clone()
+	result.MaxLower = o.MaxLower.Clone()
 	result.ExtraRoomFactor = o.ExtraRoomFactor
 	result.ExtraRoom = o.ExtraRoom
 	return result
@@ -1073,11 +1073,11 @@ func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) Merge(source *TsCndS
 		}
 		o.MaxUpper.Merge(source.GetMaxUpper())
 	}
-	if source.GetMaxLower() != nil {
-		if o.MaxLower == nil {
-			o.MaxLower = new(AlertingThreshold)
+	if source.GetMinLower() != nil {
+		if o.MinLower == nil {
+			o.MinLower = new(AlertingThreshold)
 		}
-		o.MaxLower.Merge(source.GetMaxLower())
+		o.MinLower.Merge(source.GetMinLower())
 	}
 	if source.GetMinUpper() != nil {
 		if o.MinUpper == nil {
@@ -1085,11 +1085,11 @@ func (o *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) Merge(source *TsCndS
 		}
 		o.MinUpper.Merge(source.GetMinUpper())
 	}
-	if source.GetMinLower() != nil {
-		if o.MinLower == nil {
-			o.MinLower = new(AlertingThreshold)
+	if source.GetMaxLower() != nil {
+		if o.MaxLower == nil {
+			o.MaxLower = new(AlertingThreshold)
 		}
-		o.MinLower.Merge(source.GetMinLower())
+		o.MaxLower.Merge(source.GetMaxLower())
 	}
 	o.ExtraRoomFactor = source.GetExtraRoomFactor()
 	o.ExtraRoom = source.GetExtraRoom()

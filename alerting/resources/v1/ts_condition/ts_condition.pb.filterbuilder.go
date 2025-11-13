@@ -3646,16 +3646,16 @@ func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) MaxUpper() *fi
 	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxUpper{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) MaxLower() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower {
-	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower{builder: b.builder}
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) MinLower() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower {
+	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower{builder: b.builder}
 }
 
 func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) MinUpper() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinUpper {
 	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinUpper{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) MinLower() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower {
-	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower{builder: b.builder}
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) MaxLower() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower {
+	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower{builder: b.builder}
 }
 
 func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholds) ExtraRoomFactor() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsExtraRoomFactor {
@@ -3969,188 +3969,188 @@ func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxUpperIsInclus
 	})
 }
 
-type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower struct {
+type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Eq(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Eq(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Neq(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Neq(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Gt(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Gt(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Gte(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Gte(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Lt(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Lt(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Lte(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Lte(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) In(values []*rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) In(values []*rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) NotIn(values []*rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) NotIn(values []*rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) compare(op gotenfilter.CompareOperator, value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) compare(op gotenfilter.CompareOperator, value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
-		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().WithValue(value),
+		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().WithValue(value),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Value() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue {
-	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue{builder: b.builder}
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Value() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue {
+	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) IsInclusive() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive {
-	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive{builder: b.builder}
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) IsInclusive() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive {
+	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive{builder: b.builder}
 }
 
-type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue struct {
+type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Eq(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Eq(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Neq(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Neq(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Gt(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Gt(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Gte(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Gte(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Lt(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Lt(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Lte(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Lte(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) In(values []float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) In(values []float64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) NotIn(values []float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) NotIn(values []float64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) compare(op gotenfilter.CompareOperator, value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) compare(op gotenfilter.CompareOperator, value float64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
-		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().WithValue(value),
+		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().WithValue(value),
 	})
 }
 
-type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive struct {
+type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Eq(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Eq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Neq(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Neq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Gt(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Gt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Gte(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Gte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Lt(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Lt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Lte(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Lte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) In(values []bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) In(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) NotIn(values []bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) NotIn(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
-		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().WithValue(value),
+		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().WithValue(value),
 	})
 }
 
@@ -4339,188 +4339,188 @@ func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinUpperIsInclus
 	})
 }
 
-type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower struct {
+type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Eq(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Eq(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Neq(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Neq(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Gt(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Gt(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Gte(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Gte(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Lt(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Lt(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Lte(value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Lte(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) In(values []*rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) In(values []*rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) NotIn(values []*rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) NotIn(values []*rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) compare(op gotenfilter.CompareOperator, value *rcommon.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) compare(op gotenfilter.CompareOperator, value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
-		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().WithValue(value),
+		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().WithValue(value),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) Value() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue {
-	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue{builder: b.builder}
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) Value() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue {
+	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLower) IsInclusive() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive {
-	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive{builder: b.builder}
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLower) IsInclusive() *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive {
+	return &filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive{builder: b.builder}
 }
 
-type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue struct {
+type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Eq(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Eq(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Neq(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Neq(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Gt(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Gt(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Gte(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Gte(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Lt(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Lt(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) Lte(value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) Lte(value float64) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) In(values []float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) In(values []float64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) NotIn(values []float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) NotIn(values []float64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerValue) compare(op gotenfilter.CompareOperator, value float64) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) compare(op gotenfilter.CompareOperator, value float64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
-		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().Value().WithValue(value),
+		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().WithValue(value),
 	})
 }
 
-type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive struct {
+type filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Eq(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Eq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Neq(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Neq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Gt(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Gt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Gte(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Gte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Lt(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Lt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) Lte(value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) Lte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) In(values []bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) In(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) NotIn(values []bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) NotIn(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().WithArrayOfValues(values),
+		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
+		FieldPath: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+func (b *filterCndBuilderSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
-		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().WithValue(value),
+		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().Spec().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().WithValue(value),
 	})
 }
 

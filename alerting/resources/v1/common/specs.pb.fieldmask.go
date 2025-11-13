@@ -2373,9 +2373,9 @@ func FullTsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask() *TsCndSpe
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper})
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower})
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper})
-	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower})
-	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper})
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower})
+	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper})
+	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower})
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor})
 	res.Paths = append(res.Paths, &TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoom})
 	return res
@@ -2429,15 +2429,15 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Su
 	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector]gotenobject.FieldMask{
 		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper: &AlertingThreshold_FieldMask{},
-		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower: &AlertingThreshold_FieldMask{},
-		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper: &AlertingThreshold_FieldMask{},
 		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower: &AlertingThreshold_FieldMask{},
+		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper: &AlertingThreshold_FieldMask{},
+		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower: &AlertingThreshold_FieldMask{},
 	}
 	mySubMasks := map[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector]gotenobject.FieldMask{
 		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper: &AlertingThreshold_FieldMask{},
-		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower: &AlertingThreshold_FieldMask{},
-		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper: &AlertingThreshold_FieldMask{},
 		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower: &AlertingThreshold_FieldMask{},
+		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper: &AlertingThreshold_FieldMask{},
+		TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower: &AlertingThreshold_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -2455,12 +2455,12 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Su
 					switch tp.selector {
 					case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
 						mySubMasks[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper] = FullAlertingThreshold_FieldMask()
-					case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-						mySubMasks[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower] = FullAlertingThreshold_FieldMask()
-					case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper:
-						mySubMasks[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper] = FullAlertingThreshold_FieldMask()
 					case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 						mySubMasks[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower] = FullAlertingThreshold_FieldMask()
+					case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper:
+						mySubMasks[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper] = FullAlertingThreshold_FieldMask()
+					case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
+						mySubMasks[TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower] = FullAlertingThreshold_FieldMask()
 					}
 				} else if tp, ok := path.(*TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -2615,12 +2615,12 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Pr
 	result := &TsCndSpec_ThresholdAlertingCfg_AlertingThresholds{}
 	maxUpperMask := &AlertingThreshold_FieldMask{}
 	wholeMaxUpperAccepted := false
-	maxLowerMask := &AlertingThreshold_FieldMask{}
-	wholeMaxLowerAccepted := false
-	minUpperMask := &AlertingThreshold_FieldMask{}
-	wholeMinUpperAccepted := false
 	minLowerMask := &AlertingThreshold_FieldMask{}
 	wholeMinLowerAccepted := false
+	minUpperMask := &AlertingThreshold_FieldMask{}
+	wholeMinUpperAccepted := false
+	maxLowerMask := &AlertingThreshold_FieldMask{}
+	wholeMaxLowerAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -2633,15 +2633,15 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Pr
 			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
 				result.MaxUpper = source.MaxUpper
 				wholeMaxUpperAccepted = true
-			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-				result.MaxLower = source.MaxLower
-				wholeMaxLowerAccepted = true
-			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper:
-				result.MinUpper = source.MinUpper
-				wholeMinUpperAccepted = true
 			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 				result.MinLower = source.MinLower
 				wholeMinLowerAccepted = true
+			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper:
+				result.MinUpper = source.MinUpper
+				wholeMinUpperAccepted = true
+			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
+				result.MaxLower = source.MaxLower
+				wholeMaxLowerAccepted = true
 			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoomFactor:
 				result.ExtraRoomFactor = source.ExtraRoomFactor
 			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorExtraRoom:
@@ -2651,26 +2651,26 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Pr
 			switch tp.selector {
 			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
 				maxUpperMask.AppendPath(tp.subPath.(AlertingThreshold_FieldPath))
-			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-				maxLowerMask.AppendPath(tp.subPath.(AlertingThreshold_FieldPath))
-			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper:
-				minUpperMask.AppendPath(tp.subPath.(AlertingThreshold_FieldPath))
 			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinLower:
 				minLowerMask.AppendPath(tp.subPath.(AlertingThreshold_FieldPath))
+			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMinUpper:
+				minUpperMask.AppendPath(tp.subPath.(AlertingThreshold_FieldPath))
+			case TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
+				maxLowerMask.AppendPath(tp.subPath.(AlertingThreshold_FieldPath))
 			}
 		}
 	}
 	if wholeMaxUpperAccepted == false && len(maxUpperMask.Paths) > 0 {
 		result.MaxUpper = maxUpperMask.Project(source.GetMaxUpper())
 	}
-	if wholeMaxLowerAccepted == false && len(maxLowerMask.Paths) > 0 {
-		result.MaxLower = maxLowerMask.Project(source.GetMaxLower())
+	if wholeMinLowerAccepted == false && len(minLowerMask.Paths) > 0 {
+		result.MinLower = minLowerMask.Project(source.GetMinLower())
 	}
 	if wholeMinUpperAccepted == false && len(minUpperMask.Paths) > 0 {
 		result.MinUpper = minUpperMask.Project(source.GetMinUpper())
 	}
-	if wholeMinLowerAccepted == false && len(minLowerMask.Paths) > 0 {
-		result.MinLower = minLowerMask.Project(source.GetMinLower())
+	if wholeMaxLowerAccepted == false && len(maxLowerMask.Paths) > 0 {
+		result.MaxLower = maxLowerMask.Project(source.GetMaxLower())
 	}
 	return result
 }

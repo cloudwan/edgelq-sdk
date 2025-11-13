@@ -176,16 +176,16 @@ message TsCndSpec {
 
     // AlertingThresholds represents all thresholds.
     // When they are crossed by time series values, alert will be raised.
-    // Max thresholds are active all the time.
+    // max_upper and min_lower are active all the time.
     // Adaptive thresholds are active when anomaly detectors
     // are not available (not defined or in training).
-    // It is also possible to set minimal lower/upper thresholds,
+    // It is also possible to set min_upper and max_lower thresholds,
     // to avoid adaptive thresholds being to insensitive.
     // Overall, alert is raised when value drops below
     // lower threshold or above upper threshold. Working
     // allowed range is between.
     // Values must always satisfy condition:
-    // Upper max > Upper min > Lower min > Lower max
+    // Upper max > Upper min > Lower max > Lower min
     message AlertingThresholds {
       // Whether upper threshold should be set and adaptive.
       bool auto_adapt_upper = 1;
@@ -195,15 +195,15 @@ message TsCndSpec {
 
       // Maximum allowed upper threshold. When crossed ABOVE,
       // alert is raised. Can be set to nil, but in that
-      // case max_lower is mandatory.
-      // Adaptive upper threshold cannot be set below it.
+      // case min_lower is mandatory.
+      // Adaptive upper threshold cannot be set above it.
       AlertingThreshold max_upper = 3;
 
-      // Maximum allowed lower threshold. When crossed BELOW,
+      // Minimum allowed lower threshold. When crossed BELOW,
       // alert is raised. Can be set to nil, but in that
       // case max_upper is mandatory.
       // Adaptive lower threshold cannot be set below it.
-      AlertingThreshold max_lower = 4;
+      AlertingThreshold min_lower = 4;
 
       // Minimal allowed adaptive upper threshold.
       // It is applicable only if auto_adapt_upper is true.
@@ -211,11 +211,11 @@ message TsCndSpec {
       // It must be smaller than max_upper.
       AlertingThreshold min_upper = 5;
 
-      // Minimal allowed adaptive lower threshold.
+      // Maximum allowed adaptive lower threshold.
       // It is applicable only if auto_adapt_lower is true.
       // Adaptive lower threshold cannot be set above it.
-      // It must be bigger than max_lower.
-      AlertingThreshold min_lower = 6;
+      // It must be bigger than min_lower.
+      AlertingThreshold max_lower = 6;
 
       // Extra room factor for adaptive threshold calculation.
       // This multiplier determines additional buffer space above and below
