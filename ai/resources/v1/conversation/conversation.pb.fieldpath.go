@@ -85,13 +85,14 @@ const (
 	Conversation_FieldPathSelectorName               Conversation_FieldPathSelector = 0
 	Conversation_FieldPathSelectorMetadata           Conversation_FieldPathSelector = 1
 	Conversation_FieldPathSelectorTitle              Conversation_FieldPathSelector = 2
-	Conversation_FieldPathSelectorArchived           Conversation_FieldPathSelector = 3
-	Conversation_FieldPathSelectorIsPrivate          Conversation_FieldPathSelector = 4
-	Conversation_FieldPathSelectorLastActivityTime   Conversation_FieldPathSelector = 5
-	Conversation_FieldPathSelectorTurns              Conversation_FieldPathSelector = 6
-	Conversation_FieldPathSelectorUsageByModel       Conversation_FieldPathSelector = 7
-	Conversation_FieldPathSelectorFailedTurns        Conversation_FieldPathSelector = 8
-	Conversation_FieldPathSelectorReplacedTurnGroups Conversation_FieldPathSelector = 9
+	Conversation_FieldPathSelectorConfiguredTitle    Conversation_FieldPathSelector = 3
+	Conversation_FieldPathSelectorArchived           Conversation_FieldPathSelector = 4
+	Conversation_FieldPathSelectorIsPrivate          Conversation_FieldPathSelector = 5
+	Conversation_FieldPathSelectorLastActivityTime   Conversation_FieldPathSelector = 6
+	Conversation_FieldPathSelectorTurns              Conversation_FieldPathSelector = 7
+	Conversation_FieldPathSelectorUsageByModel       Conversation_FieldPathSelector = 8
+	Conversation_FieldPathSelectorFailedTurns        Conversation_FieldPathSelector = 9
+	Conversation_FieldPathSelectorReplacedTurnGroups Conversation_FieldPathSelector = 10
 )
 
 func (s Conversation_FieldPathSelector) String() string {
@@ -102,6 +103,8 @@ func (s Conversation_FieldPathSelector) String() string {
 		return "metadata"
 	case Conversation_FieldPathSelectorTitle:
 		return "title"
+	case Conversation_FieldPathSelectorConfiguredTitle:
+		return "configured_title"
 	case Conversation_FieldPathSelectorArchived:
 		return "archived"
 	case Conversation_FieldPathSelectorIsPrivate:
@@ -133,6 +136,8 @@ func BuildConversation_FieldPath(fp gotenobject.RawFieldPath) (Conversation_Fiel
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorMetadata}, nil
 		case "title":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTitle}, nil
+		case "configured_title", "configuredTitle", "configured-title":
+			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorConfiguredTitle}, nil
 		case "archived":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorArchived}, nil
 		case "is_private", "isPrivate", "is-private":
@@ -234,6 +239,8 @@ func (fp *Conversation_FieldTerminalPath) Get(source *Conversation) (values []in
 			}
 		case Conversation_FieldPathSelectorTitle:
 			values = append(values, source.Title)
+		case Conversation_FieldPathSelectorConfiguredTitle:
+			values = append(values, source.ConfiguredTitle)
 		case Conversation_FieldPathSelectorArchived:
 			values = append(values, source.Archived)
 		case Conversation_FieldPathSelectorIsPrivate:
@@ -280,6 +287,8 @@ func (fp *Conversation_FieldTerminalPath) GetSingle(source *Conversation) (inter
 		return res, res != nil
 	case Conversation_FieldPathSelectorTitle:
 		return source.GetTitle(), source != nil
+	case Conversation_FieldPathSelectorConfiguredTitle:
+		return source.GetConfiguredTitle(), source != nil
 	case Conversation_FieldPathSelectorArchived:
 		return source.GetArchived(), source != nil
 	case Conversation_FieldPathSelectorIsPrivate:
@@ -317,6 +326,8 @@ func (fp *Conversation_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case Conversation_FieldPathSelectorTitle:
 		return ""
+	case Conversation_FieldPathSelectorConfiguredTitle:
+		return ""
 	case Conversation_FieldPathSelectorArchived:
 		return false
 	case Conversation_FieldPathSelectorIsPrivate:
@@ -345,6 +356,8 @@ func (fp *Conversation_FieldTerminalPath) ClearValue(item *Conversation) {
 			item.Metadata = nil
 		case Conversation_FieldPathSelectorTitle:
 			item.Title = ""
+		case Conversation_FieldPathSelectorConfiguredTitle:
+			item.ConfiguredTitle = ""
 		case Conversation_FieldPathSelectorArchived:
 			item.Archived = false
 		case Conversation_FieldPathSelectorIsPrivate:
@@ -373,6 +386,7 @@ func (fp *Conversation_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Conversation_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Conversation_FieldPathSelectorName ||
 		fp.selector == Conversation_FieldPathSelectorTitle ||
+		fp.selector == Conversation_FieldPathSelectorConfiguredTitle ||
 		fp.selector == Conversation_FieldPathSelectorArchived ||
 		fp.selector == Conversation_FieldPathSelectorIsPrivate ||
 		fp.selector == Conversation_FieldPathSelectorLastActivityTime
@@ -389,6 +403,8 @@ func (fp *Conversation_FieldTerminalPath) WithIValue(value interface{}) Conversa
 	case Conversation_FieldPathSelectorMetadata:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Conversation_FieldPathSelectorTitle:
+		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(string)}
+	case Conversation_FieldPathSelectorConfiguredTitle:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(string)}
 	case Conversation_FieldPathSelectorArchived:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(bool)}
@@ -421,6 +437,8 @@ func (fp *Conversation_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case Conversation_FieldPathSelectorMetadata:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Conversation_FieldPathSelectorTitle:
+		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]string)}
+	case Conversation_FieldPathSelectorConfiguredTitle:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]string)}
 	case Conversation_FieldPathSelectorArchived:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]bool)}
@@ -809,6 +827,10 @@ func (fpv *Conversation_FieldTerminalPathValue) AsTitleValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Conversation_FieldTerminalPathValue) AsConfiguredTitleValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Conversation_FieldTerminalPathValue) AsArchivedValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
@@ -850,6 +872,8 @@ func (fpv *Conversation_FieldTerminalPathValue) SetTo(target **Conversation) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Conversation_FieldPathSelectorTitle:
 		(*target).Title = fpv.value.(string)
+	case Conversation_FieldPathSelectorConfiguredTitle:
+		(*target).ConfiguredTitle = fpv.value.(string)
 	case Conversation_FieldPathSelectorArchived:
 		(*target).Archived = fpv.value.(bool)
 	case Conversation_FieldPathSelectorIsPrivate:
@@ -901,6 +925,16 @@ func (fpv *Conversation_FieldTerminalPathValue) CompareWith(source *Conversation
 	case Conversation_FieldPathSelectorTitle:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetTitle()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Conversation_FieldPathSelectorConfiguredTitle:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetConfiguredTitle()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1250,6 +1284,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Conversation_FieldPathSelectorConfiguredTitle:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Conversation_FieldPathSelectorArchived:
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
@@ -1290,6 +1328,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValue
 	return res, ok
 }
 func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsTitleArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsConfiguredTitleArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

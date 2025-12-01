@@ -244,6 +244,10 @@ func (b *filterCndBuilder) Title() *filterCndBuilderTitle {
 	return &filterCndBuilderTitle{builder: b.builder}
 }
 
+func (b *filterCndBuilder) ConfiguredTitle() *filterCndBuilderConfiguredTitle {
+	return &filterCndBuilderConfiguredTitle{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Archived() *filterCndBuilderArchived {
 	return &filterCndBuilderArchived{builder: b.builder}
 }
@@ -2475,6 +2479,65 @@ func (b *filterCndBuilderTitle) compare(op gotenfilter.CompareOperator, value st
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Conversation_FieldPathValue: NewConversationFieldPathBuilder().Title().WithValue(value),
+	})
+}
+
+type filterCndBuilderConfiguredTitle struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConfiguredTitle) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConfiguredTitle) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConfiguredTitle) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConfiguredTitle) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConfiguredTitle) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConfiguredTitle) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConfiguredTitle) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ConfiguredTitle().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConfiguredTitle) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().ConfiguredTitle().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConfiguredTitle) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConversationFieldPathBuilder().ConfiguredTitle().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConfiguredTitle) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConversationFieldPathBuilder().ConfiguredTitle().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConfiguredTitle) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ConfiguredTitle().WithValue(value),
 	})
 }
 

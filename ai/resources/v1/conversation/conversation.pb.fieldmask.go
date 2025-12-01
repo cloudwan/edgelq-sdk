@@ -64,6 +64,7 @@ func FullConversation_FieldMask() *Conversation_FieldMask {
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTitle})
+	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorConfiguredTitle})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorArchived})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorIsPrivate})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorLastActivityTime})
@@ -89,7 +90,7 @@ func (fieldMask *Conversation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 11)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Conversation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -119,7 +120,7 @@ func (fieldMask *Conversation_FieldMask) Reset() {
 
 func (fieldMask *Conversation_FieldMask) Subtract(other *Conversation_FieldMask) *Conversation_FieldMask {
 	result := &Conversation_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[Conversation_FieldPathSelector]gotenobject.FieldMask{
 		Conversation_FieldPathSelectorMetadata:           &meta.Meta_FieldMask{},
 		Conversation_FieldPathSelectorTurns:              &ConversationTurn_FieldMask{},
@@ -346,6 +347,8 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 				wholeMetadataAccepted = true
 			case Conversation_FieldPathSelectorTitle:
 				result.Title = source.Title
+			case Conversation_FieldPathSelectorConfiguredTitle:
+				result.ConfiguredTitle = source.ConfiguredTitle
 			case Conversation_FieldPathSelectorArchived:
 				result.Archived = source.Archived
 			case Conversation_FieldPathSelectorIsPrivate:

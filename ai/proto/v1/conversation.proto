@@ -34,8 +34,11 @@ message Conversation {
   // services by higher ones).
   goten.types.Meta metadata = 2;
 
-  // Display title for the conversation
+  // Auto generated display title for the conversation
   string title = 3;
+
+  // User configured display title for the conversation
+  string configured_title = 13;
 
   // Whether the conversation has been archived
   bool archived = 4;

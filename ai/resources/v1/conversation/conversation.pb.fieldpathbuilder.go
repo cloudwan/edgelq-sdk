@@ -64,6 +64,9 @@ func (ConversationFieldPathBuilder) Metadata() ConversationPathSelectorMetadata 
 func (ConversationFieldPathBuilder) Title() ConversationPathSelectorTitle {
 	return ConversationPathSelectorTitle{}
 }
+func (ConversationFieldPathBuilder) ConfiguredTitle() ConversationPathSelectorConfiguredTitle {
+	return ConversationPathSelectorConfiguredTitle{}
+}
 func (ConversationFieldPathBuilder) Archived() ConversationPathSelectorArchived {
 	return ConversationPathSelectorArchived{}
 }
@@ -793,6 +796,20 @@ func (s ConversationPathSelectorTitle) WithValue(value string) *Conversation_Fie
 }
 
 func (s ConversationPathSelectorTitle) WithArrayOfValues(values []string) *Conversation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldTerminalPathArrayOfValues)
+}
+
+type ConversationPathSelectorConfiguredTitle struct{}
+
+func (ConversationPathSelectorConfiguredTitle) FieldPath() *Conversation_FieldTerminalPath {
+	return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorConfiguredTitle}
+}
+
+func (s ConversationPathSelectorConfiguredTitle) WithValue(value string) *Conversation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldTerminalPathValue)
+}
+
+func (s ConversationPathSelectorConfiguredTitle) WithArrayOfValues(values []string) *Conversation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldTerminalPathArrayOfValues)
 }
 

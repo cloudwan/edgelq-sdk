@@ -84,6 +84,9 @@ func (o *Conversation) MakeDiffFieldMask(other *Conversation) *Conversation_Fiel
 	if o.GetTitle() != other.GetTitle() {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorTitle})
 	}
+	if o.GetConfiguredTitle() != other.GetConfiguredTitle() {
+		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorConfiguredTitle})
+	}
 	if o.GetArchived() != other.GetArchived() {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorArchived})
 	}
@@ -165,6 +168,7 @@ func (o *Conversation) Clone() *Conversation {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.Title = o.Title
+	result.ConfiguredTitle = o.ConfiguredTitle
 	result.Archived = o.Archived
 	result.IsPrivate = o.IsPrivate
 	result.LastActivityTime = proto.Clone(o.LastActivityTime).(*timestamppb.Timestamp)
@@ -211,6 +215,7 @@ func (o *Conversation) Merge(source *Conversation) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.Title = source.GetTitle()
+	o.ConfiguredTitle = source.GetConfiguredTitle()
 	o.Archived = source.GetArchived()
 	o.IsPrivate = source.GetIsPrivate()
 	if source.GetLastActivityTime() != nil {

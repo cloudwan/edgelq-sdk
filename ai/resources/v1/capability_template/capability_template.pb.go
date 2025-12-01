@@ -556,18 +556,16 @@ func (m *CapabilityTemplate) SetUserPromptTemplates(fv []*UserPromptTemplate) {
 // total, control chars stripped)
 //
 // Example (server variables - auto-detected):
-//
-//	text: "User: {{.userEmail}}, Project: {{.projectName}}"
-//	mode: MODE_SERVER
-//	on_missing: PROMPT_MISSING_VAR_POLICY_ERROR
+//   text: "User: {{.userEmail}}, Project: {{.projectName}}"
+//   mode: MODE_SERVER
+//   on_missing: PROMPT_MISSING_VAR_POLICY_ERROR
 //
 // Example (client variables with optional sections):
-//
-//	text: "Task: {{.task}}{{if .priority}}, Priority: {{.priority}}{{end}}"
-//	mode: MODE_CLIENT
-//	on_missing: PROMPT_MISSING_VAR_POLICY_SKIP_APPEND
-//	// Variables automatically detected: task, priority
-//	// Use {{if}} for optional sections instead of defaults
+//   text: "Task: {{.task}}{{if .priority}}, Priority: {{.priority}}{{end}}"
+//   mode: MODE_CLIENT
+//   on_missing: PROMPT_MISSING_VAR_POLICY_SKIP_APPEND
+//   // Variables automatically detected: task, priority
+//   // Use {{if}} for optional sections instead of defaults
 type PromptAppendTemplate struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
