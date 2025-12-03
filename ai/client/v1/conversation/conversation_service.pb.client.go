@@ -57,6 +57,7 @@ type ConversationServiceClient interface {
 	CreateConversation(ctx context.Context, in *CreateConversationRequest, opts ...grpc.CallOption) (*conversation.Conversation, error)
 	UpdateConversation(ctx context.Context, in *UpdateConversationRequest, opts ...grpc.CallOption) (*conversation.Conversation, error)
 	DeleteConversation(ctx context.Context, in *DeleteConversationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CreateConversationFromPrompt(ctx context.Context, in *CreateConversationFromPromptRequest, opts ...grpc.CallOption) (*conversation.Conversation, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateConversation(ctx context.Context, in *UpdateConversationR
 func (c *client) DeleteConversation(ctx context.Context, in *DeleteConversationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.ai.v1.ConversationService/DeleteConversation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) CreateConversationFromPrompt(ctx context.Context, in *CreateConversationFromPromptRequest, opts ...grpc.CallOption) (*conversation.Conversation, error) {
+	out := new(conversation.Conversation)
+	err := c.cc.Invoke(ctx, "/ntt.ai.v1.ConversationService/CreateConversationFromPrompt", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

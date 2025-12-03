@@ -12,6 +12,7 @@ import "edgelq-sdk/ai/proto/v1/chat_service.proto";
 import "edgelq-sdk/ai/proto/v1/connector.proto";
 import "edgelq-sdk/ai/proto/v1/connector_service.proto";
 import "edgelq-sdk/ai/proto/v1/conversation.proto";
+import "edgelq-sdk/ai/proto/v1/conversation_custom.proto";
 import "edgelq-sdk/ai/proto/v1/conversation_feedback.proto";
 import "edgelq-sdk/ai/proto/v1/conversation_feedback_service.proto";
 import "edgelq-sdk/ai/proto/v1/conversation_service.proto";

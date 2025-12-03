@@ -62,6 +62,21 @@ resources:
   parents:
   - iam.edgelq.com/Project
   - iam.edgelq.com/User
+  actions:
+  - name: CreateConversationFromPrompt
+    verb: createFromPrompt
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+      requestPaths:
+        resourceParent: [ "parent" ]
+        resourceBody: [ "conversation" ]
+      responsePaths:
+        resourceName: [ "name" ]
+    responseName: Conversation
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
 
 - name: ConversationFeedback
   parents:

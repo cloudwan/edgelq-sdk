@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/conversation.proto";
+import "edgelq-sdk/ai/proto/v1/conversation_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation;conversation_client";
+option java_multiple_files = false;
+option java_outer_classname = "ConversationCustomProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// A request message of the CreateConversationFromPrompt method.
+message CreateConversationFromPromptRequest {
+  // Parent name of ntt.ai.v1.Conversation
+  string parent = 1;
+
+  // Conversation resource body
+  Conversation conversation = 2;
+
+  // Initial user prompt used for title generation.
+  // Not automatically stored as a turn; server decides how to use it.
+  string user_prompt = 3;
+}

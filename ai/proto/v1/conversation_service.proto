@@ -4,6 +4,7 @@ package ntt.ai.v1;
 
 import "edgelq-sdk/ai/proto/v1/conversation.proto";
 import "edgelq-sdk/ai/proto/v1/conversation_change.proto";
+import "edgelq-sdk/ai/proto/v1/conversation_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -435,6 +436,18 @@ service ConversationService {
     option (google.api.http) = {
       delete : "/v1/{name=projects/*/conversations/*}"
       additional_bindings : <delete : "/v1/{name=users/*/conversations/*}">
+    };
+  }
+
+  // CreateConversationFromPrompt
+  rpc CreateConversationFromPrompt(CreateConversationFromPromptRequest)
+      returns (Conversation) {
+    option (google.api.http) = {
+      post : "/v1/{parent=projects/*}/conversations:createFromPrompt"
+      body : "conversation"
+      additional_bindings : <
+        post : "/v1/{parent=users/*}/conversations:createFromPrompt"
+      >
     };
   }
 }

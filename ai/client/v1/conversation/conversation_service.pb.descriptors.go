@@ -31,16 +31,17 @@ var (
 )
 
 var (
-	descriptorsInitialized          bool
-	conversationServiceDescriptor   *ConversationServiceDescriptor
-	getConversationDescriptor       *GetConversationDescriptor
-	batchGetConversationsDescriptor *BatchGetConversationsDescriptor
-	listConversationsDescriptor     *ListConversationsDescriptor
-	watchConversationDescriptor     *WatchConversationDescriptor
-	watchConversationsDescriptor    *WatchConversationsDescriptor
-	createConversationDescriptor    *CreateConversationDescriptor
-	updateConversationDescriptor    *UpdateConversationDescriptor
-	deleteConversationDescriptor    *DeleteConversationDescriptor
+	descriptorsInitialized                 bool
+	conversationServiceDescriptor          *ConversationServiceDescriptor
+	getConversationDescriptor              *GetConversationDescriptor
+	batchGetConversationsDescriptor        *BatchGetConversationsDescriptor
+	listConversationsDescriptor            *ListConversationsDescriptor
+	watchConversationDescriptor            *WatchConversationDescriptor
+	watchConversationsDescriptor           *WatchConversationsDescriptor
+	createConversationDescriptor           *CreateConversationDescriptor
+	updateConversationDescriptor           *UpdateConversationDescriptor
+	deleteConversationDescriptor           *DeleteConversationDescriptor
+	createConversationFromPromptDescriptor *CreateConversationFromPromptDescriptor
 )
 
 type GetConversationDescriptor struct{}
@@ -1855,6 +1856,227 @@ func GetDeleteConversationDescriptor() *DeleteConversationDescriptor {
 	return deleteConversationDescriptor
 }
 
+type CreateConversationFromPromptDescriptor struct{}
+
+type CreateConversationFromPromptDescriptorClientMsgHandle struct{}
+
+type CreateConversationFromPromptDescriptorServerMsgHandle struct{}
+
+func (d *CreateConversationFromPromptDescriptor) NewEmptyClientMsg() proto.Message {
+	return &CreateConversationFromPromptRequest{}
+}
+
+func (d *CreateConversationFromPromptDescriptor) NewEmptyServerMsg() proto.Message {
+	return &conversation.Conversation{}
+}
+
+func (d *CreateConversationFromPromptDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *CreateConversationFromPromptDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *CreateConversationFromPromptDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *CreateConversationFromPromptDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *CreateConversationFromPromptDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *CreateConversationFromPromptDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *CreateConversationFromPromptDescriptor) RequestHasResourceBody() bool {
+	return true
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetVerb() string {
+	return "createFromPrompt"
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetMethodName() string {
+	return "CreateConversationFromPrompt"
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetFullMethodName() string {
+	return "/ntt.ai.v1.ConversationService/CreateConversationFromPrompt"
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetProtoPkgName() string {
+	return "ntt.ai.v1"
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetApiName() string {
+	return "ConversationService"
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetServiceDomain() string {
+	return "ai.edgelq.com"
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return conversationServiceDescriptor
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return conversation.GetDescriptor()
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &CreateConversationFromPromptDescriptorClientMsgHandle{}
+}
+
+func (d *CreateConversationFromPromptDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &CreateConversationFromPromptDescriptorServerMsgHandle{}
+}
+
+func (h *CreateConversationFromPromptDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*CreateConversationFromPromptRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*CreateConversationFromPromptRequest) *conversation.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		res := typedMsg.GetConversation()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*conversation.Name)(nil)
+}
+
+func (h *CreateConversationFromPromptDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*CreateConversationFromPromptRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*CreateConversationFromPromptRequest) []*conversation.Name
+	})
+	if ok {
+		return conversation.ConversationNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *CreateConversationFromPromptDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*CreateConversationFromPromptRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*CreateConversationFromPromptRequest) *conversation.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*conversation.ParentName)(nil)
+}
+
+func (h *CreateConversationFromPromptDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateConversationFromPromptRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateConversationFromPromptRequest) *conversation.Conversation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	{
+		return typedMsg.GetConversation()
+	}
+	return (*conversation.Conversation)(nil)
+}
+
+func (h *CreateConversationFromPromptDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateConversationFromPromptRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateConversationFromPromptRequest) []*conversation.Conversation
+	})
+	if ok {
+		return conversation.ConversationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *CreateConversationFromPromptDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*conversation.Conversation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*conversation.Conversation) *conversation.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*conversation.Name)(nil)
+}
+
+func (h *CreateConversationFromPromptDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*conversation.Conversation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*conversation.Conversation) []*conversation.Name
+	})
+	if ok {
+		return conversation.ConversationNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *CreateConversationFromPromptDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*conversation.Conversation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*conversation.Conversation) *conversation.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateConversationFromPromptDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return msg.(*conversation.Conversation)
+}
+
+func (h *CreateConversationFromPromptDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*conversation.Conversation)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*conversation.Conversation) []*conversation.Conversation
+	})
+	if ok {
+		return conversation.ConversationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetCreateConversationFromPromptDescriptor() *CreateConversationFromPromptDescriptor {
+	return createConversationFromPromptDescriptor
+}
+
 type ConversationServiceDescriptor struct{}
 
 func (d *ConversationServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2089,7 @@ func (d *ConversationServiceDescriptor) AllMethodDescriptors() []gotenclient.Met
 		createConversationDescriptor,
 		updateConversationDescriptor,
 		deleteConversationDescriptor,
+		createConversationFromPromptDescriptor,
 	}
 }
 
@@ -1904,6 +2127,7 @@ func initDescriptors() {
 	createConversationDescriptor = &CreateConversationDescriptor{}
 	updateConversationDescriptor = &UpdateConversationDescriptor{}
 	deleteConversationDescriptor = &DeleteConversationDescriptor{}
+	createConversationFromPromptDescriptor = &CreateConversationFromPromptDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(conversationServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getConversationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetConversationsDescriptor)
@@ -1913,6 +2137,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createConversationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateConversationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteConversationDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(createConversationFromPromptDescriptor)
 }
 
 func init() {
