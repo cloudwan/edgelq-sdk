@@ -14,6 +14,7 @@ import (
 	chat_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat"
 	chat_model_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat_model"
 	connector_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector"
+	connector_user_token_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector_user_token"
 	conversation_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation"
 	conversation_feedback_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation_feedback"
 	document_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/document"
@@ -24,6 +25,7 @@ import (
 	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
+	connector_user_token "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector_user_token"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	conversation_feedback "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation_feedback"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
@@ -44,6 +46,8 @@ var (
 	_ = &chat_model_client.GetChatModelRequest{}
 	_ = &connector.Connector{}
 	_ = &connector_client.GetConnectorRequest{}
+	_ = &connector_user_token.ConnectorUserToken{}
+	_ = &connector_user_token_client.GetConnectorUserTokenRequest{}
 	_ = &conversation.Conversation{}
 	_ = &conversation_feedback.ConversationFeedback{}
 	_ = &conversation_feedback_client.GetConversationFeedbackRequest{}
@@ -61,6 +65,7 @@ type AIClient interface {
 	chat_model_client.ChatModelServiceClient
 	chat_client.ChatServiceClient
 	connector_client.ConnectorServiceClient
+	connector_user_token_client.ConnectorUserTokenServiceClient
 	conversation_feedback_client.ConversationFeedbackServiceClient
 	conversation_client.ConversationServiceClient
 	document_client.DocumentServiceClient
@@ -75,6 +80,7 @@ type aiClient struct {
 	chat_model_client.ChatModelServiceClient
 	chat_client.ChatServiceClient
 	connector_client.ConnectorServiceClient
+	connector_user_token_client.ConnectorUserTokenServiceClient
 	conversation_feedback_client.ConversationFeedbackServiceClient
 	conversation_client.ConversationServiceClient
 	document_client.DocumentServiceClient
@@ -90,6 +96,7 @@ func NewAIClient(cc grpc.ClientConnInterface) AIClient {
 		ChatModelServiceClient:            chat_model_client.NewChatModelServiceClient(cc),
 		ChatServiceClient:                 chat_client.NewChatServiceClient(cc),
 		ConnectorServiceClient:            connector_client.NewConnectorServiceClient(cc),
+		ConnectorUserTokenServiceClient:   connector_user_token_client.NewConnectorUserTokenServiceClient(cc),
 		ConversationFeedbackServiceClient: conversation_feedback_client.NewConversationFeedbackServiceClient(cc),
 		ConversationServiceClient:         conversation_client.NewConversationServiceClient(cc),
 		DocumentServiceClient:             document_client.NewDocumentServiceClient(cc),

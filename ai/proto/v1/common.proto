@@ -268,6 +268,14 @@ message URLReference {
   string filepath = 2; // Optional: for file-based URLs
 }
 
+// Per-connector auth failure for the current user in a single API call.
+message ConnectorAuthError {
+  // Full connector resource name, e.g. "connectors/projects/.../connectorId"
+  string connector = 1;
+
+  ConnectorAuthErrorCode code = 2;
+}
+
 // List of connectors for direct specification
 message ConnectorsList { repeated string connector = 1; }
 
@@ -366,4 +374,24 @@ enum StopReason {
   STOP_REASON_ERROR = 4; // Error occurred
 
   STOP_REASON_CONTENT_FILTER = 5; // Content filtered
+}
+
+// ConnectorAuthErrorCode describes why connector OAuth auth failed
+// for the current user in the context of a single API call.
+enum ConnectorAuthErrorCode {
+  CONNECTOR_AUTH_ERROR_CODE_UNSPECIFIED = 0;
+
+  // No connector OAuth token is available for this user.
+  CONNECTOR_AUTH_ERROR_CODE_REQUIRED = 1;
+
+  // Token exists but is expired and cannot be automatically refreshed.
+  CONNECTOR_AUTH_ERROR_CODE_EXPIRED = 2;
+
+  // Refresh attempt failed (e.g. provider returned invalid_grant/401).
+  CONNECTOR_AUTH_ERROR_CODE_REFRESH_FAILED = 3;
+
+  // Connector token exists and is still valid, but the provider requires an
+  // additional consent flow (e.g. downstream resource scopes) before it can
+  // be used successfully.
+  CONNECTOR_AUTH_ERROR_CODE_DOWNSTREAM_CONSENT_REQUIRED = 4;
 }

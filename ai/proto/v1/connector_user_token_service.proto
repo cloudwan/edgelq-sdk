@@ -2,9 +2,8 @@ syntax = "proto3";
 
 package ntt.ai.v1;
 
-import "edgelq-sdk/ai/proto/v1/connector.proto";
-import "edgelq-sdk/ai/proto/v1/connector_change.proto";
-import "edgelq-sdk/ai/proto/v1/connector_custom.proto";
+import "edgelq-sdk/ai/proto/v1/connector_user_token.proto";
+import "edgelq-sdk/ai/proto/v1/connector_user_token_change.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -13,14 +12,14 @@ import "google/protobuf/timestamp.proto";
 import "goten-sdk/types/view.proto";
 import "goten-sdk/types/watch_type.proto";
 
-option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector;connector_client";
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector_user_token;connector_user_token_client";
 option java_multiple_files = false;
-option java_outer_classname = "ConnectorServiceProto";
+option java_outer_classname = "ConnectorUserTokenServiceProto";
 option java_package = "com.ntt.ai.pb.v1";
 
-// A request message of the GetConnector method.
-message GetConnectorRequest {
-  // Name of ntt.ai.v1.Connector
+// A request message of the GetConnectorUserToken method.
+message GetConnectorUserTokenRequest {
+  // Name of ntt.ai.v1.ConnectorUserToken
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -32,9 +31,9 @@ message GetConnectorRequest {
   goten.types.View view = 4;
 }
 
-// A request message of the BatchGetConnectors method.
-message BatchGetConnectorsRequest {
-  // Names of Connectors
+// A request message of the BatchGetConnectorUserTokens method.
+message BatchGetConnectorUserTokensRequest {
+  // Names of ConnectorUserTokens
   repeated string names = 2;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -48,27 +47,27 @@ message BatchGetConnectorsRequest {
   reserved 1;
 }
 
-// A response message of the BatchGetConnectors method.
-message BatchGetConnectorsResponse {
-  // found Connectors
-  repeated Connector connectors = 1;
+// A response message of the BatchGetConnectorUserTokens method.
+message BatchGetConnectorUserTokensResponse {
+  // found ConnectorUserTokens
+  repeated ConnectorUserToken connector_user_tokens = 1;
 
-  // list of not found Connectors
+  // list of not found ConnectorUserTokens
   repeated string missing = 2;
 }
 
-// A request message of the ListConnectors method.
-message ListConnectorsRequest {
-  // Parent name of ntt.ai.v1.Connector
+// A request message of the ListConnectorUserTokens method.
+message ListConnectorUserTokensRequest {
+  // Parent name of ntt.ai.v1.ConnectorUserToken
   string parent = 1;
 
-  // Requested page size. Server may return fewer Connectors than requested.
-  // If unspecified, server will pick an appropriate default.
+  // Requested page size. Server may return fewer ConnectorUserTokens than
+  // requested. If unspecified, server will pick an appropriate default.
   int32 page_size = 2;
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // ListConnectorsResponse.next_page_token.
+  // ListConnectorUserTokensResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -99,19 +98,19 @@ message ListConnectorsRequest {
   bool include_paging_info = 8;
 }
 
-// A response message of the ListConnectors method.
-message ListConnectorsResponse {
-  // The list of Connectors
-  repeated Connector connectors = 1;
+// A response message of the ListConnectorUserTokens method.
+message ListConnectorUserTokensResponse {
+  // The list of ConnectorUserTokens
+  repeated ConnectorUserToken connector_user_tokens = 1;
 
   // A token to retrieve previous page of results.
   //
-  // Pass this value in the ListConnectorsRequest.page_token.
+  // Pass this value in the ListConnectorUserTokensRequest.page_token.
   string prev_page_token = 3;
 
   // A token to retrieve next page of results.
   //
-  // Pass this value in the ListConnectorsRequest.page_token.
+  // Pass this value in the ListConnectorUserTokensRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -120,14 +119,15 @@ message ListConnectorsResponse {
   // request.
   int32 current_offset = 5;
 
-  // Number of total Connectors across all pages or 0, if there are no items,
-  // paging info was not requested or there was an error while trying to get it.
+  // Number of total ConnectorUserTokens across all pages or 0, if there are no
+  // items, paging info was not requested or there was an error while trying to
+  // get it.
   int32 total_results_count = 6;
 }
 
-// A request message of the WatchConnector method.
-message WatchConnectorRequest {
-  // Name of ntt.ai.v1.Connector
+// A request message of the WatchConnectorUserToken method.
+message WatchConnectorUserTokenRequest {
+  // Name of ntt.ai.v1.ConnectorUserToken
   string name = 1;
 
   // A list of extra fields to be obtained for each response item on top of
@@ -139,21 +139,21 @@ message WatchConnectorRequest {
   goten.types.View view = 4;
 }
 
-// A response message of the WatchConnector method.
-message WatchConnectorResponse { ConnectorChange change = 1; }
+// A response message of the WatchConnectorUserToken method.
+message WatchConnectorUserTokenResponse { ConnectorUserTokenChange change = 1; }
 
-// A request message of the WatchConnectors method.
-message WatchConnectorsRequest {
+// A request message of the WatchConnectorUserTokens method.
+message WatchConnectorUserTokensRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
   goten.types.WatchType type = 9;
 
-  // Parent name of ntt.ai.v1.Connector
+  // Parent name of ntt.ai.v1.ConnectorUserToken
   string parent = 1;
 
-  // Requested page size. Server may return fewer Connectors than requested.
-  // If unspecified, server will pick an appropriate default.
-  // Can be populated only for stateful watch type.
+  // Requested page size. Server may return fewer ConnectorUserTokens than
+  // requested. If unspecified, server will pick an appropriate default. Can be
+  // populated only for stateful watch type.
   int32 page_size = 2;
 
   // A token identifying a page of results the server should return.
@@ -185,13 +185,14 @@ message WatchConnectorsRequest {
   string filter = 5;
 
   // A list of extra fields to be obtained for each response item on top of
-  // fields defined by request field view Changes to Connector that don't affect
-  // any of masked fields won't be sent back.
+  // fields defined by request field view Changes to ConnectorUserToken that
+  // don't affect any of masked fields won't be sent back.
   google.protobuf.FieldMask field_mask = 6;
 
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask Changes to
-  // Connector that don't affect any of masked fields won't be sent back.
+  // ConnectorUserToken that don't affect any of masked fields won't be sent
+  // back.
   goten.types.View view = 8;
 
   // Maximum amount of changes in each response message. Query result response
@@ -202,10 +203,10 @@ message WatchConnectorsRequest {
   int32 max_chunk_size = 11;
 }
 
-// A response message of the WatchConnectors method.
-message WatchConnectorsResponse {
-  // Changes of Connectors
-  repeated ConnectorChange connector_changes = 2;
+// A response message of the WatchConnectorUserTokens method.
+message WatchConnectorUserTokensResponse {
+  // Changes of ConnectorUserTokens
+  repeated ConnectorUserTokenChange connector_user_token_changes = 2;
 
   // If request specified max_chunk_size (or this limit was enforced if
   // stateless watch has been chosen), then responses with "full changeset" will
@@ -214,11 +215,11 @@ message WatchConnectorsResponse {
   // ones where is_current is false. If this is the first is_current in a whole
   // watch stream, then it means that client should have, at this moment,
   // contain snapshot of the current situation (or more accurately, snapshot of
-  // situation at the moment of request). All Connectors will be of type
-  // Added/Current (depending on watch_type specified in the request). Further
-  // responses will be incremental - however messages may still be chunked and
-  // is_current logic still applies. is_current is always true for stateful
-  // watch if max_chunk_size was left to 0.
+  // situation at the moment of request). All ConnectorUserTokens will be of
+  // type Added/Current (depending on watch_type specified in the request).
+  // Further responses will be incremental - however messages may still be
+  // chunked and is_current logic still applies. is_current is always true for
+  // stateful watch if max_chunk_size was left to 0.
   bool is_current = 4;
 
   // When present, PageTokens used for page navigation should be updated.
@@ -252,11 +253,11 @@ message WatchConnectorsResponse {
 
   // In case of internal issue server may send response message with this flag.
   // After receiving, client should clear whole state (drop all changes received
-  // so far) as server will send new snapshot (Connectors will contains changes
-  // of type Current only). Any resume tokens should be discarded as well. This
-  // field should be checked only for stateless watch. In stateful those kind of
-  // errors are handled by the server side. Will never be sent along with
-  // is_current, is_soft_reset or snapshot_size.
+  // so far) as server will send new snapshot (ConnectorUserTokens will contains
+  // changes of type Current only). Any resume tokens should be discarded as
+  // well. This field should be checked only for stateless watch. In stateful
+  // those kind of errors are handled by the server side. Will never be sent
+  // along with is_current, is_soft_reset or snapshot_size.
   bool is_hard_reset = 8;
 
   message PageTokenChange {
@@ -268,13 +269,13 @@ message WatchConnectorsResponse {
   }
 }
 
-// A request message of the CreateConnector method.
-message CreateConnectorRequest {
-  // Parent name of ntt.ai.v1.Connector
+// A request message of the CreateConnectorUserToken method.
+message CreateConnectorUserTokenRequest {
+  // Parent name of ntt.ai.v1.ConnectorUserToken
   string parent = 1;
 
-  // Connector resource body
-  Connector connector = 2;
+  // ConnectorUserToken resource body
+  ConnectorUserToken connector_user_token = 2;
 
   // Optional masking applied to response object to reduce message response
   // size.
@@ -294,10 +295,10 @@ message CreateConnectorRequest {
   }
 }
 
-// A request message of the UpdateConnector method.
-message UpdateConnectorRequest {
-  // Connector resource body
-  Connector connector = 2;
+// A request message of the UpdateConnectorUserToken method.
+message UpdateConnectorUserTokenRequest {
+  // ConnectorUserToken resource body
+  ConnectorUserToken connector_user_token = 2;
 
   // FieldMask applied to request - change will be applied only for fields in
   // the mask
@@ -324,7 +325,7 @@ message UpdateConnectorRequest {
   // conditional based upon previous resource version.
   message CAS {
     // Conditional desired state of a resource before update.
-    Connector conditional_state = 1;
+    ConnectorUserToken conditional_state = 1;
 
     // Field paths from conditional state of resource server should check and
     // compare.
@@ -352,9 +353,9 @@ message UpdateConnectorRequest {
   }
 }
 
-// A request message of the DeleteConnector method.
-message DeleteConnectorRequest {
-  // Name of ntt.ai.v1.Connector
+// A request message of the DeleteConnectorUserToken method.
+message DeleteConnectorUserTokenRequest {
+  // Name of ntt.ai.v1.ConnectorUserToken
   string name = 1;
 
   // If set to true, and the resource is not found, method will be successful
@@ -362,88 +363,94 @@ message DeleteConnectorRequest {
   bool allow_missing = 2;
 }
 
-// Connector service API for AI
-service ConnectorService {
+// ConnectorUserToken service API for AI
+service ConnectorUserTokenService {
   option (google.api.default_host) = "ai.edgelq.com";
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
-  // GetConnector
-  rpc GetConnector(GetConnectorRequest) returns (Connector) {
+  // GetConnectorUserToken
+  rpc GetConnectorUserToken(GetConnectorUserTokenRequest)
+      returns (ConnectorUserToken) {
     option (google.api.http) = {
-      get : "/v1/{name=connectors/*}"
-      additional_bindings : <get : "/v1/{name=projects/*/connectors/*}">
-    };
-  }
-
-  // BatchGetConnectors
-  rpc BatchGetConnectors(BatchGetConnectorsRequest)
-      returns (BatchGetConnectorsResponse) {
-    option (google.api.http) = {
-      get : "/v1/connectors:batchGet"
-    };
-  }
-
-  // ListConnectors
-  rpc ListConnectors(ListConnectorsRequest) returns (ListConnectorsResponse) {
-    option (google.api.http) = {
-      get : "/v1/connectors"
-      additional_bindings : <get : "/v1/{parent=projects/*}/connectors">
-    };
-  }
-
-  // WatchConnector
-  rpc WatchConnector(WatchConnectorRequest)
-      returns (stream WatchConnectorResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=connectors/*}:watch"
-      additional_bindings : <post : "/v1/{name=projects/*/connectors/*}:watch">
-    };
-  }
-
-  // WatchConnectors
-  rpc WatchConnectors(WatchConnectorsRequest)
-      returns (stream WatchConnectorsResponse) {
-    option (google.api.http) = {
-      post : "/v1/connectors:watch"
-      additional_bindings : <post : "/v1/{parent=projects/*}/connectors:watch">
-    };
-  }
-
-  // CreateConnector
-  rpc CreateConnector(CreateConnectorRequest) returns (Connector) {
-    option (google.api.http) = {
-      post : "/v1/connectors"
-      body : "connector"
-      additional_bindings : <post : "/v1/{parent=projects/*}/connectors">
-    };
-  }
-
-  // UpdateConnector
-  rpc UpdateConnector(UpdateConnectorRequest) returns (Connector) {
-    option (google.api.http) = {
-      put : "/v1/{connector.name=connectors/*}"
-      body : "connector"
+      get : "/v1/{name=connectorUserTokens/*}"
       additional_bindings : <
-        put : "/v1/{connector.name=projects/*/connectors/*}"
+        get : "/v1/{name=projects/*/connectorUserTokens/*}"
       >
     };
   }
 
-  // DeleteConnector
-  rpc DeleteConnector(DeleteConnectorRequest) returns (google.protobuf.Empty) {
+  // BatchGetConnectorUserTokens
+  rpc BatchGetConnectorUserTokens(BatchGetConnectorUserTokensRequest)
+      returns (BatchGetConnectorUserTokensResponse) {
     option (google.api.http) = {
-      delete : "/v1/{name=connectors/*}"
-      additional_bindings : <delete : "/v1/{name=projects/*/connectors/*}">
+      get : "/v1/connectorUserTokens:batchGet"
     };
   }
 
-  // ConnectOauth
-  rpc ConnectOauth(stream ConnectOauthRequest)
-      returns (stream ConnectOauthResponse) {
+  // ListConnectorUserTokens
+  rpc ListConnectorUserTokens(ListConnectorUserTokensRequest)
+      returns (ListConnectorUserTokensResponse) {
     option (google.api.http) = {
-      post : "/v1/{name=connectors/*}:connectOauth"
+      get : "/v1/connectorUserTokens"
       additional_bindings : <
-        post : "/v1/{name=projects/*/connectors/*}:connectOauth"
+        get : "/v1/{parent=projects/*}/connectorUserTokens"
+      >
+    };
+  }
+
+  // WatchConnectorUserToken
+  rpc WatchConnectorUserToken(WatchConnectorUserTokenRequest)
+      returns (stream WatchConnectorUserTokenResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=connectorUserTokens/*}:watch"
+      additional_bindings : <
+        post : "/v1/{name=projects/*/connectorUserTokens/*}:watch"
+      >
+    };
+  }
+
+  // WatchConnectorUserTokens
+  rpc WatchConnectorUserTokens(WatchConnectorUserTokensRequest)
+      returns (stream WatchConnectorUserTokensResponse) {
+    option (google.api.http) = {
+      post : "/v1/connectorUserTokens:watch"
+      additional_bindings : <
+        post : "/v1/{parent=projects/*}/connectorUserTokens:watch"
+      >
+    };
+  }
+
+  // CreateConnectorUserToken
+  rpc CreateConnectorUserToken(CreateConnectorUserTokenRequest)
+      returns (ConnectorUserToken) {
+    option (google.api.http) = {
+      post : "/v1/connectorUserTokens"
+      body : "connector_user_token"
+      additional_bindings : <
+        post : "/v1/{parent=projects/*}/connectorUserTokens"
+      >
+    };
+  }
+
+  // UpdateConnectorUserToken
+  rpc UpdateConnectorUserToken(UpdateConnectorUserTokenRequest)
+      returns (ConnectorUserToken) {
+    option (google.api.http) = {
+      put : "/v1/{connector_user_token.name=connectorUserTokens/*}"
+      body : "connector_user_token"
+      additional_bindings : <
+        put : "/v1/{connector_user_token.name=projects/*/connectorUserTokens/*}"
+      >
+    };
+  }
+
+  // DeleteConnectorUserToken
+  rpc DeleteConnectorUserToken(DeleteConnectorUserTokenRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1/{name=connectorUserTokens/*}"
+      additional_bindings : <
+        delete : "/v1/{name=projects/*/connectorUserTokens/*}"
       >
     };
   }

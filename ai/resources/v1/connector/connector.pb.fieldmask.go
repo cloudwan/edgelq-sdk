@@ -57,9 +57,9 @@ func FullConnector_FieldMask() *Connector_FieldMask {
 	res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorType})
 	res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorMcpConfig})
-	res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorOauthConfig})
 	res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorConnectTimeout})
 	res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorRequestTimeout})
+	res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorOauthConfig})
 	return res
 }
 
@@ -334,13 +334,13 @@ func (fieldMask *Connector_FieldMask) Project(source *Connector) *Connector {
 			case Connector_FieldPathSelectorMcpConfig:
 				result.McpConfig = source.McpConfig
 				wholeMcpConfigAccepted = true
-			case Connector_FieldPathSelectorOauthConfig:
-				result.OauthConfig = source.OauthConfig
-				wholeOauthConfigAccepted = true
 			case Connector_FieldPathSelectorConnectTimeout:
 				result.ConnectTimeout = source.ConnectTimeout
 			case Connector_FieldPathSelectorRequestTimeout:
 				result.RequestTimeout = source.RequestTimeout
+			case Connector_FieldPathSelectorOauthConfig:
+				result.OauthConfig = source.OauthConfig
+				wholeOauthConfigAccepted = true
 			}
 		case *Connector_FieldSubPath:
 			switch tp.selector {
@@ -637,6 +637,18 @@ func FullOAuthConfig_FieldMask() *OAuthConfig_FieldMask {
 	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAuthorizationEndpoint})
 	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorTokenEndpoint})
 	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAdditionalScopes})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorIssuer})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorResourceUrl})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorResourceParam})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorParEndpoint})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorScopesSupported})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDpopSigningAlgs})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDownstreamConsentScopes})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoPopulated})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoPopulatedAt})
+	res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoSource})
 	return res
 }
 
@@ -655,7 +667,7 @@ func (fieldMask *OAuthConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 17)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*OAuthConfig_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -685,7 +697,7 @@ func (fieldMask *OAuthConfig_FieldMask) Reset() {
 
 func (fieldMask *OAuthConfig_FieldMask) Subtract(other *OAuthConfig_FieldMask) *OAuthConfig_FieldMask {
 	result := &OAuthConfig_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 17)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -849,6 +861,30 @@ func (fieldMask *OAuthConfig_FieldMask) Project(source *OAuthConfig) *OAuthConfi
 				result.TokenEndpoint = source.TokenEndpoint
 			case OAuthConfig_FieldPathSelectorAdditionalScopes:
 				result.AdditionalScopes = source.AdditionalScopes
+			case OAuthConfig_FieldPathSelectorIssuer:
+				result.Issuer = source.Issuer
+			case OAuthConfig_FieldPathSelectorResourceUrl:
+				result.ResourceUrl = source.ResourceUrl
+			case OAuthConfig_FieldPathSelectorResourceParam:
+				result.ResourceParam = source.ResourceParam
+			case OAuthConfig_FieldPathSelectorParEndpoint:
+				result.ParEndpoint = source.ParEndpoint
+			case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+				result.TokenEndpointAuthMethods = source.TokenEndpointAuthMethods
+			case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+				result.PreferredTokenEndpointAuthMethod = source.PreferredTokenEndpointAuthMethod
+			case OAuthConfig_FieldPathSelectorScopesSupported:
+				result.ScopesSupported = source.ScopesSupported
+			case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+				result.DpopSigningAlgs = source.DpopSigningAlgs
+			case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+				result.DownstreamConsentScopes = source.DownstreamConsentScopes
+			case OAuthConfig_FieldPathSelectorAutoPopulated:
+				result.AutoPopulated = source.AutoPopulated
+			case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+				result.AutoPopulatedAt = source.AutoPopulatedAt
+			case OAuthConfig_FieldPathSelectorAutoSource:
+				result.AutoSource = source.AutoSource
 			}
 		}
 	}

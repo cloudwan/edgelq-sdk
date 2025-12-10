@@ -53,14 +53,14 @@ func (ConnectorFieldPathBuilder) Type() ConnectorPathSelectorType {
 func (ConnectorFieldPathBuilder) McpConfig() ConnectorPathSelectorMcpConfig {
 	return ConnectorPathSelectorMcpConfig{}
 }
-func (ConnectorFieldPathBuilder) OauthConfig() ConnectorPathSelectorOauthConfig {
-	return ConnectorPathSelectorOauthConfig{}
-}
 func (ConnectorFieldPathBuilder) ConnectTimeout() ConnectorPathSelectorConnectTimeout {
 	return ConnectorPathSelectorConnectTimeout{}
 }
 func (ConnectorFieldPathBuilder) RequestTimeout() ConnectorPathSelectorRequestTimeout {
 	return ConnectorPathSelectorRequestTimeout{}
+}
+func (ConnectorFieldPathBuilder) OauthConfig() ConnectorPathSelectorOauthConfig {
+	return ConnectorPathSelectorOauthConfig{}
 }
 
 type ConnectorPathSelectorName struct{}
@@ -921,6 +921,34 @@ func (s ConnectorMapPathSelectorMcpConfigEnvironment) WithArrayOfValues(values [
 	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
 }
 
+type ConnectorPathSelectorConnectTimeout struct{}
+
+func (ConnectorPathSelectorConnectTimeout) FieldPath() *Connector_FieldTerminalPath {
+	return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorConnectTimeout}
+}
+
+func (s ConnectorPathSelectorConnectTimeout) WithValue(value *durationpb.Duration) *Connector_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldTerminalPathValue)
+}
+
+func (s ConnectorPathSelectorConnectTimeout) WithArrayOfValues(values []*durationpb.Duration) *Connector_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldTerminalPathArrayOfValues)
+}
+
+type ConnectorPathSelectorRequestTimeout struct{}
+
+func (ConnectorPathSelectorRequestTimeout) FieldPath() *Connector_FieldTerminalPath {
+	return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorRequestTimeout}
+}
+
+func (s ConnectorPathSelectorRequestTimeout) WithValue(value *durationpb.Duration) *Connector_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldTerminalPathValue)
+}
+
+func (s ConnectorPathSelectorRequestTimeout) WithArrayOfValues(values []*durationpb.Duration) *Connector_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldTerminalPathArrayOfValues)
+}
+
 type ConnectorPathSelectorOauthConfig struct{}
 
 func (ConnectorPathSelectorOauthConfig) FieldPath() *Connector_FieldTerminalPath {
@@ -969,6 +997,54 @@ func (ConnectorPathSelectorOauthConfig) TokenEndpoint() ConnectorPathSelectorOau
 
 func (ConnectorPathSelectorOauthConfig) AdditionalScopes() ConnectorPathSelectorOauthConfigAdditionalScopes {
 	return ConnectorPathSelectorOauthConfigAdditionalScopes{}
+}
+
+func (ConnectorPathSelectorOauthConfig) Issuer() ConnectorPathSelectorOauthConfigIssuer {
+	return ConnectorPathSelectorOauthConfigIssuer{}
+}
+
+func (ConnectorPathSelectorOauthConfig) ResourceUrl() ConnectorPathSelectorOauthConfigResourceUrl {
+	return ConnectorPathSelectorOauthConfigResourceUrl{}
+}
+
+func (ConnectorPathSelectorOauthConfig) ResourceParam() ConnectorPathSelectorOauthConfigResourceParam {
+	return ConnectorPathSelectorOauthConfigResourceParam{}
+}
+
+func (ConnectorPathSelectorOauthConfig) ParEndpoint() ConnectorPathSelectorOauthConfigParEndpoint {
+	return ConnectorPathSelectorOauthConfigParEndpoint{}
+}
+
+func (ConnectorPathSelectorOauthConfig) TokenEndpointAuthMethods() ConnectorPathSelectorOauthConfigTokenEndpointAuthMethods {
+	return ConnectorPathSelectorOauthConfigTokenEndpointAuthMethods{}
+}
+
+func (ConnectorPathSelectorOauthConfig) PreferredTokenEndpointAuthMethod() ConnectorPathSelectorOauthConfigPreferredTokenEndpointAuthMethod {
+	return ConnectorPathSelectorOauthConfigPreferredTokenEndpointAuthMethod{}
+}
+
+func (ConnectorPathSelectorOauthConfig) ScopesSupported() ConnectorPathSelectorOauthConfigScopesSupported {
+	return ConnectorPathSelectorOauthConfigScopesSupported{}
+}
+
+func (ConnectorPathSelectorOauthConfig) DpopSigningAlgs() ConnectorPathSelectorOauthConfigDpopSigningAlgs {
+	return ConnectorPathSelectorOauthConfigDpopSigningAlgs{}
+}
+
+func (ConnectorPathSelectorOauthConfig) DownstreamConsentScopes() ConnectorPathSelectorOauthConfigDownstreamConsentScopes {
+	return ConnectorPathSelectorOauthConfigDownstreamConsentScopes{}
+}
+
+func (ConnectorPathSelectorOauthConfig) AutoPopulated() ConnectorPathSelectorOauthConfigAutoPopulated {
+	return ConnectorPathSelectorOauthConfigAutoPopulated{}
+}
+
+func (ConnectorPathSelectorOauthConfig) AutoPopulatedAt() ConnectorPathSelectorOauthConfigAutoPopulatedAt {
+	return ConnectorPathSelectorOauthConfigAutoPopulatedAt{}
+}
+
+func (ConnectorPathSelectorOauthConfig) AutoSource() ConnectorPathSelectorOauthConfigAutoSource {
+	return ConnectorPathSelectorOauthConfigAutoSource{}
 }
 
 type ConnectorPathSelectorOauthConfigClientId struct{}
@@ -1060,32 +1136,224 @@ func (s ConnectorPathSelectorOauthConfigAdditionalScopes) WithItemValue(value st
 	return s.FieldPath().WithIArrayItemValue(value).(*Connector_FieldSubPathArrayItemValue)
 }
 
-type ConnectorPathSelectorConnectTimeout struct{}
+type ConnectorPathSelectorOauthConfigIssuer struct{}
 
-func (ConnectorPathSelectorConnectTimeout) FieldPath() *Connector_FieldTerminalPath {
-	return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorConnectTimeout}
+func (ConnectorPathSelectorOauthConfigIssuer) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().Issuer().FieldPath(),
+	}
 }
 
-func (s ConnectorPathSelectorConnectTimeout) WithValue(value *durationpb.Duration) *Connector_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Connector_FieldTerminalPathValue)
+func (s ConnectorPathSelectorOauthConfigIssuer) WithValue(value string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
 }
 
-func (s ConnectorPathSelectorConnectTimeout) WithArrayOfValues(values []*durationpb.Duration) *Connector_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldTerminalPathArrayOfValues)
+func (s ConnectorPathSelectorOauthConfigIssuer) WithArrayOfValues(values []string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
 }
 
-type ConnectorPathSelectorRequestTimeout struct{}
+type ConnectorPathSelectorOauthConfigResourceUrl struct{}
 
-func (ConnectorPathSelectorRequestTimeout) FieldPath() *Connector_FieldTerminalPath {
-	return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorRequestTimeout}
+func (ConnectorPathSelectorOauthConfigResourceUrl) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().ResourceUrl().FieldPath(),
+	}
 }
 
-func (s ConnectorPathSelectorRequestTimeout) WithValue(value *durationpb.Duration) *Connector_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Connector_FieldTerminalPathValue)
+func (s ConnectorPathSelectorOauthConfigResourceUrl) WithValue(value string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
 }
 
-func (s ConnectorPathSelectorRequestTimeout) WithArrayOfValues(values []*durationpb.Duration) *Connector_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldTerminalPathArrayOfValues)
+func (s ConnectorPathSelectorOauthConfigResourceUrl) WithArrayOfValues(values []string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+type ConnectorPathSelectorOauthConfigResourceParam struct{}
+
+func (ConnectorPathSelectorOauthConfigResourceParam) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().ResourceParam().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigResourceParam) WithValue(value string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigResourceParam) WithArrayOfValues(values []string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+type ConnectorPathSelectorOauthConfigParEndpoint struct{}
+
+func (ConnectorPathSelectorOauthConfigParEndpoint) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().ParEndpoint().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigParEndpoint) WithValue(value string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigParEndpoint) WithArrayOfValues(values []string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+type ConnectorPathSelectorOauthConfigTokenEndpointAuthMethods struct{}
+
+func (ConnectorPathSelectorOauthConfigTokenEndpointAuthMethods) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().TokenEndpointAuthMethods().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigTokenEndpointAuthMethods) WithValue(value []string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigTokenEndpointAuthMethods) WithArrayOfValues(values [][]string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+func (s ConnectorPathSelectorOauthConfigTokenEndpointAuthMethods) WithItemValue(value string) *Connector_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Connector_FieldSubPathArrayItemValue)
+}
+
+type ConnectorPathSelectorOauthConfigPreferredTokenEndpointAuthMethod struct{}
+
+func (ConnectorPathSelectorOauthConfigPreferredTokenEndpointAuthMethod) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().PreferredTokenEndpointAuthMethod().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigPreferredTokenEndpointAuthMethod) WithValue(value string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigPreferredTokenEndpointAuthMethod) WithArrayOfValues(values []string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+type ConnectorPathSelectorOauthConfigScopesSupported struct{}
+
+func (ConnectorPathSelectorOauthConfigScopesSupported) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().ScopesSupported().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigScopesSupported) WithValue(value []string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigScopesSupported) WithArrayOfValues(values [][]string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+func (s ConnectorPathSelectorOauthConfigScopesSupported) WithItemValue(value string) *Connector_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Connector_FieldSubPathArrayItemValue)
+}
+
+type ConnectorPathSelectorOauthConfigDpopSigningAlgs struct{}
+
+func (ConnectorPathSelectorOauthConfigDpopSigningAlgs) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().DpopSigningAlgs().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigDpopSigningAlgs) WithValue(value []string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigDpopSigningAlgs) WithArrayOfValues(values [][]string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+func (s ConnectorPathSelectorOauthConfigDpopSigningAlgs) WithItemValue(value string) *Connector_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Connector_FieldSubPathArrayItemValue)
+}
+
+type ConnectorPathSelectorOauthConfigDownstreamConsentScopes struct{}
+
+func (ConnectorPathSelectorOauthConfigDownstreamConsentScopes) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().DownstreamConsentScopes().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigDownstreamConsentScopes) WithValue(value []string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigDownstreamConsentScopes) WithArrayOfValues(values [][]string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+func (s ConnectorPathSelectorOauthConfigDownstreamConsentScopes) WithItemValue(value string) *Connector_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Connector_FieldSubPathArrayItemValue)
+}
+
+type ConnectorPathSelectorOauthConfigAutoPopulated struct{}
+
+func (ConnectorPathSelectorOauthConfigAutoPopulated) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().AutoPopulated().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigAutoPopulated) WithValue(value bool) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigAutoPopulated) WithArrayOfValues(values []bool) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+type ConnectorPathSelectorOauthConfigAutoPopulatedAt struct{}
+
+func (ConnectorPathSelectorOauthConfigAutoPopulatedAt) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().AutoPopulatedAt().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigAutoPopulatedAt) WithValue(value int64) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigAutoPopulatedAt) WithArrayOfValues(values []int64) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
+}
+
+type ConnectorPathSelectorOauthConfigAutoSource struct{}
+
+func (ConnectorPathSelectorOauthConfigAutoSource) FieldPath() *Connector_FieldSubPath {
+	return &Connector_FieldSubPath{
+		selector: Connector_FieldPathSelectorOauthConfig,
+		subPath:  NewOAuthConfigFieldPathBuilder().AutoSource().FieldPath(),
+	}
+}
+
+func (s ConnectorPathSelectorOauthConfigAutoSource) WithValue(value string) *Connector_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Connector_FieldSubPathValue)
+}
+
+func (s ConnectorPathSelectorOauthConfigAutoSource) WithArrayOfValues(values []string) *Connector_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Connector_FieldSubPathArrayOfValues)
 }
 
 type MCPConfigFieldPathBuilder struct{}
@@ -1189,6 +1457,42 @@ func (OAuthConfigFieldPathBuilder) TokenEndpoint() OAuthConfigPathSelectorTokenE
 func (OAuthConfigFieldPathBuilder) AdditionalScopes() OAuthConfigPathSelectorAdditionalScopes {
 	return OAuthConfigPathSelectorAdditionalScopes{}
 }
+func (OAuthConfigFieldPathBuilder) Issuer() OAuthConfigPathSelectorIssuer {
+	return OAuthConfigPathSelectorIssuer{}
+}
+func (OAuthConfigFieldPathBuilder) ResourceUrl() OAuthConfigPathSelectorResourceUrl {
+	return OAuthConfigPathSelectorResourceUrl{}
+}
+func (OAuthConfigFieldPathBuilder) ResourceParam() OAuthConfigPathSelectorResourceParam {
+	return OAuthConfigPathSelectorResourceParam{}
+}
+func (OAuthConfigFieldPathBuilder) ParEndpoint() OAuthConfigPathSelectorParEndpoint {
+	return OAuthConfigPathSelectorParEndpoint{}
+}
+func (OAuthConfigFieldPathBuilder) TokenEndpointAuthMethods() OAuthConfigPathSelectorTokenEndpointAuthMethods {
+	return OAuthConfigPathSelectorTokenEndpointAuthMethods{}
+}
+func (OAuthConfigFieldPathBuilder) PreferredTokenEndpointAuthMethod() OAuthConfigPathSelectorPreferredTokenEndpointAuthMethod {
+	return OAuthConfigPathSelectorPreferredTokenEndpointAuthMethod{}
+}
+func (OAuthConfigFieldPathBuilder) ScopesSupported() OAuthConfigPathSelectorScopesSupported {
+	return OAuthConfigPathSelectorScopesSupported{}
+}
+func (OAuthConfigFieldPathBuilder) DpopSigningAlgs() OAuthConfigPathSelectorDpopSigningAlgs {
+	return OAuthConfigPathSelectorDpopSigningAlgs{}
+}
+func (OAuthConfigFieldPathBuilder) DownstreamConsentScopes() OAuthConfigPathSelectorDownstreamConsentScopes {
+	return OAuthConfigPathSelectorDownstreamConsentScopes{}
+}
+func (OAuthConfigFieldPathBuilder) AutoPopulated() OAuthConfigPathSelectorAutoPopulated {
+	return OAuthConfigPathSelectorAutoPopulated{}
+}
+func (OAuthConfigFieldPathBuilder) AutoPopulatedAt() OAuthConfigPathSelectorAutoPopulatedAt {
+	return OAuthConfigPathSelectorAutoPopulatedAt{}
+}
+func (OAuthConfigFieldPathBuilder) AutoSource() OAuthConfigPathSelectorAutoSource {
+	return OAuthConfigPathSelectorAutoSource{}
+}
 
 type OAuthConfigPathSelectorClientId struct{}
 
@@ -1262,4 +1566,188 @@ func (s OAuthConfigPathSelectorAdditionalScopes) WithArrayOfValues(values [][]st
 
 func (s OAuthConfigPathSelectorAdditionalScopes) WithItemValue(value string) *OAuthConfig_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*OAuthConfig_FieldTerminalPathArrayItemValue)
+}
+
+type OAuthConfigPathSelectorIssuer struct{}
+
+func (OAuthConfigPathSelectorIssuer) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorIssuer}
+}
+
+func (s OAuthConfigPathSelectorIssuer) WithValue(value string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorIssuer) WithArrayOfValues(values []string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+type OAuthConfigPathSelectorResourceUrl struct{}
+
+func (OAuthConfigPathSelectorResourceUrl) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorResourceUrl}
+}
+
+func (s OAuthConfigPathSelectorResourceUrl) WithValue(value string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorResourceUrl) WithArrayOfValues(values []string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+type OAuthConfigPathSelectorResourceParam struct{}
+
+func (OAuthConfigPathSelectorResourceParam) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorResourceParam}
+}
+
+func (s OAuthConfigPathSelectorResourceParam) WithValue(value string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorResourceParam) WithArrayOfValues(values []string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+type OAuthConfigPathSelectorParEndpoint struct{}
+
+func (OAuthConfigPathSelectorParEndpoint) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorParEndpoint}
+}
+
+func (s OAuthConfigPathSelectorParEndpoint) WithValue(value string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorParEndpoint) WithArrayOfValues(values []string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+type OAuthConfigPathSelectorTokenEndpointAuthMethods struct{}
+
+func (OAuthConfigPathSelectorTokenEndpointAuthMethods) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods}
+}
+
+func (s OAuthConfigPathSelectorTokenEndpointAuthMethods) WithValue(value []string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorTokenEndpointAuthMethods) WithArrayOfValues(values [][]string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+func (s OAuthConfigPathSelectorTokenEndpointAuthMethods) WithItemValue(value string) *OAuthConfig_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*OAuthConfig_FieldTerminalPathArrayItemValue)
+}
+
+type OAuthConfigPathSelectorPreferredTokenEndpointAuthMethod struct{}
+
+func (OAuthConfigPathSelectorPreferredTokenEndpointAuthMethod) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod}
+}
+
+func (s OAuthConfigPathSelectorPreferredTokenEndpointAuthMethod) WithValue(value string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorPreferredTokenEndpointAuthMethod) WithArrayOfValues(values []string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+type OAuthConfigPathSelectorScopesSupported struct{}
+
+func (OAuthConfigPathSelectorScopesSupported) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorScopesSupported}
+}
+
+func (s OAuthConfigPathSelectorScopesSupported) WithValue(value []string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorScopesSupported) WithArrayOfValues(values [][]string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+func (s OAuthConfigPathSelectorScopesSupported) WithItemValue(value string) *OAuthConfig_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*OAuthConfig_FieldTerminalPathArrayItemValue)
+}
+
+type OAuthConfigPathSelectorDpopSigningAlgs struct{}
+
+func (OAuthConfigPathSelectorDpopSigningAlgs) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDpopSigningAlgs}
+}
+
+func (s OAuthConfigPathSelectorDpopSigningAlgs) WithValue(value []string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorDpopSigningAlgs) WithArrayOfValues(values [][]string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+func (s OAuthConfigPathSelectorDpopSigningAlgs) WithItemValue(value string) *OAuthConfig_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*OAuthConfig_FieldTerminalPathArrayItemValue)
+}
+
+type OAuthConfigPathSelectorDownstreamConsentScopes struct{}
+
+func (OAuthConfigPathSelectorDownstreamConsentScopes) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDownstreamConsentScopes}
+}
+
+func (s OAuthConfigPathSelectorDownstreamConsentScopes) WithValue(value []string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorDownstreamConsentScopes) WithArrayOfValues(values [][]string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+func (s OAuthConfigPathSelectorDownstreamConsentScopes) WithItemValue(value string) *OAuthConfig_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*OAuthConfig_FieldTerminalPathArrayItemValue)
+}
+
+type OAuthConfigPathSelectorAutoPopulated struct{}
+
+func (OAuthConfigPathSelectorAutoPopulated) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoPopulated}
+}
+
+func (s OAuthConfigPathSelectorAutoPopulated) WithValue(value bool) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorAutoPopulated) WithArrayOfValues(values []bool) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+type OAuthConfigPathSelectorAutoPopulatedAt struct{}
+
+func (OAuthConfigPathSelectorAutoPopulatedAt) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoPopulatedAt}
+}
+
+func (s OAuthConfigPathSelectorAutoPopulatedAt) WithValue(value int64) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorAutoPopulatedAt) WithArrayOfValues(values []int64) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
+}
+
+type OAuthConfigPathSelectorAutoSource struct{}
+
+func (OAuthConfigPathSelectorAutoSource) FieldPath() *OAuthConfig_FieldTerminalPath {
+	return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoSource}
+}
+
+func (s OAuthConfigPathSelectorAutoSource) WithValue(value string) *OAuthConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OAuthConfig_FieldTerminalPathValue)
+}
+
+func (s OAuthConfigPathSelectorAutoSource) WithArrayOfValues(values []string) *OAuthConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OAuthConfig_FieldTerminalPathArrayOfValues)
 }

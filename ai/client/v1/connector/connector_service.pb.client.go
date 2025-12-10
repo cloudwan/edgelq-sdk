@@ -57,6 +57,7 @@ type ConnectorServiceClient interface {
 	CreateConnector(ctx context.Context, in *CreateConnectorRequest, opts ...grpc.CallOption) (*connector.Connector, error)
 	UpdateConnector(ctx context.Context, in *UpdateConnectorRequest, opts ...grpc.CallOption) (*connector.Connector, error)
 	DeleteConnector(ctx context.Context, in *DeleteConnectorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ConnectOauth(ctx context.Context, opts ...grpc.CallOption) (ConnectOauthClientStream, error)
 }
 
 type client struct {
@@ -193,4 +194,41 @@ func (c *client) DeleteConnector(ctx context.Context, in *DeleteConnectorRequest
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *client) ConnectOauth(ctx context.Context, opts ...grpc.CallOption) (ConnectOauthClientStream, error) {
+	stream, err := c.cc.NewStream(ctx,
+		&grpc.StreamDesc{
+			StreamName:    "ConnectOauth",
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		"/ntt.ai.v1.ConnectorService/ConnectOauth", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &connectOauthConnectOauthClient{stream}
+	return x, nil
+}
+
+type ConnectOauthClientStream interface {
+	Send(*ConnectOauthRequest) error
+	Recv() (*ConnectOauthResponse, error)
+	grpc.ClientStream
+}
+
+type connectOauthConnectOauthClient struct {
+	grpc.ClientStream
+}
+
+func (x *connectOauthConnectOauthClient) Send(m *ConnectOauthRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *connectOauthConnectOauthClient) Recv() (*ConnectOauthResponse, error) {
+	m := new(ConnectOauthResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }

@@ -78,9 +78,9 @@ const (
 	Connector_FieldPathSelectorDescription    Connector_FieldPathSelector = 3
 	Connector_FieldPathSelectorType           Connector_FieldPathSelector = 4
 	Connector_FieldPathSelectorMcpConfig      Connector_FieldPathSelector = 5
-	Connector_FieldPathSelectorOauthConfig    Connector_FieldPathSelector = 6
-	Connector_FieldPathSelectorConnectTimeout Connector_FieldPathSelector = 7
-	Connector_FieldPathSelectorRequestTimeout Connector_FieldPathSelector = 8
+	Connector_FieldPathSelectorConnectTimeout Connector_FieldPathSelector = 6
+	Connector_FieldPathSelectorRequestTimeout Connector_FieldPathSelector = 7
+	Connector_FieldPathSelectorOauthConfig    Connector_FieldPathSelector = 8
 )
 
 func (s Connector_FieldPathSelector) String() string {
@@ -97,12 +97,12 @@ func (s Connector_FieldPathSelector) String() string {
 		return "type"
 	case Connector_FieldPathSelectorMcpConfig:
 		return "mcp_config"
-	case Connector_FieldPathSelectorOauthConfig:
-		return "oauth_config"
 	case Connector_FieldPathSelectorConnectTimeout:
 		return "connect_timeout"
 	case Connector_FieldPathSelectorRequestTimeout:
 		return "request_timeout"
+	case Connector_FieldPathSelectorOauthConfig:
+		return "oauth_config"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Connector: %d", s))
 	}
@@ -126,12 +126,12 @@ func BuildConnector_FieldPath(fp gotenobject.RawFieldPath) (Connector_FieldPath,
 			return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorType}, nil
 		case "mcp_config", "mcpConfig", "mcp-config":
 			return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorMcpConfig}, nil
-		case "oauth_config", "oauthConfig", "oauth-config":
-			return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorOauthConfig}, nil
 		case "connect_timeout", "connectTimeout", "connect-timeout":
 			return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorConnectTimeout}, nil
 		case "request_timeout", "requestTimeout", "request-timeout":
 			return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorRequestTimeout}, nil
+		case "oauth_config", "oauthConfig", "oauth-config":
+			return &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorOauthConfig}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -216,10 +216,6 @@ func (fp *Connector_FieldTerminalPath) Get(source *Connector) (values []interfac
 			if source.McpConfig != nil {
 				values = append(values, source.McpConfig)
 			}
-		case Connector_FieldPathSelectorOauthConfig:
-			if source.OauthConfig != nil {
-				values = append(values, source.OauthConfig)
-			}
 		case Connector_FieldPathSelectorConnectTimeout:
 			if source.ConnectTimeout != nil {
 				values = append(values, source.ConnectTimeout)
@@ -227,6 +223,10 @@ func (fp *Connector_FieldTerminalPath) Get(source *Connector) (values []interfac
 		case Connector_FieldPathSelectorRequestTimeout:
 			if source.RequestTimeout != nil {
 				values = append(values, source.RequestTimeout)
+			}
+		case Connector_FieldPathSelectorOauthConfig:
+			if source.OauthConfig != nil {
+				values = append(values, source.OauthConfig)
 			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Connector: %d", fp.selector))
@@ -257,14 +257,14 @@ func (fp *Connector_FieldTerminalPath) GetSingle(source *Connector) (interface{}
 	case Connector_FieldPathSelectorMcpConfig:
 		res := source.GetMcpConfig()
 		return res, res != nil
-	case Connector_FieldPathSelectorOauthConfig:
-		res := source.GetOauthConfig()
-		return res, res != nil
 	case Connector_FieldPathSelectorConnectTimeout:
 		res := source.GetConnectTimeout()
 		return res, res != nil
 	case Connector_FieldPathSelectorRequestTimeout:
 		res := source.GetRequestTimeout()
+		return res, res != nil
+	case Connector_FieldPathSelectorOauthConfig:
+		res := source.GetOauthConfig()
 		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Connector: %d", fp.selector))
@@ -290,12 +290,12 @@ func (fp *Connector_FieldTerminalPath) GetDefault() interface{} {
 		return Connector_MCP
 	case Connector_FieldPathSelectorMcpConfig:
 		return (*MCPConfig)(nil)
-	case Connector_FieldPathSelectorOauthConfig:
-		return (*OAuthConfig)(nil)
 	case Connector_FieldPathSelectorConnectTimeout:
 		return (*durationpb.Duration)(nil)
 	case Connector_FieldPathSelectorRequestTimeout:
 		return (*durationpb.Duration)(nil)
+	case Connector_FieldPathSelectorOauthConfig:
+		return (*OAuthConfig)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Connector: %d", fp.selector))
 	}
@@ -316,12 +316,12 @@ func (fp *Connector_FieldTerminalPath) ClearValue(item *Connector) {
 			item.Type = Connector_MCP
 		case Connector_FieldPathSelectorMcpConfig:
 			item.McpConfig = nil
-		case Connector_FieldPathSelectorOauthConfig:
-			item.OauthConfig = nil
 		case Connector_FieldPathSelectorConnectTimeout:
 			item.ConnectTimeout = nil
 		case Connector_FieldPathSelectorRequestTimeout:
 			item.RequestTimeout = nil
+		case Connector_FieldPathSelectorOauthConfig:
+			item.OauthConfig = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Connector: %d", fp.selector))
 		}
@@ -360,12 +360,12 @@ func (fp *Connector_FieldTerminalPath) WithIValue(value interface{}) Connector_F
 		return &Connector_FieldTerminalPathValue{Connector_FieldTerminalPath: *fp, value: value.(Connector_Type)}
 	case Connector_FieldPathSelectorMcpConfig:
 		return &Connector_FieldTerminalPathValue{Connector_FieldTerminalPath: *fp, value: value.(*MCPConfig)}
-	case Connector_FieldPathSelectorOauthConfig:
-		return &Connector_FieldTerminalPathValue{Connector_FieldTerminalPath: *fp, value: value.(*OAuthConfig)}
 	case Connector_FieldPathSelectorConnectTimeout:
 		return &Connector_FieldTerminalPathValue{Connector_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
 	case Connector_FieldPathSelectorRequestTimeout:
 		return &Connector_FieldTerminalPathValue{Connector_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
+	case Connector_FieldPathSelectorOauthConfig:
+		return &Connector_FieldTerminalPathValue{Connector_FieldTerminalPath: *fp, value: value.(*OAuthConfig)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Connector: %d", fp.selector))
 	}
@@ -390,12 +390,12 @@ func (fp *Connector_FieldTerminalPath) WithIArrayOfValues(values interface{}) Co
 		return &Connector_FieldTerminalPathArrayOfValues{Connector_FieldTerminalPath: *fp, values: values.([]Connector_Type)}
 	case Connector_FieldPathSelectorMcpConfig:
 		return &Connector_FieldTerminalPathArrayOfValues{Connector_FieldTerminalPath: *fp, values: values.([]*MCPConfig)}
-	case Connector_FieldPathSelectorOauthConfig:
-		return &Connector_FieldTerminalPathArrayOfValues{Connector_FieldTerminalPath: *fp, values: values.([]*OAuthConfig)}
 	case Connector_FieldPathSelectorConnectTimeout:
 		return &Connector_FieldTerminalPathArrayOfValues{Connector_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
 	case Connector_FieldPathSelectorRequestTimeout:
 		return &Connector_FieldTerminalPathArrayOfValues{Connector_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
+	case Connector_FieldPathSelectorOauthConfig:
+		return &Connector_FieldTerminalPathArrayOfValues{Connector_FieldTerminalPath: *fp, values: values.([]*OAuthConfig)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Connector: %d", fp.selector))
 	}
@@ -618,16 +618,16 @@ func (fpv *Connector_FieldTerminalPathValue) AsMcpConfigValue() (*MCPConfig, boo
 	res, ok := fpv.value.(*MCPConfig)
 	return res, ok
 }
-func (fpv *Connector_FieldTerminalPathValue) AsOauthConfigValue() (*OAuthConfig, bool) {
-	res, ok := fpv.value.(*OAuthConfig)
-	return res, ok
-}
 func (fpv *Connector_FieldTerminalPathValue) AsConnectTimeoutValue() (*durationpb.Duration, bool) {
 	res, ok := fpv.value.(*durationpb.Duration)
 	return res, ok
 }
 func (fpv *Connector_FieldTerminalPathValue) AsRequestTimeoutValue() (*durationpb.Duration, bool) {
 	res, ok := fpv.value.(*durationpb.Duration)
+	return res, ok
+}
+func (fpv *Connector_FieldTerminalPathValue) AsOauthConfigValue() (*OAuthConfig, bool) {
+	res, ok := fpv.value.(*OAuthConfig)
 	return res, ok
 }
 
@@ -649,12 +649,12 @@ func (fpv *Connector_FieldTerminalPathValue) SetTo(target **Connector) {
 		(*target).Type = fpv.value.(Connector_Type)
 	case Connector_FieldPathSelectorMcpConfig:
 		(*target).McpConfig = fpv.value.(*MCPConfig)
-	case Connector_FieldPathSelectorOauthConfig:
-		(*target).OauthConfig = fpv.value.(*OAuthConfig)
 	case Connector_FieldPathSelectorConnectTimeout:
 		(*target).ConnectTimeout = fpv.value.(*durationpb.Duration)
 	case Connector_FieldPathSelectorRequestTimeout:
 		(*target).RequestTimeout = fpv.value.(*durationpb.Duration)
+	case Connector_FieldPathSelectorOauthConfig:
+		(*target).OauthConfig = fpv.value.(*OAuthConfig)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Connector: %d", fpv.selector))
 	}
@@ -721,8 +721,6 @@ func (fpv *Connector_FieldTerminalPathValue) CompareWith(source *Connector) (int
 		}
 	case Connector_FieldPathSelectorMcpConfig:
 		return 0, false
-	case Connector_FieldPathSelectorOauthConfig:
-		return 0, false
 	case Connector_FieldPathSelectorConnectTimeout:
 		leftValue := fpv.value.(*durationpb.Duration)
 		rightValue := source.GetConnectTimeout()
@@ -761,6 +759,8 @@ func (fpv *Connector_FieldTerminalPathValue) CompareWith(source *Connector) (int
 		} else {
 			return 1, true
 		}
+	case Connector_FieldPathSelectorOauthConfig:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Connector: %d", fpv.selector))
 	}
@@ -991,16 +991,16 @@ func (fpaov *Connector_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 		for _, v := range fpaov.values.([]*MCPConfig) {
 			values = append(values, v)
 		}
-	case Connector_FieldPathSelectorOauthConfig:
-		for _, v := range fpaov.values.([]*OAuthConfig) {
-			values = append(values, v)
-		}
 	case Connector_FieldPathSelectorConnectTimeout:
 		for _, v := range fpaov.values.([]*durationpb.Duration) {
 			values = append(values, v)
 		}
 	case Connector_FieldPathSelectorRequestTimeout:
 		for _, v := range fpaov.values.([]*durationpb.Duration) {
+			values = append(values, v)
+		}
+	case Connector_FieldPathSelectorOauthConfig:
+		for _, v := range fpaov.values.([]*OAuthConfig) {
 			values = append(values, v)
 		}
 	}
@@ -1030,16 +1030,16 @@ func (fpaov *Connector_FieldTerminalPathArrayOfValues) AsMcpConfigArrayOfValues(
 	res, ok := fpaov.values.([]*MCPConfig)
 	return res, ok
 }
-func (fpaov *Connector_FieldTerminalPathArrayOfValues) AsOauthConfigArrayOfValues() ([]*OAuthConfig, bool) {
-	res, ok := fpaov.values.([]*OAuthConfig)
-	return res, ok
-}
 func (fpaov *Connector_FieldTerminalPathArrayOfValues) AsConnectTimeoutArrayOfValues() ([]*durationpb.Duration, bool) {
 	res, ok := fpaov.values.([]*durationpb.Duration)
 	return res, ok
 }
 func (fpaov *Connector_FieldTerminalPathArrayOfValues) AsRequestTimeoutArrayOfValues() ([]*durationpb.Duration, bool) {
 	res, ok := fpaov.values.([]*durationpb.Duration)
+	return res, ok
+}
+func (fpaov *Connector_FieldTerminalPathArrayOfValues) AsOauthConfigArrayOfValues() ([]*OAuthConfig, bool) {
+	res, ok := fpaov.values.([]*OAuthConfig)
 	return res, ok
 }
 
@@ -1762,11 +1762,23 @@ type OAuthConfig_FieldPath interface {
 type OAuthConfig_FieldPathSelector int32
 
 const (
-	OAuthConfig_FieldPathSelectorClientId              OAuthConfig_FieldPathSelector = 0
-	OAuthConfig_FieldPathSelectorClientSecret          OAuthConfig_FieldPathSelector = 1
-	OAuthConfig_FieldPathSelectorAuthorizationEndpoint OAuthConfig_FieldPathSelector = 2
-	OAuthConfig_FieldPathSelectorTokenEndpoint         OAuthConfig_FieldPathSelector = 3
-	OAuthConfig_FieldPathSelectorAdditionalScopes      OAuthConfig_FieldPathSelector = 4
+	OAuthConfig_FieldPathSelectorClientId                         OAuthConfig_FieldPathSelector = 0
+	OAuthConfig_FieldPathSelectorClientSecret                     OAuthConfig_FieldPathSelector = 1
+	OAuthConfig_FieldPathSelectorAuthorizationEndpoint            OAuthConfig_FieldPathSelector = 2
+	OAuthConfig_FieldPathSelectorTokenEndpoint                    OAuthConfig_FieldPathSelector = 3
+	OAuthConfig_FieldPathSelectorAdditionalScopes                 OAuthConfig_FieldPathSelector = 4
+	OAuthConfig_FieldPathSelectorIssuer                           OAuthConfig_FieldPathSelector = 5
+	OAuthConfig_FieldPathSelectorResourceUrl                      OAuthConfig_FieldPathSelector = 6
+	OAuthConfig_FieldPathSelectorResourceParam                    OAuthConfig_FieldPathSelector = 7
+	OAuthConfig_FieldPathSelectorParEndpoint                      OAuthConfig_FieldPathSelector = 8
+	OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods         OAuthConfig_FieldPathSelector = 9
+	OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod OAuthConfig_FieldPathSelector = 10
+	OAuthConfig_FieldPathSelectorScopesSupported                  OAuthConfig_FieldPathSelector = 11
+	OAuthConfig_FieldPathSelectorDpopSigningAlgs                  OAuthConfig_FieldPathSelector = 12
+	OAuthConfig_FieldPathSelectorDownstreamConsentScopes          OAuthConfig_FieldPathSelector = 13
+	OAuthConfig_FieldPathSelectorAutoPopulated                    OAuthConfig_FieldPathSelector = 14
+	OAuthConfig_FieldPathSelectorAutoPopulatedAt                  OAuthConfig_FieldPathSelector = 15
+	OAuthConfig_FieldPathSelectorAutoSource                       OAuthConfig_FieldPathSelector = 16
 )
 
 func (s OAuthConfig_FieldPathSelector) String() string {
@@ -1781,6 +1793,30 @@ func (s OAuthConfig_FieldPathSelector) String() string {
 		return "token_endpoint"
 	case OAuthConfig_FieldPathSelectorAdditionalScopes:
 		return "additional_scopes"
+	case OAuthConfig_FieldPathSelectorIssuer:
+		return "issuer"
+	case OAuthConfig_FieldPathSelectorResourceUrl:
+		return "resource_url"
+	case OAuthConfig_FieldPathSelectorResourceParam:
+		return "resource_param"
+	case OAuthConfig_FieldPathSelectorParEndpoint:
+		return "par_endpoint"
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		return "token_endpoint_auth_methods"
+	case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+		return "preferred_token_endpoint_auth_method"
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		return "scopes_supported"
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		return "dpop_signing_algs"
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+		return "downstream_consent_scopes"
+	case OAuthConfig_FieldPathSelectorAutoPopulated:
+		return "auto_populated"
+	case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+		return "auto_populated_at"
+	case OAuthConfig_FieldPathSelectorAutoSource:
+		return "auto_source"
 	default:
 		panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", s))
 	}
@@ -1802,6 +1838,30 @@ func BuildOAuthConfig_FieldPath(fp gotenobject.RawFieldPath) (OAuthConfig_FieldP
 			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorTokenEndpoint}, nil
 		case "additional_scopes", "additionalScopes", "additional-scopes":
 			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAdditionalScopes}, nil
+		case "issuer":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorIssuer}, nil
+		case "resource_url", "resourceUrl", "resource-url":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorResourceUrl}, nil
+		case "resource_param", "resourceParam", "resource-param":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorResourceParam}, nil
+		case "par_endpoint", "parEndpoint", "par-endpoint":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorParEndpoint}, nil
+		case "token_endpoint_auth_methods", "tokenEndpointAuthMethods", "token-endpoint-auth-methods":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods}, nil
+		case "preferred_token_endpoint_auth_method", "preferredTokenEndpointAuthMethod", "preferred-token-endpoint-auth-method":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod}, nil
+		case "scopes_supported", "scopesSupported", "scopes-supported":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorScopesSupported}, nil
+		case "dpop_signing_algs", "dpopSigningAlgs", "dpop-signing-algs":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDpopSigningAlgs}, nil
+		case "downstream_consent_scopes", "downstreamConsentScopes", "downstream-consent-scopes":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDownstreamConsentScopes}, nil
+		case "auto_populated", "autoPopulated", "auto-populated":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoPopulated}, nil
+		case "auto_populated_at", "autoPopulatedAt", "auto-populated-at":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoPopulatedAt}, nil
+		case "auto_source", "autoSource", "auto-source":
+			return &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoSource}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object OAuthConfig", fp)
@@ -1859,6 +1919,38 @@ func (fp *OAuthConfig_FieldTerminalPath) Get(source *OAuthConfig) (values []inte
 			for _, value := range source.GetAdditionalScopes() {
 				values = append(values, value)
 			}
+		case OAuthConfig_FieldPathSelectorIssuer:
+			values = append(values, source.Issuer)
+		case OAuthConfig_FieldPathSelectorResourceUrl:
+			values = append(values, source.ResourceUrl)
+		case OAuthConfig_FieldPathSelectorResourceParam:
+			values = append(values, source.ResourceParam)
+		case OAuthConfig_FieldPathSelectorParEndpoint:
+			values = append(values, source.ParEndpoint)
+		case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+			for _, value := range source.GetTokenEndpointAuthMethods() {
+				values = append(values, value)
+			}
+		case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+			values = append(values, source.PreferredTokenEndpointAuthMethod)
+		case OAuthConfig_FieldPathSelectorScopesSupported:
+			for _, value := range source.GetScopesSupported() {
+				values = append(values, value)
+			}
+		case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+			for _, value := range source.GetDpopSigningAlgs() {
+				values = append(values, value)
+			}
+		case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+			for _, value := range source.GetDownstreamConsentScopes() {
+				values = append(values, value)
+			}
+		case OAuthConfig_FieldPathSelectorAutoPopulated:
+			values = append(values, source.AutoPopulated)
+		case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+			values = append(values, source.AutoPopulatedAt)
+		case OAuthConfig_FieldPathSelectorAutoSource:
+			values = append(values, source.AutoSource)
 		default:
 			panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fp.selector))
 		}
@@ -1884,6 +1976,34 @@ func (fp *OAuthConfig_FieldTerminalPath) GetSingle(source *OAuthConfig) (interfa
 	case OAuthConfig_FieldPathSelectorAdditionalScopes:
 		res := source.GetAdditionalScopes()
 		return res, res != nil
+	case OAuthConfig_FieldPathSelectorIssuer:
+		return source.GetIssuer(), source != nil
+	case OAuthConfig_FieldPathSelectorResourceUrl:
+		return source.GetResourceUrl(), source != nil
+	case OAuthConfig_FieldPathSelectorResourceParam:
+		return source.GetResourceParam(), source != nil
+	case OAuthConfig_FieldPathSelectorParEndpoint:
+		return source.GetParEndpoint(), source != nil
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		res := source.GetTokenEndpointAuthMethods()
+		return res, res != nil
+	case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+		return source.GetPreferredTokenEndpointAuthMethod(), source != nil
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		res := source.GetScopesSupported()
+		return res, res != nil
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		res := source.GetDpopSigningAlgs()
+		return res, res != nil
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+		res := source.GetDownstreamConsentScopes()
+		return res, res != nil
+	case OAuthConfig_FieldPathSelectorAutoPopulated:
+		return source.GetAutoPopulated(), source != nil
+	case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+		return source.GetAutoPopulatedAt(), source != nil
+	case OAuthConfig_FieldPathSelectorAutoSource:
+		return source.GetAutoSource(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fp.selector))
 	}
@@ -1906,6 +2026,30 @@ func (fp *OAuthConfig_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case OAuthConfig_FieldPathSelectorAdditionalScopes:
 		return ([]string)(nil)
+	case OAuthConfig_FieldPathSelectorIssuer:
+		return ""
+	case OAuthConfig_FieldPathSelectorResourceUrl:
+		return ""
+	case OAuthConfig_FieldPathSelectorResourceParam:
+		return ""
+	case OAuthConfig_FieldPathSelectorParEndpoint:
+		return ""
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		return ([]string)(nil)
+	case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+		return ""
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		return ([]string)(nil)
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		return ([]string)(nil)
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+		return ([]string)(nil)
+	case OAuthConfig_FieldPathSelectorAutoPopulated:
+		return false
+	case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+		return int64(0)
+	case OAuthConfig_FieldPathSelectorAutoSource:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fp.selector))
 	}
@@ -1924,6 +2068,30 @@ func (fp *OAuthConfig_FieldTerminalPath) ClearValue(item *OAuthConfig) {
 			item.TokenEndpoint = ""
 		case OAuthConfig_FieldPathSelectorAdditionalScopes:
 			item.AdditionalScopes = nil
+		case OAuthConfig_FieldPathSelectorIssuer:
+			item.Issuer = ""
+		case OAuthConfig_FieldPathSelectorResourceUrl:
+			item.ResourceUrl = ""
+		case OAuthConfig_FieldPathSelectorResourceParam:
+			item.ResourceParam = ""
+		case OAuthConfig_FieldPathSelectorParEndpoint:
+			item.ParEndpoint = ""
+		case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+			item.TokenEndpointAuthMethods = nil
+		case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+			item.PreferredTokenEndpointAuthMethod = ""
+		case OAuthConfig_FieldPathSelectorScopesSupported:
+			item.ScopesSupported = nil
+		case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+			item.DpopSigningAlgs = nil
+		case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+			item.DownstreamConsentScopes = nil
+		case OAuthConfig_FieldPathSelectorAutoPopulated:
+			item.AutoPopulated = false
+		case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+			item.AutoPopulatedAt = int64(0)
+		case OAuthConfig_FieldPathSelectorAutoSource:
+			item.AutoSource = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fp.selector))
 		}
@@ -1940,7 +2108,19 @@ func (fp *OAuthConfig_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == OAuthConfig_FieldPathSelectorClientSecret ||
 		fp.selector == OAuthConfig_FieldPathSelectorAuthorizationEndpoint ||
 		fp.selector == OAuthConfig_FieldPathSelectorTokenEndpoint ||
-		fp.selector == OAuthConfig_FieldPathSelectorAdditionalScopes
+		fp.selector == OAuthConfig_FieldPathSelectorAdditionalScopes ||
+		fp.selector == OAuthConfig_FieldPathSelectorIssuer ||
+		fp.selector == OAuthConfig_FieldPathSelectorResourceUrl ||
+		fp.selector == OAuthConfig_FieldPathSelectorResourceParam ||
+		fp.selector == OAuthConfig_FieldPathSelectorParEndpoint ||
+		fp.selector == OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods ||
+		fp.selector == OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod ||
+		fp.selector == OAuthConfig_FieldPathSelectorScopesSupported ||
+		fp.selector == OAuthConfig_FieldPathSelectorDpopSigningAlgs ||
+		fp.selector == OAuthConfig_FieldPathSelectorDownstreamConsentScopes ||
+		fp.selector == OAuthConfig_FieldPathSelectorAutoPopulated ||
+		fp.selector == OAuthConfig_FieldPathSelectorAutoPopulatedAt ||
+		fp.selector == OAuthConfig_FieldPathSelectorAutoSource
 }
 
 func (fp *OAuthConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1959,6 +2139,30 @@ func (fp *OAuthConfig_FieldTerminalPath) WithIValue(value interface{}) OAuthConf
 		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
 	case OAuthConfig_FieldPathSelectorAdditionalScopes:
 		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.([]string)}
+	case OAuthConfig_FieldPathSelectorIssuer:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorResourceUrl:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorResourceParam:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorParEndpoint:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.([]string)}
+	case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.([]string)}
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.([]string)}
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.([]string)}
+	case OAuthConfig_FieldPathSelectorAutoPopulated:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(bool)}
+	case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(int64)}
+	case OAuthConfig_FieldPathSelectorAutoSource:
+		return &OAuthConfig_FieldTerminalPathValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fp.selector))
 	}
@@ -1981,6 +2185,30 @@ func (fp *OAuthConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) 
 		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]string)}
 	case OAuthConfig_FieldPathSelectorAdditionalScopes:
 		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([][]string)}
+	case OAuthConfig_FieldPathSelectorIssuer:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]string)}
+	case OAuthConfig_FieldPathSelectorResourceUrl:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]string)}
+	case OAuthConfig_FieldPathSelectorResourceParam:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]string)}
+	case OAuthConfig_FieldPathSelectorParEndpoint:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]string)}
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([][]string)}
+	case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]string)}
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([][]string)}
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([][]string)}
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([][]string)}
+	case OAuthConfig_FieldPathSelectorAutoPopulated:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]bool)}
+	case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]int64)}
+	case OAuthConfig_FieldPathSelectorAutoSource:
+		return &OAuthConfig_FieldTerminalPathArrayOfValues{OAuthConfig_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fp.selector))
 	}
@@ -1994,6 +2222,14 @@ func (fp *OAuthConfig_FieldTerminalPath) WithRawIArrayOfValues(values interface{
 func (fp *OAuthConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) OAuthConfig_FieldPathArrayItemValue {
 	switch fp.selector {
 	case OAuthConfig_FieldPathSelectorAdditionalScopes:
+		return &OAuthConfig_FieldTerminalPathArrayItemValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		return &OAuthConfig_FieldTerminalPathArrayItemValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		return &OAuthConfig_FieldTerminalPathArrayItemValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		return &OAuthConfig_FieldTerminalPathArrayItemValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
 		return &OAuthConfig_FieldTerminalPathArrayItemValue{OAuthConfig_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fp.selector))
@@ -2063,6 +2299,54 @@ func (fpv *OAuthConfig_FieldTerminalPathValue) AsAdditionalScopesValue() ([]stri
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsIssuerValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsResourceUrlValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsResourceParamValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsParEndpointValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsTokenEndpointAuthMethodsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsPreferredTokenEndpointAuthMethodValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsScopesSupportedValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsDpopSigningAlgsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsDownstreamConsentScopesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsAutoPopulatedValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsAutoPopulatedAtValue() (int64, bool) {
+	res, ok := fpv.value.(int64)
+	return res, ok
+}
+func (fpv *OAuthConfig_FieldTerminalPathValue) AsAutoSourceValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object OAuthConfig
 func (fpv *OAuthConfig_FieldTerminalPathValue) SetTo(target **OAuthConfig) {
@@ -2080,6 +2364,30 @@ func (fpv *OAuthConfig_FieldTerminalPathValue) SetTo(target **OAuthConfig) {
 		(*target).TokenEndpoint = fpv.value.(string)
 	case OAuthConfig_FieldPathSelectorAdditionalScopes:
 		(*target).AdditionalScopes = fpv.value.([]string)
+	case OAuthConfig_FieldPathSelectorIssuer:
+		(*target).Issuer = fpv.value.(string)
+	case OAuthConfig_FieldPathSelectorResourceUrl:
+		(*target).ResourceUrl = fpv.value.(string)
+	case OAuthConfig_FieldPathSelectorResourceParam:
+		(*target).ResourceParam = fpv.value.(string)
+	case OAuthConfig_FieldPathSelectorParEndpoint:
+		(*target).ParEndpoint = fpv.value.(string)
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		(*target).TokenEndpointAuthMethods = fpv.value.([]string)
+	case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+		(*target).PreferredTokenEndpointAuthMethod = fpv.value.(string)
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		(*target).ScopesSupported = fpv.value.([]string)
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		(*target).DpopSigningAlgs = fpv.value.([]string)
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+		(*target).DownstreamConsentScopes = fpv.value.([]string)
+	case OAuthConfig_FieldPathSelectorAutoPopulated:
+		(*target).AutoPopulated = fpv.value.(bool)
+	case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+		(*target).AutoPopulatedAt = fpv.value.(int64)
+	case OAuthConfig_FieldPathSelectorAutoSource:
+		(*target).AutoSource = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fpv.selector))
 	}
@@ -2135,6 +2443,94 @@ func (fpv *OAuthConfig_FieldTerminalPathValue) CompareWith(source *OAuthConfig) 
 		}
 	case OAuthConfig_FieldPathSelectorAdditionalScopes:
 		return 0, false
+	case OAuthConfig_FieldPathSelectorIssuer:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetIssuer()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OAuthConfig_FieldPathSelectorResourceUrl:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetResourceUrl()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OAuthConfig_FieldPathSelectorResourceParam:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetResourceParam()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OAuthConfig_FieldPathSelectorParEndpoint:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetParEndpoint()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		return 0, false
+	case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetPreferredTokenEndpointAuthMethod()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		return 0, false
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		return 0, false
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+		return 0, false
+	case OAuthConfig_FieldPathSelectorAutoPopulated:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAutoPopulated()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+		leftValue := fpv.value.(int64)
+		rightValue := source.GetAutoPopulatedAt()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OAuthConfig_FieldPathSelectorAutoSource:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAutoSource()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for OAuthConfig: %d", fpv.selector))
 	}
@@ -2185,6 +2581,22 @@ func (fpaiv *OAuthConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() inte
 	return fpaiv.value
 }
 func (fpaiv *OAuthConfig_FieldTerminalPathArrayItemValue) AsAdditionalScopesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *OAuthConfig_FieldTerminalPathArrayItemValue) AsTokenEndpointAuthMethodsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *OAuthConfig_FieldTerminalPathArrayItemValue) AsScopesSupportedItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *OAuthConfig_FieldTerminalPathArrayItemValue) AsDpopSigningAlgsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *OAuthConfig_FieldTerminalPathArrayItemValue) AsDownstreamConsentScopesItemValue() (string, bool) {
 	res, ok := fpaiv.value.(string)
 	return res, ok
 }
@@ -2267,6 +2679,54 @@ func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 		for _, v := range fpaov.values.([][]string) {
 			values = append(values, v)
 		}
+	case OAuthConfig_FieldPathSelectorIssuer:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorResourceUrl:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorResourceParam:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorParEndpoint:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorScopesSupported:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorDpopSigningAlgs:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorDownstreamConsentScopes:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorAutoPopulated:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorAutoPopulatedAt:
+		for _, v := range fpaov.values.([]int64) {
+			values = append(values, v)
+		}
+	case OAuthConfig_FieldPathSelectorAutoSource:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2288,5 +2748,53 @@ func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsTokenEndpointArrayOfV
 }
 func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsAdditionalScopesArrayOfValues() ([][]string, bool) {
 	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsIssuerArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsResourceUrlArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsResourceParamArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsParEndpointArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsTokenEndpointAuthMethodsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsPreferredTokenEndpointAuthMethodArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsScopesSupportedArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsDpopSigningAlgsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsDownstreamConsentScopesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsAutoPopulatedArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsAutoPopulatedAtArrayOfValues() ([]int64, bool) {
+	res, ok := fpaov.values.([]int64)
+	return res, ok
+}
+func (fpaov *OAuthConfig_FieldTerminalPathArrayOfValues) AsAutoSourceArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }

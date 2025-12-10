@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ntt.ai.v1;
 
+import "edgelq-sdk/ai/proto/v1/common.proto";
+
 option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/tools;tools_client";
 option java_multiple_files = false;
 option java_outer_classname = "ToolsCustomProto";
@@ -54,4 +56,8 @@ message ToolExecutionResult {
   }
 
   string mime_type = 5; // Optional: "application/json", "text/plain", etc.
+
+  // Connector authentication errors that blocked this tool execution.
+  // Empty for non-connector-related failures.
+  repeated ConnectorAuthError connector_auth_errors = 6;
 }

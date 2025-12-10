@@ -236,16 +236,16 @@ func (b *filterCndBuilder) McpConfig() *filterCndBuilderMcpConfig {
 	return &filterCndBuilderMcpConfig{builder: b.builder}
 }
 
-func (b *filterCndBuilder) OauthConfig() *filterCndBuilderOauthConfig {
-	return &filterCndBuilderOauthConfig{builder: b.builder}
-}
-
 func (b *filterCndBuilder) ConnectTimeout() *filterCndBuilderConnectTimeout {
 	return &filterCndBuilderConnectTimeout{builder: b.builder}
 }
 
 func (b *filterCndBuilder) RequestTimeout() *filterCndBuilderRequestTimeout {
 	return &filterCndBuilderRequestTimeout{builder: b.builder}
+}
+
+func (b *filterCndBuilder) OauthConfig() *filterCndBuilderOauthConfig {
+	return &filterCndBuilderOauthConfig{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -2918,6 +2918,124 @@ func (b *mapFilterCndBuilderMcpConfigEnvironment) compare(op gotenfilter.Compare
 	})
 }
 
+type filterCndBuilderConnectTimeout struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConnectTimeout) Eq(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConnectTimeout) Neq(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConnectTimeout) Gt(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConnectTimeout) Gte(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConnectTimeout) Lt(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConnectTimeout) Lte(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConnectTimeout) In(values []*durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().ConnectTimeout().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConnectTimeout) NotIn(values []*durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().ConnectTimeout().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConnectTimeout) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().ConnectTimeout().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConnectTimeout) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().ConnectTimeout().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConnectTimeout) compare(op gotenfilter.CompareOperator, value *durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().ConnectTimeout().WithValue(value),
+	})
+}
+
+type filterCndBuilderRequestTimeout struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderRequestTimeout) Eq(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderRequestTimeout) Neq(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderRequestTimeout) Gt(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderRequestTimeout) Gte(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderRequestTimeout) Lt(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderRequestTimeout) Lte(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderRequestTimeout) In(values []*durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().RequestTimeout().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRequestTimeout) NotIn(values []*durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().RequestTimeout().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRequestTimeout) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().RequestTimeout().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRequestTimeout) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().RequestTimeout().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRequestTimeout) compare(op gotenfilter.CompareOperator, value *durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().RequestTimeout().WithValue(value),
+	})
+}
+
 type filterCndBuilderOauthConfig struct {
 	builder *FilterBuilder
 }
@@ -2995,6 +3113,54 @@ func (b *filterCndBuilderOauthConfig) TokenEndpoint() *filterCndBuilderOauthConf
 
 func (b *filterCndBuilderOauthConfig) AdditionalScopes() *filterCndBuilderOauthConfigAdditionalScopes {
 	return &filterCndBuilderOauthConfigAdditionalScopes{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) Issuer() *filterCndBuilderOauthConfigIssuer {
+	return &filterCndBuilderOauthConfigIssuer{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) ResourceUrl() *filterCndBuilderOauthConfigResourceUrl {
+	return &filterCndBuilderOauthConfigResourceUrl{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) ResourceParam() *filterCndBuilderOauthConfigResourceParam {
+	return &filterCndBuilderOauthConfigResourceParam{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) ParEndpoint() *filterCndBuilderOauthConfigParEndpoint {
+	return &filterCndBuilderOauthConfigParEndpoint{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) TokenEndpointAuthMethods() *filterCndBuilderOauthConfigTokenEndpointAuthMethods {
+	return &filterCndBuilderOauthConfigTokenEndpointAuthMethods{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) PreferredTokenEndpointAuthMethod() *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod {
+	return &filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) ScopesSupported() *filterCndBuilderOauthConfigScopesSupported {
+	return &filterCndBuilderOauthConfigScopesSupported{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) DpopSigningAlgs() *filterCndBuilderOauthConfigDpopSigningAlgs {
+	return &filterCndBuilderOauthConfigDpopSigningAlgs{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) DownstreamConsentScopes() *filterCndBuilderOauthConfigDownstreamConsentScopes {
+	return &filterCndBuilderOauthConfigDownstreamConsentScopes{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) AutoPopulated() *filterCndBuilderOauthConfigAutoPopulated {
+	return &filterCndBuilderOauthConfigAutoPopulated{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) AutoPopulatedAt() *filterCndBuilderOauthConfigAutoPopulatedAt {
+	return &filterCndBuilderOauthConfigAutoPopulatedAt{builder: b.builder}
+}
+
+func (b *filterCndBuilderOauthConfig) AutoSource() *filterCndBuilderOauthConfigAutoSource {
+	return &filterCndBuilderOauthConfigAutoSource{builder: b.builder}
 }
 
 type filterCndBuilderOauthConfigClientId struct {
@@ -3326,120 +3492,846 @@ func (b *filterCndBuilderOauthConfigAdditionalScopes) compare(op gotenfilter.Com
 	})
 }
 
-type filterCndBuilderConnectTimeout struct {
+type filterCndBuilderOauthConfigIssuer struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderConnectTimeout) Eq(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderConnectTimeout) Neq(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderConnectTimeout) Gt(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderConnectTimeout) Gte(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderConnectTimeout) Lt(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderConnectTimeout) Lte(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderConnectTimeout) In(values []*durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().ConnectTimeout().WithArrayOfValues(values),
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().Issuer().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderConnectTimeout) NotIn(values []*durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().ConnectTimeout().WithArrayOfValues(values),
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().Issuer().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderConnectTimeout) IsNull() *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewConnectorFieldPathBuilder().ConnectTimeout().FieldPath(),
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().Issuer().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderConnectTimeout) IsNan() *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewConnectorFieldPathBuilder().ConnectTimeout().FieldPath(),
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().Issuer().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderConnectTimeout) compare(op gotenfilter.CompareOperator, value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigIssuer) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
-		Connector_FieldPathValue: NewConnectorFieldPathBuilder().ConnectTimeout().WithValue(value),
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().Issuer().WithValue(value),
 	})
 }
 
-type filterCndBuilderRequestTimeout struct {
+type filterCndBuilderOauthConfigResourceUrl struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderRequestTimeout) Eq(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderRequestTimeout) Neq(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderRequestTimeout) Gt(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderRequestTimeout) Gte(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderRequestTimeout) Lt(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderRequestTimeout) Lte(value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderRequestTimeout) In(values []*durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().RequestTimeout().WithArrayOfValues(values),
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().ResourceUrl().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderRequestTimeout) NotIn(values []*durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().RequestTimeout().WithArrayOfValues(values),
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().ResourceUrl().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderRequestTimeout) IsNull() *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewConnectorFieldPathBuilder().RequestTimeout().FieldPath(),
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ResourceUrl().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderRequestTimeout) IsNan() *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewConnectorFieldPathBuilder().RequestTimeout().FieldPath(),
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ResourceUrl().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderRequestTimeout) compare(op gotenfilter.CompareOperator, value *durationpb.Duration) *FilterBuilder {
+func (b *filterCndBuilderOauthConfigResourceUrl) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
-		Connector_FieldPathValue: NewConnectorFieldPathBuilder().RequestTimeout().WithValue(value),
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().ResourceUrl().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigResourceParam struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().ResourceParam().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().ResourceParam().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ResourceParam().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ResourceParam().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigResourceParam) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().ResourceParam().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigParEndpoint struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().ParEndpoint().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().ParEndpoint().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ParEndpoint().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ParEndpoint().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigParEndpoint) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().ParEndpoint().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigTokenEndpointAuthMethods struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().FieldPath(),
+		Value:     NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods()
+	itemValues := make([]Connector_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods()
+	itemValues := make([]Connector_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOauthConfigTokenEndpointAuthMethods) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().TokenEndpointAuthMethods().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().PreferredTokenEndpointAuthMethod().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().PreferredTokenEndpointAuthMethod().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().PreferredTokenEndpointAuthMethod().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().PreferredTokenEndpointAuthMethod().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigPreferredTokenEndpointAuthMethod) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().PreferredTokenEndpointAuthMethod().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigScopesSupported struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().FieldPath(),
+		Value:     NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported()
+	itemValues := make([]Connector_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported()
+	itemValues := make([]Connector_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOauthConfigScopesSupported) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().ScopesSupported().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigDpopSigningAlgs struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().FieldPath(),
+		Value:     NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs()
+	itemValues := make([]Connector_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs()
+	itemValues := make([]Connector_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDpopSigningAlgs) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().DpopSigningAlgs().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigDownstreamConsentScopes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().FieldPath(),
+		Value:     NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes()
+	itemValues := make([]Connector_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes()
+	itemValues := make([]Connector_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOauthConfigDownstreamConsentScopes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().DownstreamConsentScopes().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigAutoPopulated struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulated().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulated().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulated().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulated().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulated) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulated().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigAutoPopulatedAt struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulatedAt().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulatedAt().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulatedAt().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulatedAt().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoPopulatedAt) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().AutoPopulatedAt().WithValue(value),
+	})
+}
+
+type filterCndBuilderOauthConfigAutoSource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().AutoSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Connector_FieldPathArrayOfValues: NewConnectorFieldPathBuilder().OauthConfig().AutoSource().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().AutoSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConnectorFieldPathBuilder().OauthConfig().AutoSource().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOauthConfigAutoSource) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Connector_FieldPathValue: NewConnectorFieldPathBuilder().OauthConfig().AutoSource().WithValue(value),
 	})
 }

@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector_user_token;connector_user_token";
+option java_multiple_files = true;
+option java_outer_classname = "ConnectorUserTokenProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// ConnectorUserToken Resource
+message ConnectorUserToken {
+  option (google.api.resource) = {
+    type : "ai.edgelq.com/ConnectorUserToken"
+    pattern : "connectorUserTokens/{connector_user_token}"
+    pattern : "projects/{project}/connectorUserTokens/{connector_user_token}"
+  };
+
+  // Name of ConnectorUserToken
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Connector resource this token authorizes against.
+  string connector = 3;
+
+  // IAM user email that established this token.
+  string owner_email = 4;
+
+  // Provider specific identifier for the linked account (e.g. subject claim).
+  string provider_subject = 6;
+
+  // Provider supplied display name for the linked identity.
+  string provider_display_name = 7;
+
+  // Provider supplied avatar URL for the linked identity.
+  string provider_avatar_url = 8;
+
+  // OAuth scopes that were granted for this token.
+  repeated string granted_scopes = 9;
+
+  // Expiration (if any) for the current access token.
+  google.protobuf.Timestamp access_token_expires_at = 10;
+
+  // Expiration (if any) for the refresh token.
+  google.protobuf.Timestamp refresh_token_expires_at = 11;
+
+  // Last time the backend refreshed token material.
+  google.protobuf.Timestamp last_refresh_time = 12;
+
+  // Indicates whether this token has been revoked server-side.
+  bool revoked = 13;
+
+  // When the token was revoked server-side.
+  google.protobuf.Timestamp revoked_time = 14;
+
+  // Optional human readable reason for revocation.
+  string revocation_reason = 15;
+
+  // True once the user has completed any configured downstream consent flow
+  // for this connector (for example, granting access to additional provider
+  // resources such as Azure Data Explorer). This allows the backend to
+  // distinguish between initial connector login and subsequent provider-level
+  // consent requirements.
+  bool consent_obtained = 16;
+
+  // Encrypted token material, only accepted from the server-side control plane.
+  ConnectorUserTokenSecret secret = 50
+      [ (google.api.field_behavior) = INPUT_ONLY ];
+}
+
+// Secret payload maintained by the server - not returned to clients.
+message ConnectorUserTokenSecret {
+  // Ciphertext returned from the configured encrypter backend.
+  bytes ciphertext = 1;
+
+  // Name of the crypto key used to encrypt/decrypt the payload.
+  string encryption_key_name = 2;
+
+  // Version marker for the serialized payload stored in ciphertext.
+  string payload_version = 3;
+
+  // Timestamp when the secret payload was last updated.
+  google.protobuf.Timestamp updated_at = 4;
+}

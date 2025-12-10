@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/connector.proto";
+import "edgelq-sdk/ai/proto/v1/connector_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector;connector_client";
+option java_multiple_files = false;
+option java_outer_classname = "ConnectorCustomProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// A request message of the ConnectOauth method.
+message ConnectOauthRequest {
+  // Name of ntt.ai.v1.Connector the client wants to link.
+  string name = 1;
+
+  // Event sent from the client to drive the handshake stream.
+  oneof event {
+    StartOauth start = 2;
+
+    CancelOauth cancel = 3;
+
+    OauthPing ping = 4;
+  }
+}
+
+// Initial event to kick off the OAuth handshake.
+message StartOauth {
+  // SPA-relative path the backend should redirect back to after login.
+  string return_to = 1;
+
+  // Optional additional scopes requested by the client.
+  repeated string scopes = 2;
+
+  // Optional login hint for the upstream Authorization Server.
+  string login_hint = 3;
+
+  // Provider-specific prompt parameters (prompt=consent, access_type=offline,
+  // etc).
+  map<string, string> prompt_params = 4;
+
+  // Parent name of ntt.ai.v1.ConnectorUserToken. When provided, this
+  // determines the project scope under which the connector user token will
+  // be stored after a successful OAuth callback.
+  string parent = 5;
+}
+
+// Allows the client to cancel an in-flight OAuth attempt.
+message CancelOauth {
+  // login_id returned in the Redirect event to correlate cancellation.
+  string login_id = 1;
+}
+
+// Lightweight keep-alive to keep the stream open through long-running logins.
+message OauthPing {}
+
+// A response message of the ConnectOauth method.
+message ConnectOauthResponse {
+  // Event emitted by the server during the OAuth handshake.
+  oneof event {
+    OauthRedirect redirect = 1;
+
+    OauthCompletion completion = 2;
+
+    OauthError error = 3;
+
+    OauthKeepAlive keep_alive = 4;
+  }
+}
+
+// Server response instructing the client to redirect the browser.
+message OauthRedirect {
+  // Opaque identifier correlating this login attempt.
+  string login_id = 1;
+
+  // Where the SPA should redirect the browser to continue the flow.
+  string authorization_url = 2;
+
+  // Expiration timestamp (seconds since epoch) for this login attempt.
+  int64 expires_at_epoch = 3;
+}
+
+// Final completion event once the callback finishes (success, timeout, etc.).
+message OauthCompletion {
+  string login_id = 1;
+
+  Status status = 2;
+
+  // Optional human readable message (e.g., error details).
+  string message = 3;
+
+  // Populated on success to describe the linked user identity.
+  string user_email = 4;
+
+  string display_name = 5;
+
+  string avatar_url = 6;
+
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+
+    STATUS_SUCCESS = 1;
+
+    STATUS_CANCELLED = 2;
+
+    STATUS_TIMEOUT = 3;
+
+    STATUS_ERROR = 4;
+  }
+}
+
+// Error event when the backend fails to initiate the handshake.
+message OauthError {
+  string login_id = 1;
+
+  string code = 2;
+
+  string message = 3;
+}
+
+// Periodic server-side keep-alive to reassure the client the stream is active.
+message OauthKeepAlive {}

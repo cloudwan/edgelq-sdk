@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.ai.v1;
 
+import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "goten-sdk/types/meta.proto";
@@ -43,15 +44,14 @@ message Connector {
   // MCP connection configuration
   MCPConfig mcp_config = 6;
 
-  // OAuth configuration (optional)
-  // Only needed if MCP server doesn't support RFC9728 auto-discovery
-  OAuthConfig oauth_config = 7;
-
   // Connection timeout
   google.protobuf.Duration connect_timeout = 8;
 
   // Request timeout
   google.protobuf.Duration request_timeout = 9;
+
+  // Effective OAuth configuration (static or auto-populated).
+  OAuthConfig oauth_config = 7;
 
   // Connector type
   enum Type {
@@ -74,20 +74,67 @@ message MCPConfig {
   map<string, string> environment = 3;
 }
 
-// OAuth configuration
+// OAuth configuration for a connector. This is the effective configuration used
+// by the service, regardless of whether fields were provided statically by the
+// user or auto-populated from discovery / DCR / CIMD.
 message OAuthConfig {
-  // Pre-registered OAuth client ID
+  // Pre-registered OAuth client ID (or URL for CIMD).
   string client_id = 1;
 
-  // Reference to secret containing client secret
-  string client_secret = 2;
+  // Reference to secret containing client secret (for confidential clients).
+  string client_secret = 2 [ (google.api.field_behavior) = INPUT_ONLY ];
 
-  // Override auto-discovered authorization endpoint
+  // Effective authorization endpoint.
   string authorization_endpoint = 3;
 
-  // Override auto-discovered token endpoint
+  // Effective token endpoint.
   string token_endpoint = 4;
 
-  // Additional scopes beyond what MCP server declares
+  // Additional scopes beyond what MCP server declares.
   repeated string additional_scopes = 5;
+
+  // Issuer for this configuration (from discovery or static config).
+  string issuer = 6;
+
+  // Resource URL used for discovery (typically the MCP protected resource
+  // origin).
+  string resource_url = 7;
+
+  // Effective resource parameter to send in auth/token/PAR requests.
+  string resource_param = 8;
+
+  // Pushed Authorization Request endpoint, if available.
+  string par_endpoint = 9;
+
+  // Token endpoint authentication methods supported by this AS.
+  repeated string token_endpoint_auth_methods = 10;
+
+  // Preferred token endpoint auth method for this client (from CIMD or DCR), if
+  // any.
+  string preferred_token_endpoint_auth_method = 11;
+
+  // Supported scopes advertised by the AS.
+  repeated string scopes_supported = 12;
+
+  // Supported DPoP signing algorithms.
+  repeated string dpop_signing_algs = 13;
+
+  // Optional downstream consent scopes that require a separate consent flow
+  // after the primary connector token has been obtained. These are typically
+  // provider-specific resource scopes (for example,
+  // "https://kusto.kusto.windows.net/.default") that cannot be mixed with the
+  // main connector API scopes.
+  repeated string downstream_consent_scopes = 14;
+
+  // True if this configuration was auto-populated (fully or partially) by the
+  // backend (discovery, DCR, CIMD). When false, fields are presumed
+  // user-specified.
+  bool auto_populated = 20;
+
+  // Unix timestamp (seconds) of last successful auto-population.
+  int64 auto_populated_at = 21;
+
+  // Source of auto-population (e.g., "discovery", "discovery+dcr",
+  // "discovery+cimd").
+  string auto_source = 22;
 }

@@ -10,6 +10,7 @@ import (
 	capability_template_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/capability_template"
 	chat_model_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/chat_model"
 	connector_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/connector"
+	connector_user_token_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/connector_user_token"
 	conversation_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/conversation"
 	conversation_feedback_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/conversation_feedback"
 	document_access "github.com/cloudwan/edgelq-sdk/ai/access/v1/document"
@@ -19,6 +20,7 @@ import (
 	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
+	connector_user_token "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector_user_token"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	conversation_feedback "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation_feedback"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
@@ -32,6 +34,7 @@ type AIApiAccess interface {
 	capability_template.CapabilityTemplateAccess
 	chat_model.ChatModelAccess
 	connector.ConnectorAccess
+	connector_user_token.ConnectorUserTokenAccess
 	conversation.ConversationAccess
 	conversation_feedback.ConversationFeedbackAccess
 	document.DocumentAccess
@@ -45,6 +48,7 @@ type apiAIAccess struct {
 	capability_template.CapabilityTemplateAccess
 	chat_model.ChatModelAccess
 	connector.ConnectorAccess
+	connector_user_token.ConnectorUserTokenAccess
 	conversation.ConversationAccess
 	conversation_feedback.ConversationFeedbackAccess
 	document.DocumentAccess
@@ -57,6 +61,7 @@ func NewApiAccess(client ai_client.AIClient) AIApiAccess {
 	capabilityTemplateAccess := capability_template_access.NewApiCapabilityTemplateAccess(client)
 	chatModelAccess := chat_model_access.NewApiChatModelAccess(client)
 	connectorAccess := connector_access.NewApiConnectorAccess(client)
+	connectorUserTokenAccess := connector_user_token_access.NewApiConnectorUserTokenAccess(client)
 	conversationAccess := conversation_access.NewApiConversationAccess(client)
 	conversationFeedbackAccess := conversation_feedback_access.NewApiConversationFeedbackAccess(client)
 	documentAccess := document_access.NewApiDocumentAccess(client)
@@ -69,6 +74,7 @@ func NewApiAccess(client ai_client.AIClient) AIApiAccess {
 			capability_template.AsAnyCastAccess(capabilityTemplateAccess),
 			chat_model.AsAnyCastAccess(chatModelAccess),
 			connector.AsAnyCastAccess(connectorAccess),
+			connector_user_token.AsAnyCastAccess(connectorUserTokenAccess),
 			conversation.AsAnyCastAccess(conversationAccess),
 			conversation_feedback.AsAnyCastAccess(conversationFeedbackAccess),
 			document.AsAnyCastAccess(documentAccess),
@@ -79,6 +85,7 @@ func NewApiAccess(client ai_client.AIClient) AIApiAccess {
 		CapabilityTemplateAccess:   capabilityTemplateAccess,
 		ChatModelAccess:            chatModelAccess,
 		ConnectorAccess:            connectorAccess,
+		ConnectorUserTokenAccess:   connectorUserTokenAccess,
 		ConversationAccess:         conversationAccess,
 		ConversationFeedbackAccess: conversationFeedbackAccess,
 		DocumentAccess:             documentAccess,

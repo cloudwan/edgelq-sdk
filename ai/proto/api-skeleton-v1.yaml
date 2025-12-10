@@ -41,6 +41,25 @@ resources:
   parents:
   - iam.edgelq.com/Project
   - ""
+  actions:
+  - name: ConnectOauth
+    verb: connectOauth
+    streamingRequest: true
+    streamingResponse: true
+    opResourceInfo:
+      isCollection: false
+      isPlural: false
+    withStoreHandle:
+      transaction: MANUAL
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+
+- name: ConnectorUserToken
+  multiRegion:
+    syncType: NEVER
+  parents:
+  - iam.edgelq.com/Project
+  - ""
 
 - name: CapabilityTemplate
   parents:

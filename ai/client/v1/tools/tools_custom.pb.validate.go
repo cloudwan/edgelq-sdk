@@ -20,6 +20,7 @@ import (
 
 // proto imports
 import (
+	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
 	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -41,6 +42,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &capability_template.CapabilityTemplate{}
+	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &iam_project.Project{}
 )
@@ -95,6 +97,13 @@ func (obj *ExecuteToolsResponse) GotenValidate() error {
 func (obj *ToolExecutionResult) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.ConnectorAuthErrors {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ToolExecutionResult", "connectorAuthErrors", obj.ConnectorAuthErrors[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	switch opt := obj.Result.(type) {
 	case *ToolExecutionResult_Output:

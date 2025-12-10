@@ -90,6 +90,12 @@ func (o *Connector) MakeDiffFieldMask(other *Connector) *Connector_FieldMask {
 			}
 		}
 	}
+	if !proto.Equal(o.GetConnectTimeout(), other.GetConnectTimeout()) {
+		res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorConnectTimeout})
+	}
+	if !proto.Equal(o.GetRequestTimeout(), other.GetRequestTimeout()) {
+		res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorRequestTimeout})
+	}
 	{
 		subMask := o.GetOauthConfig().MakeDiffFieldMask(other.GetOauthConfig())
 		if subMask.IsFull() {
@@ -99,12 +105,6 @@ func (o *Connector) MakeDiffFieldMask(other *Connector) *Connector_FieldMask {
 				res.Paths = append(res.Paths, &Connector_FieldSubPath{selector: Connector_FieldPathSelectorOauthConfig, subPath: subpath})
 			}
 		}
-	}
-	if !proto.Equal(o.GetConnectTimeout(), other.GetConnectTimeout()) {
-		res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorConnectTimeout})
-	}
-	if !proto.Equal(o.GetRequestTimeout(), other.GetRequestTimeout()) {
-		res.Paths = append(res.Paths, &Connector_FieldTerminalPath{selector: Connector_FieldPathSelectorRequestTimeout})
 	}
 	return res
 }
@@ -133,9 +133,9 @@ func (o *Connector) Clone() *Connector {
 	result.Description = o.Description
 	result.Type = o.Type
 	result.McpConfig = o.McpConfig.Clone()
-	result.OauthConfig = o.OauthConfig.Clone()
 	result.ConnectTimeout = proto.Clone(o.ConnectTimeout).(*durationpb.Duration)
 	result.RequestTimeout = proto.Clone(o.RequestTimeout).(*durationpb.Duration)
+	result.OauthConfig = o.OauthConfig.Clone()
 	return result
 }
 
@@ -171,12 +171,6 @@ func (o *Connector) Merge(source *Connector) {
 		}
 		o.McpConfig.Merge(source.GetMcpConfig())
 	}
-	if source.GetOauthConfig() != nil {
-		if o.OauthConfig == nil {
-			o.OauthConfig = new(OAuthConfig)
-		}
-		o.OauthConfig.Merge(source.GetOauthConfig())
-	}
 	if source.GetConnectTimeout() != nil {
 		if o.ConnectTimeout == nil {
 			o.ConnectTimeout = new(durationpb.Duration)
@@ -188,6 +182,12 @@ func (o *Connector) Merge(source *Connector) {
 			o.RequestTimeout = new(durationpb.Duration)
 		}
 		proto.Merge(o.RequestTimeout, source.GetRequestTimeout())
+	}
+	if source.GetOauthConfig() != nil {
+		if o.OauthConfig == nil {
+			o.OauthConfig = new(OAuthConfig)
+		}
+		o.OauthConfig.Merge(source.GetOauthConfig())
 	}
 }
 
@@ -343,6 +343,78 @@ func (o *OAuthConfig) MakeDiffFieldMask(other *OAuthConfig) *OAuthConfig_FieldMa
 	} else {
 		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAdditionalScopes})
 	}
+	if o.GetIssuer() != other.GetIssuer() {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorIssuer})
+	}
+	if o.GetResourceUrl() != other.GetResourceUrl() {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorResourceUrl})
+	}
+	if o.GetResourceParam() != other.GetResourceParam() {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorResourceParam})
+	}
+	if o.GetParEndpoint() != other.GetParEndpoint() {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorParEndpoint})
+	}
+
+	if len(o.GetTokenEndpointAuthMethods()) == len(other.GetTokenEndpointAuthMethods()) {
+		for i, lValue := range o.GetTokenEndpointAuthMethods() {
+			rValue := other.GetTokenEndpointAuthMethods()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorTokenEndpointAuthMethods})
+	}
+	if o.GetPreferredTokenEndpointAuthMethod() != other.GetPreferredTokenEndpointAuthMethod() {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorPreferredTokenEndpointAuthMethod})
+	}
+
+	if len(o.GetScopesSupported()) == len(other.GetScopesSupported()) {
+		for i, lValue := range o.GetScopesSupported() {
+			rValue := other.GetScopesSupported()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorScopesSupported})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorScopesSupported})
+	}
+
+	if len(o.GetDpopSigningAlgs()) == len(other.GetDpopSigningAlgs()) {
+		for i, lValue := range o.GetDpopSigningAlgs() {
+			rValue := other.GetDpopSigningAlgs()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDpopSigningAlgs})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDpopSigningAlgs})
+	}
+
+	if len(o.GetDownstreamConsentScopes()) == len(other.GetDownstreamConsentScopes()) {
+		for i, lValue := range o.GetDownstreamConsentScopes() {
+			rValue := other.GetDownstreamConsentScopes()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDownstreamConsentScopes})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorDownstreamConsentScopes})
+	}
+	if o.GetAutoPopulated() != other.GetAutoPopulated() {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoPopulated})
+	}
+	if o.GetAutoPopulatedAt() != other.GetAutoPopulatedAt() {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoPopulatedAt})
+	}
+	if o.GetAutoSource() != other.GetAutoSource() {
+		res.Paths = append(res.Paths, &OAuthConfig_FieldTerminalPath{selector: OAuthConfig_FieldPathSelectorAutoSource})
+	}
 	return res
 }
 
@@ -363,6 +435,30 @@ func (o *OAuthConfig) Clone() *OAuthConfig {
 	for i, sourceValue := range o.AdditionalScopes {
 		result.AdditionalScopes[i] = sourceValue
 	}
+	result.Issuer = o.Issuer
+	result.ResourceUrl = o.ResourceUrl
+	result.ResourceParam = o.ResourceParam
+	result.ParEndpoint = o.ParEndpoint
+	result.TokenEndpointAuthMethods = make([]string, len(o.TokenEndpointAuthMethods))
+	for i, sourceValue := range o.TokenEndpointAuthMethods {
+		result.TokenEndpointAuthMethods[i] = sourceValue
+	}
+	result.PreferredTokenEndpointAuthMethod = o.PreferredTokenEndpointAuthMethod
+	result.ScopesSupported = make([]string, len(o.ScopesSupported))
+	for i, sourceValue := range o.ScopesSupported {
+		result.ScopesSupported[i] = sourceValue
+	}
+	result.DpopSigningAlgs = make([]string, len(o.DpopSigningAlgs))
+	for i, sourceValue := range o.DpopSigningAlgs {
+		result.DpopSigningAlgs[i] = sourceValue
+	}
+	result.DownstreamConsentScopes = make([]string, len(o.DownstreamConsentScopes))
+	for i, sourceValue := range o.DownstreamConsentScopes {
+		result.DownstreamConsentScopes[i] = sourceValue
+	}
+	result.AutoPopulated = o.AutoPopulated
+	result.AutoPopulatedAt = o.AutoPopulatedAt
+	result.AutoSource = o.AutoSource
 	return result
 }
 
@@ -390,6 +486,74 @@ func (o *OAuthConfig) Merge(source *OAuthConfig) {
 		}
 	}
 
+	o.Issuer = source.GetIssuer()
+	o.ResourceUrl = source.GetResourceUrl()
+	o.ResourceParam = source.GetResourceParam()
+	o.ParEndpoint = source.GetParEndpoint()
+	for _, sourceValue := range source.GetTokenEndpointAuthMethods() {
+		exists := false
+		for _, currentValue := range o.TokenEndpointAuthMethods {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.TokenEndpointAuthMethods = append(o.TokenEndpointAuthMethods, newDstElement)
+		}
+	}
+
+	o.PreferredTokenEndpointAuthMethod = source.GetPreferredTokenEndpointAuthMethod()
+	for _, sourceValue := range source.GetScopesSupported() {
+		exists := false
+		for _, currentValue := range o.ScopesSupported {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.ScopesSupported = append(o.ScopesSupported, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetDpopSigningAlgs() {
+		exists := false
+		for _, currentValue := range o.DpopSigningAlgs {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.DpopSigningAlgs = append(o.DpopSigningAlgs, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetDownstreamConsentScopes() {
+		exists := false
+		for _, currentValue := range o.DownstreamConsentScopes {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.DownstreamConsentScopes = append(o.DownstreamConsentScopes, newDstElement)
+		}
+	}
+
+	o.AutoPopulated = source.GetAutoPopulated()
+	o.AutoPopulatedAt = source.GetAutoPopulatedAt()
+	o.AutoSource = source.GetAutoSource()
 }
 
 func (o *OAuthConfig) MergeRaw(source gotenobject.GotenObjectExt) {

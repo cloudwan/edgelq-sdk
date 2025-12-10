@@ -15,6 +15,7 @@ import (
 	chat_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat"
 	chat_model_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat_model"
 	connector_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector"
+	connector_user_token_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/connector_user_token"
 	conversation_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation"
 	conversation_feedback_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/conversation_feedback"
 	document_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/document"
@@ -25,6 +26,7 @@ import (
 	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
+	connector_user_token "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector_user_token"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
 	conversation_feedback "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation_feedback"
 	document "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document"
@@ -46,6 +48,8 @@ var (
 	_ = &chat_model_client.GetChatModelRequest{}
 	_ = &connector.Connector{}
 	_ = &connector_client.GetConnectorRequest{}
+	_ = &connector_user_token.ConnectorUserToken{}
+	_ = &connector_user_token_client.GetConnectorUserTokenRequest{}
 	_ = &conversation.Conversation{}
 	_ = &conversation_feedback.ConversationFeedback{}
 	_ = &conversation_feedback_client.GetConversationFeedbackRequest{}
@@ -87,6 +91,7 @@ func (d *AIDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 		capability_template.GetDescriptor(),
 		chat_model.GetDescriptor(),
 		connector.GetDescriptor(),
+		connector_user_token.GetDescriptor(),
 		conversation.GetDescriptor(),
 		conversation_feedback.GetDescriptor(),
 		document.GetDescriptor(),
@@ -101,6 +106,7 @@ func (d *AIDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 		chat_model_client.GetChatModelServiceDescriptor(),
 		chat_client.GetChatServiceDescriptor(),
 		connector_client.GetConnectorServiceDescriptor(),
+		connector_user_token_client.GetConnectorUserTokenServiceDescriptor(),
 		conversation_feedback_client.GetConversationFeedbackServiceDescriptor(),
 		conversation_client.GetConversationServiceDescriptor(),
 		document_client.GetDocumentServiceDescriptor(),

@@ -41,6 +41,7 @@ var (
 	createConnectorDescriptor    *CreateConnectorDescriptor
 	updateConnectorDescriptor    *UpdateConnectorDescriptor
 	deleteConnectorDescriptor    *DeleteConnectorDescriptor
+	connectOauthDescriptor       *ConnectOauthDescriptor
 )
 
 type GetConnectorDescriptor struct{}
@@ -1855,6 +1856,221 @@ func GetDeleteConnectorDescriptor() *DeleteConnectorDescriptor {
 	return deleteConnectorDescriptor
 }
 
+type ConnectOauthDescriptor struct{}
+
+type ConnectOauthDescriptorClientMsgHandle struct{}
+
+type ConnectOauthDescriptorServerMsgHandle struct{}
+
+func (d *ConnectOauthDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ConnectOauthRequest{}
+}
+
+func (d *ConnectOauthDescriptor) NewEmptyServerMsg() proto.Message {
+	return &ConnectOauthResponse{}
+}
+
+func (d *ConnectOauthDescriptor) IsUnary() bool {
+	return false
+}
+
+func (d *ConnectOauthDescriptor) IsClientStream() bool {
+	return true
+}
+
+func (d *ConnectOauthDescriptor) IsServerStream() bool {
+	return true
+}
+
+func (d *ConnectOauthDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *ConnectOauthDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *ConnectOauthDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ConnectOauthDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ConnectOauthDescriptor) GetVerb() string {
+	return "connectOauth"
+}
+
+func (d *ConnectOauthDescriptor) GetMethodName() string {
+	return "ConnectOauth"
+}
+
+func (d *ConnectOauthDescriptor) GetFullMethodName() string {
+	return "/ntt.ai.v1.ConnectorService/ConnectOauth"
+}
+
+func (d *ConnectOauthDescriptor) GetProtoPkgName() string {
+	return "ntt.ai.v1"
+}
+
+func (d *ConnectOauthDescriptor) GetApiName() string {
+	return "ConnectorService"
+}
+
+func (d *ConnectOauthDescriptor) GetServiceDomain() string {
+	return "ai.edgelq.com"
+}
+
+func (d *ConnectOauthDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *ConnectOauthDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return connectorServiceDescriptor
+}
+
+func (d *ConnectOauthDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return connector.GetDescriptor()
+}
+
+func (d *ConnectOauthDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ConnectOauthDescriptorClientMsgHandle{}
+}
+
+func (d *ConnectOauthDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ConnectOauthDescriptorServerMsgHandle{}
+}
+
+func (h *ConnectOauthDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ConnectOauthRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ConnectOauthRequest) *connector.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*connector.Name)(nil)
+}
+
+func (h *ConnectOauthDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ConnectOauthRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ConnectOauthRequest) []*connector.Name
+	})
+	if ok {
+		return connector.ConnectorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ConnectOauthDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ConnectOauthRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ConnectOauthRequest) *connector.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ConnectOauthDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ConnectOauthRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ConnectOauthRequest) *connector.Connector
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ConnectOauthDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ConnectOauthRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ConnectOauthRequest) []*connector.Connector
+	})
+	if ok {
+		return connector.ConnectorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *ConnectOauthDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ConnectOauthResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ConnectOauthResponse) *connector.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ConnectOauthDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ConnectOauthResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ConnectOauthResponse) []*connector.Name
+	})
+	if ok {
+		return connector.ConnectorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ConnectOauthDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ConnectOauthResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ConnectOauthResponse) *connector.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ConnectOauthDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ConnectOauthResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ConnectOauthResponse) *connector.Connector
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ConnectOauthDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ConnectOauthResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ConnectOauthResponse) []*connector.Connector
+	})
+	if ok {
+		return connector.ConnectorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetConnectOauthDescriptor() *ConnectOauthDescriptor {
+	return connectOauthDescriptor
+}
+
 type ConnectorServiceDescriptor struct{}
 
 func (d *ConnectorServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2083,7 @@ func (d *ConnectorServiceDescriptor) AllMethodDescriptors() []gotenclient.Method
 		createConnectorDescriptor,
 		updateConnectorDescriptor,
 		deleteConnectorDescriptor,
+		connectOauthDescriptor,
 	}
 }
 
@@ -1904,6 +2121,7 @@ func initDescriptors() {
 	createConnectorDescriptor = &CreateConnectorDescriptor{}
 	updateConnectorDescriptor = &UpdateConnectorDescriptor{}
 	deleteConnectorDescriptor = &DeleteConnectorDescriptor{}
+	connectOauthDescriptor = &ConnectOauthDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(connectorServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getConnectorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetConnectorsDescriptor)
@@ -1913,6 +2131,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createConnectorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateConnectorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteConnectorDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(connectOauthDescriptor)
 }
 
 func init() {
