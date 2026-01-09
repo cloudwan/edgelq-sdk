@@ -123,7 +123,6 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 
 	log.Infof("Running new query")
 	inSync := false
-	skipErrorBackoff := false
 	for {
 		stream, err := qw.client.WatchDeviceTypes(ctx, &device_type_client.WatchDeviceTypesRequest{
 			Type:         qw.params.WatchType,
@@ -158,7 +157,6 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 					// potential impact on memory (if receiver does not need state). Later on, we will
 					// collect changes and send once IsCurrent flag is sent. This is to handle soft reset
 					// flag. Changes after initial sync are however practically always small.
-					skipErrorBackoff = true
 					if inSync {
 						pending = append(pending, resp.GetDeviceTypeChanges()...)
 						if resp.IsSoftReset {
@@ -252,19 +250,13 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 			qw.sendEvt(ctx, evt)
 		}
 
-		// If we had working watch, dont sleep on first disconnection, we are likely to be able to
-		// reconnect quickly and then we dont want to miss updates
-		if !skipErrorBackoff {
-			backoff := time.After(qw.params.RetryTimeout)
-			select {
-			case <-backoff:
-				log.Debugf("after backoff %s", qw.params.RetryTimeout)
-			case <-ctx.Done():
-				log.Debugf("context done, reason: %s", ctx.Err())
-				return ctx.Err()
-			}
-		} else {
-			skipErrorBackoff = false
+		backoff := time.After(qw.params.RetryTimeout)
+		select {
+		case <-backoff:
+			log.Debugf("after backoff %s", qw.params.RetryTimeout)
+		case <-ctx.Done():
+			log.Debugf("context done, reason: %s", ctx.Err())
+			return ctx.Err()
 		}
 	}
 }
