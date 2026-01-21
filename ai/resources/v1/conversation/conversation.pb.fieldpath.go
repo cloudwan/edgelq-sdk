@@ -93,6 +93,7 @@ const (
 	Conversation_FieldPathSelectorUsageByModel       Conversation_FieldPathSelector = 8
 	Conversation_FieldPathSelectorFailedTurns        Conversation_FieldPathSelector = 9
 	Conversation_FieldPathSelectorReplacedTurnGroups Conversation_FieldPathSelector = 10
+	Conversation_FieldPathSelectorCapabilityTemplate Conversation_FieldPathSelector = 11
 )
 
 func (s Conversation_FieldPathSelector) String() string {
@@ -119,6 +120,8 @@ func (s Conversation_FieldPathSelector) String() string {
 		return "failed_turns"
 	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		return "replaced_turn_groups"
+	case Conversation_FieldPathSelectorCapabilityTemplate:
+		return "capability_template"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", s))
 	}
@@ -152,6 +155,8 @@ func BuildConversation_FieldPath(fp gotenobject.RawFieldPath) (Conversation_Fiel
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns}, nil
 		case "replaced_turn_groups", "replacedTurnGroups", "replaced-turn-groups":
 			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups}, nil
+		case "capability_template", "capabilityTemplate", "capability-template":
+			return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorCapabilityTemplate}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -265,6 +270,10 @@ func (fp *Conversation_FieldTerminalPath) Get(source *Conversation) (values []in
 			for _, value := range source.GetReplacedTurnGroups() {
 				values = append(values, value)
 			}
+		case Conversation_FieldPathSelectorCapabilityTemplate:
+			if source.CapabilityTemplate != nil {
+				values = append(values, source.CapabilityTemplate)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 		}
@@ -308,6 +317,9 @@ func (fp *Conversation_FieldTerminalPath) GetSingle(source *Conversation) (inter
 	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		res := source.GetReplacedTurnGroups()
 		return res, res != nil
+	case Conversation_FieldPathSelectorCapabilityTemplate:
+		res := source.GetCapabilityTemplate()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -342,6 +354,8 @@ func (fp *Conversation_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*ConversationTurn)(nil)
 	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		return ([]*ReplacedTurnGroup)(nil)
+	case Conversation_FieldPathSelectorCapabilityTemplate:
+		return (*capability_template.Name)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -372,6 +386,8 @@ func (fp *Conversation_FieldTerminalPath) ClearValue(item *Conversation) {
 			item.FailedTurns = nil
 		case Conversation_FieldPathSelectorReplacedTurnGroups:
 			item.ReplacedTurnGroups = nil
+		case Conversation_FieldPathSelectorCapabilityTemplate:
+			item.CapabilityTemplate = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 		}
@@ -389,7 +405,8 @@ func (fp *Conversation_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Conversation_FieldPathSelectorConfiguredTitle ||
 		fp.selector == Conversation_FieldPathSelectorArchived ||
 		fp.selector == Conversation_FieldPathSelectorIsPrivate ||
-		fp.selector == Conversation_FieldPathSelectorLastActivityTime
+		fp.selector == Conversation_FieldPathSelectorLastActivityTime ||
+		fp.selector == Conversation_FieldPathSelectorCapabilityTemplate
 }
 
 func (fp *Conversation_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -420,6 +437,8 @@ func (fp *Conversation_FieldTerminalPath) WithIValue(value interface{}) Conversa
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.([]*ConversationTurn)}
 	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.([]*ReplacedTurnGroup)}
+	case Conversation_FieldPathSelectorCapabilityTemplate:
+		return &Conversation_FieldTerminalPathValue{Conversation_FieldTerminalPath: *fp, value: value.(*capability_template.Name)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -454,6 +473,8 @@ func (fp *Conversation_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([][]*ConversationTurn)}
 	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([][]*ReplacedTurnGroup)}
+	case Conversation_FieldPathSelectorCapabilityTemplate:
+		return &Conversation_FieldTerminalPathArrayOfValues{Conversation_FieldTerminalPath: *fp, values: values.([]*capability_template.Name)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fp.selector))
 	}
@@ -859,6 +880,10 @@ func (fpv *Conversation_FieldTerminalPathValue) AsReplacedTurnGroupsValue() ([]*
 	res, ok := fpv.value.([]*ReplacedTurnGroup)
 	return res, ok
 }
+func (fpv *Conversation_FieldTerminalPathValue) AsCapabilityTemplateValue() (*capability_template.Name, bool) {
+	res, ok := fpv.value.(*capability_template.Name)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Conversation
 func (fpv *Conversation_FieldTerminalPathValue) SetTo(target **Conversation) {
@@ -888,6 +913,8 @@ func (fpv *Conversation_FieldTerminalPathValue) SetTo(target **Conversation) {
 		(*target).FailedTurns = fpv.value.([]*ConversationTurn)
 	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		(*target).ReplacedTurnGroups = fpv.value.([]*ReplacedTurnGroup)
+	case Conversation_FieldPathSelectorCapabilityTemplate:
+		(*target).CapabilityTemplate = fpv.value.(*capability_template.Name)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpv.selector))
 	}
@@ -989,6 +1016,25 @@ func (fpv *Conversation_FieldTerminalPathValue) CompareWith(source *Conversation
 		return 0, false
 	case Conversation_FieldPathSelectorReplacedTurnGroups:
 		return 0, false
+	case Conversation_FieldPathSelectorCapabilityTemplate:
+		leftValue := fpv.value.(*capability_template.Name)
+		rightValue := source.GetCapabilityTemplate()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Conversation: %d", fpv.selector))
 	}
@@ -1316,6 +1362,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([][]*ReplacedTurnGroup) {
 			values = append(values, v)
 		}
+	case Conversation_FieldPathSelectorCapabilityTemplate:
+		for _, v := range fpaov.values.([]*capability_template.Name) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1361,6 +1411,10 @@ func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsFailedTurnsArrayOfVa
 }
 func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsReplacedTurnGroupsArrayOfValues() ([][]*ReplacedTurnGroup, bool) {
 	res, ok := fpaov.values.([][]*ReplacedTurnGroup)
+	return res, ok
+}
+func (fpaov *Conversation_FieldTerminalPathArrayOfValues) AsCapabilityTemplateArrayOfValues() ([]*capability_template.Name, bool) {
+	res, ok := fpaov.values.([]*capability_template.Name)
 	return res, ok
 }
 

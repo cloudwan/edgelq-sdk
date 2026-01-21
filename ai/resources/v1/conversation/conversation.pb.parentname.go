@@ -21,6 +21,7 @@ import (
 
 // proto imports
 import (
+	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -42,6 +43,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &capability_template.CapabilityTemplate{}
 	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
 	_ = &timestamppb.Timestamp{}
