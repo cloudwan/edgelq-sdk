@@ -236,6 +236,10 @@ func (b *filterCndBuilder) EnabledServices() *filterCndBuilderEnabledServices {
 	return &filterCndBuilderEnabledServices{builder: b.builder}
 }
 
+func (b *filterCndBuilder) FeatureConfig() *filterCndBuilderFeatureConfig {
+	return &filterCndBuilderFeatureConfig{builder: b.builder}
+}
+
 func (b *filterCndBuilder) BusinessTier() *filterCndBuilderBusinessTier {
 	return &filterCndBuilderBusinessTier{builder: b.builder}
 }
@@ -3179,6 +3183,191 @@ func (b *filterCndBuilderEnabledServices) compare(op gotenfilter.CompareOperator
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		Project_FieldPathValue: NewProjectFieldPathBuilder().EnabledServices().WithValue(value),
+	})
+}
+
+type filterCndBuilderFeatureConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderFeatureConfig) Eq(value *ProjectFeatureConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderFeatureConfig) Neq(value *ProjectFeatureConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderFeatureConfig) Gt(value *ProjectFeatureConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderFeatureConfig) Gte(value *ProjectFeatureConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderFeatureConfig) Lt(value *ProjectFeatureConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderFeatureConfig) Lte(value *ProjectFeatureConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderFeatureConfig) In(values []*ProjectFeatureConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().FeatureConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfig) NotIn(values []*ProjectFeatureConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().FeatureConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectFieldPathBuilder().FeatureConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectFieldPathBuilder().FeatureConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfig) compare(op gotenfilter.CompareOperator, value *ProjectFeatureConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Project_FieldPathValue: NewProjectFieldPathBuilder().FeatureConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfig) Ai() *filterCndBuilderFeatureConfigAi {
+	return &filterCndBuilderFeatureConfigAi{builder: b.builder}
+}
+
+type filterCndBuilderFeatureConfigAi struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderFeatureConfigAi) Eq(value *ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAi) Neq(value *ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAi) Gt(value *ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAi) Gte(value *ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAi) Lt(value *ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAi) Lte(value *ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAi) In(values []*ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().FeatureConfig().Ai().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAi) NotIn(values []*ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().FeatureConfig().Ai().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAi) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectFieldPathBuilder().FeatureConfig().Ai().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAi) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectFieldPathBuilder().FeatureConfig().Ai().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAi) compare(op gotenfilter.CompareOperator, value *ProjectFeatureConfig_Ai) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Project_FieldPathValue: NewProjectFieldPathBuilder().FeatureConfig().Ai().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAi) Enabled() *filterCndBuilderFeatureConfigAiEnabled {
+	return &filterCndBuilderFeatureConfigAiEnabled{builder: b.builder}
+}
+
+type filterCndBuilderFeatureConfigAiEnabled struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().FeatureConfig().Ai().Enabled().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().FeatureConfig().Ai().Enabled().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectFieldPathBuilder().FeatureConfig().Ai().Enabled().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectFieldPathBuilder().FeatureConfig().Ai().Enabled().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderFeatureConfigAiEnabled) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Project_FieldPathValue: NewProjectFieldPathBuilder().FeatureConfig().Ai().Enabled().WithValue(value),
 	})
 }
 

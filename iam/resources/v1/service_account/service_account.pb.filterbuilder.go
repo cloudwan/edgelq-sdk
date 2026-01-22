@@ -31,7 +31,7 @@ var (
 var (
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}

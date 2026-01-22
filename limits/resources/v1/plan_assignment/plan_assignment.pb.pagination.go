@@ -31,7 +31,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &accepted_plan.AcceptedPlan{}
 	_ = &common.RegionalPlanAssignment{}
 	_ = &plan.Plan{}

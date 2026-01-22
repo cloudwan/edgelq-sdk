@@ -40,7 +40,7 @@ var (
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
 	_ = &role_binding.RoleBinding{}
 	_ = &structpb.Struct{}

@@ -20,7 +20,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &common.LabelDescriptor{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}

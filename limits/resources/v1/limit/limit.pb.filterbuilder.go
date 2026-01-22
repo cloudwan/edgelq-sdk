@@ -33,7 +33,7 @@ var (
 var (
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &limit_pool.LimitPool{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}

@@ -46,7 +46,7 @@ var (
 var (
 	_ = &rpc.Status{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &bucket.Bucket{}
 	_ = &common.LabelDescriptor{}
 	_ = &log.Log{}

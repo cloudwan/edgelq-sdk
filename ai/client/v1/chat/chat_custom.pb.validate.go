@@ -44,7 +44,7 @@ var (
 	_ = &chat_model.ChatModel{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 )
 
 func (obj *Msg) GotenValidate() error {

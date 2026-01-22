@@ -50,7 +50,7 @@ var (
 	_ = &search_index.SearchIndex{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_user.User{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}

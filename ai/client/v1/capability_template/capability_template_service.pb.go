@@ -41,7 +41,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &capability_template.CapabilityTemplate{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}

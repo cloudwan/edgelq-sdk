@@ -41,7 +41,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &organization.Organization{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )

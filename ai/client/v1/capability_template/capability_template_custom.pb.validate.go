@@ -42,7 +42,7 @@ var (
 var (
 	_ = &capability_template.CapabilityTemplate{}
 	_ = &common_client.Message{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 )
 
 func (obj *PreviewTemplateToolsRequest) GotenValidate() error {

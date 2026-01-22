@@ -29,7 +29,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &capability_template.CapabilityTemplate{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_user.User{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}

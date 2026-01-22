@@ -25,7 +25,7 @@ var (
 var (
 	_ = &chat_model.ChatModel{}
 	_ = &connector.Connector{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &meta.Meta{}
 )
 

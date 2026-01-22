@@ -42,7 +42,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &conversation.Conversation{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_user.User{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}

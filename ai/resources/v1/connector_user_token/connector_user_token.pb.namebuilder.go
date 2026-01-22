@@ -19,7 +19,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &connector.Connector{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )

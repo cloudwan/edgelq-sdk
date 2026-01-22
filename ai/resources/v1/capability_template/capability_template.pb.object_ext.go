@@ -41,7 +41,7 @@ var (
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
 	_ = &search_index.SearchIndex{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &meta.Meta{}
 )
 

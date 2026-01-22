@@ -20,7 +20,7 @@ import (
 var (
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}

@@ -27,7 +27,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &iam_common.PCR{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &meta.Meta{}
 )
 

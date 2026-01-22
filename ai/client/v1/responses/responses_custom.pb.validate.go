@@ -48,7 +48,7 @@ var (
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &conversation.Conversation{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_user.User{}
 	_ = &wrapperspb.DoubleValue{}
 )

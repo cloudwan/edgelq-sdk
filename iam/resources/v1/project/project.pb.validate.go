@@ -49,6 +49,29 @@ var (
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
+func (obj *ProjectFeatureConfig) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.Ai).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ProjectFeatureConfig", "ai", obj.Ai, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ProjectFeatureConfig_Ai) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *Project) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -70,6 +93,11 @@ func (obj *Project) GotenValidate() error {
 	if subobj, ok := interface{}(obj.MultiRegionPolicy).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Project", "multiRegionPolicy", obj.MultiRegionPolicy, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.FeatureConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Project", "featureConfig", obj.FeatureConfig, "nested object validation failed", err)
 		}
 	}
 	for idx, elem := range obj.ServiceTiers {

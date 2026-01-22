@@ -31,7 +31,7 @@ var (
 	_ = &common.Authentication{}
 	_ = &rpc.Status{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &anypb.Any{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}

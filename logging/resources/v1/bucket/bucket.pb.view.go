@@ -29,7 +29,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &log_descriptor.LogDescriptor{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}

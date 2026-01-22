@@ -48,7 +48,7 @@ var (
 	_ = &policy.Policy{}
 	_ = &ts_condition.TsCondition{}
 	_ = &ts_entry.TsEntry{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 )
 
 func (obj *WatchAlertDataRequest) GotenValidate() error {

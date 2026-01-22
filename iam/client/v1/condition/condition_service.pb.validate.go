@@ -48,7 +48,7 @@ var (
 var (
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}

@@ -70,7 +70,7 @@ var (
 	_ = &organization_client.GetOrganizationRequest{}
 	_ = &permission.Permission{}
 	_ = &permission_client.GetPermissionRequest{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &project_invitation.ProjectInvitation{}
 	_ = &project_invitation_client.GetProjectInvitationRequest{}
 	_ = &project_client.GetProjectRequest{}

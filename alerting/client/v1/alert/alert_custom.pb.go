@@ -43,7 +43,7 @@ var (
 	_ = &log_condition.LogCondition{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &ts_condition.TsCondition{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &fieldmaskpb.FieldMask{}
 )
 

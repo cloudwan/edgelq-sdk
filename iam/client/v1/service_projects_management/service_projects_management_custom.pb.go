@@ -46,7 +46,7 @@ var (
 	_ = &api.Account{}
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &service_account_key.ServiceAccountKey{}
