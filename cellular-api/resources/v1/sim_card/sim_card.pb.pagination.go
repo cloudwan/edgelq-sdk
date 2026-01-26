@@ -29,7 +29,7 @@ import (
 var (
 	_ = &carrier.TransatelAccount{}
 	_ = &contract.Contract{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &meta.Meta{}
 )
 

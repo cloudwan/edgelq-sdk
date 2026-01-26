@@ -39,7 +39,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &durationpb.Duration{}
 	_ = &meta.Meta{}
 )

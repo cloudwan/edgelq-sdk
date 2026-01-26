@@ -38,7 +38,7 @@ var (
 var (
 	_ = &connector.Connector{}
 	_ = &connector_user_token.ConnectorUserToken{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 )
 
 const (

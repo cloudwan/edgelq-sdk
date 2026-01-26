@@ -45,7 +45,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &connector_user_token.ConnectorUserToken{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}

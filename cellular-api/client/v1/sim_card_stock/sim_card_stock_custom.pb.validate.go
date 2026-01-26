@@ -44,7 +44,7 @@ var (
 	_ = &carrier.TransatelAccount{}
 	_ = &sim_card.SimCard{}
 	_ = &sim_card_stock.SimCardStock{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 )
 
 func (obj *AllocateRequest) GotenValidate() error {

@@ -56,7 +56,7 @@ var (
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy_template.PolicyTemplate{}
 	_ = &rcommon.LogCndSpec{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )

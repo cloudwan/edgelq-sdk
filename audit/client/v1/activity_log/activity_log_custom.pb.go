@@ -43,7 +43,7 @@ var (
 	_ = &common.Authentication{}
 	_ = &rpc.Status{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &meta_service.Service{}
 )
 

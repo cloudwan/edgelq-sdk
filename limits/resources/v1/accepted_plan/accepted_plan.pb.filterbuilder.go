@@ -34,7 +34,7 @@ var (
 var (
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &common.RegionalPlanAssignment{}
 	_ = &plan.Plan{}
 	_ = &timestamppb.Timestamp{}

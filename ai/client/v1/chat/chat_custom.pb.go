@@ -40,7 +40,7 @@ var (
 	_ = &chat_model.ChatModel{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 )
 
 const (

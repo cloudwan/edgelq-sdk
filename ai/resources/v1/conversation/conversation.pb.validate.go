@@ -48,7 +48,7 @@ var (
 	_ = &capability_template.CapabilityTemplate{}
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}

@@ -38,7 +38,7 @@ var (
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.ProjectFeatureConfig{}
+	_ = &project.Project{}
 	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}

@@ -34,7 +34,7 @@ var (
 	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.ProjectFeatureConfig{}
+	_ = &project.Project{}
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}

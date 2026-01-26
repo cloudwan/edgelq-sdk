@@ -42,7 +42,7 @@ var (
 var (
 	_ = &chat_model.ChatModel{}
 	_ = &connector.Connector{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &meta.Meta{}
 )
 

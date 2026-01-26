@@ -59,7 +59,7 @@ var (
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &logging_bucket.Bucket{}
 	_ = &logging_common.LabelDescriptor{}
 	_ = &logging_log.Log{}

@@ -48,7 +48,7 @@ var (
 	_ = &search_index.SearchIndex{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &iam_user.User{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
@@ -274,10 +274,6 @@ func (b *filterCndBuilder) FailedTurns() *filterCndBuilderFailedTurns {
 
 func (b *filterCndBuilder) ReplacedTurnGroups() *filterCndBuilderReplacedTurnGroups {
 	return &filterCndBuilderReplacedTurnGroups{builder: b.builder}
-}
-
-func (b *filterCndBuilder) CapabilityTemplate() *filterCndBuilderCapabilityTemplate {
-	return &filterCndBuilderCapabilityTemplate{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -7745,64 +7741,5 @@ func (b *filterCndBuilderReplacedTurnGroupsResumeReason) compare(op gotenfilter.
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Conversation_FieldPathValue: NewConversationFieldPathBuilder().ReplacedTurnGroups().ResumeReason().WithValue(value),
-	})
-}
-
-type filterCndBuilderCapabilityTemplate struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderCapabilityTemplate) Eq(value *capability_template.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderCapabilityTemplate) Neq(value *capability_template.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderCapabilityTemplate) Gt(value *capability_template.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderCapabilityTemplate) Gte(value *capability_template.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderCapabilityTemplate) Lt(value *capability_template.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderCapabilityTemplate) Lte(value *capability_template.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderCapabilityTemplate) In(values []*capability_template.Name) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().CapabilityTemplate().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderCapabilityTemplate) NotIn(values []*capability_template.Name) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Conversation_FieldPathArrayOfValues: NewConversationFieldPathBuilder().CapabilityTemplate().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderCapabilityTemplate) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewConversationFieldPathBuilder().CapabilityTemplate().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderCapabilityTemplate) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewConversationFieldPathBuilder().CapabilityTemplate().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderCapabilityTemplate) compare(op gotenfilter.CompareOperator, value *capability_template.Name) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                    op,
-		Conversation_FieldPathValue: NewConversationFieldPathBuilder().CapabilityTemplate().WithValue(value),
 	})
 }

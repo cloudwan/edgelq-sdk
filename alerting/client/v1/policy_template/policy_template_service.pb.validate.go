@@ -45,7 +45,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &policy_template.PolicyTemplate{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}

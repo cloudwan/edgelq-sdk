@@ -41,7 +41,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &connector.Connector{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &money.Money{}
 )
 

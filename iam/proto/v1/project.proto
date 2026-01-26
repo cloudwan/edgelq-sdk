@@ -12,19 +12,6 @@ option java_multiple_files = true;
 option java_outer_classname = "ProjectProto";
 option java_package = "com.ntt.iam.pb.v1";
 
-// ProjectFeatureConfig defines feature flags/configuration configured to a
-// Project.
-message ProjectFeatureConfig {
-  // AI features/config.
-  Ai ai = 1;
-
-  // AI service configuration.
-  message Ai {
-    // Enables AI service for this project.
-    bool enabled = 1;
-  }
-}
-
 // Project Resource
 message Project {
   option (google.api.resource) = {
@@ -59,9 +46,6 @@ message Project {
 
   // Enabled services. This field is checked only for non-core edgelq services.
   repeated string enabled_services = 8;
-
-  // Feature flags/configuration for this project (e.g. AI enablement).
-  ProjectFeatureConfig feature_config = 14;
 
   // Default business tier for core EdgeLQ services and all enabled services.
   BusinessTier business_tier = 9;

@@ -23,7 +23,7 @@ var (
 	_ = &connector.Connector{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}

@@ -36,7 +36,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &notification_channel.NotificationChannel{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 )
 
 const (

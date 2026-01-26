@@ -28,7 +28,7 @@ var (
 	_ = &project.Project{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &iam_service_account_key.ServiceAccountKey{}
 	_ = &timestamppb.Timestamp{}

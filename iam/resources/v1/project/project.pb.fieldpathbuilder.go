@@ -26,89 +26,6 @@ var (
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
-type ProjectFeatureConfigFieldPathBuilder struct{}
-
-func NewProjectFeatureConfigFieldPathBuilder() ProjectFeatureConfigFieldPathBuilder {
-	return ProjectFeatureConfigFieldPathBuilder{}
-}
-func (ProjectFeatureConfigFieldPathBuilder) Ai() ProjectFeatureConfigPathSelectorAi {
-	return ProjectFeatureConfigPathSelectorAi{}
-}
-
-type ProjectFeatureConfigPathSelectorAi struct{}
-
-func (ProjectFeatureConfigPathSelectorAi) FieldPath() *ProjectFeatureConfig_FieldTerminalPath {
-	return &ProjectFeatureConfig_FieldTerminalPath{selector: ProjectFeatureConfig_FieldPathSelectorAi}
-}
-
-func (s ProjectFeatureConfigPathSelectorAi) WithValue(value *ProjectFeatureConfig_Ai) *ProjectFeatureConfig_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ProjectFeatureConfig_FieldTerminalPathValue)
-}
-
-func (s ProjectFeatureConfigPathSelectorAi) WithArrayOfValues(values []*ProjectFeatureConfig_Ai) *ProjectFeatureConfig_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProjectFeatureConfig_FieldTerminalPathArrayOfValues)
-}
-
-func (ProjectFeatureConfigPathSelectorAi) WithSubPath(subPath ProjectFeatureConfigAi_FieldPath) *ProjectFeatureConfig_FieldSubPath {
-	return &ProjectFeatureConfig_FieldSubPath{selector: ProjectFeatureConfig_FieldPathSelectorAi, subPath: subPath}
-}
-
-func (s ProjectFeatureConfigPathSelectorAi) WithSubValue(subPathValue ProjectFeatureConfigAi_FieldPathValue) *ProjectFeatureConfig_FieldSubPathValue {
-	return &ProjectFeatureConfig_FieldSubPathValue{ProjectFeatureConfig_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s ProjectFeatureConfigPathSelectorAi) WithSubArrayOfValues(subPathArrayOfValues ProjectFeatureConfigAi_FieldPathArrayOfValues) *ProjectFeatureConfig_FieldSubPathArrayOfValues {
-	return &ProjectFeatureConfig_FieldSubPathArrayOfValues{ProjectFeatureConfig_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s ProjectFeatureConfigPathSelectorAi) WithSubArrayItemValue(subPathArrayItemValue ProjectFeatureConfigAi_FieldPathArrayItemValue) *ProjectFeatureConfig_FieldSubPathArrayItemValue {
-	return &ProjectFeatureConfig_FieldSubPathArrayItemValue{ProjectFeatureConfig_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (ProjectFeatureConfigPathSelectorAi) Enabled() ProjectFeatureConfigPathSelectorAiEnabled {
-	return ProjectFeatureConfigPathSelectorAiEnabled{}
-}
-
-type ProjectFeatureConfigPathSelectorAiEnabled struct{}
-
-func (ProjectFeatureConfigPathSelectorAiEnabled) FieldPath() *ProjectFeatureConfig_FieldSubPath {
-	return &ProjectFeatureConfig_FieldSubPath{
-		selector: ProjectFeatureConfig_FieldPathSelectorAi,
-		subPath:  NewProjectFeatureConfigAiFieldPathBuilder().Enabled().FieldPath(),
-	}
-}
-
-func (s ProjectFeatureConfigPathSelectorAiEnabled) WithValue(value bool) *ProjectFeatureConfig_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProjectFeatureConfig_FieldSubPathValue)
-}
-
-func (s ProjectFeatureConfigPathSelectorAiEnabled) WithArrayOfValues(values []bool) *ProjectFeatureConfig_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProjectFeatureConfig_FieldSubPathArrayOfValues)
-}
-
-type ProjectFeatureConfigAiFieldPathBuilder struct{}
-
-func NewProjectFeatureConfigAiFieldPathBuilder() ProjectFeatureConfigAiFieldPathBuilder {
-	return ProjectFeatureConfigAiFieldPathBuilder{}
-}
-func (ProjectFeatureConfigAiFieldPathBuilder) Enabled() ProjectFeatureConfig_AiPathSelectorEnabled {
-	return ProjectFeatureConfig_AiPathSelectorEnabled{}
-}
-
-type ProjectFeatureConfig_AiPathSelectorEnabled struct{}
-
-func (ProjectFeatureConfig_AiPathSelectorEnabled) FieldPath() *ProjectFeatureConfigAi_FieldTerminalPath {
-	return &ProjectFeatureConfigAi_FieldTerminalPath{selector: ProjectFeatureConfigAi_FieldPathSelectorEnabled}
-}
-
-func (s ProjectFeatureConfig_AiPathSelectorEnabled) WithValue(value bool) *ProjectFeatureConfigAi_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ProjectFeatureConfigAi_FieldTerminalPathValue)
-}
-
-func (s ProjectFeatureConfig_AiPathSelectorEnabled) WithArrayOfValues(values []bool) *ProjectFeatureConfigAi_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProjectFeatureConfigAi_FieldTerminalPathArrayOfValues)
-}
-
 type ProjectFieldPathBuilder struct{}
 
 func NewProjectFieldPathBuilder() ProjectFieldPathBuilder {
@@ -134,9 +51,6 @@ func (ProjectFieldPathBuilder) MultiRegionPolicy() ProjectPathSelectorMultiRegio
 }
 func (ProjectFieldPathBuilder) EnabledServices() ProjectPathSelectorEnabledServices {
 	return ProjectPathSelectorEnabledServices{}
-}
-func (ProjectFieldPathBuilder) FeatureConfig() ProjectPathSelectorFeatureConfig {
-	return ProjectPathSelectorFeatureConfig{}
 }
 func (ProjectFieldPathBuilder) BusinessTier() ProjectPathSelectorBusinessTier {
 	return ProjectPathSelectorBusinessTier{}
@@ -1075,78 +989,6 @@ func (s ProjectPathSelectorEnabledServices) WithArrayOfValues(values [][]*meta_s
 
 func (s ProjectPathSelectorEnabledServices) WithItemValue(value *meta_service.Reference) *Project_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Project_FieldTerminalPathArrayItemValue)
-}
-
-type ProjectPathSelectorFeatureConfig struct{}
-
-func (ProjectPathSelectorFeatureConfig) FieldPath() *Project_FieldTerminalPath {
-	return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorFeatureConfig}
-}
-
-func (s ProjectPathSelectorFeatureConfig) WithValue(value *ProjectFeatureConfig) *Project_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Project_FieldTerminalPathValue)
-}
-
-func (s ProjectPathSelectorFeatureConfig) WithArrayOfValues(values []*ProjectFeatureConfig) *Project_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
-}
-
-func (ProjectPathSelectorFeatureConfig) WithSubPath(subPath ProjectFeatureConfig_FieldPath) *Project_FieldSubPath {
-	return &Project_FieldSubPath{selector: Project_FieldPathSelectorFeatureConfig, subPath: subPath}
-}
-
-func (s ProjectPathSelectorFeatureConfig) WithSubValue(subPathValue ProjectFeatureConfig_FieldPathValue) *Project_FieldSubPathValue {
-	return &Project_FieldSubPathValue{Project_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s ProjectPathSelectorFeatureConfig) WithSubArrayOfValues(subPathArrayOfValues ProjectFeatureConfig_FieldPathArrayOfValues) *Project_FieldSubPathArrayOfValues {
-	return &Project_FieldSubPathArrayOfValues{Project_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s ProjectPathSelectorFeatureConfig) WithSubArrayItemValue(subPathArrayItemValue ProjectFeatureConfig_FieldPathArrayItemValue) *Project_FieldSubPathArrayItemValue {
-	return &Project_FieldSubPathArrayItemValue{Project_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (ProjectPathSelectorFeatureConfig) Ai() ProjectPathSelectorFeatureConfigAi {
-	return ProjectPathSelectorFeatureConfigAi{}
-}
-
-type ProjectPathSelectorFeatureConfigAi struct{}
-
-func (ProjectPathSelectorFeatureConfigAi) FieldPath() *Project_FieldSubPath {
-	return &Project_FieldSubPath{
-		selector: Project_FieldPathSelectorFeatureConfig,
-		subPath:  NewProjectFeatureConfigFieldPathBuilder().Ai().FieldPath(),
-	}
-}
-
-func (s ProjectPathSelectorFeatureConfigAi) WithValue(value *ProjectFeatureConfig_Ai) *Project_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Project_FieldSubPathValue)
-}
-
-func (s ProjectPathSelectorFeatureConfigAi) WithArrayOfValues(values []*ProjectFeatureConfig_Ai) *Project_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldSubPathArrayOfValues)
-}
-
-func (ProjectPathSelectorFeatureConfigAi) Enabled() ProjectPathSelectorFeatureConfigAiEnabled {
-	return ProjectPathSelectorFeatureConfigAiEnabled{}
-}
-
-type ProjectPathSelectorFeatureConfigAiEnabled struct{}
-
-func (ProjectPathSelectorFeatureConfigAiEnabled) FieldPath() *Project_FieldSubPath {
-	return &Project_FieldSubPath{
-		selector: Project_FieldPathSelectorFeatureConfig,
-		subPath:  NewProjectFeatureConfigFieldPathBuilder().Ai().Enabled().FieldPath(),
-	}
-}
-
-func (s ProjectPathSelectorFeatureConfigAiEnabled) WithValue(value bool) *Project_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Project_FieldSubPathValue)
-}
-
-func (s ProjectPathSelectorFeatureConfigAiEnabled) WithArrayOfValues(values []bool) *Project_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldSubPathArrayOfValues)
 }
 
 type ProjectPathSelectorBusinessTier struct{}

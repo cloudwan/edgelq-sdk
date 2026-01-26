@@ -45,7 +45,7 @@ var (
 	_ = &iam_condition.Condition{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_permission.Permission{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &logging_bucket.Bucket{}

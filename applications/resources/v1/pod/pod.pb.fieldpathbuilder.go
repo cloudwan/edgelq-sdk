@@ -45,7 +45,7 @@ var (
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &logging_bucket.Bucket{}
 	_ = &logging_common.LabelDescriptor{}

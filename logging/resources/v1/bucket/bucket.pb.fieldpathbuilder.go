@@ -22,7 +22,7 @@ import (
 var (
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &common.LabelDescriptor{}
 	_ = &log_descriptor.LogDescriptor{}
 	_ = &timestamppb.Timestamp{}

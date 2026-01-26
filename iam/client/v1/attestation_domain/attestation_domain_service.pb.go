@@ -41,7 +41,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &attestation_domain.AttestationDomain{}
-	_ = &project.ProjectFeatureConfig{}
+	_ = &project.Project{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}

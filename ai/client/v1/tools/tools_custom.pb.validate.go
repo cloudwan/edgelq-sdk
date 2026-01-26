@@ -44,7 +44,7 @@ var (
 	_ = &capability_template.CapabilityTemplate{}
 	_ = &common_client.Message{}
 	_ = &connector.Connector{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 )
 
 func (obj *ExecuteToolsRequest) GotenValidate() error {

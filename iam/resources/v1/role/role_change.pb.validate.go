@@ -42,7 +42,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &organization.Organization{}
-	_ = &project.ProjectFeatureConfig{}
+	_ = &project.Project{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta_service.Service{}
 )

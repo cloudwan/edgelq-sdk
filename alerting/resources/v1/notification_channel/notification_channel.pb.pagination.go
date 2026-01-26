@@ -28,7 +28,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &rcommon.LogCndSpec{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )

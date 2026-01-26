@@ -49,7 +49,7 @@ var (
 	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}

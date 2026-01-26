@@ -41,7 +41,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &iam_invitation.Actor{}
-	_ = &project.ProjectFeatureConfig{}
+	_ = &project.Project{}
 	_ = &meta.Meta{}
 )
 

@@ -49,499 +49,6 @@ var (
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
-type ProjectFeatureConfig_FieldMask struct {
-	Paths []ProjectFeatureConfig_FieldPath
-}
-
-func FullProjectFeatureConfig_FieldMask() *ProjectFeatureConfig_FieldMask {
-	res := &ProjectFeatureConfig_FieldMask{}
-	res.Paths = append(res.Paths, &ProjectFeatureConfig_FieldTerminalPath{selector: ProjectFeatureConfig_FieldPathSelectorAi})
-	return res
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 1)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*ProjectFeatureConfig_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseProjectFeatureConfig_FieldPath(raw)
-	})
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) ProtoMessage() {}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) Subtract(other *ProjectFeatureConfig_FieldMask) *ProjectFeatureConfig_FieldMask {
-	result := &ProjectFeatureConfig_FieldMask{}
-	removedSelectors := make([]bool, 1)
-	otherSubMasks := map[ProjectFeatureConfig_FieldPathSelector]gotenobject.FieldMask{
-		ProjectFeatureConfig_FieldPathSelectorAi: &ProjectFeatureConfig_Ai_FieldMask{},
-	}
-	mySubMasks := map[ProjectFeatureConfig_FieldPathSelector]gotenobject.FieldMask{
-		ProjectFeatureConfig_FieldPathSelectorAi: &ProjectFeatureConfig_Ai_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *ProjectFeatureConfig_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *ProjectFeatureConfig_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*ProjectFeatureConfig_FieldTerminalPath); ok {
-					switch tp.selector {
-					case ProjectFeatureConfig_FieldPathSelectorAi:
-						mySubMasks[ProjectFeatureConfig_FieldPathSelectorAi] = FullProjectFeatureConfig_Ai_FieldMask()
-					}
-				} else if tp, ok := path.(*ProjectFeatureConfig_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &ProjectFeatureConfig_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*ProjectFeatureConfig_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *ProjectFeatureConfig_FieldMask) FilterInputFields() *ProjectFeatureConfig_FieldMask {
-	result := &ProjectFeatureConfig_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *ProjectFeatureConfig_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]ProjectFeatureConfig_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseProjectFeatureConfig_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask ProjectFeatureConfig_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask ProjectFeatureConfig_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) AppendPath(path ProjectFeatureConfig_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(ProjectFeatureConfig_FieldPath))
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) GetPaths() []ProjectFeatureConfig_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseProjectFeatureConfig_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) Set(target, source *ProjectFeatureConfig) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*ProjectFeatureConfig), source.(*ProjectFeatureConfig))
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) Project(source *ProjectFeatureConfig) *ProjectFeatureConfig {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &ProjectFeatureConfig{}
-	aiMask := &ProjectFeatureConfig_Ai_FieldMask{}
-	wholeAiAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *ProjectFeatureConfig_FieldTerminalPath:
-			switch tp.selector {
-			case ProjectFeatureConfig_FieldPathSelectorAi:
-				result.Ai = source.Ai
-				wholeAiAccepted = true
-			}
-		case *ProjectFeatureConfig_FieldSubPath:
-			switch tp.selector {
-			case ProjectFeatureConfig_FieldPathSelectorAi:
-				aiMask.AppendPath(tp.subPath.(ProjectFeatureConfigAi_FieldPath))
-			}
-		}
-	}
-	if wholeAiAccepted == false && len(aiMask.Paths) > 0 {
-		result.Ai = aiMask.Project(source.GetAi())
-	}
-	return result
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*ProjectFeatureConfig))
-}
-
-func (fieldMask *ProjectFeatureConfig_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type ProjectFeatureConfig_Ai_FieldMask struct {
-	Paths []ProjectFeatureConfigAi_FieldPath
-}
-
-func FullProjectFeatureConfig_Ai_FieldMask() *ProjectFeatureConfig_Ai_FieldMask {
-	res := &ProjectFeatureConfig_Ai_FieldMask{}
-	res.Paths = append(res.Paths, &ProjectFeatureConfigAi_FieldTerminalPath{selector: ProjectFeatureConfigAi_FieldPathSelectorEnabled})
-	return res
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 1)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*ProjectFeatureConfigAi_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseProjectFeatureConfigAi_FieldPath(raw)
-	})
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) ProtoMessage() {}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) Subtract(other *ProjectFeatureConfig_Ai_FieldMask) *ProjectFeatureConfig_Ai_FieldMask {
-	result := &ProjectFeatureConfig_Ai_FieldMask{}
-	removedSelectors := make([]bool, 1)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *ProjectFeatureConfigAi_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*ProjectFeatureConfig_Ai_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) FilterInputFields() *ProjectFeatureConfig_Ai_FieldMask {
-	result := &ProjectFeatureConfig_Ai_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]ProjectFeatureConfigAi_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseProjectFeatureConfigAi_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask ProjectFeatureConfig_Ai_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask ProjectFeatureConfig_Ai_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) AppendPath(path ProjectFeatureConfigAi_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(ProjectFeatureConfigAi_FieldPath))
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) GetPaths() []ProjectFeatureConfigAi_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseProjectFeatureConfigAi_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) Set(target, source *ProjectFeatureConfig_Ai) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*ProjectFeatureConfig_Ai), source.(*ProjectFeatureConfig_Ai))
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) Project(source *ProjectFeatureConfig_Ai) *ProjectFeatureConfig_Ai {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &ProjectFeatureConfig_Ai{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *ProjectFeatureConfigAi_FieldTerminalPath:
-			switch tp.selector {
-			case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
-				result.Enabled = source.Enabled
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*ProjectFeatureConfig_Ai))
-}
-
-func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
 type Project_FieldMask struct {
 	Paths []Project_FieldPath
 }
@@ -555,7 +62,6 @@ func FullProject_FieldMask() *Project_FieldMask {
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorParentOrganization})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMultiRegionPolicy})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices})
-	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorFeatureConfig})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorBusinessTier})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceTiers})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorRootOrganization})
@@ -580,7 +86,7 @@ func (fieldMask *Project_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 14)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Project_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -610,17 +116,15 @@ func (fieldMask *Project_FieldMask) Reset() {
 
 func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_FieldMask {
 	result := &Project_FieldMask{}
-	removedSelectors := make([]bool, 14)
+	removedSelectors := make([]bool, 13)
 	otherSubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
-		Project_FieldPathSelectorFeatureConfig:     &ProjectFeatureConfig_FieldMask{},
 		Project_FieldPathSelectorServiceTiers:      &iam_common.ServiceBusinessTier_FieldMask{},
 	}
 	mySubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
-		Project_FieldPathSelectorFeatureConfig:     &ProjectFeatureConfig_FieldMask{},
 		Project_FieldPathSelectorServiceTiers:      &iam_common.ServiceBusinessTier_FieldMask{},
 	}
 
@@ -641,8 +145,6 @@ func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_
 						mySubMasks[Project_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Project_FieldPathSelectorMultiRegionPolicy:
 						mySubMasks[Project_FieldPathSelectorMultiRegionPolicy] = multi_region_policy.FullMultiRegionPolicy_FieldMask()
-					case Project_FieldPathSelectorFeatureConfig:
-						mySubMasks[Project_FieldPathSelectorFeatureConfig] = FullProjectFeatureConfig_FieldMask()
 					case Project_FieldPathSelectorServiceTiers:
 						mySubMasks[Project_FieldPathSelectorServiceTiers] = iam_common.FullServiceBusinessTier_FieldMask()
 					}
@@ -820,8 +322,6 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 	wholeMetadataAccepted := false
 	multiRegionPolicyMask := &multi_region_policy.MultiRegionPolicy_FieldMask{}
 	wholeMultiRegionPolicyAccepted := false
-	featureConfigMask := &ProjectFeatureConfig_FieldMask{}
-	wholeFeatureConfigAccepted := false
 	serviceTiersMask := &iam_common.ServiceBusinessTier_FieldMask{}
 	wholeServiceTiersAccepted := false
 	var serviceErrorsMapKeys []string
@@ -847,9 +347,6 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 				wholeMultiRegionPolicyAccepted = true
 			case Project_FieldPathSelectorEnabledServices:
 				result.EnabledServices = source.EnabledServices
-			case Project_FieldPathSelectorFeatureConfig:
-				result.FeatureConfig = source.FeatureConfig
-				wholeFeatureConfigAccepted = true
 			case Project_FieldPathSelectorBusinessTier:
 				result.BusinessTier = source.BusinessTier
 			case Project_FieldPathSelectorServiceTiers:
@@ -871,8 +368,6 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Project_FieldPathSelectorMultiRegionPolicy:
 				multiRegionPolicyMask.AppendPath(tp.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath))
-			case Project_FieldPathSelectorFeatureConfig:
-				featureConfigMask.AppendPath(tp.subPath.(ProjectFeatureConfig_FieldPath))
 			case Project_FieldPathSelectorServiceTiers:
 				serviceTiersMask.AppendPath(tp.subPath.(iam_common.ServiceBusinessTier_FieldPath))
 			}
@@ -888,9 +383,6 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 	}
 	if wholeMultiRegionPolicyAccepted == false && len(multiRegionPolicyMask.Paths) > 0 {
 		result.MultiRegionPolicy = multiRegionPolicyMask.Project(source.GetMultiRegionPolicy())
-	}
-	if wholeFeatureConfigAccepted == false && len(featureConfigMask.Paths) > 0 {
-		result.FeatureConfig = featureConfigMask.Project(source.GetFeatureConfig())
 	}
 	if wholeServiceTiersAccepted == false && len(serviceTiersMask.Paths) > 0 {
 		for _, sourceItem := range source.GetServiceTiers() {

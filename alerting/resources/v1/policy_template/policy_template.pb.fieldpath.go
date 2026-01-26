@@ -51,7 +51,7 @@ var (
 var (
 	_ = &document.Document{}
 	_ = &rcommon.LogCndSpec{}
-	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_project.Project{}
 	_ = &meta.Meta{}
 )
 
