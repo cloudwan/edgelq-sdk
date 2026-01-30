@@ -50,12 +50,26 @@ func (obj *SSHService_Hello) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	if subobj, ok := interface{}(obj.Size).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Hello", "size", obj.Size, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
 	return nil
 }
 func (obj *SSHService_TerminalSize) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *SSHService_ExitStatus) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
@@ -96,6 +110,12 @@ func (obj *SSHService_ClientIn) GotenValidate() error {
 	}
 	switch opt := obj.Msg.(type) {
 	case *SSHService_ClientIn_Data:
+	case *SSHService_ClientIn_ExitStatus:
+		if subobj, ok := interface{}(opt.ExitStatus).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ClientIn", "exitStatus", opt.ExitStatus, "nested object validation failed", err)
+			}
+		}
 	default:
 		_ = opt
 	}

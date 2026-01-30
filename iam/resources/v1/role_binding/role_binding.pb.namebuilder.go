@@ -22,7 +22,7 @@ import (
 var (
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}

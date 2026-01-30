@@ -37,7 +37,7 @@ var (
 	_ = &search_index.SearchIndex{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_user.User{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
@@ -87,6 +87,9 @@ func (ConversationFieldPathBuilder) FailedTurns() ConversationPathSelectorFailed
 }
 func (ConversationFieldPathBuilder) ReplacedTurnGroups() ConversationPathSelectorReplacedTurnGroups {
 	return ConversationPathSelectorReplacedTurnGroups{}
+}
+func (ConversationFieldPathBuilder) CapabilityTemplate() ConversationPathSelectorCapabilityTemplate {
+	return ConversationPathSelectorCapabilityTemplate{}
 }
 
 type ConversationPathSelectorName struct{}
@@ -2454,6 +2457,20 @@ func (s ConversationPathSelectorReplacedTurnGroupsResumeReason) WithValue(value 
 
 func (s ConversationPathSelectorReplacedTurnGroupsResumeReason) WithArrayOfValues(values []string) *Conversation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldSubPathArrayOfValues)
+}
+
+type ConversationPathSelectorCapabilityTemplate struct{}
+
+func (ConversationPathSelectorCapabilityTemplate) FieldPath() *Conversation_FieldTerminalPath {
+	return &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorCapabilityTemplate}
+}
+
+func (s ConversationPathSelectorCapabilityTemplate) WithValue(value *capability_template.Name) *Conversation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Conversation_FieldTerminalPathValue)
+}
+
+func (s ConversationPathSelectorCapabilityTemplate) WithArrayOfValues(values []*capability_template.Name) *Conversation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Conversation_FieldTerminalPathArrayOfValues)
 }
 
 type ConversationTurnFieldPathBuilder struct{}

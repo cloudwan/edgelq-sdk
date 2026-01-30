@@ -59,6 +59,965 @@ var (
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ProjectFeatureConfig_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ProjectFeatureConfig_FieldPathSelector
+	Get(source *ProjectFeatureConfig) []interface{}
+	GetSingle(source *ProjectFeatureConfig) (interface{}, bool)
+	ClearValue(item *ProjectFeatureConfig)
+
+	// Those methods build corresponding ProjectFeatureConfig_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ProjectFeatureConfig_FieldPathValue
+	WithIArrayOfValues(values interface{}) ProjectFeatureConfig_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ProjectFeatureConfig_FieldPathArrayItemValue
+}
+
+type ProjectFeatureConfig_FieldPathSelector int32
+
+const (
+	ProjectFeatureConfig_FieldPathSelectorAi ProjectFeatureConfig_FieldPathSelector = 0
+)
+
+func (s ProjectFeatureConfig_FieldPathSelector) String() string {
+	switch s {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		return "ai"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", s))
+	}
+}
+
+func BuildProjectFeatureConfig_FieldPath(fp gotenobject.RawFieldPath) (ProjectFeatureConfig_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ProjectFeatureConfig")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "ai":
+			return &ProjectFeatureConfig_FieldTerminalPath{selector: ProjectFeatureConfig_FieldPathSelectorAi}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "ai":
+			if subpath, err := BuildProjectFeatureConfigAi_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ProjectFeatureConfig_FieldSubPath{selector: ProjectFeatureConfig_FieldPathSelectorAi, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ProjectFeatureConfig", fp)
+}
+
+func ParseProjectFeatureConfig_FieldPath(rawField string) (ProjectFeatureConfig_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildProjectFeatureConfig_FieldPath(fp)
+}
+
+func MustParseProjectFeatureConfig_FieldPath(rawField string) ProjectFeatureConfig_FieldPath {
+	fp, err := ParseProjectFeatureConfig_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ProjectFeatureConfig_FieldTerminalPath struct {
+	selector ProjectFeatureConfig_FieldPathSelector
+}
+
+var _ ProjectFeatureConfig_FieldPath = (*ProjectFeatureConfig_FieldTerminalPath)(nil)
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) Selector() ProjectFeatureConfig_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ProjectFeatureConfig_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ProjectFeatureConfig_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ProjectFeatureConfig
+func (fp *ProjectFeatureConfig_FieldTerminalPath) Get(source *ProjectFeatureConfig) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ProjectFeatureConfig_FieldPathSelectorAi:
+			if source.Ai != nil {
+				values = append(values, source.Ai)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ProjectFeatureConfig))
+}
+
+// GetSingle returns value pointed by specific field of from source ProjectFeatureConfig
+func (fp *ProjectFeatureConfig_FieldTerminalPath) GetSingle(source *ProjectFeatureConfig) (interface{}, bool) {
+	switch fp.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		res := source.GetAi()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ProjectFeatureConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ProjectFeatureConfig_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		return (*ProjectFeatureConfig_Ai)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) ClearValue(item *ProjectFeatureConfig) {
+	if item != nil {
+		switch fp.selector {
+		case ProjectFeatureConfig_FieldPathSelectorAi:
+			item.Ai = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ProjectFeatureConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ProjectFeatureConfig_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) WithIValue(value interface{}) ProjectFeatureConfig_FieldPathValue {
+	switch fp.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		return &ProjectFeatureConfig_FieldTerminalPathValue{ProjectFeatureConfig_FieldTerminalPath: *fp, value: value.(*ProjectFeatureConfig_Ai)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) ProjectFeatureConfig_FieldPathArrayOfValues {
+	fpaov := &ProjectFeatureConfig_FieldTerminalPathArrayOfValues{ProjectFeatureConfig_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		return &ProjectFeatureConfig_FieldTerminalPathArrayOfValues{ProjectFeatureConfig_FieldTerminalPath: *fp, values: values.([]*ProjectFeatureConfig_Ai)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) ProjectFeatureConfig_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fp.selector))
+	}
+}
+
+func (fp *ProjectFeatureConfig_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type ProjectFeatureConfig_FieldSubPath struct {
+	selector ProjectFeatureConfig_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ ProjectFeatureConfig_FieldPath = (*ProjectFeatureConfig_FieldSubPath)(nil)
+
+func (fps *ProjectFeatureConfig_FieldSubPath) Selector() ProjectFeatureConfig_FieldPathSelector {
+	return fps.selector
+}
+func (fps *ProjectFeatureConfig_FieldSubPath) AsAiSubPath() (ProjectFeatureConfigAi_FieldPath, bool) {
+	res, ok := fps.subPath.(ProjectFeatureConfigAi_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *ProjectFeatureConfig_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *ProjectFeatureConfig_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source ProjectFeatureConfig
+func (fps *ProjectFeatureConfig_FieldSubPath) Get(source *ProjectFeatureConfig) (values []interface{}) {
+	switch fps.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		values = append(values, fps.subPath.GetRaw(source.GetAi())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*ProjectFeatureConfig))
+}
+
+// GetSingle returns value of selected field from source ProjectFeatureConfig
+func (fps *ProjectFeatureConfig_FieldSubPath) GetSingle(source *ProjectFeatureConfig) (interface{}, bool) {
+	switch fps.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		if source.GetAi() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetAi())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fps.selector))
+	}
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*ProjectFeatureConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *ProjectFeatureConfig_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) ClearValue(item *ProjectFeatureConfig) {
+	if item != nil {
+		switch fps.selector {
+		case ProjectFeatureConfig_FieldPathSelectorAi:
+			fps.subPath.ClearValueRaw(item.Ai)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*ProjectFeatureConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *ProjectFeatureConfig_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ProjectFeatureConfig_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) WithIValue(value interface{}) ProjectFeatureConfig_FieldPathValue {
+	return &ProjectFeatureConfig_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) WithIArrayOfValues(values interface{}) ProjectFeatureConfig_FieldPathArrayOfValues {
+	return &ProjectFeatureConfig_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) WithIArrayItemValue(value interface{}) ProjectFeatureConfig_FieldPathArrayItemValue {
+	return &ProjectFeatureConfig_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *ProjectFeatureConfig_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// ProjectFeatureConfig_FieldPathValue allows storing values for ProjectFeatureConfig fields according to their type
+type ProjectFeatureConfig_FieldPathValue interface {
+	ProjectFeatureConfig_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ProjectFeatureConfig)
+	CompareWith(*ProjectFeatureConfig) (cmp int, comparable bool)
+}
+
+func ParseProjectFeatureConfig_FieldPathValue(pathStr, valueStr string) (ProjectFeatureConfig_FieldPathValue, error) {
+	fp, err := ParseProjectFeatureConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProjectFeatureConfig field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ProjectFeatureConfig_FieldPathValue), nil
+}
+
+func MustParseProjectFeatureConfig_FieldPathValue(pathStr, valueStr string) ProjectFeatureConfig_FieldPathValue {
+	fpv, err := ParseProjectFeatureConfig_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ProjectFeatureConfig_FieldTerminalPathValue struct {
+	ProjectFeatureConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ ProjectFeatureConfig_FieldPathValue = (*ProjectFeatureConfig_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ProjectFeatureConfig' as interface{}
+func (fpv *ProjectFeatureConfig_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ProjectFeatureConfig_FieldTerminalPathValue) AsAiValue() (*ProjectFeatureConfig_Ai, bool) {
+	res, ok := fpv.value.(*ProjectFeatureConfig_Ai)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ProjectFeatureConfig
+func (fpv *ProjectFeatureConfig_FieldTerminalPathValue) SetTo(target **ProjectFeatureConfig) {
+	if *target == nil {
+		*target = new(ProjectFeatureConfig)
+	}
+	switch fpv.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		(*target).Ai = fpv.value.(*ProjectFeatureConfig_Ai)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *ProjectFeatureConfig_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ProjectFeatureConfig)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ProjectFeatureConfig_FieldTerminalPathValue' with the value under path in 'ProjectFeatureConfig'.
+func (fpv *ProjectFeatureConfig_FieldTerminalPathValue) CompareWith(source *ProjectFeatureConfig) (int, bool) {
+	switch fpv.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *ProjectFeatureConfig_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ProjectFeatureConfig))
+}
+
+type ProjectFeatureConfig_FieldSubPathValue struct {
+	ProjectFeatureConfig_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ ProjectFeatureConfig_FieldPathValue = (*ProjectFeatureConfig_FieldSubPathValue)(nil)
+
+func (fpvs *ProjectFeatureConfig_FieldSubPathValue) AsAiPathValue() (ProjectFeatureConfigAi_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ProjectFeatureConfigAi_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *ProjectFeatureConfig_FieldSubPathValue) SetTo(target **ProjectFeatureConfig) {
+	if *target == nil {
+		*target = new(ProjectFeatureConfig)
+	}
+	switch fpvs.Selector() {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		fpvs.subPathValue.(ProjectFeatureConfigAi_FieldPathValue).SetTo(&(*target).Ai)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ProjectFeatureConfig_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ProjectFeatureConfig)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *ProjectFeatureConfig_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *ProjectFeatureConfig_FieldSubPathValue) CompareWith(source *ProjectFeatureConfig) (int, bool) {
+	switch fpvs.Selector() {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		return fpvs.subPathValue.(ProjectFeatureConfigAi_FieldPathValue).CompareWith(source.GetAi())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ProjectFeatureConfig_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*ProjectFeatureConfig))
+}
+
+// ProjectFeatureConfig_FieldPathArrayItemValue allows storing single item in Path-specific values for ProjectFeatureConfig according to their type
+// Present only for array (repeated) types.
+type ProjectFeatureConfig_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ProjectFeatureConfig_FieldPath
+	ContainsValue(*ProjectFeatureConfig) bool
+}
+
+// ParseProjectFeatureConfig_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseProjectFeatureConfig_FieldPathArrayItemValue(pathStr, valueStr string) (ProjectFeatureConfig_FieldPathArrayItemValue, error) {
+	fp, err := ParseProjectFeatureConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProjectFeatureConfig field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ProjectFeatureConfig_FieldPathArrayItemValue), nil
+}
+
+func MustParseProjectFeatureConfig_FieldPathArrayItemValue(pathStr, valueStr string) ProjectFeatureConfig_FieldPathArrayItemValue {
+	fpaiv, err := ParseProjectFeatureConfig_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ProjectFeatureConfig_FieldTerminalPathArrayItemValue struct {
+	ProjectFeatureConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ ProjectFeatureConfig_FieldPathArrayItemValue = (*ProjectFeatureConfig_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ProjectFeatureConfig as interface{}
+func (fpaiv *ProjectFeatureConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ProjectFeatureConfig_FieldTerminalPathArrayItemValue) GetSingle(source *ProjectFeatureConfig) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ProjectFeatureConfig_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ProjectFeatureConfig))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ProjectFeatureConfig'
+func (fpaiv *ProjectFeatureConfig_FieldTerminalPathArrayItemValue) ContainsValue(source *ProjectFeatureConfig) bool {
+	slice := fpaiv.ProjectFeatureConfig_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type ProjectFeatureConfig_FieldSubPathArrayItemValue struct {
+	ProjectFeatureConfig_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *ProjectFeatureConfig_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *ProjectFeatureConfig_FieldSubPathArrayItemValue) AsAiPathItemValue() (ProjectFeatureConfigAi_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ProjectFeatureConfigAi_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ProjectFeatureConfig'
+func (fpaivs *ProjectFeatureConfig_FieldSubPathArrayItemValue) ContainsValue(source *ProjectFeatureConfig) bool {
+	switch fpaivs.Selector() {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		return fpaivs.subPathItemValue.(ProjectFeatureConfigAi_FieldPathArrayItemValue).ContainsValue(source.GetAi())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig: %d", fpaivs.Selector()))
+	}
+}
+
+// ProjectFeatureConfig_FieldPathArrayOfValues allows storing slice of values for ProjectFeatureConfig fields according to their type
+type ProjectFeatureConfig_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ProjectFeatureConfig_FieldPath
+}
+
+func ParseProjectFeatureConfig_FieldPathArrayOfValues(pathStr, valuesStr string) (ProjectFeatureConfig_FieldPathArrayOfValues, error) {
+	fp, err := ParseProjectFeatureConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProjectFeatureConfig field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ProjectFeatureConfig_FieldPathArrayOfValues), nil
+}
+
+func MustParseProjectFeatureConfig_FieldPathArrayOfValues(pathStr, valuesStr string) ProjectFeatureConfig_FieldPathArrayOfValues {
+	fpaov, err := ParseProjectFeatureConfig_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ProjectFeatureConfig_FieldTerminalPathArrayOfValues struct {
+	ProjectFeatureConfig_FieldTerminalPath
+	values interface{}
+}
+
+var _ ProjectFeatureConfig_FieldPathArrayOfValues = (*ProjectFeatureConfig_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ProjectFeatureConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ProjectFeatureConfig_FieldPathSelectorAi:
+		for _, v := range fpaov.values.([]*ProjectFeatureConfig_Ai) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ProjectFeatureConfig_FieldTerminalPathArrayOfValues) AsAiArrayOfValues() ([]*ProjectFeatureConfig_Ai, bool) {
+	res, ok := fpaov.values.([]*ProjectFeatureConfig_Ai)
+	return res, ok
+}
+
+type ProjectFeatureConfig_FieldSubPathArrayOfValues struct {
+	ProjectFeatureConfig_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ ProjectFeatureConfig_FieldPathArrayOfValues = (*ProjectFeatureConfig_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *ProjectFeatureConfig_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ProjectFeatureConfig_FieldSubPathArrayOfValues) AsAiPathArrayOfValues() (ProjectFeatureConfigAi_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ProjectFeatureConfigAi_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ProjectFeatureConfigAi_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ProjectFeatureConfigAi_FieldPathSelector
+	Get(source *ProjectFeatureConfig_Ai) []interface{}
+	GetSingle(source *ProjectFeatureConfig_Ai) (interface{}, bool)
+	ClearValue(item *ProjectFeatureConfig_Ai)
+
+	// Those methods build corresponding ProjectFeatureConfigAi_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ProjectFeatureConfigAi_FieldPathValue
+	WithIArrayOfValues(values interface{}) ProjectFeatureConfigAi_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ProjectFeatureConfigAi_FieldPathArrayItemValue
+}
+
+type ProjectFeatureConfigAi_FieldPathSelector int32
+
+const (
+	ProjectFeatureConfigAi_FieldPathSelectorEnabled ProjectFeatureConfigAi_FieldPathSelector = 0
+)
+
+func (s ProjectFeatureConfigAi_FieldPathSelector) String() string {
+	switch s {
+	case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+		return "enabled"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", s))
+	}
+}
+
+func BuildProjectFeatureConfigAi_FieldPath(fp gotenobject.RawFieldPath) (ProjectFeatureConfigAi_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ProjectFeatureConfig_Ai")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "enabled":
+			return &ProjectFeatureConfigAi_FieldTerminalPath{selector: ProjectFeatureConfigAi_FieldPathSelectorEnabled}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ProjectFeatureConfig_Ai", fp)
+}
+
+func ParseProjectFeatureConfigAi_FieldPath(rawField string) (ProjectFeatureConfigAi_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildProjectFeatureConfigAi_FieldPath(fp)
+}
+
+func MustParseProjectFeatureConfigAi_FieldPath(rawField string) ProjectFeatureConfigAi_FieldPath {
+	fp, err := ParseProjectFeatureConfigAi_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ProjectFeatureConfigAi_FieldTerminalPath struct {
+	selector ProjectFeatureConfigAi_FieldPathSelector
+}
+
+var _ ProjectFeatureConfigAi_FieldPath = (*ProjectFeatureConfigAi_FieldTerminalPath)(nil)
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) Selector() ProjectFeatureConfigAi_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ProjectFeatureConfig_Ai
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) Get(source *ProjectFeatureConfig_Ai) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+			values = append(values, source.Enabled)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ProjectFeatureConfig_Ai))
+}
+
+// GetSingle returns value pointed by specific field of from source ProjectFeatureConfig_Ai
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) GetSingle(source *ProjectFeatureConfig_Ai) (interface{}, bool) {
+	switch fp.selector {
+	case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+		return source.GetEnabled(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fp.selector))
+	}
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ProjectFeatureConfig_Ai))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fp.selector))
+	}
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) ClearValue(item *ProjectFeatureConfig_Ai) {
+	if item != nil {
+		switch fp.selector {
+		case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+			item.Enabled = false
+		default:
+			panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ProjectFeatureConfig_Ai))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ProjectFeatureConfigAi_FieldPathSelectorEnabled
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) WithIValue(value interface{}) ProjectFeatureConfigAi_FieldPathValue {
+	switch fp.selector {
+	case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+		return &ProjectFeatureConfigAi_FieldTerminalPathValue{ProjectFeatureConfigAi_FieldTerminalPath: *fp, value: value.(bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fp.selector))
+	}
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) WithIArrayOfValues(values interface{}) ProjectFeatureConfigAi_FieldPathArrayOfValues {
+	fpaov := &ProjectFeatureConfigAi_FieldTerminalPathArrayOfValues{ProjectFeatureConfigAi_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+		return &ProjectFeatureConfigAi_FieldTerminalPathArrayOfValues{ProjectFeatureConfigAi_FieldTerminalPath: *fp, values: values.([]bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) WithIArrayItemValue(value interface{}) ProjectFeatureConfigAi_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fp.selector))
+	}
+}
+
+func (fp *ProjectFeatureConfigAi_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ProjectFeatureConfigAi_FieldPathValue allows storing values for Ai fields according to their type
+type ProjectFeatureConfigAi_FieldPathValue interface {
+	ProjectFeatureConfigAi_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ProjectFeatureConfig_Ai)
+	CompareWith(*ProjectFeatureConfig_Ai) (cmp int, comparable bool)
+}
+
+func ParseProjectFeatureConfigAi_FieldPathValue(pathStr, valueStr string) (ProjectFeatureConfigAi_FieldPathValue, error) {
+	fp, err := ParseProjectFeatureConfigAi_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Ai field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ProjectFeatureConfigAi_FieldPathValue), nil
+}
+
+func MustParseProjectFeatureConfigAi_FieldPathValue(pathStr, valueStr string) ProjectFeatureConfigAi_FieldPathValue {
+	fpv, err := ParseProjectFeatureConfigAi_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ProjectFeatureConfigAi_FieldTerminalPathValue struct {
+	ProjectFeatureConfigAi_FieldTerminalPath
+	value interface{}
+}
+
+var _ ProjectFeatureConfigAi_FieldPathValue = (*ProjectFeatureConfigAi_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Ai' as interface{}
+func (fpv *ProjectFeatureConfigAi_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ProjectFeatureConfigAi_FieldTerminalPathValue) AsEnabledValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Ai
+func (fpv *ProjectFeatureConfigAi_FieldTerminalPathValue) SetTo(target **ProjectFeatureConfig_Ai) {
+	if *target == nil {
+		*target = new(ProjectFeatureConfig_Ai)
+	}
+	switch fpv.selector {
+	case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+		(*target).Enabled = fpv.value.(bool)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fpv.selector))
+	}
+}
+
+func (fpv *ProjectFeatureConfigAi_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ProjectFeatureConfig_Ai)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ProjectFeatureConfigAi_FieldTerminalPathValue' with the value under path in 'ProjectFeatureConfig_Ai'.
+func (fpv *ProjectFeatureConfigAi_FieldTerminalPathValue) CompareWith(source *ProjectFeatureConfig_Ai) (int, bool) {
+	switch fpv.selector {
+	case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetEnabled()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ProjectFeatureConfig_Ai: %d", fpv.selector))
+	}
+}
+
+func (fpv *ProjectFeatureConfigAi_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ProjectFeatureConfig_Ai))
+}
+
+// ProjectFeatureConfigAi_FieldPathArrayItemValue allows storing single item in Path-specific values for Ai according to their type
+// Present only for array (repeated) types.
+type ProjectFeatureConfigAi_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ProjectFeatureConfigAi_FieldPath
+	ContainsValue(*ProjectFeatureConfig_Ai) bool
+}
+
+// ParseProjectFeatureConfigAi_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseProjectFeatureConfigAi_FieldPathArrayItemValue(pathStr, valueStr string) (ProjectFeatureConfigAi_FieldPathArrayItemValue, error) {
+	fp, err := ParseProjectFeatureConfigAi_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Ai field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ProjectFeatureConfigAi_FieldPathArrayItemValue), nil
+}
+
+func MustParseProjectFeatureConfigAi_FieldPathArrayItemValue(pathStr, valueStr string) ProjectFeatureConfigAi_FieldPathArrayItemValue {
+	fpaiv, err := ParseProjectFeatureConfigAi_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ProjectFeatureConfigAi_FieldTerminalPathArrayItemValue struct {
+	ProjectFeatureConfigAi_FieldTerminalPath
+	value interface{}
+}
+
+var _ ProjectFeatureConfigAi_FieldPathArrayItemValue = (*ProjectFeatureConfigAi_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ProjectFeatureConfig_Ai as interface{}
+func (fpaiv *ProjectFeatureConfigAi_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ProjectFeatureConfigAi_FieldTerminalPathArrayItemValue) GetSingle(source *ProjectFeatureConfig_Ai) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ProjectFeatureConfigAi_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ProjectFeatureConfig_Ai))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Ai'
+func (fpaiv *ProjectFeatureConfigAi_FieldTerminalPathArrayItemValue) ContainsValue(source *ProjectFeatureConfig_Ai) bool {
+	slice := fpaiv.ProjectFeatureConfigAi_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ProjectFeatureConfigAi_FieldPathArrayOfValues allows storing slice of values for Ai fields according to their type
+type ProjectFeatureConfigAi_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ProjectFeatureConfigAi_FieldPath
+}
+
+func ParseProjectFeatureConfigAi_FieldPathArrayOfValues(pathStr, valuesStr string) (ProjectFeatureConfigAi_FieldPathArrayOfValues, error) {
+	fp, err := ParseProjectFeatureConfigAi_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Ai field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ProjectFeatureConfigAi_FieldPathArrayOfValues), nil
+}
+
+func MustParseProjectFeatureConfigAi_FieldPathArrayOfValues(pathStr, valuesStr string) ProjectFeatureConfigAi_FieldPathArrayOfValues {
+	fpaov, err := ParseProjectFeatureConfigAi_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ProjectFeatureConfigAi_FieldTerminalPathArrayOfValues struct {
+	ProjectFeatureConfigAi_FieldTerminalPath
+	values interface{}
+}
+
+var _ ProjectFeatureConfigAi_FieldPathArrayOfValues = (*ProjectFeatureConfigAi_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ProjectFeatureConfigAi_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ProjectFeatureConfigAi_FieldPathSelectorEnabled:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ProjectFeatureConfigAi_FieldTerminalPathArrayOfValues) AsEnabledArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type Project_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() Project_FieldPathSelector
@@ -83,12 +1042,13 @@ const (
 	Project_FieldPathSelectorParentOrganization Project_FieldPathSelector = 4
 	Project_FieldPathSelectorMultiRegionPolicy  Project_FieldPathSelector = 5
 	Project_FieldPathSelectorEnabledServices    Project_FieldPathSelector = 6
-	Project_FieldPathSelectorBusinessTier       Project_FieldPathSelector = 7
-	Project_FieldPathSelectorServiceTiers       Project_FieldPathSelector = 8
-	Project_FieldPathSelectorRootOrganization   Project_FieldPathSelector = 9
-	Project_FieldPathSelectorAncestryPath       Project_FieldPathSelector = 10
-	Project_FieldPathSelectorServiceErrors      Project_FieldPathSelector = 11
-	Project_FieldPathSelectorServicesGeneration Project_FieldPathSelector = 12
+	Project_FieldPathSelectorFeatureConfig      Project_FieldPathSelector = 7
+	Project_FieldPathSelectorBusinessTier       Project_FieldPathSelector = 8
+	Project_FieldPathSelectorServiceTiers       Project_FieldPathSelector = 9
+	Project_FieldPathSelectorRootOrganization   Project_FieldPathSelector = 10
+	Project_FieldPathSelectorAncestryPath       Project_FieldPathSelector = 11
+	Project_FieldPathSelectorServiceErrors      Project_FieldPathSelector = 12
+	Project_FieldPathSelectorServicesGeneration Project_FieldPathSelector = 13
 )
 
 func (s Project_FieldPathSelector) String() string {
@@ -107,6 +1067,8 @@ func (s Project_FieldPathSelector) String() string {
 		return "multi_region_policy"
 	case Project_FieldPathSelectorEnabledServices:
 		return "enabled_services"
+	case Project_FieldPathSelectorFeatureConfig:
+		return "feature_config"
 	case Project_FieldPathSelectorBusinessTier:
 		return "business_tier"
 	case Project_FieldPathSelectorServiceTiers:
@@ -144,6 +1106,8 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMultiRegionPolicy}, nil
 		case "enabled_services", "enabledServices", "enabled-services":
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices}, nil
+		case "feature_config", "featureConfig", "feature-config":
+			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorFeatureConfig}, nil
 		case "business_tier", "businessTier", "business-tier":
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorBusinessTier}, nil
 		case "service_tiers", "serviceTiers", "service-tiers":
@@ -170,6 +1134,12 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 				return nil, err
 			} else {
 				return &Project_FieldSubPath{selector: Project_FieldPathSelectorMultiRegionPolicy, subPath: subpath}, nil
+			}
+		case "feature_config", "featureConfig", "feature-config":
+			if subpath, err := BuildProjectFeatureConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Project_FieldSubPath{selector: Project_FieldPathSelectorFeatureConfig, subPath: subpath}, nil
 			}
 		case "service_tiers", "serviceTiers", "service-tiers":
 			if subpath, err := iam_common.BuildServiceBusinessTier_FieldPath(fp[1:]); err != nil {
@@ -251,6 +1221,10 @@ func (fp *Project_FieldTerminalPath) Get(source *Project) (values []interface{})
 			for _, value := range source.GetEnabledServices() {
 				values = append(values, value)
 			}
+		case Project_FieldPathSelectorFeatureConfig:
+			if source.FeatureConfig != nil {
+				values = append(values, source.FeatureConfig)
+			}
 		case Project_FieldPathSelectorBusinessTier:
 			values = append(values, source.BusinessTier)
 		case Project_FieldPathSelectorServiceTiers:
@@ -304,6 +1278,9 @@ func (fp *Project_FieldTerminalPath) GetSingle(source *Project) (interface{}, bo
 	case Project_FieldPathSelectorEnabledServices:
 		res := source.GetEnabledServices()
 		return res, res != nil
+	case Project_FieldPathSelectorFeatureConfig:
+		res := source.GetFeatureConfig()
+		return res, res != nil
 	case Project_FieldPathSelectorBusinessTier:
 		return source.GetBusinessTier(), source != nil
 	case Project_FieldPathSelectorServiceTiers:
@@ -346,6 +1323,8 @@ func (fp *Project_FieldTerminalPath) GetDefault() interface{} {
 		return (*multi_region_policy.MultiRegionPolicy)(nil)
 	case Project_FieldPathSelectorEnabledServices:
 		return ([]*meta_service.Reference)(nil)
+	case Project_FieldPathSelectorFeatureConfig:
+		return (*ProjectFeatureConfig)(nil)
 	case Project_FieldPathSelectorBusinessTier:
 		return iam_common.BusinessTier_UNDEFINED
 	case Project_FieldPathSelectorServiceTiers:
@@ -380,6 +1359,8 @@ func (fp *Project_FieldTerminalPath) ClearValue(item *Project) {
 			item.MultiRegionPolicy = nil
 		case Project_FieldPathSelectorEnabledServices:
 			item.EnabledServices = nil
+		case Project_FieldPathSelectorFeatureConfig:
+			item.FeatureConfig = nil
 		case Project_FieldPathSelectorBusinessTier:
 			item.BusinessTier = iam_common.BusinessTier_UNDEFINED
 		case Project_FieldPathSelectorServiceTiers:
@@ -435,6 +1416,8 @@ func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_Field
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*multi_region_policy.MultiRegionPolicy)}
 	case Project_FieldPathSelectorEnabledServices:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.([]*meta_service.Reference)}
+	case Project_FieldPathSelectorFeatureConfig:
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*ProjectFeatureConfig)}
 	case Project_FieldPathSelectorBusinessTier:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(iam_common.BusinessTier)}
 	case Project_FieldPathSelectorServiceTiers:
@@ -473,6 +1456,8 @@ func (fp *Project_FieldTerminalPath) WithIArrayOfValues(values interface{}) Proj
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*multi_region_policy.MultiRegionPolicy)}
 	case Project_FieldPathSelectorEnabledServices:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([][]*meta_service.Reference)}
+	case Project_FieldPathSelectorFeatureConfig:
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*ProjectFeatureConfig)}
 	case Project_FieldPathSelectorBusinessTier:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]iam_common.BusinessTier)}
 	case Project_FieldPathSelectorServiceTiers:
@@ -662,6 +1647,10 @@ func (fps *Project_FieldSubPath) AsMultiRegionPolicySubPath() (multi_region_poli
 	res, ok := fps.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath)
 	return res, ok
 }
+func (fps *Project_FieldSubPath) AsFeatureConfigSubPath() (ProjectFeatureConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(ProjectFeatureConfig_FieldPath)
+	return res, ok
+}
 func (fps *Project_FieldSubPath) AsServiceTiersSubPath() (iam_common.ServiceBusinessTier_FieldPath, bool) {
 	res, ok := fps.subPath.(iam_common.ServiceBusinessTier_FieldPath)
 	return res, ok
@@ -684,6 +1673,8 @@ func (fps *Project_FieldSubPath) Get(source *Project) (values []interface{}) {
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		values = append(values, fps.subPath.GetRaw(source.GetMultiRegionPolicy())...)
+	case Project_FieldPathSelectorFeatureConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetFeatureConfig())...)
 	case Project_FieldPathSelectorServiceTiers:
 		for _, item := range source.GetServiceTiers() {
 			values = append(values, fps.subPath.GetRaw(item)...)
@@ -711,6 +1702,11 @@ func (fps *Project_FieldSubPath) GetSingle(source *Project) (interface{}, bool) 
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetMultiRegionPolicy())
+	case Project_FieldPathSelectorFeatureConfig:
+		if source.GetFeatureConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetFeatureConfig())
 	case Project_FieldPathSelectorServiceTiers:
 		if len(source.GetServiceTiers()) == 0 {
 			return nil, false
@@ -737,6 +1733,8 @@ func (fps *Project_FieldSubPath) ClearValue(item *Project) {
 			fps.subPath.ClearValueRaw(item.Metadata)
 		case Project_FieldPathSelectorMultiRegionPolicy:
 			fps.subPath.ClearValueRaw(item.MultiRegionPolicy)
+		case Project_FieldPathSelectorFeatureConfig:
+			fps.subPath.ClearValueRaw(item.FeatureConfig)
 		case Project_FieldPathSelectorServiceTiers:
 			for _, subItem := range item.ServiceTiers {
 				fps.subPath.ClearValueRaw(subItem)
@@ -853,6 +1851,10 @@ func (fpv *Project_FieldTerminalPathValue) AsEnabledServicesValue() ([]*meta_ser
 	res, ok := fpv.value.([]*meta_service.Reference)
 	return res, ok
 }
+func (fpv *Project_FieldTerminalPathValue) AsFeatureConfigValue() (*ProjectFeatureConfig, bool) {
+	res, ok := fpv.value.(*ProjectFeatureConfig)
+	return res, ok
+}
 func (fpv *Project_FieldTerminalPathValue) AsBusinessTierValue() (iam_common.BusinessTier, bool) {
 	res, ok := fpv.value.(iam_common.BusinessTier)
 	return res, ok
@@ -898,6 +1900,8 @@ func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
 		(*target).MultiRegionPolicy = fpv.value.(*multi_region_policy.MultiRegionPolicy)
 	case Project_FieldPathSelectorEnabledServices:
 		(*target).EnabledServices = fpv.value.([]*meta_service.Reference)
+	case Project_FieldPathSelectorFeatureConfig:
+		(*target).FeatureConfig = fpv.value.(*ProjectFeatureConfig)
 	case Project_FieldPathSelectorBusinessTier:
 		(*target).BusinessTier = fpv.value.(iam_common.BusinessTier)
 	case Project_FieldPathSelectorServiceTiers:
@@ -986,6 +1990,8 @@ func (fpv *Project_FieldTerminalPathValue) CompareWith(source *Project) (int, bo
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return 0, false
 	case Project_FieldPathSelectorEnabledServices:
+		return 0, false
+	case Project_FieldPathSelectorFeatureConfig:
 		return 0, false
 	case Project_FieldPathSelectorBusinessTier:
 		leftValue := fpv.value.(iam_common.BusinessTier)
@@ -1107,6 +2113,10 @@ func (fpvs *Project_FieldSubPathValue) AsMultiRegionPolicyPathValue() (multi_reg
 	res, ok := fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Project_FieldSubPathValue) AsFeatureConfigPathValue() (ProjectFeatureConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ProjectFeatureConfig_FieldPathValue)
+	return res, ok
+}
 func (fpvs *Project_FieldSubPathValue) AsServiceTiersPathValue() (iam_common.ServiceBusinessTier_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(iam_common.ServiceBusinessTier_FieldPathValue)
 	return res, ok
@@ -1121,6 +2131,8 @@ func (fpvs *Project_FieldSubPathValue) SetTo(target **Project) {
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).SetTo(&(*target).MultiRegionPolicy)
+	case Project_FieldPathSelectorFeatureConfig:
+		fpvs.subPathValue.(ProjectFeatureConfig_FieldPathValue).SetTo(&(*target).FeatureConfig)
 	case Project_FieldPathSelectorServiceTiers:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
@@ -1143,6 +2155,8 @@ func (fpvs *Project_FieldSubPathValue) CompareWith(source *Project) (int, bool) 
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).CompareWith(source.GetMultiRegionPolicy())
+	case Project_FieldPathSelectorFeatureConfig:
+		return fpvs.subPathValue.(ProjectFeatureConfig_FieldPathValue).CompareWith(source.GetFeatureConfig())
 	case Project_FieldPathSelectorServiceTiers:
 		return 0, false // repeated field
 	default:
@@ -1247,6 +2261,10 @@ func (fpaivs *Project_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemVal
 	res, ok := fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Project_FieldSubPathArrayItemValue) AsFeatureConfigPathItemValue() (ProjectFeatureConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ProjectFeatureConfig_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *Project_FieldSubPathArrayItemValue) AsServiceTiersPathItemValue() (iam_common.ServiceBusinessTier_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(iam_common.ServiceBusinessTier_FieldPathArrayItemValue)
 	return res, ok
@@ -1259,6 +2277,8 @@ func (fpaivs *Project_FieldSubPathArrayItemValue) ContainsValue(source *Project)
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue).ContainsValue(source.GetMultiRegionPolicy())
+	case Project_FieldPathSelectorFeatureConfig:
+		return fpaivs.subPathItemValue.(ProjectFeatureConfig_FieldPathArrayItemValue).ContainsValue(source.GetFeatureConfig())
 	case Project_FieldPathSelectorServiceTiers:
 		return false // repeated/map field
 	default:
@@ -1329,6 +2349,10 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 		for _, v := range fpaov.values.([][]*meta_service.Reference) {
 			values = append(values, v)
 		}
+	case Project_FieldPathSelectorFeatureConfig:
+		for _, v := range fpaov.values.([]*ProjectFeatureConfig) {
+			values = append(values, v)
+		}
 	case Project_FieldPathSelectorBusinessTier:
 		for _, v := range fpaov.values.([]iam_common.BusinessTier) {
 			values = append(values, v)
@@ -1382,6 +2406,10 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMultiRegionPolicyArrayOfV
 }
 func (fpaov *Project_FieldTerminalPathArrayOfValues) AsEnabledServicesArrayOfValues() ([][]*meta_service.Reference, bool) {
 	res, ok := fpaov.values.([][]*meta_service.Reference)
+	return res, ok
+}
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsFeatureConfigArrayOfValues() ([]*ProjectFeatureConfig, bool) {
+	res, ok := fpaov.values.([]*ProjectFeatureConfig)
 	return res, ok
 }
 func (fpaov *Project_FieldTerminalPathArrayOfValues) AsBusinessTierArrayOfValues() ([]iam_common.BusinessTier, bool) {
@@ -1446,6 +2474,10 @@ func (fpsaov *Project_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (
 }
 func (fpsaov *Project_FieldSubPathArrayOfValues) AsMultiRegionPolicyPathArrayOfValues() (multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Project_FieldSubPathArrayOfValues) AsFeatureConfigPathArrayOfValues() (ProjectFeatureConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ProjectFeatureConfig_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Project_FieldSubPathArrayOfValues) AsServiceTiersPathArrayOfValues() (iam_common.ServiceBusinessTier_FieldPathArrayOfValues, bool) {

@@ -45,7 +45,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &search_db.SearchDb{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}

@@ -47,7 +47,7 @@ var (
 	_ = &attestation_domain.AttestationDomain{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &structpb.Struct{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}

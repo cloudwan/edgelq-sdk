@@ -47,7 +47,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &organization.Organization{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
 	_ = &emptypb.Empty{}
 	_ = &fieldmaskpb.FieldMask{}

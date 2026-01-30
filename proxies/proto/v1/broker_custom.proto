@@ -29,6 +29,7 @@ message ConnectRequest {
 
     Error error = 6;
 
+    // Deprecated: keep-alive messages are no longer used.
     Ping ping = 7;
   }
 
@@ -115,6 +116,7 @@ message ConnectResponse {
 
     Error error = 7;
 
+    // Deprecated: keep-alive messages are no longer used.
     Pong pong = 8;
 
     // Informs that provider is not available locally.
@@ -160,6 +162,7 @@ message ListenRequest {
     // sent from the agent to the endpoint.
     ChannelOpenError channel_open_error = 3;
 
+    // Deprecated: keep-alive messages are no longer used.
     Ping ping = 4;
   }
 
@@ -171,7 +174,7 @@ message ListenRequest {
     // Service domain (for example devices.edgelq.com) for this provider.
     string service_domain = 4;
 
-    // The self-declared device name, used for authentication/authorization.
+    // The self-declared provider name, used for authentication/authorization.
     string name = 2;
   }
 
@@ -209,6 +212,7 @@ message ListenResponse {
     // Notifies a channel was asked to be resumed by a client
     ResumeChannelResponse resume_channel_response = 3;
 
+    // Deprecated: keep-alive messages are no longer used.
     Pong pong = 4;
   }
 
@@ -257,6 +261,7 @@ message AcceptRequest {
 
     Error error = 6;
 
+    // Deprecated: keep-alive messages are no longer used.
     Ping ping = 7;
   }
 
@@ -310,12 +315,15 @@ message AcceptResponse {
 
     Error error = 4;
 
+    // Deprecated: keep-alive messages are no longer used.
     Pong pong = 5;
   }
 }
 
+// Deprecated: keep-alive messages are no longer used.
 message Ping {}
 
+// Deprecated: keep-alive messages are no longer used.
 message Pong {}
 
 message Data {

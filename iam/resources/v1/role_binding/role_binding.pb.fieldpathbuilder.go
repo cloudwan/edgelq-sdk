@@ -28,7 +28,7 @@ var (
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
 	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}

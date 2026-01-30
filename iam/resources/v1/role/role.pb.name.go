@@ -47,7 +47,7 @@ var (
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )

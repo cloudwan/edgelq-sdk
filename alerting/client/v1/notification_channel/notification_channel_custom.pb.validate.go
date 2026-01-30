@@ -40,7 +40,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &notification_channel.NotificationChannel{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 )
 
 func (obj *TestNotificationChannelRequest) GotenValidate() error {

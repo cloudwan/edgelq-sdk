@@ -42,7 +42,7 @@ var (
 	_ = &capability_template.CapabilityTemplate{}
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_user.User{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
@@ -144,6 +144,9 @@ func (o *Conversation) MakeDiffFieldMask(other *Conversation) *Conversation_Fiel
 	} else {
 		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups})
 	}
+	if o.GetCapabilityTemplate().String() != other.GetCapabilityTemplate().String() {
+		res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorCapabilityTemplate})
+	}
 	return res
 }
 
@@ -187,6 +190,16 @@ func (o *Conversation) Clone() *Conversation {
 	result.ReplacedTurnGroups = make([]*ReplacedTurnGroup, len(o.ReplacedTurnGroups))
 	for i, sourceValue := range o.ReplacedTurnGroups {
 		result.ReplacedTurnGroups[i] = sourceValue.Clone()
+	}
+	if o.CapabilityTemplate == nil {
+		result.CapabilityTemplate = nil
+	} else if data, err := o.CapabilityTemplate.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.CapabilityTemplate = &capability_template.Name{}
+		if err := result.CapabilityTemplate.ParseProtoString(data); err != nil {
+			panic(err)
+		}
 	}
 	return result
 }
@@ -291,6 +304,18 @@ func (o *Conversation) Merge(source *Conversation) {
 		}
 	}
 
+	if source.GetCapabilityTemplate() != nil {
+		if data, err := source.GetCapabilityTemplate().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.CapabilityTemplate = &capability_template.Name{}
+			if err := o.CapabilityTemplate.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.CapabilityTemplate = nil
+	}
 }
 
 func (o *Conversation) MergeRaw(source gotenobject.GotenObjectExt) {

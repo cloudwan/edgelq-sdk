@@ -40,7 +40,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &accepted_plan.AcceptedPlan{}
 	_ = &plan_assignment_request.PlanAssignmentRequest{}
 	_ = &fieldmaskpb.FieldMask{}

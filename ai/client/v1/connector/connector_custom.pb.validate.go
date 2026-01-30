@@ -42,7 +42,7 @@ var (
 var (
 	_ = &connector.Connector{}
 	_ = &connector_user_token.ConnectorUserToken{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 )
 
 func (obj *ConnectOauthRequest) GotenValidate() error {

@@ -48,7 +48,7 @@ var (
 	_ = &capability_template.CapabilityTemplate{}
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_user.User{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
@@ -72,6 +72,7 @@ func FullConversation_FieldMask() *Conversation_FieldMask {
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorUsageByModel})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorFailedTurns})
 	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorReplacedTurnGroups})
+	res.Paths = append(res.Paths, &Conversation_FieldTerminalPath{selector: Conversation_FieldPathSelectorCapabilityTemplate})
 	return res
 }
 
@@ -90,7 +91,7 @@ func (fieldMask *Conversation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 12)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Conversation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -120,7 +121,7 @@ func (fieldMask *Conversation_FieldMask) Reset() {
 
 func (fieldMask *Conversation_FieldMask) Subtract(other *Conversation_FieldMask) *Conversation_FieldMask {
 	result := &Conversation_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 12)
 	otherSubMasks := map[Conversation_FieldPathSelector]gotenobject.FieldMask{
 		Conversation_FieldPathSelectorMetadata:           &meta.Meta_FieldMask{},
 		Conversation_FieldPathSelectorTurns:              &ConversationTurn_FieldMask{},
@@ -367,6 +368,8 @@ func (fieldMask *Conversation_FieldMask) Project(source *Conversation) *Conversa
 			case Conversation_FieldPathSelectorReplacedTurnGroups:
 				result.ReplacedTurnGroups = source.ReplacedTurnGroups
 				wholeReplacedTurnGroupsAccepted = true
+			case Conversation_FieldPathSelectorCapabilityTemplate:
+				result.CapabilityTemplate = source.CapabilityTemplate
 			}
 		case *Conversation_FieldSubPath:
 			switch tp.selector {

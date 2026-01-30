@@ -43,6 +43,118 @@ var (
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
+func (o *ProjectFeatureConfig) GotenObjectExt() {}
+
+func (o *ProjectFeatureConfig) MakeFullFieldMask() *ProjectFeatureConfig_FieldMask {
+	return FullProjectFeatureConfig_FieldMask()
+}
+
+func (o *ProjectFeatureConfig) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullProjectFeatureConfig_FieldMask()
+}
+
+func (o *ProjectFeatureConfig) MakeDiffFieldMask(other *ProjectFeatureConfig) *ProjectFeatureConfig_FieldMask {
+	if o == nil && other == nil {
+		return &ProjectFeatureConfig_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullProjectFeatureConfig_FieldMask()
+	}
+
+	res := &ProjectFeatureConfig_FieldMask{}
+	{
+		subMask := o.GetAi().MakeDiffFieldMask(other.GetAi())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ProjectFeatureConfig_FieldTerminalPath{selector: ProjectFeatureConfig_FieldPathSelectorAi})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ProjectFeatureConfig_FieldSubPath{selector: ProjectFeatureConfig_FieldPathSelectorAi, subPath: subpath})
+			}
+		}
+	}
+	return res
+}
+
+func (o *ProjectFeatureConfig) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ProjectFeatureConfig))
+}
+
+func (o *ProjectFeatureConfig) Clone() *ProjectFeatureConfig {
+	if o == nil {
+		return nil
+	}
+	result := &ProjectFeatureConfig{}
+	result.Ai = o.Ai.Clone()
+	return result
+}
+
+func (o *ProjectFeatureConfig) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ProjectFeatureConfig) Merge(source *ProjectFeatureConfig) {
+	if source.GetAi() != nil {
+		if o.Ai == nil {
+			o.Ai = new(ProjectFeatureConfig_Ai)
+		}
+		o.Ai.Merge(source.GetAi())
+	}
+}
+
+func (o *ProjectFeatureConfig) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ProjectFeatureConfig))
+}
+
+func (o *ProjectFeatureConfig_Ai) GotenObjectExt() {}
+
+func (o *ProjectFeatureConfig_Ai) MakeFullFieldMask() *ProjectFeatureConfig_Ai_FieldMask {
+	return FullProjectFeatureConfig_Ai_FieldMask()
+}
+
+func (o *ProjectFeatureConfig_Ai) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullProjectFeatureConfig_Ai_FieldMask()
+}
+
+func (o *ProjectFeatureConfig_Ai) MakeDiffFieldMask(other *ProjectFeatureConfig_Ai) *ProjectFeatureConfig_Ai_FieldMask {
+	if o == nil && other == nil {
+		return &ProjectFeatureConfig_Ai_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullProjectFeatureConfig_Ai_FieldMask()
+	}
+
+	res := &ProjectFeatureConfig_Ai_FieldMask{}
+	if o.GetEnabled() != other.GetEnabled() {
+		res.Paths = append(res.Paths, &ProjectFeatureConfigAi_FieldTerminalPath{selector: ProjectFeatureConfigAi_FieldPathSelectorEnabled})
+	}
+	return res
+}
+
+func (o *ProjectFeatureConfig_Ai) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ProjectFeatureConfig_Ai))
+}
+
+func (o *ProjectFeatureConfig_Ai) Clone() *ProjectFeatureConfig_Ai {
+	if o == nil {
+		return nil
+	}
+	result := &ProjectFeatureConfig_Ai{}
+	result.Enabled = o.Enabled
+	return result
+}
+
+func (o *ProjectFeatureConfig_Ai) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ProjectFeatureConfig_Ai) Merge(source *ProjectFeatureConfig_Ai) {
+	o.Enabled = source.GetEnabled()
+}
+
+func (o *ProjectFeatureConfig_Ai) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ProjectFeatureConfig_Ai))
+}
+
 func (o *Project) GotenObjectExt() {}
 
 func (o *Project) MakeFullFieldMask() *Project_FieldMask {
@@ -105,6 +217,16 @@ func (o *Project) MakeDiffFieldMask(other *Project) *Project_FieldMask {
 		}
 	} else {
 		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices})
+	}
+	{
+		subMask := o.GetFeatureConfig().MakeDiffFieldMask(other.GetFeatureConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorFeatureConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &Project_FieldSubPath{selector: Project_FieldPathSelectorFeatureConfig, subPath: subpath})
+			}
+		}
 	}
 	if o.GetBusinessTier() != other.GetBusinessTier() {
 		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorBusinessTier})
@@ -200,6 +322,7 @@ func (o *Project) Clone() *Project {
 			}
 		}
 	}
+	result.FeatureConfig = o.FeatureConfig.Clone()
 	result.BusinessTier = o.BusinessTier
 	result.ServiceTiers = make([]*iam_common.ServiceBusinessTier, len(o.ServiceTiers))
 	for i, sourceValue := range o.ServiceTiers {
@@ -305,6 +428,12 @@ func (o *Project) Merge(source *Project) {
 		}
 	}
 
+	if source.GetFeatureConfig() != nil {
+		if o.FeatureConfig == nil {
+			o.FeatureConfig = new(ProjectFeatureConfig)
+		}
+		o.FeatureConfig.Merge(source.GetFeatureConfig())
+	}
 	o.BusinessTier = source.GetBusinessTier()
 	for _, sourceValue := range source.GetServiceTiers() {
 		exists := false

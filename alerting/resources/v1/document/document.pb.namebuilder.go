@@ -16,7 +16,7 @@ import (
 
 // make sure we're using proto imports
 var (
-	_ = &iam_project.Project{}
+	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &meta.Meta{}
 )
 

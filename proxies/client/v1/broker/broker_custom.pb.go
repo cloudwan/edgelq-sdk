@@ -137,6 +137,7 @@ type ConnectRequest_Error struct {
 	Error *Error `protobuf:"bytes,6,opt,name=error,proto3,oneof"`
 }
 type ConnectRequest_Ping struct {
+	// Deprecated: keep-alive messages are no longer used.
 	Ping *Ping `protobuf:"bytes,7,opt,name=ping,proto3,oneof"`
 }
 
@@ -320,6 +321,7 @@ type ConnectResponse_Error struct {
 	Error *Error `protobuf:"bytes,7,opt,name=error,proto3,oneof"`
 }
 type ConnectResponse_Pong struct {
+	// Deprecated: keep-alive messages are no longer used.
 	Pong *Pong `protobuf:"bytes,8,opt,name=pong,proto3,oneof"`
 }
 type ConnectResponse_NotAvailableLocally_ struct {
@@ -512,6 +514,7 @@ type ListenRequest_ChannelOpenError_ struct {
 	ChannelOpenError *ListenRequest_ChannelOpenError `protobuf:"bytes,3,opt,name=channel_open_error,json=channelOpenError,proto3,oneof"`
 }
 type ListenRequest_Ping struct {
+	// Deprecated: keep-alive messages are no longer used.
 	Ping *Ping `protobuf:"bytes,4,opt,name=ping,proto3,oneof"`
 }
 
@@ -647,6 +650,7 @@ type ListenResponse_ResumeChannelResponse_ struct {
 	ResumeChannelResponse *ListenResponse_ResumeChannelResponse `protobuf:"bytes,3,opt,name=resume_channel_response,json=resumeChannelResponse,proto3,oneof"`
 }
 type ListenResponse_Pong struct {
+	// Deprecated: keep-alive messages are no longer used.
 	Pong *Pong `protobuf:"bytes,4,opt,name=pong,proto3,oneof"`
 }
 
@@ -795,6 +799,7 @@ type AcceptRequest_Error struct {
 	Error *Error `protobuf:"bytes,6,opt,name=error,proto3,oneof"`
 }
 type AcceptRequest_Ping struct {
+	// Deprecated: keep-alive messages are no longer used.
 	Ping *Ping `protobuf:"bytes,7,opt,name=ping,proto3,oneof"`
 }
 
@@ -964,6 +969,7 @@ type AcceptResponse_Error struct {
 	Error *Error `protobuf:"bytes,4,opt,name=error,proto3,oneof"`
 }
 type AcceptResponse_Pong struct {
+	// Deprecated: keep-alive messages are no longer used.
 	Pong *Pong `protobuf:"bytes,5,opt,name=pong,proto3,oneof"`
 }
 
@@ -1030,6 +1036,7 @@ func (m *AcceptResponse) SetPong(fv *Pong) {
 	m.SetMessage(&AcceptResponse_Pong{Pong: fv})
 }
 
+// Deprecated: keep-alive messages are no longer used.
 type Ping struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1086,6 +1093,7 @@ func (m *Ping) UnmarshalJSON(data []byte) error {
 	return protojson.Unmarshal(data, m)
 }
 
+// Deprecated: keep-alive messages are no longer used.
 type Pong struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2201,7 +2209,7 @@ type ListenRequest_OpenRequest struct {
 	RegionId      string        `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	// Service domain (for example devices.edgelq.com) for this provider.
 	ServiceDomain string `protobuf:"bytes,4,opt,name=service_domain,json=serviceDomain,proto3" json:"service_domain,omitempty"`
-	// The self-declared device name, used for authentication/authorization.
+	// The self-declared provider name, used for authentication/authorization.
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 }
 

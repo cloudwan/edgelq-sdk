@@ -65,6 +65,9 @@ message Conversation {
   // Groups of replaced turns from resume operations
   // Each resume operation creates a new group, preserving context and order
   repeated ReplacedTurnGroup replaced_turn_groups = 12;
+
+  // Capability template used for this conversation
+  string capability_template = 14;
 }
 
 // Represents one CreateResponse API call
@@ -133,6 +136,7 @@ message TurnConfig {
   ReasoningLevel reasoning_level = 5;
 
   // Server tools configuration for this turn
+  // Marked for removal, moved to conversation top level field
   oneof server_tools_config {
     string capability_template = 6;
 

@@ -12,10 +12,27 @@ message SSHService {
   message Hello {
     string user = 1;
 
+    // Command to execute. This field is repeated for backwards compatibility,
+    // but only the first item is used. The command should be provided as a
+    // single string (not tokenized).
     repeated string command = 2;
 
     // Environment (optional)
     map<string, string> env = 3;
+
+    // TTY allocation policy.
+    TtyMode tty = 4;
+
+    // Initial terminal size (only used when TTY is enabled).
+    TerminalSize size = 5;
+
+    enum TtyMode {
+      TTY_AUTO = 0;
+
+      TTY_FORCE = 1;
+
+      TTY_DISABLE = 2;
+    }
   }
 
   message TerminalSize {
@@ -23,6 +40,8 @@ message SSHService {
 
     uint32 height = 2;
   }
+
+  message ExitStatus { int32 code = 1; }
 
   message ClientOut {
     oneof msg {
@@ -35,7 +54,11 @@ message SSHService {
   }
 
   message ClientIn {
-    oneof msg { bytes data = 1; }
+    oneof msg {
+      bytes data = 1;
+
+      ExitStatus exit_status = 2;
+    }
   }
 }
 

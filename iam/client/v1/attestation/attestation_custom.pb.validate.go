@@ -42,7 +42,7 @@ var (
 var (
 	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 )
 
 func (obj *VerifyRequest) GotenValidate() error {

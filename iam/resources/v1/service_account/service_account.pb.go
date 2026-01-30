@@ -35,7 +35,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &project.Project{}
+	_ = &project.ProjectFeatureConfig{}
 	_ = &meta.Meta{}
 )
 
