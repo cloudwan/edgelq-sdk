@@ -49,7 +49,7 @@ const (
 	// SSH service
 	BrokerServiceType_BROKER_SERVICE_SSH_LEGACY BrokerServiceType = 1
 	BrokerServiceType_BROKER_SERVICE_SSH        BrokerServiceType = 3
-	// TCP port forward service
+	// TCP port forward service (also used for UDP forwarding)
 	BrokerServiceType_BROKER_SERVICE_TCP_FORWARD_PORT BrokerServiceType = 2
 	// Reboot service
 	BrokerServiceType_BROKER_SERVICE_REBOOT BrokerServiceType = 4
@@ -329,6 +329,28 @@ func (SystemStateService_SystemState) EnumDescriptor() ([]byte, []int) {
 }
 
 // Services on the device that the client connects to
+//
+// SSH protocol overview (distinguish layers)
+// ------------------------------------------
+// Proxies layer (transport):
+// - The SSH service is carried over a Proxies channel.
+// - Proxies controls stream open/close and CloseSend/Recv behavior.
+// - Transport errors (gRPC stream errors) are surfaced by Proxies, not SSH.
+//
+// SSH message layer (this proto):
+// - The broker only forwards messages; it does not interpret them.
+// - Expected order (SSH message layer):
+//   1) ClientOut.Hello (exactly once) from consumer to provider.
+//   2) Data flow in both directions:
+//      - ClientOut.Data (stdin) from consumer to provider.
+//      - ClientIn.Data (stdout/stderr) from provider to consumer.
+//      - ClientOut.TerminalSize (resize) from consumer to provider.
+//   3) ClientIn.ExitStatus (at most once) from provider to consumer, after the
+//      remote process exits. No further data should follow ExitStatus.
+// - Invalid sequences (examples):
+//   - Data after ExitStatus.
+//   - Multiple ExitStatus messages.
+//   - Transport EOF before Proxies Close.
 type SSHService struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
