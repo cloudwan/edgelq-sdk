@@ -919,7 +919,7 @@ message Device {
       message ControlPlaneInterfaceInfo {
         string active_control_plane_interface = 1;
 
-        bool usesProxy = 2;
+        bool uses_proxy = 2;
 
         // is_fallback would be true if droplet could not connect using the best
         // default route and explicitly uses this interface to connect to api
