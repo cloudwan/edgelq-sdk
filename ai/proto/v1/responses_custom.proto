@@ -65,6 +65,12 @@ message CreateRequest {
   // Incompatible with direct messages array
   ResumeConfig resume_config = 16;
 
+  // When true, skips server-side tool discovery from connectors and templates.
+  // The capability template is still loaded for system prompt, model config,
+  // reasoning settings, etc. — only tool discovery is skipped.
+  // Useful for one-shot request/response flows that don't need tool calls.
+  bool skip_tool_discovery = 17;
+
   reserved 3, 10, 11;
 }
 

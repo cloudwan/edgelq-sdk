@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package ntt.limits.v1;
+
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1/retention_policy;retention_policy";
+option java_multiple_files = true;
+option java_outer_classname = "RetentionPolicyProto";
+option java_package = "com.ntt.limits.pb.v1";
+
+// RetentionPolicy Resource
+message RetentionPolicy {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/RetentionPolicy"
+    pattern : "retentionPolicies/{retention_policy}"
+    pattern : "projects/{project}/retentionPolicies/{retention_policy}"
+    pattern : "organizations/{organization}/retentionPolicies/"
+              "{retention_policy}"
+  };
+
+  // Name of RetentionPolicy
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,72}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // The resource type this policy applies to.
+  // e.g., "ai.edgelq.com/Conversation"
+  string resource = 3;
+
+  // How long to keep inactive resources before they are eligible for deletion.
+  // For conversations, this is measured from the last_activity_time.
+  google.protobuf.Duration retention_duration = 4;
+
+  // Whether this retention policy is enabled.
+  // Disabled policies are ignored during garbage collection.
+  bool enabled = 5;
+
+  // Human-readable display name for this policy.
+  string display_name = 6;
+
+  // Optional description of this policy.
+  string description = 7;
+}

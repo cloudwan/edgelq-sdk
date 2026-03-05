@@ -16,12 +16,14 @@ import (
 	plan_client "github.com/cloudwan/edgelq-sdk/limits/client/v1/plan"
 	plan_assignment_client "github.com/cloudwan/edgelq-sdk/limits/client/v1/plan_assignment"
 	plan_assignment_request_client "github.com/cloudwan/edgelq-sdk/limits/client/v1/plan_assignment_request"
+	retention_policy_client "github.com/cloudwan/edgelq-sdk/limits/client/v1/retention_policy"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1/accepted_plan"
 	limit "github.com/cloudwan/edgelq-sdk/limits/resources/v1/limit"
 	limit_pool "github.com/cloudwan/edgelq-sdk/limits/resources/v1/limit_pool"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan"
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan_assignment"
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan_assignment_request"
+	retention_policy "github.com/cloudwan/edgelq-sdk/limits/resources/v1/retention_policy"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -43,6 +45,8 @@ var (
 	_ = &plan_assignment_request_client.GetPlanAssignmentRequestRequest{}
 	_ = &plan_assignment_client.GetPlanAssignmentRequest{}
 	_ = &plan_client.GetPlanRequest{}
+	_ = &retention_policy.RetentionPolicy{}
+	_ = &retention_policy_client.GetRetentionPolicyRequest{}
 )
 
 type LimitsClient interface {
@@ -52,6 +56,7 @@ type LimitsClient interface {
 	plan_assignment_request_client.PlanAssignmentRequestServiceClient
 	plan_assignment_client.PlanAssignmentServiceClient
 	plan_client.PlanServiceClient
+	retention_policy_client.RetentionPolicyServiceClient
 }
 
 type limitsClient struct {
@@ -61,6 +66,7 @@ type limitsClient struct {
 	plan_assignment_request_client.PlanAssignmentRequestServiceClient
 	plan_assignment_client.PlanAssignmentServiceClient
 	plan_client.PlanServiceClient
+	retention_policy_client.RetentionPolicyServiceClient
 }
 
 func NewLimitsClient(cc grpc.ClientConnInterface) LimitsClient {
@@ -71,5 +77,6 @@ func NewLimitsClient(cc grpc.ClientConnInterface) LimitsClient {
 		PlanAssignmentRequestServiceClient: plan_assignment_request_client.NewPlanAssignmentRequestServiceClient(cc),
 		PlanAssignmentServiceClient:        plan_assignment_client.NewPlanAssignmentServiceClient(cc),
 		PlanServiceClient:                  plan_client.NewPlanServiceClient(cc),
+		RetentionPolicyServiceClient:       retention_policy_client.NewRetentionPolicyServiceClient(cc),
 	}
 }

@@ -13,6 +13,7 @@ import (
 	plan_access "github.com/cloudwan/edgelq-sdk/limits/access/v1/plan"
 	plan_assignment_access "github.com/cloudwan/edgelq-sdk/limits/access/v1/plan_assignment"
 	plan_assignment_request_access "github.com/cloudwan/edgelq-sdk/limits/access/v1/plan_assignment_request"
+	retention_policy_access "github.com/cloudwan/edgelq-sdk/limits/access/v1/retention_policy"
 	limits_client "github.com/cloudwan/edgelq-sdk/limits/client/v1/limits"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1/accepted_plan"
 	limit "github.com/cloudwan/edgelq-sdk/limits/resources/v1/limit"
@@ -20,6 +21,7 @@ import (
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan"
 	plan_assignment "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan_assignment"
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan_assignment_request"
+	retention_policy "github.com/cloudwan/edgelq-sdk/limits/resources/v1/retention_policy"
 )
 
 type LimitsApiAccess interface {
@@ -31,6 +33,7 @@ type LimitsApiAccess interface {
 	plan.PlanAccess
 	plan_assignment.PlanAssignmentAccess
 	plan_assignment_request.PlanAssignmentRequestAccess
+	retention_policy.RetentionPolicyAccess
 }
 
 type apiLimitsAccess struct {
@@ -42,6 +45,7 @@ type apiLimitsAccess struct {
 	plan.PlanAccess
 	plan_assignment.PlanAssignmentAccess
 	plan_assignment_request.PlanAssignmentRequestAccess
+	retention_policy.RetentionPolicyAccess
 }
 
 func NewApiAccess(client limits_client.LimitsClient) LimitsApiAccess {
@@ -52,6 +56,7 @@ func NewApiAccess(client limits_client.LimitsClient) LimitsApiAccess {
 	planAccess := plan_access.NewApiPlanAccess(client)
 	planAssignmentAccess := plan_assignment_access.NewApiPlanAssignmentAccess(client)
 	planAssignmentRequestAccess := plan_assignment_request_access.NewApiPlanAssignmentRequestAccess(client)
+	retentionPolicyAccess := retention_policy_access.NewApiRetentionPolicyAccess(client)
 
 	return &apiLimitsAccess{
 		Access: gotenresource.NewCompositeAccess(
@@ -62,6 +67,7 @@ func NewApiAccess(client limits_client.LimitsClient) LimitsApiAccess {
 			plan.AsAnyCastAccess(planAccess),
 			plan_assignment.AsAnyCastAccess(planAssignmentAccess),
 			plan_assignment_request.AsAnyCastAccess(planAssignmentRequestAccess),
+			retention_policy.AsAnyCastAccess(retentionPolicyAccess),
 		),
 
 		AcceptedPlanAccess:          acceptedPlanAccess,
@@ -70,5 +76,6 @@ func NewApiAccess(client limits_client.LimitsClient) LimitsApiAccess {
 		PlanAccess:                  planAccess,
 		PlanAssignmentAccess:        planAssignmentAccess,
 		PlanAssignmentRequestAccess: planAssignmentRequestAccess,
+		RetentionPolicyAccess:       retentionPolicyAccess,
 	}
 }
