@@ -1699,6 +1699,10 @@ func (AlertPathSelectorState) AiRemediation() AlertPathSelectorStateAiRemediatio
 	return AlertPathSelectorStateAiRemediation{}
 }
 
+func (AlertPathSelectorState) AiConversation() AlertPathSelectorStateAiConversation {
+	return AlertPathSelectorStateAiConversation{}
+}
+
 func (AlertPathSelectorState) OperatorHandlingState() AlertPathSelectorStateOperatorHandlingState {
 	return AlertPathSelectorStateOperatorHandlingState{}
 }
@@ -1974,6 +1978,23 @@ func (s AlertPathSelectorStateAiRemediationReboot) WithValue(value *rcommon.Poli
 }
 
 func (s AlertPathSelectorStateAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+type AlertPathSelectorStateAiConversation struct{}
+
+func (AlertPathSelectorStateAiConversation) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorState,
+		subPath:  NewAlertStateFieldPathBuilder().AiConversation().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorStateAiConversation) WithValue(value string) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorStateAiConversation) WithArrayOfValues(values []string) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -2677,6 +2698,9 @@ func (AlertStateFieldPathBuilder) AiRemediationArg() Alert_StatePathSelectorAiRe
 func (AlertStateFieldPathBuilder) AiRemediation() Alert_StatePathSelectorAiRemediation {
 	return Alert_StatePathSelectorAiRemediation{}
 }
+func (AlertStateFieldPathBuilder) AiConversation() Alert_StatePathSelectorAiConversation {
+	return Alert_StatePathSelectorAiConversation{}
+}
 func (AlertStateFieldPathBuilder) OperatorHandlingState() Alert_StatePathSelectorOperatorHandlingState {
 	return Alert_StatePathSelectorOperatorHandlingState{}
 }
@@ -2951,6 +2975,20 @@ func (s Alert_StatePathSelectorAiRemediationReboot) WithValue(value *rcommon.Pol
 
 func (s Alert_StatePathSelectorAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *AlertState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldSubPathArrayOfValues)
+}
+
+type Alert_StatePathSelectorAiConversation struct{}
+
+func (Alert_StatePathSelectorAiConversation) FieldPath() *AlertState_FieldTerminalPath {
+	return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiConversation}
+}
+
+func (s Alert_StatePathSelectorAiConversation) WithValue(value string) *AlertState_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertState_FieldTerminalPathValue)
+}
+
+func (s Alert_StatePathSelectorAiConversation) WithArrayOfValues(values []string) *AlertState_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldTerminalPathArrayOfValues)
 }
 
 type Alert_StatePathSelectorOperatorHandlingState struct{}

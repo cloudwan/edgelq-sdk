@@ -1082,6 +1082,7 @@ func FullAlert_State_FieldMask() *Alert_State_FieldMask {
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiAgentDiagnosisNotes})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiRemediationArg})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiRemediation})
+	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiConversation})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorOperatorHandlingState})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorOperatorLastStateChangeTime})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorOperatorNotes})
@@ -1104,7 +1105,7 @@ func (fieldMask *Alert_State_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 14)
+	presentSelectors := make([]bool, 15)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertState_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1134,7 +1135,7 @@ func (fieldMask *Alert_State_FieldMask) Reset() {
 
 func (fieldMask *Alert_State_FieldMask) Subtract(other *Alert_State_FieldMask) *Alert_State_FieldMask {
 	result := &Alert_State_FieldMask{}
-	removedSelectors := make([]bool, 14)
+	removedSelectors := make([]bool, 15)
 	otherSubMasks := map[AlertState_FieldPathSelector]gotenobject.FieldMask{
 		AlertState_FieldPathSelectorNotificationStatuses: &Alert_State_Notification_FieldMask{},
 		AlertState_FieldPathSelectorAiRemediation:        &rcommon.PolicySpec_AIAgentHandling_Remediation_FieldMask{},
@@ -1353,6 +1354,8 @@ func (fieldMask *Alert_State_FieldMask) Project(source *Alert_State) *Alert_Stat
 			case AlertState_FieldPathSelectorAiRemediation:
 				result.AiRemediation = source.AiRemediation
 				wholeAiRemediationAccepted = true
+			case AlertState_FieldPathSelectorAiConversation:
+				result.AiConversation = source.AiConversation
 			case AlertState_FieldPathSelectorOperatorHandlingState:
 				result.OperatorHandlingState = source.OperatorHandlingState
 			case AlertState_FieldPathSelectorOperatorLastStateChangeTime:

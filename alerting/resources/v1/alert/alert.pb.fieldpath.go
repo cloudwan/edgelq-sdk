@@ -3029,10 +3029,11 @@ const (
 	AlertState_FieldPathSelectorAiAgentDiagnosisNotes       AlertState_FieldPathSelector = 7
 	AlertState_FieldPathSelectorAiRemediationArg            AlertState_FieldPathSelector = 8
 	AlertState_FieldPathSelectorAiRemediation               AlertState_FieldPathSelector = 9
-	AlertState_FieldPathSelectorOperatorHandlingState       AlertState_FieldPathSelector = 10
-	AlertState_FieldPathSelectorOperatorLastStateChangeTime AlertState_FieldPathSelector = 11
-	AlertState_FieldPathSelectorOperatorNotes               AlertState_FieldPathSelector = 12
-	AlertState_FieldPathSelectorLifecycleCompleted          AlertState_FieldPathSelector = 13
+	AlertState_FieldPathSelectorAiConversation              AlertState_FieldPathSelector = 10
+	AlertState_FieldPathSelectorOperatorHandlingState       AlertState_FieldPathSelector = 11
+	AlertState_FieldPathSelectorOperatorLastStateChangeTime AlertState_FieldPathSelector = 12
+	AlertState_FieldPathSelectorOperatorNotes               AlertState_FieldPathSelector = 13
+	AlertState_FieldPathSelectorLifecycleCompleted          AlertState_FieldPathSelector = 14
 )
 
 func (s AlertState_FieldPathSelector) String() string {
@@ -3057,6 +3058,8 @@ func (s AlertState_FieldPathSelector) String() string {
 		return "ai_remediation_arg"
 	case AlertState_FieldPathSelectorAiRemediation:
 		return "ai_remediation"
+	case AlertState_FieldPathSelectorAiConversation:
+		return "ai_conversation"
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		return "operator_handling_state"
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3096,6 +3099,8 @@ func BuildAlertState_FieldPath(fp gotenobject.RawFieldPath) (AlertState_FieldPat
 			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiRemediationArg}, nil
 		case "ai_remediation", "aiRemediation", "ai-remediation":
 			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiRemediation}, nil
+		case "ai_conversation", "aiConversation", "ai-conversation":
+			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiConversation}, nil
 		case "operator_handling_state", "operatorHandlingState", "operator-handling-state":
 			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorOperatorHandlingState}, nil
 		case "operator_last_state_change_time", "operatorLastStateChangeTime", "operator-last-state-change-time":
@@ -3194,6 +3199,8 @@ func (fp *AlertState_FieldTerminalPath) Get(source *Alert_State) (values []inter
 			if source.AiRemediation != nil {
 				values = append(values, source.AiRemediation)
 			}
+		case AlertState_FieldPathSelectorAiConversation:
+			values = append(values, source.AiConversation)
 		case AlertState_FieldPathSelectorOperatorHandlingState:
 			values = append(values, source.OperatorHandlingState)
 		case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3243,6 +3250,8 @@ func (fp *AlertState_FieldTerminalPath) GetSingle(source *Alert_State) (interfac
 	case AlertState_FieldPathSelectorAiRemediation:
 		res := source.GetAiRemediation()
 		return res, res != nil
+	case AlertState_FieldPathSelectorAiConversation:
+		return source.GetAiConversation(), source != nil
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		return source.GetOperatorHandlingState(), source != nil
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3284,6 +3293,8 @@ func (fp *AlertState_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case AlertState_FieldPathSelectorAiRemediation:
 		return (*rcommon.PolicySpec_AIAgentHandling_Remediation)(nil)
+	case AlertState_FieldPathSelectorAiConversation:
+		return ""
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		return Alert_State_OP_NOT_INVOLVED
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3320,6 +3331,8 @@ func (fp *AlertState_FieldTerminalPath) ClearValue(item *Alert_State) {
 			item.AiRemediationArg = ""
 		case AlertState_FieldPathSelectorAiRemediation:
 			item.AiRemediation = nil
+		case AlertState_FieldPathSelectorAiConversation:
+			item.AiConversation = ""
 		case AlertState_FieldPathSelectorOperatorHandlingState:
 			item.OperatorHandlingState = Alert_State_OP_NOT_INVOLVED
 		case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3348,6 +3361,7 @@ func (fp *AlertState_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AlertState_FieldPathSelectorAiAgentLastStateChangeTime ||
 		fp.selector == AlertState_FieldPathSelectorAiAgentDiagnosisNotes ||
 		fp.selector == AlertState_FieldPathSelectorAiRemediationArg ||
+		fp.selector == AlertState_FieldPathSelectorAiConversation ||
 		fp.selector == AlertState_FieldPathSelectorOperatorHandlingState ||
 		fp.selector == AlertState_FieldPathSelectorOperatorLastStateChangeTime ||
 		fp.selector == AlertState_FieldPathSelectorOperatorNotes ||
@@ -3380,6 +3394,8 @@ func (fp *AlertState_FieldTerminalPath) WithIValue(value interface{}) AlertState
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(string)}
 	case AlertState_FieldPathSelectorAiRemediation:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)}
+	case AlertState_FieldPathSelectorAiConversation:
+		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(string)}
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(Alert_State_OperatorHandlingState)}
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3420,6 +3436,8 @@ func (fp *AlertState_FieldTerminalPath) WithIArrayOfValues(values interface{}) A
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]string)}
 	case AlertState_FieldPathSelectorAiRemediation:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation)}
+	case AlertState_FieldPathSelectorAiConversation:
+		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]string)}
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]Alert_State_OperatorHandlingState)}
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3659,6 +3677,10 @@ func (fpv *AlertState_FieldTerminalPathValue) AsAiRemediationValue() (*rcommon.P
 	res, ok := fpv.value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)
 	return res, ok
 }
+func (fpv *AlertState_FieldTerminalPathValue) AsAiConversationValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *AlertState_FieldTerminalPathValue) AsOperatorHandlingStateValue() (Alert_State_OperatorHandlingState, bool) {
 	res, ok := fpv.value.(Alert_State_OperatorHandlingState)
 	return res, ok
@@ -3702,6 +3724,8 @@ func (fpv *AlertState_FieldTerminalPathValue) SetTo(target **Alert_State) {
 		(*target).AiRemediationArg = fpv.value.(string)
 	case AlertState_FieldPathSelectorAiRemediation:
 		(*target).AiRemediation = fpv.value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)
+	case AlertState_FieldPathSelectorAiConversation:
+		(*target).AiConversation = fpv.value.(string)
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		(*target).OperatorHandlingState = fpv.value.(Alert_State_OperatorHandlingState)
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3834,6 +3858,16 @@ func (fpv *AlertState_FieldTerminalPathValue) CompareWith(source *Alert_State) (
 		}
 	case AlertState_FieldPathSelectorAiRemediation:
 		return 0, false
+	case AlertState_FieldPathSelectorAiConversation:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAiConversation()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		leftValue := fpv.value.(Alert_State_OperatorHandlingState)
 		rightValue := source.GetOperatorHandlingState()
@@ -4119,6 +4153,10 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation) {
 			values = append(values, v)
 		}
+	case AlertState_FieldPathSelectorAiConversation:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		for _, v := range fpaov.values.([]Alert_State_OperatorHandlingState) {
 			values = append(values, v)
@@ -4176,6 +4214,10 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsAiRemediationArgArrayO
 }
 func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsAiRemediationArrayOfValues() ([]*rcommon.PolicySpec_AIAgentHandling_Remediation, bool) {
 	res, ok := fpaov.values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation)
+	return res, ok
+}
+func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsAiConversationArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsOperatorHandlingStateArrayOfValues() ([]Alert_State_OperatorHandlingState, bool) {

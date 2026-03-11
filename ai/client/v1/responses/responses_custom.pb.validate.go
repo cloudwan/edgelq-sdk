@@ -21,6 +21,7 @@ import (
 // proto imports
 import (
 	common_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/common"
+	provider_client "github.com/cloudwan/edgelq-sdk/ai/client/v1/provider"
 	capability_template "github.com/cloudwan/edgelq-sdk/ai/resources/v1/capability_template"
 	chat_model "github.com/cloudwan/edgelq-sdk/ai/resources/v1/chat_model"
 	conversation "github.com/cloudwan/edgelq-sdk/ai/resources/v1/conversation"
@@ -48,6 +49,7 @@ var (
 	_ = &chat_model.ChatModel{}
 	_ = &common_client.Message{}
 	_ = &conversation.Conversation{}
+	_ = &provider_client.ProviderChatRequest{}
 	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_user.User{}
 	_ = &wrapperspb.DoubleValue{}
@@ -88,6 +90,11 @@ func (obj *CreateRequest) GotenValidate() error {
 	if subobj, ok := interface{}(obj.ResumeConfig).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("CreateRequest", "resumeConfig", obj.ResumeConfig, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.ResponseFormat).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CreateRequest", "responseFormat", obj.ResponseFormat, "nested object validation failed", err)
 		}
 	}
 	switch opt := obj.ServerToolsConfig.(type) {
@@ -375,6 +382,11 @@ func (obj *InputOverrides) GotenValidate() error {
 func (obj *GenerationParameters) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if subobj, ok := interface{}(obj.ResponseFormat).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("GenerationParameters", "responseFormat", obj.ResponseFormat, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

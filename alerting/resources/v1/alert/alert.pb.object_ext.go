@@ -662,6 +662,9 @@ func (o *Alert_State) MakeDiffFieldMask(other *Alert_State) *Alert_State_FieldMa
 			}
 		}
 	}
+	if o.GetAiConversation() != other.GetAiConversation() {
+		res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiConversation})
+	}
 	if o.GetOperatorHandlingState() != other.GetOperatorHandlingState() {
 		res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorOperatorHandlingState})
 	}
@@ -699,6 +702,7 @@ func (o *Alert_State) Clone() *Alert_State {
 	result.AiAgentDiagnosisNotes = o.AiAgentDiagnosisNotes
 	result.AiRemediationArg = o.AiRemediationArg
 	result.AiRemediation = o.AiRemediation.Clone()
+	result.AiConversation = o.AiConversation
 	result.OperatorHandlingState = o.OperatorHandlingState
 	result.OperatorLastStateChangeTime = proto.Clone(o.OperatorLastStateChangeTime).(*timestamppb.Timestamp)
 	result.OperatorNotes = o.OperatorNotes
@@ -758,6 +762,7 @@ func (o *Alert_State) Merge(source *Alert_State) {
 		}
 		o.AiRemediation.Merge(source.GetAiRemediation())
 	}
+	o.AiConversation = source.GetAiConversation()
 	o.OperatorHandlingState = source.GetOperatorHandlingState()
 	if source.GetOperatorLastStateChangeTime() != nil {
 		if o.OperatorLastStateChangeTime == nil {

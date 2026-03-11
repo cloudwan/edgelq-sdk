@@ -209,6 +209,10 @@ message Alert {
     // to execute.
     PolicySpec.AIAgentHandling.Remediation ai_remediation = 10;
 
+    // Optional AI conversation reference used for troubleshooting.
+    // Format: "projects/{project}/conversations/{conversation}"
+    string ai_conversation = 15;
+
     // Informs current state of alert handling by Operator if
     // escalation level is OPERATOR. If alert is on AI_AGENT side,
     // it will contain last decision made by operator.

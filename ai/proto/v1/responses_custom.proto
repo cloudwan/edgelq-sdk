@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.ai.v1;
 
 import "edgelq-sdk/ai/proto/v1/common.proto";
+import "edgelq-sdk/ai/proto/v1/provider_types.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";
 
@@ -70,6 +71,9 @@ message CreateRequest {
   // reasoning settings, etc. — only tool discovery is skipped.
   // Useful for one-shot request/response flows that don't need tool calls.
   bool skip_tool_discovery = 17;
+
+  // Response format constraint (e.g., JSON output)
+  ResponseFormat response_format = 18;
 
   reserved 3, 10, 11;
 }
@@ -212,6 +216,9 @@ message GenerationParameters {
   ReasoningLevel reasoning_level = 3;
 
   google.protobuf.BoolValue disable_input_token_cache = 4;
+
+  // Response format constraint (e.g., JSON output)
+  ResponseFormat response_format = 5;
 }
 
 // Server → Client messages for ChatStream

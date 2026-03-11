@@ -5058,6 +5058,10 @@ func (b *filterCndBuilderState) AiRemediation() *filterCndBuilderStateAiRemediat
 	return &filterCndBuilderStateAiRemediation{builder: b.builder}
 }
 
+func (b *filterCndBuilderState) AiConversation() *filterCndBuilderStateAiConversation {
+	return &filterCndBuilderStateAiConversation{builder: b.builder}
+}
+
 func (b *filterCndBuilderState) OperatorHandlingState() *filterCndBuilderStateOperatorHandlingState {
 	return &filterCndBuilderStateOperatorHandlingState{builder: b.builder}
 }
@@ -5981,6 +5985,65 @@ func (b *filterCndBuilderStateAiRemediationReboot) compare(op gotenfilter.Compar
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:             op,
 		Alert_FieldPathValue: NewAlertFieldPathBuilder().State().AiRemediation().Reboot().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateAiConversation struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateAiConversation) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateAiConversation) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateAiConversation) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateAiConversation) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateAiConversation) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateAiConversation) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateAiConversation) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().State().AiConversation().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateAiConversation) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().State().AiConversation().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateAiConversation) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertFieldPathBuilder().State().AiConversation().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateAiConversation) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertFieldPathBuilder().State().AiConversation().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateAiConversation) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:             op,
+		Alert_FieldPathValue: NewAlertFieldPathBuilder().State().AiConversation().WithValue(value),
 	})
 }
 
