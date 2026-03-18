@@ -63,6 +63,7 @@ type DeviceAccess interface {
 	GetDevice(context.Context, *GetQuery, ...gotenresource.GetOption) (*Device, error)
 	BatchGetDevices(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryDevices(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchDevices(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchDevice(context.Context, *GetQuery, func(*DeviceChange) error) error
 	WatchDevices(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveDevice(context.Context, *Device, ...gotenresource.SaveOption) error
@@ -96,7 +97,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for Device")
+	if asDeviceQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchDevices(ctx, asDeviceQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected Device, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

@@ -49,6 +49,7 @@ type PodAccess interface {
 	GetPod(context.Context, *GetQuery, ...gotenresource.GetOption) (*Pod, error)
 	BatchGetPods(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryPods(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchPods(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchPod(context.Context, *GetQuery, func(*PodChange) error) error
 	WatchPods(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SavePod(context.Context, *Pod, ...gotenresource.SaveOption) error
@@ -82,7 +83,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for Pod")
+	if asPodQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchPods(ctx, asPodQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected Pod, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

@@ -82,6 +82,8 @@ resources:
   - ""
 
 - name: Device
+  optIns:
+    searchable: true
   parents:
   - Project
   scopeAttributes:

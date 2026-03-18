@@ -281,3 +281,31 @@ func (obj *DeleteDeviceRequest) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *SearchDevicesRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if !(obj.PageSize >= 0) {
+		return gotenvalidate.NewValidationError("SearchDevicesRequest", "pageSize", obj.PageSize, "field must be greater or equal to 0", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *SearchDevicesResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Devices {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("SearchDevicesResponse", "devices", obj.Devices[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

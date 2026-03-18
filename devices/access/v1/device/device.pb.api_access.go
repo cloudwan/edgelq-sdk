@@ -148,6 +148,42 @@ func (a *apiDeviceAccess) QueryDevices(ctx context.Context, query *device.ListQu
 	}, nil
 }
 
+func (a *apiDeviceAccess) SearchDevices(ctx context.Context, query *device.SearchQuery, opts ...gotenresource.QueryOption) (*device.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &device_client.SearchDevicesRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchDevices(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &device.QueryResultSnapshot{
+		Devices:           resp.Devices,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiDeviceAccess) WatchDevice(ctx context.Context, query *device.GetQuery, observerCb func(*device.DeviceChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

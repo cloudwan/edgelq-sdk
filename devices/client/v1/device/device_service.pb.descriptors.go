@@ -41,6 +41,7 @@ var (
 	createDeviceDescriptor                    *CreateDeviceDescriptor
 	updateDeviceDescriptor                    *UpdateDeviceDescriptor
 	deleteDeviceDescriptor                    *DeleteDeviceDescriptor
+	searchDevicesDescriptor                   *SearchDevicesDescriptor
 	getDedicatedEndpointsDescriptor           *GetDedicatedEndpointsDescriptor
 	provisionServiceAccountToDeviceDescriptor *ProvisionServiceAccountToDeviceDescriptor
 	removeServiceAccountFromDeviceDescriptor  *RemoveServiceAccountFromDeviceDescriptor
@@ -1860,6 +1861,235 @@ func GetDeleteDeviceDescriptor() *DeleteDeviceDescriptor {
 	return deleteDeviceDescriptor
 }
 
+type SearchDevicesDescriptor struct{}
+
+type SearchDevicesDescriptorClientMsgHandle struct{}
+
+type SearchDevicesDescriptorServerMsgHandle struct{}
+
+func (d *SearchDevicesDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchDevicesRequest{}
+}
+
+func (d *SearchDevicesDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchDevicesResponse{}
+}
+
+func (d *SearchDevicesDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchDevicesDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchDevicesDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchDevicesDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchDevicesDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchDevicesDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchDevicesDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchDevicesDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchDevicesDescriptor) GetMethodName() string {
+	return "SearchDevices"
+}
+
+func (d *SearchDevicesDescriptor) GetFullMethodName() string {
+	return "/ntt.devices.v1.DeviceService/SearchDevices"
+}
+
+func (d *SearchDevicesDescriptor) GetProtoPkgName() string {
+	return "ntt.devices.v1"
+}
+
+func (d *SearchDevicesDescriptor) GetApiName() string {
+	return "DeviceService"
+}
+
+func (d *SearchDevicesDescriptor) GetServiceDomain() string {
+	return "devices.edgelq.com"
+}
+
+func (d *SearchDevicesDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchDevicesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return deviceServiceDescriptor
+}
+
+func (d *SearchDevicesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return device.GetDescriptor()
+}
+
+func (d *SearchDevicesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchDevicesDescriptorClientMsgHandle{}
+}
+
+func (d *SearchDevicesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchDevicesDescriptorServerMsgHandle{}
+}
+
+func (h *SearchDevicesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchDevicesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchDevicesRequest) *device.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDevicesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchDevicesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchDevicesRequest) []*device.Name
+	})
+	if ok {
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchDevicesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchDevicesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchDevicesRequest) *device.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*device.ParentName)(nil)
+}
+
+func (h *SearchDevicesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchDevicesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchDevicesRequest) *device.Device
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDevicesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchDevicesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchDevicesRequest) []*device.Device
+	})
+	if ok {
+		return device.DeviceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchDevicesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchDevicesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchDevicesResponse) *device.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDevicesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchDevicesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchDevicesResponse) []*device.Name
+	})
+	if ok {
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetDevices(); len(resources) > 0 {
+			list := make(device.DeviceNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (device.DeviceNameList)(nil)
+}
+
+func (h *SearchDevicesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchDevicesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchDevicesResponse) *device.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDevicesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchDevicesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchDevicesResponse) *device.Device
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDevicesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchDevicesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchDevicesResponse) []*device.Device
+	})
+	if ok {
+		return device.DeviceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetDevices(); len(resources) > 0 {
+			return device.DeviceList(resources)
+		}
+	}
+	return (device.DeviceList)(nil)
+}
+
+func GetSearchDevicesDescriptor() *SearchDevicesDescriptor {
+	return searchDevicesDescriptor
+}
+
 type GetDedicatedEndpointsDescriptor struct{}
 
 type GetDedicatedEndpointsDescriptorClientMsgHandle struct{}
@@ -2947,6 +3177,7 @@ func (d *DeviceServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDes
 		createDeviceDescriptor,
 		updateDeviceDescriptor,
 		deleteDeviceDescriptor,
+		searchDevicesDescriptor,
 		getDedicatedEndpointsDescriptor,
 		provisionServiceAccountToDeviceDescriptor,
 		removeServiceAccountFromDeviceDescriptor,
@@ -2989,6 +3220,7 @@ func initDescriptors() {
 	createDeviceDescriptor = &CreateDeviceDescriptor{}
 	updateDeviceDescriptor = &UpdateDeviceDescriptor{}
 	deleteDeviceDescriptor = &DeleteDeviceDescriptor{}
+	searchDevicesDescriptor = &SearchDevicesDescriptor{}
 	getDedicatedEndpointsDescriptor = &GetDedicatedEndpointsDescriptor{}
 	provisionServiceAccountToDeviceDescriptor = &ProvisionServiceAccountToDeviceDescriptor{}
 	removeServiceAccountFromDeviceDescriptor = &RemoveServiceAccountFromDeviceDescriptor{}
@@ -3003,6 +3235,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteDeviceDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchDevicesDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getDedicatedEndpointsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(provisionServiceAccountToDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(removeServiceAccountFromDeviceDescriptor)

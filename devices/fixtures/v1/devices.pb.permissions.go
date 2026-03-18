@@ -445,6 +445,13 @@ func MakeDevicesPermissionsManifest(defaultRegionId string, byNameRing *sharding
 			},
 			{
 				Resource: &iamrperm.Permission{
+					Name:        iamrperm.NewNameBuilder().SetServiceId("devices.edgelq.com").SetId("devices.search").Name(),
+					Title:       "Devices Device SearchDevices",
+					Description: "Allows for performing SearchDevices method on Device resource.",
+				},
+			},
+			{
+				Resource: &iamrperm.Permission{
 					Name:        iamrperm.NewNameBuilder().SetServiceId("devices.edgelq.com").SetId("devices.update").Name(),
 					Title:       "Devices Device UpdateDevice",
 					Description: "Allows for performing UpdateDevice method on Device resource.",

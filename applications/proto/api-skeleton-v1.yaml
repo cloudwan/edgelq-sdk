@@ -20,6 +20,8 @@ resources:
     isPolicyHolder: true
 
 - name: Pod
+  optIns:
+    searchable: true
   parents:
   - Project
   scopeAttributes:

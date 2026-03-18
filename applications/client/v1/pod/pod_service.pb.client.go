@@ -57,6 +57,7 @@ type PodServiceClient interface {
 	CreatePod(ctx context.Context, in *CreatePodRequest, opts ...grpc.CallOption) (*pod.Pod, error)
 	UpdatePod(ctx context.Context, in *UpdatePodRequest, opts ...grpc.CallOption) (*pod.Pod, error)
 	DeletePod(ctx context.Context, in *DeletePodRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchPods(ctx context.Context, in *SearchPodsRequest, opts ...grpc.CallOption) (*SearchPodsResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdatePod(ctx context.Context, in *UpdatePodRequest, opts ...gr
 func (c *client) DeletePod(ctx context.Context, in *DeletePodRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.applications.v1.PodService/DeletePod", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchPods(ctx context.Context, in *SearchPodsRequest, opts ...grpc.CallOption) (*SearchPodsResponse, error) {
+	out := new(SearchPodsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.applications.v1.PodService/SearchPods", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -186,6 +186,13 @@ func MakeApplicationsPermissionsManifest(defaultRegionId string, byNameRing *sha
 			},
 			{
 				Resource: &iamrperm.Permission{
+					Name:        iamrperm.NewNameBuilder().SetServiceId("applications.edgelq.com").SetId("pods.search").Name(),
+					Title:       "Applications Pod SearchPods",
+					Description: "Allows for performing SearchPods method on Pod resource.",
+				},
+			},
+			{
+				Resource: &iamrperm.Permission{
 					Name:        iamrperm.NewNameBuilder().SetServiceId("applications.edgelq.com").SetId("pods.update").Name(),
 					Title:       "Applications Pod UpdatePod",
 					Description: "Allows for performing UpdatePod method on Pod resource.",

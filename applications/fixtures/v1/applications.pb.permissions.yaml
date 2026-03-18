@@ -71,6 +71,9 @@ resources:
 - name: services/applications.edgelq.com/permissions/pods.list
   title: Applications Pod ListPods
   description: Allows for performing ListPods method on Pod resource.
+- name: services/applications.edgelq.com/permissions/pods.search
+  title: Applications Pod SearchPods
+  description: Allows for performing SearchPods method on Pod resource.
 - name: services/applications.edgelq.com/permissions/pods.update
   title: Applications Pod UpdatePod
   description: Allows for performing UpdatePod method on Pod resource.

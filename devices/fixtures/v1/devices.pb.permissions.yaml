@@ -182,6 +182,9 @@ resources:
 - name: services/devices.edgelq.com/permissions/devices.reportDeviceMetrics
   title: Devices Device ReportDeviceMetrics
   description: Allows for performing ReportDeviceMetrics method on Device resource.
+- name: services/devices.edgelq.com/permissions/devices.search
+  title: Devices Device SearchDevices
+  description: Allows for performing SearchDevices method on Device resource.
 - name: services/devices.edgelq.com/permissions/devices.update
   title: Devices Device UpdateDevice
   description: Allows for performing UpdateDevice method on Device resource.

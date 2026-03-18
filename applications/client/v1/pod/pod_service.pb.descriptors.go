@@ -41,6 +41,7 @@ var (
 	createPodDescriptor    *CreatePodDescriptor
 	updatePodDescriptor    *UpdatePodDescriptor
 	deletePodDescriptor    *DeletePodDescriptor
+	searchPodsDescriptor   *SearchPodsDescriptor
 )
 
 type GetPodDescriptor struct{}
@@ -1855,6 +1856,235 @@ func GetDeletePodDescriptor() *DeletePodDescriptor {
 	return deletePodDescriptor
 }
 
+type SearchPodsDescriptor struct{}
+
+type SearchPodsDescriptorClientMsgHandle struct{}
+
+type SearchPodsDescriptorServerMsgHandle struct{}
+
+func (d *SearchPodsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchPodsRequest{}
+}
+
+func (d *SearchPodsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchPodsResponse{}
+}
+
+func (d *SearchPodsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchPodsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchPodsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchPodsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchPodsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchPodsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchPodsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchPodsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchPodsDescriptor) GetMethodName() string {
+	return "SearchPods"
+}
+
+func (d *SearchPodsDescriptor) GetFullMethodName() string {
+	return "/ntt.applications.v1.PodService/SearchPods"
+}
+
+func (d *SearchPodsDescriptor) GetProtoPkgName() string {
+	return "ntt.applications.v1"
+}
+
+func (d *SearchPodsDescriptor) GetApiName() string {
+	return "PodService"
+}
+
+func (d *SearchPodsDescriptor) GetServiceDomain() string {
+	return "applications.edgelq.com"
+}
+
+func (d *SearchPodsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchPodsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return podServiceDescriptor
+}
+
+func (d *SearchPodsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return pod.GetDescriptor()
+}
+
+func (d *SearchPodsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchPodsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchPodsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchPodsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchPodsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchPodsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchPodsRequest) *pod.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPodsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchPodsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchPodsRequest) []*pod.Name
+	})
+	if ok {
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchPodsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchPodsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchPodsRequest) *pod.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*pod.ParentName)(nil)
+}
+
+func (h *SearchPodsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchPodsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchPodsRequest) *pod.Pod
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPodsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchPodsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchPodsRequest) []*pod.Pod
+	})
+	if ok {
+		return pod.PodList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchPodsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchPodsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchPodsResponse) *pod.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPodsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchPodsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchPodsResponse) []*pod.Name
+	})
+	if ok {
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetPods(); len(resources) > 0 {
+			list := make(pod.PodNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (pod.PodNameList)(nil)
+}
+
+func (h *SearchPodsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchPodsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchPodsResponse) *pod.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPodsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchPodsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchPodsResponse) *pod.Pod
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPodsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchPodsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchPodsResponse) []*pod.Pod
+	})
+	if ok {
+		return pod.PodList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetPods(); len(resources) > 0 {
+			return pod.PodList(resources)
+		}
+	}
+	return (pod.PodList)(nil)
+}
+
+func GetSearchPodsDescriptor() *SearchPodsDescriptor {
+	return searchPodsDescriptor
+}
+
 type PodServiceDescriptor struct{}
 
 func (d *PodServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2097,7 @@ func (d *PodServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescri
 		createPodDescriptor,
 		updatePodDescriptor,
 		deletePodDescriptor,
+		searchPodsDescriptor,
 	}
 }
 
@@ -1904,6 +2135,7 @@ func initDescriptors() {
 	createPodDescriptor = &CreatePodDescriptor{}
 	updatePodDescriptor = &UpdatePodDescriptor{}
 	deletePodDescriptor = &DeletePodDescriptor{}
+	searchPodsDescriptor = &SearchPodsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(podServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getPodDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetPodsDescriptor)
@@ -1913,6 +2145,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createPodDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updatePodDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deletePodDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchPodsDescriptor)
 }
 
 func init() {
