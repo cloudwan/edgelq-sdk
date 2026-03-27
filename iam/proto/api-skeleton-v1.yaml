@@ -315,6 +315,26 @@ resources:
     withStoreHandle:
       transaction: SNAPSHOT
 
+  - name: UpdateUserName
+    verb: updateUserName
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+  - name: ResetPassword
+    verb: resetPassword
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+
   - name: SetUsersNameInAuth0
     verb: setUsersNameInAuth0
     opResourceInfo:

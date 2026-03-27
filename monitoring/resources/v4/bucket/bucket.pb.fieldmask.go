@@ -206,6 +206,9 @@ func (fieldMask *Bucket_FieldMask) FromProtoFieldMask(protoFieldMask *googlefiel
 	fieldMask.Paths = make([]Bucket_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseBucket_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -484,6 +487,9 @@ func (fieldMask *Bucket_ResolvedValues_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]BucketResolvedValues_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseBucketResolvedValues_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -740,6 +746,9 @@ func (fieldMask *Bucket_ResolvedKeysWithValues_FieldMask) FromProtoFieldMask(pro
 	fieldMask.Paths = make([]BucketResolvedKeysWithValues_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseBucketResolvedKeysWithValues_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -982,6 +991,9 @@ func (fieldMask *Bucket_RequiredTypedLabels_FieldMask) FromProtoFieldMask(protoF
 	fieldMask.Paths = make([]BucketRequiredTypedLabels_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseBucketRequiredTypedLabels_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1228,6 +1240,9 @@ func (fieldMask *Bucket_RequiredTypedLabels_Strings_FieldMask) FromProtoFieldMas
 	fieldMask.Paths = make([]BucketRequiredTypedLabelsStrings_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseBucketRequiredTypedLabelsStrings_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

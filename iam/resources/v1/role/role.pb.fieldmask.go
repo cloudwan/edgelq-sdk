@@ -226,6 +226,9 @@ func (fieldMask *Role_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldm
 	fieldMask.Paths = make([]Role_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRole_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -528,6 +531,9 @@ func (fieldMask *Role_ScopeParamType_FieldMask) FromProtoFieldMask(protoFieldMas
 	fieldMask.Paths = make([]RoleScopeParamType_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRoleScopeParamType_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -796,6 +802,9 @@ func (fieldMask *Role_Grant_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]RoleGrant_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRoleGrant_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1066,6 +1075,9 @@ func (fieldMask *Role_Grant_FieldCondition_FieldMask) FromProtoFieldMask(protoFi
 	fieldMask.Paths = make([]RoleGrantFieldCondition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRoleGrantFieldCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1333,6 +1345,9 @@ func (fieldMask *ScopeParam_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]ScopeParam_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseScopeParam_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1627,6 +1642,9 @@ func (fieldMask *ScopeParam_StringValue_FieldMask) FromProtoFieldMask(protoField
 	fieldMask.Paths = make([]ScopeParamStringValue_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseScopeParamStringValue_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1855,6 +1873,9 @@ func (fieldMask *ScopeParam_ArrayOfStringsValue_FieldMask) FromProtoFieldMask(pr
 	fieldMask.Paths = make([]ScopeParamArrayOfStringsValue_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseScopeParamArrayOfStringsValue_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2084,6 +2105,9 @@ func (fieldMask *ScopeParam_FromValue_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]ScopeParamFromValue_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseScopeParamFromValue_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

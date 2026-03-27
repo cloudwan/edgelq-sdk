@@ -233,6 +233,9 @@ func (fieldMask *MetricDescriptor_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]MetricDescriptor_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseMetricDescriptor_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -552,6 +555,9 @@ func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) FromProtoF
 	fieldMask.Paths = make([]MetricDescriptorMetricDescriptorMetadata_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseMetricDescriptorMetricDescriptorMetadata_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -806,6 +812,9 @@ func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) FromProtoFieldMask(protoF
 	fieldMask.Paths = make([]MetricDescriptorIndexSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseMetricDescriptorIndexSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1047,6 +1056,9 @@ func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) FromProtoFieldMask(pr
 	fieldMask.Paths = make([]MetricDescriptorStorageConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseMetricDescriptorStorageConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1276,6 +1288,9 @@ func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) FromProtoFieldMask(
 	fieldMask.Paths = make([]MetricDescriptorIndexSpecIndex_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseMetricDescriptorIndexSpecIndex_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1533,6 +1548,9 @@ func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) From
 	fieldMask.Paths = make([]MetricDescriptorIndexSpecPerMonitoredResource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseMetricDescriptorIndexSpecPerMonitoredResource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

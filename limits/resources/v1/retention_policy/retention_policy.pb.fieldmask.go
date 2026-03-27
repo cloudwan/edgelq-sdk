@@ -201,6 +201,9 @@ func (fieldMask *RetentionPolicy_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]RetentionPolicy_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRetentionPolicy_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

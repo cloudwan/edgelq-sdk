@@ -206,6 +206,9 @@ func (fieldMask *AlertingCondition_FieldMask) FromProtoFieldMask(protoFieldMask 
 	fieldMask.Paths = make([]AlertingCondition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -502,6 +505,9 @@ func (fieldMask *AlertingCondition_Spec_FieldMask) FromProtoFieldMask(protoField
 	fieldMask.Paths = make([]AlertingConditionSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingConditionSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -751,6 +757,9 @@ func (fieldMask *AlertingCondition_State_FieldMask) FromProtoFieldMask(protoFiel
 	fieldMask.Paths = make([]AlertingConditionState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingConditionState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1016,6 +1025,9 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) FromProtoFieldMask
 	fieldMask.Paths = make([]AlertingConditionSpecTimeSeries_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingConditionSpecTimeSeries_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1277,6 +1289,9 @@ func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) FromProtoFieldMask(pr
 	fieldMask.Paths = make([]AlertingConditionSpecTrigger_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingConditionSpecTrigger_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1536,6 +1551,9 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) FromProtoFie
 	fieldMask.Paths = make([]AlertingConditionSpecTimeSeriesQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingConditionSpecTimeSeriesQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1786,6 +1804,9 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Threshold_FieldMask) FromProt
 	fieldMask.Paths = make([]AlertingConditionSpecTimeSeriesThreshold_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingConditionSpecTimeSeriesThreshold_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2017,6 +2038,9 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) F
 	fieldMask.Paths = make([]AlertingConditionSpecTimeSeriesCombineThreshold_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingConditionSpecTimeSeriesCombineThreshold_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

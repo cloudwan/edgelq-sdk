@@ -193,6 +193,9 @@ func (fieldMask *Deployment_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]Deployment_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeployment_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

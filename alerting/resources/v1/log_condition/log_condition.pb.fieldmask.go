@@ -217,6 +217,9 @@ func (fieldMask *LogCondition_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]LogCondition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -494,6 +497,9 @@ func (fieldMask *LogCondition_Internal_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]LogConditionInternal_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogConditionInternal_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -723,6 +729,9 @@ func (fieldMask *LogCondition_TemplateSource_FieldMask) FromProtoFieldMask(proto
 	fieldMask.Paths = make([]LogConditionTemplateSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogConditionTemplateSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

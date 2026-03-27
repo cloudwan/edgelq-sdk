@@ -476,6 +476,20 @@ service UserService {
     };
   }
 
+  // UpdateUserName
+  rpc UpdateUserName(UpdateUserNameRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/users:updateUserName"
+    };
+  }
+
+  // ResetPassword
+  rpc ResetPassword(ResetPasswordRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/users:resetPassword"
+    };
+  }
+
   // SetUsersNameInAuth0
   rpc SetUsersNameInAuth0(SetUsersNameInAuth0Request)
       returns (google.protobuf.Empty) {

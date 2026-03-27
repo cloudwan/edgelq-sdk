@@ -213,6 +213,9 @@ func (fieldMask *Project_FieldMask) FromProtoFieldMask(protoFieldMask *googlefie
 	fieldMask.Paths = make([]Project_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProject_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

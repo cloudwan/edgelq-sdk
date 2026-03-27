@@ -206,6 +206,9 @@ func (fieldMask *NotificationChannel_FieldMask) FromProtoFieldMask(protoFieldMas
 	fieldMask.Paths = make([]NotificationChannel_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannel_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -498,6 +501,9 @@ func (fieldMask *NotificationChannel_State_FieldMask) FromProtoFieldMask(protoFi
 	fieldMask.Paths = make([]NotificationChannelState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannelState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -740,6 +746,9 @@ func (fieldMask *NotificationChannel_State_Error_FieldMask) FromProtoFieldMask(p
 	fieldMask.Paths = make([]NotificationChannelStateError_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannelStateError_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

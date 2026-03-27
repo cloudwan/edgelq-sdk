@@ -202,6 +202,9 @@ func (fieldMask *Hardware_FieldMask) FromProtoFieldMask(protoFieldMask *googlefi
 	fieldMask.Paths = make([]Hardware_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseHardware_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

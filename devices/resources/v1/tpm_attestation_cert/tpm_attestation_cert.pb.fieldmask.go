@@ -196,6 +196,9 @@ func (fieldMask *TpmAttestationCert_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]TpmAttestationCert_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTpmAttestationCert_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

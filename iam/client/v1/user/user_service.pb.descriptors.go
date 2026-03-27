@@ -49,6 +49,8 @@ var (
 	resendVerificationEmailDescriptor   *ResendVerificationEmailDescriptor
 	isUserVerifiedDescriptor            *IsUserVerifiedDescriptor
 	resetMFAIfRecoveryKeyUsedDescriptor *ResetMFAIfRecoveryKeyUsedDescriptor
+	updateUserNameDescriptor            *UpdateUserNameDescriptor
+	resetPasswordDescriptor             *ResetPasswordDescriptor
 	setUsersNameInAuth0Descriptor       *SetUsersNameInAuth0Descriptor
 	deleteUsersByCriteriaDescriptor     *DeleteUsersByCriteriaDescriptor
 )
@@ -3266,6 +3268,394 @@ func GetResetMFAIfRecoveryKeyUsedDescriptor() *ResetMFAIfRecoveryKeyUsedDescript
 	return resetMFAIfRecoveryKeyUsedDescriptor
 }
 
+type UpdateUserNameDescriptor struct{}
+
+type UpdateUserNameDescriptorClientMsgHandle struct{}
+
+type UpdateUserNameDescriptorServerMsgHandle struct{}
+
+func (d *UpdateUserNameDescriptor) NewEmptyClientMsg() proto.Message {
+	return &UpdateUserNameRequest{}
+}
+
+func (d *UpdateUserNameDescriptor) NewEmptyServerMsg() proto.Message {
+	return &emptypb.Empty{}
+}
+
+func (d *UpdateUserNameDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *UpdateUserNameDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *UpdateUserNameDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *UpdateUserNameDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *UpdateUserNameDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *UpdateUserNameDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *UpdateUserNameDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *UpdateUserNameDescriptor) GetVerb() string {
+	return "updateUserName"
+}
+
+func (d *UpdateUserNameDescriptor) GetMethodName() string {
+	return "UpdateUserName"
+}
+
+func (d *UpdateUserNameDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.UserService/UpdateUserName"
+}
+
+func (d *UpdateUserNameDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *UpdateUserNameDescriptor) GetApiName() string {
+	return "UserService"
+}
+
+func (d *UpdateUserNameDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *UpdateUserNameDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *UpdateUserNameDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return userServiceDescriptor
+}
+
+func (d *UpdateUserNameDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return user.GetDescriptor()
+}
+
+func (d *UpdateUserNameDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &UpdateUserNameDescriptorClientMsgHandle{}
+}
+
+func (d *UpdateUserNameDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &UpdateUserNameDescriptorServerMsgHandle{}
+}
+
+func (h *UpdateUserNameDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*UpdateUserNameRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*UpdateUserNameRequest) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*UpdateUserNameRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*UpdateUserNameRequest) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*UpdateUserNameRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*UpdateUserNameRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*UpdateUserNameRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*UpdateUserNameRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*emptypb.Empty) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *UpdateUserNameDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetUpdateUserNameDescriptor() *UpdateUserNameDescriptor {
+	return updateUserNameDescriptor
+}
+
+type ResetPasswordDescriptor struct{}
+
+type ResetPasswordDescriptorClientMsgHandle struct{}
+
+type ResetPasswordDescriptorServerMsgHandle struct{}
+
+func (d *ResetPasswordDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ResetPasswordRequest{}
+}
+
+func (d *ResetPasswordDescriptor) NewEmptyServerMsg() proto.Message {
+	return &emptypb.Empty{}
+}
+
+func (d *ResetPasswordDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *ResetPasswordDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *ResetPasswordDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *ResetPasswordDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *ResetPasswordDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *ResetPasswordDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ResetPasswordDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ResetPasswordDescriptor) GetVerb() string {
+	return "resetPassword"
+}
+
+func (d *ResetPasswordDescriptor) GetMethodName() string {
+	return "ResetPassword"
+}
+
+func (d *ResetPasswordDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.UserService/ResetPassword"
+}
+
+func (d *ResetPasswordDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *ResetPasswordDescriptor) GetApiName() string {
+	return "UserService"
+}
+
+func (d *ResetPasswordDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *ResetPasswordDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *ResetPasswordDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return userServiceDescriptor
+}
+
+func (d *ResetPasswordDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return user.GetDescriptor()
+}
+
+func (d *ResetPasswordDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ResetPasswordDescriptorClientMsgHandle{}
+}
+
+func (d *ResetPasswordDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ResetPasswordDescriptorServerMsgHandle{}
+}
+
+func (h *ResetPasswordDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ResetPasswordRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ResetPasswordRequest) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResetPasswordDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ResetPasswordRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ResetPasswordRequest) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResetPasswordDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ResetPasswordDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ResetPasswordRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ResetPasswordRequest) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResetPasswordDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ResetPasswordRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ResetPasswordRequest) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResetPasswordDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResetPasswordDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*emptypb.Empty) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResetPasswordDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ResetPasswordDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *user.User
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResetPasswordDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*user.User
+	})
+	if ok {
+		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetResetPasswordDescriptor() *ResetPasswordDescriptor {
+	return resetPasswordDescriptor
+}
+
 type SetUsersNameInAuth0Descriptor struct{}
 
 type SetUsersNameInAuth0DescriptorClientMsgHandle struct{}
@@ -3674,6 +4064,8 @@ func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescr
 		resendVerificationEmailDescriptor,
 		isUserVerifiedDescriptor,
 		resetMFAIfRecoveryKeyUsedDescriptor,
+		updateUserNameDescriptor,
+		resetPasswordDescriptor,
 		setUsersNameInAuth0Descriptor,
 		deleteUsersByCriteriaDescriptor,
 	}
@@ -3721,6 +4113,8 @@ func initDescriptors() {
 	resendVerificationEmailDescriptor = &ResendVerificationEmailDescriptor{}
 	isUserVerifiedDescriptor = &IsUserVerifiedDescriptor{}
 	resetMFAIfRecoveryKeyUsedDescriptor = &ResetMFAIfRecoveryKeyUsedDescriptor{}
+	updateUserNameDescriptor = &UpdateUserNameDescriptor{}
+	resetPasswordDescriptor = &ResetPasswordDescriptor{}
 	setUsersNameInAuth0Descriptor = &SetUsersNameInAuth0Descriptor{}
 	deleteUsersByCriteriaDescriptor = &DeleteUsersByCriteriaDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(userServiceDescriptor)
@@ -3740,6 +4134,8 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(resendVerificationEmailDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(isUserVerifiedDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(resetMFAIfRecoveryKeyUsedDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(updateUserNameDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(resetPasswordDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(setUsersNameInAuth0Descriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteUsersByCriteriaDescriptor)
 }

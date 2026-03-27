@@ -181,6 +181,9 @@ func (fieldMask *Point_FieldMask) FromProtoFieldMask(protoFieldMask *googlefield
 	fieldMask.Paths = make([]Point_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePoint_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -482,6 +485,9 @@ func (fieldMask *TimeSerie_FieldMask) FromProtoFieldMask(protoFieldMask *googlef
 	fieldMask.Paths = make([]TimeSerie_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTimeSerie_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -782,6 +788,9 @@ func (fieldMask *BulkTimeSeries_FieldMask) FromProtoFieldMask(protoFieldMask *go
 	fieldMask.Paths = make([]BulkTimeSeries_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseBulkTimeSeries_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

@@ -231,6 +231,9 @@ func (fieldMask *CapabilityTemplate_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]CapabilityTemplate_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseCapabilityTemplate_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -542,6 +545,9 @@ func (fieldMask *PromptAppendTemplate_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]PromptAppendTemplate_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePromptAppendTemplate_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -807,6 +813,9 @@ func (fieldMask *RAGConfig_FieldMask) FromProtoFieldMask(protoFieldMask *googlef
 	fieldMask.Paths = make([]RAGConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRAGConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1063,6 +1072,9 @@ func (fieldMask *IndexingPolicy_FieldMask) FromProtoFieldMask(protoFieldMask *go
 	fieldMask.Paths = make([]IndexingPolicy_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseIndexingPolicy_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1300,6 +1312,9 @@ func (fieldMask *RetrievalLimits_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]RetrievalLimits_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRetrievalLimits_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1535,6 +1550,9 @@ func (fieldMask *ReasoningConfig_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]ReasoningConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseReasoningConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1767,6 +1785,9 @@ func (fieldMask *ToolSafetyConfig_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]ToolSafetyConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseToolSafetyConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2003,6 +2024,9 @@ func (fieldMask *UserPromptTemplate_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]UserPromptTemplate_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseUserPromptTemplate_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2260,6 +2284,9 @@ func (fieldMask *TemplateVariable_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]TemplateVariable_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTemplateVariable_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

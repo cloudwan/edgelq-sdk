@@ -220,6 +220,9 @@ func (fieldMask *ChatModel_FieldMask) FromProtoFieldMask(protoFieldMask *googlef
 	fieldMask.Paths = make([]ChatModel_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseChatModel_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -563,6 +566,9 @@ func (fieldMask *ChatModel_OpenAICompatible_FieldMask) FromProtoFieldMask(protoF
 	fieldMask.Paths = make([]ChatModelOpenAICompatible_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseChatModelOpenAICompatible_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -806,6 +812,9 @@ func (fieldMask *ChatModel_Anthropic_FieldMask) FromProtoFieldMask(protoFieldMas
 	fieldMask.Paths = make([]ChatModelAnthropic_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseChatModelAnthropic_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1042,6 +1051,9 @@ func (fieldMask *ChatModel_Gemini_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]ChatModelGemini_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseChatModelGemini_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1278,6 +1290,9 @@ func (fieldMask *ChatModel_AzureOpenAi_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]ChatModelAzureOpenAi_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseChatModelAzureOpenAi_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1518,6 +1533,9 @@ func (fieldMask *ChatModel_Cost_FieldMask) FromProtoFieldMask(protoFieldMask *go
 	fieldMask.Paths = make([]ChatModelCost_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseChatModelCost_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

@@ -217,6 +217,9 @@ func (fieldMask *PlanAssignmentRequest_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]PlanAssignmentRequest_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePlanAssignmentRequest_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -483,6 +486,9 @@ func (fieldMask *PlanAssignmentRequest_Status_FieldMask) FromProtoFieldMask(prot
 	fieldMask.Paths = make([]PlanAssignmentRequestStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePlanAssignmentRequestStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -749,6 +755,9 @@ func (fieldMask *PlanAssignmentRequest_RequestType_FieldMask) FromProtoFieldMask
 	fieldMask.Paths = make([]PlanAssignmentRequestRequestType_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePlanAssignmentRequestRequestType_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1069,6 +1078,9 @@ func (fieldMask *PlanAssignmentRequest_RequestType_Assign_FieldMask) FromProtoFi
 	fieldMask.Paths = make([]PlanAssignmentRequestRequestTypeAssign_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePlanAssignmentRequestRequestTypeAssign_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1341,6 +1353,9 @@ func (fieldMask *PlanAssignmentRequest_RequestType_Extend_FieldMask) FromProtoFi
 	fieldMask.Paths = make([]PlanAssignmentRequestRequestTypeExtend_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePlanAssignmentRequestRequestTypeExtend_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1585,6 +1600,9 @@ func (fieldMask *PlanAssignmentRequest_RequestType_Unassign_FieldMask) FromProto
 	fieldMask.Paths = make([]PlanAssignmentRequestRequestTypeUnassign_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePlanAssignmentRequestRequestTypeUnassign_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

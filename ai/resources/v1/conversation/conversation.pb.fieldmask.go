@@ -224,6 +224,9 @@ func (fieldMask *Conversation_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]Conversation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConversation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -570,6 +573,9 @@ func (fieldMask *ConversationTurn_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]ConversationTurn_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConversationTurn_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -840,6 +846,9 @@ func (fieldMask *TurnToolsBySourceGroup_FieldMask) FromProtoFieldMask(protoField
 	fieldMask.Paths = make([]TurnToolsBySourceGroup_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTurnToolsBySourceGroup_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1092,6 +1101,9 @@ func (fieldMask *TurnConfig_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]TurnConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTurnConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1341,6 +1353,9 @@ func (fieldMask *ModelUsageStats_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]ModelUsageStats_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseModelUsageStats_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1601,6 +1616,9 @@ func (fieldMask *ReplacedTurnGroup_FieldMask) FromProtoFieldMask(protoFieldMask 
 	fieldMask.Paths = make([]ReplacedTurnGroup_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseReplacedTurnGroup_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

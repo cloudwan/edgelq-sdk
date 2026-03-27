@@ -144,6 +144,9 @@ func (fieldMask *Allowance_FieldMask) FromProtoFieldMask(protoFieldMask *googlef
 	fieldMask.Paths = make([]Allowance_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAllowance_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -375,6 +378,9 @@ func (fieldMask *RegionalDistribution_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]RegionalDistribution_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRegionalDistribution_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

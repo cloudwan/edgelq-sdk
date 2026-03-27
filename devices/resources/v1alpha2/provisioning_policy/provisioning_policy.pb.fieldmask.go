@@ -222,6 +222,9 @@ func (fieldMask *ProvisioningPolicy_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]ProvisioningPolicy_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProvisioningPolicy_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -536,6 +539,9 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) FromProtoFieldMask(protoFiel
 	fieldMask.Paths = make([]ProvisioningPolicySpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProvisioningPolicySpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -804,6 +810,9 @@ func (fieldMask *ProvisioningPolicy_Status_FieldMask) FromProtoFieldMask(protoFi
 	fieldMask.Paths = make([]ProvisioningPolicyStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProvisioningPolicyStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1084,6 +1093,9 @@ func (fieldMask *ProvisioningPolicy_Spec_Template_FieldMask) FromProtoFieldMask(
 	fieldMask.Paths = make([]ProvisioningPolicySpecTemplate_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProvisioningPolicySpecTemplate_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

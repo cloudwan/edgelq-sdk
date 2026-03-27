@@ -160,6 +160,24 @@ func (obj *SetUsersNameInAuth0Request) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *UpdateUserNameRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ResetPasswordRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *DeleteUsersByCriteriaRequest) GotenValidate() error {
 	if obj == nil {
 		return nil

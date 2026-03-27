@@ -206,6 +206,9 @@ func (fieldMask *CustomizedImage_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]CustomizedImage_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseCustomizedImage_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -481,6 +484,9 @@ func (fieldMask *CustomizedImage_Spec_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]CustomizedImageSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseCustomizedImageSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -740,6 +746,9 @@ func (fieldMask *CustomizedImage_Status_FieldMask) FromProtoFieldMask(protoField
 	fieldMask.Paths = make([]CustomizedImageStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseCustomizedImageStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

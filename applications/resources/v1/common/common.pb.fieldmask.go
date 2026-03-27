@@ -193,6 +193,9 @@ func (fieldMask *PodSpec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefie
 	fieldMask.Paths = make([]PodSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -548,6 +551,9 @@ func (fieldMask *PodSpec_Container_FieldMask) FromProtoFieldMask(protoFieldMask 
 	fieldMask.Paths = make([]PodSpecContainer_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodSpecContainer_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -843,6 +849,9 @@ func (fieldMask *PodSpec_ContainerHealthChecks_FieldMask) FromProtoFieldMask(pro
 	fieldMask.Paths = make([]PodSpecContainerHealthChecks_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodSpecContainerHealthChecks_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1072,6 +1081,9 @@ func (fieldMask *PodSpec_Container_ResourceRequirements_FieldMask) FromProtoFiel
 	fieldMask.Paths = make([]PodSpecContainerResourceRequirements_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodSpecContainerResourceRequirements_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1363,6 +1375,9 @@ func (fieldMask *EnvFromSource_FieldMask) FromProtoFieldMask(protoFieldMask *goo
 	fieldMask.Paths = make([]EnvFromSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseEnvFromSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1642,6 +1657,9 @@ func (fieldMask *EnvVar_FieldMask) FromProtoFieldMask(protoFieldMask *googlefiel
 	fieldMask.Paths = make([]EnvVar_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseEnvVar_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1886,6 +1904,9 @@ func (fieldMask *ConfigMapEnvSource_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]ConfigMapEnvSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConfigMapEnvSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2117,6 +2138,9 @@ func (fieldMask *SecretEnvSource_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]SecretEnvSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSecretEnvSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2378,6 +2402,9 @@ func (fieldMask *EnvVarSource_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]EnvVarSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseEnvVarSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2629,6 +2656,9 @@ func (fieldMask *ConfigMapKeySelector_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]ConfigMapKeySelector_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConfigMapKeySelector_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2863,6 +2893,9 @@ func (fieldMask *SecretKeySelector_FieldMask) FromProtoFieldMask(protoFieldMask 
 	fieldMask.Paths = make([]SecretKeySelector_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSecretKeySelector_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3095,6 +3128,9 @@ func (fieldMask *LocalObjectReferenceSecret_FieldMask) FromProtoFieldMask(protoF
 	fieldMask.Paths = make([]LocalObjectReferenceSecret_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLocalObjectReferenceSecret_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3323,6 +3359,9 @@ func (fieldMask *SecurityContext_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]SecurityContext_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSecurityContext_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3588,6 +3627,9 @@ func (fieldMask *Volume_FieldMask) FromProtoFieldMask(protoFieldMask *googlefiel
 	fieldMask.Paths = make([]Volume_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseVolume_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3852,6 +3894,9 @@ func (fieldMask *VolumeMount_FieldMask) FromProtoFieldMask(protoFieldMask *googl
 	fieldMask.Paths = make([]VolumeMount_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseVolumeMount_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4087,6 +4132,9 @@ func (fieldMask *HostPathVolumeSource_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]HostPathVolumeSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseHostPathVolumeSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4346,6 +4394,9 @@ func (fieldMask *SecretVolumeSource_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]SecretVolumeSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSecretVolumeSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4595,6 +4646,9 @@ func (fieldMask *KeyToPath_FieldMask) FromProtoFieldMask(protoFieldMask *googlef
 	fieldMask.Paths = make([]KeyToPath_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseKeyToPath_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4856,6 +4910,9 @@ func (fieldMask *ConfigMapVolumeSource_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]ConfigMapVolumeSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConfigMapVolumeSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

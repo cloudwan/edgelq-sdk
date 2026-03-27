@@ -201,6 +201,9 @@ func (fieldMask *User_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldm
 	fieldMask.Paths = make([]User_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseUser_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -479,6 +482,9 @@ func (fieldMask *User_AuthInfo_FieldMask) FromProtoFieldMask(protoFieldMask *goo
 	fieldMask.Paths = make([]UserAuthInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseUserAuthInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

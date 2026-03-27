@@ -217,6 +217,9 @@ func (fieldMask *PhantomTimeSerie_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]PhantomTimeSerie_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePhantomTimeSerie_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

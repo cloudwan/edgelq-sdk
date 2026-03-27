@@ -267,6 +267,9 @@ func (fieldMask *Alert_FieldMask) FromProtoFieldMask(protoFieldMask *googlefield
 	fieldMask.Paths = make([]Alert_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlert_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -624,6 +627,9 @@ func (fieldMask *Alert_TsInfo_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]AlertTsInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertTsInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -918,6 +924,9 @@ func (fieldMask *Alert_LogInfo_FieldMask) FromProtoFieldMask(protoFieldMask *goo
 	fieldMask.Paths = make([]AlertLogInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertLogInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1221,6 +1230,9 @@ func (fieldMask *Alert_State_FieldMask) FromProtoFieldMask(protoFieldMask *googl
 	fieldMask.Paths = make([]AlertState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1498,6 +1510,9 @@ func (fieldMask *Alert_Internal_FieldMask) FromProtoFieldMask(protoFieldMask *go
 	fieldMask.Paths = make([]AlertInternal_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertInternal_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1762,6 +1777,9 @@ func (fieldMask *Alert_TsInfo_TimeSeries_FieldMask) FromProtoFieldMask(protoFiel
 	fieldMask.Paths = make([]AlertTsInfoTimeSeries_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertTsInfoTimeSeries_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2022,6 +2040,9 @@ func (fieldMask *Alert_State_Notification_FieldMask) FromProtoFieldMask(protoFie
 	fieldMask.Paths = make([]AlertStateNotification_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertStateNotification_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

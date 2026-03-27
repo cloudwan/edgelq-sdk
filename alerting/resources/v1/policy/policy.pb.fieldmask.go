@@ -214,6 +214,9 @@ func (fieldMask *Policy_FieldMask) FromProtoFieldMask(protoFieldMask *googlefiel
 	fieldMask.Paths = make([]Policy_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicy_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -484,6 +487,9 @@ func (fieldMask *Policy_TemplateSource_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]PolicyTemplateSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicyTemplateSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

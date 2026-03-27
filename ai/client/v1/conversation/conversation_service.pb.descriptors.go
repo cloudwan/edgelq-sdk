@@ -41,6 +41,7 @@ var (
 	createConversationDescriptor           *CreateConversationDescriptor
 	updateConversationDescriptor           *UpdateConversationDescriptor
 	deleteConversationDescriptor           *DeleteConversationDescriptor
+	searchConversationsDescriptor          *SearchConversationsDescriptor
 	createConversationFromPromptDescriptor *CreateConversationFromPromptDescriptor
 )
 
@@ -1856,6 +1857,235 @@ func GetDeleteConversationDescriptor() *DeleteConversationDescriptor {
 	return deleteConversationDescriptor
 }
 
+type SearchConversationsDescriptor struct{}
+
+type SearchConversationsDescriptorClientMsgHandle struct{}
+
+type SearchConversationsDescriptorServerMsgHandle struct{}
+
+func (d *SearchConversationsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchConversationsRequest{}
+}
+
+func (d *SearchConversationsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchConversationsResponse{}
+}
+
+func (d *SearchConversationsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchConversationsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchConversationsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchConversationsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchConversationsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchConversationsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchConversationsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchConversationsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchConversationsDescriptor) GetMethodName() string {
+	return "SearchConversations"
+}
+
+func (d *SearchConversationsDescriptor) GetFullMethodName() string {
+	return "/ntt.ai.v1.ConversationService/SearchConversations"
+}
+
+func (d *SearchConversationsDescriptor) GetProtoPkgName() string {
+	return "ntt.ai.v1"
+}
+
+func (d *SearchConversationsDescriptor) GetApiName() string {
+	return "ConversationService"
+}
+
+func (d *SearchConversationsDescriptor) GetServiceDomain() string {
+	return "ai.edgelq.com"
+}
+
+func (d *SearchConversationsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchConversationsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return conversationServiceDescriptor
+}
+
+func (d *SearchConversationsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return conversation.GetDescriptor()
+}
+
+func (d *SearchConversationsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchConversationsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchConversationsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchConversationsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchConversationsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchConversationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchConversationsRequest) *conversation.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConversationsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchConversationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchConversationsRequest) []*conversation.Name
+	})
+	if ok {
+		return conversation.ConversationNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchConversationsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchConversationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchConversationsRequest) *conversation.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*conversation.ParentName)(nil)
+}
+
+func (h *SearchConversationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchConversationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchConversationsRequest) *conversation.Conversation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConversationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchConversationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchConversationsRequest) []*conversation.Conversation
+	})
+	if ok {
+		return conversation.ConversationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchConversationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchConversationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchConversationsResponse) *conversation.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConversationsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchConversationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchConversationsResponse) []*conversation.Name
+	})
+	if ok {
+		return conversation.ConversationNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetConversations(); len(resources) > 0 {
+			list := make(conversation.ConversationNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (conversation.ConversationNameList)(nil)
+}
+
+func (h *SearchConversationsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchConversationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchConversationsResponse) *conversation.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConversationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchConversationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchConversationsResponse) *conversation.Conversation
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConversationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchConversationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchConversationsResponse) []*conversation.Conversation
+	})
+	if ok {
+		return conversation.ConversationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetConversations(); len(resources) > 0 {
+			return conversation.ConversationList(resources)
+		}
+	}
+	return (conversation.ConversationList)(nil)
+}
+
+func GetSearchConversationsDescriptor() *SearchConversationsDescriptor {
+	return searchConversationsDescriptor
+}
+
 type CreateConversationFromPromptDescriptor struct{}
 
 type CreateConversationFromPromptDescriptorClientMsgHandle struct{}
@@ -2089,6 +2319,7 @@ func (d *ConversationServiceDescriptor) AllMethodDescriptors() []gotenclient.Met
 		createConversationDescriptor,
 		updateConversationDescriptor,
 		deleteConversationDescriptor,
+		searchConversationsDescriptor,
 		createConversationFromPromptDescriptor,
 	}
 }
@@ -2127,6 +2358,7 @@ func initDescriptors() {
 	createConversationDescriptor = &CreateConversationDescriptor{}
 	updateConversationDescriptor = &UpdateConversationDescriptor{}
 	deleteConversationDescriptor = &DeleteConversationDescriptor{}
+	searchConversationsDescriptor = &SearchConversationsDescriptor{}
 	createConversationFromPromptDescriptor = &CreateConversationFromPromptDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(conversationServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getConversationDescriptor)
@@ -2137,6 +2369,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createConversationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateConversationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteConversationDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchConversationsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createConversationFromPromptDescriptor)
 }
 

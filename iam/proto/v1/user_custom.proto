@@ -106,6 +106,14 @@ message ResetMFAIfRecoveryKeyUsedRequest {}
 message SetUsersNameInAuth0Request {}
 
 // Request message for method
+// [UpdateUserName][ntt.iam.v1.UpdateUserName]
+message UpdateUserNameRequest { string name = 1; }
+
+// Request message for method
+// [ResetPassword][ntt.iam.v1.ResetPassword]
+message ResetPasswordRequest {}
+
+// Request message for method
 // [DeleteUsersByCriteria][ntt.iam.v1.DeleteUsersByCriteria]
 message DeleteUsersByCriteriaRequest {
   oneof to_delete {

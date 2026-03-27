@@ -197,6 +197,9 @@ func (fieldMask *SearchDb_FieldMask) FromProtoFieldMask(protoFieldMask *googlefi
 	fieldMask.Paths = make([]SearchDb_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSearchDb_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -461,6 +464,9 @@ func (fieldMask *SearchDb_AzureAiSearch_FieldMask) FromProtoFieldMask(protoField
 	fieldMask.Paths = make([]SearchDbAzureAiSearch_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSearchDbAzureAiSearch_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

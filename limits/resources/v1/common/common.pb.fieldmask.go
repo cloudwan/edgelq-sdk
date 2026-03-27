@@ -153,6 +153,9 @@ func (fieldMask *RegionalPlanAssignment_FieldMask) FromProtoFieldMask(protoField
 	fieldMask.Paths = make([]RegionalPlanAssignment_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRegionalPlanAssignment_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -387,6 +390,9 @@ func (fieldMask *Allowance_FieldMask) FromProtoFieldMask(protoFieldMask *googlef
 	fieldMask.Paths = make([]Allowance_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAllowance_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

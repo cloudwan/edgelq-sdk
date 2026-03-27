@@ -180,6 +180,9 @@ func (fieldMask *LogCndSpec_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]LogCndSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogCndSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -423,6 +426,9 @@ func (fieldMask *LogCndSpec_Query_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]LogCndSpecQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogCndSpecQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -656,6 +662,9 @@ func (fieldMask *LogCndSpec_Query_LabelTrigger_FieldMask) FromProtoFieldMask(pro
 	fieldMask.Paths = make([]LogCndSpecQueryLabelTrigger_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogCndSpecQueryLabelTrigger_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -887,6 +896,9 @@ func (fieldMask *LogCndSpec_Query_StringPayloadTrigger_FieldMask) FromProtoField
 	fieldMask.Paths = make([]LogCndSpecQueryStringPayloadTrigger_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogCndSpecQueryStringPayloadTrigger_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1118,6 +1130,9 @@ func (fieldMask *LogCndSpec_Query_CompositeTrigger_FieldMask) FromProtoFieldMask
 	fieldMask.Paths = make([]LogCndSpecQueryCompositeTrigger_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogCndSpecQueryCompositeTrigger_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1385,6 +1400,9 @@ func (fieldMask *TsCndSpec_FieldMask) FromProtoFieldMask(protoFieldMask *googlef
 	fieldMask.Paths = make([]TsCndSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsCndSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1654,6 +1672,9 @@ func (fieldMask *TsCndSpec_Query_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]TsCndSpecQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsCndSpecQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1921,6 +1942,9 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_FieldMask) FromProtoFieldMask(pr
 	fieldMask.Paths = make([]TsCndSpecThresholdAlertingCfg_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsCndSpecThresholdAlertingCfg_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2204,6 +2228,9 @@ func (fieldMask *TsCndSpec_AnomalyAlertingCfg_FieldMask) FromProtoFieldMask(prot
 	fieldMask.Paths = make([]TsCndSpecAnomalyAlertingCfg_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsCndSpecAnomalyAlertingCfg_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2511,6 +2538,9 @@ func (fieldMask *TsCndSpec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Fr
 	fieldMask.Paths = make([]TsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsCndSpecThresholdAlertingCfgAlertingThresholds_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2795,6 +2825,9 @@ func (fieldMask *TsCndSpec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) FromPro
 	fieldMask.Paths = make([]TsCndSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsCndSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3075,6 +3108,9 @@ func (fieldMask *PolicySpec_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]PolicySpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3368,6 +3404,9 @@ func (fieldMask *PolicySpec_ResourceIdentity_FieldMask) FromProtoFieldMask(proto
 	fieldMask.Paths = make([]PolicySpecResourceIdentity_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecResourceIdentity_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3654,6 +3693,9 @@ func (fieldMask *PolicySpec_SupportingAlertQuery_FieldMask) FromProtoFieldMask(p
 	fieldMask.Paths = make([]PolicySpecSupportingAlertQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecSupportingAlertQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4001,6 +4043,9 @@ func (fieldMask *PolicySpec_AIAgentHandling_FieldMask) FromProtoFieldMask(protoF
 	fieldMask.Paths = make([]PolicySpecAIAgentHandling_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecAIAgentHandling_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4260,6 +4305,9 @@ func (fieldMask *PolicySpec_ResourceIdentity_LabelInfo_FieldMask) FromProtoField
 	fieldMask.Paths = make([]PolicySpecResourceIdentityLabelInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecResourceIdentityLabelInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4520,6 +4568,9 @@ func (fieldMask *PolicySpec_SupportingAlertQuery_TsQuery_FieldMask) FromProtoFie
 	fieldMask.Paths = make([]PolicySpecSupportingAlertQueryTsQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecSupportingAlertQueryTsQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4764,6 +4815,9 @@ func (fieldMask *PolicySpec_SupportingAlertQuery_LogQuery_FieldMask) FromProtoFi
 	fieldMask.Paths = make([]PolicySpecSupportingAlertQueryLogQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecSupportingAlertQueryLogQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4998,6 +5052,9 @@ func (fieldMask *PolicySpec_SupportingAlertQuery_RestGetQuery_FieldMask) FromPro
 	fieldMask.Paths = make([]PolicySpecSupportingAlertQueryRestGetQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecSupportingAlertQueryRestGetQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -5239,6 +5296,9 @@ func (fieldMask *PolicySpec_SupportingAlertQuery_RestListQuery_FieldMask) FromPr
 	fieldMask.Paths = make([]PolicySpecSupportingAlertQueryRestListQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecSupportingAlertQueryRestListQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -5514,6 +5574,9 @@ func (fieldMask *PolicySpec_AIAgentHandling_EdgeConnectivity_FieldMask) FromProt
 	fieldMask.Paths = make([]PolicySpecAIAgentHandlingEdgeConnectivity_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecAIAgentHandlingEdgeConnectivity_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -5839,6 +5902,9 @@ func (fieldMask *PolicySpec_AIAgentHandling_Remediation_FieldMask) FromProtoFiel
 	fieldMask.Paths = make([]PolicySpecAIAgentHandlingRemediation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecAIAgentHandlingRemediation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -6110,6 +6176,9 @@ func (fieldMask *PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH_FieldMask
 	fieldMask.Paths = make([]PolicySpecAIAgentHandlingEdgeConnectivityDeviceSSH_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecAIAgentHandlingEdgeConnectivityDeviceSSH_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -6341,6 +6410,9 @@ func (fieldMask *PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH_FieldMas
 	fieldMask.Paths = make([]PolicySpecAIAgentHandlingEdgeConnectivityProxiesSSH_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecAIAgentHandlingEdgeConnectivityProxiesSSH_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -6576,6 +6648,9 @@ func (fieldMask *PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH_FieldMask) F
 	fieldMask.Paths = make([]PolicySpecAIAgentHandlingEdgeConnectivityPodSSH_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecAIAgentHandlingEdgeConnectivityPodSSH_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -6805,6 +6880,9 @@ func (fieldMask *PolicySpec_AIAgentHandling_Remediation_FixInSSH_FieldMask) From
 	fieldMask.Paths = make([]PolicySpecAIAgentHandlingRemediationFixInSSH_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecAIAgentHandlingRemediationFixInSSH_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -7030,6 +7108,9 @@ func (fieldMask *PolicySpec_AIAgentHandling_Remediation_Reboot_FieldMask) FromPr
 	fieldMask.Paths = make([]PolicySpecAIAgentHandlingRemediationReboot_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePolicySpecAIAgentHandlingRemediationReboot_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -7299,6 +7380,9 @@ func (fieldMask *NotificationChannelSpec_FieldMask) FromProtoFieldMask(protoFiel
 	fieldMask.Paths = make([]NotificationChannelSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannelSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -7572,6 +7656,9 @@ func (fieldMask *NotificationChannelSpec_Email_FieldMask) FromProtoFieldMask(pro
 	fieldMask.Paths = make([]NotificationChannelSpecEmail_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannelSpecEmail_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -7800,6 +7887,9 @@ func (fieldMask *NotificationChannelSpec_Slack_FieldMask) FromProtoFieldMask(pro
 	fieldMask.Paths = make([]NotificationChannelSpecSlack_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannelSpecSlack_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -8028,6 +8118,9 @@ func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) FromProtoFieldMask
 	fieldMask.Paths = make([]NotificationChannelSpecPagerDuty_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannelSpecPagerDuty_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -8284,6 +8377,9 @@ func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) FromProtoFieldMask(p
 	fieldMask.Paths = make([]NotificationChannelSpecWebhook_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannelSpecWebhook_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -8530,6 +8626,9 @@ func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) FromProtoFiel
 	fieldMask.Paths = make([]NotificationChannelSpecWebhookHeader_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationChannelSpecWebhookHeader_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -8761,6 +8860,9 @@ func (fieldMask *AlertingThreshold_FieldMask) FromProtoFieldMask(protoFieldMask 
 	fieldMask.Paths = make([]AlertingThreshold_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingThreshold_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

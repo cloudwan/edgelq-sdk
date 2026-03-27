@@ -199,6 +199,9 @@ func (fieldMask *ProjectInvitation_FieldMask) FromProtoFieldMask(protoFieldMask 
 	fieldMask.Paths = make([]ProjectInvitation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProjectInvitation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

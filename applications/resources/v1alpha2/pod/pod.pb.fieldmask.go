@@ -208,6 +208,9 @@ func (fieldMask *Pod_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldma
 	fieldMask.Paths = make([]Pod_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePod_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -501,6 +504,9 @@ func (fieldMask *Pod_Status_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]PodStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -784,6 +790,9 @@ func (fieldMask *Pod_Status_Container_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]PodStatusContainer_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodStatusContainer_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1048,6 +1057,9 @@ func (fieldMask *Pod_Status_Container_StateWaiting_FieldMask) FromProtoFieldMask
 	fieldMask.Paths = make([]PodStatusContainerStateWaiting_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodStatusContainerStateWaiting_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1278,6 +1290,9 @@ func (fieldMask *Pod_Status_Container_StateRunning_FieldMask) FromProtoFieldMask
 	fieldMask.Paths = make([]PodStatusContainerStateRunning_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodStatusContainerStateRunning_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1512,6 +1527,9 @@ func (fieldMask *Pod_Status_Container_StateTerminated_FieldMask) FromProtoFieldM
 	fieldMask.Paths = make([]PodStatusContainerStateTerminated_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePodStatusContainerStateTerminated_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

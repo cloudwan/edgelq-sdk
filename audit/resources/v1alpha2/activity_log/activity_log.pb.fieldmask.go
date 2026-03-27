@@ -221,6 +221,9 @@ func (fieldMask *ActivityLog_FieldMask) FromProtoFieldMask(protoFieldMask *googl
 	fieldMask.Paths = make([]ActivityLog_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLog_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -604,6 +607,9 @@ func (fieldMask *ActivityLog_Event_FieldMask) FromProtoFieldMask(protoFieldMask 
 	fieldMask.Paths = make([]ActivityLogEvent_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogEvent_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -939,6 +945,9 @@ func (fieldMask *ActivityLog_Method_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]ActivityLogMethod_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogMethod_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1170,6 +1179,9 @@ func (fieldMask *ActivityLog_RequestMetadata_FieldMask) FromProtoFieldMask(proto
 	fieldMask.Paths = make([]ActivityLogRequestMetadata_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogRequestMetadata_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1401,6 +1413,9 @@ func (fieldMask *ActivityLog_RequestRouting_FieldMask) FromProtoFieldMask(protoF
 	fieldMask.Paths = make([]ActivityLogRequestRouting_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogRequestRouting_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1658,6 +1673,9 @@ func (fieldMask *ActivityLog_Resource_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]ActivityLogResource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogResource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1900,6 +1918,9 @@ func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) FromProtoFieldMask(
 	fieldMask.Paths = make([]ActivityLogEventClientMsgEvent_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogEventClientMsgEvent_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2132,6 +2153,9 @@ func (fieldMask *ActivityLog_Event_RegionalServerMsgEvent_FieldMask) FromProtoFi
 	fieldMask.Paths = make([]ActivityLogEventRegionalServerMsgEvent_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogEventRegionalServerMsgEvent_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2365,6 +2389,9 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) FromProtoFieldMask(
 	fieldMask.Paths = make([]ActivityLogEventServerMsgEvent_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogEventServerMsgEvent_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2623,6 +2650,9 @@ func (fieldMask *ActivityLog_Event_RegionalExitEvent_FieldMask) FromProtoFieldMa
 	fieldMask.Paths = make([]ActivityLogEventRegionalExitEvent_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogEventRegionalExitEvent_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2893,6 +2923,9 @@ func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) FromProtoFieldMask(proto
 	fieldMask.Paths = make([]ActivityLogEventExitEvent_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogEventExitEvent_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3136,6 +3169,9 @@ func (fieldMask *ActivityLog_Resource_Difference_FieldMask) FromProtoFieldMask(p
 	fieldMask.Paths = make([]ActivityLogResourceDifference_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActivityLogResourceDifference_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

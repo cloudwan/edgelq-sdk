@@ -212,6 +212,9 @@ func (fieldMask *ConnectorUserToken_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]ConnectorUserToken_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConnectorUserToken_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -492,6 +495,9 @@ func (fieldMask *ConnectorUserTokenSecret_FieldMask) FromProtoFieldMask(protoFie
 	fieldMask.Paths = make([]ConnectorUserTokenSecret_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConnectorUserTokenSecret_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

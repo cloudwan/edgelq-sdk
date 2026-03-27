@@ -211,6 +211,9 @@ func (fieldMask *DeviceHardware_FieldMask) FromProtoFieldMask(protoFieldMask *go
 	fieldMask.Paths = make([]DeviceHardware_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceHardware_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -482,6 +485,9 @@ func (fieldMask *DeviceHardware_Status_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]DeviceHardwareStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceHardwareStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

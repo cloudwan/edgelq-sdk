@@ -202,6 +202,9 @@ func (fieldMask *ProvisioningApprovalRequest_FieldMask) FromProtoFieldMask(proto
 	fieldMask.Paths = make([]ProvisioningApprovalRequest_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProvisioningApprovalRequest_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -464,6 +467,9 @@ func (fieldMask *ProvisioningApprovalRequest_Spec_FieldMask) FromProtoFieldMask(
 	fieldMask.Paths = make([]ProvisioningApprovalRequestSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProvisioningApprovalRequestSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -693,6 +699,9 @@ func (fieldMask *ProvisioningApprovalRequest_Status_FieldMask) FromProtoFieldMas
 	fieldMask.Paths = make([]ProvisioningApprovalRequestStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProvisioningApprovalRequestStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

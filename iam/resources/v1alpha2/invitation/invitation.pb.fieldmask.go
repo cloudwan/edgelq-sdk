@@ -150,6 +150,9 @@ func (fieldMask *Actor_FieldMask) FromProtoFieldMask(protoFieldMask *googlefield
 	fieldMask.Paths = make([]Actor_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseActor_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -414,6 +417,9 @@ func (fieldMask *Invitation_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]Invitation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseInvitation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

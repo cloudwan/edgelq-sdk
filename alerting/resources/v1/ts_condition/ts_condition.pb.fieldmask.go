@@ -223,6 +223,9 @@ func (fieldMask *TsCondition_FieldMask) FromProtoFieldMask(protoFieldMask *googl
 	fieldMask.Paths = make([]TsCondition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -512,6 +515,9 @@ func (fieldMask *TsCondition_Internal_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]TsConditionInternal_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsConditionInternal_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -747,6 +753,9 @@ func (fieldMask *TsCondition_Selector_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]TsConditionSelector_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsConditionSelector_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1011,6 +1020,9 @@ func (fieldMask *TsCondition_TemplateSource_FieldMask) FromProtoFieldMask(protoF
 	fieldMask.Paths = make([]TsConditionTemplateSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsConditionTemplateSource_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1241,6 +1253,9 @@ func (fieldMask *TsCondition_Selector_Strings_FieldMask) FromProtoFieldMask(prot
 	fieldMask.Paths = make([]TsConditionSelectorStrings_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsConditionSelectorStrings_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

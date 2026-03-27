@@ -202,6 +202,9 @@ func (fieldMask *SimCard_FieldMask) FromProtoFieldMask(protoFieldMask *googlefie
 	fieldMask.Paths = make([]SimCard_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSimCard_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -460,6 +463,9 @@ func (fieldMask *SimCard_Status_FieldMask) FromProtoFieldMask(protoFieldMask *go
 	fieldMask.Paths = make([]SimCardStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSimCardStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

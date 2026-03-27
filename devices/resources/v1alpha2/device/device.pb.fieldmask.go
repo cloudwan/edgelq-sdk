@@ -220,6 +220,9 @@ func (fieldMask *Device_FieldMask) FromProtoFieldMask(protoFieldMask *googlefiel
 	fieldMask.Paths = make([]Device_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDevice_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -549,6 +552,9 @@ func (fieldMask *Device_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *googl
 	fieldMask.Paths = make([]DeviceSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -904,6 +910,9 @@ func (fieldMask *Device_Status_FieldMask) FromProtoFieldMask(protoFieldMask *goo
 	fieldMask.Paths = make([]DeviceStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1210,6 +1219,9 @@ func (fieldMask *Device_PublicListingSpec_FieldMask) FromProtoFieldMask(protoFie
 	fieldMask.Paths = make([]DevicePublicListingSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDevicePublicListingSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1448,6 +1460,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_FieldMask) FromProtoFieldMask(prot
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1812,6 +1827,9 @@ func (fieldMask *Device_Spec_NetplanConfig_FieldMask) FromProtoFieldMask(protoFi
 	fieldMask.Paths = make([]DeviceSpecNetplanConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetplanConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2083,6 +2101,9 @@ func (fieldMask *Device_Spec_SSHConfig_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]DeviceSpecSSHConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecSSHConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2338,6 +2359,9 @@ func (fieldMask *Device_Spec_AttestationConfig_FieldMask) FromProtoFieldMask(pro
 	fieldMask.Paths = make([]DeviceSpecAttestationConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecAttestationConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2572,6 +2596,9 @@ func (fieldMask *Device_Spec_LoggingConfig_FieldMask) FromProtoFieldMask(protoFi
 	fieldMask.Paths = make([]DeviceSpecLoggingConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecLoggingConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2807,6 +2834,9 @@ func (fieldMask *Device_Spec_ProxyConfig_FieldMask) FromProtoFieldMask(protoFiel
 	fieldMask.Paths = make([]DeviceSpecProxyConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecProxyConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3042,6 +3072,9 @@ func (fieldMask *Device_Spec_Location_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]DeviceSpecLocation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecLocation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3271,6 +3304,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_FieldMask) FromProtoFie
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigCommonOpts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3570,6 +3606,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_FieldMask) FromProtoFieldM
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigEthOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigEthOpts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3981,6 +4020,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_FieldMask) FromProtoField
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigWifiOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigWifiOpts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4410,6 +4452,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_FieldMask) FromProtoFi
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigBridgesOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigBridgesOpts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -4815,6 +4860,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_FieldMask) FromProtoFiel
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigBondsOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigBondsOpts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -5218,6 +5266,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_FieldMask) FromProtoFi
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigTunnelsOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigTunnelsOpts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -5615,6 +5666,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_VlansOpts_FieldMask) FromProtoFiel
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigVlansOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigVlansOpts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -6016,6 +6070,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_ModemOpts_FieldMask) FromProtoFiel
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigModemOpts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigModemOpts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -6364,6 +6421,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_DHCPOverrides_FieldMask
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigCommonOptsDHCPOverrides_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -6607,6 +6667,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Nameservers_FieldMask) 
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigCommonOptsNameservers_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -6844,6 +6907,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Routes_FieldMask) FromP
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigCommonOptsRoutes_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -7091,6 +7157,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_RoutingPolicy_FieldMask
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigCommonOptsRoutingPolicy_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -7338,6 +7407,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_CommonOpts_Auth_FieldMask) FromPro
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigCommonOptsAuth_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigCommonOptsAuth_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -7586,6 +7658,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_EthOpts_Match_FieldMask) FromProto
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigEthOptsMatch_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigEthOptsMatch_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -7820,6 +7895,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_Match_FieldMask) FromProt
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigWifiOptsMatch_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigWifiOptsMatch_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -8084,6 +8162,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_WifiOpts_AccessPoint_FieldMask) Fr
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigWifiOptsAccessPoint_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -8342,6 +8423,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_BridgesOpts_Parameters_FieldMask) 
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigBridgesOptsParameters_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -8601,6 +8685,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_BondsOpts_Parameters_FieldMask) Fr
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigBondsOptsParameters_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigBondsOptsParameters_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -8864,6 +8951,9 @@ func (fieldMask *Device_Spec_NetworkingConfig_TunnelsOpts_Key_FieldMask) FromPro
 	fieldMask.Paths = make([]DeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecNetworkingConfigTunnelsOptsKey_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -9107,6 +9197,9 @@ func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) FromProtoFieldMask(pro
 	fieldMask.Paths = make([]DeviceSpecSSHConfigAuthKey_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceSpecSSHConfigAuthKey_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -9362,6 +9455,9 @@ func (fieldMask *Device_Status_Address_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]DeviceStatusAddress_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusAddress_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -9597,6 +9693,9 @@ func (fieldMask *Device_Status_Condition_FieldMask) FromProtoFieldMask(protoFiel
 	fieldMask.Paths = make([]DeviceStatusCondition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -9874,6 +9973,9 @@ func (fieldMask *Device_Status_NetworkConfigState_FieldMask) FromProtoFieldMask(
 	fieldMask.Paths = make([]DeviceStatusNetworkConfigState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusNetworkConfigState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -10178,6 +10280,9 @@ func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) FromProtoFieldMask(p
 	fieldMask.Paths = make([]DeviceStatusProxyConfigStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusProxyConfigStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -10482,6 +10587,9 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) FromProtoFieldMask(protoFie
 	fieldMask.Paths = make([]DeviceStatusDeviceInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -10779,6 +10887,9 @@ func (fieldMask *Device_Status_NormalizedAddress_FieldMask) FromProtoFieldMask(p
 	fieldMask.Paths = make([]DeviceStatusNormalizedAddress_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusNormalizedAddress_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -11115,6 +11226,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) FromPro
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -11492,6 +11606,9 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) FromProtoF
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoNetworkInterface_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoNetworkInterface_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -11753,6 +11870,9 @@ func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) F
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -11986,6 +12106,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMa
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationCapability_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationCapability_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -12219,6 +12342,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) From
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationOS_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationOS_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -12455,6 +12581,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) Fr
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationBIOS_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationBIOS_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -12717,6 +12846,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) 
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationSystem_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationSystem_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -12990,6 +13122,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) Fro
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationCPU_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationCPU_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -13257,6 +13392,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) F
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationBlock_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationBlock_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -13524,6 +13662,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask)
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationNetwork_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationNetwork_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -13791,6 +13932,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) Fro
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationGPU_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationGPU_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -14036,6 +14180,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMas
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -14298,6 +14445,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMa
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -14567,6 +14717,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMas
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -14841,6 +14994,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMa
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -15114,6 +15270,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldM
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -15357,6 +15516,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configurati
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -15635,6 +15797,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Fiel
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -15914,6 +16079,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cach
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -16177,6 +16345,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMa
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -16436,6 +16607,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partiti
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -16677,6 +16851,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldM
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -16963,6 +17140,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_Fi
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -17233,6 +17413,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -17486,6 +17669,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -17737,6 +17923,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoMod
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -17983,6 +18172,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -18215,6 +18407,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Regist
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -18472,6 +18667,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGN
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -18715,6 +18913,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settin
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -18977,6 +19178,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Initia
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -19246,6 +19450,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_Fi
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -19526,6 +19733,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeG
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -19796,6 +20006,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_F
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -20038,6 +20251,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -20326,6 +20542,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generi
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -20631,6 +20850,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal5G_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -20868,6 +21090,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalCdma1X_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -21105,6 +21330,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalEvdo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -21343,6 +21571,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalGsm_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -21578,6 +21809,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalLte_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -21815,6 +22049,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalRefresh_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -22045,6 +22282,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalThreshold_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -22279,6 +22519,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalUmts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -22575,6 +22818,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignal_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -22897,6 +23143,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimSta
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -23193,6 +23442,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -23486,6 +23738,9 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Fro
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -23725,6 +23980,9 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) Fr
 	fieldMask.Paths = make([]DeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

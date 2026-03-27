@@ -202,6 +202,9 @@ func (fieldMask *LogConditionTemplate_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]LogConditionTemplate_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLogConditionTemplate_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

@@ -96,6 +96,9 @@ resources:
     skipResponseMsgGen: true
     withStoreHandle:
       transaction: SNAPSHOT
+  optIns:
+    searchable: true
+
 
 - name: ConversationFeedback
   parents:

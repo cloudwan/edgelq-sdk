@@ -228,6 +228,9 @@ func (fieldMask *RoleBinding_FieldMask) FromProtoFieldMask(protoFieldMask *googl
 	fieldMask.Paths = make([]RoleBinding_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRoleBinding_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -524,6 +527,9 @@ func (fieldMask *RoleBinding_Parent_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]RoleBindingParent_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRoleBindingParent_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

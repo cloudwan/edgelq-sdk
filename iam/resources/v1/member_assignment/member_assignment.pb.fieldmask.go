@@ -225,6 +225,9 @@ func (fieldMask *MemberAssignment_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]MemberAssignment_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseMemberAssignment_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -505,6 +508,9 @@ func (fieldMask *MemberAssignment_WorkStatus_FieldMask) FromProtoFieldMask(proto
 	fieldMask.Paths = make([]MemberAssignmentWorkStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseMemberAssignmentWorkStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

@@ -203,6 +203,9 @@ func (fieldMask *TimeSeriesForwarderSink_FieldMask) FromProtoFieldMask(protoFiel
 	fieldMask.Paths = make([]TimeSeriesForwarderSink_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTimeSeriesForwarderSink_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -493,6 +496,9 @@ func (fieldMask *TimeSeriesForwarderSink_Spec_FieldMask) FromProtoFieldMask(prot
 	fieldMask.Paths = make([]TimeSeriesForwarderSinkSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTimeSeriesForwarderSinkSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -745,6 +751,9 @@ func (fieldMask *TimeSeriesForwarderSink_Status_FieldMask) FromProtoFieldMask(pr
 	fieldMask.Paths = make([]TimeSeriesForwarderSinkStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTimeSeriesForwarderSinkStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -973,6 +982,9 @@ func (fieldMask *TimeSeriesForwarderSink_Spec_AzureEventHubSink_FieldMask) FromP
 	fieldMask.Paths = make([]TimeSeriesForwarderSinkSpecAzureEventHubSink_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTimeSeriesForwarderSinkSpecAzureEventHubSink_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

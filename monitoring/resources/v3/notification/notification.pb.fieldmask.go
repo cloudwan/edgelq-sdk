@@ -207,6 +207,9 @@ func (fieldMask *Notification_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]Notification_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotification_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -502,6 +505,9 @@ func (fieldMask *Notification_State_FieldMask) FromProtoFieldMask(protoFieldMask
 	fieldMask.Paths = make([]NotificationState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -803,6 +809,9 @@ func (fieldMask *Notification_State_NotificationState_FieldMask) FromProtoFieldM
 	fieldMask.Paths = make([]NotificationStateNotificationState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationStateNotificationState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1081,6 +1090,9 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Fr
 	fieldMask.Paths = make([]NotificationStateNotificationStateProviderData_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationStateNotificationStateProviderData_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1330,6 +1342,9 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_Slack_FieldMa
 	fieldMask.Paths = make([]NotificationStateNotificationStateProviderDataSlack_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationStateNotificationStateProviderDataSlack_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1559,6 +1574,9 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_Fie
 	fieldMask.Paths = make([]NotificationStateNotificationStateProviderDataPagerDuty_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationStateNotificationStateProviderDataPagerDuty_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

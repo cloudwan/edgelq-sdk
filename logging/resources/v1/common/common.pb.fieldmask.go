@@ -144,6 +144,9 @@ func (fieldMask *LabelDescriptor_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]LabelDescriptor_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLabelDescriptor_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -374,6 +377,9 @@ func (fieldMask *LabelKeySet_FieldMask) FromProtoFieldMask(protoFieldMask *googl
 	fieldMask.Paths = make([]LabelKeySet_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLabelKeySet_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -603,6 +609,9 @@ func (fieldMask *TimeInterval_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]TimeInterval_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTimeInterval_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

@@ -218,6 +218,9 @@ func (fieldMask *Condition_FieldMask) FromProtoFieldMask(protoFieldMask *googlef
 	fieldMask.Paths = make([]Condition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -520,6 +523,9 @@ func (fieldMask *Condition_ParameterDeclaration_FieldMask) FromProtoFieldMask(pr
 	fieldMask.Paths = make([]ConditionParameterDeclaration_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConditionParameterDeclaration_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -751,6 +757,9 @@ func (fieldMask *Condition_IpCondition_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]ConditionIpCondition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConditionIpCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -982,6 +991,9 @@ func (fieldMask *Condition_AttestationCondition_FieldMask) FromProtoFieldMask(pr
 	fieldMask.Paths = make([]ConditionAttestationCondition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseConditionAttestationCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1213,6 +1225,9 @@ func (fieldMask *ExecutableCondition_FieldMask) FromProtoFieldMask(protoFieldMas
 	fieldMask.Paths = make([]ExecutableCondition_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseExecutableCondition_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

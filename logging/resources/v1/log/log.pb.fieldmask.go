@@ -169,6 +169,9 @@ func (fieldMask *Log_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldma
 	fieldMask.Paths = make([]Log_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLog_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

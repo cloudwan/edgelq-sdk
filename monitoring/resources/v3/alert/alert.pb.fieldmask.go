@@ -203,6 +203,9 @@ func (fieldMask *Alert_FieldMask) FromProtoFieldMask(protoFieldMask *googlefield
 	fieldMask.Paths = make([]Alert_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlert_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -497,6 +500,9 @@ func (fieldMask *Alert_Info_FieldMask) FromProtoFieldMask(protoFieldMask *google
 	fieldMask.Paths = make([]AlertInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -778,6 +784,9 @@ func (fieldMask *Alert_State_FieldMask) FromProtoFieldMask(protoFieldMask *googl
 	fieldMask.Paths = make([]AlertState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1061,6 +1070,9 @@ func (fieldMask *Alert_Info_TimeSerie_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]AlertInfoTimeSerie_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertInfoTimeSerie_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1313,6 +1325,9 @@ func (fieldMask *Alert_Info_ObservedValues_FieldMask) FromProtoFieldMask(protoFi
 	fieldMask.Paths = make([]AlertInfoObservedValues_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertInfoObservedValues_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1559,6 +1574,9 @@ func (fieldMask *Alert_State_Threshold_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]AlertStateThreshold_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertStateThreshold_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1786,6 +1804,9 @@ func (fieldMask *Alert_State_CombineThreshold_FieldMask) FromProtoFieldMask(prot
 	fieldMask.Paths = make([]AlertStateCombineThreshold_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertStateCombineThreshold_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2012,6 +2033,9 @@ func (fieldMask *Alert_State_CombineThreshold_PerMetric_FieldMask) FromProtoFiel
 	fieldMask.Paths = make([]AlertStateCombineThresholdPerMetric_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertStateCombineThresholdPerMetric_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

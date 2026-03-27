@@ -146,6 +146,9 @@ func (fieldMask *PCR_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldma
 	fieldMask.Paths = make([]PCR_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParsePCR_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -381,6 +384,9 @@ func (fieldMask *ServiceBusinessTier_FieldMask) FromProtoFieldMask(protoFieldMas
 	fieldMask.Paths = make([]ServiceBusinessTier_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseServiceBusinessTier_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -637,6 +643,9 @@ func (fieldMask *ServiceErrors_FieldMask) FromProtoFieldMask(protoFieldMask *goo
 	fieldMask.Paths = make([]ServiceErrors_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseServiceErrors_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -879,6 +888,9 @@ func (fieldMask *ServiceErrors_Error_FieldMask) FromProtoFieldMask(protoFieldMas
 	fieldMask.Paths = make([]ServiceErrorsError_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseServiceErrorsError_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

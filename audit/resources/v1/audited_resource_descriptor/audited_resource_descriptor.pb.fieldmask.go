@@ -208,6 +208,9 @@ func (fieldMask *AuditedResourceDescriptor_FieldMask) FromProtoFieldMask(protoFi
 	fieldMask.Paths = make([]AuditedResourceDescriptor_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAuditedResourceDescriptor_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

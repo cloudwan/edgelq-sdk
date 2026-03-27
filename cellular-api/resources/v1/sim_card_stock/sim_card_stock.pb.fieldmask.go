@@ -195,6 +195,9 @@ func (fieldMask *SimCardStock_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]SimCardStock_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseSimCardStock_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

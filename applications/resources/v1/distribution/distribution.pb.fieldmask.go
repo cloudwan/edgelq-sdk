@@ -217,6 +217,9 @@ func (fieldMask *Distribution_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]Distribution_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDistribution_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -532,6 +535,9 @@ func (fieldMask *Distribution_Spec_FieldMask) FromProtoFieldMask(protoFieldMask 
 	fieldMask.Paths = make([]DistributionSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDistributionSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -782,6 +788,9 @@ func (fieldMask *Distribution_Status_FieldMask) FromProtoFieldMask(protoFieldMas
 	fieldMask.Paths = make([]DistributionStatus_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDistributionStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1057,6 +1066,9 @@ func (fieldMask *Distribution_Spec_Template_FieldMask) FromProtoFieldMask(protoF
 	fieldMask.Paths = make([]DistributionSpecTemplate_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseDistributionSpecTemplate_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1333,6 +1345,9 @@ func (fieldMask *LabelSelector_FieldMask) FromProtoFieldMask(protoFieldMask *goo
 	fieldMask.Paths = make([]LabelSelector_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLabelSelector_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1594,6 +1609,9 @@ func (fieldMask *LabelSelectorRequirement_FieldMask) FromProtoFieldMask(protoFie
 	fieldMask.Paths = make([]LabelSelectorRequirement_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseLabelSelectorRequirement_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

@@ -49,6 +49,7 @@ type ConversationAccess interface {
 	GetConversation(context.Context, *GetQuery, ...gotenresource.GetOption) (*Conversation, error)
 	BatchGetConversations(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryConversations(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchConversations(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchConversation(context.Context, *GetQuery, func(*ConversationChange) error) error
 	WatchConversations(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveConversation(context.Context, *Conversation, ...gotenresource.SaveOption) error
@@ -82,7 +83,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for Conversation")
+	if asConversationQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchConversations(ctx, asConversationQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected Conversation, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

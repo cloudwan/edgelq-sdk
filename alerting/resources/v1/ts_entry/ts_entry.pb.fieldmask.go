@@ -227,6 +227,9 @@ func (fieldMask *TsEntry_FieldMask) FromProtoFieldMask(protoFieldMask *googlefie
 	fieldMask.Paths = make([]TsEntry_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsEntry_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -527,6 +530,9 @@ func (fieldMask *TsEntry_Info_FieldMask) FromProtoFieldMask(protoFieldMask *goog
 	fieldMask.Paths = make([]TsEntryInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsEntryInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -832,6 +838,9 @@ func (fieldMask *TsEntry_State_FieldMask) FromProtoFieldMask(protoFieldMask *goo
 	fieldMask.Paths = make([]TsEntryState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsEntryState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1092,6 +1101,9 @@ func (fieldMask *TsEntry_Internal_FieldMask) FromProtoFieldMask(protoFieldMask *
 	fieldMask.Paths = make([]TsEntryInternal_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsEntryInternal_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1360,6 +1372,9 @@ func (fieldMask *TsEntry_State_AnomalyModelData_FieldMask) FromProtoFieldMask(pr
 	fieldMask.Paths = make([]TsEntryStateAnomalyModelData_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsEntryStateAnomalyModelData_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1626,6 +1641,9 @@ func (fieldMask *TsEntry_State_AnomalyModelSensitiveness_FieldMask) FromProtoFie
 	fieldMask.Paths = make([]TsEntryStateAnomalyModelSensitiveness_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsEntryStateAnomalyModelSensitiveness_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1889,6 +1907,9 @@ func (fieldMask *TsEntry_State_AdaptiveThresholdInfo_FieldMask) FromProtoFieldMa
 	fieldMask.Paths = make([]TsEntryStateAdaptiveThresholdInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseTsEntryStateAdaptiveThresholdInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

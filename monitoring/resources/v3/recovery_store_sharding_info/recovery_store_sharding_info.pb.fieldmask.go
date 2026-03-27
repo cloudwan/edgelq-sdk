@@ -202,6 +202,9 @@ func (fieldMask *RecoveryStoreShardingInfo_FieldMask) FromProtoFieldMask(protoFi
 	fieldMask.Paths = make([]RecoveryStoreShardingInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRecoveryStoreShardingInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -464,6 +467,9 @@ func (fieldMask *RecoveryStoreShardingInfo_ValidityPeriod_FieldMask) FromProtoFi
 	fieldMask.Paths = make([]RecoveryStoreShardingInfoValidityPeriod_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRecoveryStoreShardingInfoValidityPeriod_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -695,6 +701,9 @@ func (fieldMask *RecoveryStoreShardingInfo_ShardingSpec_FieldMask) FromProtoFiel
 	fieldMask.Paths = make([]RecoveryStoreShardingInfoShardingSpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRecoveryStoreShardingInfoShardingSpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

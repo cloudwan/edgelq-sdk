@@ -65,6 +65,8 @@ type UserServiceClient interface {
 	ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateUserName(ctx context.Context, in *UpdateUserNameRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SetUsersNameInAuth0(ctx context.Context, in *SetUsersNameInAuth0Request, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteUsersByCriteria(ctx context.Context, in *DeleteUsersByCriteriaRequest, opts ...grpc.CallOption) (*DeleteUsersByCriteriaResponse, error)
 }
@@ -271,6 +273,24 @@ func (c *client) IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, 
 func (c *client) ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.UserService/ResetMFAIfRecoveryKeyUsed", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) UpdateUserName(ctx context.Context, in *UpdateUserNameRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.UserService/UpdateUserName", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.UserService/ResetPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

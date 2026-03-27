@@ -201,6 +201,9 @@ func (fieldMask *Region_FieldMask) FromProtoFieldMask(protoFieldMask *googlefiel
 	fieldMask.Paths = make([]Region_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRegion_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -474,6 +477,9 @@ func (fieldMask *Region_RegionLocation_FieldMask) FromProtoFieldMask(protoFieldM
 	fieldMask.Paths = make([]RegionRegionLocation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRegionRegionLocation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -711,6 +717,9 @@ func (fieldMask *Region_RegionConnectivityPreference_FieldMask) FromProtoFieldMa
 	fieldMask.Paths = make([]RegionRegionConnectivityPreference_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseRegionRegionConnectivityPreference_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

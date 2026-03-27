@@ -228,6 +228,9 @@ func (fieldMask *NotificationMsg_FieldMask) FromProtoFieldMask(protoFieldMask *g
 	fieldMask.Paths = make([]NotificationMsg_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsg_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -575,6 +578,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_FieldMask) FromProtoFieldMask(proto
 	fieldMask.Paths = make([]NotificationMsgAlertsGroup_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroup_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -853,6 +859,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_FieldMask) FromProt
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlerts_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlerts_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1166,6 +1175,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_TsCndType_FieldMask
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsTsCndType_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsTsCndType_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1439,6 +1451,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_LogCndType_FieldMas
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsLogCndType_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsLogCndType_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1732,6 +1747,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_FieldMask) Fr
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsAlert_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsAlert_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2044,6 +2062,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_TsCndType_Query_Fie
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsTsCndTypeQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsTsCndTypeQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2289,6 +2310,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_LogCndType_Query_Fi
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsLogCndTypeQuery_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsLogCndTypeQuery_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2522,6 +2546,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_Identificatio
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsAlertIdentification_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsAlertIdentification_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -2824,6 +2851,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3097,6 +3127,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling_Fi
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3344,6 +3377,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_OperatorHandl
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsAlertOperatorHandling_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsAlertOperatorHandling_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -3609,6 +3645,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo
 	fieldMask.Paths = make([]NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseNotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

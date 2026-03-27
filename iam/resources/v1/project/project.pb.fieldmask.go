@@ -177,6 +177,9 @@ func (fieldMask *ProjectFeatureConfig_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]ProjectFeatureConfig_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProjectFeatureConfig_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -416,6 +419,9 @@ func (fieldMask *ProjectFeatureConfig_Ai_FieldMask) FromProtoFieldMask(protoFiel
 	fieldMask.Paths = make([]ProjectFeatureConfigAi_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProjectFeatureConfigAi_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -714,6 +720,9 @@ func (fieldMask *Project_FieldMask) FromProtoFieldMask(protoFieldMask *googlefie
 	fieldMask.Paths = make([]Project_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseProject_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}

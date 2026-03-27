@@ -209,6 +209,9 @@ func (fieldMask *AlertingPolicy_FieldMask) FromProtoFieldMask(protoFieldMask *go
 	fieldMask.Paths = make([]AlertingPolicy_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingPolicy_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -485,6 +488,9 @@ func (fieldMask *AlertingPolicy_Documentation_FieldMask) FromProtoFieldMask(prot
 	fieldMask.Paths = make([]AlertingPolicyDocumentation_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingPolicyDocumentation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -743,6 +749,9 @@ func (fieldMask *AlertingPolicy_Spec_FieldMask) FromProtoFieldMask(protoFieldMas
 	fieldMask.Paths = make([]AlertingPolicySpec_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingPolicySpec_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -986,6 +995,9 @@ func (fieldMask *AlertingPolicy_State_FieldMask) FromProtoFieldMask(protoFieldMa
 	fieldMask.Paths = make([]AlertingPolicyState_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingPolicyState_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
@@ -1215,6 +1227,9 @@ func (fieldMask *AlertingPolicy_Spec_Notification_FieldMask) FromProtoFieldMask(
 	fieldMask.Paths = make([]AlertingPolicySpecNotification_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
 		path, err := ParseAlertingPolicySpecNotification_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
 		if err != nil {
 			return err
 		}
