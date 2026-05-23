@@ -188,6 +188,10 @@ func (d *Descriptor) SupportsDbConstraints() bool {
 	return true
 }
 
+func (d *Descriptor) IsSystemCatalog() bool {
+	return false
+}
+
 func initLogDescriptorDescriptor() {
 	descriptor = &Descriptor{
 		typeName: gotenresource.NewTypeName(

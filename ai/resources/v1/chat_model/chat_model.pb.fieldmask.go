@@ -19,6 +19,7 @@ import (
 
 // proto imports
 import (
+	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -41,6 +42,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &devices_device.Device{}
 	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &secrets_secret.Secret{}
 	_ = &money.Money{}
@@ -471,6 +473,7 @@ func FullChatModel_OpenAICompatible_FieldMask() *ChatModel_OpenAICompatible_Fiel
 	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint})
 	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion})
 	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens})
+	res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorDevice})
 	return res
 }
 
@@ -489,7 +492,7 @@ func (fieldMask *ChatModel_OpenAICompatible_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ChatModelOpenAICompatible_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -519,7 +522,7 @@ func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Reset() {
 
 func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Subtract(other *ChatModel_OpenAICompatible_FieldMask) *ChatModel_OpenAICompatible_FieldMask {
 	result := &ChatModel_OpenAICompatible_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -690,6 +693,8 @@ func (fieldMask *ChatModel_OpenAICompatible_FieldMask) Project(source *ChatModel
 				result.AzureApiVersion = source.AzureApiVersion
 			case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 				result.MaxOutputTokens = source.MaxOutputTokens
+			case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+				result.Device = source.Device
 			}
 		}
 	}

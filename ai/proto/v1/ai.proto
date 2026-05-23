@@ -29,6 +29,7 @@ import "edgelq-sdk/ai/proto/v1/search_index.proto";
 import "edgelq-sdk/ai/proto/v1/search_index_service.proto";
 import "edgelq-sdk/ai/proto/v1/tools_custom.proto";
 import "edgelq-sdk/ai/proto/v1/tools_service.proto";
+import "edgelq-sdk/devices/proto/v1/devices.proto";
 import "edgelq-sdk/iam/proto/v1/iam.proto";
 import "edgelq-sdk/secrets/proto/v1/secrets.proto";
 import "google/api/annotations.proto";

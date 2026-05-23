@@ -6,27 +6,53 @@ package chat_model
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
+	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
+	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
+	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
+	monitoring_bucket "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/bucket"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	money "google.golang.org/genproto/googleapis/type/money"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
+	_ = &devices_device.Device{}
+	_ = &devices_project.Project{}
+	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_service_account.ServiceAccount{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log_descriptor.LogDescriptor{}
+	_ = &monitoring_bucket.Bucket{}
+	_ = &monitoring_project.Project{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
+	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
+	_ = &latlng.LatLng{}
 	_ = &money.Money{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
@@ -953,6 +979,10 @@ func (ChatModelPathSelectorOpenaiCompatible) MaxOutputTokens() ChatModelPathSele
 	return ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens{}
 }
 
+func (ChatModelPathSelectorOpenaiCompatible) Device() ChatModelPathSelectorOpenaiCompatibleDevice {
+	return ChatModelPathSelectorOpenaiCompatibleDevice{}
+}
+
 type ChatModelPathSelectorOpenaiCompatibleApiKey struct{}
 
 func (ChatModelPathSelectorOpenaiCompatibleApiKey) FieldPath() *ChatModel_FieldSubPath {
@@ -1069,6 +1099,23 @@ func (s ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens) WithValue(value in
 }
 
 func (s ChatModelPathSelectorOpenaiCompatibleMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorOpenaiCompatibleDevice struct{}
+
+func (ChatModelPathSelectorOpenaiCompatibleDevice) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorOpenaiCompatible,
+		subPath:  NewChatModelOpenAICompatibleFieldPathBuilder().Device().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleDevice) WithValue(value *devices_device.Reference) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorOpenaiCompatibleDevice) WithArrayOfValues(values []*devices_device.Reference) *ChatModel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
 }
 
@@ -1454,6 +1501,9 @@ func (ChatModelOpenAICompatibleFieldPathBuilder) AzureApiVersion() ChatModel_Ope
 func (ChatModelOpenAICompatibleFieldPathBuilder) MaxOutputTokens() ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens {
 	return ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens{}
 }
+func (ChatModelOpenAICompatibleFieldPathBuilder) Device() ChatModel_OpenAICompatiblePathSelectorDevice {
+	return ChatModel_OpenAICompatiblePathSelectorDevice{}
+}
 
 type ChatModel_OpenAICompatiblePathSelectorApiKey struct{}
 
@@ -1550,6 +1600,20 @@ func (s ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens) WithValue(value i
 }
 
 func (s ChatModel_OpenAICompatiblePathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_OpenAICompatiblePathSelectorDevice struct{}
+
+func (ChatModel_OpenAICompatiblePathSelectorDevice) FieldPath() *ChatModelOpenAICompatible_FieldTerminalPath {
+	return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorDevice}
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorDevice) WithValue(value *devices_device.Reference) *ChatModelOpenAICompatible_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelOpenAICompatible_FieldTerminalPathValue)
+}
+
+func (s ChatModel_OpenAICompatiblePathSelectorDevice) WithArrayOfValues(values []*devices_device.Reference) *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues)
 }
 

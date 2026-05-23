@@ -23,6 +23,7 @@ import (
 
 // proto imports
 import (
+	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -49,6 +50,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &devices_device.Device{}
 	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &secrets_secret.Secret{}
 	_ = &money.Money{}
@@ -1209,6 +1211,7 @@ const (
 	ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint   ChatModelOpenAICompatible_FieldPathSelector = 4
 	ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion ChatModelOpenAICompatible_FieldPathSelector = 5
 	ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens ChatModelOpenAICompatible_FieldPathSelector = 6
+	ChatModelOpenAICompatible_FieldPathSelectorDevice          ChatModelOpenAICompatible_FieldPathSelector = 7
 )
 
 func (s ChatModelOpenAICompatible_FieldPathSelector) String() string {
@@ -1227,6 +1230,8 @@ func (s ChatModelOpenAICompatible_FieldPathSelector) String() string {
 		return "azure_api_version"
 	case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 		return "max_output_tokens"
+	case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+		return "device"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", s))
 	}
@@ -1252,6 +1257,8 @@ func BuildChatModelOpenAICompatible_FieldPath(fp gotenobject.RawFieldPath) (Chat
 			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion}, nil
 		case "max_output_tokens", "maxOutputTokens", "max-output-tokens":
 			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens}, nil
+		case "device":
+			return &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorDevice}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ChatModel_OpenAICompatible", fp)
@@ -1313,6 +1320,10 @@ func (fp *ChatModelOpenAICompatible_FieldTerminalPath) Get(source *ChatModel_Ope
 			values = append(values, source.AzureApiVersion)
 		case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 			values = append(values, source.MaxOutputTokens)
+		case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+			if source.Device != nil {
+				values = append(values, source.Device)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
 		}
@@ -1342,6 +1353,9 @@ func (fp *ChatModelOpenAICompatible_FieldTerminalPath) GetSingle(source *ChatMod
 		return source.GetAzureApiVersion(), source != nil
 	case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 		return source.GetMaxOutputTokens(), source != nil
+	case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+		res := source.GetDevice()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
 	}
@@ -1368,6 +1382,8 @@ func (fp *ChatModelOpenAICompatible_FieldTerminalPath) GetDefault() interface{} 
 		return ""
 	case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 		return int32(0)
+	case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+		return (*devices_device.Reference)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
 	}
@@ -1390,6 +1406,8 @@ func (fp *ChatModelOpenAICompatible_FieldTerminalPath) ClearValue(item *ChatMode
 			item.AzureApiVersion = ""
 		case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 			item.MaxOutputTokens = int32(0)
+		case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+			item.Device = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
 		}
@@ -1408,7 +1426,8 @@ func (fp *ChatModelOpenAICompatible_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorOrganization ||
 		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorAzureEndpoint ||
 		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorAzureApiVersion ||
-		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens
+		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens ||
+		fp.selector == ChatModelOpenAICompatible_FieldPathSelectorDevice
 }
 
 func (fp *ChatModelOpenAICompatible_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1431,6 +1450,8 @@ func (fp *ChatModelOpenAICompatible_FieldTerminalPath) WithIValue(value interfac
 		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(string)}
 	case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(int32)}
+	case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+		return &ChatModelOpenAICompatible_FieldTerminalPathValue{ChatModelOpenAICompatible_FieldTerminalPath: *fp, value: value.(*devices_device.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
 	}
@@ -1457,6 +1478,8 @@ func (fp *ChatModelOpenAICompatible_FieldTerminalPath) WithIArrayOfValues(values
 		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]string)}
 	case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+		return &ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues{ChatModelOpenAICompatible_FieldTerminalPath: *fp, values: values.([]*devices_device.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fp.selector))
 	}
@@ -1545,6 +1568,10 @@ func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) AsMaxOutputTokensVa
 	res, ok := fpv.value.(int32)
 	return res, ok
 }
+func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) AsDeviceValue() (*devices_device.Reference, bool) {
+	res, ok := fpv.value.(*devices_device.Reference)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object OpenAICompatible
 func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) SetTo(target **ChatModel_OpenAICompatible) {
@@ -1566,6 +1593,8 @@ func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) SetTo(target **Chat
 		(*target).AzureApiVersion = fpv.value.(string)
 	case ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens:
 		(*target).MaxOutputTokens = fpv.value.(int32)
+	case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+		(*target).Device = fpv.value.(*devices_device.Reference)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_OpenAICompatible: %d", fpv.selector))
 	}
@@ -1654,6 +1683,25 @@ func (fpv *ChatModelOpenAICompatible_FieldTerminalPathValue) CompareWith(source 
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+		leftValue := fpv.value.(*devices_device.Reference)
+		rightValue := source.GetDevice()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
 			return -1, true
 		} else {
 			return 1, true
@@ -1794,6 +1842,10 @@ func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) GetRawVal
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
 		}
+	case ChatModelOpenAICompatible_FieldPathSelectorDevice:
+		for _, v := range fpaov.values.([]*devices_device.Reference) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1823,6 +1875,10 @@ func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsAzureAp
 }
 func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsMaxOutputTokensArrayOfValues() ([]int32, bool) {
 	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ChatModelOpenAICompatible_FieldTerminalPathArrayOfValues) AsDeviceArrayOfValues() ([]*devices_device.Reference, bool) {
+	res, ok := fpaov.values.([]*devices_device.Reference)
 	return res, ok
 }
 

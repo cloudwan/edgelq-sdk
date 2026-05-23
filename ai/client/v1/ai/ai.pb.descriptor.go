@@ -120,6 +120,10 @@ func (d *AIDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 func (d *AIDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
 	return []gotenclient.ServiceImportInfo{
 		{
+			Domain:  "devices.edgelq.com",
+			Version: "v1",
+		},
+		{
 			Domain:  "iam.edgelq.com",
 			Version: "v1",
 		},

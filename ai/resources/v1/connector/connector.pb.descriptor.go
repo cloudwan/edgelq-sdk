@@ -182,6 +182,10 @@ func (d *Descriptor) SupportsDbConstraints() bool {
 	return true
 }
 
+func (d *Descriptor) IsSystemCatalog() bool {
+	return true
+}
+
 func initConnectorDescriptor() {
 	descriptor = &Descriptor{
 		typeName: gotenresource.NewTypeName(
@@ -193,6 +197,11 @@ func initConnectorDescriptor() {
 			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project}),
 	}
 	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+	gotenresource.RegisterSystemCatalog(descriptor, &gotenresource.SystemCatalogSpec{
+		InheritPermissionIds: []string{
+			"connectors!attach",
+		},
+	})
 }
 
 func init() {

@@ -69,6 +69,10 @@ message ChatModel {
 
     // Maximum output tokens
     int32 max_output_tokens = 7;
+
+    // Optional: route requests through proxies to an OpenAI-compatible endpoint
+    // reachable from this device.
+    string device = 8;
   }
 
   message Anthropic {

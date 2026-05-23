@@ -180,6 +180,10 @@ func (d *Descriptor) SupportsDbConstraints() bool {
 	return false
 }
 
+func (d *Descriptor) IsSystemCatalog() bool {
+	return false
+}
+
 func initDeviceDistributionCounterDescriptor() {
 	descriptor = &Descriptor{
 		typeName: gotenresource.NewTypeName(

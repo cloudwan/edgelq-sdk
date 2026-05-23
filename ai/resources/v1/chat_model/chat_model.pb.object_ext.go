@@ -16,6 +16,7 @@ import (
 
 // proto imports
 import (
+	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -35,6 +36,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &devices_device.Device{}
 	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &secrets_secret.Secret{}
 	_ = &money.Money{}
@@ -342,6 +344,9 @@ func (o *ChatModel_OpenAICompatible) MakeDiffFieldMask(other *ChatModel_OpenAICo
 	if o.GetMaxOutputTokens() != other.GetMaxOutputTokens() {
 		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorMaxOutputTokens})
 	}
+	if o.GetDevice().String() != other.GetDevice().String() {
+		res.Paths = append(res.Paths, &ChatModelOpenAICompatible_FieldTerminalPath{selector: ChatModelOpenAICompatible_FieldPathSelectorDevice})
+	}
 	return res
 }
 
@@ -370,6 +375,16 @@ func (o *ChatModel_OpenAICompatible) Clone() *ChatModel_OpenAICompatible {
 	result.AzureEndpoint = o.AzureEndpoint
 	result.AzureApiVersion = o.AzureApiVersion
 	result.MaxOutputTokens = o.MaxOutputTokens
+	if o.Device == nil {
+		result.Device = nil
+	} else if data, err := o.Device.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Device = &devices_device.Reference{}
+		if err := result.Device.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
 	return result
 }
 
@@ -396,6 +411,18 @@ func (o *ChatModel_OpenAICompatible) Merge(source *ChatModel_OpenAICompatible) {
 	o.AzureEndpoint = source.GetAzureEndpoint()
 	o.AzureApiVersion = source.GetAzureApiVersion()
 	o.MaxOutputTokens = source.GetMaxOutputTokens()
+	if source.GetDevice() != nil {
+		if data, err := source.GetDevice().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Device = &devices_device.Reference{}
+			if err := o.Device.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Device = nil
+	}
 }
 
 func (o *ChatModel_OpenAICompatible) MergeRaw(source gotenobject.GotenObjectExt) {

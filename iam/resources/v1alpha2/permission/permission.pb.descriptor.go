@@ -176,6 +176,10 @@ func (d *Descriptor) SupportsDbConstraints() bool {
 	return true
 }
 
+func (d *Descriptor) IsSystemCatalog() bool {
+	return false
+}
+
 func initPermissionDescriptor() {
 	descriptor = &Descriptor{
 		typeName: gotenresource.NewTypeName(

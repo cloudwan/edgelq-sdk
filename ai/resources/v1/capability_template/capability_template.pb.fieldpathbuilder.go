@@ -11,17 +11,29 @@ import (
 	connector "github.com/cloudwan/edgelq-sdk/ai/resources/v1/connector"
 	search_db "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db"
 	search_index "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_index"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
+	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
+	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
+	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
+	monitoring_bucket "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/bucket"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	latlng "google.golang.org/genproto/googleapis/type/latlng"
 	money "google.golang.org/genproto/googleapis/type/money"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -32,13 +44,25 @@ var (
 	_ = &connector.Connector{}
 	_ = &search_db.SearchDb{}
 	_ = &search_index.SearchIndex{}
+	_ = &api.HealthCheckSpec{}
+	_ = &devices_device.Device{}
+	_ = &devices_project.Project{}
+	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_service_account.ServiceAccount{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log_descriptor.LogDescriptor{}
+	_ = &monitoring_bucket.Bucket{}
+	_ = &monitoring_project.Project{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
+	_ = &latlng.LatLng{}
 	_ = &money.Money{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}

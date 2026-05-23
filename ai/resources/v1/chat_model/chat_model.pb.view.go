@@ -12,6 +12,7 @@ import (
 
 // proto imports
 import (
+	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -27,6 +28,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &devices_device.Device{}
 	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &secrets_secret.Secret{}
 	_ = &money.Money{}

@@ -12,6 +12,7 @@ proto:
 
 imports:
 - iam.edgelq.com
+- devices.edgelq.com
 - secrets.edgelq.com
 - meta.goten.com
 
