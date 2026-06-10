@@ -63,6 +63,7 @@ func FullChatModel_FieldMask() *ChatModel_FieldMask {
 	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorGemini})
 	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorDisplayName})
 	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorCost})
+	res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorRetired})
 	return res
 }
 
@@ -81,7 +82,7 @@ func (fieldMask *ChatModel_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ChatModel_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -111,7 +112,7 @@ func (fieldMask *ChatModel_FieldMask) Reset() {
 
 func (fieldMask *ChatModel_FieldMask) Subtract(other *ChatModel_FieldMask) *ChatModel_FieldMask {
 	result := &ChatModel_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[ChatModel_FieldPathSelector]gotenobject.FieldMask{
 		ChatModel_FieldPathSelectorMetadata:         &meta.Meta_FieldMask{},
 		ChatModel_FieldPathSelectorAzureOpenAi:      &ChatModel_AzureOpenAi_FieldMask{},
@@ -382,6 +383,8 @@ func (fieldMask *ChatModel_FieldMask) Project(source *ChatModel) *ChatModel {
 			case ChatModel_FieldPathSelectorCost:
 				result.Cost = source.Cost
 				wholeCostAccepted = true
+			case ChatModel_FieldPathSelectorRetired:
+				result.Retired = source.Retired
 			}
 		case *ChatModel_FieldSubPath:
 			switch tp.selector {

@@ -89,6 +89,9 @@ func (ChatModelFieldPathBuilder) DisplayName() ChatModelPathSelectorDisplayName 
 func (ChatModelFieldPathBuilder) Cost() ChatModelPathSelectorCost {
 	return ChatModelPathSelectorCost{}
 }
+func (ChatModelFieldPathBuilder) Retired() ChatModelPathSelectorRetired {
+	return ChatModelPathSelectorRetired{}
+}
 
 type ChatModelPathSelectorName struct{}
 
@@ -1473,6 +1476,20 @@ func (s ChatModelPathSelectorCostOutputPerMillion) WithValue(value *money.Money)
 
 func (s ChatModelPathSelectorCostOutputPerMillion) WithArrayOfValues(values []*money.Money) *ChatModel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorRetired struct{}
+
+func (ChatModelPathSelectorRetired) FieldPath() *ChatModel_FieldTerminalPath {
+	return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorRetired}
+}
+
+func (s ChatModelPathSelectorRetired) WithValue(value bool) *ChatModel_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldTerminalPathValue)
+}
+
+func (s ChatModelPathSelectorRetired) WithArrayOfValues(values []bool) *ChatModel_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldTerminalPathArrayOfValues)
 }
 
 type ChatModelOpenAICompatibleFieldPathBuilder struct{}

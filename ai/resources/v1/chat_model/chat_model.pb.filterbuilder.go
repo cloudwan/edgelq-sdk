@@ -274,6 +274,10 @@ func (b *filterCndBuilder) Cost() *filterCndBuilderCost {
 	return &filterCndBuilderCost{builder: b.builder}
 }
 
+func (b *filterCndBuilder) Retired() *filterCndBuilderRetired {
+	return &filterCndBuilderRetired{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -4347,5 +4351,64 @@ func (b *filterCndBuilderCostOutputPerMillion) compare(op gotenfilter.CompareOpe
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Cost().OutputPerMillion().WithValue(value),
+	})
+}
+
+type filterCndBuilderRetired struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderRetired) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderRetired) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderRetired) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderRetired) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderRetired) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderRetired) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderRetired) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Retired().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRetired) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Retired().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderRetired) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Retired().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRetired) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Retired().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderRetired) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Retired().WithValue(value),
 	})
 }

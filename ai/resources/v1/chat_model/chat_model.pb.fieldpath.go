@@ -84,6 +84,7 @@ const (
 	ChatModel_FieldPathSelectorGemini           ChatModel_FieldPathSelector = 5
 	ChatModel_FieldPathSelectorDisplayName      ChatModel_FieldPathSelector = 6
 	ChatModel_FieldPathSelectorCost             ChatModel_FieldPathSelector = 7
+	ChatModel_FieldPathSelectorRetired          ChatModel_FieldPathSelector = 8
 )
 
 func (s ChatModel_FieldPathSelector) String() string {
@@ -104,6 +105,8 @@ func (s ChatModel_FieldPathSelector) String() string {
 		return "display_name"
 	case ChatModel_FieldPathSelectorCost:
 		return "cost"
+	case ChatModel_FieldPathSelectorRetired:
+		return "retired"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", s))
 	}
@@ -131,6 +134,8 @@ func BuildChatModel_FieldPath(fp gotenobject.RawFieldPath) (ChatModel_FieldPath,
 			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorDisplayName}, nil
 		case "cost":
 			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorCost}, nil
+		case "retired":
+			return &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorRetired}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -253,6 +258,8 @@ func (fp *ChatModel_FieldTerminalPath) Get(source *ChatModel) (values []interfac
 			if source.Cost != nil {
 				values = append(values, source.Cost)
 			}
+		case ChatModel_FieldPathSelectorRetired:
+			values = append(values, source.Retired)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 		}
@@ -322,6 +329,8 @@ func (fp *ChatModel_FieldTerminalPath) GetSingle(source *ChatModel) (interface{}
 	case ChatModel_FieldPathSelectorCost:
 		res := source.GetCost()
 		return res, res != nil
+	case ChatModel_FieldPathSelectorRetired:
+		return source.GetRetired(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -350,6 +359,8 @@ func (fp *ChatModel_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case ChatModel_FieldPathSelectorCost:
 		return (*ChatModel_Cost)(nil)
+	case ChatModel_FieldPathSelectorRetired:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -382,6 +393,8 @@ func (fp *ChatModel_FieldTerminalPath) ClearValue(item *ChatModel) {
 			item.DisplayName = ""
 		case ChatModel_FieldPathSelectorCost:
 			item.Cost = nil
+		case ChatModel_FieldPathSelectorRetired:
+			item.Retired = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 		}
@@ -395,7 +408,8 @@ func (fp *ChatModel_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fp *ChatModel_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ChatModel_FieldPathSelectorName ||
-		fp.selector == ChatModel_FieldPathSelectorDisplayName
+		fp.selector == ChatModel_FieldPathSelectorDisplayName ||
+		fp.selector == ChatModel_FieldPathSelectorRetired
 }
 
 func (fp *ChatModel_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -420,6 +434,8 @@ func (fp *ChatModel_FieldTerminalPath) WithIValue(value interface{}) ChatModel_F
 		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(string)}
 	case ChatModel_FieldPathSelectorCost:
 		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(*ChatModel_Cost)}
+	case ChatModel_FieldPathSelectorRetired:
+		return &ChatModel_FieldTerminalPathValue{ChatModel_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -448,6 +464,8 @@ func (fp *ChatModel_FieldTerminalPath) WithIArrayOfValues(values interface{}) Ch
 		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]string)}
 	case ChatModel_FieldPathSelectorCost:
 		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]*ChatModel_Cost)}
+	case ChatModel_FieldPathSelectorRetired:
+		return &ChatModel_FieldTerminalPathArrayOfValues{ChatModel_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fp.selector))
 	}
@@ -733,6 +751,10 @@ func (fpv *ChatModel_FieldTerminalPathValue) AsCostValue() (*ChatModel_Cost, boo
 	res, ok := fpv.value.(*ChatModel_Cost)
 	return res, ok
 }
+func (fpv *ChatModel_FieldTerminalPathValue) AsRetiredValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ChatModel
 func (fpv *ChatModel_FieldTerminalPathValue) SetTo(target **ChatModel) {
@@ -768,6 +790,8 @@ func (fpv *ChatModel_FieldTerminalPathValue) SetTo(target **ChatModel) {
 		(*target).DisplayName = fpv.value.(string)
 	case ChatModel_FieldPathSelectorCost:
 		(*target).Cost = fpv.value.(*ChatModel_Cost)
+	case ChatModel_FieldPathSelectorRetired:
+		(*target).Retired = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpv.selector))
 	}
@@ -822,6 +846,16 @@ func (fpv *ChatModel_FieldTerminalPathValue) CompareWith(source *ChatModel) (int
 		}
 	case ChatModel_FieldPathSelectorCost:
 		return 0, false
+	case ChatModel_FieldPathSelectorRetired:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetRetired()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel: %d", fpv.selector))
 	}
@@ -1114,6 +1148,10 @@ func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 		for _, v := range fpaov.values.([]*ChatModel_Cost) {
 			values = append(values, v)
 		}
+	case ChatModel_FieldPathSelectorRetired:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1147,6 +1185,10 @@ func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValue
 }
 func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsCostArrayOfValues() ([]*ChatModel_Cost, bool) {
 	res, ok := fpaov.values.([]*ChatModel_Cost)
+	return res, ok
+}
+func (fpaov *ChatModel_FieldTerminalPathArrayOfValues) AsRetiredArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 

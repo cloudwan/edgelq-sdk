@@ -48,6 +48,11 @@ message ChatModel {
   // Optional cost metadata (pricing per 1M tokens).
   Cost cost = 9;
 
+  // When true, this model is retired: hidden from ChatModel listings by default
+  // and blocked for new chats/responses. Existing conversations stay readable
+  // and can be continued by selecting a non-retired model.
+  bool retired = 10;
+
   message OpenAICompatible {
     string api_key = 1;
 

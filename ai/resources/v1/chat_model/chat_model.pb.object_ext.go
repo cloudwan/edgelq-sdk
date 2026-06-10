@@ -152,6 +152,9 @@ func (o *ChatModel) MakeDiffFieldMask(other *ChatModel) *ChatModel_FieldMask {
 			}
 		}
 	}
+	if o.GetRetired() != other.GetRetired() {
+		res.Paths = append(res.Paths, &ChatModel_FieldTerminalPath{selector: ChatModel_FieldPathSelectorRetired})
+	}
 	return res
 }
 
@@ -209,6 +212,7 @@ func (o *ChatModel) Clone() *ChatModel {
 	}
 	result.DisplayName = o.DisplayName
 	result.Cost = o.Cost.Clone()
+	result.Retired = o.Retired
 	return result
 }
 
@@ -298,6 +302,7 @@ func (o *ChatModel) Merge(source *ChatModel) {
 		}
 		o.Cost.Merge(source.GetCost())
 	}
+	o.Retired = source.GetRetired()
 }
 
 func (o *ChatModel) MergeRaw(source gotenobject.GotenObjectExt) {
