@@ -37,9 +37,18 @@ message TpmAttestationCert {
   // Should be in the format "productname (sku)"
   string product_name = 5;
 
-  string tpm_manufacturer_ca_cert = 6;
+  // Deprecated: use tpm_manufacturer_ca_certs. Read as a fallback for certs
+  // created before the array field existed.
+  // TODO: reserve field 6 after staging+prod are upgraded and every cert has
+  // tpm_manufacturer_ca_certs populated.
+  string tpm_manufacturer_ca_cert = 6 [ deprecated = true ];
 
   string idevid_issuer_ca_cert = 7;
 
   string ldevid_issuer_ca_cert = 8;
+
+  // PEM CA certificates for the TPM endorsement key (EK). One entry per TPM
+  // chip vendor/CA that may ship in this product/SKU; the EK cert is accepted
+  // if it chains to any of them. Each entry is a PEM cert or chain.
+  repeated string tpm_manufacturer_ca_certs = 9;
 }

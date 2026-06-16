@@ -57,6 +57,7 @@ func FullTpmAttestationCert_FieldMask() *TpmAttestationCert_FieldMask {
 	res.Paths = append(res.Paths, &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCert})
 	res.Paths = append(res.Paths, &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorIdevidIssuerCaCert})
 	res.Paths = append(res.Paths, &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert})
+	res.Paths = append(res.Paths, &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts})
 	return res
 }
 
@@ -75,7 +76,7 @@ func (fieldMask *TpmAttestationCert_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*TpmAttestationCert_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -105,7 +106,7 @@ func (fieldMask *TpmAttestationCert_FieldMask) Reset() {
 
 func (fieldMask *TpmAttestationCert_FieldMask) Subtract(other *TpmAttestationCert_FieldMask) *TpmAttestationCert_FieldMask {
 	result := &TpmAttestationCert_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[TpmAttestationCert_FieldPathSelector]gotenobject.FieldMask{
 		TpmAttestationCert_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -325,6 +326,8 @@ func (fieldMask *TpmAttestationCert_FieldMask) Project(source *TpmAttestationCer
 				result.IdevidIssuerCaCert = source.IdevidIssuerCaCert
 			case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 				result.LdevidIssuerCaCert = source.LdevidIssuerCaCert
+			case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+				result.TpmManufacturerCaCerts = source.TpmManufacturerCaCerts
 			}
 		case *TpmAttestationCert_FieldSubPath:
 			switch tp.selector {

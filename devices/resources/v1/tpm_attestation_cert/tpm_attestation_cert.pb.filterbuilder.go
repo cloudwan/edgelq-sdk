@@ -234,6 +234,10 @@ func (b *filterCndBuilder) LdevidIssuerCaCert() *filterCndBuilderLdevidIssuerCaC
 	return &filterCndBuilderLdevidIssuerCaCert{builder: b.builder}
 }
 
+func (b *filterCndBuilder) TpmManufacturerCaCerts() *filterCndBuilderTpmManufacturerCaCerts {
+	return &filterCndBuilderTpmManufacturerCaCerts{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -2732,5 +2736,98 @@ func (b *filterCndBuilderLdevidIssuerCaCert) compare(op gotenfilter.CompareOpera
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		TpmAttestationCert_FieldPathValue: NewTpmAttestationCertFieldPathBuilder().LdevidIssuerCaCert().WithValue(value),
+	})
+}
+
+type filterCndBuilderTpmManufacturerCaCerts struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		TpmAttestationCert_FieldPathArrayOfValues: NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		TpmAttestationCert_FieldPathArrayOfValues: NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().FieldPath(),
+		Value:     NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts()
+	itemValues := make([]TpmAttestationCert_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts()
+	itemValues := make([]TpmAttestationCert_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderTpmManufacturerCaCerts) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		TpmAttestationCert_FieldPathValue: NewTpmAttestationCertFieldPathBuilder().TpmManufacturerCaCerts().WithValue(value),
 	})
 }

@@ -87,6 +87,18 @@ func (o *TpmAttestationCert) MakeDiffFieldMask(other *TpmAttestationCert) *TpmAt
 	if o.GetLdevidIssuerCaCert() != other.GetLdevidIssuerCaCert() {
 		res.Paths = append(res.Paths, &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert})
 	}
+
+	if len(o.GetTpmManufacturerCaCerts()) == len(other.GetTpmManufacturerCaCerts()) {
+		for i, lValue := range o.GetTpmManufacturerCaCerts() {
+			rValue := other.GetTpmManufacturerCaCerts()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts})
+	}
 	return res
 }
 
@@ -116,6 +128,10 @@ func (o *TpmAttestationCert) Clone() *TpmAttestationCert {
 	result.TpmManufacturerCaCert = o.TpmManufacturerCaCert
 	result.IdevidIssuerCaCert = o.IdevidIssuerCaCert
 	result.LdevidIssuerCaCert = o.LdevidIssuerCaCert
+	result.TpmManufacturerCaCerts = make([]string, len(o.TpmManufacturerCaCerts))
+	for i, sourceValue := range o.TpmManufacturerCaCerts {
+		result.TpmManufacturerCaCerts[i] = sourceValue
+	}
 	return result
 }
 
@@ -148,6 +164,21 @@ func (o *TpmAttestationCert) Merge(source *TpmAttestationCert) {
 	o.TpmManufacturerCaCert = source.GetTpmManufacturerCaCert()
 	o.IdevidIssuerCaCert = source.GetIdevidIssuerCaCert()
 	o.LdevidIssuerCaCert = source.GetLdevidIssuerCaCert()
+	for _, sourceValue := range source.GetTpmManufacturerCaCerts() {
+		exists := false
+		for _, currentValue := range o.TpmManufacturerCaCerts {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.TpmManufacturerCaCerts = append(o.TpmManufacturerCaCerts, newDstElement)
+		}
+	}
+
 }
 
 func (o *TpmAttestationCert) MergeRaw(source gotenobject.GotenObjectExt) {

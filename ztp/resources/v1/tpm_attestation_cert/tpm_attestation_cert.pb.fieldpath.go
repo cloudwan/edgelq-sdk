@@ -70,14 +70,15 @@ type TpmAttestationCert_FieldPath interface {
 type TpmAttestationCert_FieldPathSelector int32
 
 const (
-	TpmAttestationCert_FieldPathSelectorName                  TpmAttestationCert_FieldPathSelector = 0
-	TpmAttestationCert_FieldPathSelectorMetadata              TpmAttestationCert_FieldPathSelector = 1
-	TpmAttestationCert_FieldPathSelectorDisplayName           TpmAttestationCert_FieldPathSelector = 2
-	TpmAttestationCert_FieldPathSelectorManufacturer          TpmAttestationCert_FieldPathSelector = 3
-	TpmAttestationCert_FieldPathSelectorProductName           TpmAttestationCert_FieldPathSelector = 4
-	TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCert TpmAttestationCert_FieldPathSelector = 5
-	TpmAttestationCert_FieldPathSelectorIdevidIssuerCaCert    TpmAttestationCert_FieldPathSelector = 6
-	TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert    TpmAttestationCert_FieldPathSelector = 7
+	TpmAttestationCert_FieldPathSelectorName                   TpmAttestationCert_FieldPathSelector = 0
+	TpmAttestationCert_FieldPathSelectorMetadata               TpmAttestationCert_FieldPathSelector = 1
+	TpmAttestationCert_FieldPathSelectorDisplayName            TpmAttestationCert_FieldPathSelector = 2
+	TpmAttestationCert_FieldPathSelectorManufacturer           TpmAttestationCert_FieldPathSelector = 3
+	TpmAttestationCert_FieldPathSelectorProductName            TpmAttestationCert_FieldPathSelector = 4
+	TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCert  TpmAttestationCert_FieldPathSelector = 5
+	TpmAttestationCert_FieldPathSelectorIdevidIssuerCaCert     TpmAttestationCert_FieldPathSelector = 6
+	TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert     TpmAttestationCert_FieldPathSelector = 7
+	TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts TpmAttestationCert_FieldPathSelector = 8
 )
 
 func (s TpmAttestationCert_FieldPathSelector) String() string {
@@ -98,6 +99,8 @@ func (s TpmAttestationCert_FieldPathSelector) String() string {
 		return "idevid_issuer_ca_cert"
 	case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 		return "ldevid_issuer_ca_cert"
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		return "tpm_manufacturer_ca_certs"
 	default:
 		panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", s))
 	}
@@ -125,6 +128,8 @@ func BuildTpmAttestationCert_FieldPath(fp gotenobject.RawFieldPath) (TpmAttestat
 			return &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorIdevidIssuerCaCert}, nil
 		case "ldevid_issuer_ca_cert", "ldevidIssuerCaCert", "ldevid-issuer-ca-cert":
 			return &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert}, nil
+		case "tpm_manufacturer_ca_certs", "tpmManufacturerCaCerts", "tpm-manufacturer-ca-certs":
+			return &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -199,6 +204,10 @@ func (fp *TpmAttestationCert_FieldTerminalPath) Get(source *TpmAttestationCert) 
 			values = append(values, source.IdevidIssuerCaCert)
 		case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 			values = append(values, source.LdevidIssuerCaCert)
+		case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+			for _, value := range source.GetTpmManufacturerCaCerts() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fp.selector))
 		}
@@ -231,6 +240,9 @@ func (fp *TpmAttestationCert_FieldTerminalPath) GetSingle(source *TpmAttestation
 		return source.GetIdevidIssuerCaCert(), source != nil
 	case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 		return source.GetLdevidIssuerCaCert(), source != nil
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		res := source.GetTpmManufacturerCaCerts()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fp.selector))
 	}
@@ -259,6 +271,8 @@ func (fp *TpmAttestationCert_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 		return ""
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		return ([]string)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fp.selector))
 	}
@@ -283,6 +297,8 @@ func (fp *TpmAttestationCert_FieldTerminalPath) ClearValue(item *TpmAttestationC
 			item.IdevidIssuerCaCert = ""
 		case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 			item.LdevidIssuerCaCert = ""
+		case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+			item.TpmManufacturerCaCerts = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fp.selector))
 		}
@@ -301,7 +317,8 @@ func (fp *TpmAttestationCert_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == TpmAttestationCert_FieldPathSelectorProductName ||
 		fp.selector == TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCert ||
 		fp.selector == TpmAttestationCert_FieldPathSelectorIdevidIssuerCaCert ||
-		fp.selector == TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert
+		fp.selector == TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert ||
+		fp.selector == TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts
 }
 
 func (fp *TpmAttestationCert_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -326,6 +343,8 @@ func (fp *TpmAttestationCert_FieldTerminalPath) WithIValue(value interface{}) Tp
 		return &TpmAttestationCert_FieldTerminalPathValue{TpmAttestationCert_FieldTerminalPath: *fp, value: value.(string)}
 	case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 		return &TpmAttestationCert_FieldTerminalPathValue{TpmAttestationCert_FieldTerminalPath: *fp, value: value.(string)}
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		return &TpmAttestationCert_FieldTerminalPathValue{TpmAttestationCert_FieldTerminalPath: *fp, value: value.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fp.selector))
 	}
@@ -354,6 +373,8 @@ func (fp *TpmAttestationCert_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &TpmAttestationCert_FieldTerminalPathArrayOfValues{TpmAttestationCert_FieldTerminalPath: *fp, values: values.([]string)}
 	case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 		return &TpmAttestationCert_FieldTerminalPathArrayOfValues{TpmAttestationCert_FieldTerminalPath: *fp, values: values.([]string)}
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		return &TpmAttestationCert_FieldTerminalPathArrayOfValues{TpmAttestationCert_FieldTerminalPath: *fp, values: values.([][]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fp.selector))
 	}
@@ -366,6 +387,8 @@ func (fp *TpmAttestationCert_FieldTerminalPath) WithRawIArrayOfValues(values int
 
 func (fp *TpmAttestationCert_FieldTerminalPath) WithIArrayItemValue(value interface{}) TpmAttestationCert_FieldPathArrayItemValue {
 	switch fp.selector {
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		return &TpmAttestationCert_FieldTerminalPathArrayItemValue{TpmAttestationCert_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fp.selector))
 	}
@@ -558,6 +581,10 @@ func (fpv *TpmAttestationCert_FieldTerminalPathValue) AsLdevidIssuerCaCertValue(
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *TpmAttestationCert_FieldTerminalPathValue) AsTpmManufacturerCaCertsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object TpmAttestationCert
 func (fpv *TpmAttestationCert_FieldTerminalPathValue) SetTo(target **TpmAttestationCert) {
@@ -581,6 +608,8 @@ func (fpv *TpmAttestationCert_FieldTerminalPathValue) SetTo(target **TpmAttestat
 		(*target).IdevidIssuerCaCert = fpv.value.(string)
 	case TpmAttestationCert_FieldPathSelectorLdevidIssuerCaCert:
 		(*target).LdevidIssuerCaCert = fpv.value.(string)
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		(*target).TpmManufacturerCaCerts = fpv.value.([]string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fpv.selector))
 	}
@@ -675,6 +704,8 @@ func (fpv *TpmAttestationCert_FieldTerminalPathValue) CompareWith(source *TpmAtt
 		} else {
 			return 1, true
 		}
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for TpmAttestationCert: %d", fpv.selector))
 	}
@@ -769,6 +800,10 @@ var _ TpmAttestationCert_FieldPathArrayItemValue = (*TpmAttestationCert_FieldTer
 // GetRawValue returns stored element value for array in object TpmAttestationCert as interface{}
 func (fpaiv *TpmAttestationCert_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
+}
+func (fpaiv *TpmAttestationCert_FieldTerminalPathArrayItemValue) AsTpmManufacturerCaCertsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
 }
 
 func (fpaiv *TpmAttestationCert_FieldTerminalPathArrayItemValue) GetSingle(source *TpmAttestationCert) (interface{}, bool) {
@@ -885,6 +920,10 @@ func (fpaov *TpmAttestationCert_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -918,6 +957,10 @@ func (fpaov *TpmAttestationCert_FieldTerminalPathArrayOfValues) AsIdevidIssuerCa
 }
 func (fpaov *TpmAttestationCert_FieldTerminalPathArrayOfValues) AsLdevidIssuerCaCertArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *TpmAttestationCert_FieldTerminalPathArrayOfValues) AsTpmManufacturerCaCertsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
 

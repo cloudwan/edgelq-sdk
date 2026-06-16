@@ -49,6 +49,9 @@ func (TpmAttestationCertFieldPathBuilder) IdevidIssuerCaCert() TpmAttestationCer
 func (TpmAttestationCertFieldPathBuilder) LdevidIssuerCaCert() TpmAttestationCertPathSelectorLdevidIssuerCaCert {
 	return TpmAttestationCertPathSelectorLdevidIssuerCaCert{}
 }
+func (TpmAttestationCertFieldPathBuilder) TpmManufacturerCaCerts() TpmAttestationCertPathSelectorTpmManufacturerCaCerts {
+	return TpmAttestationCertPathSelectorTpmManufacturerCaCerts{}
+}
 
 type TpmAttestationCertPathSelectorName struct{}
 
@@ -828,4 +831,22 @@ func (s TpmAttestationCertPathSelectorLdevidIssuerCaCert) WithValue(value string
 
 func (s TpmAttestationCertPathSelectorLdevidIssuerCaCert) WithArrayOfValues(values []string) *TpmAttestationCert_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TpmAttestationCert_FieldTerminalPathArrayOfValues)
+}
+
+type TpmAttestationCertPathSelectorTpmManufacturerCaCerts struct{}
+
+func (TpmAttestationCertPathSelectorTpmManufacturerCaCerts) FieldPath() *TpmAttestationCert_FieldTerminalPath {
+	return &TpmAttestationCert_FieldTerminalPath{selector: TpmAttestationCert_FieldPathSelectorTpmManufacturerCaCerts}
+}
+
+func (s TpmAttestationCertPathSelectorTpmManufacturerCaCerts) WithValue(value []string) *TpmAttestationCert_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TpmAttestationCert_FieldTerminalPathValue)
+}
+
+func (s TpmAttestationCertPathSelectorTpmManufacturerCaCerts) WithArrayOfValues(values [][]string) *TpmAttestationCert_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TpmAttestationCert_FieldTerminalPathArrayOfValues)
+}
+
+func (s TpmAttestationCertPathSelectorTpmManufacturerCaCerts) WithItemValue(value string) *TpmAttestationCert_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*TpmAttestationCert_FieldTerminalPathArrayItemValue)
 }
