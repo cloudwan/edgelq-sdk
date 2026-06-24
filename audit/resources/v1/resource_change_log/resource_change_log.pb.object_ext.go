@@ -242,6 +242,26 @@ func (o *ResourceChangeLog_ResourceChange) MakeDiffFieldMask(other *ResourceChan
 	if !proto.Equal(o.GetCurrent(), other.GetCurrent()) {
 		res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrent})
 	}
+	{
+		subMask := o.GetPreviousOmittedPayload().MakeDiffFieldMask(other.GetPreviousOmittedPayload())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldSubPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetCurrentOmittedPayload().MakeDiffFieldMask(other.GetCurrentOmittedPayload())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldSubPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload, subPath: subpath})
+			}
+		}
+	}
 
 	if len(o.GetLabels()) == len(other.GetLabels()) {
 		for i, lValue := range o.GetLabels() {
@@ -292,6 +312,8 @@ func (o *ResourceChangeLog_ResourceChange) Clone() *ResourceChangeLog_ResourceCh
 	result.UpdatedFields = proto.Clone(o.UpdatedFields).(*fieldmaskpb.FieldMask)
 	result.Previous = proto.Clone(o.Previous).(*anypb.Any)
 	result.Current = proto.Clone(o.Current).(*anypb.Any)
+	result.PreviousOmittedPayload = o.PreviousOmittedPayload.Clone()
+	result.CurrentOmittedPayload = o.CurrentOmittedPayload.Clone()
 	result.Labels = map[string]string{}
 	for key, sourceValue := range o.Labels {
 		result.Labels[key] = sourceValue
@@ -326,6 +348,18 @@ func (o *ResourceChangeLog_ResourceChange) Merge(source *ResourceChangeLog_Resou
 			o.Current = new(anypb.Any)
 		}
 		proto.Merge(o.Current, source.GetCurrent())
+	}
+	if source.GetPreviousOmittedPayload() != nil {
+		if o.PreviousOmittedPayload == nil {
+			o.PreviousOmittedPayload = new(common.OmittedPayload)
+		}
+		o.PreviousOmittedPayload.Merge(source.GetPreviousOmittedPayload())
+	}
+	if source.GetCurrentOmittedPayload() != nil {
+		if o.CurrentOmittedPayload == nil {
+			o.CurrentOmittedPayload = new(common.OmittedPayload)
+		}
+		o.CurrentOmittedPayload.Merge(source.GetCurrentOmittedPayload())
 	}
 	if source.GetLabels() != nil {
 		if o.Labels == nil {

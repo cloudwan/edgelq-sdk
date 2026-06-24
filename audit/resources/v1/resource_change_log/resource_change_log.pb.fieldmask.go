@@ -390,6 +390,8 @@ func FullResourceChangeLog_ResourceChange_FieldMask() *ResourceChangeLog_Resourc
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPrevious})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrent})
+	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload})
+	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorLabels})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPre})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPost})
@@ -411,7 +413,7 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 11)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ResourceChangeLogResourceChange_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -441,14 +443,18 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Reset() {
 
 func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Subtract(other *ResourceChangeLog_ResourceChange_FieldMask) *ResourceChangeLog_ResourceChange_FieldMask {
 	result := &ResourceChangeLog_ResourceChange_FieldMask{}
-	removedSelectors := make([]bool, 9)
+	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[ResourceChangeLogResourceChange_FieldPathSelector]gotenobject.FieldMask{
-		ResourceChangeLogResourceChange_FieldPathSelectorPre:  &common.ObjectState_FieldMask{},
-		ResourceChangeLogResourceChange_FieldPathSelectorPost: &common.ObjectState_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload: &common.OmittedPayload_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:  &common.OmittedPayload_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPre:                    &common.ObjectState_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPost:                   &common.ObjectState_FieldMask{},
 	}
 	mySubMasks := map[ResourceChangeLogResourceChange_FieldPathSelector]gotenobject.FieldMask{
-		ResourceChangeLogResourceChange_FieldPathSelectorPre:  &common.ObjectState_FieldMask{},
-		ResourceChangeLogResourceChange_FieldPathSelectorPost: &common.ObjectState_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload: &common.OmittedPayload_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:  &common.OmittedPayload_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPre:                    &common.ObjectState_FieldMask{},
+		ResourceChangeLogResourceChange_FieldPathSelectorPost:                   &common.ObjectState_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -464,6 +470,10 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Subtract(other *Res
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
 				if tp, ok := path.(*ResourceChangeLogResourceChange_FieldTerminalPath); ok {
 					switch tp.selector {
+					case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+						mySubMasks[ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload] = common.FullOmittedPayload_FieldMask()
+					case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+						mySubMasks[ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload] = common.FullOmittedPayload_FieldMask()
 					case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 						mySubMasks[ResourceChangeLogResourceChange_FieldPathSelectorPre] = common.FullObjectState_FieldMask()
 					case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -623,6 +633,10 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 		return source
 	}
 	result := &ResourceChangeLog_ResourceChange{}
+	previousOmittedPayloadMask := &common.OmittedPayload_FieldMask{}
+	wholePreviousOmittedPayloadAccepted := false
+	currentOmittedPayloadMask := &common.OmittedPayload_FieldMask{}
+	wholeCurrentOmittedPayloadAccepted := false
 	preMask := &common.ObjectState_FieldMask{}
 	wholePreAccepted := false
 	postMask := &common.ObjectState_FieldMask{}
@@ -646,6 +660,12 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 				result.Previous = source.Previous
 			case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
 				result.Current = source.Current
+			case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+				result.PreviousOmittedPayload = source.PreviousOmittedPayload
+				wholePreviousOmittedPayloadAccepted = true
+			case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+				result.CurrentOmittedPayload = source.CurrentOmittedPayload
+				wholeCurrentOmittedPayloadAccepted = true
 			case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 				result.Labels = source.Labels
 				wholeLabelsAccepted = true
@@ -658,6 +678,10 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 			}
 		case *ResourceChangeLogResourceChange_FieldSubPath:
 			switch tp.selector {
+			case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+				previousOmittedPayloadMask.AppendPath(tp.subPath.(common.OmittedPayload_FieldPath))
+			case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+				currentOmittedPayloadMask.AppendPath(tp.subPath.(common.OmittedPayload_FieldPath))
 			case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 				preMask.AppendPath(tp.subPath.(common.ObjectState_FieldPath))
 			case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -669,6 +693,12 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 				labelsMapKeys = append(labelsMapKeys, tp.key)
 			}
 		}
+	}
+	if wholePreviousOmittedPayloadAccepted == false && len(previousOmittedPayloadMask.Paths) > 0 {
+		result.PreviousOmittedPayload = previousOmittedPayloadMask.Project(source.GetPreviousOmittedPayload())
+	}
+	if wholeCurrentOmittedPayloadAccepted == false && len(currentOmittedPayloadMask.Paths) > 0 {
+		result.CurrentOmittedPayload = currentOmittedPayloadMask.Project(source.GetCurrentOmittedPayload())
 	}
 	if wholeLabelsAccepted == false && len(labelsMapKeys) > 0 && source.GetLabels() != nil {
 		copiedMap := map[string]string{}

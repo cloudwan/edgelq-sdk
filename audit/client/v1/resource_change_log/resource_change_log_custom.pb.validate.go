@@ -159,3 +159,28 @@ func (obj *SetResourceChangeLogsCommitStateResponse) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *CreateResourceChangeLogsRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.ResourceChangeLogs {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CreateResourceChangeLogsRequest", "resourceChangeLogs", obj.ResourceChangeLogs[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CreateResourceChangeLogsResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

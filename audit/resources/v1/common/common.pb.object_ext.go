@@ -526,6 +526,56 @@ func (o *LabelKeySet) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*LabelKeySet))
 }
 
+func (o *OmittedPayload) GotenObjectExt() {}
+
+func (o *OmittedPayload) MakeFullFieldMask() *OmittedPayload_FieldMask {
+	return FullOmittedPayload_FieldMask()
+}
+
+func (o *OmittedPayload) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullOmittedPayload_FieldMask()
+}
+
+func (o *OmittedPayload) MakeDiffFieldMask(other *OmittedPayload) *OmittedPayload_FieldMask {
+	if o == nil && other == nil {
+		return &OmittedPayload_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullOmittedPayload_FieldMask()
+	}
+
+	res := &OmittedPayload_FieldMask{}
+	if o.GetOriginalSizeBytes() != other.GetOriginalSizeBytes() {
+		res.Paths = append(res.Paths, &OmittedPayload_FieldTerminalPath{selector: OmittedPayload_FieldPathSelectorOriginalSizeBytes})
+	}
+	return res
+}
+
+func (o *OmittedPayload) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*OmittedPayload))
+}
+
+func (o *OmittedPayload) Clone() *OmittedPayload {
+	if o == nil {
+		return nil
+	}
+	result := &OmittedPayload{}
+	result.OriginalSizeBytes = o.OriginalSizeBytes
+	return result
+}
+
+func (o *OmittedPayload) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *OmittedPayload) Merge(source *OmittedPayload) {
+	o.OriginalSizeBytes = source.GetOriginalSizeBytes()
+}
+
+func (o *OmittedPayload) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*OmittedPayload))
+}
+
 func (o *TimeInterval) GotenObjectExt() {}
 
 func (o *TimeInterval) MakeFullFieldMask() *TimeInterval_FieldMask {

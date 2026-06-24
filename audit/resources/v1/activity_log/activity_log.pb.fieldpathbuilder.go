@@ -672,6 +672,14 @@ func (ActivityLogPathSelectorResourceDifference) After() ActivityLogPathSelector
 	return ActivityLogPathSelectorResourceDifferenceAfter{}
 }
 
+func (ActivityLogPathSelectorResourceDifference) BeforeOmittedPayload() ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayload {
+	return ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayload{}
+}
+
+func (ActivityLogPathSelectorResourceDifference) AfterOmittedPayload() ActivityLogPathSelectorResourceDifferenceAfterOmittedPayload {
+	return ActivityLogPathSelectorResourceDifferenceAfterOmittedPayload{}
+}
+
 type ActivityLogPathSelectorResourceDifferenceFields struct{}
 
 func (ActivityLogPathSelectorResourceDifferenceFields) FieldPath() *ActivityLog_FieldSubPath {
@@ -720,6 +728,82 @@ func (s ActivityLogPathSelectorResourceDifferenceAfter) WithValue(value *anypb.A
 }
 
 func (s ActivityLogPathSelectorResourceDifferenceAfter) WithArrayOfValues(values []*anypb.Any) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayload struct{}
+
+func (ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayload) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorResource,
+		subPath:  NewActivityLogResourceFieldPathBuilder().Difference().BeforeOmittedPayload().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayload) OriginalSizeBytes() ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayloadOriginalSizeBytes {
+	return ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorResource,
+		subPath:  NewActivityLogResourceFieldPathBuilder().Difference().BeforeOmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorResourceDifferenceBeforeOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorResourceDifferenceAfterOmittedPayload struct{}
+
+func (ActivityLogPathSelectorResourceDifferenceAfterOmittedPayload) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorResource,
+		subPath:  NewActivityLogResourceFieldPathBuilder().Difference().AfterOmittedPayload().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorResourceDifferenceAfterOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorResourceDifferenceAfterOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLogPathSelectorResourceDifferenceAfterOmittedPayload) OriginalSizeBytes() ActivityLogPathSelectorResourceDifferenceAfterOmittedPayloadOriginalSizeBytes {
+	return ActivityLogPathSelectorResourceDifferenceAfterOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLogPathSelectorResourceDifferenceAfterOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLogPathSelectorResourceDifferenceAfterOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorResource,
+		subPath:  NewActivityLogResourceFieldPathBuilder().Difference().AfterOmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorResourceDifferenceAfterOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorResourceDifferenceAfterOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -849,6 +933,10 @@ func (ActivityLogPathSelectorEventsClientMessage) Time() ActivityLogPathSelector
 	return ActivityLogPathSelectorEventsClientMessageTime{}
 }
 
+func (ActivityLogPathSelectorEventsClientMessage) OmittedPayload() ActivityLogPathSelectorEventsClientMessageOmittedPayload {
+	return ActivityLogPathSelectorEventsClientMessageOmittedPayload{}
+}
+
 type ActivityLogPathSelectorEventsClientMessageData struct{}
 
 func (ActivityLogPathSelectorEventsClientMessageData) FieldPath() *ActivityLog_FieldSubPath {
@@ -883,6 +971,44 @@ func (s ActivityLogPathSelectorEventsClientMessageTime) WithArrayOfValues(values
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
+type ActivityLogPathSelectorEventsClientMessageOmittedPayload struct{}
+
+func (ActivityLogPathSelectorEventsClientMessageOmittedPayload) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorEvents,
+		subPath:  NewActivityLogEventFieldPathBuilder().ClientMessage().OmittedPayload().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorEventsClientMessageOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorEventsClientMessageOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLogPathSelectorEventsClientMessageOmittedPayload) OriginalSizeBytes() ActivityLogPathSelectorEventsClientMessageOmittedPayloadOriginalSizeBytes {
+	return ActivityLogPathSelectorEventsClientMessageOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLogPathSelectorEventsClientMessageOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLogPathSelectorEventsClientMessageOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorEvents,
+		subPath:  NewActivityLogEventFieldPathBuilder().ClientMessage().OmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorEventsClientMessageOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorEventsClientMessageOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
 type ActivityLogPathSelectorEventsServerMessage struct{}
 
 func (ActivityLogPathSelectorEventsServerMessage) FieldPath() *ActivityLog_FieldSubPath {
@@ -906,6 +1032,10 @@ func (ActivityLogPathSelectorEventsServerMessage) Data() ActivityLogPathSelector
 
 func (ActivityLogPathSelectorEventsServerMessage) Time() ActivityLogPathSelectorEventsServerMessageTime {
 	return ActivityLogPathSelectorEventsServerMessageTime{}
+}
+
+func (ActivityLogPathSelectorEventsServerMessage) OmittedPayload() ActivityLogPathSelectorEventsServerMessageOmittedPayload {
+	return ActivityLogPathSelectorEventsServerMessageOmittedPayload{}
 }
 
 type ActivityLogPathSelectorEventsServerMessageData struct{}
@@ -939,6 +1069,44 @@ func (s ActivityLogPathSelectorEventsServerMessageTime) WithValue(value *timesta
 }
 
 func (s ActivityLogPathSelectorEventsServerMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorEventsServerMessageOmittedPayload struct{}
+
+func (ActivityLogPathSelectorEventsServerMessageOmittedPayload) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorEvents,
+		subPath:  NewActivityLogEventFieldPathBuilder().ServerMessage().OmittedPayload().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorEventsServerMessageOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorEventsServerMessageOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLogPathSelectorEventsServerMessageOmittedPayload) OriginalSizeBytes() ActivityLogPathSelectorEventsServerMessageOmittedPayloadOriginalSizeBytes {
+	return ActivityLogPathSelectorEventsServerMessageOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLogPathSelectorEventsServerMessageOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLogPathSelectorEventsServerMessageOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorEvents,
+		subPath:  NewActivityLogEventFieldPathBuilder().ServerMessage().OmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorEventsServerMessageOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorEventsServerMessageOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -1287,6 +1455,10 @@ func (ActivityLog_EventPathSelectorClientMessage) Time() ActivityLog_EventPathSe
 	return ActivityLog_EventPathSelectorClientMessageTime{}
 }
 
+func (ActivityLog_EventPathSelectorClientMessage) OmittedPayload() ActivityLog_EventPathSelectorClientMessageOmittedPayload {
+	return ActivityLog_EventPathSelectorClientMessageOmittedPayload{}
+}
+
 type ActivityLog_EventPathSelectorClientMessageData struct{}
 
 func (ActivityLog_EventPathSelectorClientMessageData) FieldPath() *ActivityLogEvent_FieldSubPath {
@@ -1318,6 +1490,44 @@ func (s ActivityLog_EventPathSelectorClientMessageTime) WithValue(value *timesta
 }
 
 func (s ActivityLog_EventPathSelectorClientMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
+}
+
+type ActivityLog_EventPathSelectorClientMessageOmittedPayload struct{}
+
+func (ActivityLog_EventPathSelectorClientMessageOmittedPayload) FieldPath() *ActivityLogEvent_FieldSubPath {
+	return &ActivityLogEvent_FieldSubPath{
+		selector: ActivityLogEvent_FieldPathSelectorClientMessage,
+		subPath:  NewActivityLogEventClientMsgEventFieldPathBuilder().OmittedPayload().FieldPath(),
+	}
+}
+
+func (s ActivityLog_EventPathSelectorClientMessageOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLogEvent_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
+}
+
+func (s ActivityLog_EventPathSelectorClientMessageOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLogEvent_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLog_EventPathSelectorClientMessageOmittedPayload) OriginalSizeBytes() ActivityLog_EventPathSelectorClientMessageOmittedPayloadOriginalSizeBytes {
+	return ActivityLog_EventPathSelectorClientMessageOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLog_EventPathSelectorClientMessageOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLog_EventPathSelectorClientMessageOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLogEvent_FieldSubPath {
+	return &ActivityLogEvent_FieldSubPath{
+		selector: ActivityLogEvent_FieldPathSelectorClientMessage,
+		subPath:  NewActivityLogEventClientMsgEventFieldPathBuilder().OmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLog_EventPathSelectorClientMessageOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLogEvent_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
+}
+
+func (s ActivityLog_EventPathSelectorClientMessageOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1359,6 +1569,10 @@ func (ActivityLog_EventPathSelectorServerMessage) Time() ActivityLog_EventPathSe
 	return ActivityLog_EventPathSelectorServerMessageTime{}
 }
 
+func (ActivityLog_EventPathSelectorServerMessage) OmittedPayload() ActivityLog_EventPathSelectorServerMessageOmittedPayload {
+	return ActivityLog_EventPathSelectorServerMessageOmittedPayload{}
+}
+
 type ActivityLog_EventPathSelectorServerMessageData struct{}
 
 func (ActivityLog_EventPathSelectorServerMessageData) FieldPath() *ActivityLogEvent_FieldSubPath {
@@ -1390,6 +1604,44 @@ func (s ActivityLog_EventPathSelectorServerMessageTime) WithValue(value *timesta
 }
 
 func (s ActivityLog_EventPathSelectorServerMessageTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEvent_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
+}
+
+type ActivityLog_EventPathSelectorServerMessageOmittedPayload struct{}
+
+func (ActivityLog_EventPathSelectorServerMessageOmittedPayload) FieldPath() *ActivityLogEvent_FieldSubPath {
+	return &ActivityLogEvent_FieldSubPath{
+		selector: ActivityLogEvent_FieldPathSelectorServerMessage,
+		subPath:  NewActivityLogEventServerMsgEventFieldPathBuilder().OmittedPayload().FieldPath(),
+	}
+}
+
+func (s ActivityLog_EventPathSelectorServerMessageOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLogEvent_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
+}
+
+func (s ActivityLog_EventPathSelectorServerMessageOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLogEvent_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLog_EventPathSelectorServerMessageOmittedPayload) OriginalSizeBytes() ActivityLog_EventPathSelectorServerMessageOmittedPayloadOriginalSizeBytes {
+	return ActivityLog_EventPathSelectorServerMessageOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLog_EventPathSelectorServerMessageOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLog_EventPathSelectorServerMessageOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLogEvent_FieldSubPath {
+	return &ActivityLogEvent_FieldSubPath{
+		selector: ActivityLogEvent_FieldPathSelectorServerMessage,
+		subPath:  NewActivityLogEventServerMsgEventFieldPathBuilder().OmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLog_EventPathSelectorServerMessageOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLogEvent_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogEvent_FieldSubPathValue)
+}
+
+func (s ActivityLog_EventPathSelectorServerMessageOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLogEvent_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEvent_FieldSubPathArrayOfValues)
 }
 
@@ -1910,6 +2162,14 @@ func (ActivityLog_ResourcePathSelectorDifference) After() ActivityLog_ResourcePa
 	return ActivityLog_ResourcePathSelectorDifferenceAfter{}
 }
 
+func (ActivityLog_ResourcePathSelectorDifference) BeforeOmittedPayload() ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayload {
+	return ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayload{}
+}
+
+func (ActivityLog_ResourcePathSelectorDifference) AfterOmittedPayload() ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayload {
+	return ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayload{}
+}
+
 type ActivityLog_ResourcePathSelectorDifferenceFields struct{}
 
 func (ActivityLog_ResourcePathSelectorDifferenceFields) FieldPath() *ActivityLogResource_FieldSubPath {
@@ -1961,6 +2221,82 @@ func (s ActivityLog_ResourcePathSelectorDifferenceAfter) WithArrayOfValues(value
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
 }
 
+type ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayload struct{}
+
+func (ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayload) FieldPath() *ActivityLogResource_FieldSubPath {
+	return &ActivityLogResource_FieldSubPath{
+		selector: ActivityLogResource_FieldPathSelectorDifference,
+		subPath:  NewActivityLogResourceDifferenceFieldPathBuilder().BeforeOmittedPayload().FieldPath(),
+	}
+}
+
+func (s ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLogResource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
+}
+
+func (s ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLogResource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayload) OriginalSizeBytes() ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayloadOriginalSizeBytes {
+	return ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLogResource_FieldSubPath {
+	return &ActivityLogResource_FieldSubPath{
+		selector: ActivityLogResource_FieldPathSelectorDifference,
+		subPath:  NewActivityLogResourceDifferenceFieldPathBuilder().BeforeOmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLogResource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
+}
+
+func (s ActivityLog_ResourcePathSelectorDifferenceBeforeOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLogResource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
+}
+
+type ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayload struct{}
+
+func (ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayload) FieldPath() *ActivityLogResource_FieldSubPath {
+	return &ActivityLogResource_FieldSubPath{
+		selector: ActivityLogResource_FieldPathSelectorDifference,
+		subPath:  NewActivityLogResourceDifferenceFieldPathBuilder().AfterOmittedPayload().FieldPath(),
+	}
+}
+
+func (s ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLogResource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
+}
+
+func (s ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLogResource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayload) OriginalSizeBytes() ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayloadOriginalSizeBytes {
+	return ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLogResource_FieldSubPath {
+	return &ActivityLogResource_FieldSubPath{
+		selector: ActivityLogResource_FieldPathSelectorDifference,
+		subPath:  NewActivityLogResourceDifferenceFieldPathBuilder().AfterOmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLogResource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
+}
+
+func (s ActivityLog_ResourcePathSelectorDifferenceAfterOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLogResource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
+}
+
 type ActivityLogEventClientMsgEventFieldPathBuilder struct{}
 
 func NewActivityLogEventClientMsgEventFieldPathBuilder() ActivityLogEventClientMsgEventFieldPathBuilder {
@@ -1971,6 +2307,9 @@ func (ActivityLogEventClientMsgEventFieldPathBuilder) Data() ActivityLog_Event_C
 }
 func (ActivityLogEventClientMsgEventFieldPathBuilder) Time() ActivityLog_Event_ClientMsgEventPathSelectorTime {
 	return ActivityLog_Event_ClientMsgEventPathSelectorTime{}
+}
+func (ActivityLogEventClientMsgEventFieldPathBuilder) OmittedPayload() ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload {
+	return ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload{}
 }
 
 type ActivityLog_Event_ClientMsgEventPathSelectorData struct{}
@@ -1999,6 +2338,57 @@ func (s ActivityLog_Event_ClientMsgEventPathSelectorTime) WithValue(value *times
 
 func (s ActivityLog_Event_ClientMsgEventPathSelectorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues)
+}
+
+type ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload struct{}
+
+func (ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload) FieldPath() *ActivityLogEventClientMsgEvent_FieldTerminalPath {
+	return &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload}
+}
+
+func (s ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLogEventClientMsgEvent_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogEventClientMsgEvent_FieldTerminalPathValue)
+}
+
+func (s ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues)
+}
+
+func (ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload) WithSubPath(subPath common.OmittedPayload_FieldPath) *ActivityLogEventClientMsgEvent_FieldSubPath {
+	return &ActivityLogEventClientMsgEvent_FieldSubPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload, subPath: subPath}
+}
+
+func (s ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload) WithSubValue(subPathValue common.OmittedPayload_FieldPathValue) *ActivityLogEventClientMsgEvent_FieldSubPathValue {
+	return &ActivityLogEventClientMsgEvent_FieldSubPathValue{ActivityLogEventClientMsgEvent_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload) WithSubArrayOfValues(subPathArrayOfValues common.OmittedPayload_FieldPathArrayOfValues) *ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues {
+	return &ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload) WithSubArrayItemValue(subPathArrayItemValue common.OmittedPayload_FieldPathArrayItemValue) *ActivityLogEventClientMsgEvent_FieldSubPathArrayItemValue {
+	return &ActivityLogEventClientMsgEvent_FieldSubPathArrayItemValue{ActivityLogEventClientMsgEvent_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayload) OriginalSizeBytes() ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayloadOriginalSizeBytes {
+	return ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLogEventClientMsgEvent_FieldSubPath {
+	return &ActivityLogEventClientMsgEvent_FieldSubPath{
+		selector: ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload,
+		subPath:  common.NewOmittedPayloadFieldPathBuilder().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLogEventClientMsgEvent_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogEventClientMsgEvent_FieldSubPathValue)
+}
+
+func (s ActivityLog_Event_ClientMsgEventPathSelectorOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues)
 }
 
 type ActivityLogEventRegionalServerMsgEventFieldPathBuilder struct{}
@@ -2069,6 +2459,9 @@ func (ActivityLogEventServerMsgEventFieldPathBuilder) Data() ActivityLog_Event_S
 func (ActivityLogEventServerMsgEventFieldPathBuilder) Time() ActivityLog_Event_ServerMsgEventPathSelectorTime {
 	return ActivityLog_Event_ServerMsgEventPathSelectorTime{}
 }
+func (ActivityLogEventServerMsgEventFieldPathBuilder) OmittedPayload() ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload {
+	return ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload{}
+}
 
 type ActivityLog_Event_ServerMsgEventPathSelectorData struct{}
 
@@ -2096,6 +2489,57 @@ func (s ActivityLog_Event_ServerMsgEventPathSelectorTime) WithValue(value *times
 
 func (s ActivityLog_Event_ServerMsgEventPathSelectorTime) WithArrayOfValues(values []*timestamppb.Timestamp) *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues)
+}
+
+type ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload struct{}
+
+func (ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload) FieldPath() *ActivityLogEventServerMsgEvent_FieldTerminalPath {
+	return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload}
+}
+
+func (s ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLogEventServerMsgEvent_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogEventServerMsgEvent_FieldTerminalPathValue)
+}
+
+func (s ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues)
+}
+
+func (ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload) WithSubPath(subPath common.OmittedPayload_FieldPath) *ActivityLogEventServerMsgEvent_FieldSubPath {
+	return &ActivityLogEventServerMsgEvent_FieldSubPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload, subPath: subPath}
+}
+
+func (s ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload) WithSubValue(subPathValue common.OmittedPayload_FieldPathValue) *ActivityLogEventServerMsgEvent_FieldSubPathValue {
+	return &ActivityLogEventServerMsgEvent_FieldSubPathValue{ActivityLogEventServerMsgEvent_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload) WithSubArrayOfValues(subPathArrayOfValues common.OmittedPayload_FieldPathArrayOfValues) *ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues {
+	return &ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload) WithSubArrayItemValue(subPathArrayItemValue common.OmittedPayload_FieldPathArrayItemValue) *ActivityLogEventServerMsgEvent_FieldSubPathArrayItemValue {
+	return &ActivityLogEventServerMsgEvent_FieldSubPathArrayItemValue{ActivityLogEventServerMsgEvent_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayload) OriginalSizeBytes() ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayloadOriginalSizeBytes {
+	return ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLogEventServerMsgEvent_FieldSubPath {
+	return &ActivityLogEventServerMsgEvent_FieldSubPath{
+		selector: ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload,
+		subPath:  common.NewOmittedPayloadFieldPathBuilder().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLogEventServerMsgEvent_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogEventServerMsgEvent_FieldSubPathValue)
+}
+
+func (s ActivityLog_Event_ServerMsgEventPathSelectorOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues)
 }
 
 type ActivityLogEventRegionalExitEventFieldPathBuilder struct{}
@@ -2375,6 +2819,12 @@ func (ActivityLogResourceDifferenceFieldPathBuilder) Before() ActivityLog_Resour
 func (ActivityLogResourceDifferenceFieldPathBuilder) After() ActivityLog_Resource_DifferencePathSelectorAfter {
 	return ActivityLog_Resource_DifferencePathSelectorAfter{}
 }
+func (ActivityLogResourceDifferenceFieldPathBuilder) BeforeOmittedPayload() ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload {
+	return ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload{}
+}
+func (ActivityLogResourceDifferenceFieldPathBuilder) AfterOmittedPayload() ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload {
+	return ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload{}
+}
 
 type ActivityLog_Resource_DifferencePathSelectorFields struct{}
 
@@ -2416,4 +2866,106 @@ func (s ActivityLog_Resource_DifferencePathSelectorAfter) WithValue(value *anypb
 
 func (s ActivityLog_Resource_DifferencePathSelectorAfter) WithArrayOfValues(values []*anypb.Any) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
+}
+
+type ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload struct{}
+
+func (ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload) FieldPath() *ActivityLogResourceDifference_FieldTerminalPath {
+	return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLogResourceDifference_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldTerminalPathValue)
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
+}
+
+func (ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload) WithSubPath(subPath common.OmittedPayload_FieldPath) *ActivityLogResourceDifference_FieldSubPath {
+	return &ActivityLogResourceDifference_FieldSubPath{selector: ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload, subPath: subPath}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload) WithSubValue(subPathValue common.OmittedPayload_FieldPathValue) *ActivityLogResourceDifference_FieldSubPathValue {
+	return &ActivityLogResourceDifference_FieldSubPathValue{ActivityLogResourceDifference_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload) WithSubArrayOfValues(subPathArrayOfValues common.OmittedPayload_FieldPathArrayOfValues) *ActivityLogResourceDifference_FieldSubPathArrayOfValues {
+	return &ActivityLogResourceDifference_FieldSubPathArrayOfValues{ActivityLogResourceDifference_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload) WithSubArrayItemValue(subPathArrayItemValue common.OmittedPayload_FieldPathArrayItemValue) *ActivityLogResourceDifference_FieldSubPathArrayItemValue {
+	return &ActivityLogResourceDifference_FieldSubPathArrayItemValue{ActivityLogResourceDifference_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayload) OriginalSizeBytes() ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayloadOriginalSizeBytes {
+	return ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLogResourceDifference_FieldSubPath {
+	return &ActivityLogResourceDifference_FieldSubPath{
+		selector: ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload,
+		subPath:  common.NewOmittedPayloadFieldPathBuilder().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLogResourceDifference_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldSubPathValue)
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorBeforeOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLogResourceDifference_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldSubPathArrayOfValues)
+}
+
+type ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload struct{}
+
+func (ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload) FieldPath() *ActivityLogResourceDifference_FieldTerminalPath {
+	return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload) WithValue(value *common.OmittedPayload) *ActivityLogResourceDifference_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldTerminalPathValue)
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
+}
+
+func (ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload) WithSubPath(subPath common.OmittedPayload_FieldPath) *ActivityLogResourceDifference_FieldSubPath {
+	return &ActivityLogResourceDifference_FieldSubPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload, subPath: subPath}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload) WithSubValue(subPathValue common.OmittedPayload_FieldPathValue) *ActivityLogResourceDifference_FieldSubPathValue {
+	return &ActivityLogResourceDifference_FieldSubPathValue{ActivityLogResourceDifference_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload) WithSubArrayOfValues(subPathArrayOfValues common.OmittedPayload_FieldPathArrayOfValues) *ActivityLogResourceDifference_FieldSubPathArrayOfValues {
+	return &ActivityLogResourceDifference_FieldSubPathArrayOfValues{ActivityLogResourceDifference_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload) WithSubArrayItemValue(subPathArrayItemValue common.OmittedPayload_FieldPathArrayItemValue) *ActivityLogResourceDifference_FieldSubPathArrayItemValue {
+	return &ActivityLogResourceDifference_FieldSubPathArrayItemValue{ActivityLogResourceDifference_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayload) OriginalSizeBytes() ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayloadOriginalSizeBytes {
+	return ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayloadOriginalSizeBytes{}
+}
+
+type ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayloadOriginalSizeBytes struct{}
+
+func (ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayloadOriginalSizeBytes) FieldPath() *ActivityLogResourceDifference_FieldSubPath {
+	return &ActivityLogResourceDifference_FieldSubPath{
+		selector: ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload,
+		subPath:  common.NewOmittedPayloadFieldPathBuilder().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ActivityLogResourceDifference_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldSubPathValue)
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorAfterOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ActivityLogResourceDifference_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldSubPathArrayOfValues)
 }

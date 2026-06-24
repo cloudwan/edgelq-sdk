@@ -34,6 +34,7 @@ var (
 	listResourceChangeLogsDescriptor               *ListResourceChangeLogsDescriptor
 	createPreCommittedResourceChangeLogsDescriptor *CreatePreCommittedResourceChangeLogsDescriptor
 	setResourceChangeLogsCommitStateDescriptor     *SetResourceChangeLogsCommitStateDescriptor
+	createResourceChangeLogsDescriptor             *CreateResourceChangeLogsDescriptor
 )
 
 type ListResourceChangeLogsDescriptor struct{}
@@ -666,6 +667,216 @@ func GetSetResourceChangeLogsCommitStateDescriptor() *SetResourceChangeLogsCommi
 	return setResourceChangeLogsCommitStateDescriptor
 }
 
+type CreateResourceChangeLogsDescriptor struct{}
+
+type CreateResourceChangeLogsDescriptorClientMsgHandle struct{}
+
+type CreateResourceChangeLogsDescriptorServerMsgHandle struct{}
+
+func (d *CreateResourceChangeLogsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &CreateResourceChangeLogsRequest{}
+}
+
+func (d *CreateResourceChangeLogsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &CreateResourceChangeLogsResponse{}
+}
+
+func (d *CreateResourceChangeLogsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *CreateResourceChangeLogsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *CreateResourceChangeLogsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *CreateResourceChangeLogsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *CreateResourceChangeLogsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *CreateResourceChangeLogsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *CreateResourceChangeLogsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetVerb() string {
+	return "submit"
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetMethodName() string {
+	return "CreateResourceChangeLogs"
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetFullMethodName() string {
+	return "/ntt.audit.v1.ResourceChangeLogService/CreateResourceChangeLogs"
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetProtoPkgName() string {
+	return "ntt.audit.v1"
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetApiName() string {
+	return "ResourceChangeLogService"
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetServiceDomain() string {
+	return "audit.edgelq.com"
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return resourceChangeLogServiceDescriptor
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return resource_change_log.GetDescriptor()
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &CreateResourceChangeLogsDescriptorClientMsgHandle{}
+}
+
+func (d *CreateResourceChangeLogsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &CreateResourceChangeLogsDescriptorServerMsgHandle{}
+}
+
+func (h *CreateResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*CreateResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*CreateResourceChangeLogsRequest) *resource_change_log.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*CreateResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*CreateResourceChangeLogsRequest) []*resource_change_log.Name
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*CreateResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*CreateResourceChangeLogsRequest) *resource_change_log.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateResourceChangeLogsRequest) *resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateResourceChangeLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateResourceChangeLogsRequest) []*resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*CreateResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*CreateResourceChangeLogsResponse) *resource_change_log.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*CreateResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*CreateResourceChangeLogsResponse) []*resource_change_log.Name
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*CreateResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*CreateResourceChangeLogsResponse) *resource_change_log.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*CreateResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*CreateResourceChangeLogsResponse) *resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *CreateResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*CreateResourceChangeLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*CreateResourceChangeLogsResponse) []*resource_change_log.ResourceChangeLog
+	})
+	if ok {
+		return resource_change_log.ResourceChangeLogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetCreateResourceChangeLogsDescriptor() *CreateResourceChangeLogsDescriptor {
+	return createResourceChangeLogsDescriptor
+}
+
 type ResourceChangeLogServiceDescriptor struct{}
 
 func (d *ResourceChangeLogServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -673,6 +884,7 @@ func (d *ResourceChangeLogServiceDescriptor) AllMethodDescriptors() []gotenclien
 		listResourceChangeLogsDescriptor,
 		createPreCommittedResourceChangeLogsDescriptor,
 		setResourceChangeLogsCommitStateDescriptor,
+		createResourceChangeLogsDescriptor,
 	}
 }
 
@@ -705,10 +917,12 @@ func initDescriptors() {
 	listResourceChangeLogsDescriptor = &ListResourceChangeLogsDescriptor{}
 	createPreCommittedResourceChangeLogsDescriptor = &CreatePreCommittedResourceChangeLogsDescriptor{}
 	setResourceChangeLogsCommitStateDescriptor = &SetResourceChangeLogsCommitStateDescriptor{}
+	createResourceChangeLogsDescriptor = &CreateResourceChangeLogsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(resourceChangeLogServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listResourceChangeLogsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createPreCommittedResourceChangeLogsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(setResourceChangeLogsCommitStateDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(createResourceChangeLogsDescriptor)
 }
 
 func init() {

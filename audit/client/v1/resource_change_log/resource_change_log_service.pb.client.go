@@ -50,6 +50,7 @@ type ResourceChangeLogServiceClient interface {
 	ListResourceChangeLogs(ctx context.Context, in *ListResourceChangeLogsRequest, opts ...grpc.CallOption) (*ListResourceChangeLogsResponse, error)
 	CreatePreCommittedResourceChangeLogs(ctx context.Context, in *CreatePreCommittedResourceChangeLogsRequest, opts ...grpc.CallOption) (*CreatePreCommittedResourceChangeLogsResponse, error)
 	SetResourceChangeLogsCommitState(ctx context.Context, in *SetResourceChangeLogsCommitStateRequest, opts ...grpc.CallOption) (*SetResourceChangeLogsCommitStateResponse, error)
+	CreateResourceChangeLogs(ctx context.Context, in *CreateResourceChangeLogsRequest, opts ...grpc.CallOption) (*CreateResourceChangeLogsResponse, error)
 }
 
 type client struct {
@@ -81,6 +82,15 @@ func (c *client) CreatePreCommittedResourceChangeLogs(ctx context.Context, in *C
 func (c *client) SetResourceChangeLogsCommitState(ctx context.Context, in *SetResourceChangeLogsCommitStateRequest, opts ...grpc.CallOption) (*SetResourceChangeLogsCommitStateResponse, error) {
 	out := new(SetResourceChangeLogsCommitStateResponse)
 	err := c.cc.Invoke(ctx, "/ntt.audit.v1.ResourceChangeLogService/SetResourceChangeLogsCommitState", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) CreateResourceChangeLogs(ctx context.Context, in *CreateResourceChangeLogsRequest, opts ...grpc.CallOption) (*CreateResourceChangeLogsResponse, error) {
+	out := new(CreateResourceChangeLogsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.audit.v1.ResourceChangeLogService/CreateResourceChangeLogs", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

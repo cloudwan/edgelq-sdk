@@ -232,12 +232,27 @@ message CreateActivityLogsRequest {
   // List of activity logs to be added to service. Can be coming from different
   // scopes but must be submitted to the same region and service.
   repeated ActivityLog activity_logs = 1;
+
+  // When set, the response returns per-entry results (created_log_names +
+  // failed) and the server drops only failing entries instead of failing the
+  // whole batch. Opt-in for new exporters; unset preserves the legacy
+  // all-or-nothing behavior.
+  bool return_per_entry_results = 2;
 }
 
 // A response message of the [CreateActivityLogs](#createactivitylogs-method)
 // nmethod.
 message CreateActivityLogsResponse {
   // Activity log names - one name per each activity log, in same order
-  // as in the request
+  // as in the request. Populated only in all-or-nothing mode
+  // (return_per_entry_results unset).
   repeated string log_names = 1;
+
+  // Server-assigned name per successfully created log, keyed by its position in
+  // the request. Populated only when return_per_entry_results is set.
+  map<uint32, string> created_log_names = 2;
+
+  // Per-entry failure status, keyed by the failing log's position in the
+  // request. Populated only when return_per_entry_results is set.
+  map<uint32, ntt.rpc.Status> failed = 3;
 }

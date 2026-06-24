@@ -313,6 +313,29 @@ func (s LabelKeySetPathSelectorVersions) WithItemValue(value string) *LabelKeySe
 	return s.FieldPath().WithIArrayItemValue(value).(*LabelKeySet_FieldTerminalPathArrayItemValue)
 }
 
+type OmittedPayloadFieldPathBuilder struct{}
+
+func NewOmittedPayloadFieldPathBuilder() OmittedPayloadFieldPathBuilder {
+	return OmittedPayloadFieldPathBuilder{}
+}
+func (OmittedPayloadFieldPathBuilder) OriginalSizeBytes() OmittedPayloadPathSelectorOriginalSizeBytes {
+	return OmittedPayloadPathSelectorOriginalSizeBytes{}
+}
+
+type OmittedPayloadPathSelectorOriginalSizeBytes struct{}
+
+func (OmittedPayloadPathSelectorOriginalSizeBytes) FieldPath() *OmittedPayload_FieldTerminalPath {
+	return &OmittedPayload_FieldTerminalPath{selector: OmittedPayload_FieldPathSelectorOriginalSizeBytes}
+}
+
+func (s OmittedPayloadPathSelectorOriginalSizeBytes) WithValue(value uint64) *OmittedPayload_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OmittedPayload_FieldTerminalPathValue)
+}
+
+func (s OmittedPayloadPathSelectorOriginalSizeBytes) WithArrayOfValues(values []uint64) *OmittedPayload_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OmittedPayload_FieldTerminalPathArrayOfValues)
+}
+
 type TimeIntervalFieldPathBuilder struct{}
 
 func NewTimeIntervalFieldPathBuilder() TimeIntervalFieldPathBuilder {

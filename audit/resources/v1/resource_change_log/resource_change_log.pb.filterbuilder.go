@@ -1000,6 +1000,14 @@ func (b *filterCndBuilderResource) Current() *filterCndBuilderResourceCurrent {
 	return &filterCndBuilderResourceCurrent{builder: b.builder}
 }
 
+func (b *filterCndBuilderResource) PreviousOmittedPayload() *filterCndBuilderResourcePreviousOmittedPayload {
+	return &filterCndBuilderResourcePreviousOmittedPayload{builder: b.builder}
+}
+
+func (b *filterCndBuilderResource) CurrentOmittedPayload() *filterCndBuilderResourceCurrentOmittedPayload {
+	return &filterCndBuilderResourceCurrentOmittedPayload{builder: b.builder}
+}
+
 func (b *filterCndBuilderResource) Labels() *filterCndBuilderResourceLabels {
 	return &filterCndBuilderResourceLabels{builder: b.builder}
 }
@@ -1363,6 +1371,250 @@ func (b *filterCndBuilderResourceCurrent) compare(op gotenfilter.CompareOperator
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().Current().WithValue(value),
+	})
+}
+
+type filterCndBuilderResourcePreviousOmittedPayload struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) Eq(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) Neq(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) Gt(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) Gte(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) Lt(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) Lte(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) In(values []*common.OmittedPayload) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) NotIn(values []*common.OmittedPayload) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) compare(op gotenfilter.CompareOperator, value *common.OmittedPayload) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayload) OriginalSizeBytes() *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes {
+	return &filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes{builder: b.builder}
+}
+
+type filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) Eq(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) Neq(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) Gt(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) Gte(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) Lt(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) Lte(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) In(values []uint64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().OriginalSizeBytes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) NotIn(values []uint64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().OriginalSizeBytes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().OriginalSizeBytes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().OriginalSizeBytes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourcePreviousOmittedPayloadOriginalSizeBytes) compare(op gotenfilter.CompareOperator, value uint64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().PreviousOmittedPayload().OriginalSizeBytes().WithValue(value),
+	})
+}
+
+type filterCndBuilderResourceCurrentOmittedPayload struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) Eq(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) Neq(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) Gt(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) Gte(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) Lt(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) Lte(value *common.OmittedPayload) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) In(values []*common.OmittedPayload) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) NotIn(values []*common.OmittedPayload) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) compare(op gotenfilter.CompareOperator, value *common.OmittedPayload) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayload) OriginalSizeBytes() *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes {
+	return &filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes{builder: b.builder}
+}
+
+type filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) Eq(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) Neq(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) Gt(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) Gte(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) Lt(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) Lte(value uint64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) In(values []uint64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().OriginalSizeBytes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) NotIn(values []uint64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().OriginalSizeBytes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().OriginalSizeBytes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().OriginalSizeBytes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrentOmittedPayloadOriginalSizeBytes) compare(op gotenfilter.CompareOperator, value uint64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().CurrentOmittedPayload().OriginalSizeBytes().WithValue(value),
 	})
 }
 

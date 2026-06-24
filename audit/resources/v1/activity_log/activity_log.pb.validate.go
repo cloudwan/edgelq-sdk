@@ -194,6 +194,11 @@ func (obj *ActivityLog_Event_ClientMsgEvent) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	if subobj, ok := interface{}(obj.OmittedPayload).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ClientMsgEvent", "omittedPayload", obj.OmittedPayload, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -211,6 +216,11 @@ func (obj *ActivityLog_Event_RegionalServerMsgEvent) GotenValidate() error {
 func (obj *ActivityLog_Event_ServerMsgEvent) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if subobj, ok := interface{}(obj.OmittedPayload).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ServerMsgEvent", "omittedPayload", obj.OmittedPayload, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -248,6 +258,16 @@ func (obj *ActivityLog_Event_ExitEvent) GotenValidate() error {
 func (obj *ActivityLog_Resource_Difference) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if subobj, ok := interface{}(obj.BeforeOmittedPayload).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Difference", "beforeOmittedPayload", obj.BeforeOmittedPayload, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.AfterOmittedPayload).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Difference", "afterOmittedPayload", obj.AfterOmittedPayload, "nested object validation failed", err)
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

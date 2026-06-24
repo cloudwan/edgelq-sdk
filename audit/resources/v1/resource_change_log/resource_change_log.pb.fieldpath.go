@@ -1070,15 +1070,17 @@ type ResourceChangeLogResourceChange_FieldPath interface {
 type ResourceChangeLogResourceChange_FieldPathSelector int32
 
 const (
-	ResourceChangeLogResourceChange_FieldPathSelectorName          ResourceChangeLogResourceChange_FieldPathSelector = 0
-	ResourceChangeLogResourceChange_FieldPathSelectorType          ResourceChangeLogResourceChange_FieldPathSelector = 1
-	ResourceChangeLogResourceChange_FieldPathSelectorAction        ResourceChangeLogResourceChange_FieldPathSelector = 2
-	ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields ResourceChangeLogResourceChange_FieldPathSelector = 3
-	ResourceChangeLogResourceChange_FieldPathSelectorPrevious      ResourceChangeLogResourceChange_FieldPathSelector = 4
-	ResourceChangeLogResourceChange_FieldPathSelectorCurrent       ResourceChangeLogResourceChange_FieldPathSelector = 5
-	ResourceChangeLogResourceChange_FieldPathSelectorLabels        ResourceChangeLogResourceChange_FieldPathSelector = 6
-	ResourceChangeLogResourceChange_FieldPathSelectorPre           ResourceChangeLogResourceChange_FieldPathSelector = 7
-	ResourceChangeLogResourceChange_FieldPathSelectorPost          ResourceChangeLogResourceChange_FieldPathSelector = 8
+	ResourceChangeLogResourceChange_FieldPathSelectorName                   ResourceChangeLogResourceChange_FieldPathSelector = 0
+	ResourceChangeLogResourceChange_FieldPathSelectorType                   ResourceChangeLogResourceChange_FieldPathSelector = 1
+	ResourceChangeLogResourceChange_FieldPathSelectorAction                 ResourceChangeLogResourceChange_FieldPathSelector = 2
+	ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields          ResourceChangeLogResourceChange_FieldPathSelector = 3
+	ResourceChangeLogResourceChange_FieldPathSelectorPrevious               ResourceChangeLogResourceChange_FieldPathSelector = 4
+	ResourceChangeLogResourceChange_FieldPathSelectorCurrent                ResourceChangeLogResourceChange_FieldPathSelector = 5
+	ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload ResourceChangeLogResourceChange_FieldPathSelector = 6
+	ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload  ResourceChangeLogResourceChange_FieldPathSelector = 7
+	ResourceChangeLogResourceChange_FieldPathSelectorLabels                 ResourceChangeLogResourceChange_FieldPathSelector = 8
+	ResourceChangeLogResourceChange_FieldPathSelectorPre                    ResourceChangeLogResourceChange_FieldPathSelector = 9
+	ResourceChangeLogResourceChange_FieldPathSelectorPost                   ResourceChangeLogResourceChange_FieldPathSelector = 10
 )
 
 func (s ResourceChangeLogResourceChange_FieldPathSelector) String() string {
@@ -1095,6 +1097,10 @@ func (s ResourceChangeLogResourceChange_FieldPathSelector) String() string {
 		return "previous"
 	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
 		return "current"
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		return "previous_omitted_payload"
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		return "current_omitted_payload"
 	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 		return "labels"
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
@@ -1124,6 +1130,10 @@ func BuildResourceChangeLogResourceChange_FieldPath(fp gotenobject.RawFieldPath)
 			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPrevious}, nil
 		case "current":
 			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrent}, nil
+		case "previous_omitted_payload", "previousOmittedPayload", "previous-omitted-payload":
+			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload}, nil
+		case "current_omitted_payload", "currentOmittedPayload", "current-omitted-payload":
+			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload}, nil
 		case "labels":
 			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorLabels}, nil
 		case "pre":
@@ -1133,6 +1143,18 @@ func BuildResourceChangeLogResourceChange_FieldPath(fp gotenobject.RawFieldPath)
 		}
 	} else {
 		switch fp[0] {
+		case "previous_omitted_payload", "previousOmittedPayload", "previous-omitted-payload":
+			if subpath, err := common.BuildOmittedPayload_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ResourceChangeLogResourceChange_FieldSubPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload, subPath: subpath}, nil
+			}
+		case "current_omitted_payload", "currentOmittedPayload", "current-omitted-payload":
+			if subpath, err := common.BuildOmittedPayload_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ResourceChangeLogResourceChange_FieldSubPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload, subPath: subpath}, nil
+			}
 		case "pre":
 			if subpath, err := common.BuildObjectState_FieldPath(fp[1:]); err != nil {
 				return nil, err
@@ -1213,6 +1235,14 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) Get(source *Resourc
 			if source.Current != nil {
 				values = append(values, source.Current)
 			}
+		case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+			if source.PreviousOmittedPayload != nil {
+				values = append(values, source.PreviousOmittedPayload)
+			}
+		case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+			if source.CurrentOmittedPayload != nil {
+				values = append(values, source.CurrentOmittedPayload)
+			}
 		case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 			values = append(values, source.Labels)
 		case ResourceChangeLogResourceChange_FieldPathSelectorPre:
@@ -1252,6 +1282,12 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) GetSingle(source *R
 	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
 		res := source.GetCurrent()
 		return res, res != nil
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		res := source.GetPreviousOmittedPayload()
+		return res, res != nil
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		res := source.GetCurrentOmittedPayload()
+		return res, res != nil
 	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 		res := source.GetLabels()
 		return res, res != nil
@@ -1285,6 +1321,10 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) GetDefault() interf
 		return (*anypb.Any)(nil)
 	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
 		return (*anypb.Any)(nil)
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		return (*common.OmittedPayload)(nil)
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		return (*common.OmittedPayload)(nil)
 	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 		return (map[string]string)(nil)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
@@ -1311,6 +1351,10 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) ClearValue(item *Re
 			item.Previous = nil
 		case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
 			item.Current = nil
+		case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+			item.PreviousOmittedPayload = nil
+		case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+			item.CurrentOmittedPayload = nil
 		case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 			item.Labels = nil
 		case ResourceChangeLogResourceChange_FieldPathSelectorPre:
@@ -1356,6 +1400,10 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) WithIValue(value in
 		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
 		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(*common.OmittedPayload)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(*common.OmittedPayload)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
@@ -1386,6 +1434,10 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) WithIArrayOfValues(
 		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
 		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]*common.OmittedPayload)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]*common.OmittedPayload)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
@@ -1555,6 +1607,14 @@ var _ ResourceChangeLogResourceChange_FieldPath = (*ResourceChangeLogResourceCha
 func (fps *ResourceChangeLogResourceChange_FieldSubPath) Selector() ResourceChangeLogResourceChange_FieldPathSelector {
 	return fps.selector
 }
+func (fps *ResourceChangeLogResourceChange_FieldSubPath) AsPreviousOmittedPayloadSubPath() (common.OmittedPayload_FieldPath, bool) {
+	res, ok := fps.subPath.(common.OmittedPayload_FieldPath)
+	return res, ok
+}
+func (fps *ResourceChangeLogResourceChange_FieldSubPath) AsCurrentOmittedPayloadSubPath() (common.OmittedPayload_FieldPath, bool) {
+	res, ok := fps.subPath.(common.OmittedPayload_FieldPath)
+	return res, ok
+}
 func (fps *ResourceChangeLogResourceChange_FieldSubPath) AsPreSubPath() (common.ObjectState_FieldPath, bool) {
 	res, ok := fps.subPath.(common.ObjectState_FieldPath)
 	return res, ok
@@ -1577,6 +1637,10 @@ func (fps *ResourceChangeLogResourceChange_FieldSubPath) JSONString() string {
 // Get returns all values pointed by selected field from source ResourceChangeLog_ResourceChange
 func (fps *ResourceChangeLogResourceChange_FieldSubPath) Get(source *ResourceChangeLog_ResourceChange) (values []interface{}) {
 	switch fps.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		values = append(values, fps.subPath.GetRaw(source.GetPreviousOmittedPayload())...)
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		values = append(values, fps.subPath.GetRaw(source.GetCurrentOmittedPayload())...)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		values = append(values, fps.subPath.GetRaw(source.GetPre())...)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1594,6 +1658,16 @@ func (fps *ResourceChangeLogResourceChange_FieldSubPath) GetRaw(source proto.Mes
 // GetSingle returns value of selected field from source ResourceChangeLog_ResourceChange
 func (fps *ResourceChangeLogResourceChange_FieldSubPath) GetSingle(source *ResourceChangeLog_ResourceChange) (interface{}, bool) {
 	switch fps.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		if source.GetPreviousOmittedPayload() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPreviousOmittedPayload())
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		if source.GetCurrentOmittedPayload() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetCurrentOmittedPayload())
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		if source.GetPre() == nil {
 			return nil, false
@@ -1621,6 +1695,10 @@ func (fps *ResourceChangeLogResourceChange_FieldSubPath) GetDefault() interface{
 func (fps *ResourceChangeLogResourceChange_FieldSubPath) ClearValue(item *ResourceChangeLog_ResourceChange) {
 	if item != nil {
 		switch fps.selector {
+		case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+			fps.subPath.ClearValueRaw(item.PreviousOmittedPayload)
+		case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+			fps.subPath.ClearValueRaw(item.CurrentOmittedPayload)
 		case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 			fps.subPath.ClearValueRaw(item.Pre)
 		case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1733,6 +1811,14 @@ func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsCurrentValu
 	res, ok := fpv.value.(*anypb.Any)
 	return res, ok
 }
+func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsPreviousOmittedPayloadValue() (*common.OmittedPayload, bool) {
+	res, ok := fpv.value.(*common.OmittedPayload)
+	return res, ok
+}
+func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsCurrentOmittedPayloadValue() (*common.OmittedPayload, bool) {
+	res, ok := fpv.value.(*common.OmittedPayload)
+	return res, ok
+}
 func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsLabelsValue() (map[string]string, bool) {
 	res, ok := fpv.value.(map[string]string)
 	return res, ok
@@ -1764,6 +1850,10 @@ func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) SetTo(target 
 		(*target).Previous = fpv.value.(*anypb.Any)
 	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
 		(*target).Current = fpv.value.(*anypb.Any)
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		(*target).PreviousOmittedPayload = fpv.value.(*common.OmittedPayload)
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		(*target).CurrentOmittedPayload = fpv.value.(*common.OmittedPayload)
 	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 		(*target).Labels = fpv.value.(map[string]string)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
@@ -1818,6 +1908,10 @@ func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) CompareWith(s
 	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
 		return 0, false
 	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		return 0, false
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		return 0, false
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
 		return 0, false
 	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 		return 0, false
@@ -1900,6 +1994,14 @@ type ResourceChangeLogResourceChange_FieldSubPathValue struct {
 
 var _ ResourceChangeLogResourceChange_FieldPathValue = (*ResourceChangeLogResourceChange_FieldSubPathValue)(nil)
 
+func (fpvs *ResourceChangeLogResourceChange_FieldSubPathValue) AsPreviousOmittedPayloadPathValue() (common.OmittedPayload_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.OmittedPayload_FieldPathValue)
+	return res, ok
+}
+func (fpvs *ResourceChangeLogResourceChange_FieldSubPathValue) AsCurrentOmittedPayloadPathValue() (common.OmittedPayload_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.OmittedPayload_FieldPathValue)
+	return res, ok
+}
 func (fpvs *ResourceChangeLogResourceChange_FieldSubPathValue) AsPrePathValue() (common.ObjectState_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(common.ObjectState_FieldPathValue)
 	return res, ok
@@ -1914,6 +2016,10 @@ func (fpvs *ResourceChangeLogResourceChange_FieldSubPathValue) SetTo(target **Re
 		*target = new(ResourceChangeLog_ResourceChange)
 	}
 	switch fpvs.Selector() {
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).SetTo(&(*target).PreviousOmittedPayload)
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).SetTo(&(*target).CurrentOmittedPayload)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		fpvs.subPathValue.(common.ObjectState_FieldPathValue).SetTo(&(*target).Pre)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1934,6 +2040,10 @@ func (fpvs *ResourceChangeLogResourceChange_FieldSubPathValue) GetRawValue() int
 
 func (fpvs *ResourceChangeLogResourceChange_FieldSubPathValue) CompareWith(source *ResourceChangeLog_ResourceChange) (int, bool) {
 	switch fpvs.Selector() {
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		return fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).CompareWith(source.GetPreviousOmittedPayload())
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		return fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).CompareWith(source.GetCurrentOmittedPayload())
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		return fpvs.subPathValue.(common.ObjectState_FieldPathValue).CompareWith(source.GetPre())
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -2020,6 +2130,14 @@ type ResourceChangeLogResourceChange_FieldSubPathArrayItemValue struct {
 func (fpaivs *ResourceChangeLogResourceChange_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
+func (fpaivs *ResourceChangeLogResourceChange_FieldSubPathArrayItemValue) AsPreviousOmittedPayloadPathItemValue() (common.OmittedPayload_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *ResourceChangeLogResourceChange_FieldSubPathArrayItemValue) AsCurrentOmittedPayloadPathItemValue() (common.OmittedPayload_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *ResourceChangeLogResourceChange_FieldSubPathArrayItemValue) AsPrePathItemValue() (common.ObjectState_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(common.ObjectState_FieldPathArrayItemValue)
 	return res, ok
@@ -2032,6 +2150,10 @@ func (fpaivs *ResourceChangeLogResourceChange_FieldSubPathArrayItemValue) AsPost
 // Contains returns a boolean indicating if value that is being held is present in given 'ResourceChange'
 func (fpaivs *ResourceChangeLogResourceChange_FieldSubPathArrayItemValue) ContainsValue(source *ResourceChangeLog_ResourceChange) bool {
 	switch fpaivs.Selector() {
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		return fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue).ContainsValue(source.GetPreviousOmittedPayload())
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		return fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue).ContainsValue(source.GetCurrentOmittedPayload())
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		return fpaivs.subPathItemValue.(common.ObjectState_FieldPathArrayItemValue).ContainsValue(source.GetPre())
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -2100,6 +2222,14 @@ func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) Get
 		for _, v := range fpaov.values.([]*anypb.Any) {
 			values = append(values, v)
 		}
+	case ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload:
+		for _, v := range fpaov.values.([]*common.OmittedPayload) {
+			values = append(values, v)
+		}
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload:
+		for _, v := range fpaov.values.([]*common.OmittedPayload) {
+			values = append(values, v)
+		}
 	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
 		for _, v := range fpaov.values.([]map[string]string) {
 			values = append(values, v)
@@ -2137,6 +2267,14 @@ func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsP
 }
 func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsCurrentArrayOfValues() ([]*anypb.Any, bool) {
 	res, ok := fpaov.values.([]*anypb.Any)
+	return res, ok
+}
+func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsPreviousOmittedPayloadArrayOfValues() ([]*common.OmittedPayload, bool) {
+	res, ok := fpaov.values.([]*common.OmittedPayload)
+	return res, ok
+}
+func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsCurrentOmittedPayloadArrayOfValues() ([]*common.OmittedPayload, bool) {
+	res, ok := fpaov.values.([]*common.OmittedPayload)
 	return res, ok
 }
 func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([]map[string]string, bool) {
@@ -2182,6 +2320,14 @@ var _ ResourceChangeLogResourceChange_FieldPathArrayOfValues = (*ResourceChangeL
 
 func (fpsaov *ResourceChangeLogResourceChange_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ResourceChangeLogResourceChange_FieldSubPathArrayOfValues) AsPreviousOmittedPayloadPathArrayOfValues() (common.OmittedPayload_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.OmittedPayload_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ResourceChangeLogResourceChange_FieldSubPathArrayOfValues) AsCurrentOmittedPayloadPathArrayOfValues() (common.OmittedPayload_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.OmittedPayload_FieldPathArrayOfValues)
+	return res, ok
 }
 func (fpsaov *ResourceChangeLogResourceChange_FieldSubPathArrayOfValues) AsPrePathArrayOfValues() (common.ObjectState_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(common.ObjectState_FieldPathArrayOfValues)

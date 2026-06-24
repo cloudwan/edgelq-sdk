@@ -134,6 +134,11 @@ message ActivityLog {
 
       // Time of a message
       google.protobuf.Timestamp time = 2;
+
+      // Set when "data" was dropped to keep the record within the audit
+      // message-size limit. It records the original payload size; "data" keeps
+      // its type but carries no body.
+      OmittedPayload omitted_payload = 3;
     }
 
     // Describes message received from server in specific region.
@@ -160,6 +165,11 @@ message ActivityLog {
 
       // Time of a message
       google.protobuf.Timestamp time = 2;
+
+      // Set when "data" was dropped to keep the record within the audit
+      // message-size limit. It records the original payload size; "data" keeps
+      // its type but carries no body.
+      OmittedPayload omitted_payload = 3;
     }
 
     // Describes exit code received from server in specific region.
@@ -253,6 +263,14 @@ message ActivityLog {
       // in "fields". It does not contain whole resource as it is after
       // the update.
       google.protobuf.Any after = 3;
+
+      // Set when "before" was dropped to keep the record within the audit
+      // message-size limit. "before" keeps its type but carries no body.
+      OmittedPayload before_omitted_payload = 4;
+
+      // Set when "after" was dropped to keep the record within the audit
+      // message-size limit. "after" keeps its type but carries no body.
+      OmittedPayload after_omitted_payload = 5;
     }
   }
 

@@ -102,6 +102,15 @@ func (obj *LabelKeySet) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *OmittedPayload) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *TimeInterval) GotenValidate() error {
 	if obj == nil {
 		return nil

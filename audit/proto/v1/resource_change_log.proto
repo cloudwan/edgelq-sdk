@@ -101,6 +101,14 @@ message ResourceChangeLog {
     // resource in case of creation, empty in case of deletion.
     google.protobuf.Any current = 8;
 
+    // Set when "previous" was dropped to keep the record within the audit
+    // message-size limit. "previous" keeps its type but carries no body.
+    OmittedPayload previous_omitted_payload = 10;
+
+    // Set when "current" was dropped to keep the record within the audit
+    // message-size limit. "current" keeps its type but carries no body.
+    OmittedPayload current_omitted_payload = 11;
+
     // List of query-able labels. They are taken from
     // both before and after resource, but after has higher priority
     map<string, string> labels = 9;

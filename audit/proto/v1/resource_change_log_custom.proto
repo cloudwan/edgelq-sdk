@@ -207,3 +207,20 @@ message SetResourceChangeLogsCommitStateRequest {
 // [SetResourceChangeLogsCommitState](#setresourcechangelogscommitstate-method)
 // method.
 message SetResourceChangeLogsCommitStateResponse {}
+
+// A request message of the
+// [CreateResourceChangeLogs](#createresourcechangelogs-method) method.
+message CreateResourceChangeLogsRequest {
+  // Self-contained committed resource change logs to add. Each record carries
+  // its own scope, request_id, service, and resource change; records may span
+  // scopes but must be submitted to the same region and service.
+  repeated ResourceChangeLog resource_change_logs = 1;
+}
+
+// A response message of the
+// [CreateResourceChangeLogs](#createresourcechangelogs-method) method.
+message CreateResourceChangeLogsResponse {
+  // Per-entry failure status, keyed by the failing log's position in the
+  // request. Empty on full success; the worker re-queues the failed positions.
+  map<uint32, ntt.rpc.Status> failed = 1;
+}

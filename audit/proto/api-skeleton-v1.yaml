@@ -126,3 +126,15 @@ resources:
       transaction: NONE
     multiRegionRouting:
       skipCodeGenBasedRouting: true
+  - name: CreateResourceChangeLogs
+    verb: submit
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      skipResourceInRequest: true
+    responseName: CreateResourceChangeLogsResponse
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true

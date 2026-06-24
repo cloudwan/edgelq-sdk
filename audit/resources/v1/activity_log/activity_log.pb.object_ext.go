@@ -829,6 +829,16 @@ func (o *ActivityLog_Event_ClientMsgEvent) MakeDiffFieldMask(other *ActivityLog_
 	if !proto.Equal(o.GetTime(), other.GetTime()) {
 		res.Paths = append(res.Paths, &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorTime})
 	}
+	{
+		subMask := o.GetOmittedPayload().MakeDiffFieldMask(other.GetOmittedPayload())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ActivityLogEventClientMsgEvent_FieldSubPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -843,6 +853,7 @@ func (o *ActivityLog_Event_ClientMsgEvent) Clone() *ActivityLog_Event_ClientMsgE
 	result := &ActivityLog_Event_ClientMsgEvent{}
 	result.Data = proto.Clone(o.Data).(*anypb.Any)
 	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
+	result.OmittedPayload = o.OmittedPayload.Clone()
 	return result
 }
 
@@ -862,6 +873,12 @@ func (o *ActivityLog_Event_ClientMsgEvent) Merge(source *ActivityLog_Event_Clien
 			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
+	}
+	if source.GetOmittedPayload() != nil {
+		if o.OmittedPayload == nil {
+			o.OmittedPayload = new(common.OmittedPayload)
+		}
+		o.OmittedPayload.Merge(source.GetOmittedPayload())
 	}
 }
 
@@ -964,6 +981,16 @@ func (o *ActivityLog_Event_ServerMsgEvent) MakeDiffFieldMask(other *ActivityLog_
 	if !proto.Equal(o.GetTime(), other.GetTime()) {
 		res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorTime})
 	}
+	{
+		subMask := o.GetOmittedPayload().MakeDiffFieldMask(other.GetOmittedPayload())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldSubPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -978,6 +1005,7 @@ func (o *ActivityLog_Event_ServerMsgEvent) Clone() *ActivityLog_Event_ServerMsgE
 	result := &ActivityLog_Event_ServerMsgEvent{}
 	result.Data = proto.Clone(o.Data).(*anypb.Any)
 	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
+	result.OmittedPayload = o.OmittedPayload.Clone()
 	return result
 }
 
@@ -997,6 +1025,12 @@ func (o *ActivityLog_Event_ServerMsgEvent) Merge(source *ActivityLog_Event_Serve
 			o.Time = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.Time, source.GetTime())
+	}
+	if source.GetOmittedPayload() != nil {
+		if o.OmittedPayload == nil {
+			o.OmittedPayload = new(common.OmittedPayload)
+		}
+		o.OmittedPayload.Merge(source.GetOmittedPayload())
 	}
 }
 
@@ -1181,6 +1215,26 @@ func (o *ActivityLog_Resource_Difference) MakeDiffFieldMask(other *ActivityLog_R
 	if !proto.Equal(o.GetAfter(), other.GetAfter()) {
 		res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfter})
 	}
+	{
+		subMask := o.GetBeforeOmittedPayload().MakeDiffFieldMask(other.GetBeforeOmittedPayload())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldSubPath{selector: ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetAfterOmittedPayload().MakeDiffFieldMask(other.GetAfterOmittedPayload())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldSubPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -1196,6 +1250,8 @@ func (o *ActivityLog_Resource_Difference) Clone() *ActivityLog_Resource_Differen
 	result.Fields = proto.Clone(o.Fields).(*fieldmaskpb.FieldMask)
 	result.Before = proto.Clone(o.Before).(*anypb.Any)
 	result.After = proto.Clone(o.After).(*anypb.Any)
+	result.BeforeOmittedPayload = o.BeforeOmittedPayload.Clone()
+	result.AfterOmittedPayload = o.AfterOmittedPayload.Clone()
 	return result
 }
 
@@ -1221,6 +1277,18 @@ func (o *ActivityLog_Resource_Difference) Merge(source *ActivityLog_Resource_Dif
 			o.After = new(anypb.Any)
 		}
 		proto.Merge(o.After, source.GetAfter())
+	}
+	if source.GetBeforeOmittedPayload() != nil {
+		if o.BeforeOmittedPayload == nil {
+			o.BeforeOmittedPayload = new(common.OmittedPayload)
+		}
+		o.BeforeOmittedPayload.Merge(source.GetBeforeOmittedPayload())
+	}
+	if source.GetAfterOmittedPayload() != nil {
+		if o.AfterOmittedPayload == nil {
+			o.AfterOmittedPayload = new(common.OmittedPayload)
+		}
+		o.AfterOmittedPayload.Merge(source.GetAfterOmittedPayload())
 	}
 }
 

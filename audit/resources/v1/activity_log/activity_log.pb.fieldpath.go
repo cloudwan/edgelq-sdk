@@ -4481,8 +4481,9 @@ type ActivityLogEventClientMsgEvent_FieldPath interface {
 type ActivityLogEventClientMsgEvent_FieldPathSelector int32
 
 const (
-	ActivityLogEventClientMsgEvent_FieldPathSelectorData ActivityLogEventClientMsgEvent_FieldPathSelector = 0
-	ActivityLogEventClientMsgEvent_FieldPathSelectorTime ActivityLogEventClientMsgEvent_FieldPathSelector = 1
+	ActivityLogEventClientMsgEvent_FieldPathSelectorData           ActivityLogEventClientMsgEvent_FieldPathSelector = 0
+	ActivityLogEventClientMsgEvent_FieldPathSelectorTime           ActivityLogEventClientMsgEvent_FieldPathSelector = 1
+	ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload ActivityLogEventClientMsgEvent_FieldPathSelector = 2
 )
 
 func (s ActivityLogEventClientMsgEvent_FieldPathSelector) String() string {
@@ -4491,6 +4492,8 @@ func (s ActivityLogEventClientMsgEvent_FieldPathSelector) String() string {
 		return "data"
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
 		return "time"
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		return "omitted_payload"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", s))
 	}
@@ -4506,6 +4509,17 @@ func BuildActivityLogEventClientMsgEvent_FieldPath(fp gotenobject.RawFieldPath) 
 			return &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorData}, nil
 		case "time":
 			return &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorTime}, nil
+		case "omitted_payload", "omittedPayload", "omitted-payload":
+			return &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "omitted_payload", "omittedPayload", "omitted-payload":
+			if subpath, err := common.BuildOmittedPayload_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ActivityLogEventClientMsgEvent_FieldSubPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_Event_ClientMsgEvent", fp)
@@ -4559,6 +4573,10 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) Get(source *Activity
 			if source.Time != nil {
 				values = append(values, source.Time)
 			}
+		case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+			if source.OmittedPayload != nil {
+				values = append(values, source.OmittedPayload)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 		}
@@ -4579,6 +4597,9 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) GetSingle(source *Ac
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
 		res := source.GetTime()
 		return res, res != nil
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		res := source.GetOmittedPayload()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 	}
@@ -4595,6 +4616,8 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) GetDefault() interfa
 		return (*anypb.Any)(nil)
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
 		return (*timestamppb.Timestamp)(nil)
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		return (*common.OmittedPayload)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 	}
@@ -4607,6 +4630,8 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) ClearValue(item *Act
 			item.Data = nil
 		case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
 			item.Time = nil
+		case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+			item.OmittedPayload = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 		}
@@ -4633,6 +4658,8 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) WithIValue(value int
 		return &ActivityLogEventClientMsgEvent_FieldTerminalPathValue{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
 		return &ActivityLogEventClientMsgEvent_FieldTerminalPathValue{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		return &ActivityLogEventClientMsgEvent_FieldTerminalPathValue{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, value: value.(*common.OmittedPayload)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 	}
@@ -4649,6 +4676,8 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) WithIArrayOfValues(v
 		return &ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
 		return &ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		return &ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventClientMsgEvent_FieldTerminalPath: *fp, values: values.([]*common.OmittedPayload)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fp.selector))
 	}
@@ -4668,6 +4697,118 @@ func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) WithIArrayItemValue(
 
 func (fp *ActivityLogEventClientMsgEvent_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+type ActivityLogEventClientMsgEvent_FieldSubPath struct {
+	selector ActivityLogEventClientMsgEvent_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ ActivityLogEventClientMsgEvent_FieldPath = (*ActivityLogEventClientMsgEvent_FieldSubPath)(nil)
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) Selector() ActivityLogEventClientMsgEvent_FieldPathSelector {
+	return fps.selector
+}
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) AsOmittedPayloadSubPath() (common.OmittedPayload_FieldPath, bool) {
+	res, ok := fps.subPath.(common.OmittedPayload_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source ActivityLog_Event_ClientMsgEvent
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) Get(source *ActivityLog_Event_ClientMsgEvent) (values []interface{}) {
+	switch fps.selector {
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		values = append(values, fps.subPath.GetRaw(source.GetOmittedPayload())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*ActivityLog_Event_ClientMsgEvent))
+}
+
+// GetSingle returns value of selected field from source ActivityLog_Event_ClientMsgEvent
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) GetSingle(source *ActivityLog_Event_ClientMsgEvent) (interface{}, bool) {
+	switch fps.selector {
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		if source.GetOmittedPayload() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fps.selector))
+	}
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*ActivityLog_Event_ClientMsgEvent))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) ClearValue(item *ActivityLog_Event_ClientMsgEvent) {
+	if item != nil {
+		switch fps.selector {
+		case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+			fps.subPath.ClearValueRaw(item.OmittedPayload)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*ActivityLog_Event_ClientMsgEvent))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) WithIValue(value interface{}) ActivityLogEventClientMsgEvent_FieldPathValue {
+	return &ActivityLogEventClientMsgEvent_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) WithIArrayOfValues(values interface{}) ActivityLogEventClientMsgEvent_FieldPathArrayOfValues {
+	return &ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) WithIArrayItemValue(value interface{}) ActivityLogEventClientMsgEvent_FieldPathArrayItemValue {
+	return &ActivityLogEventClientMsgEvent_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *ActivityLogEventClientMsgEvent_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
 }
 
 // ActivityLogEventClientMsgEvent_FieldPathValue allows storing values for ClientMsgEvent fields according to their type
@@ -4717,6 +4858,10 @@ func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) AsTimeValue() 
 	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
+func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) AsOmittedPayloadValue() (*common.OmittedPayload, bool) {
+	res, ok := fpv.value.(*common.OmittedPayload)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ClientMsgEvent
 func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) SetTo(target **ActivityLog_Event_ClientMsgEvent) {
@@ -4728,6 +4873,8 @@ func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) SetTo(target *
 		(*target).Data = fpv.value.(*anypb.Any)
 	case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
 		(*target).Time = fpv.value.(*timestamppb.Timestamp)
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		(*target).OmittedPayload = fpv.value.(*common.OmittedPayload)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fpv.selector))
 	}
@@ -4762,6 +4909,8 @@ func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) CompareWith(so
 		} else {
 			return 1, true
 		}
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fpv.selector))
 	}
@@ -4769,6 +4918,52 @@ func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) CompareWith(so
 
 func (fpv *ActivityLogEventClientMsgEvent_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*ActivityLog_Event_ClientMsgEvent))
+}
+
+type ActivityLogEventClientMsgEvent_FieldSubPathValue struct {
+	ActivityLogEventClientMsgEvent_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ ActivityLogEventClientMsgEvent_FieldPathValue = (*ActivityLogEventClientMsgEvent_FieldSubPathValue)(nil)
+
+func (fpvs *ActivityLogEventClientMsgEvent_FieldSubPathValue) AsOmittedPayloadPathValue() (common.OmittedPayload_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.OmittedPayload_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *ActivityLogEventClientMsgEvent_FieldSubPathValue) SetTo(target **ActivityLog_Event_ClientMsgEvent) {
+	if *target == nil {
+		*target = new(ActivityLog_Event_ClientMsgEvent)
+	}
+	switch fpvs.Selector() {
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).SetTo(&(*target).OmittedPayload)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ActivityLogEventClientMsgEvent_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ActivityLog_Event_ClientMsgEvent)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *ActivityLogEventClientMsgEvent_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *ActivityLogEventClientMsgEvent_FieldSubPathValue) CompareWith(source *ActivityLog_Event_ClientMsgEvent) (int, bool) {
+	switch fpvs.Selector() {
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		return fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).CompareWith(source.GetOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ActivityLogEventClientMsgEvent_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*ActivityLog_Event_ClientMsgEvent))
 }
 
 // ActivityLogEventClientMsgEvent_FieldPathArrayItemValue allows storing single item in Path-specific values for ClientMsgEvent according to their type
@@ -4835,6 +5030,30 @@ func (fpaiv *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayItemValue) Con
 	return false
 }
 
+type ActivityLogEventClientMsgEvent_FieldSubPathArrayItemValue struct {
+	ActivityLogEventClientMsgEvent_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *ActivityLogEventClientMsgEvent_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *ActivityLogEventClientMsgEvent_FieldSubPathArrayItemValue) AsOmittedPayloadPathItemValue() (common.OmittedPayload_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ClientMsgEvent'
+func (fpaivs *ActivityLogEventClientMsgEvent_FieldSubPathArrayItemValue) ContainsValue(source *ActivityLog_Event_ClientMsgEvent) bool {
+	switch fpaivs.Selector() {
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		return fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue).ContainsValue(source.GetOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ClientMsgEvent: %d", fpaivs.Selector()))
+	}
+}
+
 // ActivityLogEventClientMsgEvent_FieldPathArrayOfValues allows storing slice of values for ClientMsgEvent fields according to their type
 type ActivityLogEventClientMsgEvent_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
@@ -4878,6 +5097,10 @@ func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
+	case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+		for _, v := range fpaov.values.([]*common.OmittedPayload) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -4887,6 +5110,25 @@ func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) AsDa
 }
 func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
 	res, ok := fpaov.values.([]*timestamppb.Timestamp)
+	return res, ok
+}
+func (fpaov *ActivityLogEventClientMsgEvent_FieldTerminalPathArrayOfValues) AsOmittedPayloadArrayOfValues() ([]*common.OmittedPayload, bool) {
+	res, ok := fpaov.values.([]*common.OmittedPayload)
+	return res, ok
+}
+
+type ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues struct {
+	ActivityLogEventClientMsgEvent_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ ActivityLogEventClientMsgEvent_FieldPathArrayOfValues = (*ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ActivityLogEventClientMsgEvent_FieldSubPathArrayOfValues) AsOmittedPayloadPathArrayOfValues() (common.OmittedPayload_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.OmittedPayload_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -5379,8 +5621,9 @@ type ActivityLogEventServerMsgEvent_FieldPath interface {
 type ActivityLogEventServerMsgEvent_FieldPathSelector int32
 
 const (
-	ActivityLogEventServerMsgEvent_FieldPathSelectorData ActivityLogEventServerMsgEvent_FieldPathSelector = 0
-	ActivityLogEventServerMsgEvent_FieldPathSelectorTime ActivityLogEventServerMsgEvent_FieldPathSelector = 1
+	ActivityLogEventServerMsgEvent_FieldPathSelectorData           ActivityLogEventServerMsgEvent_FieldPathSelector = 0
+	ActivityLogEventServerMsgEvent_FieldPathSelectorTime           ActivityLogEventServerMsgEvent_FieldPathSelector = 1
+	ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload ActivityLogEventServerMsgEvent_FieldPathSelector = 2
 )
 
 func (s ActivityLogEventServerMsgEvent_FieldPathSelector) String() string {
@@ -5389,6 +5632,8 @@ func (s ActivityLogEventServerMsgEvent_FieldPathSelector) String() string {
 		return "data"
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 		return "time"
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		return "omitted_payload"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", s))
 	}
@@ -5404,6 +5649,17 @@ func BuildActivityLogEventServerMsgEvent_FieldPath(fp gotenobject.RawFieldPath) 
 			return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorData}, nil
 		case "time":
 			return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorTime}, nil
+		case "omitted_payload", "omittedPayload", "omitted-payload":
+			return &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "omitted_payload", "omittedPayload", "omitted-payload":
+			if subpath, err := common.BuildOmittedPayload_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ActivityLogEventServerMsgEvent_FieldSubPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_Event_ServerMsgEvent", fp)
@@ -5457,6 +5713,10 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) Get(source *Activity
 			if source.Time != nil {
 				values = append(values, source.Time)
 			}
+		case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+			if source.OmittedPayload != nil {
+				values = append(values, source.OmittedPayload)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 		}
@@ -5477,6 +5737,9 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) GetSingle(source *Ac
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 		res := source.GetTime()
 		return res, res != nil
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		res := source.GetOmittedPayload()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 	}
@@ -5493,6 +5756,8 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) GetDefault() interfa
 		return (*anypb.Any)(nil)
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 		return (*timestamppb.Timestamp)(nil)
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		return (*common.OmittedPayload)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 	}
@@ -5505,6 +5770,8 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) ClearValue(item *Act
 			item.Data = nil
 		case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 			item.Time = nil
+		case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+			item.OmittedPayload = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 		}
@@ -5531,6 +5798,8 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) WithIValue(value int
 		return &ActivityLogEventServerMsgEvent_FieldTerminalPathValue{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 		return &ActivityLogEventServerMsgEvent_FieldTerminalPathValue{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		return &ActivityLogEventServerMsgEvent_FieldTerminalPathValue{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, value: value.(*common.OmittedPayload)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 	}
@@ -5547,6 +5816,8 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) WithIArrayOfValues(v
 		return &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 		return &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		return &ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues{ActivityLogEventServerMsgEvent_FieldTerminalPath: *fp, values: values.([]*common.OmittedPayload)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fp.selector))
 	}
@@ -5566,6 +5837,118 @@ func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) WithIArrayItemValue(
 
 func (fp *ActivityLogEventServerMsgEvent_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+type ActivityLogEventServerMsgEvent_FieldSubPath struct {
+	selector ActivityLogEventServerMsgEvent_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ ActivityLogEventServerMsgEvent_FieldPath = (*ActivityLogEventServerMsgEvent_FieldSubPath)(nil)
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) Selector() ActivityLogEventServerMsgEvent_FieldPathSelector {
+	return fps.selector
+}
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) AsOmittedPayloadSubPath() (common.OmittedPayload_FieldPath, bool) {
+	res, ok := fps.subPath.(common.OmittedPayload_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source ActivityLog_Event_ServerMsgEvent
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) Get(source *ActivityLog_Event_ServerMsgEvent) (values []interface{}) {
+	switch fps.selector {
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		values = append(values, fps.subPath.GetRaw(source.GetOmittedPayload())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*ActivityLog_Event_ServerMsgEvent))
+}
+
+// GetSingle returns value of selected field from source ActivityLog_Event_ServerMsgEvent
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) GetSingle(source *ActivityLog_Event_ServerMsgEvent) (interface{}, bool) {
+	switch fps.selector {
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		if source.GetOmittedPayload() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fps.selector))
+	}
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*ActivityLog_Event_ServerMsgEvent))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) ClearValue(item *ActivityLog_Event_ServerMsgEvent) {
+	if item != nil {
+		switch fps.selector {
+		case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+			fps.subPath.ClearValueRaw(item.OmittedPayload)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*ActivityLog_Event_ServerMsgEvent))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) WithIValue(value interface{}) ActivityLogEventServerMsgEvent_FieldPathValue {
+	return &ActivityLogEventServerMsgEvent_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) WithIArrayOfValues(values interface{}) ActivityLogEventServerMsgEvent_FieldPathArrayOfValues {
+	return &ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) WithIArrayItemValue(value interface{}) ActivityLogEventServerMsgEvent_FieldPathArrayItemValue {
+	return &ActivityLogEventServerMsgEvent_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *ActivityLogEventServerMsgEvent_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
 }
 
 // ActivityLogEventServerMsgEvent_FieldPathValue allows storing values for ServerMsgEvent fields according to their type
@@ -5615,6 +5998,10 @@ func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) AsTimeValue() 
 	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
+func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) AsOmittedPayloadValue() (*common.OmittedPayload, bool) {
+	res, ok := fpv.value.(*common.OmittedPayload)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ServerMsgEvent
 func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) SetTo(target **ActivityLog_Event_ServerMsgEvent) {
@@ -5626,6 +6013,8 @@ func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) SetTo(target *
 		(*target).Data = fpv.value.(*anypb.Any)
 	case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 		(*target).Time = fpv.value.(*timestamppb.Timestamp)
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		(*target).OmittedPayload = fpv.value.(*common.OmittedPayload)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fpv.selector))
 	}
@@ -5660,6 +6049,8 @@ func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) CompareWith(so
 		} else {
 			return 1, true
 		}
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fpv.selector))
 	}
@@ -5667,6 +6058,52 @@ func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) CompareWith(so
 
 func (fpv *ActivityLogEventServerMsgEvent_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*ActivityLog_Event_ServerMsgEvent))
+}
+
+type ActivityLogEventServerMsgEvent_FieldSubPathValue struct {
+	ActivityLogEventServerMsgEvent_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ ActivityLogEventServerMsgEvent_FieldPathValue = (*ActivityLogEventServerMsgEvent_FieldSubPathValue)(nil)
+
+func (fpvs *ActivityLogEventServerMsgEvent_FieldSubPathValue) AsOmittedPayloadPathValue() (common.OmittedPayload_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.OmittedPayload_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *ActivityLogEventServerMsgEvent_FieldSubPathValue) SetTo(target **ActivityLog_Event_ServerMsgEvent) {
+	if *target == nil {
+		*target = new(ActivityLog_Event_ServerMsgEvent)
+	}
+	switch fpvs.Selector() {
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).SetTo(&(*target).OmittedPayload)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ActivityLogEventServerMsgEvent_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ActivityLog_Event_ServerMsgEvent)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *ActivityLogEventServerMsgEvent_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *ActivityLogEventServerMsgEvent_FieldSubPathValue) CompareWith(source *ActivityLog_Event_ServerMsgEvent) (int, bool) {
+	switch fpvs.Selector() {
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		return fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).CompareWith(source.GetOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ActivityLogEventServerMsgEvent_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*ActivityLog_Event_ServerMsgEvent))
 }
 
 // ActivityLogEventServerMsgEvent_FieldPathArrayItemValue allows storing single item in Path-specific values for ServerMsgEvent according to their type
@@ -5733,6 +6170,30 @@ func (fpaiv *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayItemValue) Con
 	return false
 }
 
+type ActivityLogEventServerMsgEvent_FieldSubPathArrayItemValue struct {
+	ActivityLogEventServerMsgEvent_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *ActivityLogEventServerMsgEvent_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *ActivityLogEventServerMsgEvent_FieldSubPathArrayItemValue) AsOmittedPayloadPathItemValue() (common.OmittedPayload_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ServerMsgEvent'
+func (fpaivs *ActivityLogEventServerMsgEvent_FieldSubPathArrayItemValue) ContainsValue(source *ActivityLog_Event_ServerMsgEvent) bool {
+	switch fpaivs.Selector() {
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		return fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue).ContainsValue(source.GetOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ServerMsgEvent: %d", fpaivs.Selector()))
+	}
+}
+
 // ActivityLogEventServerMsgEvent_FieldPathArrayOfValues allows storing slice of values for ServerMsgEvent fields according to their type
 type ActivityLogEventServerMsgEvent_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
@@ -5776,6 +6237,10 @@ func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
+	case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+		for _, v := range fpaov.values.([]*common.OmittedPayload) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -5785,6 +6250,25 @@ func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) AsDa
 }
 func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) AsTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
 	res, ok := fpaov.values.([]*timestamppb.Timestamp)
+	return res, ok
+}
+func (fpaov *ActivityLogEventServerMsgEvent_FieldTerminalPathArrayOfValues) AsOmittedPayloadArrayOfValues() ([]*common.OmittedPayload, bool) {
+	res, ok := fpaov.values.([]*common.OmittedPayload)
+	return res, ok
+}
+
+type ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues struct {
+	ActivityLogEventServerMsgEvent_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ ActivityLogEventServerMsgEvent_FieldPathArrayOfValues = (*ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ActivityLogEventServerMsgEvent_FieldSubPathArrayOfValues) AsOmittedPayloadPathArrayOfValues() (common.OmittedPayload_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.OmittedPayload_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -7115,9 +7599,11 @@ type ActivityLogResourceDifference_FieldPath interface {
 type ActivityLogResourceDifference_FieldPathSelector int32
 
 const (
-	ActivityLogResourceDifference_FieldPathSelectorFields ActivityLogResourceDifference_FieldPathSelector = 0
-	ActivityLogResourceDifference_FieldPathSelectorBefore ActivityLogResourceDifference_FieldPathSelector = 1
-	ActivityLogResourceDifference_FieldPathSelectorAfter  ActivityLogResourceDifference_FieldPathSelector = 2
+	ActivityLogResourceDifference_FieldPathSelectorFields               ActivityLogResourceDifference_FieldPathSelector = 0
+	ActivityLogResourceDifference_FieldPathSelectorBefore               ActivityLogResourceDifference_FieldPathSelector = 1
+	ActivityLogResourceDifference_FieldPathSelectorAfter                ActivityLogResourceDifference_FieldPathSelector = 2
+	ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload ActivityLogResourceDifference_FieldPathSelector = 3
+	ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload  ActivityLogResourceDifference_FieldPathSelector = 4
 )
 
 func (s ActivityLogResourceDifference_FieldPathSelector) String() string {
@@ -7128,6 +7614,10 @@ func (s ActivityLogResourceDifference_FieldPathSelector) String() string {
 		return "before"
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		return "after"
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		return "before_omitted_payload"
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		return "after_omitted_payload"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", s))
 	}
@@ -7145,6 +7635,25 @@ func BuildActivityLogResourceDifference_FieldPath(fp gotenobject.RawFieldPath) (
 			return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBefore}, nil
 		case "after":
 			return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfter}, nil
+		case "before_omitted_payload", "beforeOmittedPayload", "before-omitted-payload":
+			return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload}, nil
+		case "after_omitted_payload", "afterOmittedPayload", "after-omitted-payload":
+			return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "before_omitted_payload", "beforeOmittedPayload", "before-omitted-payload":
+			if subpath, err := common.BuildOmittedPayload_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ActivityLogResourceDifference_FieldSubPath{selector: ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload, subPath: subpath}, nil
+			}
+		case "after_omitted_payload", "afterOmittedPayload", "after-omitted-payload":
+			if subpath, err := common.BuildOmittedPayload_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ActivityLogResourceDifference_FieldSubPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_Resource_Difference", fp)
@@ -7202,6 +7711,14 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) Get(source *ActivityL
 			if source.After != nil {
 				values = append(values, source.After)
 			}
+		case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+			if source.BeforeOmittedPayload != nil {
+				values = append(values, source.BeforeOmittedPayload)
+			}
+		case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+			if source.AfterOmittedPayload != nil {
+				values = append(values, source.AfterOmittedPayload)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 		}
@@ -7225,6 +7742,12 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) GetSingle(source *Act
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		res := source.GetAfter()
 		return res, res != nil
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		res := source.GetBeforeOmittedPayload()
+		return res, res != nil
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		res := source.GetAfterOmittedPayload()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
@@ -7243,6 +7766,10 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) GetDefault() interfac
 		return (*anypb.Any)(nil)
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		return (*anypb.Any)(nil)
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		return (*common.OmittedPayload)(nil)
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		return (*common.OmittedPayload)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
@@ -7257,6 +7784,10 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) ClearValue(item *Acti
 			item.Before = nil
 		case ActivityLogResourceDifference_FieldPathSelectorAfter:
 			item.After = nil
+		case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+			item.BeforeOmittedPayload = nil
+		case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+			item.AfterOmittedPayload = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 		}
@@ -7286,6 +7817,10 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithIValue(value inte
 		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*common.OmittedPayload)}
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*common.OmittedPayload)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
@@ -7304,6 +7839,10 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithIArrayOfValues(va
 		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*common.OmittedPayload)}
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*common.OmittedPayload)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
@@ -7323,6 +7862,131 @@ func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithIArrayItemValue(v
 
 func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+type ActivityLogResourceDifference_FieldSubPath struct {
+	selector ActivityLogResourceDifference_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ ActivityLogResourceDifference_FieldPath = (*ActivityLogResourceDifference_FieldSubPath)(nil)
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) Selector() ActivityLogResourceDifference_FieldPathSelector {
+	return fps.selector
+}
+func (fps *ActivityLogResourceDifference_FieldSubPath) AsBeforeOmittedPayloadSubPath() (common.OmittedPayload_FieldPath, bool) {
+	res, ok := fps.subPath.(common.OmittedPayload_FieldPath)
+	return res, ok
+}
+func (fps *ActivityLogResourceDifference_FieldSubPath) AsAfterOmittedPayloadSubPath() (common.OmittedPayload_FieldPath, bool) {
+	res, ok := fps.subPath.(common.OmittedPayload_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *ActivityLogResourceDifference_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *ActivityLogResourceDifference_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source ActivityLog_Resource_Difference
+func (fps *ActivityLogResourceDifference_FieldSubPath) Get(source *ActivityLog_Resource_Difference) (values []interface{}) {
+	switch fps.selector {
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		values = append(values, fps.subPath.GetRaw(source.GetBeforeOmittedPayload())...)
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		values = append(values, fps.subPath.GetRaw(source.GetAfterOmittedPayload())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*ActivityLog_Resource_Difference))
+}
+
+// GetSingle returns value of selected field from source ActivityLog_Resource_Difference
+func (fps *ActivityLogResourceDifference_FieldSubPath) GetSingle(source *ActivityLog_Resource_Difference) (interface{}, bool) {
+	switch fps.selector {
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		if source.GetBeforeOmittedPayload() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetBeforeOmittedPayload())
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		if source.GetAfterOmittedPayload() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetAfterOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fps.selector))
+	}
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*ActivityLog_Resource_Difference))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *ActivityLogResourceDifference_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) ClearValue(item *ActivityLog_Resource_Difference) {
+	if item != nil {
+		switch fps.selector {
+		case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+			fps.subPath.ClearValueRaw(item.BeforeOmittedPayload)
+		case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+			fps.subPath.ClearValueRaw(item.AfterOmittedPayload)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*ActivityLog_Resource_Difference))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *ActivityLogResourceDifference_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ActivityLogResourceDifference_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) WithIValue(value interface{}) ActivityLogResourceDifference_FieldPathValue {
+	return &ActivityLogResourceDifference_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) WithIArrayOfValues(values interface{}) ActivityLogResourceDifference_FieldPathArrayOfValues {
+	return &ActivityLogResourceDifference_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) WithIArrayItemValue(value interface{}) ActivityLogResourceDifference_FieldPathArrayItemValue {
+	return &ActivityLogResourceDifference_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *ActivityLogResourceDifference_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
 }
 
 // ActivityLogResourceDifference_FieldPathValue allows storing values for Difference fields according to their type
@@ -7376,6 +8040,14 @@ func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsAfterValue() 
 	res, ok := fpv.value.(*anypb.Any)
 	return res, ok
 }
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsBeforeOmittedPayloadValue() (*common.OmittedPayload, bool) {
+	res, ok := fpv.value.(*common.OmittedPayload)
+	return res, ok
+}
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsAfterOmittedPayloadValue() (*common.OmittedPayload, bool) {
+	res, ok := fpv.value.(*common.OmittedPayload)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Difference
 func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) SetTo(target **ActivityLog_Resource_Difference) {
@@ -7389,6 +8061,10 @@ func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) SetTo(target **
 		(*target).Before = fpv.value.(*anypb.Any)
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		(*target).After = fpv.value.(*anypb.Any)
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		(*target).BeforeOmittedPayload = fpv.value.(*common.OmittedPayload)
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		(*target).AfterOmittedPayload = fpv.value.(*common.OmittedPayload)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fpv.selector))
 	}
@@ -7408,6 +8084,10 @@ func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) CompareWith(sou
 		return 0, false
 	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		return 0, false
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		return 0, false
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fpv.selector))
 	}
@@ -7415,6 +8095,60 @@ func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) CompareWith(sou
 
 func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*ActivityLog_Resource_Difference))
+}
+
+type ActivityLogResourceDifference_FieldSubPathValue struct {
+	ActivityLogResourceDifference_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ ActivityLogResourceDifference_FieldPathValue = (*ActivityLogResourceDifference_FieldSubPathValue)(nil)
+
+func (fpvs *ActivityLogResourceDifference_FieldSubPathValue) AsBeforeOmittedPayloadPathValue() (common.OmittedPayload_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.OmittedPayload_FieldPathValue)
+	return res, ok
+}
+func (fpvs *ActivityLogResourceDifference_FieldSubPathValue) AsAfterOmittedPayloadPathValue() (common.OmittedPayload_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(common.OmittedPayload_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *ActivityLogResourceDifference_FieldSubPathValue) SetTo(target **ActivityLog_Resource_Difference) {
+	if *target == nil {
+		*target = new(ActivityLog_Resource_Difference)
+	}
+	switch fpvs.Selector() {
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).SetTo(&(*target).BeforeOmittedPayload)
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).SetTo(&(*target).AfterOmittedPayload)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ActivityLogResourceDifference_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ActivityLog_Resource_Difference)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *ActivityLogResourceDifference_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *ActivityLogResourceDifference_FieldSubPathValue) CompareWith(source *ActivityLog_Resource_Difference) (int, bool) {
+	switch fpvs.Selector() {
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		return fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).CompareWith(source.GetBeforeOmittedPayload())
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		return fpvs.subPathValue.(common.OmittedPayload_FieldPathValue).CompareWith(source.GetAfterOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ActivityLogResourceDifference_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*ActivityLog_Resource_Difference))
 }
 
 // ActivityLogResourceDifference_FieldPathArrayItemValue allows storing single item in Path-specific values for Difference according to their type
@@ -7481,6 +8215,36 @@ func (fpaiv *ActivityLogResourceDifference_FieldTerminalPathArrayItemValue) Cont
 	return false
 }
 
+type ActivityLogResourceDifference_FieldSubPathArrayItemValue struct {
+	ActivityLogResourceDifference_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *ActivityLogResourceDifference_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *ActivityLogResourceDifference_FieldSubPathArrayItemValue) AsBeforeOmittedPayloadPathItemValue() (common.OmittedPayload_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *ActivityLogResourceDifference_FieldSubPathArrayItemValue) AsAfterOmittedPayloadPathItemValue() (common.OmittedPayload_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Difference'
+func (fpaivs *ActivityLogResourceDifference_FieldSubPathArrayItemValue) ContainsValue(source *ActivityLog_Resource_Difference) bool {
+	switch fpaivs.Selector() {
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		return fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue).ContainsValue(source.GetBeforeOmittedPayload())
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		return fpaivs.subPathItemValue.(common.OmittedPayload_FieldPathArrayItemValue).ContainsValue(source.GetAfterOmittedPayload())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fpaivs.Selector()))
+	}
+}
+
 // ActivityLogResourceDifference_FieldPathArrayOfValues allows storing slice of values for Difference fields according to their type
 type ActivityLogResourceDifference_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
@@ -7528,6 +8292,14 @@ func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]*anypb.Any) {
 			values = append(values, v)
 		}
+	case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+		for _, v := range fpaov.values.([]*common.OmittedPayload) {
+			values = append(values, v)
+		}
+	case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+		for _, v := range fpaov.values.([]*common.OmittedPayload) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -7541,5 +8313,32 @@ func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsBef
 }
 func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsAfterArrayOfValues() ([]*anypb.Any, bool) {
 	res, ok := fpaov.values.([]*anypb.Any)
+	return res, ok
+}
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsBeforeOmittedPayloadArrayOfValues() ([]*common.OmittedPayload, bool) {
+	res, ok := fpaov.values.([]*common.OmittedPayload)
+	return res, ok
+}
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsAfterOmittedPayloadArrayOfValues() ([]*common.OmittedPayload, bool) {
+	res, ok := fpaov.values.([]*common.OmittedPayload)
+	return res, ok
+}
+
+type ActivityLogResourceDifference_FieldSubPathArrayOfValues struct {
+	ActivityLogResourceDifference_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ ActivityLogResourceDifference_FieldPathArrayOfValues = (*ActivityLogResourceDifference_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *ActivityLogResourceDifference_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ActivityLogResourceDifference_FieldSubPathArrayOfValues) AsBeforeOmittedPayloadPathArrayOfValues() (common.OmittedPayload_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.OmittedPayload_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ActivityLogResourceDifference_FieldSubPathArrayOfValues) AsAfterOmittedPayloadPathArrayOfValues() (common.OmittedPayload_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(common.OmittedPayload_FieldPathArrayOfValues)
 	return res, ok
 }

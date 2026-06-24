@@ -86,6 +86,16 @@ func (obj *ResourceChangeLog_ResourceChange) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	if subobj, ok := interface{}(obj.PreviousOmittedPayload).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ResourceChange", "previousOmittedPayload", obj.PreviousOmittedPayload, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.CurrentOmittedPayload).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ResourceChange", "currentOmittedPayload", obj.CurrentOmittedPayload, "nested object validation failed", err)
+		}
+	}
 	if subobj, ok := interface{}(obj.Pre).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("ResourceChange", "pre", obj.Pre, "nested object validation failed", err)

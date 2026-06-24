@@ -68,6 +68,15 @@ message LabelKeySet {
   repeated string versions = 2;
 }
 
+// OmittedPayload replaces an Any payload - a request or response body, or a
+// resource diff - that was dropped because it exceeded the audit message-size
+// limit. It records how large the dropped content was, so a reader sees that a
+// payload was present and its size. The record's other fields are unaffected.
+message OmittedPayload {
+  // Size in bytes of the original payload that was dropped.
+  uint64 original_size_bytes = 1;
+}
+
 // A time interval extending just after a start time through an end time.
 // If the start time is the same as the end time, then the interval
 // represents a single point in time.

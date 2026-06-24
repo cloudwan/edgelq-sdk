@@ -339,6 +339,14 @@ func (ResourceChangeLogPathSelectorResource) Current() ResourceChangeLogPathSele
 	return ResourceChangeLogPathSelectorResourceCurrent{}
 }
 
+func (ResourceChangeLogPathSelectorResource) PreviousOmittedPayload() ResourceChangeLogPathSelectorResourcePreviousOmittedPayload {
+	return ResourceChangeLogPathSelectorResourcePreviousOmittedPayload{}
+}
+
+func (ResourceChangeLogPathSelectorResource) CurrentOmittedPayload() ResourceChangeLogPathSelectorResourceCurrentOmittedPayload {
+	return ResourceChangeLogPathSelectorResourceCurrentOmittedPayload{}
+}
+
 func (ResourceChangeLogPathSelectorResource) Labels() ResourceChangeLogPathSelectorResourceLabels {
 	return ResourceChangeLogPathSelectorResourceLabels{}
 }
@@ -450,6 +458,82 @@ func (s ResourceChangeLogPathSelectorResourceCurrent) WithValue(value *anypb.Any
 }
 
 func (s ResourceChangeLogPathSelectorResourceCurrent) WithArrayOfValues(values []*anypb.Any) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorResourcePreviousOmittedPayload struct{}
+
+func (ResourceChangeLogPathSelectorResourcePreviousOmittedPayload) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorResource,
+		subPath:  NewResourceChangeLogResourceChangeFieldPathBuilder().PreviousOmittedPayload().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorResourcePreviousOmittedPayload) WithValue(value *common.OmittedPayload) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorResourcePreviousOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+func (ResourceChangeLogPathSelectorResourcePreviousOmittedPayload) OriginalSizeBytes() ResourceChangeLogPathSelectorResourcePreviousOmittedPayloadOriginalSizeBytes {
+	return ResourceChangeLogPathSelectorResourcePreviousOmittedPayloadOriginalSizeBytes{}
+}
+
+type ResourceChangeLogPathSelectorResourcePreviousOmittedPayloadOriginalSizeBytes struct{}
+
+func (ResourceChangeLogPathSelectorResourcePreviousOmittedPayloadOriginalSizeBytes) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorResource,
+		subPath:  NewResourceChangeLogResourceChangeFieldPathBuilder().PreviousOmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorResourcePreviousOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorResourcePreviousOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorResourceCurrentOmittedPayload struct{}
+
+func (ResourceChangeLogPathSelectorResourceCurrentOmittedPayload) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorResource,
+		subPath:  NewResourceChangeLogResourceChangeFieldPathBuilder().CurrentOmittedPayload().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorResourceCurrentOmittedPayload) WithValue(value *common.OmittedPayload) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorResourceCurrentOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+func (ResourceChangeLogPathSelectorResourceCurrentOmittedPayload) OriginalSizeBytes() ResourceChangeLogPathSelectorResourceCurrentOmittedPayloadOriginalSizeBytes {
+	return ResourceChangeLogPathSelectorResourceCurrentOmittedPayloadOriginalSizeBytes{}
+}
+
+type ResourceChangeLogPathSelectorResourceCurrentOmittedPayloadOriginalSizeBytes struct{}
+
+func (ResourceChangeLogPathSelectorResourceCurrentOmittedPayloadOriginalSizeBytes) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorResource,
+		subPath:  NewResourceChangeLogResourceChangeFieldPathBuilder().CurrentOmittedPayload().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorResourceCurrentOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorResourceCurrentOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ResourceChangeLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
 }
 
@@ -773,6 +857,12 @@ func (ResourceChangeLogResourceChangeFieldPathBuilder) Previous() ResourceChange
 func (ResourceChangeLogResourceChangeFieldPathBuilder) Current() ResourceChangeLog_ResourceChangePathSelectorCurrent {
 	return ResourceChangeLog_ResourceChangePathSelectorCurrent{}
 }
+func (ResourceChangeLogResourceChangeFieldPathBuilder) PreviousOmittedPayload() ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload {
+	return ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload{}
+}
+func (ResourceChangeLogResourceChangeFieldPathBuilder) CurrentOmittedPayload() ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload {
+	return ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload{}
+}
 func (ResourceChangeLogResourceChangeFieldPathBuilder) Labels() ResourceChangeLog_ResourceChangePathSelectorLabels {
 	return ResourceChangeLog_ResourceChangePathSelectorLabels{}
 }
@@ -865,6 +955,108 @@ func (s ResourceChangeLog_ResourceChangePathSelectorCurrent) WithValue(value *an
 
 func (s ResourceChangeLog_ResourceChangePathSelectorCurrent) WithArrayOfValues(values []*anypb.Any) *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues)
+}
+
+type ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload struct{}
+
+func (ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload) FieldPath() *ResourceChangeLogResourceChange_FieldTerminalPath {
+	return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload) WithValue(value *common.OmittedPayload) *ResourceChangeLogResourceChange_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLogResourceChange_FieldTerminalPathValue)
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues)
+}
+
+func (ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload) WithSubPath(subPath common.OmittedPayload_FieldPath) *ResourceChangeLogResourceChange_FieldSubPath {
+	return &ResourceChangeLogResourceChange_FieldSubPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload, subPath: subPath}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload) WithSubValue(subPathValue common.OmittedPayload_FieldPathValue) *ResourceChangeLogResourceChange_FieldSubPathValue {
+	return &ResourceChangeLogResourceChange_FieldSubPathValue{ResourceChangeLogResourceChange_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload) WithSubArrayOfValues(subPathArrayOfValues common.OmittedPayload_FieldPathArrayOfValues) *ResourceChangeLogResourceChange_FieldSubPathArrayOfValues {
+	return &ResourceChangeLogResourceChange_FieldSubPathArrayOfValues{ResourceChangeLogResourceChange_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload) WithSubArrayItemValue(subPathArrayItemValue common.OmittedPayload_FieldPathArrayItemValue) *ResourceChangeLogResourceChange_FieldSubPathArrayItemValue {
+	return &ResourceChangeLogResourceChange_FieldSubPathArrayItemValue{ResourceChangeLogResourceChange_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayload) OriginalSizeBytes() ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayloadOriginalSizeBytes {
+	return ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayloadOriginalSizeBytes{}
+}
+
+type ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayloadOriginalSizeBytes struct{}
+
+func (ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayloadOriginalSizeBytes) FieldPath() *ResourceChangeLogResourceChange_FieldSubPath {
+	return &ResourceChangeLogResourceChange_FieldSubPath{
+		selector: ResourceChangeLogResourceChange_FieldPathSelectorPreviousOmittedPayload,
+		subPath:  common.NewOmittedPayloadFieldPathBuilder().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ResourceChangeLogResourceChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLogResourceChange_FieldSubPathValue)
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorPreviousOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ResourceChangeLogResourceChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLogResourceChange_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload struct{}
+
+func (ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload) FieldPath() *ResourceChangeLogResourceChange_FieldTerminalPath {
+	return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload) WithValue(value *common.OmittedPayload) *ResourceChangeLogResourceChange_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLogResourceChange_FieldTerminalPathValue)
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload) WithArrayOfValues(values []*common.OmittedPayload) *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues)
+}
+
+func (ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload) WithSubPath(subPath common.OmittedPayload_FieldPath) *ResourceChangeLogResourceChange_FieldSubPath {
+	return &ResourceChangeLogResourceChange_FieldSubPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload, subPath: subPath}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload) WithSubValue(subPathValue common.OmittedPayload_FieldPathValue) *ResourceChangeLogResourceChange_FieldSubPathValue {
+	return &ResourceChangeLogResourceChange_FieldSubPathValue{ResourceChangeLogResourceChange_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload) WithSubArrayOfValues(subPathArrayOfValues common.OmittedPayload_FieldPathArrayOfValues) *ResourceChangeLogResourceChange_FieldSubPathArrayOfValues {
+	return &ResourceChangeLogResourceChange_FieldSubPathArrayOfValues{ResourceChangeLogResourceChange_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload) WithSubArrayItemValue(subPathArrayItemValue common.OmittedPayload_FieldPathArrayItemValue) *ResourceChangeLogResourceChange_FieldSubPathArrayItemValue {
+	return &ResourceChangeLogResourceChange_FieldSubPathArrayItemValue{ResourceChangeLogResourceChange_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayload) OriginalSizeBytes() ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayloadOriginalSizeBytes {
+	return ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayloadOriginalSizeBytes{}
+}
+
+type ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayloadOriginalSizeBytes struct{}
+
+func (ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayloadOriginalSizeBytes) FieldPath() *ResourceChangeLogResourceChange_FieldSubPath {
+	return &ResourceChangeLogResourceChange_FieldSubPath{
+		selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrentOmittedPayload,
+		subPath:  common.NewOmittedPayloadFieldPathBuilder().OriginalSizeBytes().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayloadOriginalSizeBytes) WithValue(value uint64) *ResourceChangeLogResourceChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLogResourceChange_FieldSubPathValue)
+}
+
+func (s ResourceChangeLog_ResourceChangePathSelectorCurrentOmittedPayloadOriginalSizeBytes) WithArrayOfValues(values []uint64) *ResourceChangeLogResourceChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLogResourceChange_FieldSubPathArrayOfValues)
 }
 
 type ResourceChangeLog_ResourceChangePathSelectorLabels struct{}

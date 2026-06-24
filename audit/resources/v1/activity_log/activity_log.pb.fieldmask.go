@@ -1825,6 +1825,7 @@ func FullActivityLog_Event_ClientMsgEvent_FieldMask() *ActivityLog_Event_ClientM
 	res := &ActivityLog_Event_ClientMsgEvent_FieldMask{}
 	res.Paths = append(res.Paths, &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorData})
 	res.Paths = append(res.Paths, &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorTime})
+	res.Paths = append(res.Paths, &ActivityLogEventClientMsgEvent_FieldTerminalPath{selector: ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload})
 	return res
 }
 
@@ -1843,7 +1844,7 @@ func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ActivityLogEventClientMsgEvent_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1873,17 +1874,43 @@ func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) Reset() {
 
 func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) Subtract(other *ActivityLog_Event_ClientMsgEvent_FieldMask) *ActivityLog_Event_ClientMsgEvent_FieldMask {
 	result := &ActivityLog_Event_ClientMsgEvent_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[ActivityLogEventClientMsgEvent_FieldPathSelector]gotenobject.FieldMask{
+		ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload: &common.OmittedPayload_FieldMask{},
+	}
+	mySubMasks := map[ActivityLogEventClientMsgEvent_FieldPathSelector]gotenobject.FieldMask{
+		ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload: &common.OmittedPayload_FieldMask{},
+	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
 		case *ActivityLogEventClientMsgEvent_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
+		case *ActivityLogEventClientMsgEvent_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*ActivityLogEventClientMsgEvent_FieldTerminalPath); ok {
+					switch tp.selector {
+					case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+						mySubMasks[ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload] = common.FullOmittedPayload_FieldMask()
+					}
+				} else if tp, ok := path.(*ActivityLogEventClientMsgEvent_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &ActivityLogEventClientMsgEvent_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
 		}
 	}
 
@@ -2025,6 +2052,8 @@ func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) Project(source *Act
 		return source
 	}
 	result := &ActivityLog_Event_ClientMsgEvent{}
+	omittedPayloadMask := &common.OmittedPayload_FieldMask{}
+	wholeOmittedPayloadAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -2034,8 +2063,19 @@ func (fieldMask *ActivityLog_Event_ClientMsgEvent_FieldMask) Project(source *Act
 				result.Data = source.Data
 			case ActivityLogEventClientMsgEvent_FieldPathSelectorTime:
 				result.Time = source.Time
+			case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+				result.OmittedPayload = source.OmittedPayload
+				wholeOmittedPayloadAccepted = true
+			}
+		case *ActivityLogEventClientMsgEvent_FieldSubPath:
+			switch tp.selector {
+			case ActivityLogEventClientMsgEvent_FieldPathSelectorOmittedPayload:
+				omittedPayloadMask.AppendPath(tp.subPath.(common.OmittedPayload_FieldPath))
 			}
 		}
+	}
+	if wholeOmittedPayloadAccepted == false && len(omittedPayloadMask.Paths) > 0 {
+		result.OmittedPayload = omittedPayloadMask.Project(source.GetOmittedPayload())
 	}
 	return result
 }
@@ -2296,6 +2336,7 @@ func FullActivityLog_Event_ServerMsgEvent_FieldMask() *ActivityLog_Event_ServerM
 	res := &ActivityLog_Event_ServerMsgEvent_FieldMask{}
 	res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorData})
 	res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorTime})
+	res.Paths = append(res.Paths, &ActivityLogEventServerMsgEvent_FieldTerminalPath{selector: ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload})
 	return res
 }
 
@@ -2314,7 +2355,7 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ActivityLogEventServerMsgEvent_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2344,17 +2385,43 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) Reset() {
 
 func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) Subtract(other *ActivityLog_Event_ServerMsgEvent_FieldMask) *ActivityLog_Event_ServerMsgEvent_FieldMask {
 	result := &ActivityLog_Event_ServerMsgEvent_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[ActivityLogEventServerMsgEvent_FieldPathSelector]gotenobject.FieldMask{
+		ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload: &common.OmittedPayload_FieldMask{},
+	}
+	mySubMasks := map[ActivityLogEventServerMsgEvent_FieldPathSelector]gotenobject.FieldMask{
+		ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload: &common.OmittedPayload_FieldMask{},
+	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
 		case *ActivityLogEventServerMsgEvent_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
+		case *ActivityLogEventServerMsgEvent_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*ActivityLogEventServerMsgEvent_FieldTerminalPath); ok {
+					switch tp.selector {
+					case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+						mySubMasks[ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload] = common.FullOmittedPayload_FieldMask()
+					}
+				} else if tp, ok := path.(*ActivityLogEventServerMsgEvent_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &ActivityLogEventServerMsgEvent_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
 		}
 	}
 
@@ -2496,6 +2563,8 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) Project(source *Act
 		return source
 	}
 	result := &ActivityLog_Event_ServerMsgEvent{}
+	omittedPayloadMask := &common.OmittedPayload_FieldMask{}
+	wholeOmittedPayloadAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -2505,8 +2574,19 @@ func (fieldMask *ActivityLog_Event_ServerMsgEvent_FieldMask) Project(source *Act
 				result.Data = source.Data
 			case ActivityLogEventServerMsgEvent_FieldPathSelectorTime:
 				result.Time = source.Time
+			case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+				result.OmittedPayload = source.OmittedPayload
+				wholeOmittedPayloadAccepted = true
+			}
+		case *ActivityLogEventServerMsgEvent_FieldSubPath:
+			switch tp.selector {
+			case ActivityLogEventServerMsgEvent_FieldPathSelectorOmittedPayload:
+				omittedPayloadMask.AppendPath(tp.subPath.(common.OmittedPayload_FieldPath))
 			}
 		}
+	}
+	if wholeOmittedPayloadAccepted == false && len(omittedPayloadMask.Paths) > 0 {
+		result.OmittedPayload = omittedPayloadMask.Project(source.GetOmittedPayload())
 	}
 	return result
 }
@@ -3076,6 +3156,8 @@ func FullActivityLog_Resource_Difference_FieldMask() *ActivityLog_Resource_Diffe
 	res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorFields})
 	res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBefore})
 	res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfter})
+	res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload})
+	res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload})
 	return res
 }
 
@@ -3094,7 +3176,7 @@ func (fieldMask *ActivityLog_Resource_Difference_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ActivityLogResourceDifference_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -3124,17 +3206,47 @@ func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Reset() {
 
 func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Subtract(other *ActivityLog_Resource_Difference_FieldMask) *ActivityLog_Resource_Difference_FieldMask {
 	result := &ActivityLog_Resource_Difference_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
+	otherSubMasks := map[ActivityLogResourceDifference_FieldPathSelector]gotenobject.FieldMask{
+		ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload: &common.OmittedPayload_FieldMask{},
+		ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:  &common.OmittedPayload_FieldMask{},
+	}
+	mySubMasks := map[ActivityLogResourceDifference_FieldPathSelector]gotenobject.FieldMask{
+		ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload: &common.OmittedPayload_FieldMask{},
+		ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:  &common.OmittedPayload_FieldMask{},
+	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
 		case *ActivityLogResourceDifference_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
+		case *ActivityLogResourceDifference_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*ActivityLogResourceDifference_FieldTerminalPath); ok {
+					switch tp.selector {
+					case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+						mySubMasks[ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload] = common.FullOmittedPayload_FieldMask()
+					case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+						mySubMasks[ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload] = common.FullOmittedPayload_FieldMask()
+					}
+				} else if tp, ok := path.(*ActivityLogResourceDifference_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &ActivityLogResourceDifference_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
 		}
 	}
 
@@ -3276,6 +3388,10 @@ func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Project(source *Acti
 		return source
 	}
 	result := &ActivityLog_Resource_Difference{}
+	beforeOmittedPayloadMask := &common.OmittedPayload_FieldMask{}
+	wholeBeforeOmittedPayloadAccepted := false
+	afterOmittedPayloadMask := &common.OmittedPayload_FieldMask{}
+	wholeAfterOmittedPayloadAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -3287,8 +3403,27 @@ func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Project(source *Acti
 				result.Before = source.Before
 			case ActivityLogResourceDifference_FieldPathSelectorAfter:
 				result.After = source.After
+			case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+				result.BeforeOmittedPayload = source.BeforeOmittedPayload
+				wholeBeforeOmittedPayloadAccepted = true
+			case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+				result.AfterOmittedPayload = source.AfterOmittedPayload
+				wholeAfterOmittedPayloadAccepted = true
+			}
+		case *ActivityLogResourceDifference_FieldSubPath:
+			switch tp.selector {
+			case ActivityLogResourceDifference_FieldPathSelectorBeforeOmittedPayload:
+				beforeOmittedPayloadMask.AppendPath(tp.subPath.(common.OmittedPayload_FieldPath))
+			case ActivityLogResourceDifference_FieldPathSelectorAfterOmittedPayload:
+				afterOmittedPayloadMask.AppendPath(tp.subPath.(common.OmittedPayload_FieldPath))
 			}
 		}
+	}
+	if wholeBeforeOmittedPayloadAccepted == false && len(beforeOmittedPayloadMask.Paths) > 0 {
+		result.BeforeOmittedPayload = beforeOmittedPayloadMask.Project(source.GetBeforeOmittedPayload())
+	}
+	if wholeAfterOmittedPayloadAccepted == false && len(afterOmittedPayloadMask.Paths) > 0 {
+		result.AfterOmittedPayload = afterOmittedPayloadMask.Project(source.GetAfterOmittedPayload())
 	}
 	return result
 }

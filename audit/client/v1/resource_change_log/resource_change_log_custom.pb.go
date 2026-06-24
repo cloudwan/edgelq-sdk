@@ -809,6 +809,157 @@ func (m *SetResourceChangeLogsCommitStateResponse) UnmarshalJSON(data []byte) er
 	return protojson.Unmarshal(data, m)
 }
 
+// A request message of the
+// [CreateResourceChangeLogs](#createresourcechangelogs-method) method.
+type CreateResourceChangeLogsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Self-contained committed resource change logs to add. Each record carries
+	// its own scope, request_id, service, and resource change; records may span
+	// scopes but must be submitted to the same region and service.
+	ResourceChangeLogs []*resource_change_log.ResourceChangeLog `protobuf:"bytes,1,rep,name=resource_change_logs,json=resourceChangeLogs,proto3" json:"resource_change_logs,omitempty"`
+}
+
+func (m *CreateResourceChangeLogsRequest) Reset() {
+	*m = CreateResourceChangeLogsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *CreateResourceChangeLogsRequest) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*CreateResourceChangeLogsRequest) ProtoMessage() {}
+
+func (m *CreateResourceChangeLogsRequest) ProtoReflect() preflect.Message {
+	mi := &edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*CreateResourceChangeLogsRequest) GotenMessage() {}
+
+// Deprecated, Use CreateResourceChangeLogsRequest.ProtoReflect.Descriptor instead.
+func (*CreateResourceChangeLogsRequest) Descriptor() ([]byte, []int) {
+	return edgelq_audit_proto_v1_resource_change_log_custom_proto_rawDescGZIP(), []int{6}
+}
+
+func (m *CreateResourceChangeLogsRequest) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *CreateResourceChangeLogsRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *CreateResourceChangeLogsRequest) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *CreateResourceChangeLogsRequest) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *CreateResourceChangeLogsRequest) GetResourceChangeLogs() []*resource_change_log.ResourceChangeLog {
+	if m != nil {
+		return m.ResourceChangeLogs
+	}
+	return nil
+}
+
+func (m *CreateResourceChangeLogsRequest) SetResourceChangeLogs(fv []*resource_change_log.ResourceChangeLog) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResourceChangeLogs", "CreateResourceChangeLogsRequest"))
+	}
+	m.ResourceChangeLogs = fv
+}
+
+// A response message of the
+// [CreateResourceChangeLogs](#createresourcechangelogs-method) method.
+type CreateResourceChangeLogsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Per-entry failure status, keyed by the failing log's position in the
+	// request. Empty on full success; the worker re-queues the failed positions.
+	Failed map[uint32]*rpc.Status `protobuf:"bytes,1,rep,name=failed,proto3" json:"failed,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (m *CreateResourceChangeLogsResponse) Reset() {
+	*m = CreateResourceChangeLogsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *CreateResourceChangeLogsResponse) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*CreateResourceChangeLogsResponse) ProtoMessage() {}
+
+func (m *CreateResourceChangeLogsResponse) ProtoReflect() preflect.Message {
+	mi := &edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*CreateResourceChangeLogsResponse) GotenMessage() {}
+
+// Deprecated, Use CreateResourceChangeLogsResponse.ProtoReflect.Descriptor instead.
+func (*CreateResourceChangeLogsResponse) Descriptor() ([]byte, []int) {
+	return edgelq_audit_proto_v1_resource_change_log_custom_proto_rawDescGZIP(), []int{7}
+}
+
+func (m *CreateResourceChangeLogsResponse) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *CreateResourceChangeLogsResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *CreateResourceChangeLogsResponse) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *CreateResourceChangeLogsResponse) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *CreateResourceChangeLogsResponse) GetFailed() map[uint32]*rpc.Status {
+	if m != nil {
+		return m.Failed
+	}
+	return nil
+}
+
+func (m *CreateResourceChangeLogsResponse) SetFailed(fv map[uint32]*rpc.Status) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Failed", "CreateResourceChangeLogsResponse"))
+	}
+	m.Failed = fv
+}
+
 // ErrorDetails is used when one of the queried regions fails to produce
 // results. It is used in execution_errors field (see subfield
 // ntt.rpc.Status.details).
@@ -823,7 +974,7 @@ type ListResourceChangeLogsResponse_ErrorDetails struct {
 func (m *ListResourceChangeLogsResponse_ErrorDetails) Reset() {
 	*m = ListResourceChangeLogsResponse_ErrorDetails{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[6]
+		mi := &edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -836,7 +987,7 @@ func (m *ListResourceChangeLogsResponse_ErrorDetails) String() string {
 func (*ListResourceChangeLogsResponse_ErrorDetails) ProtoMessage() {}
 
 func (m *ListResourceChangeLogsResponse_ErrorDetails) ProtoReflect() preflect.Message {
-	mi := &edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[6]
+	mi := &edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -992,17 +1143,36 @@ var edgelq_audit_proto_v1_resource_change_log_custom_proto_rawDesc = []byte{
 	0x08, 0x74, 0x78, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x2a, 0x0a, 0x28, 0x53, 0x65, 0x74,
 	0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x4c, 0x6f,
 	0x67, 0x73, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x94, 0x01, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x13, 0x63, 0x6f,
-	0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x70, 0x62, 0x2e, 0x76,
-	0x31, 0x42, 0x1c, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x68, 0x61, 0x6e, 0x67,
-	0x65, 0x4c, 0x6f, 0x67, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
-	0x00, 0x5a, 0x59, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c,
-	0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x61, 0x75,
-	0x64, 0x69, 0x74, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x72, 0x65,
-	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x6c, 0x6f,
-	0x67, 0x3b, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x67,
-	0x65, 0x5f, 0x6c, 0x6f, 0x67, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x74, 0x0a, 0x1f, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52,
+	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x4c, 0x6f, 0x67,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x51, 0x0a, 0x14, 0x72, 0x65, 0x73, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x6c, 0x6f, 0x67, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x75, 0x64,
+	0x69, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x68,
+	0x61, 0x6e, 0x67, 0x65, 0x4c, 0x6f, 0x67, 0x52, 0x12, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x4c, 0x6f, 0x67, 0x73, 0x22, 0xc2, 0x01, 0x0a, 0x20,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x68,
+	0x61, 0x6e, 0x67, 0x65, 0x4c, 0x6f, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x52, 0x0a, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x3a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x76, 0x31, 0x2e,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x68,
+	0x61, 0x6e, 0x67, 0x65, 0x4c, 0x6f, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x2e, 0x46, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x66, 0x61,
+	0x69, 0x6c, 0x65, 0x64, 0x1a, 0x4a, 0x0a, 0x0b, 0x46, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x45, 0x6e,
+	0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d,
+	0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x25, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x53,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01,
+	0x42, 0x94, 0x01, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x13, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74,
+	0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x1c, 0x52, 0x65,
+	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x4c, 0x6f, 0x67, 0x43,
+	0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x00, 0x5a, 0x59, 0x67, 0x69,
+	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61,
+	0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2f, 0x63,
+	0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x6c, 0x6f, 0x67, 0x3b, 0x72, 0x65, 0x73,
+	0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x6c, 0x6f, 0x67,
+	0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1017,42 +1187,48 @@ func edgelq_audit_proto_v1_resource_change_log_custom_proto_rawDescGZIP() []byte
 	return edgelq_audit_proto_v1_resource_change_log_custom_proto_rawDescData
 }
 
-var edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var edgelq_audit_proto_v1_resource_change_log_custom_proto_goTypes = []interface{}{
-	(*ListResourceChangeLogsRequest)(nil),                            // 0: ntt.audit.v1.ListResourceChangeLogsRequest
-	(*ListResourceChangeLogsResponse)(nil),                           // 1: ntt.audit.v1.ListResourceChangeLogsResponse
-	(*CreatePreCommittedResourceChangeLogsRequest)(nil),              // 2: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest
-	(*CreatePreCommittedResourceChangeLogsResponse)(nil),             // 3: ntt.audit.v1.CreatePreCommittedResourceChangeLogsResponse
-	(*SetResourceChangeLogsCommitStateRequest)(nil),                  // 4: ntt.audit.v1.SetResourceChangeLogsCommitStateRequest
-	(*SetResourceChangeLogsCommitStateResponse)(nil),                 // 5: ntt.audit.v1.SetResourceChangeLogsCommitStateResponse
-	(*ListResourceChangeLogsResponse_ErrorDetails)(nil),              // 6: ntt.audit.v1.ListResourceChangeLogsResponse.ErrorDetails
-	(*common.TimeInterval)(nil),                                      // 7: ntt.audit.v1.TimeInterval
-	(*resource_change_log.ResourceChangeLog)(nil),                    // 8: ntt.audit.v1.ResourceChangeLog
-	(*rpc.Status)(nil),                                               // 9: ntt.rpc.Status
-	(*timestamppb.Timestamp)(nil),                                    // 10: google.protobuf.Timestamp
-	(*common.Authentication)(nil),                                    // 11: ntt.audit.v1.Authentication
-	(*common.ServiceData)(nil),                                       // 12: ntt.audit.v1.ServiceData
-	(*resource_change_log.ResourceChangeLog_TransactionInfo)(nil),    // 13: ntt.audit.v1.ResourceChangeLog.TransactionInfo
-	(*resource_change_log.ResourceChangeLog_ResourceChange)(nil),     // 14: ntt.audit.v1.ResourceChangeLog.ResourceChange
-	(resource_change_log.ResourceChangeLog_TransactionInfo_State)(0), // 15: ntt.audit.v1.ResourceChangeLog_TransactionInfo_State
+	(*ListResourceChangeLogsRequest)(nil),                // 0: ntt.audit.v1.ListResourceChangeLogsRequest
+	(*ListResourceChangeLogsResponse)(nil),               // 1: ntt.audit.v1.ListResourceChangeLogsResponse
+	(*CreatePreCommittedResourceChangeLogsRequest)(nil),  // 2: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest
+	(*CreatePreCommittedResourceChangeLogsResponse)(nil), // 3: ntt.audit.v1.CreatePreCommittedResourceChangeLogsResponse
+	(*SetResourceChangeLogsCommitStateRequest)(nil),      // 4: ntt.audit.v1.SetResourceChangeLogsCommitStateRequest
+	(*SetResourceChangeLogsCommitStateResponse)(nil),     // 5: ntt.audit.v1.SetResourceChangeLogsCommitStateResponse
+	(*CreateResourceChangeLogsRequest)(nil),              // 6: ntt.audit.v1.CreateResourceChangeLogsRequest
+	(*CreateResourceChangeLogsResponse)(nil),             // 7: ntt.audit.v1.CreateResourceChangeLogsResponse
+	(*ListResourceChangeLogsResponse_ErrorDetails)(nil),  // 8: ntt.audit.v1.ListResourceChangeLogsResponse.ErrorDetails
+	nil,                         // 9: ntt.audit.v1.CreateResourceChangeLogsResponse.FailedEntry
+	(*common.TimeInterval)(nil), // 10: ntt.audit.v1.TimeInterval
+	(*resource_change_log.ResourceChangeLog)(nil),                    // 11: ntt.audit.v1.ResourceChangeLog
+	(*rpc.Status)(nil),                                               // 12: ntt.rpc.Status
+	(*timestamppb.Timestamp)(nil),                                    // 13: google.protobuf.Timestamp
+	(*common.Authentication)(nil),                                    // 14: ntt.audit.v1.Authentication
+	(*common.ServiceData)(nil),                                       // 15: ntt.audit.v1.ServiceData
+	(*resource_change_log.ResourceChangeLog_TransactionInfo)(nil),    // 16: ntt.audit.v1.ResourceChangeLog.TransactionInfo
+	(*resource_change_log.ResourceChangeLog_ResourceChange)(nil),     // 17: ntt.audit.v1.ResourceChangeLog.ResourceChange
+	(resource_change_log.ResourceChangeLog_TransactionInfo_State)(0), // 18: ntt.audit.v1.ResourceChangeLog_TransactionInfo_State
 }
 var edgelq_audit_proto_v1_resource_change_log_custom_proto_depIdxs = []int32{
-	7,  // 0: ntt.audit.v1.ListResourceChangeLogsRequest.interval:type_name -> ntt.audit.v1.TimeInterval
-	8,  // 1: ntt.audit.v1.ListResourceChangeLogsResponse.resource_change_logs:type_name -> ntt.audit.v1.ResourceChangeLog
-	9,  // 2: ntt.audit.v1.ListResourceChangeLogsResponse.execution_errors:type_name -> ntt.rpc.Status
-	10, // 3: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.timestamp:type_name -> google.protobuf.Timestamp
-	11, // 4: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.authentication:type_name -> ntt.audit.v1.Authentication
-	12, // 5: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.service:type_name -> ntt.audit.v1.ServiceData
-	13, // 6: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.transaction:type_name -> ntt.audit.v1.ResourceChangeLog.TransactionInfo
-	14, // 7: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.changes:type_name -> ntt.audit.v1.ResourceChangeLog.ResourceChange
-	12, // 8: ntt.audit.v1.SetResourceChangeLogsCommitStateRequest.service:type_name -> ntt.audit.v1.ServiceData
-	10, // 9: ntt.audit.v1.SetResourceChangeLogsCommitStateRequest.timestamp:type_name -> google.protobuf.Timestamp
-	15, // 10: ntt.audit.v1.SetResourceChangeLogsCommitStateRequest.tx_result:type_name -> ntt.audit.v1.ResourceChangeLog_TransactionInfo_State
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	10, // 0: ntt.audit.v1.ListResourceChangeLogsRequest.interval:type_name -> ntt.audit.v1.TimeInterval
+	11, // 1: ntt.audit.v1.ListResourceChangeLogsResponse.resource_change_logs:type_name -> ntt.audit.v1.ResourceChangeLog
+	12, // 2: ntt.audit.v1.ListResourceChangeLogsResponse.execution_errors:type_name -> ntt.rpc.Status
+	13, // 3: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.timestamp:type_name -> google.protobuf.Timestamp
+	14, // 4: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.authentication:type_name -> ntt.audit.v1.Authentication
+	15, // 5: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.service:type_name -> ntt.audit.v1.ServiceData
+	16, // 6: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.transaction:type_name -> ntt.audit.v1.ResourceChangeLog.TransactionInfo
+	17, // 7: ntt.audit.v1.CreatePreCommittedResourceChangeLogsRequest.changes:type_name -> ntt.audit.v1.ResourceChangeLog.ResourceChange
+	15, // 8: ntt.audit.v1.SetResourceChangeLogsCommitStateRequest.service:type_name -> ntt.audit.v1.ServiceData
+	13, // 9: ntt.audit.v1.SetResourceChangeLogsCommitStateRequest.timestamp:type_name -> google.protobuf.Timestamp
+	18, // 10: ntt.audit.v1.SetResourceChangeLogsCommitStateRequest.tx_result:type_name -> ntt.audit.v1.ResourceChangeLog_TransactionInfo_State
+	11, // 11: ntt.audit.v1.CreateResourceChangeLogsRequest.resource_change_logs:type_name -> ntt.audit.v1.ResourceChangeLog
+	9,  // 12: ntt.audit.v1.CreateResourceChangeLogsResponse.failed:type_name -> ntt.audit.v1.CreateResourceChangeLogsResponse.FailedEntry
+	12, // 13: ntt.audit.v1.CreateResourceChangeLogsResponse.FailedEntry.value:type_name -> ntt.rpc.Status
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { edgelq_audit_proto_v1_resource_change_log_custom_proto_init() }
@@ -1135,6 +1311,30 @@ func edgelq_audit_proto_v1_resource_change_log_custom_proto_init() {
 			}
 		}
 		edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateResourceChangeLogsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateResourceChangeLogsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_audit_proto_v1_resource_change_log_custom_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListResourceChangeLogsResponse_ErrorDetails); i {
 			case 0:
 				return &v.state
@@ -1154,7 +1354,7 @@ func edgelq_audit_proto_v1_resource_change_log_custom_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_audit_proto_v1_resource_change_log_custom_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

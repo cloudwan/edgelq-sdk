@@ -2834,6 +2834,385 @@ func (fpaov *LabelKeySet_FieldTerminalPathArrayOfValues) AsVersionsArrayOfValues
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type OmittedPayload_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() OmittedPayload_FieldPathSelector
+	Get(source *OmittedPayload) []interface{}
+	GetSingle(source *OmittedPayload) (interface{}, bool)
+	ClearValue(item *OmittedPayload)
+
+	// Those methods build corresponding OmittedPayload_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) OmittedPayload_FieldPathValue
+	WithIArrayOfValues(values interface{}) OmittedPayload_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) OmittedPayload_FieldPathArrayItemValue
+}
+
+type OmittedPayload_FieldPathSelector int32
+
+const (
+	OmittedPayload_FieldPathSelectorOriginalSizeBytes OmittedPayload_FieldPathSelector = 0
+)
+
+func (s OmittedPayload_FieldPathSelector) String() string {
+	switch s {
+	case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+		return "original_size_bytes"
+	default:
+		panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", s))
+	}
+}
+
+func BuildOmittedPayload_FieldPath(fp gotenobject.RawFieldPath) (OmittedPayload_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object OmittedPayload")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "original_size_bytes", "originalSizeBytes", "original-size-bytes":
+			return &OmittedPayload_FieldTerminalPath{selector: OmittedPayload_FieldPathSelectorOriginalSizeBytes}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object OmittedPayload", fp)
+}
+
+func ParseOmittedPayload_FieldPath(rawField string) (OmittedPayload_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildOmittedPayload_FieldPath(fp)
+}
+
+func MustParseOmittedPayload_FieldPath(rawField string) OmittedPayload_FieldPath {
+	fp, err := ParseOmittedPayload_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type OmittedPayload_FieldTerminalPath struct {
+	selector OmittedPayload_FieldPathSelector
+}
+
+var _ OmittedPayload_FieldPath = (*OmittedPayload_FieldTerminalPath)(nil)
+
+func (fp *OmittedPayload_FieldTerminalPath) Selector() OmittedPayload_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *OmittedPayload_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *OmittedPayload_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source OmittedPayload
+func (fp *OmittedPayload_FieldTerminalPath) Get(source *OmittedPayload) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+			values = append(values, source.OriginalSizeBytes)
+		default:
+			panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*OmittedPayload))
+}
+
+// GetSingle returns value pointed by specific field of from source OmittedPayload
+func (fp *OmittedPayload_FieldTerminalPath) GetSingle(source *OmittedPayload) (interface{}, bool) {
+	switch fp.selector {
+	case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+		return source.GetOriginalSizeBytes(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fp.selector))
+	}
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*OmittedPayload))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *OmittedPayload_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+		return uint64(0)
+	default:
+		panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fp.selector))
+	}
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) ClearValue(item *OmittedPayload) {
+	if item != nil {
+		switch fp.selector {
+		case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+			item.OriginalSizeBytes = uint64(0)
+		default:
+			panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*OmittedPayload))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *OmittedPayload_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == OmittedPayload_FieldPathSelectorOriginalSizeBytes
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) WithIValue(value interface{}) OmittedPayload_FieldPathValue {
+	switch fp.selector {
+	case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+		return &OmittedPayload_FieldTerminalPathValue{OmittedPayload_FieldTerminalPath: *fp, value: value.(uint64)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fp.selector))
+	}
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) WithIArrayOfValues(values interface{}) OmittedPayload_FieldPathArrayOfValues {
+	fpaov := &OmittedPayload_FieldTerminalPathArrayOfValues{OmittedPayload_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+		return &OmittedPayload_FieldTerminalPathArrayOfValues{OmittedPayload_FieldTerminalPath: *fp, values: values.([]uint64)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) WithIArrayItemValue(value interface{}) OmittedPayload_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fp.selector))
+	}
+}
+
+func (fp *OmittedPayload_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// OmittedPayload_FieldPathValue allows storing values for OmittedPayload fields according to their type
+type OmittedPayload_FieldPathValue interface {
+	OmittedPayload_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **OmittedPayload)
+	CompareWith(*OmittedPayload) (cmp int, comparable bool)
+}
+
+func ParseOmittedPayload_FieldPathValue(pathStr, valueStr string) (OmittedPayload_FieldPathValue, error) {
+	fp, err := ParseOmittedPayload_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing OmittedPayload field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(OmittedPayload_FieldPathValue), nil
+}
+
+func MustParseOmittedPayload_FieldPathValue(pathStr, valueStr string) OmittedPayload_FieldPathValue {
+	fpv, err := ParseOmittedPayload_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type OmittedPayload_FieldTerminalPathValue struct {
+	OmittedPayload_FieldTerminalPath
+	value interface{}
+}
+
+var _ OmittedPayload_FieldPathValue = (*OmittedPayload_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'OmittedPayload' as interface{}
+func (fpv *OmittedPayload_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *OmittedPayload_FieldTerminalPathValue) AsOriginalSizeBytesValue() (uint64, bool) {
+	res, ok := fpv.value.(uint64)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object OmittedPayload
+func (fpv *OmittedPayload_FieldTerminalPathValue) SetTo(target **OmittedPayload) {
+	if *target == nil {
+		*target = new(OmittedPayload)
+	}
+	switch fpv.selector {
+	case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+		(*target).OriginalSizeBytes = fpv.value.(uint64)
+	default:
+		panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fpv.selector))
+	}
+}
+
+func (fpv *OmittedPayload_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*OmittedPayload)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'OmittedPayload_FieldTerminalPathValue' with the value under path in 'OmittedPayload'.
+func (fpv *OmittedPayload_FieldTerminalPathValue) CompareWith(source *OmittedPayload) (int, bool) {
+	switch fpv.selector {
+	case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+		leftValue := fpv.value.(uint64)
+		rightValue := source.GetOriginalSizeBytes()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for OmittedPayload: %d", fpv.selector))
+	}
+}
+
+func (fpv *OmittedPayload_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*OmittedPayload))
+}
+
+// OmittedPayload_FieldPathArrayItemValue allows storing single item in Path-specific values for OmittedPayload according to their type
+// Present only for array (repeated) types.
+type OmittedPayload_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	OmittedPayload_FieldPath
+	ContainsValue(*OmittedPayload) bool
+}
+
+// ParseOmittedPayload_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseOmittedPayload_FieldPathArrayItemValue(pathStr, valueStr string) (OmittedPayload_FieldPathArrayItemValue, error) {
+	fp, err := ParseOmittedPayload_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing OmittedPayload field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(OmittedPayload_FieldPathArrayItemValue), nil
+}
+
+func MustParseOmittedPayload_FieldPathArrayItemValue(pathStr, valueStr string) OmittedPayload_FieldPathArrayItemValue {
+	fpaiv, err := ParseOmittedPayload_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type OmittedPayload_FieldTerminalPathArrayItemValue struct {
+	OmittedPayload_FieldTerminalPath
+	value interface{}
+}
+
+var _ OmittedPayload_FieldPathArrayItemValue = (*OmittedPayload_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object OmittedPayload as interface{}
+func (fpaiv *OmittedPayload_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *OmittedPayload_FieldTerminalPathArrayItemValue) GetSingle(source *OmittedPayload) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *OmittedPayload_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*OmittedPayload))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'OmittedPayload'
+func (fpaiv *OmittedPayload_FieldTerminalPathArrayItemValue) ContainsValue(source *OmittedPayload) bool {
+	slice := fpaiv.OmittedPayload_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// OmittedPayload_FieldPathArrayOfValues allows storing slice of values for OmittedPayload fields according to their type
+type OmittedPayload_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	OmittedPayload_FieldPath
+}
+
+func ParseOmittedPayload_FieldPathArrayOfValues(pathStr, valuesStr string) (OmittedPayload_FieldPathArrayOfValues, error) {
+	fp, err := ParseOmittedPayload_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing OmittedPayload field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(OmittedPayload_FieldPathArrayOfValues), nil
+}
+
+func MustParseOmittedPayload_FieldPathArrayOfValues(pathStr, valuesStr string) OmittedPayload_FieldPathArrayOfValues {
+	fpaov, err := ParseOmittedPayload_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type OmittedPayload_FieldTerminalPathArrayOfValues struct {
+	OmittedPayload_FieldTerminalPath
+	values interface{}
+}
+
+var _ OmittedPayload_FieldPathArrayOfValues = (*OmittedPayload_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *OmittedPayload_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case OmittedPayload_FieldPathSelectorOriginalSizeBytes:
+		for _, v := range fpaov.values.([]uint64) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *OmittedPayload_FieldTerminalPathArrayOfValues) AsOriginalSizeBytesArrayOfValues() ([]uint64, bool) {
+	res, ok := fpaov.values.([]uint64)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type TimeInterval_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() TimeInterval_FieldPathSelector

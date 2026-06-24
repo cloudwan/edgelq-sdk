@@ -46,4 +46,12 @@ service ResourceChangeLogService {
       post : "/v1/resourceChangeLogs"
     };
   }
+
+  // CreateResourceChangeLogs
+  rpc CreateResourceChangeLogs(CreateResourceChangeLogsRequest)
+      returns (CreateResourceChangeLogsResponse) {
+    option (google.api.http) = {
+      post : "/v1/resourceChangeLogs:submit"
+    };
+  }
 }
