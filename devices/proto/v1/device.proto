@@ -420,6 +420,8 @@ message Device {
 
       ControlPlaneInterfaceInfo control_plane_interface_info = 104;
 
+      ManagedFeatures managed_features = 105;
+
       message HardwareInformation {
         OS os = 1;
 
@@ -925,6 +927,36 @@ message Device {
         // default route and explicitly uses this interface to connect to api
         // endpoint
         bool is_fallback = 3;
+      }
+
+      // ManagedFeatures reports which management capabilities the droplet has
+      // enabled. These are static, derived from the droplet's startup flags
+      // (--disable-os-management and the per-feature --disable-*-management
+      // flags), and only change when the droplet restarts with different flags.
+      // A true value means the droplet reconciles that feature against the
+      // Device spec; it does not reflect the live on/off state of the feature.
+      message ManagedFeatures {
+        // OS management (SSH, USB, Avahi, OS versioning). When false, the
+        // os/os_upgrade/ssh/usb/avahi features below are all unmanaged.
+        bool os = 1;
+
+        // OS upgrade management.
+        bool os_upgrade = 2;
+
+        // SSH server/config management.
+        bool ssh = 3;
+
+        // USBGuard management.
+        bool usb = 4;
+
+        // Avahi daemon management.
+        bool avahi = 5;
+
+        // Network (netplan) management.
+        bool network = 6;
+
+        // Pod management.
+        bool pods = 7;
       }
     }
 

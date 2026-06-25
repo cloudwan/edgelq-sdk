@@ -5257,6 +5257,7 @@ func FullDevice_Status_DeviceInfo_FieldMask() *Device_Status_DeviceInfo_FieldMas
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorNetworkInterfaces})
 	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures})
 	return res
 }
 
@@ -5275,7 +5276,7 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 12)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatusDeviceInfo_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -5305,14 +5306,16 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Reset() {
 
 func (fieldMask *Device_Status_DeviceInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_FieldMask) *Device_Status_DeviceInfo_FieldMask {
 	result := &Device_Status_DeviceInfo_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 12)
 	otherSubMasks := map[DeviceStatusDeviceInfo_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:       &Device_Status_DeviceInfo_HardwareInformation_FieldMask{},
 		DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo: &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{},
+		DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:           &Device_Status_DeviceInfo_ManagedFeatures_FieldMask{},
 	}
 	mySubMasks := map[DeviceStatusDeviceInfo_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:       &Device_Status_DeviceInfo_HardwareInformation_FieldMask{},
 		DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo: &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{},
+		DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:           &Device_Status_DeviceInfo_ManagedFeatures_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -5332,6 +5335,8 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Subtract(other *Device_Stat
 						mySubMasks[DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation] = FullDevice_Status_DeviceInfo_HardwareInformation_FieldMask()
 					case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 						mySubMasks[DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo] = FullDevice_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask()
+					case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+						mySubMasks[DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures] = FullDevice_Status_DeviceInfo_ManagedFeatures_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceStatusDeviceInfo_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -5491,6 +5496,8 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Project(source *Device_Stat
 	wholeHardwareInformationAccepted := false
 	controlPlaneInterfaceInfoMask := &Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask{}
 	wholeControlPlaneInterfaceInfoAccepted := false
+	managedFeaturesMask := &Device_Status_DeviceInfo_ManagedFeatures_FieldMask{}
+	wholeManagedFeaturesAccepted := false
 	var networkInterfacesMapKeys []string
 	wholeNetworkInterfacesAccepted := false
 
@@ -5523,6 +5530,9 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Project(source *Device_Stat
 			case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 				result.ControlPlaneInterfaceInfo = source.ControlPlaneInterfaceInfo
 				wholeControlPlaneInterfaceInfoAccepted = true
+			case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+				result.ManagedFeatures = source.ManagedFeatures
+				wholeManagedFeaturesAccepted = true
 			}
 		case *DeviceStatusDeviceInfo_FieldSubPath:
 			switch tp.selector {
@@ -5530,6 +5540,8 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Project(source *Device_Stat
 				hardwareInformationMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformation_FieldPath))
 			case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 				controlPlaneInterfaceInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath))
+			case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+				managedFeaturesMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoManagedFeatures_FieldPath))
 			}
 		case *DeviceStatusDeviceInfo_FieldPathMap:
 			switch tp.selector {
@@ -5551,6 +5563,9 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) Project(source *Device_Stat
 	}
 	if wholeControlPlaneInterfaceInfoAccepted == false && len(controlPlaneInterfaceInfoMask.Paths) > 0 {
 		result.ControlPlaneInterfaceInfo = controlPlaneInterfaceInfoMask.Project(source.GetControlPlaneInterfaceInfo())
+	}
+	if wholeManagedFeaturesAccepted == false && len(managedFeaturesMask.Paths) > 0 {
+		result.ManagedFeatures = managedFeaturesMask.Project(source.GetManagedFeatures())
 	}
 	return result
 }
@@ -6794,6 +6809,255 @@ func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) P
 }
 
 func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Device_Status_DeviceInfo_ManagedFeatures_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoManagedFeatures_FieldPath
+}
+
+func FullDevice_Status_DeviceInfo_ManagedFeatures_FieldMask() *Device_Status_DeviceInfo_ManagedFeatures_FieldMask {
+	res := &Device_Status_DeviceInfo_ManagedFeatures_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods})
+	return res
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 7)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) Subtract(other *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) *Device_Status_DeviceInfo_ManagedFeatures_FieldMask {
+	result := &Device_Status_DeviceInfo_ManagedFeatures_FieldMask{}
+	removedSelectors := make([]bool, 7)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_ManagedFeatures_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_ManagedFeatures_FieldMask {
+	result := &Device_Status_DeviceInfo_ManagedFeatures_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoManagedFeatures_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Device_Status_DeviceInfo_ManagedFeatures_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Device_Status_DeviceInfo_ManagedFeatures_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) AppendPath(path DeviceStatusDeviceInfoManagedFeatures_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoManagedFeatures_FieldPath))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) GetPaths() []DeviceStatusDeviceInfoManagedFeatures_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) Set(target, source *Device_Status_DeviceInfo_ManagedFeatures) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_ManagedFeatures), source.(*Device_Status_DeviceInfo_ManagedFeatures))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) Project(source *Device_Status_DeviceInfo_ManagedFeatures) *Device_Status_DeviceInfo_ManagedFeatures {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Device_Status_DeviceInfo_ManagedFeatures{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath:
+			switch tp.selector {
+			case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+				result.Os = source.Os
+			case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+				result.OsUpgrade = source.OsUpgrade
+			case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+				result.Ssh = source.Ssh
+			case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+				result.Usb = source.Usb
+			case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+				result.Avahi = source.Avahi
+			case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+				result.Network = source.Network
+			case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+				result.Pods = source.Pods
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_ManagedFeatures))
+}
+
+func (fieldMask *Device_Status_DeviceInfo_ManagedFeatures_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

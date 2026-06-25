@@ -402,6 +402,11 @@ func (obj *Device_Status_DeviceInfo) GotenValidate() error {
 			return gotenvalidate.NewValidationError("DeviceInfo", "controlPlaneInterfaceInfo", obj.ControlPlaneInterfaceInfo, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ManagedFeatures).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("DeviceInfo", "managedFeatures", obj.ManagedFeatures, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -507,6 +512,15 @@ func (obj *Device_Status_DeviceInfo_NetworkInterface) GotenValidate() error {
 	return nil
 }
 func (obj *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Status_DeviceInfo_ManagedFeatures) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

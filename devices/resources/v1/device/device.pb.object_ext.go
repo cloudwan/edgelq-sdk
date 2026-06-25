@@ -2232,6 +2232,16 @@ func (o *Device_Status_DeviceInfo) MakeDiffFieldMask(other *Device_Status_Device
 			}
 		}
 	}
+	{
+		subMask := o.GetManagedFeatures().MakeDiffFieldMask(other.GetManagedFeatures())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceStatusDeviceInfo_FieldSubPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -2258,6 +2268,7 @@ func (o *Device_Status_DeviceInfo) Clone() *Device_Status_DeviceInfo {
 		result.NetworkInterfaces[key] = sourceValue.Clone()
 	}
 	result.ControlPlaneInterfaceInfo = o.ControlPlaneInterfaceInfo.Clone()
+	result.ManagedFeatures = o.ManagedFeatures.Clone()
 	return result
 }
 
@@ -2298,6 +2309,12 @@ func (o *Device_Status_DeviceInfo) Merge(source *Device_Status_DeviceInfo) {
 			o.ControlPlaneInterfaceInfo = new(Device_Status_DeviceInfo_ControlPlaneInterfaceInfo)
 		}
 		o.ControlPlaneInterfaceInfo.Merge(source.GetControlPlaneInterfaceInfo())
+	}
+	if source.GetManagedFeatures() != nil {
+		if o.ManagedFeatures == nil {
+			o.ManagedFeatures = new(Device_Status_DeviceInfo_ManagedFeatures)
+		}
+		o.ManagedFeatures.Merge(source.GetManagedFeatures())
 	}
 }
 
@@ -2955,6 +2972,86 @@ func (o *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) Merge(source *Devic
 
 func (o *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo))
+}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) GotenObjectExt() {}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) MakeFullFieldMask() *Device_Status_DeviceInfo_ManagedFeatures_FieldMask {
+	return FullDevice_Status_DeviceInfo_ManagedFeatures_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_DeviceInfo_ManagedFeatures_FieldMask()
+}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) MakeDiffFieldMask(other *Device_Status_DeviceInfo_ManagedFeatures) *Device_Status_DeviceInfo_ManagedFeatures_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Status_DeviceInfo_ManagedFeatures_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Status_DeviceInfo_ManagedFeatures_FieldMask()
+	}
+
+	res := &Device_Status_DeviceInfo_ManagedFeatures_FieldMask{}
+	if o.GetOs() != other.GetOs() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs})
+	}
+	if o.GetOsUpgrade() != other.GetOsUpgrade() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade})
+	}
+	if o.GetSsh() != other.GetSsh() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh})
+	}
+	if o.GetUsb() != other.GetUsb() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb})
+	}
+	if o.GetAvahi() != other.GetAvahi() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi})
+	}
+	if o.GetNetwork() != other.GetNetwork() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork})
+	}
+	if o.GetPods() != other.GetPods() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods})
+	}
+	return res
+}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_DeviceInfo_ManagedFeatures))
+}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) Clone() *Device_Status_DeviceInfo_ManagedFeatures {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Status_DeviceInfo_ManagedFeatures{}
+	result.Os = o.Os
+	result.OsUpgrade = o.OsUpgrade
+	result.Ssh = o.Ssh
+	result.Usb = o.Usb
+	result.Avahi = o.Avahi
+	result.Network = o.Network
+	result.Pods = o.Pods
+	return result
+}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) Merge(source *Device_Status_DeviceInfo_ManagedFeatures) {
+	o.Os = source.GetOs()
+	o.OsUpgrade = source.GetOsUpgrade()
+	o.Ssh = source.GetSsh()
+	o.Usb = source.GetUsb()
+	o.Avahi = source.GetAvahi()
+	o.Network = source.GetNetwork()
+	o.Pods = source.GetPods()
+}
+
+func (o *Device_Status_DeviceInfo_ManagedFeatures) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_DeviceInfo_ManagedFeatures))
 }
 
 func (o *Device_Status_DeviceInfo_HardwareInformation_Capability) GotenObjectExt() {}

@@ -9423,6 +9423,10 @@ func (b *filterCndBuilderStatusDeviceInfo) ControlPlaneInterfaceInfo() *filterCn
 	return &filterCndBuilderStatusDeviceInfoControlPlaneInterfaceInfo{builder: b.builder}
 }
 
+func (b *filterCndBuilderStatusDeviceInfo) ManagedFeatures() *filterCndBuilderStatusDeviceInfoManagedFeatures {
+	return &filterCndBuilderStatusDeviceInfoManagedFeatures{builder: b.builder}
+}
+
 type filterCndBuilderStatusDeviceInfoArchitecture struct {
 	builder *FilterBuilder
 }
@@ -22136,6 +22140,506 @@ func (b *filterCndBuilderStatusDeviceInfoControlPlaneInterfaceInfoIsFallback) co
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ControlPlaneInterfaceInfo().IsFallback().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoManagedFeatures struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Eq(value *Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Neq(value *Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Gt(value *Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Gte(value *Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Lt(value *Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Lte(value *Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) In(values []*Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) NotIn(values []*Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) compare(op gotenfilter.CompareOperator, value *Device_Status_DeviceInfo_ManagedFeatures) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Os() *filterCndBuilderStatusDeviceInfoManagedFeaturesOs {
+	return &filterCndBuilderStatusDeviceInfoManagedFeaturesOs{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) OsUpgrade() *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade {
+	return &filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Ssh() *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh {
+	return &filterCndBuilderStatusDeviceInfoManagedFeaturesSsh{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Usb() *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb {
+	return &filterCndBuilderStatusDeviceInfoManagedFeaturesUsb{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Avahi() *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi {
+	return &filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Network() *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork {
+	return &filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeatures) Pods() *filterCndBuilderStatusDeviceInfoManagedFeaturesPods {
+	return &filterCndBuilderStatusDeviceInfoManagedFeaturesPods{builder: b.builder}
+}
+
+type filterCndBuilderStatusDeviceInfoManagedFeaturesOs struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Os().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Os().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Os().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Os().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOs) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Os().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().OsUpgrade().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().OsUpgrade().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().OsUpgrade().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().OsUpgrade().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesOsUpgrade) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().OsUpgrade().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoManagedFeaturesSsh struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Ssh().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Ssh().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Ssh().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Ssh().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesSsh) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Ssh().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoManagedFeaturesUsb struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Usb().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Usb().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Usb().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Usb().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesUsb) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Usb().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Avahi().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Avahi().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Avahi().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Avahi().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesAvahi) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Avahi().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Network().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Network().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Network().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Network().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesNetwork) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Network().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoManagedFeaturesPods struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Pods().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Pods().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Pods().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Pods().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoManagedFeaturesPods) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().ManagedFeatures().Pods().WithValue(value),
 	})
 }
 

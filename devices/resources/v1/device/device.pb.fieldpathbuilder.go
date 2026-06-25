@@ -3045,6 +3045,10 @@ func (DevicePathSelectorStatusDeviceInfo) ControlPlaneInterfaceInfo() DevicePath
 	return DevicePathSelectorStatusDeviceInfoControlPlaneInterfaceInfo{}
 }
 
+func (DevicePathSelectorStatusDeviceInfo) ManagedFeatures() DevicePathSelectorStatusDeviceInfoManagedFeatures {
+	return DevicePathSelectorStatusDeviceInfoManagedFeatures{}
+}
+
 type DevicePathSelectorStatusDeviceInfoArchitecture struct{}
 
 func (DevicePathSelectorStatusDeviceInfoArchitecture) FieldPath() *Device_FieldSubPath {
@@ -7076,6 +7080,170 @@ func (s DevicePathSelectorStatusDeviceInfoControlPlaneInterfaceInfoIsFallback) W
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
+type DevicePathSelectorStatusDeviceInfoManagedFeatures struct{}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeatures) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().ManagedFeatures().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeatures) WithValue(value *Device_Status_DeviceInfo_ManagedFeatures) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeatures) WithArrayOfValues(values []*Device_Status_DeviceInfo_ManagedFeatures) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeatures) Os() DevicePathSelectorStatusDeviceInfoManagedFeaturesOs {
+	return DevicePathSelectorStatusDeviceInfoManagedFeaturesOs{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeatures) OsUpgrade() DevicePathSelectorStatusDeviceInfoManagedFeaturesOsUpgrade {
+	return DevicePathSelectorStatusDeviceInfoManagedFeaturesOsUpgrade{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeatures) Ssh() DevicePathSelectorStatusDeviceInfoManagedFeaturesSsh {
+	return DevicePathSelectorStatusDeviceInfoManagedFeaturesSsh{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeatures) Usb() DevicePathSelectorStatusDeviceInfoManagedFeaturesUsb {
+	return DevicePathSelectorStatusDeviceInfoManagedFeaturesUsb{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeatures) Avahi() DevicePathSelectorStatusDeviceInfoManagedFeaturesAvahi {
+	return DevicePathSelectorStatusDeviceInfoManagedFeaturesAvahi{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeatures) Network() DevicePathSelectorStatusDeviceInfoManagedFeaturesNetwork {
+	return DevicePathSelectorStatusDeviceInfoManagedFeaturesNetwork{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeatures) Pods() DevicePathSelectorStatusDeviceInfoManagedFeaturesPods {
+	return DevicePathSelectorStatusDeviceInfoManagedFeaturesPods{}
+}
+
+type DevicePathSelectorStatusDeviceInfoManagedFeaturesOs struct{}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeaturesOs) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().ManagedFeatures().Os().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesOs) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesOs) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusDeviceInfoManagedFeaturesOsUpgrade struct{}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeaturesOsUpgrade) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().ManagedFeatures().OsUpgrade().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesOsUpgrade) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesOsUpgrade) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusDeviceInfoManagedFeaturesSsh struct{}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeaturesSsh) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().ManagedFeatures().Ssh().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesSsh) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesSsh) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusDeviceInfoManagedFeaturesUsb struct{}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeaturesUsb) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().ManagedFeatures().Usb().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesUsb) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesUsb) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusDeviceInfoManagedFeaturesAvahi struct{}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeaturesAvahi) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().ManagedFeatures().Avahi().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesAvahi) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesAvahi) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusDeviceInfoManagedFeaturesNetwork struct{}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeaturesNetwork) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().ManagedFeatures().Network().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesNetwork) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesNetwork) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusDeviceInfoManagedFeaturesPods struct{}
+
+func (DevicePathSelectorStatusDeviceInfoManagedFeaturesPods) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().ManagedFeatures().Pods().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesPods) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoManagedFeaturesPods) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
 type DevicePathSelectorStatusAttestationStatus struct{}
 
 func (DevicePathSelectorStatusAttestationStatus) FieldPath() *Device_FieldSubPath {
@@ -9939,6 +10107,10 @@ func (Device_StatusPathSelectorDeviceInfo) NetworkInterfaces() Device_StatusPath
 
 func (Device_StatusPathSelectorDeviceInfo) ControlPlaneInterfaceInfo() Device_StatusPathSelectorDeviceInfoControlPlaneInterfaceInfo {
 	return Device_StatusPathSelectorDeviceInfoControlPlaneInterfaceInfo{}
+}
+
+func (Device_StatusPathSelectorDeviceInfo) ManagedFeatures() Device_StatusPathSelectorDeviceInfoManagedFeatures {
+	return Device_StatusPathSelectorDeviceInfoManagedFeatures{}
 }
 
 type Device_StatusPathSelectorDeviceInfoArchitecture struct{}
@@ -13972,6 +14144,170 @@ func (s Device_StatusPathSelectorDeviceInfoControlPlaneInterfaceInfoIsFallback) 
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
+type Device_StatusPathSelectorDeviceInfoManagedFeatures struct{}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeatures) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().ManagedFeatures().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeatures) WithValue(value *Device_Status_DeviceInfo_ManagedFeatures) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeatures) WithArrayOfValues(values []*Device_Status_DeviceInfo_ManagedFeatures) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeatures) Os() Device_StatusPathSelectorDeviceInfoManagedFeaturesOs {
+	return Device_StatusPathSelectorDeviceInfoManagedFeaturesOs{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeatures) OsUpgrade() Device_StatusPathSelectorDeviceInfoManagedFeaturesOsUpgrade {
+	return Device_StatusPathSelectorDeviceInfoManagedFeaturesOsUpgrade{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeatures) Ssh() Device_StatusPathSelectorDeviceInfoManagedFeaturesSsh {
+	return Device_StatusPathSelectorDeviceInfoManagedFeaturesSsh{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeatures) Usb() Device_StatusPathSelectorDeviceInfoManagedFeaturesUsb {
+	return Device_StatusPathSelectorDeviceInfoManagedFeaturesUsb{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeatures) Avahi() Device_StatusPathSelectorDeviceInfoManagedFeaturesAvahi {
+	return Device_StatusPathSelectorDeviceInfoManagedFeaturesAvahi{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeatures) Network() Device_StatusPathSelectorDeviceInfoManagedFeaturesNetwork {
+	return Device_StatusPathSelectorDeviceInfoManagedFeaturesNetwork{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeatures) Pods() Device_StatusPathSelectorDeviceInfoManagedFeaturesPods {
+	return Device_StatusPathSelectorDeviceInfoManagedFeaturesPods{}
+}
+
+type Device_StatusPathSelectorDeviceInfoManagedFeaturesOs struct{}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeaturesOs) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().ManagedFeatures().Os().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesOs) WithValue(value bool) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesOs) WithArrayOfValues(values []bool) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorDeviceInfoManagedFeaturesOsUpgrade struct{}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeaturesOsUpgrade) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().ManagedFeatures().OsUpgrade().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesOsUpgrade) WithValue(value bool) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesOsUpgrade) WithArrayOfValues(values []bool) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorDeviceInfoManagedFeaturesSsh struct{}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeaturesSsh) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().ManagedFeatures().Ssh().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesSsh) WithValue(value bool) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesSsh) WithArrayOfValues(values []bool) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorDeviceInfoManagedFeaturesUsb struct{}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeaturesUsb) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().ManagedFeatures().Usb().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesUsb) WithValue(value bool) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesUsb) WithArrayOfValues(values []bool) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorDeviceInfoManagedFeaturesAvahi struct{}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeaturesAvahi) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().ManagedFeatures().Avahi().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesAvahi) WithValue(value bool) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesAvahi) WithArrayOfValues(values []bool) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorDeviceInfoManagedFeaturesNetwork struct{}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeaturesNetwork) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().ManagedFeatures().Network().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesNetwork) WithValue(value bool) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesNetwork) WithArrayOfValues(values []bool) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorDeviceInfoManagedFeaturesPods struct{}
+
+func (Device_StatusPathSelectorDeviceInfoManagedFeaturesPods) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().ManagedFeatures().Pods().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesPods) WithValue(value bool) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoManagedFeaturesPods) WithArrayOfValues(values []bool) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
 type Device_StatusPathSelectorAttestationStatus struct{}
 
 func (Device_StatusPathSelectorAttestationStatus) FieldPath() *DeviceStatus_FieldTerminalPath {
@@ -16826,6 +17162,9 @@ func (DeviceStatusDeviceInfoFieldPathBuilder) NetworkInterfaces() Device_Status_
 }
 func (DeviceStatusDeviceInfoFieldPathBuilder) ControlPlaneInterfaceInfo() Device_Status_DeviceInfoPathSelectorControlPlaneInterfaceInfo {
 	return Device_Status_DeviceInfoPathSelectorControlPlaneInterfaceInfo{}
+}
+func (DeviceStatusDeviceInfoFieldPathBuilder) ManagedFeatures() Device_Status_DeviceInfoPathSelectorManagedFeatures {
+	return Device_Status_DeviceInfoPathSelectorManagedFeatures{}
 }
 
 type Device_Status_DeviceInfoPathSelectorArchitecture struct{}
@@ -20852,6 +21191,183 @@ func (s Device_Status_DeviceInfoPathSelectorControlPlaneInterfaceInfoIsFallback)
 }
 
 func (s Device_Status_DeviceInfoPathSelectorControlPlaneInterfaceInfoIsFallback) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorManagedFeatures struct{}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) FieldPath() *DeviceStatusDeviceInfo_FieldTerminalPath {
+	return &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeatures) WithValue(value *Device_Status_DeviceInfo_ManagedFeatures) *DeviceStatusDeviceInfo_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeatures) WithArrayOfValues(values []*Device_Status_DeviceInfo_ManagedFeatures) *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) WithSubPath(subPath DeviceStatusDeviceInfoManagedFeatures_FieldPath) *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures, subPath: subPath}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeatures) WithSubValue(subPathValue DeviceStatusDeviceInfoManagedFeatures_FieldPathValue) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return &DeviceStatusDeviceInfo_FieldSubPathValue{DeviceStatusDeviceInfo_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeatures) WithSubArrayOfValues(subPathArrayOfValues DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return &DeviceStatusDeviceInfo_FieldSubPathArrayOfValues{DeviceStatusDeviceInfo_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeatures) WithSubArrayItemValue(subPathArrayItemValue DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue) *DeviceStatusDeviceInfo_FieldSubPathArrayItemValue {
+	return &DeviceStatusDeviceInfo_FieldSubPathArrayItemValue{DeviceStatusDeviceInfo_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) Os() Device_Status_DeviceInfoPathSelectorManagedFeaturesOs {
+	return Device_Status_DeviceInfoPathSelectorManagedFeaturesOs{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) OsUpgrade() Device_Status_DeviceInfoPathSelectorManagedFeaturesOsUpgrade {
+	return Device_Status_DeviceInfoPathSelectorManagedFeaturesOsUpgrade{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) Ssh() Device_Status_DeviceInfoPathSelectorManagedFeaturesSsh {
+	return Device_Status_DeviceInfoPathSelectorManagedFeaturesSsh{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) Usb() Device_Status_DeviceInfoPathSelectorManagedFeaturesUsb {
+	return Device_Status_DeviceInfoPathSelectorManagedFeaturesUsb{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) Avahi() Device_Status_DeviceInfoPathSelectorManagedFeaturesAvahi {
+	return Device_Status_DeviceInfoPathSelectorManagedFeaturesAvahi{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) Network() Device_Status_DeviceInfoPathSelectorManagedFeaturesNetwork {
+	return Device_Status_DeviceInfoPathSelectorManagedFeaturesNetwork{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeatures) Pods() Device_Status_DeviceInfoPathSelectorManagedFeaturesPods {
+	return Device_Status_DeviceInfoPathSelectorManagedFeaturesPods{}
+}
+
+type Device_Status_DeviceInfoPathSelectorManagedFeaturesOs struct{}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeaturesOs) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures,
+		subPath:  NewDeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder().Os().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesOs) WithValue(value bool) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesOs) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorManagedFeaturesOsUpgrade struct{}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeaturesOsUpgrade) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures,
+		subPath:  NewDeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder().OsUpgrade().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesOsUpgrade) WithValue(value bool) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesOsUpgrade) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorManagedFeaturesSsh struct{}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeaturesSsh) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures,
+		subPath:  NewDeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder().Ssh().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesSsh) WithValue(value bool) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesSsh) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorManagedFeaturesUsb struct{}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeaturesUsb) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures,
+		subPath:  NewDeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder().Usb().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesUsb) WithValue(value bool) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesUsb) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorManagedFeaturesAvahi struct{}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeaturesAvahi) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures,
+		subPath:  NewDeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder().Avahi().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesAvahi) WithValue(value bool) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesAvahi) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorManagedFeaturesNetwork struct{}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeaturesNetwork) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures,
+		subPath:  NewDeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder().Network().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesNetwork) WithValue(value bool) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesNetwork) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorManagedFeaturesPods struct{}
+
+func (Device_Status_DeviceInfoPathSelectorManagedFeaturesPods) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures,
+		subPath:  NewDeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder().Pods().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesPods) WithValue(value bool) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorManagedFeaturesPods) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
@@ -25466,6 +25982,131 @@ func (s Device_Status_DeviceInfo_ControlPlaneInterfaceInfoPathSelectorIsFallback
 
 func (s Device_Status_DeviceInfo_ControlPlaneInterfaceInfoPathSelectorIsFallback) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPathArrayOfValues)
+}
+
+type DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder struct{}
+
+func NewDeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder() DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder {
+	return DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder{}
+}
+func (DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder) Os() Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOs {
+	return Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOs{}
+}
+func (DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder) OsUpgrade() Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOsUpgrade {
+	return Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOsUpgrade{}
+}
+func (DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder) Ssh() Device_Status_DeviceInfo_ManagedFeaturesPathSelectorSsh {
+	return Device_Status_DeviceInfo_ManagedFeaturesPathSelectorSsh{}
+}
+func (DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder) Usb() Device_Status_DeviceInfo_ManagedFeaturesPathSelectorUsb {
+	return Device_Status_DeviceInfo_ManagedFeaturesPathSelectorUsb{}
+}
+func (DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder) Avahi() Device_Status_DeviceInfo_ManagedFeaturesPathSelectorAvahi {
+	return Device_Status_DeviceInfo_ManagedFeaturesPathSelectorAvahi{}
+}
+func (DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder) Network() Device_Status_DeviceInfo_ManagedFeaturesPathSelectorNetwork {
+	return Device_Status_DeviceInfo_ManagedFeaturesPathSelectorNetwork{}
+}
+func (DeviceStatusDeviceInfoManagedFeaturesFieldPathBuilder) Pods() Device_Status_DeviceInfo_ManagedFeaturesPathSelectorPods {
+	return Device_Status_DeviceInfo_ManagedFeaturesPathSelectorPods{}
+}
+
+type Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOs struct{}
+
+func (Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOs) FieldPath() *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs}
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOs) WithValue(value bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOs) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOsUpgrade struct{}
+
+func (Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOsUpgrade) FieldPath() *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade}
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOsUpgrade) WithValue(value bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorOsUpgrade) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfo_ManagedFeaturesPathSelectorSsh struct{}
+
+func (Device_Status_DeviceInfo_ManagedFeaturesPathSelectorSsh) FieldPath() *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh}
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorSsh) WithValue(value bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorSsh) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfo_ManagedFeaturesPathSelectorUsb struct{}
+
+func (Device_Status_DeviceInfo_ManagedFeaturesPathSelectorUsb) FieldPath() *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb}
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorUsb) WithValue(value bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorUsb) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfo_ManagedFeaturesPathSelectorAvahi struct{}
+
+func (Device_Status_DeviceInfo_ManagedFeaturesPathSelectorAvahi) FieldPath() *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi}
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorAvahi) WithValue(value bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorAvahi) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfo_ManagedFeaturesPathSelectorNetwork struct{}
+
+func (Device_Status_DeviceInfo_ManagedFeaturesPathSelectorNetwork) FieldPath() *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork}
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorNetwork) WithValue(value bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorNetwork) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfo_ManagedFeaturesPathSelectorPods struct{}
+
+func (Device_Status_DeviceInfo_ManagedFeaturesPathSelectorPods) FieldPath() *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods}
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorPods) WithValue(value bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_ManagedFeaturesPathSelectorPods) WithArrayOfValues(values []bool) *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues)
 }
 
 type DeviceStatusDeviceInfoHardwareInformationCapabilityFieldPathBuilder struct{}

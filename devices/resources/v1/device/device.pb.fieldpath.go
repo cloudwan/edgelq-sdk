@@ -12951,6 +12951,7 @@ const (
 	DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation       DeviceStatusDeviceInfo_FieldPathSelector = 8
 	DeviceStatusDeviceInfo_FieldPathSelectorNetworkInterfaces         DeviceStatusDeviceInfo_FieldPathSelector = 9
 	DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo DeviceStatusDeviceInfo_FieldPathSelector = 10
+	DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures           DeviceStatusDeviceInfo_FieldPathSelector = 11
 )
 
 func (s DeviceStatusDeviceInfo_FieldPathSelector) String() string {
@@ -12977,6 +12978,8 @@ func (s DeviceStatusDeviceInfo_FieldPathSelector) String() string {
 		return "network_interfaces"
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		return "control_plane_interface_info"
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		return "managed_features"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", s))
 	}
@@ -13010,6 +13013,8 @@ func BuildDeviceStatusDeviceInfo_FieldPath(fp gotenobject.RawFieldPath) (DeviceS
 			return &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorNetworkInterfaces}, nil
 		case "control_plane_interface_info", "controlPlaneInterfaceInfo", "control-plane-interface-info":
 			return &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo}, nil
+		case "managed_features", "managedFeatures", "managed-features":
+			return &DeviceStatusDeviceInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -13024,6 +13029,12 @@ func BuildDeviceStatusDeviceInfo_FieldPath(fp gotenobject.RawFieldPath) (DeviceS
 				return nil, err
 			} else {
 				return &DeviceStatusDeviceInfo_FieldSubPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo, subPath: subpath}, nil
+			}
+		case "managed_features", "managedFeatures", "managed-features":
+			if subpath, err := BuildDeviceStatusDeviceInfoManagedFeatures_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatusDeviceInfo_FieldSubPath{selector: DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures, subPath: subpath}, nil
 			}
 		case "network_interfaces", "networkInterfaces", "network-interfaces":
 			if len(fp) > 2 {
@@ -13103,6 +13114,10 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) Get(source *Device_Status_De
 			if source.ControlPlaneInterfaceInfo != nil {
 				values = append(values, source.ControlPlaneInterfaceInfo)
 			}
+		case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+			if source.ManagedFeatures != nil {
+				values = append(values, source.ManagedFeatures)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fp.selector))
 		}
@@ -13142,6 +13157,9 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) GetSingle(source *Device_Sta
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		res := source.GetControlPlaneInterfaceInfo()
 		return res, res != nil
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		res := source.GetManagedFeatures()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fp.selector))
 	}
@@ -13176,6 +13194,8 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) GetDefault() interface{} {
 		return (map[string]*Device_Status_DeviceInfo_NetworkInterface)(nil)
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		return (*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo)(nil)
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		return (*Device_Status_DeviceInfo_ManagedFeatures)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fp.selector))
 	}
@@ -13206,6 +13226,8 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) ClearValue(item *Device_Stat
 			item.NetworkInterfaces = nil
 		case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 			item.ControlPlaneInterfaceInfo = nil
+		case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+			item.ManagedFeatures = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fp.selector))
 		}
@@ -13256,6 +13278,8 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) WithIValue(value interface{}
 		return &DeviceStatusDeviceInfo_FieldTerminalPathValue{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, value: value.(map[string]*Device_Status_DeviceInfo_NetworkInterface)}
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		return &DeviceStatusDeviceInfo_FieldTerminalPathValue{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo)}
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		return &DeviceStatusDeviceInfo_FieldTerminalPathValue{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_ManagedFeatures)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fp.selector))
 	}
@@ -13290,6 +13314,8 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) WithIArrayOfValues(values in
 		return &DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, values: values.([]map[string]*Device_Status_DeviceInfo_NetworkInterface)}
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		return &DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo)}
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		return &DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfo_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo_ManagedFeatures)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fp.selector))
 	}
@@ -13461,6 +13487,10 @@ func (fps *DeviceStatusDeviceInfo_FieldSubPath) AsControlPlaneInterfaceInfoSubPa
 	res, ok := fps.subPath.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath)
 	return res, ok
 }
+func (fps *DeviceStatusDeviceInfo_FieldSubPath) AsManagedFeaturesSubPath() (DeviceStatusDeviceInfoManagedFeatures_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusDeviceInfoManagedFeatures_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *DeviceStatusDeviceInfo_FieldSubPath) String() string {
@@ -13479,6 +13509,8 @@ func (fps *DeviceStatusDeviceInfo_FieldSubPath) Get(source *Device_Status_Device
 		values = append(values, fps.subPath.GetRaw(source.GetHardwareInformation())...)
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		values = append(values, fps.subPath.GetRaw(source.GetControlPlaneInterfaceInfo())...)
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		values = append(values, fps.subPath.GetRaw(source.GetManagedFeatures())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fps.selector))
 	}
@@ -13502,6 +13534,11 @@ func (fps *DeviceStatusDeviceInfo_FieldSubPath) GetSingle(source *Device_Status_
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetControlPlaneInterfaceInfo())
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		if source.GetManagedFeatures() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetManagedFeatures())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fps.selector))
 	}
@@ -13523,6 +13560,8 @@ func (fps *DeviceStatusDeviceInfo_FieldSubPath) ClearValue(item *Device_Status_D
 			fps.subPath.ClearValueRaw(item.HardwareInformation)
 		case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 			fps.subPath.ClearValueRaw(item.ControlPlaneInterfaceInfo)
+		case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+			fps.subPath.ClearValueRaw(item.ManagedFeatures)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fps.selector))
 		}
@@ -13651,6 +13690,10 @@ func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) AsControlPlaneInterfac
 	res, ok := fpv.value.(*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo)
 	return res, ok
 }
+func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) AsManagedFeaturesValue() (*Device_Status_DeviceInfo_ManagedFeatures, bool) {
+	res, ok := fpv.value.(*Device_Status_DeviceInfo_ManagedFeatures)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object DeviceInfo
 func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo) {
@@ -13680,6 +13723,8 @@ func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) SetTo(target **Device_
 		(*target).NetworkInterfaces = fpv.value.(map[string]*Device_Status_DeviceInfo_NetworkInterface)
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		(*target).ControlPlaneInterfaceInfo = fpv.value.(*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo)
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		(*target).ManagedFeatures = fpv.value.(*Device_Status_DeviceInfo_ManagedFeatures)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fpv.selector))
 	}
@@ -13779,6 +13824,8 @@ func (fpv *DeviceStatusDeviceInfo_FieldTerminalPathValue) CompareWith(source *De
 		return 0, false
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		return 0, false
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fpv.selector))
 	}
@@ -13854,6 +13901,10 @@ func (fpvs *DeviceStatusDeviceInfo_FieldSubPathValue) AsControlPlaneInterfaceInf
 	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathValue)
 	return res, ok
 }
+func (fpvs *DeviceStatusDeviceInfo_FieldSubPathValue) AsManagedFeaturesPathValue() (DeviceStatusDeviceInfoManagedFeatures_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoManagedFeatures_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *DeviceStatusDeviceInfo_FieldSubPathValue) SetTo(target **Device_Status_DeviceInfo) {
 	if *target == nil {
@@ -13864,6 +13915,8 @@ func (fpvs *DeviceStatusDeviceInfo_FieldSubPathValue) SetTo(target **Device_Stat
 		fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformation_FieldPathValue).SetTo(&(*target).HardwareInformation)
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		fpvs.subPathValue.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathValue).SetTo(&(*target).ControlPlaneInterfaceInfo)
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		fpvs.subPathValue.(DeviceStatusDeviceInfoManagedFeatures_FieldPathValue).SetTo(&(*target).ManagedFeatures)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fpvs.Selector()))
 	}
@@ -13884,6 +13937,8 @@ func (fpvs *DeviceStatusDeviceInfo_FieldSubPathValue) CompareWith(source *Device
 		return fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformation_FieldPathValue).CompareWith(source.GetHardwareInformation())
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		return fpvs.subPathValue.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathValue).CompareWith(source.GetControlPlaneInterfaceInfo())
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		return fpvs.subPathValue.(DeviceStatusDeviceInfoManagedFeatures_FieldPathValue).CompareWith(source.GetManagedFeatures())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fpvs.Selector()))
 	}
@@ -13974,6 +14029,10 @@ func (fpaivs *DeviceStatusDeviceInfo_FieldSubPathArrayItemValue) AsControlPlaneI
 	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *DeviceStatusDeviceInfo_FieldSubPathArrayItemValue) AsManagedFeaturesPathItemValue() (DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'DeviceInfo'
 func (fpaivs *DeviceStatusDeviceInfo_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo) bool {
@@ -13982,6 +14041,8 @@ func (fpaivs *DeviceStatusDeviceInfo_FieldSubPathArrayItemValue) ContainsValue(s
 		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformation_FieldPathArrayItemValue).ContainsValue(source.GetHardwareInformation())
 	case DeviceStatusDeviceInfo_FieldPathSelectorControlPlaneInterfaceInfo:
 		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathArrayItemValue).ContainsValue(source.GetControlPlaneInterfaceInfo())
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue).ContainsValue(source.GetManagedFeatures())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fpaivs.Selector()))
 	}
@@ -14066,6 +14127,10 @@ func (fpaov *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) {
 			values = append(values, v)
 		}
+	case DeviceStatusDeviceInfo_FieldPathSelectorManagedFeatures:
+		for _, v := range fpaov.values.([]*Device_Status_DeviceInfo_ManagedFeatures) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -14113,6 +14178,10 @@ func (fpaov *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues) AsControlPla
 	res, ok := fpaov.values.([]*Device_Status_DeviceInfo_ControlPlaneInterfaceInfo)
 	return res, ok
 }
+func (fpaov *DeviceStatusDeviceInfo_FieldTerminalPathArrayOfValues) AsManagedFeaturesArrayOfValues() ([]*Device_Status_DeviceInfo_ManagedFeatures, bool) {
+	res, ok := fpaov.values.([]*Device_Status_DeviceInfo_ManagedFeatures)
+	return res, ok
+}
 
 type DeviceStatusDeviceInfo_FieldPathMapArrayOfValues struct {
 	DeviceStatusDeviceInfo_FieldPathMap
@@ -14151,6 +14220,10 @@ func (fpsaov *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues) AsHardwareInform
 }
 func (fpsaov *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues) AsControlPlaneInterfaceInfoPathArrayOfValues() (DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues) AsManagedFeaturesPathArrayOfValues() (DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -17845,6 +17918,637 @@ func (fpaov *DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPathAr
 	return res, ok
 }
 func (fpaov *DeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldTerminalPathArrayOfValues) AsIsFallbackArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceStatusDeviceInfoManagedFeatures_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector
+	Get(source *Device_Status_DeviceInfo_ManagedFeatures) []interface{}
+	GetSingle(source *Device_Status_DeviceInfo_ManagedFeatures) (interface{}, bool)
+	ClearValue(item *Device_Status_DeviceInfo_ManagedFeatures)
+
+	// Those methods build corresponding DeviceStatusDeviceInfoManagedFeatures_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceStatusDeviceInfoManagedFeatures_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue
+}
+
+type DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector int32
+
+const (
+	DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs        DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector = 0
+	DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector = 1
+	DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh       DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector = 2
+	DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb       DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector = 3
+	DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi     DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector = 4
+	DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork   DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector = 5
+	DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods      DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector = 6
+)
+
+func (s DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector) String() string {
+	switch s {
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+		return "os"
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+		return "os_upgrade"
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+		return "ssh"
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+		return "usb"
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+		return "avahi"
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+		return "network"
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+		return "pods"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", s))
+	}
+}
+
+func BuildDeviceStatusDeviceInfoManagedFeatures_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusDeviceInfoManagedFeatures_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_DeviceInfo_ManagedFeatures")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "os":
+			return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs}, nil
+		case "os_upgrade", "osUpgrade", "os-upgrade":
+			return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade}, nil
+		case "ssh":
+			return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh}, nil
+		case "usb":
+			return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb}, nil
+		case "avahi":
+			return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi}, nil
+		case "network":
+			return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork}, nil
+		case "pods":
+			return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath{selector: DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_DeviceInfo_ManagedFeatures", fp)
+}
+
+func ParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(rawField string) (DeviceStatusDeviceInfoManagedFeatures_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceStatusDeviceInfoManagedFeatures_FieldPath(fp)
+}
+
+func MustParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(rawField string) DeviceStatusDeviceInfoManagedFeatures_FieldPath {
+	fp, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath struct {
+	selector DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector
+}
+
+var _ DeviceStatusDeviceInfoManagedFeatures_FieldPath = (*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath)(nil)
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) Selector() DeviceStatusDeviceInfoManagedFeatures_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Status_DeviceInfo_ManagedFeatures
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_ManagedFeatures) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+			values = append(values, source.Os)
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+			values = append(values, source.OsUpgrade)
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+			values = append(values, source.Ssh)
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+			values = append(values, source.Usb)
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+			values = append(values, source.Avahi)
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+			values = append(values, source.Network)
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+			values = append(values, source.Pods)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_DeviceInfo_ManagedFeatures))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_ManagedFeatures
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_ManagedFeatures) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+		return source.GetOs(), source != nil
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+		return source.GetOsUpgrade(), source != nil
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+		return source.GetSsh(), source != nil
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+		return source.GetUsb(), source != nil
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+		return source.GetAvahi(), source != nil
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+		return source.GetNetwork(), source != nil
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+		return source.GetPods(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_DeviceInfo_ManagedFeatures))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+		return false
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+		return false
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+		return false
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+		return false
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+		return false
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+		return false
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_ManagedFeatures) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+			item.Os = false
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+			item.OsUpgrade = false
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+			item.Ssh = false
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+			item.Usb = false
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+			item.Avahi = false
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+			item.Network = false
+		case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+			item.Pods = false
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_DeviceInfo_ManagedFeatures))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs ||
+		fp.selector == DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade ||
+		fp.selector == DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh ||
+		fp.selector == DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb ||
+		fp.selector == DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi ||
+		fp.selector == DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork ||
+		fp.selector == DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoManagedFeatures_FieldPathValue {
+	switch fp.selector {
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, value: value.(bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, value: value.(bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, value: value.(bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, value: value.(bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, value: value.(bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, value: value.(bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, value: value.(bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, values: values.([]bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, values: values.([]bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, values: values.([]bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, values: values.([]bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, values: values.([]bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, values: values.([]bool)}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+		return &DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath: *fp, values: values.([]bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeviceStatusDeviceInfoManagedFeatures_FieldPathValue allows storing values for ManagedFeatures fields according to their type
+type DeviceStatusDeviceInfoManagedFeatures_FieldPathValue interface {
+	DeviceStatusDeviceInfoManagedFeatures_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Status_DeviceInfo_ManagedFeatures)
+	CompareWith(*Device_Status_DeviceInfo_ManagedFeatures) (cmp int, comparable bool)
+}
+
+func ParseDeviceStatusDeviceInfoManagedFeatures_FieldPathValue(pathStr, valueStr string) (DeviceStatusDeviceInfoManagedFeatures_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ManagedFeatures field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceStatusDeviceInfoManagedFeatures_FieldPathValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoManagedFeatures_FieldPathValue(pathStr, valueStr string) DeviceStatusDeviceInfoManagedFeatures_FieldPathValue {
+	fpv, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue struct {
+	DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoManagedFeatures_FieldPathValue = (*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ManagedFeatures' as interface{}
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) AsOsValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) AsOsUpgradeValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) AsSshValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) AsUsbValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) AsAvahiValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) AsNetworkValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) AsPodsValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ManagedFeatures
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_ManagedFeatures) {
+	if *target == nil {
+		*target = new(Device_Status_DeviceInfo_ManagedFeatures)
+	}
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+		(*target).Os = fpv.value.(bool)
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+		(*target).OsUpgrade = fpv.value.(bool)
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+		(*target).Ssh = fpv.value.(bool)
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+		(*target).Usb = fpv.value.(bool)
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+		(*target).Avahi = fpv.value.(bool)
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+		(*target).Network = fpv.value.(bool)
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+		(*target).Pods = fpv.value.(bool)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_DeviceInfo_ManagedFeatures)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_ManagedFeatures'.
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_ManagedFeatures) (int, bool) {
+	switch fpv.selector {
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetOs()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetOsUpgrade()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetSsh()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetUsb()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetAvahi()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetNetwork()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetPods()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_ManagedFeatures: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_DeviceInfo_ManagedFeatures))
+}
+
+// DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue allows storing single item in Path-specific values for ManagedFeatures according to their type
+// Present only for array (repeated) types.
+type DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceStatusDeviceInfoManagedFeatures_FieldPath
+	ContainsValue(*Device_Status_DeviceInfo_ManagedFeatures) bool
+}
+
+// ParseDeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ManagedFeatures field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayItemValue = (*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Status_DeviceInfo_ManagedFeatures as interface{}
+func (fpaiv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_DeviceInfo_ManagedFeatures) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_DeviceInfo_ManagedFeatures))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ManagedFeatures'
+func (fpaiv *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_ManagedFeatures) bool {
+	slice := fpaiv.DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues allows storing slice of values for ManagedFeatures fields according to their type
+type DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceStatusDeviceInfoManagedFeatures_FieldPath
+}
+
+func ParseDeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ManagedFeatures field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceStatusDeviceInfoManagedFeatures_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOs:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorOsUpgrade:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorSsh:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorUsb:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorAvahi:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorNetwork:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoManagedFeatures_FieldPathSelectorPods:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues) AsOsArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues) AsOsUpgradeArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues) AsSshArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues) AsUsbArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues) AsAvahiArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues) AsNetworkArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoManagedFeatures_FieldTerminalPathArrayOfValues) AsPodsArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
