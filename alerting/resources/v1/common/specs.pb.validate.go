@@ -305,6 +305,10 @@ func (obj *TsCndSpec_ThresholdAlertingCfg) GotenValidate() error {
 	} else {
 		d := obj.RaiseAfter.AsDuration()
 
+		if obj.RaiseAfter == nil {
+			return gotenvalidate.NewValidationError("ThresholdAlertingCfg", "raiseAfter", d, "field is required", nil)
+		}
+
 		if obj.RaiseAfter != nil {
 			if !(d > time.Duration(0)) {
 				return gotenvalidate.NewValidationError("ThresholdAlertingCfg", "raiseAfter", d, "field must be greater than 0s", nil)
@@ -392,6 +396,10 @@ func (obj *TsCndSpec_AnomalyAlertingCfg) GotenValidate() error {
 		return gotenvalidate.NewValidationError("AnomalyAlertingCfg", "raiseAfter", obj.RaiseAfter, "could not validate duration", err)
 	} else {
 		d := obj.RaiseAfter.AsDuration()
+
+		if obj.RaiseAfter == nil {
+			return gotenvalidate.NewValidationError("AnomalyAlertingCfg", "raiseAfter", d, "field is required", nil)
+		}
 
 		if obj.RaiseAfter != nil {
 			if !(d > time.Duration(0)) {
