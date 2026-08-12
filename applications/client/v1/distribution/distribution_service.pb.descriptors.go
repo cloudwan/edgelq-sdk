@@ -41,6 +41,7 @@ var (
 	createDistributionDescriptor    *CreateDistributionDescriptor
 	updateDistributionDescriptor    *UpdateDistributionDescriptor
 	deleteDistributionDescriptor    *DeleteDistributionDescriptor
+	searchDistributionsDescriptor   *SearchDistributionsDescriptor
 )
 
 type GetDistributionDescriptor struct{}
@@ -1855,6 +1856,235 @@ func GetDeleteDistributionDescriptor() *DeleteDistributionDescriptor {
 	return deleteDistributionDescriptor
 }
 
+type SearchDistributionsDescriptor struct{}
+
+type SearchDistributionsDescriptorClientMsgHandle struct{}
+
+type SearchDistributionsDescriptorServerMsgHandle struct{}
+
+func (d *SearchDistributionsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchDistributionsRequest{}
+}
+
+func (d *SearchDistributionsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchDistributionsResponse{}
+}
+
+func (d *SearchDistributionsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchDistributionsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchDistributionsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchDistributionsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchDistributionsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchDistributionsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchDistributionsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchDistributionsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchDistributionsDescriptor) GetMethodName() string {
+	return "SearchDistributions"
+}
+
+func (d *SearchDistributionsDescriptor) GetFullMethodName() string {
+	return "/ntt.applications.v1.DistributionService/SearchDistributions"
+}
+
+func (d *SearchDistributionsDescriptor) GetProtoPkgName() string {
+	return "ntt.applications.v1"
+}
+
+func (d *SearchDistributionsDescriptor) GetApiName() string {
+	return "DistributionService"
+}
+
+func (d *SearchDistributionsDescriptor) GetServiceDomain() string {
+	return "applications.edgelq.com"
+}
+
+func (d *SearchDistributionsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchDistributionsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return distributionServiceDescriptor
+}
+
+func (d *SearchDistributionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return distribution.GetDescriptor()
+}
+
+func (d *SearchDistributionsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchDistributionsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchDistributionsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchDistributionsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchDistributionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchDistributionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchDistributionsRequest) *distribution.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDistributionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchDistributionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchDistributionsRequest) []*distribution.Name
+	})
+	if ok {
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchDistributionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchDistributionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchDistributionsRequest) *distribution.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*distribution.ParentName)(nil)
+}
+
+func (h *SearchDistributionsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchDistributionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchDistributionsRequest) *distribution.Distribution
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDistributionsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchDistributionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchDistributionsRequest) []*distribution.Distribution
+	})
+	if ok {
+		return distribution.DistributionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchDistributionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchDistributionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchDistributionsResponse) *distribution.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDistributionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchDistributionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchDistributionsResponse) []*distribution.Name
+	})
+	if ok {
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetDistributions(); len(resources) > 0 {
+			list := make(distribution.DistributionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (distribution.DistributionNameList)(nil)
+}
+
+func (h *SearchDistributionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchDistributionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchDistributionsResponse) *distribution.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDistributionsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchDistributionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchDistributionsResponse) *distribution.Distribution
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchDistributionsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchDistributionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchDistributionsResponse) []*distribution.Distribution
+	})
+	if ok {
+		return distribution.DistributionList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetDistributions(); len(resources) > 0 {
+			return distribution.DistributionList(resources)
+		}
+	}
+	return (distribution.DistributionList)(nil)
+}
+
+func GetSearchDistributionsDescriptor() *SearchDistributionsDescriptor {
+	return searchDistributionsDescriptor
+}
+
 type DistributionServiceDescriptor struct{}
 
 func (d *DistributionServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2097,7 @@ func (d *DistributionServiceDescriptor) AllMethodDescriptors() []gotenclient.Met
 		createDistributionDescriptor,
 		updateDistributionDescriptor,
 		deleteDistributionDescriptor,
+		searchDistributionsDescriptor,
 	}
 }
 
@@ -1904,6 +2135,7 @@ func initDescriptors() {
 	createDistributionDescriptor = &CreateDistributionDescriptor{}
 	updateDistributionDescriptor = &UpdateDistributionDescriptor{}
 	deleteDistributionDescriptor = &DeleteDistributionDescriptor{}
+	searchDistributionsDescriptor = &SearchDistributionsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(distributionServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getDistributionDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetDistributionsDescriptor)
@@ -1913,6 +2145,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createDistributionDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateDistributionDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteDistributionDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchDistributionsDescriptor)
 }
 
 func init() {

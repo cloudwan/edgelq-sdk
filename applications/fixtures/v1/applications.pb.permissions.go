@@ -74,6 +74,13 @@ func MakeApplicationsPermissionsManifest(defaultRegionId string, byNameRing *sha
 			},
 			{
 				Resource: &iamrperm.Permission{
+					Name:        iamrperm.NewNameBuilder().SetServiceId("applications.edgelq.com").SetId("configMaps.search").Name(),
+					Title:       "Applications ConfigMap SearchConfigMaps",
+					Description: "Allows for performing SearchConfigMaps method on ConfigMap resource.",
+				},
+			},
+			{
+				Resource: &iamrperm.Permission{
 					Name:        iamrperm.NewNameBuilder().SetServiceId("applications.edgelq.com").SetId("configMaps.update").Name(),
 					Title:       "Applications ConfigMap UpdateConfigMap",
 					Description: "Allows for performing UpdateConfigMap method on ConfigMap resource.",
@@ -126,6 +133,13 @@ func MakeApplicationsPermissionsManifest(defaultRegionId string, byNameRing *sha
 					Name:        iamrperm.NewNameBuilder().SetServiceId("applications.edgelq.com").SetId("distributions.list").Name(),
 					Title:       "Applications Distribution ListDistributions",
 					Description: "Allows for performing ListDistributions method on Distribution resource.",
+				},
+			},
+			{
+				Resource: &iamrperm.Permission{
+					Name:        iamrperm.NewNameBuilder().SetServiceId("applications.edgelq.com").SetId("distributions.search").Name(),
+					Title:       "Applications Distribution SearchDistributions",
+					Description: "Allows for performing SearchDistributions method on Distribution resource.",
 				},
 			},
 			{

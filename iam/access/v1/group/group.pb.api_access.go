@@ -148,6 +148,42 @@ func (a *apiGroupAccess) QueryGroups(ctx context.Context, query *group.ListQuery
 	}, nil
 }
 
+func (a *apiGroupAccess) SearchGroups(ctx context.Context, query *group.SearchQuery, opts ...gotenresource.QueryOption) (*group.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &group_client.SearchGroupsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchGroups(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &group.QueryResultSnapshot{
+		Groups:            resp.Groups,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiGroupAccess) WatchGroup(ctx context.Context, query *group.GetQuery, observerCb func(*group.GroupChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

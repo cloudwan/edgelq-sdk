@@ -23,6 +23,9 @@ resources:
 - name: services/applications.edgelq.com/permissions/configMaps.list
   title: Applications ConfigMap ListConfigMaps
   description: Allows for performing ListConfigMaps method on ConfigMap resource.
+- name: services/applications.edgelq.com/permissions/configMaps.search
+  title: Applications ConfigMap SearchConfigMaps
+  description: Allows for performing SearchConfigMaps method on ConfigMap resource.
 - name: services/applications.edgelq.com/permissions/configMaps.update
   title: Applications ConfigMap UpdateConfigMap
   description: Allows for performing UpdateConfigMap method on ConfigMap resource.
@@ -47,6 +50,9 @@ resources:
 - name: services/applications.edgelq.com/permissions/distributions.list
   title: Applications Distribution ListDistributions
   description: Allows for performing ListDistributions method on Distribution resource.
+- name: services/applications.edgelq.com/permissions/distributions.search
+  title: Applications Distribution SearchDistributions
+  description: Allows for performing SearchDistributions method on Distribution resource.
 - name: services/applications.edgelq.com/permissions/distributions.update
   title: Applications Distribution UpdateDistribution
   description: Allows for performing UpdateDistribution method on Distribution resource.

@@ -148,6 +148,42 @@ func (a *apiServiceAccountAccess) QueryServiceAccounts(ctx context.Context, quer
 	}, nil
 }
 
+func (a *apiServiceAccountAccess) SearchServiceAccounts(ctx context.Context, query *service_account.SearchQuery, opts ...gotenresource.QueryOption) (*service_account.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &service_account_client.SearchServiceAccountsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchServiceAccounts(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &service_account.QueryResultSnapshot{
+		ServiceAccounts:   resp.ServiceAccounts,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiServiceAccountAccess) WatchServiceAccount(ctx context.Context, query *service_account.GetQuery, observerCb func(*service_account.ServiceAccountChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

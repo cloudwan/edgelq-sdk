@@ -57,6 +57,7 @@ type ProvisioningPolicyServiceClient interface {
 	CreateProvisioningPolicy(ctx context.Context, in *CreateProvisioningPolicyRequest, opts ...grpc.CallOption) (*provisioning_policy.ProvisioningPolicy, error)
 	UpdateProvisioningPolicy(ctx context.Context, in *UpdateProvisioningPolicyRequest, opts ...grpc.CallOption) (*provisioning_policy.ProvisioningPolicy, error)
 	DeleteProvisioningPolicy(ctx context.Context, in *DeleteProvisioningPolicyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchProvisioningPolicies(ctx context.Context, in *SearchProvisioningPoliciesRequest, opts ...grpc.CallOption) (*SearchProvisioningPoliciesResponse, error)
 	ProvisionServiceAccountToProvisioningPolicy(ctx context.Context, in *ProvisionServiceAccountToProvisioningPolicyRequest, opts ...grpc.CallOption) (*ProvisionServiceAccountToProvisioningPolicyResponse, error)
 	RemoveServiceAccountFromProvisioningPolicy(ctx context.Context, in *RemoveServiceAccountFromProvisioningPolicyRequest, opts ...grpc.CallOption) (*RemoveServiceAccountFromProvisioningPolicyResponse, error)
 	ProvisionDeviceViaPolicy(ctx context.Context, in *ProvisionDeviceViaPolicyRequest, opts ...grpc.CallOption) (*ProvisionDeviceViaPolicyResponse, error)
@@ -193,6 +194,15 @@ func (c *client) UpdateProvisioningPolicy(ctx context.Context, in *UpdateProvisi
 func (c *client) DeleteProvisioningPolicy(ctx context.Context, in *DeleteProvisioningPolicyRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1.ProvisioningPolicyService/DeleteProvisioningPolicy", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchProvisioningPolicies(ctx context.Context, in *SearchProvisioningPoliciesRequest, opts ...grpc.CallOption) (*SearchProvisioningPoliciesResponse, error) {
+	out := new(SearchProvisioningPoliciesResponse)
+	err := c.cc.Invoke(ctx, "/ntt.devices.v1.ProvisioningPolicyService/SearchProvisioningPolicies", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

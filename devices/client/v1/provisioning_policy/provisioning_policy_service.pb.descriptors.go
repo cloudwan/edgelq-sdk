@@ -41,6 +41,7 @@ var (
 	createProvisioningPolicyDescriptor                    *CreateProvisioningPolicyDescriptor
 	updateProvisioningPolicyDescriptor                    *UpdateProvisioningPolicyDescriptor
 	deleteProvisioningPolicyDescriptor                    *DeleteProvisioningPolicyDescriptor
+	searchProvisioningPoliciesDescriptor                  *SearchProvisioningPoliciesDescriptor
 	provisionServiceAccountToProvisioningPolicyDescriptor *ProvisionServiceAccountToProvisioningPolicyDescriptor
 	removeServiceAccountFromProvisioningPolicyDescriptor  *RemoveServiceAccountFromProvisioningPolicyDescriptor
 	provisionDeviceViaPolicyDescriptor                    *ProvisionDeviceViaPolicyDescriptor
@@ -1859,6 +1860,235 @@ func GetDeleteProvisioningPolicyDescriptor() *DeleteProvisioningPolicyDescriptor
 	return deleteProvisioningPolicyDescriptor
 }
 
+type SearchProvisioningPoliciesDescriptor struct{}
+
+type SearchProvisioningPoliciesDescriptorClientMsgHandle struct{}
+
+type SearchProvisioningPoliciesDescriptorServerMsgHandle struct{}
+
+func (d *SearchProvisioningPoliciesDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchProvisioningPoliciesRequest{}
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchProvisioningPoliciesResponse{}
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetMethodName() string {
+	return "SearchProvisioningPolicies"
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetFullMethodName() string {
+	return "/ntt.devices.v1.ProvisioningPolicyService/SearchProvisioningPolicies"
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetProtoPkgName() string {
+	return "ntt.devices.v1"
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetApiName() string {
+	return "ProvisioningPolicyService"
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetServiceDomain() string {
+	return "devices.edgelq.com"
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return provisioningPolicyServiceDescriptor
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return provisioning_policy.GetDescriptor()
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchProvisioningPoliciesDescriptorClientMsgHandle{}
+}
+
+func (d *SearchProvisioningPoliciesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchProvisioningPoliciesDescriptorServerMsgHandle{}
+}
+
+func (h *SearchProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchProvisioningPoliciesRequest) *provisioning_policy.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchProvisioningPoliciesRequest) []*provisioning_policy.Name
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchProvisioningPoliciesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchProvisioningPoliciesRequest) *provisioning_policy.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*provisioning_policy.ParentName)(nil)
+}
+
+func (h *SearchProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchProvisioningPoliciesRequest) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchProvisioningPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchProvisioningPoliciesRequest) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchProvisioningPoliciesResponse) *provisioning_policy.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchProvisioningPoliciesResponse) []*provisioning_policy.Name
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProvisioningPolicies(); len(resources) > 0 {
+			list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (provisioning_policy.ProvisioningPolicyNameList)(nil)
+}
+
+func (h *SearchProvisioningPoliciesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchProvisioningPoliciesResponse) *provisioning_policy.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchProvisioningPoliciesResponse) *provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchProvisioningPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchProvisioningPoliciesResponse) []*provisioning_policy.ProvisioningPolicy
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProvisioningPolicies(); len(resources) > 0 {
+			return provisioning_policy.ProvisioningPolicyList(resources)
+		}
+	}
+	return (provisioning_policy.ProvisioningPolicyList)(nil)
+}
+
+func GetSearchProvisioningPoliciesDescriptor() *SearchProvisioningPoliciesDescriptor {
+	return searchProvisioningPoliciesDescriptor
+}
+
 type ProvisionServiceAccountToProvisioningPolicyDescriptor struct{}
 
 type ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle struct{}
@@ -2731,6 +2961,7 @@ func (d *ProvisioningPolicyServiceDescriptor) AllMethodDescriptors() []gotenclie
 		createProvisioningPolicyDescriptor,
 		updateProvisioningPolicyDescriptor,
 		deleteProvisioningPolicyDescriptor,
+		searchProvisioningPoliciesDescriptor,
 		provisionServiceAccountToProvisioningPolicyDescriptor,
 		removeServiceAccountFromProvisioningPolicyDescriptor,
 		provisionDeviceViaPolicyDescriptor,
@@ -2772,6 +3003,7 @@ func initDescriptors() {
 	createProvisioningPolicyDescriptor = &CreateProvisioningPolicyDescriptor{}
 	updateProvisioningPolicyDescriptor = &UpdateProvisioningPolicyDescriptor{}
 	deleteProvisioningPolicyDescriptor = &DeleteProvisioningPolicyDescriptor{}
+	searchProvisioningPoliciesDescriptor = &SearchProvisioningPoliciesDescriptor{}
 	provisionServiceAccountToProvisioningPolicyDescriptor = &ProvisionServiceAccountToProvisioningPolicyDescriptor{}
 	removeServiceAccountFromProvisioningPolicyDescriptor = &RemoveServiceAccountFromProvisioningPolicyDescriptor{}
 	provisionDeviceViaPolicyDescriptor = &ProvisionDeviceViaPolicyDescriptor{}
@@ -2785,6 +3017,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createProvisioningPolicyDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateProvisioningPolicyDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteProvisioningPolicyDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchProvisioningPoliciesDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(provisionServiceAccountToProvisioningPolicyDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(removeServiceAccountFromProvisioningPolicyDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(provisionDeviceViaPolicyDescriptor)

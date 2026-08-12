@@ -148,6 +148,42 @@ func (a *apiDistributionAccess) QueryDistributions(ctx context.Context, query *d
 	}, nil
 }
 
+func (a *apiDistributionAccess) SearchDistributions(ctx context.Context, query *distribution.SearchQuery, opts ...gotenresource.QueryOption) (*distribution.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &distribution_client.SearchDistributionsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchDistributions(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &distribution.QueryResultSnapshot{
+		Distributions:     resp.Distributions,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiDistributionAccess) WatchDistribution(ctx context.Context, query *distribution.GetQuery, observerCb func(*distribution.DistributionChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

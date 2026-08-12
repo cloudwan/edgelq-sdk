@@ -57,6 +57,7 @@ type DistributionServiceClient interface {
 	CreateDistribution(ctx context.Context, in *CreateDistributionRequest, opts ...grpc.CallOption) (*distribution.Distribution, error)
 	UpdateDistribution(ctx context.Context, in *UpdateDistributionRequest, opts ...grpc.CallOption) (*distribution.Distribution, error)
 	DeleteDistribution(ctx context.Context, in *DeleteDistributionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchDistributions(ctx context.Context, in *SearchDistributionsRequest, opts ...grpc.CallOption) (*SearchDistributionsResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateDistribution(ctx context.Context, in *UpdateDistributionR
 func (c *client) DeleteDistribution(ctx context.Context, in *DeleteDistributionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.applications.v1.DistributionService/DeleteDistribution", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchDistributions(ctx context.Context, in *SearchDistributionsRequest, opts ...grpc.CallOption) (*SearchDistributionsResponse, error) {
+	out := new(SearchDistributionsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.applications.v1.DistributionService/SearchDistributions", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

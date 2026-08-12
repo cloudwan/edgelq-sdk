@@ -148,6 +148,42 @@ func (a *apiRoleBindingAccess) QueryRoleBindings(ctx context.Context, query *rol
 	}, nil
 }
 
+func (a *apiRoleBindingAccess) SearchRoleBindings(ctx context.Context, query *role_binding.SearchQuery, opts ...gotenresource.QueryOption) (*role_binding.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &role_binding_client.SearchRoleBindingsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchRoleBindings(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &role_binding.QueryResultSnapshot{
+		RoleBindings:      resp.RoleBindings,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiRoleBindingAccess) WatchRoleBinding(ctx context.Context, query *role_binding.GetQuery, observerCb func(*role_binding.RoleBindingChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

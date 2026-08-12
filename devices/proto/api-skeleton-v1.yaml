@@ -122,6 +122,8 @@ resources:
       transaction: MANUAL
 
 - name: ProvisioningPolicy
+  optIns:
+    searchable: true
   plural: ProvisioningPolicies
   parents:
   - Project

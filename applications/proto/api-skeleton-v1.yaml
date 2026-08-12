@@ -28,11 +28,15 @@ resources:
   - Region
 
 - name: ConfigMap
+  optIns:
+    searchable: true
   parents:
   - Project
   scopeAttributes:
   - Region
 
 - name: Distribution
+  optIns:
+    searchable: true
   parents:
   - Project

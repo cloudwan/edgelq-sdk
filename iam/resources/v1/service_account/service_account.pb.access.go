@@ -43,6 +43,7 @@ type ServiceAccountAccess interface {
 	GetServiceAccount(context.Context, *GetQuery, ...gotenresource.GetOption) (*ServiceAccount, error)
 	BatchGetServiceAccounts(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryServiceAccounts(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchServiceAccounts(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchServiceAccount(context.Context, *GetQuery, func(*ServiceAccountChange) error) error
 	WatchServiceAccounts(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveServiceAccount(context.Context, *ServiceAccount, ...gotenresource.SaveOption) error
@@ -76,7 +77,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for ServiceAccount")
+	if asServiceAccountQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchServiceAccounts(ctx, asServiceAccountQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected ServiceAccount, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

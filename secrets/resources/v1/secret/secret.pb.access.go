@@ -43,6 +43,7 @@ type SecretAccess interface {
 	GetSecret(context.Context, *GetQuery, ...gotenresource.GetOption) (*Secret, error)
 	BatchGetSecrets(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QuerySecrets(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchSecrets(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchSecret(context.Context, *GetQuery, func(*SecretChange) error) error
 	WatchSecrets(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveSecret(context.Context, *Secret, ...gotenresource.SaveOption) error
@@ -76,7 +77,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for Secret")
+	if asSecretQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchSecrets(ctx, asSecretQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected Secret, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

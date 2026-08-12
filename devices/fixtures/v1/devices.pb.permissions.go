@@ -781,6 +781,13 @@ func MakeDevicesPermissionsManifest(defaultRegionId string, byNameRing *sharding
 			},
 			{
 				Resource: &iamrperm.Permission{
+					Name:        iamrperm.NewNameBuilder().SetServiceId("devices.edgelq.com").SetId("provisioningPolicies.search").Name(),
+					Title:       "Devices ProvisioningPolicy SearchProvisioningPolicies",
+					Description: "Allows for performing SearchProvisioningPolicies method on ProvisioningPolicy resource.",
+				},
+			},
+			{
+				Resource: &iamrperm.Permission{
 					Name:        iamrperm.NewNameBuilder().SetServiceId("devices.edgelq.com").SetId("provisioningPolicies.update").Name(),
 					Title:       "Devices ProvisioningPolicy UpdateProvisioningPolicy",
 					Description: "Allows for performing UpdateProvisioningPolicy method on ProvisioningPolicy resource.",

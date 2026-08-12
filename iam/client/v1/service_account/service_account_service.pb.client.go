@@ -57,6 +57,7 @@ type ServiceAccountServiceClient interface {
 	CreateServiceAccount(ctx context.Context, in *CreateServiceAccountRequest, opts ...grpc.CallOption) (*service_account.ServiceAccount, error)
 	UpdateServiceAccount(ctx context.Context, in *UpdateServiceAccountRequest, opts ...grpc.CallOption) (*service_account.ServiceAccount, error)
 	DeleteServiceAccount(ctx context.Context, in *DeleteServiceAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchServiceAccounts(ctx context.Context, in *SearchServiceAccountsRequest, opts ...grpc.CallOption) (*SearchServiceAccountsResponse, error)
 	GetMyAgentShard(ctx context.Context, in *GetMyAgentShardRequest, opts ...grpc.CallOption) (*GetMyAgentShardResponse, error)
 	GetShardEndpoints(ctx context.Context, in *GetShardEndpointsRequest, opts ...grpc.CallOption) (*GetShardEndpointsResponse, error)
 }
@@ -191,6 +192,15 @@ func (c *client) UpdateServiceAccount(ctx context.Context, in *UpdateServiceAcco
 func (c *client) DeleteServiceAccount(ctx context.Context, in *DeleteServiceAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.ServiceAccountService/DeleteServiceAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchServiceAccounts(ctx context.Context, in *SearchServiceAccountsRequest, opts ...grpc.CallOption) (*SearchServiceAccountsResponse, error) {
+	out := new(SearchServiceAccountsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.ServiceAccountService/SearchServiceAccounts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

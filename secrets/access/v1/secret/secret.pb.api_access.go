@@ -148,6 +148,42 @@ func (a *apiSecretAccess) QuerySecrets(ctx context.Context, query *secret.ListQu
 	}, nil
 }
 
+func (a *apiSecretAccess) SearchSecrets(ctx context.Context, query *secret.SearchQuery, opts ...gotenresource.QueryOption) (*secret.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &secret_client.SearchSecretsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchSecrets(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &secret.QueryResultSnapshot{
+		Secrets:           resp.Secrets,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiSecretAccess) WatchSecret(ctx context.Context, query *secret.GetQuery, observerCb func(*secret.SecretChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

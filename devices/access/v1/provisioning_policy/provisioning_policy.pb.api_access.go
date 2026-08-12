@@ -148,6 +148,42 @@ func (a *apiProvisioningPolicyAccess) QueryProvisioningPolicies(ctx context.Cont
 	}, nil
 }
 
+func (a *apiProvisioningPolicyAccess) SearchProvisioningPolicies(ctx context.Context, query *provisioning_policy.SearchQuery, opts ...gotenresource.QueryOption) (*provisioning_policy.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &provisioning_policy_client.SearchProvisioningPoliciesRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchProvisioningPolicies(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &provisioning_policy.QueryResultSnapshot{
+		ProvisioningPolicies: resp.ProvisioningPolicies,
+		NextPageCursor:       resp.NextPageToken,
+		PrevPageCursor:       resp.PrevPageToken,
+		CurrentOffset:        resp.CurrentOffset,
+		TotalResultsCount:    resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiProvisioningPolicyAccess) WatchProvisioningPolicy(ctx context.Context, query *provisioning_policy.GetQuery, observerCb func(*provisioning_policy.ProvisioningPolicyChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

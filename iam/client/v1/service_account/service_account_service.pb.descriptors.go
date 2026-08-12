@@ -41,6 +41,7 @@ var (
 	createServiceAccountDescriptor    *CreateServiceAccountDescriptor
 	updateServiceAccountDescriptor    *UpdateServiceAccountDescriptor
 	deleteServiceAccountDescriptor    *DeleteServiceAccountDescriptor
+	searchServiceAccountsDescriptor   *SearchServiceAccountsDescriptor
 	getMyAgentShardDescriptor         *GetMyAgentShardDescriptor
 	getShardEndpointsDescriptor       *GetShardEndpointsDescriptor
 )
@@ -1857,6 +1858,235 @@ func GetDeleteServiceAccountDescriptor() *DeleteServiceAccountDescriptor {
 	return deleteServiceAccountDescriptor
 }
 
+type SearchServiceAccountsDescriptor struct{}
+
+type SearchServiceAccountsDescriptorClientMsgHandle struct{}
+
+type SearchServiceAccountsDescriptorServerMsgHandle struct{}
+
+func (d *SearchServiceAccountsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchServiceAccountsRequest{}
+}
+
+func (d *SearchServiceAccountsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchServiceAccountsResponse{}
+}
+
+func (d *SearchServiceAccountsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchServiceAccountsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchServiceAccountsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchServiceAccountsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchServiceAccountsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchServiceAccountsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchServiceAccountsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchServiceAccountsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchServiceAccountsDescriptor) GetMethodName() string {
+	return "SearchServiceAccounts"
+}
+
+func (d *SearchServiceAccountsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.ServiceAccountService/SearchServiceAccounts"
+}
+
+func (d *SearchServiceAccountsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *SearchServiceAccountsDescriptor) GetApiName() string {
+	return "ServiceAccountService"
+}
+
+func (d *SearchServiceAccountsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SearchServiceAccountsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchServiceAccountsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return serviceAccountServiceDescriptor
+}
+
+func (d *SearchServiceAccountsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return service_account.GetDescriptor()
+}
+
+func (d *SearchServiceAccountsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchServiceAccountsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchServiceAccountsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchServiceAccountsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchServiceAccountsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchServiceAccountsRequest) *service_account.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchServiceAccountsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchServiceAccountsRequest) []*service_account.Name
+	})
+	if ok {
+		return service_account.ServiceAccountNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchServiceAccountsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchServiceAccountsRequest) *service_account.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*service_account.ParentName)(nil)
+}
+
+func (h *SearchServiceAccountsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchServiceAccountsRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchServiceAccountsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchServiceAccountsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchServiceAccountsRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchServiceAccountsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchServiceAccountsResponse) *service_account.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchServiceAccountsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchServiceAccountsResponse) []*service_account.Name
+	})
+	if ok {
+		return service_account.ServiceAccountNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetServiceAccounts(); len(resources) > 0 {
+			list := make(service_account.ServiceAccountNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (service_account.ServiceAccountNameList)(nil)
+}
+
+func (h *SearchServiceAccountsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchServiceAccountsResponse) *service_account.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchServiceAccountsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchServiceAccountsResponse) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchServiceAccountsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchServiceAccountsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchServiceAccountsResponse) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetServiceAccounts(); len(resources) > 0 {
+			return service_account.ServiceAccountList(resources)
+		}
+	}
+	return (service_account.ServiceAccountList)(nil)
+}
+
+func GetSearchServiceAccountsDescriptor() *SearchServiceAccountsDescriptor {
+	return searchServiceAccountsDescriptor
+}
+
 type GetMyAgentShardDescriptor struct{}
 
 type GetMyAgentShardDescriptorClientMsgHandle struct{}
@@ -2294,6 +2524,7 @@ func (d *ServiceAccountServiceDescriptor) AllMethodDescriptors() []gotenclient.M
 		createServiceAccountDescriptor,
 		updateServiceAccountDescriptor,
 		deleteServiceAccountDescriptor,
+		searchServiceAccountsDescriptor,
 		getMyAgentShardDescriptor,
 		getShardEndpointsDescriptor,
 	}
@@ -2333,6 +2564,7 @@ func initDescriptors() {
 	createServiceAccountDescriptor = &CreateServiceAccountDescriptor{}
 	updateServiceAccountDescriptor = &UpdateServiceAccountDescriptor{}
 	deleteServiceAccountDescriptor = &DeleteServiceAccountDescriptor{}
+	searchServiceAccountsDescriptor = &SearchServiceAccountsDescriptor{}
 	getMyAgentShardDescriptor = &GetMyAgentShardDescriptor{}
 	getShardEndpointsDescriptor = &GetShardEndpointsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(serviceAccountServiceDescriptor)
@@ -2344,6 +2576,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createServiceAccountDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateServiceAccountDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteServiceAccountDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchServiceAccountsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getMyAgentShardDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getShardEndpointsDescriptor)
 }

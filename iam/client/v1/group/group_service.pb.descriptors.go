@@ -41,6 +41,7 @@ var (
 	createGroupDescriptor    *CreateGroupDescriptor
 	updateGroupDescriptor    *UpdateGroupDescriptor
 	deleteGroupDescriptor    *DeleteGroupDescriptor
+	searchGroupsDescriptor   *SearchGroupsDescriptor
 )
 
 type GetGroupDescriptor struct{}
@@ -1855,6 +1856,235 @@ func GetDeleteGroupDescriptor() *DeleteGroupDescriptor {
 	return deleteGroupDescriptor
 }
 
+type SearchGroupsDescriptor struct{}
+
+type SearchGroupsDescriptorClientMsgHandle struct{}
+
+type SearchGroupsDescriptorServerMsgHandle struct{}
+
+func (d *SearchGroupsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchGroupsRequest{}
+}
+
+func (d *SearchGroupsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchGroupsResponse{}
+}
+
+func (d *SearchGroupsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchGroupsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchGroupsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchGroupsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchGroupsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchGroupsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchGroupsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchGroupsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchGroupsDescriptor) GetMethodName() string {
+	return "SearchGroups"
+}
+
+func (d *SearchGroupsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.GroupService/SearchGroups"
+}
+
+func (d *SearchGroupsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *SearchGroupsDescriptor) GetApiName() string {
+	return "GroupService"
+}
+
+func (d *SearchGroupsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SearchGroupsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchGroupsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return groupServiceDescriptor
+}
+
+func (d *SearchGroupsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return group.GetDescriptor()
+}
+
+func (d *SearchGroupsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchGroupsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchGroupsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchGroupsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchGroupsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchGroupsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchGroupsRequest) *group.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchGroupsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchGroupsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchGroupsRequest) []*group.Name
+	})
+	if ok {
+		return group.GroupNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchGroupsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchGroupsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchGroupsRequest) *group.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*group.ParentName)(nil)
+}
+
+func (h *SearchGroupsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchGroupsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchGroupsRequest) *group.Group
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchGroupsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchGroupsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchGroupsRequest) []*group.Group
+	})
+	if ok {
+		return group.GroupList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchGroupsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchGroupsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchGroupsResponse) *group.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchGroupsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchGroupsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchGroupsResponse) []*group.Name
+	})
+	if ok {
+		return group.GroupNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetGroups(); len(resources) > 0 {
+			list := make(group.GroupNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (group.GroupNameList)(nil)
+}
+
+func (h *SearchGroupsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchGroupsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchGroupsResponse) *group.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchGroupsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchGroupsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchGroupsResponse) *group.Group
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchGroupsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchGroupsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchGroupsResponse) []*group.Group
+	})
+	if ok {
+		return group.GroupList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetGroups(); len(resources) > 0 {
+			return group.GroupList(resources)
+		}
+	}
+	return (group.GroupList)(nil)
+}
+
+func GetSearchGroupsDescriptor() *SearchGroupsDescriptor {
+	return searchGroupsDescriptor
+}
+
 type GroupServiceDescriptor struct{}
 
 func (d *GroupServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2097,7 @@ func (d *GroupServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDesc
 		createGroupDescriptor,
 		updateGroupDescriptor,
 		deleteGroupDescriptor,
+		searchGroupsDescriptor,
 	}
 }
 
@@ -1904,6 +2135,7 @@ func initDescriptors() {
 	createGroupDescriptor = &CreateGroupDescriptor{}
 	updateGroupDescriptor = &UpdateGroupDescriptor{}
 	deleteGroupDescriptor = &DeleteGroupDescriptor{}
+	searchGroupsDescriptor = &SearchGroupsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(groupServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getGroupDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetGroupsDescriptor)
@@ -1913,6 +2145,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createGroupDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateGroupDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteGroupDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchGroupsDescriptor)
 }
 
 func init() {

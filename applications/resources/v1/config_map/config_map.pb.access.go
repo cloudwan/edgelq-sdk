@@ -43,6 +43,7 @@ type ConfigMapAccess interface {
 	GetConfigMap(context.Context, *GetQuery, ...gotenresource.GetOption) (*ConfigMap, error)
 	BatchGetConfigMaps(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryConfigMaps(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchConfigMaps(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchConfigMap(context.Context, *GetQuery, func(*ConfigMapChange) error) error
 	WatchConfigMaps(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveConfigMap(context.Context, *ConfigMap, ...gotenresource.SaveOption) error
@@ -76,7 +77,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for ConfigMap")
+	if asConfigMapQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchConfigMaps(ctx, asConfigMapQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected ConfigMap, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

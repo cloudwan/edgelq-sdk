@@ -41,6 +41,7 @@ var (
 	createRoleBindingDescriptor           *CreateRoleBindingDescriptor
 	updateRoleBindingDescriptor           *UpdateRoleBindingDescriptor
 	deleteRoleBindingDescriptor           *DeleteRoleBindingDescriptor
+	searchRoleBindingsDescriptor          *SearchRoleBindingsDescriptor
 	listRoleBindingsWithMembersDescriptor *ListRoleBindingsWithMembersDescriptor
 	listMyRoleBindingsDescriptor          *ListMyRoleBindingsDescriptor
 )
@@ -1857,6 +1858,235 @@ func GetDeleteRoleBindingDescriptor() *DeleteRoleBindingDescriptor {
 	return deleteRoleBindingDescriptor
 }
 
+type SearchRoleBindingsDescriptor struct{}
+
+type SearchRoleBindingsDescriptorClientMsgHandle struct{}
+
+type SearchRoleBindingsDescriptorServerMsgHandle struct{}
+
+func (d *SearchRoleBindingsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchRoleBindingsRequest{}
+}
+
+func (d *SearchRoleBindingsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchRoleBindingsResponse{}
+}
+
+func (d *SearchRoleBindingsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchRoleBindingsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchRoleBindingsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchRoleBindingsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchRoleBindingsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchRoleBindingsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchRoleBindingsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchRoleBindingsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchRoleBindingsDescriptor) GetMethodName() string {
+	return "SearchRoleBindings"
+}
+
+func (d *SearchRoleBindingsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.RoleBindingService/SearchRoleBindings"
+}
+
+func (d *SearchRoleBindingsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *SearchRoleBindingsDescriptor) GetApiName() string {
+	return "RoleBindingService"
+}
+
+func (d *SearchRoleBindingsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SearchRoleBindingsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchRoleBindingsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return roleBindingServiceDescriptor
+}
+
+func (d *SearchRoleBindingsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return role_binding.GetDescriptor()
+}
+
+func (d *SearchRoleBindingsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchRoleBindingsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchRoleBindingsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchRoleBindingsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchRoleBindingsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchRoleBindingsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchRoleBindingsRequest) *role_binding.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchRoleBindingsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchRoleBindingsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchRoleBindingsRequest) []*role_binding.Name
+	})
+	if ok {
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchRoleBindingsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchRoleBindingsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchRoleBindingsRequest) *role_binding.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*role_binding.ParentName)(nil)
+}
+
+func (h *SearchRoleBindingsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchRoleBindingsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchRoleBindingsRequest) *role_binding.RoleBinding
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchRoleBindingsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchRoleBindingsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchRoleBindingsRequest) []*role_binding.RoleBinding
+	})
+	if ok {
+		return role_binding.RoleBindingList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchRoleBindingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchRoleBindingsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchRoleBindingsResponse) *role_binding.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchRoleBindingsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchRoleBindingsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchRoleBindingsResponse) []*role_binding.Name
+	})
+	if ok {
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetRoleBindings(); len(resources) > 0 {
+			list := make(role_binding.RoleBindingNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (role_binding.RoleBindingNameList)(nil)
+}
+
+func (h *SearchRoleBindingsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchRoleBindingsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchRoleBindingsResponse) *role_binding.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchRoleBindingsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchRoleBindingsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchRoleBindingsResponse) *role_binding.RoleBinding
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchRoleBindingsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchRoleBindingsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchRoleBindingsResponse) []*role_binding.RoleBinding
+	})
+	if ok {
+		return role_binding.RoleBindingList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetRoleBindings(); len(resources) > 0 {
+			return role_binding.RoleBindingList(resources)
+		}
+	}
+	return (role_binding.RoleBindingList)(nil)
+}
+
+func GetSearchRoleBindingsDescriptor() *SearchRoleBindingsDescriptor {
+	return searchRoleBindingsDescriptor
+}
+
 type ListRoleBindingsWithMembersDescriptor struct{}
 
 type ListRoleBindingsWithMembersDescriptorClientMsgHandle struct{}
@@ -2308,6 +2538,7 @@ func (d *RoleBindingServiceDescriptor) AllMethodDescriptors() []gotenclient.Meth
 		createRoleBindingDescriptor,
 		updateRoleBindingDescriptor,
 		deleteRoleBindingDescriptor,
+		searchRoleBindingsDescriptor,
 		listRoleBindingsWithMembersDescriptor,
 		listMyRoleBindingsDescriptor,
 	}
@@ -2347,6 +2578,7 @@ func initDescriptors() {
 	createRoleBindingDescriptor = &CreateRoleBindingDescriptor{}
 	updateRoleBindingDescriptor = &UpdateRoleBindingDescriptor{}
 	deleteRoleBindingDescriptor = &DeleteRoleBindingDescriptor{}
+	searchRoleBindingsDescriptor = &SearchRoleBindingsDescriptor{}
 	listRoleBindingsWithMembersDescriptor = &ListRoleBindingsWithMembersDescriptor{}
 	listMyRoleBindingsDescriptor = &ListMyRoleBindingsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(roleBindingServiceDescriptor)
@@ -2358,6 +2590,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createRoleBindingDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateRoleBindingDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteRoleBindingDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchRoleBindingsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listRoleBindingsWithMembersDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listMyRoleBindingsDescriptor)
 }

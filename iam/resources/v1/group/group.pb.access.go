@@ -47,6 +47,7 @@ type GroupAccess interface {
 	GetGroup(context.Context, *GetQuery, ...gotenresource.GetOption) (*Group, error)
 	BatchGetGroups(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryGroups(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchGroups(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchGroup(context.Context, *GetQuery, func(*GroupChange) error) error
 	WatchGroups(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveGroup(context.Context, *Group, ...gotenresource.SaveOption) error
@@ -80,7 +81,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for Group")
+	if asGroupQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchGroups(ctx, asGroupQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected Group, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

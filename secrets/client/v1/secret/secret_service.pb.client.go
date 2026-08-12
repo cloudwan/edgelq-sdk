@@ -57,6 +57,7 @@ type SecretServiceClient interface {
 	CreateSecret(ctx context.Context, in *CreateSecretRequest, opts ...grpc.CallOption) (*secret.Secret, error)
 	UpdateSecret(ctx context.Context, in *UpdateSecretRequest, opts ...grpc.CallOption) (*secret.Secret, error)
 	DeleteSecret(ctx context.Context, in *DeleteSecretRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchSecrets(ctx context.Context, in *SearchSecretsRequest, opts ...grpc.CallOption) (*SearchSecretsResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateSecret(ctx context.Context, in *UpdateSecretRequest, opts
 func (c *client) DeleteSecret(ctx context.Context, in *DeleteSecretRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.secrets.v1.SecretService/DeleteSecret", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchSecrets(ctx context.Context, in *SearchSecretsRequest, opts ...grpc.CallOption) (*SearchSecretsResponse, error) {
+	out := new(SearchSecretsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.secrets.v1.SecretService/SearchSecrets", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

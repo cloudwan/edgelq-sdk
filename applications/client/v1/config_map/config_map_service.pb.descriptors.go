@@ -41,6 +41,7 @@ var (
 	createConfigMapDescriptor    *CreateConfigMapDescriptor
 	updateConfigMapDescriptor    *UpdateConfigMapDescriptor
 	deleteConfigMapDescriptor    *DeleteConfigMapDescriptor
+	searchConfigMapsDescriptor   *SearchConfigMapsDescriptor
 )
 
 type GetConfigMapDescriptor struct{}
@@ -1855,6 +1856,235 @@ func GetDeleteConfigMapDescriptor() *DeleteConfigMapDescriptor {
 	return deleteConfigMapDescriptor
 }
 
+type SearchConfigMapsDescriptor struct{}
+
+type SearchConfigMapsDescriptorClientMsgHandle struct{}
+
+type SearchConfigMapsDescriptorServerMsgHandle struct{}
+
+func (d *SearchConfigMapsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchConfigMapsRequest{}
+}
+
+func (d *SearchConfigMapsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchConfigMapsResponse{}
+}
+
+func (d *SearchConfigMapsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchConfigMapsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchConfigMapsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchConfigMapsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchConfigMapsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchConfigMapsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchConfigMapsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchConfigMapsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchConfigMapsDescriptor) GetMethodName() string {
+	return "SearchConfigMaps"
+}
+
+func (d *SearchConfigMapsDescriptor) GetFullMethodName() string {
+	return "/ntt.applications.v1.ConfigMapService/SearchConfigMaps"
+}
+
+func (d *SearchConfigMapsDescriptor) GetProtoPkgName() string {
+	return "ntt.applications.v1"
+}
+
+func (d *SearchConfigMapsDescriptor) GetApiName() string {
+	return "ConfigMapService"
+}
+
+func (d *SearchConfigMapsDescriptor) GetServiceDomain() string {
+	return "applications.edgelq.com"
+}
+
+func (d *SearchConfigMapsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchConfigMapsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return configMapServiceDescriptor
+}
+
+func (d *SearchConfigMapsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return config_map.GetDescriptor()
+}
+
+func (d *SearchConfigMapsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchConfigMapsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchConfigMapsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchConfigMapsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchConfigMapsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchConfigMapsRequest) *config_map.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConfigMapsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchConfigMapsRequest) []*config_map.Name
+	})
+	if ok {
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchConfigMapsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchConfigMapsRequest) *config_map.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*config_map.ParentName)(nil)
+}
+
+func (h *SearchConfigMapsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchConfigMapsRequest) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConfigMapsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchConfigMapsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchConfigMapsRequest) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchConfigMapsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchConfigMapsResponse) *config_map.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConfigMapsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchConfigMapsResponse) []*config_map.Name
+	})
+	if ok {
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetConfigMaps(); len(resources) > 0 {
+			list := make(config_map.ConfigMapNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (config_map.ConfigMapNameList)(nil)
+}
+
+func (h *SearchConfigMapsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchConfigMapsResponse) *config_map.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConfigMapsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchConfigMapsResponse) *config_map.ConfigMap
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchConfigMapsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchConfigMapsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchConfigMapsResponse) []*config_map.ConfigMap
+	})
+	if ok {
+		return config_map.ConfigMapList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetConfigMaps(); len(resources) > 0 {
+			return config_map.ConfigMapList(resources)
+		}
+	}
+	return (config_map.ConfigMapList)(nil)
+}
+
+func GetSearchConfigMapsDescriptor() *SearchConfigMapsDescriptor {
+	return searchConfigMapsDescriptor
+}
+
 type ConfigMapServiceDescriptor struct{}
 
 func (d *ConfigMapServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2097,7 @@ func (d *ConfigMapServiceDescriptor) AllMethodDescriptors() []gotenclient.Method
 		createConfigMapDescriptor,
 		updateConfigMapDescriptor,
 		deleteConfigMapDescriptor,
+		searchConfigMapsDescriptor,
 	}
 }
 
@@ -1904,6 +2135,7 @@ func initDescriptors() {
 	createConfigMapDescriptor = &CreateConfigMapDescriptor{}
 	updateConfigMapDescriptor = &UpdateConfigMapDescriptor{}
 	deleteConfigMapDescriptor = &DeleteConfigMapDescriptor{}
+	searchConfigMapsDescriptor = &SearchConfigMapsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(configMapServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getConfigMapDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetConfigMapsDescriptor)
@@ -1913,6 +2145,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createConfigMapDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateConfigMapDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteConfigMapDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchConfigMapsDescriptor)
 }
 
 func init() {

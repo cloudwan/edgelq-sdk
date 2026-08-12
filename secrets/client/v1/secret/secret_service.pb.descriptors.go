@@ -41,6 +41,7 @@ var (
 	createSecretDescriptor    *CreateSecretDescriptor
 	updateSecretDescriptor    *UpdateSecretDescriptor
 	deleteSecretDescriptor    *DeleteSecretDescriptor
+	searchSecretsDescriptor   *SearchSecretsDescriptor
 )
 
 type GetSecretDescriptor struct{}
@@ -1855,6 +1856,235 @@ func GetDeleteSecretDescriptor() *DeleteSecretDescriptor {
 	return deleteSecretDescriptor
 }
 
+type SearchSecretsDescriptor struct{}
+
+type SearchSecretsDescriptorClientMsgHandle struct{}
+
+type SearchSecretsDescriptorServerMsgHandle struct{}
+
+func (d *SearchSecretsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchSecretsRequest{}
+}
+
+func (d *SearchSecretsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchSecretsResponse{}
+}
+
+func (d *SearchSecretsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchSecretsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchSecretsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchSecretsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchSecretsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchSecretsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchSecretsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchSecretsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchSecretsDescriptor) GetMethodName() string {
+	return "SearchSecrets"
+}
+
+func (d *SearchSecretsDescriptor) GetFullMethodName() string {
+	return "/ntt.secrets.v1.SecretService/SearchSecrets"
+}
+
+func (d *SearchSecretsDescriptor) GetProtoPkgName() string {
+	return "ntt.secrets.v1"
+}
+
+func (d *SearchSecretsDescriptor) GetApiName() string {
+	return "SecretService"
+}
+
+func (d *SearchSecretsDescriptor) GetServiceDomain() string {
+	return "secrets.edgelq.com"
+}
+
+func (d *SearchSecretsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchSecretsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return secretServiceDescriptor
+}
+
+func (d *SearchSecretsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return secret.GetDescriptor()
+}
+
+func (d *SearchSecretsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchSecretsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchSecretsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchSecretsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchSecretsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchSecretsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchSecretsRequest) *secret.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchSecretsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchSecretsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchSecretsRequest) []*secret.Name
+	})
+	if ok {
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchSecretsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchSecretsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchSecretsRequest) *secret.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*secret.ParentName)(nil)
+}
+
+func (h *SearchSecretsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchSecretsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchSecretsRequest) *secret.Secret
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchSecretsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchSecretsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchSecretsRequest) []*secret.Secret
+	})
+	if ok {
+		return secret.SecretList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchSecretsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchSecretsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchSecretsResponse) *secret.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchSecretsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchSecretsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchSecretsResponse) []*secret.Name
+	})
+	if ok {
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetSecrets(); len(resources) > 0 {
+			list := make(secret.SecretNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (secret.SecretNameList)(nil)
+}
+
+func (h *SearchSecretsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchSecretsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchSecretsResponse) *secret.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchSecretsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchSecretsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchSecretsResponse) *secret.Secret
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchSecretsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchSecretsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchSecretsResponse) []*secret.Secret
+	})
+	if ok {
+		return secret.SecretList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetSecrets(); len(resources) > 0 {
+			return secret.SecretList(resources)
+		}
+	}
+	return (secret.SecretList)(nil)
+}
+
+func GetSearchSecretsDescriptor() *SearchSecretsDescriptor {
+	return searchSecretsDescriptor
+}
+
 type SecretServiceDescriptor struct{}
 
 func (d *SecretServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2097,7 @@ func (d *SecretServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDes
 		createSecretDescriptor,
 		updateSecretDescriptor,
 		deleteSecretDescriptor,
+		searchSecretsDescriptor,
 	}
 }
 
@@ -1904,6 +2135,7 @@ func initDescriptors() {
 	createSecretDescriptor = &CreateSecretDescriptor{}
 	updateSecretDescriptor = &UpdateSecretDescriptor{}
 	deleteSecretDescriptor = &DeleteSecretDescriptor{}
+	searchSecretsDescriptor = &SearchSecretsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(secretServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getSecretDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetSecretsDescriptor)
@@ -1913,6 +2145,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createSecretDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateSecretDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteSecretDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchSecretsDescriptor)
 }
 
 func init() {

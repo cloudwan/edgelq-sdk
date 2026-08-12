@@ -57,6 +57,7 @@ type ConfigMapServiceClient interface {
 	CreateConfigMap(ctx context.Context, in *CreateConfigMapRequest, opts ...grpc.CallOption) (*config_map.ConfigMap, error)
 	UpdateConfigMap(ctx context.Context, in *UpdateConfigMapRequest, opts ...grpc.CallOption) (*config_map.ConfigMap, error)
 	DeleteConfigMap(ctx context.Context, in *DeleteConfigMapRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchConfigMaps(ctx context.Context, in *SearchConfigMapsRequest, opts ...grpc.CallOption) (*SearchConfigMapsResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateConfigMap(ctx context.Context, in *UpdateConfigMapRequest
 func (c *client) DeleteConfigMap(ctx context.Context, in *DeleteConfigMapRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.applications.v1.ConfigMapService/DeleteConfigMap", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchConfigMaps(ctx context.Context, in *SearchConfigMapsRequest, opts ...grpc.CallOption) (*SearchConfigMapsResponse, error) {
+	out := new(SearchConfigMapsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.applications.v1.ConfigMapService/SearchConfigMaps", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

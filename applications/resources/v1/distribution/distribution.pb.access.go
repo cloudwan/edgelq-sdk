@@ -45,6 +45,7 @@ type DistributionAccess interface {
 	GetDistribution(context.Context, *GetQuery, ...gotenresource.GetOption) (*Distribution, error)
 	BatchGetDistributions(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryDistributions(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchDistributions(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchDistribution(context.Context, *GetQuery, func(*DistributionChange) error) error
 	WatchDistributions(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveDistribution(context.Context, *Distribution, ...gotenresource.SaveOption) error
@@ -78,7 +79,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for Distribution")
+	if asDistributionQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchDistributions(ctx, asDistributionQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected Distribution, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

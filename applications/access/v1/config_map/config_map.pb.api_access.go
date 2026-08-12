@@ -148,6 +148,42 @@ func (a *apiConfigMapAccess) QueryConfigMaps(ctx context.Context, query *config_
 	}, nil
 }
 
+func (a *apiConfigMapAccess) SearchConfigMaps(ctx context.Context, query *config_map.SearchQuery, opts ...gotenresource.QueryOption) (*config_map.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &config_map_client.SearchConfigMapsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchConfigMaps(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &config_map.QueryResultSnapshot{
+		ConfigMaps:        resp.ConfigMaps,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiConfigMapAccess) WatchConfigMap(ctx context.Context, query *config_map.GetQuery, observerCb func(*config_map.ConfigMapChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
