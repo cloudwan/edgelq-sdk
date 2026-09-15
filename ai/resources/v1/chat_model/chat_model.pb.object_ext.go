@@ -465,6 +465,9 @@ func (o *ChatModel_Anthropic) MakeDiffFieldMask(other *ChatModel_Anthropic) *Cha
 	if o.GetMaxOutputTokens() != other.GetMaxOutputTokens() {
 		res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorMaxOutputTokens})
 	}
+	if o.GetThinkingMode() != other.GetThinkingMode() {
+		res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorThinkingMode})
+	}
 	return res
 }
 
@@ -490,6 +493,7 @@ func (o *ChatModel_Anthropic) Clone() *ChatModel_Anthropic {
 	result.Model = o.Model
 	result.BaseUrl = o.BaseUrl
 	result.MaxOutputTokens = o.MaxOutputTokens
+	result.ThinkingMode = o.ThinkingMode
 	return result
 }
 
@@ -513,6 +517,7 @@ func (o *ChatModel_Anthropic) Merge(source *ChatModel_Anthropic) {
 	o.Model = source.GetModel()
 	o.BaseUrl = source.GetBaseUrl()
 	o.MaxOutputTokens = source.GetMaxOutputTokens()
+	o.ThinkingMode = source.GetThinkingMode()
 }
 
 func (o *ChatModel_Anthropic) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -725,6 +725,7 @@ func FullChatModel_Anthropic_FieldMask() *ChatModel_Anthropic_FieldMask {
 	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorModel})
 	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorBaseUrl})
 	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorMaxOutputTokens})
+	res.Paths = append(res.Paths, &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorThinkingMode})
 	return res
 }
 
@@ -743,7 +744,7 @@ func (fieldMask *ChatModel_Anthropic_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ChatModelAnthropic_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -773,7 +774,7 @@ func (fieldMask *ChatModel_Anthropic_FieldMask) Reset() {
 
 func (fieldMask *ChatModel_Anthropic_FieldMask) Subtract(other *ChatModel_Anthropic_FieldMask) *ChatModel_Anthropic_FieldMask {
 	result := &ChatModel_Anthropic_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 5)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -938,6 +939,8 @@ func (fieldMask *ChatModel_Anthropic_FieldMask) Project(source *ChatModel_Anthro
 				result.BaseUrl = source.BaseUrl
 			case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 				result.MaxOutputTokens = source.MaxOutputTokens
+			case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+				result.ThinkingMode = source.ThinkingMode
 			}
 		}
 	}

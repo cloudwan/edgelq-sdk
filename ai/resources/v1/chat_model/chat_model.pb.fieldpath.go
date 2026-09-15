@@ -1947,6 +1947,7 @@ const (
 	ChatModelAnthropic_FieldPathSelectorModel           ChatModelAnthropic_FieldPathSelector = 1
 	ChatModelAnthropic_FieldPathSelectorBaseUrl         ChatModelAnthropic_FieldPathSelector = 2
 	ChatModelAnthropic_FieldPathSelectorMaxOutputTokens ChatModelAnthropic_FieldPathSelector = 3
+	ChatModelAnthropic_FieldPathSelectorThinkingMode    ChatModelAnthropic_FieldPathSelector = 4
 )
 
 func (s ChatModelAnthropic_FieldPathSelector) String() string {
@@ -1959,6 +1960,8 @@ func (s ChatModelAnthropic_FieldPathSelector) String() string {
 		return "base_url"
 	case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 		return "max_output_tokens"
+	case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+		return "thinking_mode"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", s))
 	}
@@ -1978,6 +1981,8 @@ func BuildChatModelAnthropic_FieldPath(fp gotenobject.RawFieldPath) (ChatModelAn
 			return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorBaseUrl}, nil
 		case "max_output_tokens", "maxOutputTokens", "max-output-tokens":
 			return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorMaxOutputTokens}, nil
+		case "thinking_mode", "thinkingMode", "thinking-mode":
+			return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorThinkingMode}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ChatModel_Anthropic", fp)
@@ -2033,6 +2038,8 @@ func (fp *ChatModelAnthropic_FieldTerminalPath) Get(source *ChatModel_Anthropic)
 			values = append(values, source.BaseUrl)
 		case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 			values = append(values, source.MaxOutputTokens)
+		case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+			values = append(values, source.ThinkingMode)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
 		}
@@ -2056,6 +2063,8 @@ func (fp *ChatModelAnthropic_FieldTerminalPath) GetSingle(source *ChatModel_Anth
 		return source.GetBaseUrl(), source != nil
 	case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 		return source.GetMaxOutputTokens(), source != nil
+	case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+		return source.GetThinkingMode(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
 	}
@@ -2076,6 +2085,8 @@ func (fp *ChatModelAnthropic_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 		return int32(0)
+	case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+		return ChatModel_Anthropic_THINKING_MODE_UNSPECIFIED
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
 	}
@@ -2092,6 +2103,8 @@ func (fp *ChatModelAnthropic_FieldTerminalPath) ClearValue(item *ChatModel_Anthr
 			item.BaseUrl = ""
 		case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 			item.MaxOutputTokens = int32(0)
+		case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+			item.ThinkingMode = ChatModel_Anthropic_THINKING_MODE_UNSPECIFIED
 		default:
 			panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
 		}
@@ -2107,7 +2120,8 @@ func (fp *ChatModelAnthropic_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ChatModelAnthropic_FieldPathSelectorApiKey ||
 		fp.selector == ChatModelAnthropic_FieldPathSelectorModel ||
 		fp.selector == ChatModelAnthropic_FieldPathSelectorBaseUrl ||
-		fp.selector == ChatModelAnthropic_FieldPathSelectorMaxOutputTokens
+		fp.selector == ChatModelAnthropic_FieldPathSelectorMaxOutputTokens ||
+		fp.selector == ChatModelAnthropic_FieldPathSelectorThinkingMode
 }
 
 func (fp *ChatModelAnthropic_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2124,6 +2138,8 @@ func (fp *ChatModelAnthropic_FieldTerminalPath) WithIValue(value interface{}) Ch
 		return &ChatModelAnthropic_FieldTerminalPathValue{ChatModelAnthropic_FieldTerminalPath: *fp, value: value.(string)}
 	case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 		return &ChatModelAnthropic_FieldTerminalPathValue{ChatModelAnthropic_FieldTerminalPath: *fp, value: value.(int32)}
+	case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+		return &ChatModelAnthropic_FieldTerminalPathValue{ChatModelAnthropic_FieldTerminalPath: *fp, value: value.(ChatModel_Anthropic_ThinkingMode)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
 	}
@@ -2144,6 +2160,8 @@ func (fp *ChatModelAnthropic_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &ChatModelAnthropic_FieldTerminalPathArrayOfValues{ChatModelAnthropic_FieldTerminalPath: *fp, values: values.([]string)}
 	case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 		return &ChatModelAnthropic_FieldTerminalPathArrayOfValues{ChatModelAnthropic_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+		return &ChatModelAnthropic_FieldTerminalPathArrayOfValues{ChatModelAnthropic_FieldTerminalPath: *fp, values: values.([]ChatModel_Anthropic_ThinkingMode)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fp.selector))
 	}
@@ -2220,6 +2238,10 @@ func (fpv *ChatModelAnthropic_FieldTerminalPathValue) AsMaxOutputTokensValue() (
 	res, ok := fpv.value.(int32)
 	return res, ok
 }
+func (fpv *ChatModelAnthropic_FieldTerminalPathValue) AsThinkingModeValue() (ChatModel_Anthropic_ThinkingMode, bool) {
+	res, ok := fpv.value.(ChatModel_Anthropic_ThinkingMode)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Anthropic
 func (fpv *ChatModelAnthropic_FieldTerminalPathValue) SetTo(target **ChatModel_Anthropic) {
@@ -2235,6 +2257,8 @@ func (fpv *ChatModelAnthropic_FieldTerminalPathValue) SetTo(target **ChatModel_A
 		(*target).BaseUrl = fpv.value.(string)
 	case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 		(*target).MaxOutputTokens = fpv.value.(int32)
+	case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+		(*target).ThinkingMode = fpv.value.(ChatModel_Anthropic_ThinkingMode)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ChatModel_Anthropic: %d", fpv.selector))
 	}
@@ -2290,6 +2314,16 @@ func (fpv *ChatModelAnthropic_FieldTerminalPathValue) CompareWith(source *ChatMo
 	case ChatModelAnthropic_FieldPathSelectorMaxOutputTokens:
 		leftValue := fpv.value.(int32)
 		rightValue := source.GetMaxOutputTokens()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+		leftValue := fpv.value.(ChatModel_Anthropic_ThinkingMode)
+		rightValue := source.GetThinkingMode()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -2421,6 +2455,10 @@ func (fpaov *ChatModelAnthropic_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
 		}
+	case ChatModelAnthropic_FieldPathSelectorThinkingMode:
+		for _, v := range fpaov.values.([]ChatModel_Anthropic_ThinkingMode) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2438,6 +2476,10 @@ func (fpaov *ChatModelAnthropic_FieldTerminalPathArrayOfValues) AsBaseUrlArrayOf
 }
 func (fpaov *ChatModelAnthropic_FieldTerminalPathArrayOfValues) AsMaxOutputTokensArrayOfValues() ([]int32, bool) {
 	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ChatModelAnthropic_FieldTerminalPathArrayOfValues) AsThinkingModeArrayOfValues() ([]ChatModel_Anthropic_ThinkingMode, bool) {
+	res, ok := fpaov.values.([]ChatModel_Anthropic_ThinkingMode)
 	return res, ok
 }
 

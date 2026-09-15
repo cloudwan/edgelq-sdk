@@ -3437,6 +3437,10 @@ func (b *filterCndBuilderAnthropic) MaxOutputTokens() *filterCndBuilderAnthropic
 	return &filterCndBuilderAnthropicMaxOutputTokens{builder: b.builder}
 }
 
+func (b *filterCndBuilderAnthropic) ThinkingMode() *filterCndBuilderAnthropicThinkingMode {
+	return &filterCndBuilderAnthropicThinkingMode{builder: b.builder}
+}
+
 type filterCndBuilderAnthropicApiKey struct {
 	builder *FilterBuilder
 }
@@ -3670,6 +3674,65 @@ func (b *filterCndBuilderAnthropicMaxOutputTokens) compare(op gotenfilter.Compar
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Anthropic().MaxOutputTokens().WithValue(value),
+	})
+}
+
+type filterCndBuilderAnthropicThinkingMode struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) Eq(value ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) Neq(value ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) Gt(value ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) Gte(value ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) Lt(value ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) Lte(value ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) In(values []ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().ThinkingMode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) NotIn(values []ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ChatModel_FieldPathArrayOfValues: NewChatModelFieldPathBuilder().Anthropic().ThinkingMode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().ThinkingMode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewChatModelFieldPathBuilder().Anthropic().ThinkingMode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAnthropicThinkingMode) compare(op gotenfilter.CompareOperator, value ChatModel_Anthropic_ThinkingMode) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		ChatModel_FieldPathValue: NewChatModelFieldPathBuilder().Anthropic().ThinkingMode().WithValue(value),
 	})
 }
 

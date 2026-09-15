@@ -1168,6 +1168,10 @@ func (ChatModelPathSelectorAnthropic) MaxOutputTokens() ChatModelPathSelectorAnt
 	return ChatModelPathSelectorAnthropicMaxOutputTokens{}
 }
 
+func (ChatModelPathSelectorAnthropic) ThinkingMode() ChatModelPathSelectorAnthropicThinkingMode {
+	return ChatModelPathSelectorAnthropicThinkingMode{}
+}
+
 type ChatModelPathSelectorAnthropicApiKey struct{}
 
 func (ChatModelPathSelectorAnthropicApiKey) FieldPath() *ChatModel_FieldSubPath {
@@ -1233,6 +1237,23 @@ func (s ChatModelPathSelectorAnthropicMaxOutputTokens) WithValue(value int32) *C
 }
 
 func (s ChatModelPathSelectorAnthropicMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
+}
+
+type ChatModelPathSelectorAnthropicThinkingMode struct{}
+
+func (ChatModelPathSelectorAnthropicThinkingMode) FieldPath() *ChatModel_FieldSubPath {
+	return &ChatModel_FieldSubPath{
+		selector: ChatModel_FieldPathSelectorAnthropic,
+		subPath:  NewChatModelAnthropicFieldPathBuilder().ThinkingMode().FieldPath(),
+	}
+}
+
+func (s ChatModelPathSelectorAnthropicThinkingMode) WithValue(value ChatModel_Anthropic_ThinkingMode) *ChatModel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModel_FieldSubPathValue)
+}
+
+func (s ChatModelPathSelectorAnthropicThinkingMode) WithArrayOfValues(values []ChatModel_Anthropic_ThinkingMode) *ChatModel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModel_FieldSubPathArrayOfValues)
 }
 
@@ -1651,6 +1672,9 @@ func (ChatModelAnthropicFieldPathBuilder) BaseUrl() ChatModel_AnthropicPathSelec
 func (ChatModelAnthropicFieldPathBuilder) MaxOutputTokens() ChatModel_AnthropicPathSelectorMaxOutputTokens {
 	return ChatModel_AnthropicPathSelectorMaxOutputTokens{}
 }
+func (ChatModelAnthropicFieldPathBuilder) ThinkingMode() ChatModel_AnthropicPathSelectorThinkingMode {
+	return ChatModel_AnthropicPathSelectorThinkingMode{}
+}
 
 type ChatModel_AnthropicPathSelectorApiKey struct{}
 
@@ -1705,6 +1729,20 @@ func (s ChatModel_AnthropicPathSelectorMaxOutputTokens) WithValue(value int32) *
 }
 
 func (s ChatModel_AnthropicPathSelectorMaxOutputTokens) WithArrayOfValues(values []int32) *ChatModelAnthropic_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAnthropic_FieldTerminalPathArrayOfValues)
+}
+
+type ChatModel_AnthropicPathSelectorThinkingMode struct{}
+
+func (ChatModel_AnthropicPathSelectorThinkingMode) FieldPath() *ChatModelAnthropic_FieldTerminalPath {
+	return &ChatModelAnthropic_FieldTerminalPath{selector: ChatModelAnthropic_FieldPathSelectorThinkingMode}
+}
+
+func (s ChatModel_AnthropicPathSelectorThinkingMode) WithValue(value ChatModel_Anthropic_ThinkingMode) *ChatModelAnthropic_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ChatModelAnthropic_FieldTerminalPathValue)
+}
+
+func (s ChatModel_AnthropicPathSelectorThinkingMode) WithArrayOfValues(values []ChatModel_Anthropic_ThinkingMode) *ChatModelAnthropic_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ChatModelAnthropic_FieldTerminalPathArrayOfValues)
 }
 

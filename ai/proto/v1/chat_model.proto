@@ -91,6 +91,21 @@ message ChatModel {
 
     // Maximum output tokens (must be >= 4096 for Anthropic)
     int32 max_output_tokens = 4;
+
+    ThinkingMode thinking_mode = 5;
+
+    // Which Messages thinking wire format this deployment accepts.
+    // UNSPECIFIED and EXTENDED send enabled + budget_tokens.
+    // ADAPTIVE sends adaptive + output_config.effort (Sonnet 5, Opus 4.7+).
+    // Do not infer this from `model`; Foundry deployment names can disagree
+    // with the underlying Claude model.
+    enum ThinkingMode {
+      THINKING_MODE_UNSPECIFIED = 0;
+
+      THINKING_MODE_EXTENDED = 1; // enabled + budget_tokens
+
+      THINKING_MODE_ADAPTIVE = 2; // adaptive + output_config.effort
+    }
   }
 
   message Gemini {
