@@ -113,7 +113,10 @@ func (cond *FilterConditionComposite) Evaluate(res *Region) bool {
 		}
 		return true
 	default:
-		panic(fmt.Sprintf("Unsupported composite condition operator: %s", cond.Operator))
+		// Composite operators can originate in programmatically assembled
+		// filters. Treat unknown values conservatively instead of allowing a
+		// malformed filter to crash in-memory or shared-watch evaluation.
+		return false
 	}
 }
 
@@ -179,8 +182,25 @@ func (cond *FilterConditionComposite) Satisfies(other FilterCondition) bool {
 			}
 			return false
 		}
+	case filterParser.OR:
+		// Whichever branch let a resource through, the resource must still
+		// pass other - so a disjunction is at least as specific as other only
+		// when every branch is on its own. An empty disjunction is a builder
+		// bug rejected elsewhere; claim nothing for it.
+		if len(flattened) == 0 {
+			return false
+		}
+		for _, subcnd := range flattened {
+			if !subcnd.Satisfies(other) {
+				return false
+			}
+		}
+		return true
 	default:
-		panic(fmt.Errorf("unsupported condition type %s", cond.Operator))
+		// Conservative for operators without refinement rules: never claim
+		// this condition is at least as specific. This value is reachable
+		// from a client-supplied filter string, so it must not panic.
+		return false
 	}
 	return false
 }

@@ -53,9 +53,10 @@ const (
 )
 
 // Which Messages thinking wire format this deployment accepts.
-// Azure AI Foundry deployment names can disagree with the underlying
-// model, so do not infer this from `model` when the field is set.
-// UNSPECIFIED falls back to sniffing hyphenated Anthropic model IDs.
+// UNSPECIFIED and EXTENDED send enabled + budget_tokens.
+// ADAPTIVE sends adaptive + output_config.effort (Sonnet 5, Opus 4.7+).
+// Do not infer this from `model`; Foundry deployment names can disagree
+// with the underlying Claude model.
 type ChatModel_Anthropic_ThinkingMode int32
 
 const (
