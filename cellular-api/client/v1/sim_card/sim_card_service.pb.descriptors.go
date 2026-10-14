@@ -45,6 +45,7 @@ var (
 	suspendDescriptor          *SuspendDescriptor
 	terminateDescriptor        *TerminateDescriptor
 	reactivateDescriptor       *ReactivateDescriptor
+	getDataUsageDescriptor     *GetDataUsageDescriptor
 )
 
 type GetSimCardDescriptor struct{}
@@ -2719,6 +2720,221 @@ func GetReactivateDescriptor() *ReactivateDescriptor {
 	return reactivateDescriptor
 }
 
+type GetDataUsageDescriptor struct{}
+
+type GetDataUsageDescriptorClientMsgHandle struct{}
+
+type GetDataUsageDescriptorServerMsgHandle struct{}
+
+func (d *GetDataUsageDescriptor) NewEmptyClientMsg() proto.Message {
+	return &GetDataUsageRequest{}
+}
+
+func (d *GetDataUsageDescriptor) NewEmptyServerMsg() proto.Message {
+	return &GetDataUsageResponse{}
+}
+
+func (d *GetDataUsageDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *GetDataUsageDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *GetDataUsageDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *GetDataUsageDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *GetDataUsageDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *GetDataUsageDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *GetDataUsageDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *GetDataUsageDescriptor) GetVerb() string {
+	return "getDataUsage"
+}
+
+func (d *GetDataUsageDescriptor) GetMethodName() string {
+	return "GetDataUsage"
+}
+
+func (d *GetDataUsageDescriptor) GetFullMethodName() string {
+	return "/ntt.cellular_api.v1.SimCardService/GetDataUsage"
+}
+
+func (d *GetDataUsageDescriptor) GetProtoPkgName() string {
+	return "ntt.cellular_api.v1"
+}
+
+func (d *GetDataUsageDescriptor) GetApiName() string {
+	return "SimCardService"
+}
+
+func (d *GetDataUsageDescriptor) GetServiceDomain() string {
+	return "cellular-api.edgelq.com"
+}
+
+func (d *GetDataUsageDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *GetDataUsageDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return simCardServiceDescriptor
+}
+
+func (d *GetDataUsageDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return sim_card.GetDescriptor()
+}
+
+func (d *GetDataUsageDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &GetDataUsageDescriptorClientMsgHandle{}
+}
+
+func (d *GetDataUsageDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &GetDataUsageDescriptorServerMsgHandle{}
+}
+
+func (h *GetDataUsageDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetDataUsageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*GetDataUsageRequest) *sim_card.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*sim_card.Name)(nil)
+}
+
+func (h *GetDataUsageDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*GetDataUsageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*GetDataUsageRequest) []*sim_card.Name
+	})
+	if ok {
+		return sim_card.SimCardNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetDataUsageDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetDataUsageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*GetDataUsageRequest) *sim_card.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetDataUsageDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetDataUsageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetDataUsageRequest) *sim_card.SimCard
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetDataUsageDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetDataUsageRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetDataUsageRequest) []*sim_card.SimCard
+	})
+	if ok {
+		return sim_card.SimCardList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetDataUsageDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetDataUsageResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*GetDataUsageResponse) *sim_card.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetDataUsageDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*GetDataUsageResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*GetDataUsageResponse) []*sim_card.Name
+	})
+	if ok {
+		return sim_card.SimCardNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetDataUsageDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetDataUsageResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*GetDataUsageResponse) *sim_card.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetDataUsageDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetDataUsageResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetDataUsageResponse) *sim_card.SimCard
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetDataUsageDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetDataUsageResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetDataUsageResponse) []*sim_card.SimCard
+	})
+	if ok {
+		return sim_card.SimCardList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetGetDataUsageDescriptor() *GetDataUsageDescriptor {
+	return getDataUsageDescriptor
+}
+
 type SimCardServiceDescriptor struct{}
 
 func (d *SimCardServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -2735,6 +2951,7 @@ func (d *SimCardServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDe
 		suspendDescriptor,
 		terminateDescriptor,
 		reactivateDescriptor,
+		getDataUsageDescriptor,
 	}
 }
 
@@ -2776,6 +2993,7 @@ func initDescriptors() {
 	suspendDescriptor = &SuspendDescriptor{}
 	terminateDescriptor = &TerminateDescriptor{}
 	reactivateDescriptor = &ReactivateDescriptor{}
+	getDataUsageDescriptor = &GetDataUsageDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(simCardServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getSimCardDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetSimCardsDescriptor)
@@ -2789,6 +3007,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(suspendDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(terminateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(reactivateDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(getDataUsageDescriptor)
 }
 
 func init() {

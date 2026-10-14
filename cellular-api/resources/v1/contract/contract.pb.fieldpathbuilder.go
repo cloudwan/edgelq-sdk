@@ -45,6 +45,9 @@ func (ContractFieldPathBuilder) Cisco() ContractPathSelectorCisco {
 func (ContractFieldPathBuilder) Celona() ContractPathSelectorCelona {
 	return ContractPathSelectorCelona{}
 }
+func (ContractFieldPathBuilder) Status() ContractPathSelectorStatus {
+	return ContractPathSelectorStatus{}
+}
 
 type ContractPathSelectorName struct{}
 
@@ -796,4 +799,336 @@ func (s ContractPathSelectorCelona) WithValue(value *secrets_secret.Reference) *
 
 func (s ContractPathSelectorCelona) WithArrayOfValues(values []*secrets_secret.Reference) *Contract_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldTerminalPathArrayOfValues)
+}
+
+type ContractPathSelectorStatus struct{}
+
+func (ContractPathSelectorStatus) FieldPath() *Contract_FieldTerminalPath {
+	return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorStatus}
+}
+
+func (s ContractPathSelectorStatus) WithValue(value *Contract_Status) *Contract_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldTerminalPathValue)
+}
+
+func (s ContractPathSelectorStatus) WithArrayOfValues(values []*Contract_Status) *Contract_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldTerminalPathArrayOfValues)
+}
+
+func (ContractPathSelectorStatus) WithSubPath(subPath ContractStatus_FieldPath) *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{selector: Contract_FieldPathSelectorStatus, subPath: subPath}
+}
+
+func (s ContractPathSelectorStatus) WithSubValue(subPathValue ContractStatus_FieldPathValue) *Contract_FieldSubPathValue {
+	return &Contract_FieldSubPathValue{Contract_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ContractPathSelectorStatus) WithSubArrayOfValues(subPathArrayOfValues ContractStatus_FieldPathArrayOfValues) *Contract_FieldSubPathArrayOfValues {
+	return &Contract_FieldSubPathArrayOfValues{Contract_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ContractPathSelectorStatus) WithSubArrayItemValue(subPathArrayItemValue ContractStatus_FieldPathArrayItemValue) *Contract_FieldSubPathArrayItemValue {
+	return &Contract_FieldSubPathArrayItemValue{Contract_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ContractPathSelectorStatus) EventHub() ContractPathSelectorStatusEventHub {
+	return ContractPathSelectorStatusEventHub{}
+}
+
+type ContractPathSelectorStatusEventHub struct{}
+
+func (ContractPathSelectorStatusEventHub) FieldPath() *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{
+		selector: Contract_FieldPathSelectorStatus,
+		subPath:  NewContractStatusFieldPathBuilder().EventHub().FieldPath(),
+	}
+}
+
+func (s ContractPathSelectorStatusEventHub) WithValue(value *Contract_Status_EventHub) *Contract_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldSubPathValue)
+}
+
+func (s ContractPathSelectorStatusEventHub) WithArrayOfValues(values []*Contract_Status_EventHub) *Contract_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldSubPathArrayOfValues)
+}
+
+func (ContractPathSelectorStatusEventHub) Namespace() ContractPathSelectorStatusEventHubNamespace {
+	return ContractPathSelectorStatusEventHubNamespace{}
+}
+
+func (ContractPathSelectorStatusEventHub) Name() ContractPathSelectorStatusEventHubName {
+	return ContractPathSelectorStatusEventHubName{}
+}
+
+func (ContractPathSelectorStatusEventHub) Error() ContractPathSelectorStatusEventHubError {
+	return ContractPathSelectorStatusEventHubError{}
+}
+
+func (ContractPathSelectorStatusEventHub) ConnectionSecret() ContractPathSelectorStatusEventHubConnectionSecret {
+	return ContractPathSelectorStatusEventHubConnectionSecret{}
+}
+
+type ContractPathSelectorStatusEventHubNamespace struct{}
+
+func (ContractPathSelectorStatusEventHubNamespace) FieldPath() *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{
+		selector: Contract_FieldPathSelectorStatus,
+		subPath:  NewContractStatusFieldPathBuilder().EventHub().Namespace().FieldPath(),
+	}
+}
+
+func (s ContractPathSelectorStatusEventHubNamespace) WithValue(value string) *Contract_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldSubPathValue)
+}
+
+func (s ContractPathSelectorStatusEventHubNamespace) WithArrayOfValues(values []string) *Contract_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldSubPathArrayOfValues)
+}
+
+type ContractPathSelectorStatusEventHubName struct{}
+
+func (ContractPathSelectorStatusEventHubName) FieldPath() *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{
+		selector: Contract_FieldPathSelectorStatus,
+		subPath:  NewContractStatusFieldPathBuilder().EventHub().Name().FieldPath(),
+	}
+}
+
+func (s ContractPathSelectorStatusEventHubName) WithValue(value string) *Contract_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldSubPathValue)
+}
+
+func (s ContractPathSelectorStatusEventHubName) WithArrayOfValues(values []string) *Contract_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldSubPathArrayOfValues)
+}
+
+type ContractPathSelectorStatusEventHubError struct{}
+
+func (ContractPathSelectorStatusEventHubError) FieldPath() *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{
+		selector: Contract_FieldPathSelectorStatus,
+		subPath:  NewContractStatusFieldPathBuilder().EventHub().Error().FieldPath(),
+	}
+}
+
+func (s ContractPathSelectorStatusEventHubError) WithValue(value string) *Contract_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldSubPathValue)
+}
+
+func (s ContractPathSelectorStatusEventHubError) WithArrayOfValues(values []string) *Contract_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldSubPathArrayOfValues)
+}
+
+type ContractPathSelectorStatusEventHubConnectionSecret struct{}
+
+func (ContractPathSelectorStatusEventHubConnectionSecret) FieldPath() *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{
+		selector: Contract_FieldPathSelectorStatus,
+		subPath:  NewContractStatusFieldPathBuilder().EventHub().ConnectionSecret().FieldPath(),
+	}
+}
+
+func (s ContractPathSelectorStatusEventHubConnectionSecret) WithValue(value *secrets_secret.Reference) *Contract_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldSubPathValue)
+}
+
+func (s ContractPathSelectorStatusEventHubConnectionSecret) WithArrayOfValues(values []*secrets_secret.Reference) *Contract_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldSubPathArrayOfValues)
+}
+
+type ContractStatusFieldPathBuilder struct{}
+
+func NewContractStatusFieldPathBuilder() ContractStatusFieldPathBuilder {
+	return ContractStatusFieldPathBuilder{}
+}
+func (ContractStatusFieldPathBuilder) EventHub() Contract_StatusPathSelectorEventHub {
+	return Contract_StatusPathSelectorEventHub{}
+}
+
+type Contract_StatusPathSelectorEventHub struct{}
+
+func (Contract_StatusPathSelectorEventHub) FieldPath() *ContractStatus_FieldTerminalPath {
+	return &ContractStatus_FieldTerminalPath{selector: ContractStatus_FieldPathSelectorEventHub}
+}
+
+func (s Contract_StatusPathSelectorEventHub) WithValue(value *Contract_Status_EventHub) *ContractStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatus_FieldTerminalPathValue)
+}
+
+func (s Contract_StatusPathSelectorEventHub) WithArrayOfValues(values []*Contract_Status_EventHub) *ContractStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (Contract_StatusPathSelectorEventHub) WithSubPath(subPath ContractStatusEventHub_FieldPath) *ContractStatus_FieldSubPath {
+	return &ContractStatus_FieldSubPath{selector: ContractStatus_FieldPathSelectorEventHub, subPath: subPath}
+}
+
+func (s Contract_StatusPathSelectorEventHub) WithSubValue(subPathValue ContractStatusEventHub_FieldPathValue) *ContractStatus_FieldSubPathValue {
+	return &ContractStatus_FieldSubPathValue{ContractStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Contract_StatusPathSelectorEventHub) WithSubArrayOfValues(subPathArrayOfValues ContractStatusEventHub_FieldPathArrayOfValues) *ContractStatus_FieldSubPathArrayOfValues {
+	return &ContractStatus_FieldSubPathArrayOfValues{ContractStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Contract_StatusPathSelectorEventHub) WithSubArrayItemValue(subPathArrayItemValue ContractStatusEventHub_FieldPathArrayItemValue) *ContractStatus_FieldSubPathArrayItemValue {
+	return &ContractStatus_FieldSubPathArrayItemValue{ContractStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Contract_StatusPathSelectorEventHub) Namespace() Contract_StatusPathSelectorEventHubNamespace {
+	return Contract_StatusPathSelectorEventHubNamespace{}
+}
+
+func (Contract_StatusPathSelectorEventHub) Name() Contract_StatusPathSelectorEventHubName {
+	return Contract_StatusPathSelectorEventHubName{}
+}
+
+func (Contract_StatusPathSelectorEventHub) Error() Contract_StatusPathSelectorEventHubError {
+	return Contract_StatusPathSelectorEventHubError{}
+}
+
+func (Contract_StatusPathSelectorEventHub) ConnectionSecret() Contract_StatusPathSelectorEventHubConnectionSecret {
+	return Contract_StatusPathSelectorEventHubConnectionSecret{}
+}
+
+type Contract_StatusPathSelectorEventHubNamespace struct{}
+
+func (Contract_StatusPathSelectorEventHubNamespace) FieldPath() *ContractStatus_FieldSubPath {
+	return &ContractStatus_FieldSubPath{
+		selector: ContractStatus_FieldPathSelectorEventHub,
+		subPath:  NewContractStatusEventHubFieldPathBuilder().Namespace().FieldPath(),
+	}
+}
+
+func (s Contract_StatusPathSelectorEventHubNamespace) WithValue(value string) *ContractStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatus_FieldSubPathValue)
+}
+
+func (s Contract_StatusPathSelectorEventHubNamespace) WithArrayOfValues(values []string) *ContractStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatus_FieldSubPathArrayOfValues)
+}
+
+type Contract_StatusPathSelectorEventHubName struct{}
+
+func (Contract_StatusPathSelectorEventHubName) FieldPath() *ContractStatus_FieldSubPath {
+	return &ContractStatus_FieldSubPath{
+		selector: ContractStatus_FieldPathSelectorEventHub,
+		subPath:  NewContractStatusEventHubFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s Contract_StatusPathSelectorEventHubName) WithValue(value string) *ContractStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatus_FieldSubPathValue)
+}
+
+func (s Contract_StatusPathSelectorEventHubName) WithArrayOfValues(values []string) *ContractStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatus_FieldSubPathArrayOfValues)
+}
+
+type Contract_StatusPathSelectorEventHubError struct{}
+
+func (Contract_StatusPathSelectorEventHubError) FieldPath() *ContractStatus_FieldSubPath {
+	return &ContractStatus_FieldSubPath{
+		selector: ContractStatus_FieldPathSelectorEventHub,
+		subPath:  NewContractStatusEventHubFieldPathBuilder().Error().FieldPath(),
+	}
+}
+
+func (s Contract_StatusPathSelectorEventHubError) WithValue(value string) *ContractStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatus_FieldSubPathValue)
+}
+
+func (s Contract_StatusPathSelectorEventHubError) WithArrayOfValues(values []string) *ContractStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatus_FieldSubPathArrayOfValues)
+}
+
+type Contract_StatusPathSelectorEventHubConnectionSecret struct{}
+
+func (Contract_StatusPathSelectorEventHubConnectionSecret) FieldPath() *ContractStatus_FieldSubPath {
+	return &ContractStatus_FieldSubPath{
+		selector: ContractStatus_FieldPathSelectorEventHub,
+		subPath:  NewContractStatusEventHubFieldPathBuilder().ConnectionSecret().FieldPath(),
+	}
+}
+
+func (s Contract_StatusPathSelectorEventHubConnectionSecret) WithValue(value *secrets_secret.Reference) *ContractStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatus_FieldSubPathValue)
+}
+
+func (s Contract_StatusPathSelectorEventHubConnectionSecret) WithArrayOfValues(values []*secrets_secret.Reference) *ContractStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatus_FieldSubPathArrayOfValues)
+}
+
+type ContractStatusEventHubFieldPathBuilder struct{}
+
+func NewContractStatusEventHubFieldPathBuilder() ContractStatusEventHubFieldPathBuilder {
+	return ContractStatusEventHubFieldPathBuilder{}
+}
+func (ContractStatusEventHubFieldPathBuilder) Namespace() Contract_Status_EventHubPathSelectorNamespace {
+	return Contract_Status_EventHubPathSelectorNamespace{}
+}
+func (ContractStatusEventHubFieldPathBuilder) Name() Contract_Status_EventHubPathSelectorName {
+	return Contract_Status_EventHubPathSelectorName{}
+}
+func (ContractStatusEventHubFieldPathBuilder) Error() Contract_Status_EventHubPathSelectorError {
+	return Contract_Status_EventHubPathSelectorError{}
+}
+func (ContractStatusEventHubFieldPathBuilder) ConnectionSecret() Contract_Status_EventHubPathSelectorConnectionSecret {
+	return Contract_Status_EventHubPathSelectorConnectionSecret{}
+}
+
+type Contract_Status_EventHubPathSelectorNamespace struct{}
+
+func (Contract_Status_EventHubPathSelectorNamespace) FieldPath() *ContractStatusEventHub_FieldTerminalPath {
+	return &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorNamespace}
+}
+
+func (s Contract_Status_EventHubPathSelectorNamespace) WithValue(value string) *ContractStatusEventHub_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatusEventHub_FieldTerminalPathValue)
+}
+
+func (s Contract_Status_EventHubPathSelectorNamespace) WithArrayOfValues(values []string) *ContractStatusEventHub_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatusEventHub_FieldTerminalPathArrayOfValues)
+}
+
+type Contract_Status_EventHubPathSelectorName struct{}
+
+func (Contract_Status_EventHubPathSelectorName) FieldPath() *ContractStatusEventHub_FieldTerminalPath {
+	return &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorName}
+}
+
+func (s Contract_Status_EventHubPathSelectorName) WithValue(value string) *ContractStatusEventHub_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatusEventHub_FieldTerminalPathValue)
+}
+
+func (s Contract_Status_EventHubPathSelectorName) WithArrayOfValues(values []string) *ContractStatusEventHub_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatusEventHub_FieldTerminalPathArrayOfValues)
+}
+
+type Contract_Status_EventHubPathSelectorError struct{}
+
+func (Contract_Status_EventHubPathSelectorError) FieldPath() *ContractStatusEventHub_FieldTerminalPath {
+	return &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorError}
+}
+
+func (s Contract_Status_EventHubPathSelectorError) WithValue(value string) *ContractStatusEventHub_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatusEventHub_FieldTerminalPathValue)
+}
+
+func (s Contract_Status_EventHubPathSelectorError) WithArrayOfValues(values []string) *ContractStatusEventHub_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatusEventHub_FieldTerminalPathArrayOfValues)
+}
+
+type Contract_Status_EventHubPathSelectorConnectionSecret struct{}
+
+func (Contract_Status_EventHubPathSelectorConnectionSecret) FieldPath() *ContractStatusEventHub_FieldTerminalPath {
+	return &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorConnectionSecret}
+}
+
+func (s Contract_Status_EventHubPathSelectorConnectionSecret) WithValue(value *secrets_secret.Reference) *ContractStatusEventHub_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractStatusEventHub_FieldTerminalPathValue)
+}
+
+func (s Contract_Status_EventHubPathSelectorConnectionSecret) WithArrayOfValues(values []*secrets_secret.Reference) *ContractStatusEventHub_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractStatusEventHub_FieldTerminalPathArrayOfValues)
 }

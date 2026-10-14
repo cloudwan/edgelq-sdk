@@ -61,6 +61,7 @@ type SimCardServiceClient interface {
 	Suspend(ctx context.Context, in *SuspendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Terminate(ctx context.Context, in *TerminateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Reactivate(ctx context.Context, in *ReactivateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetDataUsage(ctx context.Context, in *GetDataUsageRequest, opts ...grpc.CallOption) (*GetDataUsageResponse, error)
 }
 
 type client struct {
@@ -229,6 +230,15 @@ func (c *client) Terminate(ctx context.Context, in *TerminateRequest, opts ...gr
 func (c *client) Reactivate(ctx context.Context, in *ReactivateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.cellular_api.v1.SimCardService/Reactivate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) GetDataUsage(ctx context.Context, in *GetDataUsageRequest, opts ...grpc.CallOption) (*GetDataUsageResponse, error) {
+	out := new(GetDataUsageResponse)
+	err := c.cc.Invoke(ctx, "/ntt.cellular_api.v1.SimCardService/GetDataUsage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

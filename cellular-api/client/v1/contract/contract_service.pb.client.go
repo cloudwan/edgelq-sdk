@@ -57,6 +57,7 @@ type ContractServiceClient interface {
 	CreateContract(ctx context.Context, in *CreateContractRequest, opts ...grpc.CallOption) (*contract.Contract, error)
 	UpdateContract(ctx context.Context, in *UpdateContractRequest, opts ...grpc.CallOption) (*contract.Contract, error)
 	DeleteContract(ctx context.Context, in *DeleteContractRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SubscribeCarrierEvents(ctx context.Context, in *SubscribeCarrierEventsRequest, opts ...grpc.CallOption) (SubscribeCarrierEventsClientStream, error)
 }
 
 type client struct {
@@ -193,4 +194,41 @@ func (c *client) DeleteContract(ctx context.Context, in *DeleteContractRequest, 
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *client) SubscribeCarrierEvents(ctx context.Context, in *SubscribeCarrierEventsRequest, opts ...grpc.CallOption) (SubscribeCarrierEventsClientStream, error) {
+	stream, err := c.cc.NewStream(ctx,
+		&grpc.StreamDesc{
+			StreamName:    "SubscribeCarrierEvents",
+			ServerStreams: true,
+		},
+		"/ntt.cellular_api.v1.ContractService/SubscribeCarrierEvents", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &subscribeCarrierEventsSubscribeCarrierEventsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type SubscribeCarrierEventsClientStream interface {
+	Recv() (*SubscribeCarrierEventsResponse, error)
+	grpc.ClientStream
+}
+
+type subscribeCarrierEventsSubscribeCarrierEventsClient struct {
+	grpc.ClientStream
+}
+
+func (x *subscribeCarrierEventsSubscribeCarrierEventsClient) Recv() (*SubscribeCarrierEventsResponse, error) {
+	m := new(SubscribeCarrierEventsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }

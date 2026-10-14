@@ -228,6 +228,10 @@ func (b *filterCndBuilder) Celona() *filterCndBuilderCelona {
 	return &filterCndBuilderCelona{builder: b.builder}
 }
 
+func (b *filterCndBuilder) Status() *filterCndBuilderStatus {
+	return &filterCndBuilderStatus{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -2608,5 +2612,379 @@ func (b *filterCndBuilderCelona) compare(op gotenfilter.CompareOperator, value *
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                op,
 		Contract_FieldPathValue: NewContractFieldPathBuilder().Celona().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatus) Eq(value *Contract_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatus) Neq(value *Contract_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatus) Gt(value *Contract_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatus) Gte(value *Contract_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatus) Lt(value *Contract_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatus) Lte(value *Contract_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatus) In(values []*Contract_Status) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatus) NotIn(values []*Contract_Status) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatus) compare(op gotenfilter.CompareOperator, value *Contract_Status) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().Status().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatus) EventHub() *filterCndBuilderStatusEventHub {
+	return &filterCndBuilderStatusEventHub{builder: b.builder}
+}
+
+type filterCndBuilderStatusEventHub struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusEventHub) Eq(value *Contract_Status_EventHub) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusEventHub) Neq(value *Contract_Status_EventHub) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusEventHub) Gt(value *Contract_Status_EventHub) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusEventHub) Gte(value *Contract_Status_EventHub) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusEventHub) Lt(value *Contract_Status_EventHub) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusEventHub) Lte(value *Contract_Status_EventHub) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusEventHub) In(values []*Contract_Status_EventHub) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHub) NotIn(values []*Contract_Status_EventHub) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHub) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHub) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHub) compare(op gotenfilter.CompareOperator, value *Contract_Status_EventHub) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().Status().EventHub().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHub) Namespace() *filterCndBuilderStatusEventHubNamespace {
+	return &filterCndBuilderStatusEventHubNamespace{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusEventHub) Name() *filterCndBuilderStatusEventHubName {
+	return &filterCndBuilderStatusEventHubName{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusEventHub) Error() *filterCndBuilderStatusEventHubError {
+	return &filterCndBuilderStatusEventHubError{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusEventHub) ConnectionSecret() *filterCndBuilderStatusEventHubConnectionSecret {
+	return &filterCndBuilderStatusEventHubConnectionSecret{builder: b.builder}
+}
+
+type filterCndBuilderStatusEventHubNamespace struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().Namespace().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().Namespace().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().Namespace().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().Namespace().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubNamespace) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().Status().EventHub().Namespace().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusEventHubName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusEventHubName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusEventHubName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusEventHubName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusEventHubName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusEventHubName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusEventHubName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusEventHubName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().Status().EventHub().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusEventHubError struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusEventHubError) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusEventHubError) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusEventHubError) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusEventHubError) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusEventHubError) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusEventHubError) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusEventHubError) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().Error().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubError) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().Error().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubError) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().Error().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubError) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().Error().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubError) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().Status().EventHub().Error().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusEventHubConnectionSecret struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) Eq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) Neq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) Gt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) Gte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) Lt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) Lte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) In(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().ConnectionSecret().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) NotIn(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Status().EventHub().ConnectionSecret().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().ConnectionSecret().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().Status().EventHub().ConnectionSecret().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusEventHubConnectionSecret) compare(op gotenfilter.CompareOperator, value *secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().Status().EventHub().ConnectionSecret().WithValue(value),
 	})
 }

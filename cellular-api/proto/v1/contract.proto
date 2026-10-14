@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.cellular_api.v1;
 
+import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "goten-sdk/types/meta.proto";
 
@@ -54,5 +55,38 @@ message Contract {
     string cisco = 6;
 
     string celona = 7;
+  }
+
+  // Field 14: 8 to 13 belong to the eSIM and bundle fields of
+  // cloudwan/edgelq#1314, so the two can merge in either order.
+  Status status = 14 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+  // Status is written by the cellular-api controller of the owning region, not
+  // by users.
+  message Status {
+    // Unset for carriers without a data stream.
+    EventHub event_hub = 1;
+
+    // EventHub is the Azure event hub that receives the carrier's data stream
+    // of this Contract.
+    message EventHub {
+      // Event Hubs namespace, name only (without .servicebus.windows.net).
+      // Set together with name, once the event hub exists.
+      string namespace = 1;
+
+      // Name of the event hub in the namespace. Empty until it exists.
+      string name = 2;
+
+      // Why the last attempt failed. Empty after a successful one.
+      string error = 3;
+
+      // Secret that holds the connection string of the send policy, under the
+      // key "connection_string". It is created next to the carrier account
+      // Secret. The carrier side is registered with it by hand. DeleteContract
+      // deletes it, so the reference may dangle: unsetting it would write the
+      // Contract again and make the controller create the Secret it is
+      // deleting.
+      string connection_secret = 4;
+    }
   }
 }

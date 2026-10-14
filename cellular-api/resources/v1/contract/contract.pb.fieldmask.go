@@ -55,6 +55,7 @@ func FullContract_FieldMask() *Contract_FieldMask {
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatel})
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorCisco})
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorCelona})
+	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorStatus})
 	return res
 }
 
@@ -73,7 +74,7 @@ func (fieldMask *Contract_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Contract_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -103,12 +104,14 @@ func (fieldMask *Contract_FieldMask) Reset() {
 
 func (fieldMask *Contract_FieldMask) Subtract(other *Contract_FieldMask) *Contract_FieldMask {
 	result := &Contract_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[Contract_FieldPathSelector]gotenobject.FieldMask{
 		Contract_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
+		Contract_FieldPathSelectorStatus:   &Contract_Status_FieldMask{},
 	}
 	mySubMasks := map[Contract_FieldPathSelector]gotenobject.FieldMask{
 		Contract_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
+		Contract_FieldPathSelectorStatus:   &Contract_Status_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -126,6 +129,8 @@ func (fieldMask *Contract_FieldMask) Subtract(other *Contract_FieldMask) *Contra
 					switch tp.selector {
 					case Contract_FieldPathSelectorMetadata:
 						mySubMasks[Contract_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
+					case Contract_FieldPathSelectorStatus:
+						mySubMasks[Contract_FieldPathSelectorStatus] = FullContract_Status_FieldMask()
 					}
 				} else if tp, ok := path.(*Contract_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -301,6 +306,8 @@ func (fieldMask *Contract_FieldMask) Project(source *Contract) *Contract {
 	result := &Contract{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
+	statusMask := &Contract_Status_FieldMask{}
+	wholeStatusAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -331,16 +338,24 @@ func (fieldMask *Contract_FieldMask) Project(source *Contract) *Contract {
 						Celona: source.Celona,
 					}
 				}
+			case Contract_FieldPathSelectorStatus:
+				result.Status = source.Status
+				wholeStatusAccepted = true
 			}
 		case *Contract_FieldSubPath:
 			switch tp.selector {
 			case Contract_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
+			case Contract_FieldPathSelectorStatus:
+				statusMask.AppendPath(tp.subPath.(ContractStatus_FieldPath))
 			}
 		}
 	}
 	if wholeMetadataAccepted == false && len(metadataMask.Paths) > 0 {
 		result.Metadata = metadataMask.Project(source.GetMetadata())
+	}
+	if wholeStatusAccepted == false && len(statusMask.Paths) > 0 {
+		result.Status = statusMask.Project(source.GetStatus())
 	}
 	return result
 }
@@ -350,6 +365,514 @@ func (fieldMask *Contract_FieldMask) ProjectRaw(source gotenobject.GotenObjectEx
 }
 
 func (fieldMask *Contract_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Contract_Status_FieldMask struct {
+	Paths []ContractStatus_FieldPath
+}
+
+func FullContract_Status_FieldMask() *Contract_Status_FieldMask {
+	res := &Contract_Status_FieldMask{}
+	res.Paths = append(res.Paths, &ContractStatus_FieldTerminalPath{selector: ContractStatus_FieldPathSelectorEventHub})
+	return res
+}
+
+func (fieldMask *Contract_Status_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *Contract_Status_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ContractStatus_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Contract_Status_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseContractStatus_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Contract_Status_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Contract_Status_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Contract_Status_FieldMask) Subtract(other *Contract_Status_FieldMask) *Contract_Status_FieldMask {
+	result := &Contract_Status_FieldMask{}
+	removedSelectors := make([]bool, 1)
+	otherSubMasks := map[ContractStatus_FieldPathSelector]gotenobject.FieldMask{
+		ContractStatus_FieldPathSelectorEventHub: &Contract_Status_EventHub_FieldMask{},
+	}
+	mySubMasks := map[ContractStatus_FieldPathSelector]gotenobject.FieldMask{
+		ContractStatus_FieldPathSelectorEventHub: &Contract_Status_EventHub_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ContractStatus_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *ContractStatus_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*ContractStatus_FieldTerminalPath); ok {
+					switch tp.selector {
+					case ContractStatus_FieldPathSelectorEventHub:
+						mySubMasks[ContractStatus_FieldPathSelectorEventHub] = FullContract_Status_EventHub_FieldMask()
+					}
+				} else if tp, ok := path.(*ContractStatus_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &ContractStatus_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Contract_Status_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Contract_Status_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Contract_Status_FieldMask) FilterInputFields() *Contract_Status_FieldMask {
+	result := &Contract_Status_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Contract_Status_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Contract_Status_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ContractStatus_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseContractStatus_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Contract_Status_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Contract_Status_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Contract_Status_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Contract_Status_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Contract_Status_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Contract_Status_FieldMask) AppendPath(path ContractStatus_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Contract_Status_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ContractStatus_FieldPath))
+}
+
+func (fieldMask *Contract_Status_FieldMask) GetPaths() []ContractStatus_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Contract_Status_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Contract_Status_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseContractStatus_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Contract_Status_FieldMask) Set(target, source *Contract_Status) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Contract_Status_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Contract_Status), source.(*Contract_Status))
+}
+
+func (fieldMask *Contract_Status_FieldMask) Project(source *Contract_Status) *Contract_Status {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Contract_Status{}
+	eventHubMask := &Contract_Status_EventHub_FieldMask{}
+	wholeEventHubAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ContractStatus_FieldTerminalPath:
+			switch tp.selector {
+			case ContractStatus_FieldPathSelectorEventHub:
+				result.EventHub = source.EventHub
+				wholeEventHubAccepted = true
+			}
+		case *ContractStatus_FieldSubPath:
+			switch tp.selector {
+			case ContractStatus_FieldPathSelectorEventHub:
+				eventHubMask.AppendPath(tp.subPath.(ContractStatusEventHub_FieldPath))
+			}
+		}
+	}
+	if wholeEventHubAccepted == false && len(eventHubMask.Paths) > 0 {
+		result.EventHub = eventHubMask.Project(source.GetEventHub())
+	}
+	return result
+}
+
+func (fieldMask *Contract_Status_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Contract_Status))
+}
+
+func (fieldMask *Contract_Status_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Contract_Status_EventHub_FieldMask struct {
+	Paths []ContractStatusEventHub_FieldPath
+}
+
+func FullContract_Status_EventHub_FieldMask() *Contract_Status_EventHub_FieldMask {
+	res := &Contract_Status_EventHub_FieldMask{}
+	res.Paths = append(res.Paths, &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorNamespace})
+	res.Paths = append(res.Paths, &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorError})
+	res.Paths = append(res.Paths, &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorConnectionSecret})
+	return res
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ContractStatusEventHub_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseContractStatusEventHub_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) Subtract(other *Contract_Status_EventHub_FieldMask) *Contract_Status_EventHub_FieldMask {
+	result := &Contract_Status_EventHub_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ContractStatusEventHub_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Contract_Status_EventHub_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Contract_Status_EventHub_FieldMask) FilterInputFields() *Contract_Status_EventHub_FieldMask {
+	result := &Contract_Status_EventHub_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Contract_Status_EventHub_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ContractStatusEventHub_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseContractStatusEventHub_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Contract_Status_EventHub_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Contract_Status_EventHub_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) AppendPath(path ContractStatusEventHub_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ContractStatusEventHub_FieldPath))
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) GetPaths() []ContractStatusEventHub_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseContractStatusEventHub_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) Set(target, source *Contract_Status_EventHub) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Contract_Status_EventHub), source.(*Contract_Status_EventHub))
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) Project(source *Contract_Status_EventHub) *Contract_Status_EventHub {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Contract_Status_EventHub{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ContractStatusEventHub_FieldTerminalPath:
+			switch tp.selector {
+			case ContractStatusEventHub_FieldPathSelectorNamespace:
+				result.Namespace = source.Namespace
+			case ContractStatusEventHub_FieldPathSelectorName:
+				result.Name = source.Name
+			case ContractStatusEventHub_FieldPathSelectorError:
+				result.Error = source.Error
+			case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+				result.ConnectionSecret = source.ConnectionSecret
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Contract_Status_EventHub))
+}
+
+func (fieldMask *Contract_Status_EventHub_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

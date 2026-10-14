@@ -31,16 +31,17 @@ var (
 )
 
 var (
-	descriptorsInitialized      bool
-	contractServiceDescriptor   *ContractServiceDescriptor
-	getContractDescriptor       *GetContractDescriptor
-	batchGetContractsDescriptor *BatchGetContractsDescriptor
-	listContractsDescriptor     *ListContractsDescriptor
-	watchContractDescriptor     *WatchContractDescriptor
-	watchContractsDescriptor    *WatchContractsDescriptor
-	createContractDescriptor    *CreateContractDescriptor
-	updateContractDescriptor    *UpdateContractDescriptor
-	deleteContractDescriptor    *DeleteContractDescriptor
+	descriptorsInitialized           bool
+	contractServiceDescriptor        *ContractServiceDescriptor
+	getContractDescriptor            *GetContractDescriptor
+	batchGetContractsDescriptor      *BatchGetContractsDescriptor
+	listContractsDescriptor          *ListContractsDescriptor
+	watchContractDescriptor          *WatchContractDescriptor
+	watchContractsDescriptor         *WatchContractsDescriptor
+	createContractDescriptor         *CreateContractDescriptor
+	updateContractDescriptor         *UpdateContractDescriptor
+	deleteContractDescriptor         *DeleteContractDescriptor
+	subscribeCarrierEventsDescriptor *SubscribeCarrierEventsDescriptor
 )
 
 type GetContractDescriptor struct{}
@@ -1712,6 +1713,205 @@ func GetDeleteContractDescriptor() *DeleteContractDescriptor {
 	return deleteContractDescriptor
 }
 
+type SubscribeCarrierEventsDescriptor struct{}
+
+type SubscribeCarrierEventsDescriptorClientMsgHandle struct{}
+
+type SubscribeCarrierEventsDescriptorServerMsgHandle struct{}
+
+func (d *SubscribeCarrierEventsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SubscribeCarrierEventsRequest{}
+}
+
+func (d *SubscribeCarrierEventsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SubscribeCarrierEventsResponse{}
+}
+
+func (d *SubscribeCarrierEventsDescriptor) IsUnary() bool {
+	return false
+}
+
+func (d *SubscribeCarrierEventsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SubscribeCarrierEventsDescriptor) IsServerStream() bool {
+	return true
+}
+
+func (d *SubscribeCarrierEventsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *SubscribeCarrierEventsDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *SubscribeCarrierEventsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SubscribeCarrierEventsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetVerb() string {
+	return "subscribeCarrierEvents"
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetMethodName() string {
+	return "SubscribeCarrierEvents"
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetFullMethodName() string {
+	return "/ntt.cellular_api.v1.ContractService/SubscribeCarrierEvents"
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetProtoPkgName() string {
+	return "ntt.cellular_api.v1"
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetApiName() string {
+	return "ContractService"
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetServiceDomain() string {
+	return "cellular-api.edgelq.com"
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return contractServiceDescriptor
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return contract.GetDescriptor()
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SubscribeCarrierEventsDescriptorClientMsgHandle{}
+}
+
+func (d *SubscribeCarrierEventsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SubscribeCarrierEventsDescriptorServerMsgHandle{}
+}
+
+func (h *SubscribeCarrierEventsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SubscribeCarrierEventsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SubscribeCarrierEventsRequest) *contract.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*contract.Name)(nil)
+}
+
+func (h *SubscribeCarrierEventsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SubscribeCarrierEventsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SubscribeCarrierEventsRequest) []*contract.Name
+	})
+	if ok {
+		return contract.ContractNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SubscribeCarrierEventsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SubscribeCarrierEventsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SubscribeCarrierEventsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SubscribeCarrierEventsRequest) *contract.Contract
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SubscribeCarrierEventsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SubscribeCarrierEventsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SubscribeCarrierEventsRequest) []*contract.Contract
+	})
+	if ok {
+		return contract.ContractList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SubscribeCarrierEventsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SubscribeCarrierEventsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SubscribeCarrierEventsResponse) *contract.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SubscribeCarrierEventsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SubscribeCarrierEventsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SubscribeCarrierEventsResponse) []*contract.Name
+	})
+	if ok {
+		return contract.ContractNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SubscribeCarrierEventsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SubscribeCarrierEventsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SubscribeCarrierEventsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SubscribeCarrierEventsResponse) *contract.Contract
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SubscribeCarrierEventsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SubscribeCarrierEventsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SubscribeCarrierEventsResponse) []*contract.Contract
+	})
+	if ok {
+		return contract.ContractList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetSubscribeCarrierEventsDescriptor() *SubscribeCarrierEventsDescriptor {
+	return subscribeCarrierEventsDescriptor
+}
+
 type ContractServiceDescriptor struct{}
 
 func (d *ContractServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1724,6 +1924,7 @@ func (d *ContractServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodD
 		createContractDescriptor,
 		updateContractDescriptor,
 		deleteContractDescriptor,
+		subscribeCarrierEventsDescriptor,
 	}
 }
 
@@ -1761,6 +1962,7 @@ func initDescriptors() {
 	createContractDescriptor = &CreateContractDescriptor{}
 	updateContractDescriptor = &UpdateContractDescriptor{}
 	deleteContractDescriptor = &DeleteContractDescriptor{}
+	subscribeCarrierEventsDescriptor = &SubscribeCarrierEventsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(contractServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getContractDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetContractsDescriptor)
@@ -1770,6 +1972,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createContractDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateContractDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteContractDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(subscribeCarrierEventsDescriptor)
 }
 
 func init() {

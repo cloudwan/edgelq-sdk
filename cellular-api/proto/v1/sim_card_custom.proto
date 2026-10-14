@@ -2,8 +2,10 @@ syntax = "proto3";
 
 package ntt.cellular_api.v1;
 
+import "edgelq-sdk/cellular-api/carrier/carrier.proto";
 import "edgelq-sdk/cellular-api/proto/v1/sim_card.proto";
 import "edgelq-sdk/cellular-api/proto/v1/sim_card_change.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/sim_card;sim_card_client";
 option java_multiple_files = false;
@@ -41,3 +43,34 @@ message ReactivateRequest {
 
   string project = 2;
 }
+
+// Data usage for one aggregation period.
+message DataUsagePoint {
+  google.protobuf.Timestamp start_time = 1;
+
+  google.protobuf.Timestamp end_time = 2;
+
+  uint64 total_bytes = 3;
+
+  uint64 uplink_bytes = 4;
+
+  uint64 downlink_bytes = 5;
+}
+
+// A request message of the GetDataUsage method.
+message GetDataUsageRequest {
+  // Name of ntt.cellular_api.v1.SimCard
+  string name = 1;
+
+  // Inclusive start of the query window (UTC).
+  google.protobuf.Timestamp start_time = 2;
+
+  // Exclusive end of the query window (UTC).
+  google.protobuf.Timestamp end_time = 3;
+
+  // Period over which data usage is aggregated. UNSPECIFIED means DAILY.
+  ntt.cellular_api.carrier.DataUsageAggregationPeriod aggregation_period = 4;
+}
+
+// A response message of the GetDataUsage method.
+message GetDataUsageResponse { repeated DataUsagePoint points = 1; }

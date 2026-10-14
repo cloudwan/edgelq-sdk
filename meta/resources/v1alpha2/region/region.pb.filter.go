@@ -275,9 +275,12 @@ func (cond *FilterConditionNot) EvaluateRaw(res gotenresource.Resource) bool {
 func (cond *FilterConditionNot) Satisfies(other FilterCondition) bool {
 	switch tother := other.(type) {
 	case *FilterConditionNot:
-		return cond.FilterCondition.Satisfies(tother.FilterCondition)
+		// NOT A implies NOT B exactly when B implies A (contraposition).
+		return tother.FilterCondition.Satisfies(cond.FilterCondition)
 	default:
-		return !cond.FilterCondition.Satisfies(other)
+		// A negation proves nothing about a positive condition: failing to
+		// show A implies other says nothing about whether NOT A does.
+		return false
 	}
 }
 
@@ -507,6 +510,8 @@ func (cond *FilterConditionCompare) Evaluate(res *Region) bool {
 				return false
 			}
 		}
+		// A missing name is unequal to every concrete value ($ne semantics).
+		return cond.Operator == filterParser.Neq
 	}
 	// special evaluation for objects
 	if objValue, ok := cond.Region_FieldPathValue.GetRawValue().(proto.Message); ok {
@@ -520,10 +525,14 @@ func (cond *FilterConditionCompare) Evaluate(res *Region) bool {
 				return false
 			}
 		}
+		return cond.Operator == filterParser.Neq
 	}
 	cmpResult, comparable := cond.Region_FieldPathValue.CompareWith(res)
 	if !comparable {
-		return false
+		// A missing value is unequal to every concrete value. This matches
+		// MongoDB's $ne semantics and, importantly, means NOT(field != value)
+		// excludes missing fields consistently in memory and in MongoDB.
+		return cond.Operator == filterParser.Neq
 	}
 	return cond.Operator.MatchCompareResult(cmpResult)
 }
@@ -565,19 +574,22 @@ func (cond *FilterConditionCompare) Satisfies(other FilterCondition) bool {
 		}
 		return false
 	case *FilterConditionComposite:
-		if tother.Operator == filterParser.AND {
+		switch tother.Operator {
+		case filterParser.AND:
 			for _, othersubcnd := range tother.flattenConditions() {
 				if !cond.Satisfies(othersubcnd) {
 					return false
 				}
 			}
 			return true
-		} else { // OR
+		case filterParser.OR:
 			for _, othersubcnd := range tother.flattenConditions() {
 				if cond.Satisfies(othersubcnd) {
 					return true
 				}
 			}
+			return false
+		default:
 			return false
 		}
 	default:
@@ -697,11 +709,39 @@ func (cond *FilterConditionContains) Satisfies(other FilterCondition) bool {
 	switch tother := other.(type) {
 	case *FilterConditionContains:
 		if cond.ConditionContainsType().IsValue() && tother.ConditionContainsType().IsValue() {
-			othertmp := new(Region)
-			tother.Value.WithIValue(tother.GetRawFieldPathItemValue().GetRawItemValue()).SetTo(&othertmp)
-			return cond.Value.ContainsValue(othertmp)
+			if cond.FieldPath.String() != tother.FieldPath.String() {
+				return false
+			}
+			left, err := utils.JsonMarshal(cond.Value.GetRawItemValue())
+			if err != nil {
+				panic(err)
+			}
+			right, err := utils.JsonMarshal(tother.Value.GetRawItemValue())
+			if err != nil {
+				panic(err)
+			}
+			return string(left) == string(right)
 		}
 		return false
+	case *FilterConditionComposite:
+		switch tother.Operator {
+		case filterParser.AND:
+			for _, othersubcnd := range tother.flattenConditions() {
+				if !cond.Satisfies(othersubcnd) {
+					return false
+				}
+			}
+			return true
+		case filterParser.OR:
+			for _, othersubcnd := range tother.flattenConditions() {
+				if cond.Satisfies(othersubcnd) {
+					return true
+				}
+			}
+			return false
+		default:
+			return false
+		}
 	default:
 		return false
 	}

@@ -33,3 +33,14 @@ enum SimAction {
 
   TERMINATE = 4;
 }
+
+// Period over which data usage is aggregated.
+enum DataUsageAggregationPeriod {
+  DATA_USAGE_AGGREGATION_PERIOD_UNSPECIFIED = 0;
+
+  DATA_USAGE_AGGREGATION_PERIOD_HOURLY = 1;
+
+  DATA_USAGE_AGGREGATION_PERIOD_DAILY = 2;
+
+  DATA_USAGE_AGGREGATION_PERIOD_MONTHLY = 3;
+}

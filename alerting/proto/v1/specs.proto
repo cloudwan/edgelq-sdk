@@ -179,19 +179,21 @@ message TsCndSpec {
     // max_upper and min_lower are active all the time.
     // Adaptive thresholds are active when anomaly detectors
     // are not available (not defined or in training).
-    // It is also possible to set min_upper and max_lower thresholds,
-    // to avoid adaptive thresholds being to insensitive.
+    // It is also possible to set min_upper threshold,
+    // to avoid adaptive upper threshold being to insensitive.
+    // Only upper threshold can be adaptive, lower threshold
+    // is always fixed at min_lower.
     // Overall, alert is raised when value drops below
     // lower threshold or above upper threshold. Working
     // allowed range is between.
     // Values must always satisfy condition:
-    // Upper max > Upper min > Lower max > Lower min
+    // Upper max > Upper min > Lower min
     message AlertingThresholds {
       // Whether upper threshold should be set and adaptive.
       bool auto_adapt_upper = 1;
 
-      // Whether lower threshold should be set and adaptive.
-      bool auto_adapt_lower = 2;
+      // Deprecated: ignored. Lower threshold is never adaptive.
+      bool auto_adapt_lower = 2 [ deprecated = true ];
 
       // Maximum allowed upper threshold. When crossed ABOVE,
       // alert is raised. Can be set to nil, but in that
@@ -199,10 +201,9 @@ message TsCndSpec {
       // Adaptive upper threshold cannot be set above it.
       AlertingThreshold max_upper = 3;
 
-      // Minimum allowed lower threshold. When crossed BELOW,
+      // Lower threshold. When crossed BELOW,
       // alert is raised. Can be set to nil, but in that
       // case max_upper is mandatory.
-      // Adaptive lower threshold cannot be set below it.
       AlertingThreshold min_lower = 4;
 
       // Minimal allowed adaptive upper threshold.
@@ -211,11 +212,8 @@ message TsCndSpec {
       // It must be smaller than max_upper.
       AlertingThreshold min_upper = 5;
 
-      // Maximum allowed adaptive lower threshold.
-      // It is applicable only if auto_adapt_lower is true.
-      // Adaptive lower threshold cannot be set above it.
-      // It must be bigger than min_lower.
-      AlertingThreshold max_lower = 6;
+      // Deprecated: ignored. Lower threshold is never adaptive.
+      AlertingThreshold max_lower = 6 [ deprecated = true ];
 
       // Extra room factor for adaptive threshold calculation.
       // This multiplier determines additional buffer space above and below

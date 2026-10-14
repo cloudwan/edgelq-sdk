@@ -52,12 +52,40 @@ func (obj *Contract) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Contract", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.Status).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Contract", "status", obj.Status, "nested object validation failed", err)
+		}
+	}
 	switch opt := obj.CarrierAccount.(type) {
 	case *Contract_Transatel:
 	case *Contract_Cisco:
 	case *Contract_Celona:
 	default:
 		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Contract_Status) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.EventHub).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Status", "eventHub", obj.EventHub, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Contract_Status_EventHub) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

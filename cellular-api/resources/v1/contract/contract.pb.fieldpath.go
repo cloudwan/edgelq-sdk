@@ -76,6 +76,7 @@ const (
 	Contract_FieldPathSelectorTransatel Contract_FieldPathSelector = 3
 	Contract_FieldPathSelectorCisco     Contract_FieldPathSelector = 4
 	Contract_FieldPathSelectorCelona    Contract_FieldPathSelector = 5
+	Contract_FieldPathSelectorStatus    Contract_FieldPathSelector = 6
 )
 
 func (s Contract_FieldPathSelector) String() string {
@@ -92,6 +93,8 @@ func (s Contract_FieldPathSelector) String() string {
 		return "cisco"
 	case Contract_FieldPathSelectorCelona:
 		return "celona"
+	case Contract_FieldPathSelectorStatus:
+		return "status"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", s))
 	}
@@ -115,6 +118,8 @@ func BuildContract_FieldPath(fp gotenobject.RawFieldPath) (Contract_FieldPath, e
 			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorCisco}, nil
 		case "celona":
 			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorCelona}, nil
+		case "status":
+			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorStatus}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -123,6 +128,12 @@ func BuildContract_FieldPath(fp gotenobject.RawFieldPath) (Contract_FieldPath, e
 				return nil, err
 			} else {
 				return &Contract_FieldSubPath{selector: Contract_FieldPathSelectorMetadata, subPath: subpath}, nil
+			}
+		case "status":
+			if subpath, err := BuildContractStatus_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Contract_FieldSubPath{selector: Contract_FieldPathSelectorStatus, subPath: subpath}, nil
 			}
 		}
 	}
@@ -197,6 +208,10 @@ func (fp *Contract_FieldTerminalPath) Get(source *Contract) (values []interface{
 					values = append(values, source.Celona)
 				}
 			}
+		case Contract_FieldPathSelectorStatus:
+			if source.Status != nil {
+				values = append(values, source.Status)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Contract: %d", fp.selector))
 		}
@@ -252,6 +267,9 @@ func (fp *Contract_FieldTerminalPath) GetSingle(source *Contract) (interface{}, 
 		}
 		res := source.GetCelona()
 		return res, res != nil
+	case Contract_FieldPathSelectorStatus:
+		res := source.GetStatus()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fp.selector))
 	}
@@ -276,6 +294,8 @@ func (fp *Contract_FieldTerminalPath) GetDefault() interface{} {
 		return (*secrets_secret.Reference)(nil)
 	case Contract_FieldPathSelectorCelona:
 		return (*secrets_secret.Reference)(nil)
+	case Contract_FieldPathSelectorStatus:
+		return (*Contract_Status)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fp.selector))
 	}
@@ -302,6 +322,8 @@ func (fp *Contract_FieldTerminalPath) ClearValue(item *Contract) {
 			if item, ok := item.CarrierAccount.(*Contract_Celona); ok {
 				item.Celona = nil
 			}
+		case Contract_FieldPathSelectorStatus:
+			item.Status = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Contract: %d", fp.selector))
 		}
@@ -339,6 +361,8 @@ func (fp *Contract_FieldTerminalPath) WithIValue(value interface{}) Contract_Fie
 		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
 	case Contract_FieldPathSelectorCelona:
 		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
+	case Contract_FieldPathSelectorStatus:
+		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(*Contract_Status)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fp.selector))
 	}
@@ -363,6 +387,8 @@ func (fp *Contract_FieldTerminalPath) WithIArrayOfValues(values interface{}) Con
 		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
 	case Contract_FieldPathSelectorCelona:
 		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
+	case Contract_FieldPathSelectorStatus:
+		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]*Contract_Status)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fp.selector))
 	}
@@ -398,6 +424,10 @@ func (fps *Contract_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
+func (fps *Contract_FieldSubPath) AsStatusSubPath() (ContractStatus_FieldPath, bool) {
+	res, ok := fps.subPath.(ContractStatus_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *Contract_FieldSubPath) String() string {
@@ -414,6 +444,8 @@ func (fps *Contract_FieldSubPath) Get(source *Contract) (values []interface{}) {
 	switch fps.selector {
 	case Contract_FieldPathSelectorMetadata:
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Contract_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fps.selector))
 	}
@@ -432,6 +464,11 @@ func (fps *Contract_FieldSubPath) GetSingle(source *Contract) (interface{}, bool
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetMetadata())
+	case Contract_FieldPathSelectorStatus:
+		if source.GetStatus() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetStatus())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fps.selector))
 	}
@@ -451,6 +488,8 @@ func (fps *Contract_FieldSubPath) ClearValue(item *Contract) {
 		switch fps.selector {
 		case Contract_FieldPathSelectorMetadata:
 			fps.subPath.ClearValueRaw(item.Metadata)
+		case Contract_FieldPathSelectorStatus:
+			fps.subPath.ClearValueRaw(item.Status)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Contract: %d", fps.selector))
 		}
@@ -559,6 +598,10 @@ func (fpv *Contract_FieldTerminalPathValue) AsCelonaValue() (*secrets_secret.Ref
 	res, ok := fpv.value.(*secrets_secret.Reference)
 	return res, ok
 }
+func (fpv *Contract_FieldTerminalPathValue) AsStatusValue() (*Contract_Status, bool) {
+	res, ok := fpv.value.(*Contract_Status)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Contract
 func (fpv *Contract_FieldTerminalPathValue) SetTo(target **Contract) {
@@ -587,6 +630,8 @@ func (fpv *Contract_FieldTerminalPathValue) SetTo(target **Contract) {
 			(*target).CarrierAccount = &Contract_Celona{}
 		}
 		(*target).CarrierAccount.(*Contract_Celona).Celona = fpv.value.(*secrets_secret.Reference)
+	case Contract_FieldPathSelectorStatus:
+		(*target).Status = fpv.value.(*Contract_Status)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fpv.selector))
 	}
@@ -688,6 +733,8 @@ func (fpv *Contract_FieldTerminalPathValue) CompareWith(source *Contract) (int, 
 		} else {
 			return 1, true
 		}
+	case Contract_FieldPathSelectorStatus:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fpv.selector))
 	}
@@ -708,6 +755,10 @@ func (fpvs *Contract_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPa
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Contract_FieldSubPathValue) AsStatusPathValue() (ContractStatus_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ContractStatus_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *Contract_FieldSubPathValue) SetTo(target **Contract) {
 	if *target == nil {
@@ -716,6 +767,8 @@ func (fpvs *Contract_FieldSubPathValue) SetTo(target **Contract) {
 	switch fpvs.Selector() {
 	case Contract_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+	case Contract_FieldPathSelectorStatus:
+		fpvs.subPathValue.(ContractStatus_FieldPathValue).SetTo(&(*target).Status)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fpvs.Selector()))
 	}
@@ -734,6 +787,8 @@ func (fpvs *Contract_FieldSubPathValue) CompareWith(source *Contract) (int, bool
 	switch fpvs.Selector() {
 	case Contract_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+	case Contract_FieldPathSelectorStatus:
+		return fpvs.subPathValue.(ContractStatus_FieldPathValue).CompareWith(source.GetStatus())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fpvs.Selector()))
 	}
@@ -820,12 +875,18 @@ func (fpaivs *Contract_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (me
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Contract_FieldSubPathArrayItemValue) AsStatusPathItemValue() (ContractStatus_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ContractStatus_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Contract'
 func (fpaivs *Contract_FieldSubPathArrayItemValue) ContainsValue(source *Contract) bool {
 	switch fpaivs.Selector() {
 	case Contract_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+	case Contract_FieldPathSelectorStatus:
+		return fpaivs.subPathItemValue.(ContractStatus_FieldPathArrayItemValue).ContainsValue(source.GetStatus())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Contract: %d", fpaivs.Selector()))
 	}
@@ -890,6 +951,10 @@ func (fpaov *Contract_FieldTerminalPathArrayOfValues) GetRawValues() (values []i
 		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
 			values = append(values, v)
 		}
+	case Contract_FieldPathSelectorStatus:
+		for _, v := range fpaov.values.([]*Contract_Status) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -917,6 +982,10 @@ func (fpaov *Contract_FieldTerminalPathArrayOfValues) AsCelonaArrayOfValues() ([
 	res, ok := fpaov.values.([]*secrets_secret.Reference)
 	return res, ok
 }
+func (fpaov *Contract_FieldTerminalPathArrayOfValues) AsStatusArrayOfValues() ([]*Contract_Status, bool) {
+	res, ok := fpaov.values.([]*Contract_Status)
+	return res, ok
+}
 
 type Contract_FieldSubPathArrayOfValues struct {
 	Contract_FieldPath
@@ -930,5 +999,1106 @@ func (fpsaov *Contract_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 }
 func (fpsaov *Contract_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Contract_FieldSubPathArrayOfValues) AsStatusPathArrayOfValues() (ContractStatus_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ContractStatus_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ContractStatus_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ContractStatus_FieldPathSelector
+	Get(source *Contract_Status) []interface{}
+	GetSingle(source *Contract_Status) (interface{}, bool)
+	ClearValue(item *Contract_Status)
+
+	// Those methods build corresponding ContractStatus_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ContractStatus_FieldPathValue
+	WithIArrayOfValues(values interface{}) ContractStatus_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ContractStatus_FieldPathArrayItemValue
+}
+
+type ContractStatus_FieldPathSelector int32
+
+const (
+	ContractStatus_FieldPathSelectorEventHub ContractStatus_FieldPathSelector = 0
+)
+
+func (s ContractStatus_FieldPathSelector) String() string {
+	switch s {
+	case ContractStatus_FieldPathSelectorEventHub:
+		return "event_hub"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", s))
+	}
+}
+
+func BuildContractStatus_FieldPath(fp gotenobject.RawFieldPath) (ContractStatus_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Contract_Status")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "event_hub", "eventHub", "event-hub":
+			return &ContractStatus_FieldTerminalPath{selector: ContractStatus_FieldPathSelectorEventHub}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "event_hub", "eventHub", "event-hub":
+			if subpath, err := BuildContractStatusEventHub_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ContractStatus_FieldSubPath{selector: ContractStatus_FieldPathSelectorEventHub, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Contract_Status", fp)
+}
+
+func ParseContractStatus_FieldPath(rawField string) (ContractStatus_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildContractStatus_FieldPath(fp)
+}
+
+func MustParseContractStatus_FieldPath(rawField string) ContractStatus_FieldPath {
+	fp, err := ParseContractStatus_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ContractStatus_FieldTerminalPath struct {
+	selector ContractStatus_FieldPathSelector
+}
+
+var _ ContractStatus_FieldPath = (*ContractStatus_FieldTerminalPath)(nil)
+
+func (fp *ContractStatus_FieldTerminalPath) Selector() ContractStatus_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ContractStatus_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ContractStatus_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Contract_Status
+func (fp *ContractStatus_FieldTerminalPath) Get(source *Contract_Status) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ContractStatus_FieldPathSelectorEventHub:
+			if source.EventHub != nil {
+				values = append(values, source.EventHub)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ContractStatus_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Contract_Status))
+}
+
+// GetSingle returns value pointed by specific field of from source Contract_Status
+func (fp *ContractStatus_FieldTerminalPath) GetSingle(source *Contract_Status) (interface{}, bool) {
+	switch fp.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		res := source.GetEventHub()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fp.selector))
+	}
+}
+
+func (fp *ContractStatus_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Contract_Status))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ContractStatus_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		return (*Contract_Status_EventHub)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fp.selector))
+	}
+}
+
+func (fp *ContractStatus_FieldTerminalPath) ClearValue(item *Contract_Status) {
+	if item != nil {
+		switch fp.selector {
+		case ContractStatus_FieldPathSelectorEventHub:
+			item.EventHub = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ContractStatus_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Contract_Status))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ContractStatus_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *ContractStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ContractStatus_FieldTerminalPath) WithIValue(value interface{}) ContractStatus_FieldPathValue {
+	switch fp.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		return &ContractStatus_FieldTerminalPathValue{ContractStatus_FieldTerminalPath: *fp, value: value.(*Contract_Status_EventHub)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fp.selector))
+	}
+}
+
+func (fp *ContractStatus_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ContractStatus_FieldTerminalPath) WithIArrayOfValues(values interface{}) ContractStatus_FieldPathArrayOfValues {
+	fpaov := &ContractStatus_FieldTerminalPathArrayOfValues{ContractStatus_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		return &ContractStatus_FieldTerminalPathArrayOfValues{ContractStatus_FieldTerminalPath: *fp, values: values.([]*Contract_Status_EventHub)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ContractStatus_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ContractStatus_FieldTerminalPath) WithIArrayItemValue(value interface{}) ContractStatus_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fp.selector))
+	}
+}
+
+func (fp *ContractStatus_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type ContractStatus_FieldSubPath struct {
+	selector ContractStatus_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ ContractStatus_FieldPath = (*ContractStatus_FieldSubPath)(nil)
+
+func (fps *ContractStatus_FieldSubPath) Selector() ContractStatus_FieldPathSelector {
+	return fps.selector
+}
+func (fps *ContractStatus_FieldSubPath) AsEventHubSubPath() (ContractStatusEventHub_FieldPath, bool) {
+	res, ok := fps.subPath.(ContractStatusEventHub_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *ContractStatus_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *ContractStatus_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Contract_Status
+func (fps *ContractStatus_FieldSubPath) Get(source *Contract_Status) (values []interface{}) {
+	switch fps.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		values = append(values, fps.subPath.GetRaw(source.GetEventHub())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *ContractStatus_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Contract_Status))
+}
+
+// GetSingle returns value of selected field from source Contract_Status
+func (fps *ContractStatus_FieldSubPath) GetSingle(source *Contract_Status) (interface{}, bool) {
+	switch fps.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		if source.GetEventHub() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetEventHub())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fps.selector))
+	}
+}
+
+func (fps *ContractStatus_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Contract_Status))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *ContractStatus_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *ContractStatus_FieldSubPath) ClearValue(item *Contract_Status) {
+	if item != nil {
+		switch fps.selector {
+		case ContractStatus_FieldPathSelectorEventHub:
+			fps.subPath.ClearValueRaw(item.EventHub)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *ContractStatus_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Contract_Status))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *ContractStatus_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *ContractStatus_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ContractStatus_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *ContractStatus_FieldSubPath) WithIValue(value interface{}) ContractStatus_FieldPathValue {
+	return &ContractStatus_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *ContractStatus_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *ContractStatus_FieldSubPath) WithIArrayOfValues(values interface{}) ContractStatus_FieldPathArrayOfValues {
+	return &ContractStatus_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *ContractStatus_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *ContractStatus_FieldSubPath) WithIArrayItemValue(value interface{}) ContractStatus_FieldPathArrayItemValue {
+	return &ContractStatus_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *ContractStatus_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// ContractStatus_FieldPathValue allows storing values for Status fields according to their type
+type ContractStatus_FieldPathValue interface {
+	ContractStatus_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Contract_Status)
+	CompareWith(*Contract_Status) (cmp int, comparable bool)
+}
+
+func ParseContractStatus_FieldPathValue(pathStr, valueStr string) (ContractStatus_FieldPathValue, error) {
+	fp, err := ParseContractStatus_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Status field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ContractStatus_FieldPathValue), nil
+}
+
+func MustParseContractStatus_FieldPathValue(pathStr, valueStr string) ContractStatus_FieldPathValue {
+	fpv, err := ParseContractStatus_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ContractStatus_FieldTerminalPathValue struct {
+	ContractStatus_FieldTerminalPath
+	value interface{}
+}
+
+var _ ContractStatus_FieldPathValue = (*ContractStatus_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Status' as interface{}
+func (fpv *ContractStatus_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ContractStatus_FieldTerminalPathValue) AsEventHubValue() (*Contract_Status_EventHub, bool) {
+	res, ok := fpv.value.(*Contract_Status_EventHub)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Status
+func (fpv *ContractStatus_FieldTerminalPathValue) SetTo(target **Contract_Status) {
+	if *target == nil {
+		*target = new(Contract_Status)
+	}
+	switch fpv.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		(*target).EventHub = fpv.value.(*Contract_Status_EventHub)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fpv.selector))
+	}
+}
+
+func (fpv *ContractStatus_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Contract_Status)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ContractStatus_FieldTerminalPathValue' with the value under path in 'Contract_Status'.
+func (fpv *ContractStatus_FieldTerminalPathValue) CompareWith(source *Contract_Status) (int, bool) {
+	switch fpv.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fpv.selector))
+	}
+}
+
+func (fpv *ContractStatus_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Contract_Status))
+}
+
+type ContractStatus_FieldSubPathValue struct {
+	ContractStatus_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ ContractStatus_FieldPathValue = (*ContractStatus_FieldSubPathValue)(nil)
+
+func (fpvs *ContractStatus_FieldSubPathValue) AsEventHubPathValue() (ContractStatusEventHub_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ContractStatusEventHub_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *ContractStatus_FieldSubPathValue) SetTo(target **Contract_Status) {
+	if *target == nil {
+		*target = new(Contract_Status)
+	}
+	switch fpvs.Selector() {
+	case ContractStatus_FieldPathSelectorEventHub:
+		fpvs.subPathValue.(ContractStatusEventHub_FieldPathValue).SetTo(&(*target).EventHub)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ContractStatus_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Contract_Status)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *ContractStatus_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *ContractStatus_FieldSubPathValue) CompareWith(source *Contract_Status) (int, bool) {
+	switch fpvs.Selector() {
+	case ContractStatus_FieldPathSelectorEventHub:
+		return fpvs.subPathValue.(ContractStatusEventHub_FieldPathValue).CompareWith(source.GetEventHub())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ContractStatus_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Contract_Status))
+}
+
+// ContractStatus_FieldPathArrayItemValue allows storing single item in Path-specific values for Status according to their type
+// Present only for array (repeated) types.
+type ContractStatus_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ContractStatus_FieldPath
+	ContainsValue(*Contract_Status) bool
+}
+
+// ParseContractStatus_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseContractStatus_FieldPathArrayItemValue(pathStr, valueStr string) (ContractStatus_FieldPathArrayItemValue, error) {
+	fp, err := ParseContractStatus_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Status field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ContractStatus_FieldPathArrayItemValue), nil
+}
+
+func MustParseContractStatus_FieldPathArrayItemValue(pathStr, valueStr string) ContractStatus_FieldPathArrayItemValue {
+	fpaiv, err := ParseContractStatus_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ContractStatus_FieldTerminalPathArrayItemValue struct {
+	ContractStatus_FieldTerminalPath
+	value interface{}
+}
+
+var _ ContractStatus_FieldPathArrayItemValue = (*ContractStatus_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Contract_Status as interface{}
+func (fpaiv *ContractStatus_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ContractStatus_FieldTerminalPathArrayItemValue) GetSingle(source *Contract_Status) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ContractStatus_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Contract_Status))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Status'
+func (fpaiv *ContractStatus_FieldTerminalPathArrayItemValue) ContainsValue(source *Contract_Status) bool {
+	slice := fpaiv.ContractStatus_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type ContractStatus_FieldSubPathArrayItemValue struct {
+	ContractStatus_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *ContractStatus_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *ContractStatus_FieldSubPathArrayItemValue) AsEventHubPathItemValue() (ContractStatusEventHub_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ContractStatusEventHub_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Status'
+func (fpaivs *ContractStatus_FieldSubPathArrayItemValue) ContainsValue(source *Contract_Status) bool {
+	switch fpaivs.Selector() {
+	case ContractStatus_FieldPathSelectorEventHub:
+		return fpaivs.subPathItemValue.(ContractStatusEventHub_FieldPathArrayItemValue).ContainsValue(source.GetEventHub())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status: %d", fpaivs.Selector()))
+	}
+}
+
+// ContractStatus_FieldPathArrayOfValues allows storing slice of values for Status fields according to their type
+type ContractStatus_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ContractStatus_FieldPath
+}
+
+func ParseContractStatus_FieldPathArrayOfValues(pathStr, valuesStr string) (ContractStatus_FieldPathArrayOfValues, error) {
+	fp, err := ParseContractStatus_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Status field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ContractStatus_FieldPathArrayOfValues), nil
+}
+
+func MustParseContractStatus_FieldPathArrayOfValues(pathStr, valuesStr string) ContractStatus_FieldPathArrayOfValues {
+	fpaov, err := ParseContractStatus_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ContractStatus_FieldTerminalPathArrayOfValues struct {
+	ContractStatus_FieldTerminalPath
+	values interface{}
+}
+
+var _ ContractStatus_FieldPathArrayOfValues = (*ContractStatus_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ContractStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ContractStatus_FieldPathSelectorEventHub:
+		for _, v := range fpaov.values.([]*Contract_Status_EventHub) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ContractStatus_FieldTerminalPathArrayOfValues) AsEventHubArrayOfValues() ([]*Contract_Status_EventHub, bool) {
+	res, ok := fpaov.values.([]*Contract_Status_EventHub)
+	return res, ok
+}
+
+type ContractStatus_FieldSubPathArrayOfValues struct {
+	ContractStatus_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ ContractStatus_FieldPathArrayOfValues = (*ContractStatus_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *ContractStatus_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ContractStatus_FieldSubPathArrayOfValues) AsEventHubPathArrayOfValues() (ContractStatusEventHub_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ContractStatusEventHub_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ContractStatusEventHub_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ContractStatusEventHub_FieldPathSelector
+	Get(source *Contract_Status_EventHub) []interface{}
+	GetSingle(source *Contract_Status_EventHub) (interface{}, bool)
+	ClearValue(item *Contract_Status_EventHub)
+
+	// Those methods build corresponding ContractStatusEventHub_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ContractStatusEventHub_FieldPathValue
+	WithIArrayOfValues(values interface{}) ContractStatusEventHub_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ContractStatusEventHub_FieldPathArrayItemValue
+}
+
+type ContractStatusEventHub_FieldPathSelector int32
+
+const (
+	ContractStatusEventHub_FieldPathSelectorNamespace        ContractStatusEventHub_FieldPathSelector = 0
+	ContractStatusEventHub_FieldPathSelectorName             ContractStatusEventHub_FieldPathSelector = 1
+	ContractStatusEventHub_FieldPathSelectorError            ContractStatusEventHub_FieldPathSelector = 2
+	ContractStatusEventHub_FieldPathSelectorConnectionSecret ContractStatusEventHub_FieldPathSelector = 3
+)
+
+func (s ContractStatusEventHub_FieldPathSelector) String() string {
+	switch s {
+	case ContractStatusEventHub_FieldPathSelectorNamespace:
+		return "namespace"
+	case ContractStatusEventHub_FieldPathSelectorName:
+		return "name"
+	case ContractStatusEventHub_FieldPathSelectorError:
+		return "error"
+	case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+		return "connection_secret"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", s))
+	}
+}
+
+func BuildContractStatusEventHub_FieldPath(fp gotenobject.RawFieldPath) (ContractStatusEventHub_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Contract_Status_EventHub")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "namespace":
+			return &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorNamespace}, nil
+		case "name":
+			return &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorName}, nil
+		case "error":
+			return &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorError}, nil
+		case "connection_secret", "connectionSecret", "connection-secret":
+			return &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorConnectionSecret}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Contract_Status_EventHub", fp)
+}
+
+func ParseContractStatusEventHub_FieldPath(rawField string) (ContractStatusEventHub_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildContractStatusEventHub_FieldPath(fp)
+}
+
+func MustParseContractStatusEventHub_FieldPath(rawField string) ContractStatusEventHub_FieldPath {
+	fp, err := ParseContractStatusEventHub_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ContractStatusEventHub_FieldTerminalPath struct {
+	selector ContractStatusEventHub_FieldPathSelector
+}
+
+var _ ContractStatusEventHub_FieldPath = (*ContractStatusEventHub_FieldTerminalPath)(nil)
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) Selector() ContractStatusEventHub_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ContractStatusEventHub_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ContractStatusEventHub_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Contract_Status_EventHub
+func (fp *ContractStatusEventHub_FieldTerminalPath) Get(source *Contract_Status_EventHub) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ContractStatusEventHub_FieldPathSelectorNamespace:
+			values = append(values, source.Namespace)
+		case ContractStatusEventHub_FieldPathSelectorName:
+			values = append(values, source.Name)
+		case ContractStatusEventHub_FieldPathSelectorError:
+			values = append(values, source.Error)
+		case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+			if source.ConnectionSecret != nil {
+				values = append(values, source.ConnectionSecret)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Contract_Status_EventHub))
+}
+
+// GetSingle returns value pointed by specific field of from source Contract_Status_EventHub
+func (fp *ContractStatusEventHub_FieldTerminalPath) GetSingle(source *Contract_Status_EventHub) (interface{}, bool) {
+	switch fp.selector {
+	case ContractStatusEventHub_FieldPathSelectorNamespace:
+		return source.GetNamespace(), source != nil
+	case ContractStatusEventHub_FieldPathSelectorName:
+		return source.GetName(), source != nil
+	case ContractStatusEventHub_FieldPathSelectorError:
+		return source.GetError(), source != nil
+	case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+		res := source.GetConnectionSecret()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fp.selector))
+	}
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Contract_Status_EventHub))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ContractStatusEventHub_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ContractStatusEventHub_FieldPathSelectorNamespace:
+		return ""
+	case ContractStatusEventHub_FieldPathSelectorName:
+		return ""
+	case ContractStatusEventHub_FieldPathSelectorError:
+		return ""
+	case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+		return (*secrets_secret.Reference)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fp.selector))
+	}
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) ClearValue(item *Contract_Status_EventHub) {
+	if item != nil {
+		switch fp.selector {
+		case ContractStatusEventHub_FieldPathSelectorNamespace:
+			item.Namespace = ""
+		case ContractStatusEventHub_FieldPathSelectorName:
+			item.Name = ""
+		case ContractStatusEventHub_FieldPathSelectorError:
+			item.Error = ""
+		case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+			item.ConnectionSecret = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Contract_Status_EventHub))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ContractStatusEventHub_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ContractStatusEventHub_FieldPathSelectorNamespace ||
+		fp.selector == ContractStatusEventHub_FieldPathSelectorName ||
+		fp.selector == ContractStatusEventHub_FieldPathSelectorError ||
+		fp.selector == ContractStatusEventHub_FieldPathSelectorConnectionSecret
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) WithIValue(value interface{}) ContractStatusEventHub_FieldPathValue {
+	switch fp.selector {
+	case ContractStatusEventHub_FieldPathSelectorNamespace:
+		return &ContractStatusEventHub_FieldTerminalPathValue{ContractStatusEventHub_FieldTerminalPath: *fp, value: value.(string)}
+	case ContractStatusEventHub_FieldPathSelectorName:
+		return &ContractStatusEventHub_FieldTerminalPathValue{ContractStatusEventHub_FieldTerminalPath: *fp, value: value.(string)}
+	case ContractStatusEventHub_FieldPathSelectorError:
+		return &ContractStatusEventHub_FieldTerminalPathValue{ContractStatusEventHub_FieldTerminalPath: *fp, value: value.(string)}
+	case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+		return &ContractStatusEventHub_FieldTerminalPathValue{ContractStatusEventHub_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fp.selector))
+	}
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) WithIArrayOfValues(values interface{}) ContractStatusEventHub_FieldPathArrayOfValues {
+	fpaov := &ContractStatusEventHub_FieldTerminalPathArrayOfValues{ContractStatusEventHub_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ContractStatusEventHub_FieldPathSelectorNamespace:
+		return &ContractStatusEventHub_FieldTerminalPathArrayOfValues{ContractStatusEventHub_FieldTerminalPath: *fp, values: values.([]string)}
+	case ContractStatusEventHub_FieldPathSelectorName:
+		return &ContractStatusEventHub_FieldTerminalPathArrayOfValues{ContractStatusEventHub_FieldTerminalPath: *fp, values: values.([]string)}
+	case ContractStatusEventHub_FieldPathSelectorError:
+		return &ContractStatusEventHub_FieldTerminalPathArrayOfValues{ContractStatusEventHub_FieldTerminalPath: *fp, values: values.([]string)}
+	case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+		return &ContractStatusEventHub_FieldTerminalPathArrayOfValues{ContractStatusEventHub_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) WithIArrayItemValue(value interface{}) ContractStatusEventHub_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fp.selector))
+	}
+}
+
+func (fp *ContractStatusEventHub_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ContractStatusEventHub_FieldPathValue allows storing values for EventHub fields according to their type
+type ContractStatusEventHub_FieldPathValue interface {
+	ContractStatusEventHub_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Contract_Status_EventHub)
+	CompareWith(*Contract_Status_EventHub) (cmp int, comparable bool)
+}
+
+func ParseContractStatusEventHub_FieldPathValue(pathStr, valueStr string) (ContractStatusEventHub_FieldPathValue, error) {
+	fp, err := ParseContractStatusEventHub_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing EventHub field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ContractStatusEventHub_FieldPathValue), nil
+}
+
+func MustParseContractStatusEventHub_FieldPathValue(pathStr, valueStr string) ContractStatusEventHub_FieldPathValue {
+	fpv, err := ParseContractStatusEventHub_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ContractStatusEventHub_FieldTerminalPathValue struct {
+	ContractStatusEventHub_FieldTerminalPath
+	value interface{}
+}
+
+var _ ContractStatusEventHub_FieldPathValue = (*ContractStatusEventHub_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'EventHub' as interface{}
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) AsNamespaceValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) AsNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) AsErrorValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) AsConnectionSecretValue() (*secrets_secret.Reference, bool) {
+	res, ok := fpv.value.(*secrets_secret.Reference)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object EventHub
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) SetTo(target **Contract_Status_EventHub) {
+	if *target == nil {
+		*target = new(Contract_Status_EventHub)
+	}
+	switch fpv.selector {
+	case ContractStatusEventHub_FieldPathSelectorNamespace:
+		(*target).Namespace = fpv.value.(string)
+	case ContractStatusEventHub_FieldPathSelectorName:
+		(*target).Name = fpv.value.(string)
+	case ContractStatusEventHub_FieldPathSelectorError:
+		(*target).Error = fpv.value.(string)
+	case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+		(*target).ConnectionSecret = fpv.value.(*secrets_secret.Reference)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fpv.selector))
+	}
+}
+
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Contract_Status_EventHub)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ContractStatusEventHub_FieldTerminalPathValue' with the value under path in 'Contract_Status_EventHub'.
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) CompareWith(source *Contract_Status_EventHub) (int, bool) {
+	switch fpv.selector {
+	case ContractStatusEventHub_FieldPathSelectorNamespace:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetNamespace()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ContractStatusEventHub_FieldPathSelectorName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ContractStatusEventHub_FieldPathSelectorError:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetError()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+		leftValue := fpv.value.(*secrets_secret.Reference)
+		rightValue := source.GetConnectionSecret()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_Status_EventHub: %d", fpv.selector))
+	}
+}
+
+func (fpv *ContractStatusEventHub_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Contract_Status_EventHub))
+}
+
+// ContractStatusEventHub_FieldPathArrayItemValue allows storing single item in Path-specific values for EventHub according to their type
+// Present only for array (repeated) types.
+type ContractStatusEventHub_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ContractStatusEventHub_FieldPath
+	ContainsValue(*Contract_Status_EventHub) bool
+}
+
+// ParseContractStatusEventHub_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseContractStatusEventHub_FieldPathArrayItemValue(pathStr, valueStr string) (ContractStatusEventHub_FieldPathArrayItemValue, error) {
+	fp, err := ParseContractStatusEventHub_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing EventHub field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ContractStatusEventHub_FieldPathArrayItemValue), nil
+}
+
+func MustParseContractStatusEventHub_FieldPathArrayItemValue(pathStr, valueStr string) ContractStatusEventHub_FieldPathArrayItemValue {
+	fpaiv, err := ParseContractStatusEventHub_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ContractStatusEventHub_FieldTerminalPathArrayItemValue struct {
+	ContractStatusEventHub_FieldTerminalPath
+	value interface{}
+}
+
+var _ ContractStatusEventHub_FieldPathArrayItemValue = (*ContractStatusEventHub_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Contract_Status_EventHub as interface{}
+func (fpaiv *ContractStatusEventHub_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ContractStatusEventHub_FieldTerminalPathArrayItemValue) GetSingle(source *Contract_Status_EventHub) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ContractStatusEventHub_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Contract_Status_EventHub))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'EventHub'
+func (fpaiv *ContractStatusEventHub_FieldTerminalPathArrayItemValue) ContainsValue(source *Contract_Status_EventHub) bool {
+	slice := fpaiv.ContractStatusEventHub_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ContractStatusEventHub_FieldPathArrayOfValues allows storing slice of values for EventHub fields according to their type
+type ContractStatusEventHub_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ContractStatusEventHub_FieldPath
+}
+
+func ParseContractStatusEventHub_FieldPathArrayOfValues(pathStr, valuesStr string) (ContractStatusEventHub_FieldPathArrayOfValues, error) {
+	fp, err := ParseContractStatusEventHub_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing EventHub field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ContractStatusEventHub_FieldPathArrayOfValues), nil
+}
+
+func MustParseContractStatusEventHub_FieldPathArrayOfValues(pathStr, valuesStr string) ContractStatusEventHub_FieldPathArrayOfValues {
+	fpaov, err := ParseContractStatusEventHub_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ContractStatusEventHub_FieldTerminalPathArrayOfValues struct {
+	ContractStatusEventHub_FieldTerminalPath
+	values interface{}
+}
+
+var _ ContractStatusEventHub_FieldPathArrayOfValues = (*ContractStatusEventHub_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ContractStatusEventHub_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ContractStatusEventHub_FieldPathSelectorNamespace:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ContractStatusEventHub_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ContractStatusEventHub_FieldPathSelectorError:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case ContractStatusEventHub_FieldPathSelectorConnectionSecret:
+		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ContractStatusEventHub_FieldTerminalPathArrayOfValues) AsNamespaceArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ContractStatusEventHub_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ContractStatusEventHub_FieldTerminalPathArrayOfValues) AsErrorArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ContractStatusEventHub_FieldTerminalPathArrayOfValues) AsConnectionSecretArrayOfValues() ([]*secrets_secret.Reference, bool) {
+	res, ok := fpaov.values.([]*secrets_secret.Reference)
 	return res, ok
 }

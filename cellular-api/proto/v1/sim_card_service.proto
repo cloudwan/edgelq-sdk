@@ -454,4 +454,11 @@ service SimCardService {
       post : "/v1/{name=projects/*/regions/*/simCards/*}:reactivate"
     };
   }
+
+  // GetDataUsage
+  rpc GetDataUsage(GetDataUsageRequest) returns (GetDataUsageResponse) {
+    option (google.api.http) = {
+      get : "/v1/{name=projects/*/regions/*/simCards/*}:getDataUsage"
+    };
+  }
 }

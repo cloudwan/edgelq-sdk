@@ -19,6 +19,15 @@ resources:
 - name: Contract
   multiRegion:
     syncType: ALWAYS_GLOBALLY
+  actions:
+  # Streams the events the carrier sends for the Contract, so an operator can check a
+  # data stream by triggering a test event.
+  - name: SubscribeCarrierEvents
+    verb: subscribeCarrierEvents
+    streamingResponse: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
 - name: SimCardStock
   idPattern: "\\\\d{19}"
   multiRegion:
@@ -67,3 +76,10 @@ resources:
     skipResponseMsgGen: true
     withStoreHandle:
       transaction: SNAPSHOT
+  - name: GetDataUsage
+    verb: getDataUsage
+    grpcTranscoding:
+      httpMethod: get
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE

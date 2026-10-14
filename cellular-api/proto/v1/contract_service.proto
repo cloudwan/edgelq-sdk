@@ -4,6 +4,7 @@ package ntt.cellular_api.v1;
 
 import "edgelq-sdk/cellular-api/proto/v1/contract.proto";
 import "edgelq-sdk/cellular-api/proto/v1/contract_change.proto";
+import "edgelq-sdk/cellular-api/proto/v1/contract_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -415,6 +416,14 @@ service ContractService {
   rpc DeleteContract(DeleteContractRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete : "/v1/{name=contracts/*}"
+    };
+  }
+
+  // SubscribeCarrierEvents
+  rpc SubscribeCarrierEvents(SubscribeCarrierEventsRequest)
+      returns (stream SubscribeCarrierEventsResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=contracts/*}:subscribeCarrierEvents"
     };
   }
 }

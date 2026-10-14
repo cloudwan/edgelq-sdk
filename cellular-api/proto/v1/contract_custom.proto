@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package ntt.cellular_api.v1;
+
+import "edgelq-sdk/cellular-api/proto/v1/sim_card.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/contract;contract_client";
+option java_multiple_files = false;
+option java_outer_classname = "ContractCustomProto";
+option java_package = "com.ntt.cellular_api.pb.v1";
+
+// A request message of the SubscribeCarrierEvents method. Streams read with the
+// region's operator consumer group, and Event Hubs allows 5 readers of one
+// group per partition, so a 6th concurrent stream in a region fails.
+message SubscribeCarrierEventsRequest {
+  // Name of ntt.cellular_api.v1.Contract
+  string name = 1;
+
+  // Events enqueued within this period before the call are replayed first.
+  // Default 0: only events that arrive after the call. At most 24h.
+  google.protobuf.Duration lookback = 2;
+
+  // The stream ends after this period. Default 1m, at most 1h.
+  google.protobuf.Duration timeout = 3;
+
+  // Only events of the SIM card with this ICCID. Empty: every SIM card.
+  string iccid = 4;
+
+  // Only events of these types, as the carrier names them (for Transatel,
+  // e.g. "NETWORK/LOCATION-UPDATE/ACCEPTED"). An entry ending in "*" matches by
+  // prefix ("NETWORK/*"). Empty: every type. With a SIM card filter, both must
+  // match.
+  repeated string event_types = 5;
+
+  // Only events of this SIM card, whose id is its ICCID. Same as iccid, so
+  // setting both needs them to agree. The SimCard is not read: it may not
+  // exist (anymore), and the events still tell about it.
+  string sim_card = 6;
+}
+
+// A response message of the SubscribeCarrierEvents method, one per event.
+message SubscribeCarrierEventsResponse {
+  string partition_id = 1;
+
+  int64 sequence_number = 2;
+
+  // When the event was received.
+  google.protobuf.Timestamp enqueued_time = 3;
+
+  // Event body as the carrier sent it (JSON for Transatel).
+  string body = 4;
+
+  // Type of the event, as the carrier names it. Empty if it cannot be read.
+  string event_type = 5;
+
+  // ICCID of the SIM card the event is about. Empty if it cannot be read.
+  string iccid = 6;
+}

@@ -20,8 +20,10 @@ import (
 
 // proto imports
 import (
+	carrier "github.com/cloudwan/edgelq-sdk/cellular-api/carrier"
 	sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -39,8 +41,10 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &carrier.TransatelAccount{}
 	_ = &sim_card.SimCard{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &timestamppb.Timestamp{}
 )
 
 func (obj *ActivateRequest) GotenValidate() error {
@@ -73,6 +77,46 @@ func (obj *TerminateRequest) GotenValidate() error {
 func (obj *ReactivateRequest) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DataUsagePoint) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *GetDataUsageRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if obj.StartTime == nil {
+		return gotenvalidate.NewValidationError("GetDataUsageRequest", "startTime", obj.StartTime, "field is required", nil)
+	}
+	if obj.EndTime == nil {
+		return gotenvalidate.NewValidationError("GetDataUsageRequest", "endTime", obj.EndTime, "field is required", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *GetDataUsageResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Points {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("GetDataUsageResponse", "points", obj.Points[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

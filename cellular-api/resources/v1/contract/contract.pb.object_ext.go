@@ -105,6 +105,16 @@ func (o *Contract) MakeDiffFieldMask(other *Contract) *Contract_FieldMask {
 			res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorCelona})
 		}
 	}
+	{
+		subMask := o.GetStatus().MakeDiffFieldMask(other.GetStatus())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorStatus})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &Contract_FieldSubPath{selector: Contract_FieldPathSelectorStatus, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -180,6 +190,7 @@ func (o *Contract) Clone() *Contract {
 			}
 		}
 	}
+	result.Status = o.Status.Clone()
 	return result
 }
 
@@ -267,8 +278,161 @@ func (o *Contract) Merge(source *Contract) {
 			}
 		}
 	}
+	if source.GetStatus() != nil {
+		if o.Status == nil {
+			o.Status = new(Contract_Status)
+		}
+		o.Status.Merge(source.GetStatus())
+	}
 }
 
 func (o *Contract) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Contract))
+}
+
+func (o *Contract_Status) GotenObjectExt() {}
+
+func (o *Contract_Status) MakeFullFieldMask() *Contract_Status_FieldMask {
+	return FullContract_Status_FieldMask()
+}
+
+func (o *Contract_Status) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullContract_Status_FieldMask()
+}
+
+func (o *Contract_Status) MakeDiffFieldMask(other *Contract_Status) *Contract_Status_FieldMask {
+	if o == nil && other == nil {
+		return &Contract_Status_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullContract_Status_FieldMask()
+	}
+
+	res := &Contract_Status_FieldMask{}
+	{
+		subMask := o.GetEventHub().MakeDiffFieldMask(other.GetEventHub())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ContractStatus_FieldTerminalPath{selector: ContractStatus_FieldPathSelectorEventHub})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ContractStatus_FieldSubPath{selector: ContractStatus_FieldPathSelectorEventHub, subPath: subpath})
+			}
+		}
+	}
+	return res
+}
+
+func (o *Contract_Status) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Contract_Status))
+}
+
+func (o *Contract_Status) Clone() *Contract_Status {
+	if o == nil {
+		return nil
+	}
+	result := &Contract_Status{}
+	result.EventHub = o.EventHub.Clone()
+	return result
+}
+
+func (o *Contract_Status) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Contract_Status) Merge(source *Contract_Status) {
+	if source.GetEventHub() != nil {
+		if o.EventHub == nil {
+			o.EventHub = new(Contract_Status_EventHub)
+		}
+		o.EventHub.Merge(source.GetEventHub())
+	}
+}
+
+func (o *Contract_Status) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Contract_Status))
+}
+
+func (o *Contract_Status_EventHub) GotenObjectExt() {}
+
+func (o *Contract_Status_EventHub) MakeFullFieldMask() *Contract_Status_EventHub_FieldMask {
+	return FullContract_Status_EventHub_FieldMask()
+}
+
+func (o *Contract_Status_EventHub) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullContract_Status_EventHub_FieldMask()
+}
+
+func (o *Contract_Status_EventHub) MakeDiffFieldMask(other *Contract_Status_EventHub) *Contract_Status_EventHub_FieldMask {
+	if o == nil && other == nil {
+		return &Contract_Status_EventHub_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullContract_Status_EventHub_FieldMask()
+	}
+
+	res := &Contract_Status_EventHub_FieldMask{}
+	if o.GetNamespace() != other.GetNamespace() {
+		res.Paths = append(res.Paths, &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorNamespace})
+	}
+	if o.GetName() != other.GetName() {
+		res.Paths = append(res.Paths, &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorName})
+	}
+	if o.GetError() != other.GetError() {
+		res.Paths = append(res.Paths, &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorError})
+	}
+	if o.GetConnectionSecret().String() != other.GetConnectionSecret().String() {
+		res.Paths = append(res.Paths, &ContractStatusEventHub_FieldTerminalPath{selector: ContractStatusEventHub_FieldPathSelectorConnectionSecret})
+	}
+	return res
+}
+
+func (o *Contract_Status_EventHub) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Contract_Status_EventHub))
+}
+
+func (o *Contract_Status_EventHub) Clone() *Contract_Status_EventHub {
+	if o == nil {
+		return nil
+	}
+	result := &Contract_Status_EventHub{}
+	result.Namespace = o.Namespace
+	result.Name = o.Name
+	result.Error = o.Error
+	if o.ConnectionSecret == nil {
+		result.ConnectionSecret = nil
+	} else if data, err := o.ConnectionSecret.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.ConnectionSecret = &secrets_secret.Reference{}
+		if err := result.ConnectionSecret.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	return result
+}
+
+func (o *Contract_Status_EventHub) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Contract_Status_EventHub) Merge(source *Contract_Status_EventHub) {
+	o.Namespace = source.GetNamespace()
+	o.Name = source.GetName()
+	o.Error = source.GetError()
+	if source.GetConnectionSecret() != nil {
+		if data, err := source.GetConnectionSecret().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.ConnectionSecret = &secrets_secret.Reference{}
+			if err := o.ConnectionSecret.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.ConnectionSecret = nil
+	}
+}
+
+func (o *Contract_Status_EventHub) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Contract_Status_EventHub))
 }
