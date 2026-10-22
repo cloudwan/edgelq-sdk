@@ -44,10 +44,15 @@ message ReactivateRequest {
   string project = 2;
 }
 
-// Data usage for one aggregation period.
+// Data usage of one APN over one aggregation period, or of one carrier record
+// when the aggregation period is NONE.
 message DataUsagePoint {
+  // Start of the period, or of the query window if the window cuts the period.
+  // With NONE, the time of the record.
   google.protobuf.Timestamp start_time = 1;
 
+  // End of the period, or of the query window if the window cuts the period.
+  // With NONE, the time of the record, equal to start_time.
   google.protobuf.Timestamp end_time = 2;
 
   uint64 total_bytes = 3;
@@ -55,22 +60,86 @@ message DataUsagePoint {
   uint64 uplink_bytes = 4;
 
   uint64 downlink_bytes = 5;
+
+  // Access point name of the data sessions.
+  string apn = 6;
+
+  // Identifier of the carrier record. Set only with the aggregation period
+  // NONE.
+  string event_id = 7;
 }
 
 // A request message of the GetDataUsage method.
+//
+// GetDataUsage reads the data usage of one SIM directly from the carrier at the
+// time of the call and sums it per APN and period, or, with the aggregation
+// period NONE, returns the carrier's records one by one. Use it to check the
+// usage that the Monitoring service serves as metrics, and to troubleshoot with
+// what the carrier reports right now. For regular use of usage data, query the
+// Monitoring service metrics instead: they are collected continuously, are not
+// bound by the carrier's retention, and do not put a request on the carrier for
+// every query.
+//
+// Conditions to be aware of:
+//
+// - The data comes directly from the carrier. Every call is a request to the
+//   carrier, admitted by the request-rate budget that the telemetry collection
+//   of the same carrier account shares. The call waits until the budget admits
+//   it. While a collection cycle is running, or after the carrier answered with
+//   a rate-limit error (which holds back all requests for a few seconds), it
+//   can take longer than a client's default timeout, such as 10 seconds. Set a
+//   timeout of at least 60 seconds, or retry on DEADLINE_EXCEEDED.
+// - Old usage may not be available. The carrier keeps usage records only for a
+//   limited time, so a window older than its retention returns no points. That
+//   is not the same as no usage. The window is also limited to 31 days. For
+//   Transatel, the retention of the usage records (raw CDRs) is not published.
+//   In a measurement of October 2026, the records of the current UTC day and
+//   of the 89 days before it were available, and older days were empty. That is
+//   an observation, not a guarantee, so do not rely on usage older than about
+//   85 days.
+// - Time ranges. A carrier record is stamped with one event time. The carrier
+//   does not document which period of a session its usage covers, so the whole
+//   usage of a record counts in the UTC hour of its event time. start_time is
+//   inclusive and end_time exclusive, and they need not be aligned. Each point
+//   covers one UTC hour, day or month, cut by the window at its ends. A whole
+//   HOURLY point has the same interval as the matching point of the Monitoring
+//   metric data_usage, which is written per accounting hour. A Monitoring query
+//   with a 3600s alignment period labels that hour with its end time: the
+//   hour [00:00, 01:00) is the point at 01:00. With NONE, a point is one record
+//   and its start_time and end_time are the time of the record.
+// - Usage is reported with a delay. The carrier reports a data session some
+//   time after it happens, so the most recent hours can be incomplete and grow
+//   when more records appear later. A record that has appeared does not
+//   change. The Monitoring metrics have the same delay: a record is added at
+//   the first collection after the carrier exposes it. Compare the two only
+//   for hours that are well in the past, and see as_of in the response for when
+//   the carrier was read.
 message GetDataUsageRequest {
   // Name of ntt.cellular_api.v1.SimCard
   string name = 1;
 
-  // Inclusive start of the query window (UTC).
+  // Inclusive start of the query window (UTC). Need not be aligned to the
+  // aggregation period.
   google.protobuf.Timestamp start_time = 2;
 
-  // Exclusive end of the query window (UTC).
+  // Exclusive end of the query window (UTC). The window is at most 31 days.
   google.protobuf.Timestamp end_time = 3;
 
-  // Period over which data usage is aggregated. UNSPECIFIED means DAILY.
+  // Period over which data usage is aggregated. UNSPECIFIED means DAILY. NONE
+  // does not aggregate: every carrier record of the window is one point, and
+  // the response is limited to 10000 points (INVALID_ARGUMENT above that,
+  // narrow the window).
   ntt.cellular_api.carrier.DataUsageAggregationPeriod aggregation_period = 4;
 }
 
 // A response message of the GetDataUsage method.
-message GetDataUsageResponse { repeated DataUsagePoint points = 1; }
+message GetDataUsageResponse {
+  // Sorted by start time and APN, or by record time with NONE. A period cut by
+  // the query window is clipped to it. Empty if the carrier reports no usage in
+  // the window.
+  repeated DataUsagePoint points = 1;
+
+  // When the carrier was read. Records of the last hours before it may still
+  // appear later.
+  google.protobuf.Timestamp as_of = 2;
+}

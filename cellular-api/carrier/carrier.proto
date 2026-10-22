@@ -34,7 +34,8 @@ enum SimAction {
   TERMINATE = 4;
 }
 
-// Period over which data usage is aggregated.
+// Period over which data usage is aggregated. NONE does not aggregate: every
+// record of the carrier is one point.
 enum DataUsageAggregationPeriod {
   DATA_USAGE_AGGREGATION_PERIOD_UNSPECIFIED = 0;
 
@@ -43,4 +44,6 @@ enum DataUsageAggregationPeriod {
   DATA_USAGE_AGGREGATION_PERIOD_DAILY = 2;
 
   DATA_USAGE_AGGREGATION_PERIOD_MONTHLY = 3;
+
+  DATA_USAGE_AGGREGATION_PERIOD_NONE = 4;
 }
