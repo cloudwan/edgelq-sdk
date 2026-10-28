@@ -549,6 +549,14 @@ func (b *filterCndBuilderAuthentication) PrincipalType() *filterCndBuilderAuthen
 	return &filterCndBuilderAuthenticationPrincipalType{builder: b.builder}
 }
 
+func (b *filterCndBuilderAuthentication) User() *filterCndBuilderAuthenticationUser {
+	return &filterCndBuilderAuthenticationUser{builder: b.builder}
+}
+
+func (b *filterCndBuilderAuthentication) Impersonation() *filterCndBuilderAuthenticationImpersonation {
+	return &filterCndBuilderAuthenticationImpersonation{builder: b.builder}
+}
+
 type filterCndBuilderAuthenticationPrincipal struct {
 	builder *FilterBuilder
 }
@@ -664,6 +672,691 @@ func (b *filterCndBuilderAuthenticationPrincipalType) compare(op gotenfilter.Com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().PrincipalType().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationUser struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationUser) Eq(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUser) Neq(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUser) Gt(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUser) Gte(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUser) Lt(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUser) Lte(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUser) In(values []*common.UserIdentity) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUser) NotIn(values []*common.UserIdentity) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUser) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUser) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUser) compare(op gotenfilter.CompareOperator, value *common.UserIdentity) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().User().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUser) Provider() *filterCndBuilderAuthenticationUserProvider {
+	return &filterCndBuilderAuthenticationUserProvider{builder: b.builder}
+}
+
+func (b *filterCndBuilderAuthenticationUser) ProviderUserId() *filterCndBuilderAuthenticationUserProviderUserId {
+	return &filterCndBuilderAuthenticationUserProviderUserId{builder: b.builder}
+}
+
+func (b *filterCndBuilderAuthenticationUser) Email() *filterCndBuilderAuthenticationUserEmail {
+	return &filterCndBuilderAuthenticationUserEmail{builder: b.builder}
+}
+
+func (b *filterCndBuilderAuthenticationUser) CompanyId() *filterCndBuilderAuthenticationUserCompanyId {
+	return &filterCndBuilderAuthenticationUserCompanyId{builder: b.builder}
+}
+
+type filterCndBuilderAuthenticationUserProvider struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().Provider().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().Provider().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().Provider().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().Provider().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserProvider) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().User().Provider().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationUserProviderUserId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().ProviderUserId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().ProviderUserId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().ProviderUserId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().ProviderUserId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserProviderUserId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().User().ProviderUserId().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationUserEmail struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().Email().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().Email().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().Email().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().Email().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserEmail) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().User().Email().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationUserCompanyId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().CompanyId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().User().CompanyId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().CompanyId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().User().CompanyId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationUserCompanyId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().User().CompanyId().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationImpersonation struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) Eq(value *common.UserImpersonation) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) Neq(value *common.UserImpersonation) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) Gt(value *common.UserImpersonation) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) Gte(value *common.UserImpersonation) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) Lt(value *common.UserImpersonation) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) Lte(value *common.UserImpersonation) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) In(values []*common.UserImpersonation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) NotIn(values []*common.UserImpersonation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) compare(op gotenfilter.CompareOperator, value *common.UserImpersonation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonation) SignedInUser() *filterCndBuilderAuthenticationImpersonationSignedInUser {
+	return &filterCndBuilderAuthenticationImpersonationSignedInUser{builder: b.builder}
+}
+
+type filterCndBuilderAuthenticationImpersonationSignedInUser struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) Eq(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) Neq(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) Gt(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) Gte(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) Lt(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) Lte(value *common.UserIdentity) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) In(values []*common.UserIdentity) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) NotIn(values []*common.UserIdentity) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) compare(op gotenfilter.CompareOperator, value *common.UserIdentity) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) Provider() *filterCndBuilderAuthenticationImpersonationSignedInUserProvider {
+	return &filterCndBuilderAuthenticationImpersonationSignedInUserProvider{builder: b.builder}
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) ProviderUserId() *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId {
+	return &filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId{builder: b.builder}
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) Email() *filterCndBuilderAuthenticationImpersonationSignedInUserEmail {
+	return &filterCndBuilderAuthenticationImpersonationSignedInUserEmail{builder: b.builder}
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUser) CompanyId() *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId {
+	return &filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId{builder: b.builder}
+}
+
+type filterCndBuilderAuthenticationImpersonationSignedInUserProvider struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Provider().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Provider().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Provider().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Provider().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProvider) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Provider().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().ProviderUserId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().ProviderUserId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().ProviderUserId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().ProviderUserId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserProviderUserId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().ProviderUserId().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationImpersonationSignedInUserEmail struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Email().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Email().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Email().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Email().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserEmail) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().Email().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().CompanyId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().CompanyId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().CompanyId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().CompanyId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationImpersonationSignedInUserCompanyId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Authentication().Impersonation().SignedInUser().CompanyId().WithValue(value),
 	})
 }
 

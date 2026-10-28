@@ -373,9 +373,9 @@ resources:
 apis:
 - name: Authorization
   actions:
-  # Special principal actions used by any service to authenticate incoming
-  # requests. These actions protect from unauthorized access - service can
-  # see only principals who are using those services.
+  # Principal lookup used by services to authenticate incoming requests.
+  # A resolved User is independent of service participation; service accounts
+  # retain their participation check. Principal watches remain service-filtered.
   - name: GetPrincipal
     verb: getPrincipal
     withStoreHandle:

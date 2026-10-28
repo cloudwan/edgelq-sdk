@@ -51,6 +51,8 @@ func FullAuthentication_FieldMask() *Authentication_FieldMask {
 	res := &Authentication_FieldMask{}
 	res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipal})
 	res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipalType})
+	res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorUser})
+	res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorImpersonation})
 	return res
 }
 
@@ -69,7 +71,7 @@ func (fieldMask *Authentication_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Authentication_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -99,17 +101,47 @@ func (fieldMask *Authentication_FieldMask) Reset() {
 
 func (fieldMask *Authentication_FieldMask) Subtract(other *Authentication_FieldMask) *Authentication_FieldMask {
 	result := &Authentication_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 4)
+	otherSubMasks := map[Authentication_FieldPathSelector]gotenobject.FieldMask{
+		Authentication_FieldPathSelectorUser:          &UserIdentity_FieldMask{},
+		Authentication_FieldPathSelectorImpersonation: &UserImpersonation_FieldMask{},
+	}
+	mySubMasks := map[Authentication_FieldPathSelector]gotenobject.FieldMask{
+		Authentication_FieldPathSelectorUser:          &UserIdentity_FieldMask{},
+		Authentication_FieldPathSelectorImpersonation: &UserImpersonation_FieldMask{},
+	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
 		case *Authentication_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
+		case *Authentication_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*Authentication_FieldTerminalPath); ok {
+					switch tp.selector {
+					case Authentication_FieldPathSelectorUser:
+						mySubMasks[Authentication_FieldPathSelectorUser] = FullUserIdentity_FieldMask()
+					case Authentication_FieldPathSelectorImpersonation:
+						mySubMasks[Authentication_FieldPathSelectorImpersonation] = FullUserImpersonation_FieldMask()
+					}
+				} else if tp, ok := path.(*Authentication_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &Authentication_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
 		}
 	}
 
@@ -251,6 +283,10 @@ func (fieldMask *Authentication_FieldMask) Project(source *Authentication) *Auth
 		return source
 	}
 	result := &Authentication{}
+	userMask := &UserIdentity_FieldMask{}
+	wholeUserAccepted := false
+	impersonationMask := &UserImpersonation_FieldMask{}
+	wholeImpersonationAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -260,8 +296,27 @@ func (fieldMask *Authentication_FieldMask) Project(source *Authentication) *Auth
 				result.Principal = source.Principal
 			case Authentication_FieldPathSelectorPrincipalType:
 				result.PrincipalType = source.PrincipalType
+			case Authentication_FieldPathSelectorUser:
+				result.User = source.User
+				wholeUserAccepted = true
+			case Authentication_FieldPathSelectorImpersonation:
+				result.Impersonation = source.Impersonation
+				wholeImpersonationAccepted = true
+			}
+		case *Authentication_FieldSubPath:
+			switch tp.selector {
+			case Authentication_FieldPathSelectorUser:
+				userMask.AppendPath(tp.subPath.(UserIdentity_FieldPath))
+			case Authentication_FieldPathSelectorImpersonation:
+				impersonationMask.AppendPath(tp.subPath.(UserImpersonation_FieldPath))
 			}
 		}
+	}
+	if wholeUserAccepted == false && len(userMask.Paths) > 0 {
+		result.User = userMask.Project(source.GetUser())
+	}
+	if wholeImpersonationAccepted == false && len(impersonationMask.Paths) > 0 {
+		result.Impersonation = impersonationMask.Project(source.GetImpersonation())
 	}
 	return result
 }
@@ -271,6 +326,514 @@ func (fieldMask *Authentication_FieldMask) ProjectRaw(source gotenobject.GotenOb
 }
 
 func (fieldMask *Authentication_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type UserIdentity_FieldMask struct {
+	Paths []UserIdentity_FieldPath
+}
+
+func FullUserIdentity_FieldMask() *UserIdentity_FieldMask {
+	res := &UserIdentity_FieldMask{}
+	res.Paths = append(res.Paths, &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorProvider})
+	res.Paths = append(res.Paths, &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorProviderUserId})
+	res.Paths = append(res.Paths, &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorEmail})
+	res.Paths = append(res.Paths, &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorCompanyId})
+	return res
+}
+
+func (fieldMask *UserIdentity_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *UserIdentity_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*UserIdentity_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *UserIdentity_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseUserIdentity_FieldPath(raw)
+	})
+}
+
+func (fieldMask *UserIdentity_FieldMask) ProtoMessage() {}
+
+func (fieldMask *UserIdentity_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *UserIdentity_FieldMask) Subtract(other *UserIdentity_FieldMask) *UserIdentity_FieldMask {
+	result := &UserIdentity_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *UserIdentity_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *UserIdentity_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*UserIdentity_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *UserIdentity_FieldMask) FilterInputFields() *UserIdentity_FieldMask {
+	result := &UserIdentity_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *UserIdentity_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *UserIdentity_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]UserIdentity_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseUserIdentity_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask UserIdentity_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *UserIdentity_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UserIdentity_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask UserIdentity_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *UserIdentity_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UserIdentity_FieldMask) AppendPath(path UserIdentity_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *UserIdentity_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(UserIdentity_FieldPath))
+}
+
+func (fieldMask *UserIdentity_FieldMask) GetPaths() []UserIdentity_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *UserIdentity_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *UserIdentity_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseUserIdentity_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *UserIdentity_FieldMask) Set(target, source *UserIdentity) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *UserIdentity_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*UserIdentity), source.(*UserIdentity))
+}
+
+func (fieldMask *UserIdentity_FieldMask) Project(source *UserIdentity) *UserIdentity {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &UserIdentity{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *UserIdentity_FieldTerminalPath:
+			switch tp.selector {
+			case UserIdentity_FieldPathSelectorProvider:
+				result.Provider = source.Provider
+			case UserIdentity_FieldPathSelectorProviderUserId:
+				result.ProviderUserId = source.ProviderUserId
+			case UserIdentity_FieldPathSelectorEmail:
+				result.Email = source.Email
+			case UserIdentity_FieldPathSelectorCompanyId:
+				result.CompanyId = source.CompanyId
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *UserIdentity_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*UserIdentity))
+}
+
+func (fieldMask *UserIdentity_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type UserImpersonation_FieldMask struct {
+	Paths []UserImpersonation_FieldPath
+}
+
+func FullUserImpersonation_FieldMask() *UserImpersonation_FieldMask {
+	res := &UserImpersonation_FieldMask{}
+	res.Paths = append(res.Paths, &UserImpersonation_FieldTerminalPath{selector: UserImpersonation_FieldPathSelectorSignedInUser})
+	return res
+}
+
+func (fieldMask *UserImpersonation_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *UserImpersonation_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*UserImpersonation_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *UserImpersonation_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseUserImpersonation_FieldPath(raw)
+	})
+}
+
+func (fieldMask *UserImpersonation_FieldMask) ProtoMessage() {}
+
+func (fieldMask *UserImpersonation_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *UserImpersonation_FieldMask) Subtract(other *UserImpersonation_FieldMask) *UserImpersonation_FieldMask {
+	result := &UserImpersonation_FieldMask{}
+	removedSelectors := make([]bool, 1)
+	otherSubMasks := map[UserImpersonation_FieldPathSelector]gotenobject.FieldMask{
+		UserImpersonation_FieldPathSelectorSignedInUser: &UserIdentity_FieldMask{},
+	}
+	mySubMasks := map[UserImpersonation_FieldPathSelector]gotenobject.FieldMask{
+		UserImpersonation_FieldPathSelectorSignedInUser: &UserIdentity_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *UserImpersonation_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *UserImpersonation_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*UserImpersonation_FieldTerminalPath); ok {
+					switch tp.selector {
+					case UserImpersonation_FieldPathSelectorSignedInUser:
+						mySubMasks[UserImpersonation_FieldPathSelectorSignedInUser] = FullUserIdentity_FieldMask()
+					}
+				} else if tp, ok := path.(*UserImpersonation_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &UserImpersonation_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *UserImpersonation_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*UserImpersonation_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *UserImpersonation_FieldMask) FilterInputFields() *UserImpersonation_FieldMask {
+	result := &UserImpersonation_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *UserImpersonation_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *UserImpersonation_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]UserImpersonation_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseUserImpersonation_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask UserImpersonation_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *UserImpersonation_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UserImpersonation_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask UserImpersonation_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *UserImpersonation_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UserImpersonation_FieldMask) AppendPath(path UserImpersonation_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *UserImpersonation_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(UserImpersonation_FieldPath))
+}
+
+func (fieldMask *UserImpersonation_FieldMask) GetPaths() []UserImpersonation_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *UserImpersonation_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *UserImpersonation_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseUserImpersonation_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *UserImpersonation_FieldMask) Set(target, source *UserImpersonation) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *UserImpersonation_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*UserImpersonation), source.(*UserImpersonation))
+}
+
+func (fieldMask *UserImpersonation_FieldMask) Project(source *UserImpersonation) *UserImpersonation {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &UserImpersonation{}
+	signedInUserMask := &UserIdentity_FieldMask{}
+	wholeSignedInUserAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *UserImpersonation_FieldTerminalPath:
+			switch tp.selector {
+			case UserImpersonation_FieldPathSelectorSignedInUser:
+				result.SignedInUser = source.SignedInUser
+				wholeSignedInUserAccepted = true
+			}
+		case *UserImpersonation_FieldSubPath:
+			switch tp.selector {
+			case UserImpersonation_FieldPathSelectorSignedInUser:
+				signedInUserMask.AppendPath(tp.subPath.(UserIdentity_FieldPath))
+			}
+		}
+	}
+	if wholeSignedInUserAccepted == false && len(signedInUserMask.Paths) > 0 {
+		result.SignedInUser = signedInUserMask.Project(source.GetSignedInUser())
+	}
+	return result
+}
+
+func (fieldMask *UserImpersonation_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*UserImpersonation))
+}
+
+func (fieldMask *UserImpersonation_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

@@ -21,8 +21,9 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // Request message for method [GetPrincipal][ntt.iam.v1.GetPrincipal]
 message GetPrincipalRequest {
-  // Service asking for given principal - IAM verifies if given principal has
-  // any role bindings in requesting service.
+  // Service asking for the principal. IAM checks service participation for
+  // service accounts; a resolved User is returned independently of
+  // participation.
   string requesting_service = 1;
 
   // Principal ID, different for users or service accounts

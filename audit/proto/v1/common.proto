@@ -17,6 +17,34 @@ message Authentication {
 
   // Principal type - user, serviceAccount, anonymous
   string principal_type = 2;
+
+  // Provider account of the user token that authenticated the request. The
+  // principal is its User. Absent for service accounts and anonymous requests.
+  UserIdentity user = 3;
+
+  // Present only when the provider asserts that another account signed in and
+  // impersonates the user. Impersonation grants the signed-in account nothing.
+  UserImpersonation impersonation = 4;
+}
+
+// Provider account recorded in an audit entry.
+message UserIdentity {
+  // Issuer of the account's user-token provider, as in User auth_info.
+  string provider = 1;
+
+  // Provider's ID of the account: Auth0 sub, DSP user_id.
+  string provider_user_id = 2;
+
+  string email = 3;
+
+  // Company the account acts for, when the provider has companies: DSP
+  // company_id.
+  string company_id = 4;
+}
+
+message UserImpersonation {
+  // Account that signed in and impersonates Authentication.user.
+  UserIdentity signed_in_user = 1;
 }
 
 // Information about authorization applicable for a request.

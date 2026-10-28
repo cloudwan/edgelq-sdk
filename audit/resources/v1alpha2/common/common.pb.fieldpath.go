@@ -72,6 +72,8 @@ type Authentication_FieldPathSelector int32
 const (
 	Authentication_FieldPathSelectorPrincipal     Authentication_FieldPathSelector = 0
 	Authentication_FieldPathSelectorPrincipalType Authentication_FieldPathSelector = 1
+	Authentication_FieldPathSelectorUser          Authentication_FieldPathSelector = 2
+	Authentication_FieldPathSelectorImpersonation Authentication_FieldPathSelector = 3
 )
 
 func (s Authentication_FieldPathSelector) String() string {
@@ -80,6 +82,10 @@ func (s Authentication_FieldPathSelector) String() string {
 		return "principal"
 	case Authentication_FieldPathSelectorPrincipalType:
 		return "principal_type"
+	case Authentication_FieldPathSelectorUser:
+		return "user"
+	case Authentication_FieldPathSelectorImpersonation:
+		return "impersonation"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", s))
 	}
@@ -95,6 +101,25 @@ func BuildAuthentication_FieldPath(fp gotenobject.RawFieldPath) (Authentication_
 			return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipal}, nil
 		case "principal_type", "principalType", "principal-type":
 			return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipalType}, nil
+		case "user":
+			return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorUser}, nil
+		case "impersonation":
+			return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorImpersonation}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "user":
+			if subpath, err := BuildUserIdentity_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Authentication_FieldSubPath{selector: Authentication_FieldPathSelectorUser, subPath: subpath}, nil
+			}
+		case "impersonation":
+			if subpath, err := BuildUserImpersonation_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Authentication_FieldSubPath{selector: Authentication_FieldPathSelectorImpersonation, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Authentication", fp)
@@ -144,6 +169,14 @@ func (fp *Authentication_FieldTerminalPath) Get(source *Authentication) (values 
 			values = append(values, source.Principal)
 		case Authentication_FieldPathSelectorPrincipalType:
 			values = append(values, source.PrincipalType)
+		case Authentication_FieldPathSelectorUser:
+			if source.User != nil {
+				values = append(values, source.User)
+			}
+		case Authentication_FieldPathSelectorImpersonation:
+			if source.Impersonation != nil {
+				values = append(values, source.Impersonation)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 		}
@@ -162,6 +195,12 @@ func (fp *Authentication_FieldTerminalPath) GetSingle(source *Authentication) (i
 		return source.GetPrincipal(), source != nil
 	case Authentication_FieldPathSelectorPrincipalType:
 		return source.GetPrincipalType(), source != nil
+	case Authentication_FieldPathSelectorUser:
+		res := source.GetUser()
+		return res, res != nil
+	case Authentication_FieldPathSelectorImpersonation:
+		res := source.GetImpersonation()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 	}
@@ -178,6 +217,10 @@ func (fp *Authentication_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case Authentication_FieldPathSelectorPrincipalType:
 		return ""
+	case Authentication_FieldPathSelectorUser:
+		return (*UserIdentity)(nil)
+	case Authentication_FieldPathSelectorImpersonation:
+		return (*UserImpersonation)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 	}
@@ -190,6 +233,10 @@ func (fp *Authentication_FieldTerminalPath) ClearValue(item *Authentication) {
 			item.Principal = ""
 		case Authentication_FieldPathSelectorPrincipalType:
 			item.PrincipalType = ""
+		case Authentication_FieldPathSelectorUser:
+			item.User = nil
+		case Authentication_FieldPathSelectorImpersonation:
+			item.Impersonation = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 		}
@@ -216,6 +263,10 @@ func (fp *Authentication_FieldTerminalPath) WithIValue(value interface{}) Authen
 		return &Authentication_FieldTerminalPathValue{Authentication_FieldTerminalPath: *fp, value: value.(string)}
 	case Authentication_FieldPathSelectorPrincipalType:
 		return &Authentication_FieldTerminalPathValue{Authentication_FieldTerminalPath: *fp, value: value.(string)}
+	case Authentication_FieldPathSelectorUser:
+		return &Authentication_FieldTerminalPathValue{Authentication_FieldTerminalPath: *fp, value: value.(*UserIdentity)}
+	case Authentication_FieldPathSelectorImpersonation:
+		return &Authentication_FieldTerminalPathValue{Authentication_FieldTerminalPath: *fp, value: value.(*UserImpersonation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 	}
@@ -232,6 +283,10 @@ func (fp *Authentication_FieldTerminalPath) WithIArrayOfValues(values interface{
 		return &Authentication_FieldTerminalPathArrayOfValues{Authentication_FieldTerminalPath: *fp, values: values.([]string)}
 	case Authentication_FieldPathSelectorPrincipalType:
 		return &Authentication_FieldTerminalPathArrayOfValues{Authentication_FieldTerminalPath: *fp, values: values.([]string)}
+	case Authentication_FieldPathSelectorUser:
+		return &Authentication_FieldTerminalPathArrayOfValues{Authentication_FieldTerminalPath: *fp, values: values.([]*UserIdentity)}
+	case Authentication_FieldPathSelectorImpersonation:
+		return &Authentication_FieldTerminalPathArrayOfValues{Authentication_FieldTerminalPath: *fp, values: values.([]*UserImpersonation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 	}
@@ -251,6 +306,131 @@ func (fp *Authentication_FieldTerminalPath) WithIArrayItemValue(value interface{
 
 func (fp *Authentication_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+type Authentication_FieldSubPath struct {
+	selector Authentication_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ Authentication_FieldPath = (*Authentication_FieldSubPath)(nil)
+
+func (fps *Authentication_FieldSubPath) Selector() Authentication_FieldPathSelector {
+	return fps.selector
+}
+func (fps *Authentication_FieldSubPath) AsUserSubPath() (UserIdentity_FieldPath, bool) {
+	res, ok := fps.subPath.(UserIdentity_FieldPath)
+	return res, ok
+}
+func (fps *Authentication_FieldSubPath) AsImpersonationSubPath() (UserImpersonation_FieldPath, bool) {
+	res, ok := fps.subPath.(UserImpersonation_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *Authentication_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *Authentication_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Authentication
+func (fps *Authentication_FieldSubPath) Get(source *Authentication) (values []interface{}) {
+	switch fps.selector {
+	case Authentication_FieldPathSelectorUser:
+		values = append(values, fps.subPath.GetRaw(source.GetUser())...)
+	case Authentication_FieldPathSelectorImpersonation:
+		values = append(values, fps.subPath.GetRaw(source.GetImpersonation())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *Authentication_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Authentication))
+}
+
+// GetSingle returns value of selected field from source Authentication
+func (fps *Authentication_FieldSubPath) GetSingle(source *Authentication) (interface{}, bool) {
+	switch fps.selector {
+	case Authentication_FieldPathSelectorUser:
+		if source.GetUser() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetUser())
+	case Authentication_FieldPathSelectorImpersonation:
+		if source.GetImpersonation() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetImpersonation())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fps.selector))
+	}
+}
+
+func (fps *Authentication_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Authentication))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *Authentication_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *Authentication_FieldSubPath) ClearValue(item *Authentication) {
+	if item != nil {
+		switch fps.selector {
+		case Authentication_FieldPathSelectorUser:
+			fps.subPath.ClearValueRaw(item.User)
+		case Authentication_FieldPathSelectorImpersonation:
+			fps.subPath.ClearValueRaw(item.Impersonation)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Authentication: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *Authentication_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Authentication))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *Authentication_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *Authentication_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Authentication_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *Authentication_FieldSubPath) WithIValue(value interface{}) Authentication_FieldPathValue {
+	return &Authentication_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *Authentication_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *Authentication_FieldSubPath) WithIArrayOfValues(values interface{}) Authentication_FieldPathArrayOfValues {
+	return &Authentication_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *Authentication_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *Authentication_FieldSubPath) WithIArrayItemValue(value interface{}) Authentication_FieldPathArrayItemValue {
+	return &Authentication_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *Authentication_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
 }
 
 // Authentication_FieldPathValue allows storing values for Authentication fields according to their type
@@ -300,6 +480,14 @@ func (fpv *Authentication_FieldTerminalPathValue) AsPrincipalTypeValue() (string
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Authentication_FieldTerminalPathValue) AsUserValue() (*UserIdentity, bool) {
+	res, ok := fpv.value.(*UserIdentity)
+	return res, ok
+}
+func (fpv *Authentication_FieldTerminalPathValue) AsImpersonationValue() (*UserImpersonation, bool) {
+	res, ok := fpv.value.(*UserImpersonation)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Authentication
 func (fpv *Authentication_FieldTerminalPathValue) SetTo(target **Authentication) {
@@ -311,6 +499,10 @@ func (fpv *Authentication_FieldTerminalPathValue) SetTo(target **Authentication)
 		(*target).Principal = fpv.value.(string)
 	case Authentication_FieldPathSelectorPrincipalType:
 		(*target).PrincipalType = fpv.value.(string)
+	case Authentication_FieldPathSelectorUser:
+		(*target).User = fpv.value.(*UserIdentity)
+	case Authentication_FieldPathSelectorImpersonation:
+		(*target).Impersonation = fpv.value.(*UserImpersonation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fpv.selector))
 	}
@@ -344,6 +536,10 @@ func (fpv *Authentication_FieldTerminalPathValue) CompareWith(source *Authentica
 		} else {
 			return 1, true
 		}
+	case Authentication_FieldPathSelectorUser:
+		return 0, false
+	case Authentication_FieldPathSelectorImpersonation:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fpv.selector))
 	}
@@ -351,6 +547,60 @@ func (fpv *Authentication_FieldTerminalPathValue) CompareWith(source *Authentica
 
 func (fpv *Authentication_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*Authentication))
+}
+
+type Authentication_FieldSubPathValue struct {
+	Authentication_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ Authentication_FieldPathValue = (*Authentication_FieldSubPathValue)(nil)
+
+func (fpvs *Authentication_FieldSubPathValue) AsUserPathValue() (UserIdentity_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(UserIdentity_FieldPathValue)
+	return res, ok
+}
+func (fpvs *Authentication_FieldSubPathValue) AsImpersonationPathValue() (UserImpersonation_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(UserImpersonation_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *Authentication_FieldSubPathValue) SetTo(target **Authentication) {
+	if *target == nil {
+		*target = new(Authentication)
+	}
+	switch fpvs.Selector() {
+	case Authentication_FieldPathSelectorUser:
+		fpvs.subPathValue.(UserIdentity_FieldPathValue).SetTo(&(*target).User)
+	case Authentication_FieldPathSelectorImpersonation:
+		fpvs.subPathValue.(UserImpersonation_FieldPathValue).SetTo(&(*target).Impersonation)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *Authentication_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Authentication)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *Authentication_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *Authentication_FieldSubPathValue) CompareWith(source *Authentication) (int, bool) {
+	switch fpvs.Selector() {
+	case Authentication_FieldPathSelectorUser:
+		return fpvs.subPathValue.(UserIdentity_FieldPathValue).CompareWith(source.GetUser())
+	case Authentication_FieldPathSelectorImpersonation:
+		return fpvs.subPathValue.(UserImpersonation_FieldPathValue).CompareWith(source.GetImpersonation())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *Authentication_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Authentication))
 }
 
 // Authentication_FieldPathArrayItemValue allows storing single item in Path-specific values for Authentication according to their type
@@ -417,6 +667,36 @@ func (fpaiv *Authentication_FieldTerminalPathArrayItemValue) ContainsValue(sourc
 	return false
 }
 
+type Authentication_FieldSubPathArrayItemValue struct {
+	Authentication_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *Authentication_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *Authentication_FieldSubPathArrayItemValue) AsUserPathItemValue() (UserIdentity_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(UserIdentity_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *Authentication_FieldSubPathArrayItemValue) AsImpersonationPathItemValue() (UserImpersonation_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(UserImpersonation_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Authentication'
+func (fpaivs *Authentication_FieldSubPathArrayItemValue) ContainsValue(source *Authentication) bool {
+	switch fpaivs.Selector() {
+	case Authentication_FieldPathSelectorUser:
+		return fpaivs.subPathItemValue.(UserIdentity_FieldPathArrayItemValue).ContainsValue(source.GetUser())
+	case Authentication_FieldPathSelectorImpersonation:
+		return fpaivs.subPathItemValue.(UserImpersonation_FieldPathArrayItemValue).ContainsValue(source.GetImpersonation())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fpaivs.Selector()))
+	}
+}
+
 // Authentication_FieldPathArrayOfValues allows storing slice of values for Authentication fields according to their type
 type Authentication_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
@@ -460,6 +740,14 @@ func (fpaov *Authentication_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Authentication_FieldPathSelectorUser:
+		for _, v := range fpaov.values.([]*UserIdentity) {
+			values = append(values, v)
+		}
+	case Authentication_FieldPathSelectorImpersonation:
+		for _, v := range fpaov.values.([]*UserImpersonation) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -469,6 +757,1118 @@ func (fpaov *Authentication_FieldTerminalPathArrayOfValues) AsPrincipalArrayOfVa
 }
 func (fpaov *Authentication_FieldTerminalPathArrayOfValues) AsPrincipalTypeArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Authentication_FieldTerminalPathArrayOfValues) AsUserArrayOfValues() ([]*UserIdentity, bool) {
+	res, ok := fpaov.values.([]*UserIdentity)
+	return res, ok
+}
+func (fpaov *Authentication_FieldTerminalPathArrayOfValues) AsImpersonationArrayOfValues() ([]*UserImpersonation, bool) {
+	res, ok := fpaov.values.([]*UserImpersonation)
+	return res, ok
+}
+
+type Authentication_FieldSubPathArrayOfValues struct {
+	Authentication_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ Authentication_FieldPathArrayOfValues = (*Authentication_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *Authentication_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *Authentication_FieldSubPathArrayOfValues) AsUserPathArrayOfValues() (UserIdentity_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(UserIdentity_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Authentication_FieldSubPathArrayOfValues) AsImpersonationPathArrayOfValues() (UserImpersonation_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(UserImpersonation_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type UserIdentity_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() UserIdentity_FieldPathSelector
+	Get(source *UserIdentity) []interface{}
+	GetSingle(source *UserIdentity) (interface{}, bool)
+	ClearValue(item *UserIdentity)
+
+	// Those methods build corresponding UserIdentity_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) UserIdentity_FieldPathValue
+	WithIArrayOfValues(values interface{}) UserIdentity_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) UserIdentity_FieldPathArrayItemValue
+}
+
+type UserIdentity_FieldPathSelector int32
+
+const (
+	UserIdentity_FieldPathSelectorProvider       UserIdentity_FieldPathSelector = 0
+	UserIdentity_FieldPathSelectorProviderUserId UserIdentity_FieldPathSelector = 1
+	UserIdentity_FieldPathSelectorEmail          UserIdentity_FieldPathSelector = 2
+	UserIdentity_FieldPathSelectorCompanyId      UserIdentity_FieldPathSelector = 3
+)
+
+func (s UserIdentity_FieldPathSelector) String() string {
+	switch s {
+	case UserIdentity_FieldPathSelectorProvider:
+		return "provider"
+	case UserIdentity_FieldPathSelectorProviderUserId:
+		return "provider_user_id"
+	case UserIdentity_FieldPathSelectorEmail:
+		return "email"
+	case UserIdentity_FieldPathSelectorCompanyId:
+		return "company_id"
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", s))
+	}
+}
+
+func BuildUserIdentity_FieldPath(fp gotenobject.RawFieldPath) (UserIdentity_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object UserIdentity")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "provider":
+			return &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorProvider}, nil
+		case "provider_user_id", "providerUserId", "provider-user-id":
+			return &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorProviderUserId}, nil
+		case "email":
+			return &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorEmail}, nil
+		case "company_id", "companyId", "company-id":
+			return &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorCompanyId}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object UserIdentity", fp)
+}
+
+func ParseUserIdentity_FieldPath(rawField string) (UserIdentity_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildUserIdentity_FieldPath(fp)
+}
+
+func MustParseUserIdentity_FieldPath(rawField string) UserIdentity_FieldPath {
+	fp, err := ParseUserIdentity_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type UserIdentity_FieldTerminalPath struct {
+	selector UserIdentity_FieldPathSelector
+}
+
+var _ UserIdentity_FieldPath = (*UserIdentity_FieldTerminalPath)(nil)
+
+func (fp *UserIdentity_FieldTerminalPath) Selector() UserIdentity_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *UserIdentity_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *UserIdentity_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source UserIdentity
+func (fp *UserIdentity_FieldTerminalPath) Get(source *UserIdentity) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case UserIdentity_FieldPathSelectorProvider:
+			values = append(values, source.Provider)
+		case UserIdentity_FieldPathSelectorProviderUserId:
+			values = append(values, source.ProviderUserId)
+		case UserIdentity_FieldPathSelectorEmail:
+			values = append(values, source.Email)
+		case UserIdentity_FieldPathSelectorCompanyId:
+			values = append(values, source.CompanyId)
+		default:
+			panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *UserIdentity_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*UserIdentity))
+}
+
+// GetSingle returns value pointed by specific field of from source UserIdentity
+func (fp *UserIdentity_FieldTerminalPath) GetSingle(source *UserIdentity) (interface{}, bool) {
+	switch fp.selector {
+	case UserIdentity_FieldPathSelectorProvider:
+		return source.GetProvider(), source != nil
+	case UserIdentity_FieldPathSelectorProviderUserId:
+		return source.GetProviderUserId(), source != nil
+	case UserIdentity_FieldPathSelectorEmail:
+		return source.GetEmail(), source != nil
+	case UserIdentity_FieldPathSelectorCompanyId:
+		return source.GetCompanyId(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fp.selector))
+	}
+}
+
+func (fp *UserIdentity_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*UserIdentity))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *UserIdentity_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case UserIdentity_FieldPathSelectorProvider:
+		return ""
+	case UserIdentity_FieldPathSelectorProviderUserId:
+		return ""
+	case UserIdentity_FieldPathSelectorEmail:
+		return ""
+	case UserIdentity_FieldPathSelectorCompanyId:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fp.selector))
+	}
+}
+
+func (fp *UserIdentity_FieldTerminalPath) ClearValue(item *UserIdentity) {
+	if item != nil {
+		switch fp.selector {
+		case UserIdentity_FieldPathSelectorProvider:
+			item.Provider = ""
+		case UserIdentity_FieldPathSelectorProviderUserId:
+			item.ProviderUserId = ""
+		case UserIdentity_FieldPathSelectorEmail:
+			item.Email = ""
+		case UserIdentity_FieldPathSelectorCompanyId:
+			item.CompanyId = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *UserIdentity_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*UserIdentity))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *UserIdentity_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == UserIdentity_FieldPathSelectorProvider ||
+		fp.selector == UserIdentity_FieldPathSelectorProviderUserId ||
+		fp.selector == UserIdentity_FieldPathSelectorEmail ||
+		fp.selector == UserIdentity_FieldPathSelectorCompanyId
+}
+
+func (fp *UserIdentity_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *UserIdentity_FieldTerminalPath) WithIValue(value interface{}) UserIdentity_FieldPathValue {
+	switch fp.selector {
+	case UserIdentity_FieldPathSelectorProvider:
+		return &UserIdentity_FieldTerminalPathValue{UserIdentity_FieldTerminalPath: *fp, value: value.(string)}
+	case UserIdentity_FieldPathSelectorProviderUserId:
+		return &UserIdentity_FieldTerminalPathValue{UserIdentity_FieldTerminalPath: *fp, value: value.(string)}
+	case UserIdentity_FieldPathSelectorEmail:
+		return &UserIdentity_FieldTerminalPathValue{UserIdentity_FieldTerminalPath: *fp, value: value.(string)}
+	case UserIdentity_FieldPathSelectorCompanyId:
+		return &UserIdentity_FieldTerminalPathValue{UserIdentity_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fp.selector))
+	}
+}
+
+func (fp *UserIdentity_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *UserIdentity_FieldTerminalPath) WithIArrayOfValues(values interface{}) UserIdentity_FieldPathArrayOfValues {
+	fpaov := &UserIdentity_FieldTerminalPathArrayOfValues{UserIdentity_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case UserIdentity_FieldPathSelectorProvider:
+		return &UserIdentity_FieldTerminalPathArrayOfValues{UserIdentity_FieldTerminalPath: *fp, values: values.([]string)}
+	case UserIdentity_FieldPathSelectorProviderUserId:
+		return &UserIdentity_FieldTerminalPathArrayOfValues{UserIdentity_FieldTerminalPath: *fp, values: values.([]string)}
+	case UserIdentity_FieldPathSelectorEmail:
+		return &UserIdentity_FieldTerminalPathArrayOfValues{UserIdentity_FieldTerminalPath: *fp, values: values.([]string)}
+	case UserIdentity_FieldPathSelectorCompanyId:
+		return &UserIdentity_FieldTerminalPathArrayOfValues{UserIdentity_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *UserIdentity_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *UserIdentity_FieldTerminalPath) WithIArrayItemValue(value interface{}) UserIdentity_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fp.selector))
+	}
+}
+
+func (fp *UserIdentity_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// UserIdentity_FieldPathValue allows storing values for UserIdentity fields according to their type
+type UserIdentity_FieldPathValue interface {
+	UserIdentity_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **UserIdentity)
+	CompareWith(*UserIdentity) (cmp int, comparable bool)
+}
+
+func ParseUserIdentity_FieldPathValue(pathStr, valueStr string) (UserIdentity_FieldPathValue, error) {
+	fp, err := ParseUserIdentity_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserIdentity field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(UserIdentity_FieldPathValue), nil
+}
+
+func MustParseUserIdentity_FieldPathValue(pathStr, valueStr string) UserIdentity_FieldPathValue {
+	fpv, err := ParseUserIdentity_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type UserIdentity_FieldTerminalPathValue struct {
+	UserIdentity_FieldTerminalPath
+	value interface{}
+}
+
+var _ UserIdentity_FieldPathValue = (*UserIdentity_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'UserIdentity' as interface{}
+func (fpv *UserIdentity_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *UserIdentity_FieldTerminalPathValue) AsProviderValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *UserIdentity_FieldTerminalPathValue) AsProviderUserIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *UserIdentity_FieldTerminalPathValue) AsEmailValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *UserIdentity_FieldTerminalPathValue) AsCompanyIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object UserIdentity
+func (fpv *UserIdentity_FieldTerminalPathValue) SetTo(target **UserIdentity) {
+	if *target == nil {
+		*target = new(UserIdentity)
+	}
+	switch fpv.selector {
+	case UserIdentity_FieldPathSelectorProvider:
+		(*target).Provider = fpv.value.(string)
+	case UserIdentity_FieldPathSelectorProviderUserId:
+		(*target).ProviderUserId = fpv.value.(string)
+	case UserIdentity_FieldPathSelectorEmail:
+		(*target).Email = fpv.value.(string)
+	case UserIdentity_FieldPathSelectorCompanyId:
+		(*target).CompanyId = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fpv.selector))
+	}
+}
+
+func (fpv *UserIdentity_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UserIdentity)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'UserIdentity_FieldTerminalPathValue' with the value under path in 'UserIdentity'.
+func (fpv *UserIdentity_FieldTerminalPathValue) CompareWith(source *UserIdentity) (int, bool) {
+	switch fpv.selector {
+	case UserIdentity_FieldPathSelectorProvider:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetProvider()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case UserIdentity_FieldPathSelectorProviderUserId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetProviderUserId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case UserIdentity_FieldPathSelectorEmail:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetEmail()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case UserIdentity_FieldPathSelectorCompanyId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetCompanyId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserIdentity: %d", fpv.selector))
+	}
+}
+
+func (fpv *UserIdentity_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*UserIdentity))
+}
+
+// UserIdentity_FieldPathArrayItemValue allows storing single item in Path-specific values for UserIdentity according to their type
+// Present only for array (repeated) types.
+type UserIdentity_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	UserIdentity_FieldPath
+	ContainsValue(*UserIdentity) bool
+}
+
+// ParseUserIdentity_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseUserIdentity_FieldPathArrayItemValue(pathStr, valueStr string) (UserIdentity_FieldPathArrayItemValue, error) {
+	fp, err := ParseUserIdentity_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserIdentity field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(UserIdentity_FieldPathArrayItemValue), nil
+}
+
+func MustParseUserIdentity_FieldPathArrayItemValue(pathStr, valueStr string) UserIdentity_FieldPathArrayItemValue {
+	fpaiv, err := ParseUserIdentity_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type UserIdentity_FieldTerminalPathArrayItemValue struct {
+	UserIdentity_FieldTerminalPath
+	value interface{}
+}
+
+var _ UserIdentity_FieldPathArrayItemValue = (*UserIdentity_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object UserIdentity as interface{}
+func (fpaiv *UserIdentity_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *UserIdentity_FieldTerminalPathArrayItemValue) GetSingle(source *UserIdentity) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *UserIdentity_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*UserIdentity))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'UserIdentity'
+func (fpaiv *UserIdentity_FieldTerminalPathArrayItemValue) ContainsValue(source *UserIdentity) bool {
+	slice := fpaiv.UserIdentity_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// UserIdentity_FieldPathArrayOfValues allows storing slice of values for UserIdentity fields according to their type
+type UserIdentity_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	UserIdentity_FieldPath
+}
+
+func ParseUserIdentity_FieldPathArrayOfValues(pathStr, valuesStr string) (UserIdentity_FieldPathArrayOfValues, error) {
+	fp, err := ParseUserIdentity_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserIdentity field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(UserIdentity_FieldPathArrayOfValues), nil
+}
+
+func MustParseUserIdentity_FieldPathArrayOfValues(pathStr, valuesStr string) UserIdentity_FieldPathArrayOfValues {
+	fpaov, err := ParseUserIdentity_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type UserIdentity_FieldTerminalPathArrayOfValues struct {
+	UserIdentity_FieldTerminalPath
+	values interface{}
+}
+
+var _ UserIdentity_FieldPathArrayOfValues = (*UserIdentity_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *UserIdentity_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case UserIdentity_FieldPathSelectorProvider:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case UserIdentity_FieldPathSelectorProviderUserId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case UserIdentity_FieldPathSelectorEmail:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case UserIdentity_FieldPathSelectorCompanyId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *UserIdentity_FieldTerminalPathArrayOfValues) AsProviderArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *UserIdentity_FieldTerminalPathArrayOfValues) AsProviderUserIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *UserIdentity_FieldTerminalPathArrayOfValues) AsEmailArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *UserIdentity_FieldTerminalPathArrayOfValues) AsCompanyIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type UserImpersonation_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() UserImpersonation_FieldPathSelector
+	Get(source *UserImpersonation) []interface{}
+	GetSingle(source *UserImpersonation) (interface{}, bool)
+	ClearValue(item *UserImpersonation)
+
+	// Those methods build corresponding UserImpersonation_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) UserImpersonation_FieldPathValue
+	WithIArrayOfValues(values interface{}) UserImpersonation_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) UserImpersonation_FieldPathArrayItemValue
+}
+
+type UserImpersonation_FieldPathSelector int32
+
+const (
+	UserImpersonation_FieldPathSelectorSignedInUser UserImpersonation_FieldPathSelector = 0
+)
+
+func (s UserImpersonation_FieldPathSelector) String() string {
+	switch s {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		return "signed_in_user"
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", s))
+	}
+}
+
+func BuildUserImpersonation_FieldPath(fp gotenobject.RawFieldPath) (UserImpersonation_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object UserImpersonation")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "signed_in_user", "signedInUser", "signed-in-user":
+			return &UserImpersonation_FieldTerminalPath{selector: UserImpersonation_FieldPathSelectorSignedInUser}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "signed_in_user", "signedInUser", "signed-in-user":
+			if subpath, err := BuildUserIdentity_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &UserImpersonation_FieldSubPath{selector: UserImpersonation_FieldPathSelectorSignedInUser, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object UserImpersonation", fp)
+}
+
+func ParseUserImpersonation_FieldPath(rawField string) (UserImpersonation_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildUserImpersonation_FieldPath(fp)
+}
+
+func MustParseUserImpersonation_FieldPath(rawField string) UserImpersonation_FieldPath {
+	fp, err := ParseUserImpersonation_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type UserImpersonation_FieldTerminalPath struct {
+	selector UserImpersonation_FieldPathSelector
+}
+
+var _ UserImpersonation_FieldPath = (*UserImpersonation_FieldTerminalPath)(nil)
+
+func (fp *UserImpersonation_FieldTerminalPath) Selector() UserImpersonation_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *UserImpersonation_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *UserImpersonation_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source UserImpersonation
+func (fp *UserImpersonation_FieldTerminalPath) Get(source *UserImpersonation) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case UserImpersonation_FieldPathSelectorSignedInUser:
+			if source.SignedInUser != nil {
+				values = append(values, source.SignedInUser)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*UserImpersonation))
+}
+
+// GetSingle returns value pointed by specific field of from source UserImpersonation
+func (fp *UserImpersonation_FieldTerminalPath) GetSingle(source *UserImpersonation) (interface{}, bool) {
+	switch fp.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		res := source.GetSignedInUser()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fp.selector))
+	}
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*UserImpersonation))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *UserImpersonation_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		return (*UserIdentity)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fp.selector))
+	}
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) ClearValue(item *UserImpersonation) {
+	if item != nil {
+		switch fp.selector {
+		case UserImpersonation_FieldPathSelectorSignedInUser:
+			item.SignedInUser = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*UserImpersonation))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *UserImpersonation_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) WithIValue(value interface{}) UserImpersonation_FieldPathValue {
+	switch fp.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		return &UserImpersonation_FieldTerminalPathValue{UserImpersonation_FieldTerminalPath: *fp, value: value.(*UserIdentity)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fp.selector))
+	}
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) WithIArrayOfValues(values interface{}) UserImpersonation_FieldPathArrayOfValues {
+	fpaov := &UserImpersonation_FieldTerminalPathArrayOfValues{UserImpersonation_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		return &UserImpersonation_FieldTerminalPathArrayOfValues{UserImpersonation_FieldTerminalPath: *fp, values: values.([]*UserIdentity)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) WithIArrayItemValue(value interface{}) UserImpersonation_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fp.selector))
+	}
+}
+
+func (fp *UserImpersonation_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type UserImpersonation_FieldSubPath struct {
+	selector UserImpersonation_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ UserImpersonation_FieldPath = (*UserImpersonation_FieldSubPath)(nil)
+
+func (fps *UserImpersonation_FieldSubPath) Selector() UserImpersonation_FieldPathSelector {
+	return fps.selector
+}
+func (fps *UserImpersonation_FieldSubPath) AsSignedInUserSubPath() (UserIdentity_FieldPath, bool) {
+	res, ok := fps.subPath.(UserIdentity_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *UserImpersonation_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *UserImpersonation_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source UserImpersonation
+func (fps *UserImpersonation_FieldSubPath) Get(source *UserImpersonation) (values []interface{}) {
+	switch fps.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		values = append(values, fps.subPath.GetRaw(source.GetSignedInUser())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *UserImpersonation_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*UserImpersonation))
+}
+
+// GetSingle returns value of selected field from source UserImpersonation
+func (fps *UserImpersonation_FieldSubPath) GetSingle(source *UserImpersonation) (interface{}, bool) {
+	switch fps.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		if source.GetSignedInUser() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetSignedInUser())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fps.selector))
+	}
+}
+
+func (fps *UserImpersonation_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*UserImpersonation))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *UserImpersonation_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *UserImpersonation_FieldSubPath) ClearValue(item *UserImpersonation) {
+	if item != nil {
+		switch fps.selector {
+		case UserImpersonation_FieldPathSelectorSignedInUser:
+			fps.subPath.ClearValueRaw(item.SignedInUser)
+		default:
+			panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *UserImpersonation_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*UserImpersonation))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *UserImpersonation_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *UserImpersonation_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UserImpersonation_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *UserImpersonation_FieldSubPath) WithIValue(value interface{}) UserImpersonation_FieldPathValue {
+	return &UserImpersonation_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *UserImpersonation_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *UserImpersonation_FieldSubPath) WithIArrayOfValues(values interface{}) UserImpersonation_FieldPathArrayOfValues {
+	return &UserImpersonation_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *UserImpersonation_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *UserImpersonation_FieldSubPath) WithIArrayItemValue(value interface{}) UserImpersonation_FieldPathArrayItemValue {
+	return &UserImpersonation_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *UserImpersonation_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// UserImpersonation_FieldPathValue allows storing values for UserImpersonation fields according to their type
+type UserImpersonation_FieldPathValue interface {
+	UserImpersonation_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **UserImpersonation)
+	CompareWith(*UserImpersonation) (cmp int, comparable bool)
+}
+
+func ParseUserImpersonation_FieldPathValue(pathStr, valueStr string) (UserImpersonation_FieldPathValue, error) {
+	fp, err := ParseUserImpersonation_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserImpersonation field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(UserImpersonation_FieldPathValue), nil
+}
+
+func MustParseUserImpersonation_FieldPathValue(pathStr, valueStr string) UserImpersonation_FieldPathValue {
+	fpv, err := ParseUserImpersonation_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type UserImpersonation_FieldTerminalPathValue struct {
+	UserImpersonation_FieldTerminalPath
+	value interface{}
+}
+
+var _ UserImpersonation_FieldPathValue = (*UserImpersonation_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'UserImpersonation' as interface{}
+func (fpv *UserImpersonation_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *UserImpersonation_FieldTerminalPathValue) AsSignedInUserValue() (*UserIdentity, bool) {
+	res, ok := fpv.value.(*UserIdentity)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object UserImpersonation
+func (fpv *UserImpersonation_FieldTerminalPathValue) SetTo(target **UserImpersonation) {
+	if *target == nil {
+		*target = new(UserImpersonation)
+	}
+	switch fpv.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		(*target).SignedInUser = fpv.value.(*UserIdentity)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fpv.selector))
+	}
+}
+
+func (fpv *UserImpersonation_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UserImpersonation)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'UserImpersonation_FieldTerminalPathValue' with the value under path in 'UserImpersonation'.
+func (fpv *UserImpersonation_FieldTerminalPathValue) CompareWith(source *UserImpersonation) (int, bool) {
+	switch fpv.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fpv.selector))
+	}
+}
+
+func (fpv *UserImpersonation_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*UserImpersonation))
+}
+
+type UserImpersonation_FieldSubPathValue struct {
+	UserImpersonation_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ UserImpersonation_FieldPathValue = (*UserImpersonation_FieldSubPathValue)(nil)
+
+func (fpvs *UserImpersonation_FieldSubPathValue) AsSignedInUserPathValue() (UserIdentity_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(UserIdentity_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *UserImpersonation_FieldSubPathValue) SetTo(target **UserImpersonation) {
+	if *target == nil {
+		*target = new(UserImpersonation)
+	}
+	switch fpvs.Selector() {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		fpvs.subPathValue.(UserIdentity_FieldPathValue).SetTo(&(*target).SignedInUser)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *UserImpersonation_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UserImpersonation)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *UserImpersonation_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *UserImpersonation_FieldSubPathValue) CompareWith(source *UserImpersonation) (int, bool) {
+	switch fpvs.Selector() {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		return fpvs.subPathValue.(UserIdentity_FieldPathValue).CompareWith(source.GetSignedInUser())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *UserImpersonation_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*UserImpersonation))
+}
+
+// UserImpersonation_FieldPathArrayItemValue allows storing single item in Path-specific values for UserImpersonation according to their type
+// Present only for array (repeated) types.
+type UserImpersonation_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	UserImpersonation_FieldPath
+	ContainsValue(*UserImpersonation) bool
+}
+
+// ParseUserImpersonation_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseUserImpersonation_FieldPathArrayItemValue(pathStr, valueStr string) (UserImpersonation_FieldPathArrayItemValue, error) {
+	fp, err := ParseUserImpersonation_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserImpersonation field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(UserImpersonation_FieldPathArrayItemValue), nil
+}
+
+func MustParseUserImpersonation_FieldPathArrayItemValue(pathStr, valueStr string) UserImpersonation_FieldPathArrayItemValue {
+	fpaiv, err := ParseUserImpersonation_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type UserImpersonation_FieldTerminalPathArrayItemValue struct {
+	UserImpersonation_FieldTerminalPath
+	value interface{}
+}
+
+var _ UserImpersonation_FieldPathArrayItemValue = (*UserImpersonation_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object UserImpersonation as interface{}
+func (fpaiv *UserImpersonation_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *UserImpersonation_FieldTerminalPathArrayItemValue) GetSingle(source *UserImpersonation) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *UserImpersonation_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*UserImpersonation))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'UserImpersonation'
+func (fpaiv *UserImpersonation_FieldTerminalPathArrayItemValue) ContainsValue(source *UserImpersonation) bool {
+	slice := fpaiv.UserImpersonation_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type UserImpersonation_FieldSubPathArrayItemValue struct {
+	UserImpersonation_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *UserImpersonation_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *UserImpersonation_FieldSubPathArrayItemValue) AsSignedInUserPathItemValue() (UserIdentity_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(UserIdentity_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'UserImpersonation'
+func (fpaivs *UserImpersonation_FieldSubPathArrayItemValue) ContainsValue(source *UserImpersonation) bool {
+	switch fpaivs.Selector() {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		return fpaivs.subPathItemValue.(UserIdentity_FieldPathArrayItemValue).ContainsValue(source.GetSignedInUser())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UserImpersonation: %d", fpaivs.Selector()))
+	}
+}
+
+// UserImpersonation_FieldPathArrayOfValues allows storing slice of values for UserImpersonation fields according to their type
+type UserImpersonation_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	UserImpersonation_FieldPath
+}
+
+func ParseUserImpersonation_FieldPathArrayOfValues(pathStr, valuesStr string) (UserImpersonation_FieldPathArrayOfValues, error) {
+	fp, err := ParseUserImpersonation_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UserImpersonation field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(UserImpersonation_FieldPathArrayOfValues), nil
+}
+
+func MustParseUserImpersonation_FieldPathArrayOfValues(pathStr, valuesStr string) UserImpersonation_FieldPathArrayOfValues {
+	fpaov, err := ParseUserImpersonation_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type UserImpersonation_FieldTerminalPathArrayOfValues struct {
+	UserImpersonation_FieldTerminalPath
+	values interface{}
+}
+
+var _ UserImpersonation_FieldPathArrayOfValues = (*UserImpersonation_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *UserImpersonation_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case UserImpersonation_FieldPathSelectorSignedInUser:
+		for _, v := range fpaov.values.([]*UserIdentity) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *UserImpersonation_FieldTerminalPathArrayOfValues) AsSignedInUserArrayOfValues() ([]*UserIdentity, bool) {
+	res, ok := fpaov.values.([]*UserIdentity)
+	return res, ok
+}
+
+type UserImpersonation_FieldSubPathArrayOfValues struct {
+	UserImpersonation_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ UserImpersonation_FieldPathArrayOfValues = (*UserImpersonation_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *UserImpersonation_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *UserImpersonation_FieldSubPathArrayOfValues) AsSignedInUserPathArrayOfValues() (UserIdentity_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(UserIdentity_FieldPathArrayOfValues)
 	return res, ok
 }
 

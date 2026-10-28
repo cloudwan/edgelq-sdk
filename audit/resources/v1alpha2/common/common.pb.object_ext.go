@@ -62,6 +62,26 @@ func (o *Authentication) MakeDiffFieldMask(other *Authentication) *Authenticatio
 	if o.GetPrincipalType() != other.GetPrincipalType() {
 		res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipalType})
 	}
+	{
+		subMask := o.GetUser().MakeDiffFieldMask(other.GetUser())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorUser})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &Authentication_FieldSubPath{selector: Authentication_FieldPathSelectorUser, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetImpersonation().MakeDiffFieldMask(other.GetImpersonation())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorImpersonation})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &Authentication_FieldSubPath{selector: Authentication_FieldPathSelectorImpersonation, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -76,6 +96,8 @@ func (o *Authentication) Clone() *Authentication {
 	result := &Authentication{}
 	result.Principal = o.Principal
 	result.PrincipalType = o.PrincipalType
+	result.User = o.User.Clone()
+	result.Impersonation = o.Impersonation.Clone()
 	return result
 }
 
@@ -86,10 +108,149 @@ func (o *Authentication) CloneRaw() gotenobject.GotenObjectExt {
 func (o *Authentication) Merge(source *Authentication) {
 	o.Principal = source.GetPrincipal()
 	o.PrincipalType = source.GetPrincipalType()
+	if source.GetUser() != nil {
+		if o.User == nil {
+			o.User = new(UserIdentity)
+		}
+		o.User.Merge(source.GetUser())
+	}
+	if source.GetImpersonation() != nil {
+		if o.Impersonation == nil {
+			o.Impersonation = new(UserImpersonation)
+		}
+		o.Impersonation.Merge(source.GetImpersonation())
+	}
 }
 
 func (o *Authentication) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Authentication))
+}
+
+func (o *UserIdentity) GotenObjectExt() {}
+
+func (o *UserIdentity) MakeFullFieldMask() *UserIdentity_FieldMask {
+	return FullUserIdentity_FieldMask()
+}
+
+func (o *UserIdentity) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullUserIdentity_FieldMask()
+}
+
+func (o *UserIdentity) MakeDiffFieldMask(other *UserIdentity) *UserIdentity_FieldMask {
+	if o == nil && other == nil {
+		return &UserIdentity_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullUserIdentity_FieldMask()
+	}
+
+	res := &UserIdentity_FieldMask{}
+	if o.GetProvider() != other.GetProvider() {
+		res.Paths = append(res.Paths, &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorProvider})
+	}
+	if o.GetProviderUserId() != other.GetProviderUserId() {
+		res.Paths = append(res.Paths, &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorProviderUserId})
+	}
+	if o.GetEmail() != other.GetEmail() {
+		res.Paths = append(res.Paths, &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorEmail})
+	}
+	if o.GetCompanyId() != other.GetCompanyId() {
+		res.Paths = append(res.Paths, &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorCompanyId})
+	}
+	return res
+}
+
+func (o *UserIdentity) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*UserIdentity))
+}
+
+func (o *UserIdentity) Clone() *UserIdentity {
+	if o == nil {
+		return nil
+	}
+	result := &UserIdentity{}
+	result.Provider = o.Provider
+	result.ProviderUserId = o.ProviderUserId
+	result.Email = o.Email
+	result.CompanyId = o.CompanyId
+	return result
+}
+
+func (o *UserIdentity) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *UserIdentity) Merge(source *UserIdentity) {
+	o.Provider = source.GetProvider()
+	o.ProviderUserId = source.GetProviderUserId()
+	o.Email = source.GetEmail()
+	o.CompanyId = source.GetCompanyId()
+}
+
+func (o *UserIdentity) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*UserIdentity))
+}
+
+func (o *UserImpersonation) GotenObjectExt() {}
+
+func (o *UserImpersonation) MakeFullFieldMask() *UserImpersonation_FieldMask {
+	return FullUserImpersonation_FieldMask()
+}
+
+func (o *UserImpersonation) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullUserImpersonation_FieldMask()
+}
+
+func (o *UserImpersonation) MakeDiffFieldMask(other *UserImpersonation) *UserImpersonation_FieldMask {
+	if o == nil && other == nil {
+		return &UserImpersonation_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullUserImpersonation_FieldMask()
+	}
+
+	res := &UserImpersonation_FieldMask{}
+	{
+		subMask := o.GetSignedInUser().MakeDiffFieldMask(other.GetSignedInUser())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &UserImpersonation_FieldTerminalPath{selector: UserImpersonation_FieldPathSelectorSignedInUser})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &UserImpersonation_FieldSubPath{selector: UserImpersonation_FieldPathSelectorSignedInUser, subPath: subpath})
+			}
+		}
+	}
+	return res
+}
+
+func (o *UserImpersonation) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*UserImpersonation))
+}
+
+func (o *UserImpersonation) Clone() *UserImpersonation {
+	if o == nil {
+		return nil
+	}
+	result := &UserImpersonation{}
+	result.SignedInUser = o.SignedInUser.Clone()
+	return result
+}
+
+func (o *UserImpersonation) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *UserImpersonation) Merge(source *UserImpersonation) {
+	if source.GetSignedInUser() != nil {
+		if o.SignedInUser == nil {
+			o.SignedInUser = new(UserIdentity)
+		}
+		o.SignedInUser.Merge(source.GetSignedInUser())
+	}
+}
+
+func (o *UserImpersonation) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*UserImpersonation))
 }
 
 func (o *Authorization) GotenObjectExt() {}

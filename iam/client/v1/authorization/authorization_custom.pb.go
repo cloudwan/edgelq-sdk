@@ -59,8 +59,8 @@ type GetPrincipalRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	// Service asking for given principal - IAM verifies if given principal has
-	// any role bindings in requesting service.
+	// Service asking for the principal. IAM checks service participation for
+	// service accounts; a resolved User is returned independently of participation.
 	RequestingService *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=requesting_service,json=requestingService,proto3" json:"requesting_service,omitempty"`
 	// Principal ID, different for users or service accounts
 	PrincipalKeyId string `protobuf:"bytes,2,opt,name=principal_key_id,json=principalKeyId,proto3" json:"principal_key_id,omitempty"`

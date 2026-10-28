@@ -158,6 +158,14 @@ func (ResourceChangeLogPathSelectorAuthentication) PrincipalType() ResourceChang
 	return ResourceChangeLogPathSelectorAuthenticationPrincipalType{}
 }
 
+func (ResourceChangeLogPathSelectorAuthentication) User() ResourceChangeLogPathSelectorAuthenticationUser {
+	return ResourceChangeLogPathSelectorAuthenticationUser{}
+}
+
+func (ResourceChangeLogPathSelectorAuthentication) Impersonation() ResourceChangeLogPathSelectorAuthenticationImpersonation {
+	return ResourceChangeLogPathSelectorAuthenticationImpersonation{}
+}
+
 type ResourceChangeLogPathSelectorAuthenticationPrincipal struct{}
 
 func (ResourceChangeLogPathSelectorAuthenticationPrincipal) FieldPath() *ResourceChangeLog_FieldSubPath {
@@ -189,6 +197,229 @@ func (s ResourceChangeLogPathSelectorAuthenticationPrincipalType) WithValue(valu
 }
 
 func (s ResourceChangeLogPathSelectorAuthenticationPrincipalType) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationUser struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationUser) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUser) WithValue(value *common.UserIdentity) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUser) WithArrayOfValues(values []*common.UserIdentity) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationUser) Provider() ResourceChangeLogPathSelectorAuthenticationUserProvider {
+	return ResourceChangeLogPathSelectorAuthenticationUserProvider{}
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationUser) ProviderUserId() ResourceChangeLogPathSelectorAuthenticationUserProviderUserId {
+	return ResourceChangeLogPathSelectorAuthenticationUserProviderUserId{}
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationUser) Email() ResourceChangeLogPathSelectorAuthenticationUserEmail {
+	return ResourceChangeLogPathSelectorAuthenticationUserEmail{}
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationUser) CompanyId() ResourceChangeLogPathSelectorAuthenticationUserCompanyId {
+	return ResourceChangeLogPathSelectorAuthenticationUserCompanyId{}
+}
+
+type ResourceChangeLogPathSelectorAuthenticationUserProvider struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationUserProvider) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().Provider().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUserProvider) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUserProvider) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationUserProviderUserId struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationUserProviderUserId) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().ProviderUserId().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUserProviderUserId) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUserProviderUserId) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationUserEmail struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationUserEmail) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().Email().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUserEmail) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUserEmail) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationUserCompanyId struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationUserCompanyId) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().CompanyId().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUserCompanyId) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationUserCompanyId) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationImpersonation struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonation) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonation) WithValue(value *common.UserImpersonation) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonation) WithArrayOfValues(values []*common.UserImpersonation) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonation) SignedInUser() ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser {
+	return ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser{}
+}
+
+type ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser) WithValue(value *common.UserIdentity) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser) WithArrayOfValues(values []*common.UserIdentity) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser) Provider() ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProvider {
+	return ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProvider{}
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser) ProviderUserId() ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId {
+	return ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId{}
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser) Email() ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserEmail {
+	return ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserEmail{}
+}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUser) CompanyId() ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId {
+	return ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId{}
+}
+
+type ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProvider struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProvider) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().Provider().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProvider) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProvider) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().ProviderUserId().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserEmail struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserEmail) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().Email().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserEmail) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserEmail) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().CompanyId().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
 }
 

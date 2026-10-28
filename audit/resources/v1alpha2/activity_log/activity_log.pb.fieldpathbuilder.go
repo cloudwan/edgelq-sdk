@@ -159,6 +159,14 @@ func (ActivityLogPathSelectorAuthentication) PrincipalType() ActivityLogPathSele
 	return ActivityLogPathSelectorAuthenticationPrincipalType{}
 }
 
+func (ActivityLogPathSelectorAuthentication) User() ActivityLogPathSelectorAuthenticationUser {
+	return ActivityLogPathSelectorAuthenticationUser{}
+}
+
+func (ActivityLogPathSelectorAuthentication) Impersonation() ActivityLogPathSelectorAuthenticationImpersonation {
+	return ActivityLogPathSelectorAuthenticationImpersonation{}
+}
+
 type ActivityLogPathSelectorAuthenticationPrincipal struct{}
 
 func (ActivityLogPathSelectorAuthenticationPrincipal) FieldPath() *ActivityLog_FieldSubPath {
@@ -190,6 +198,229 @@ func (s ActivityLogPathSelectorAuthenticationPrincipalType) WithValue(value stri
 }
 
 func (s ActivityLogPathSelectorAuthenticationPrincipalType) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationUser struct{}
+
+func (ActivityLogPathSelectorAuthenticationUser) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationUser) WithValue(value *common.UserIdentity) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationUser) WithArrayOfValues(values []*common.UserIdentity) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLogPathSelectorAuthenticationUser) Provider() ActivityLogPathSelectorAuthenticationUserProvider {
+	return ActivityLogPathSelectorAuthenticationUserProvider{}
+}
+
+func (ActivityLogPathSelectorAuthenticationUser) ProviderUserId() ActivityLogPathSelectorAuthenticationUserProviderUserId {
+	return ActivityLogPathSelectorAuthenticationUserProviderUserId{}
+}
+
+func (ActivityLogPathSelectorAuthenticationUser) Email() ActivityLogPathSelectorAuthenticationUserEmail {
+	return ActivityLogPathSelectorAuthenticationUserEmail{}
+}
+
+func (ActivityLogPathSelectorAuthenticationUser) CompanyId() ActivityLogPathSelectorAuthenticationUserCompanyId {
+	return ActivityLogPathSelectorAuthenticationUserCompanyId{}
+}
+
+type ActivityLogPathSelectorAuthenticationUserProvider struct{}
+
+func (ActivityLogPathSelectorAuthenticationUserProvider) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().Provider().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationUserProvider) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationUserProvider) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationUserProviderUserId struct{}
+
+func (ActivityLogPathSelectorAuthenticationUserProviderUserId) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().ProviderUserId().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationUserProviderUserId) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationUserProviderUserId) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationUserEmail struct{}
+
+func (ActivityLogPathSelectorAuthenticationUserEmail) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().Email().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationUserEmail) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationUserEmail) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationUserCompanyId struct{}
+
+func (ActivityLogPathSelectorAuthenticationUserCompanyId) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().User().CompanyId().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationUserCompanyId) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationUserCompanyId) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationImpersonation struct{}
+
+func (ActivityLogPathSelectorAuthenticationImpersonation) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonation) WithValue(value *common.UserImpersonation) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonation) WithArrayOfValues(values []*common.UserImpersonation) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLogPathSelectorAuthenticationImpersonation) SignedInUser() ActivityLogPathSelectorAuthenticationImpersonationSignedInUser {
+	return ActivityLogPathSelectorAuthenticationImpersonationSignedInUser{}
+}
+
+type ActivityLogPathSelectorAuthenticationImpersonationSignedInUser struct{}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUser) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUser) WithValue(value *common.UserIdentity) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUser) WithArrayOfValues(values []*common.UserIdentity) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUser) Provider() ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProvider {
+	return ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProvider{}
+}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUser) ProviderUserId() ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId {
+	return ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId{}
+}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUser) Email() ActivityLogPathSelectorAuthenticationImpersonationSignedInUserEmail {
+	return ActivityLogPathSelectorAuthenticationImpersonationSignedInUserEmail{}
+}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUser) CompanyId() ActivityLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId {
+	return ActivityLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId{}
+}
+
+type ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProvider struct{}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProvider) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().Provider().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProvider) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProvider) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId struct{}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().ProviderUserId().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUserProviderUserId) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationImpersonationSignedInUserEmail struct{}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUserEmail) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().Email().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUserEmail) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUserEmail) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId struct{}
+
+func (ActivityLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  common.NewAuthenticationFieldPathBuilder().Impersonation().SignedInUser().CompanyId().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationImpersonationSignedInUserCompanyId) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 

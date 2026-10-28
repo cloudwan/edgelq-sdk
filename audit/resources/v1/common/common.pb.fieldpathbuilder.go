@@ -27,6 +27,12 @@ func (AuthenticationFieldPathBuilder) Principal() AuthenticationPathSelectorPrin
 func (AuthenticationFieldPathBuilder) PrincipalType() AuthenticationPathSelectorPrincipalType {
 	return AuthenticationPathSelectorPrincipalType{}
 }
+func (AuthenticationFieldPathBuilder) User() AuthenticationPathSelectorUser {
+	return AuthenticationPathSelectorUser{}
+}
+func (AuthenticationFieldPathBuilder) Impersonation() AuthenticationPathSelectorImpersonation {
+	return AuthenticationPathSelectorImpersonation{}
+}
 
 type AuthenticationPathSelectorPrincipal struct{}
 
@@ -54,6 +60,452 @@ func (s AuthenticationPathSelectorPrincipalType) WithValue(value string) *Authen
 
 func (s AuthenticationPathSelectorPrincipalType) WithArrayOfValues(values []string) *Authentication_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldTerminalPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorUser struct{}
+
+func (AuthenticationPathSelectorUser) FieldPath() *Authentication_FieldTerminalPath {
+	return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorUser}
+}
+
+func (s AuthenticationPathSelectorUser) WithValue(value *UserIdentity) *Authentication_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldTerminalPathValue)
+}
+
+func (s AuthenticationPathSelectorUser) WithArrayOfValues(values []*UserIdentity) *Authentication_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldTerminalPathArrayOfValues)
+}
+
+func (AuthenticationPathSelectorUser) WithSubPath(subPath UserIdentity_FieldPath) *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{selector: Authentication_FieldPathSelectorUser, subPath: subPath}
+}
+
+func (s AuthenticationPathSelectorUser) WithSubValue(subPathValue UserIdentity_FieldPathValue) *Authentication_FieldSubPathValue {
+	return &Authentication_FieldSubPathValue{Authentication_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s AuthenticationPathSelectorUser) WithSubArrayOfValues(subPathArrayOfValues UserIdentity_FieldPathArrayOfValues) *Authentication_FieldSubPathArrayOfValues {
+	return &Authentication_FieldSubPathArrayOfValues{Authentication_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s AuthenticationPathSelectorUser) WithSubArrayItemValue(subPathArrayItemValue UserIdentity_FieldPathArrayItemValue) *Authentication_FieldSubPathArrayItemValue {
+	return &Authentication_FieldSubPathArrayItemValue{Authentication_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (AuthenticationPathSelectorUser) Provider() AuthenticationPathSelectorUserProvider {
+	return AuthenticationPathSelectorUserProvider{}
+}
+
+func (AuthenticationPathSelectorUser) ProviderUserId() AuthenticationPathSelectorUserProviderUserId {
+	return AuthenticationPathSelectorUserProviderUserId{}
+}
+
+func (AuthenticationPathSelectorUser) Email() AuthenticationPathSelectorUserEmail {
+	return AuthenticationPathSelectorUserEmail{}
+}
+
+func (AuthenticationPathSelectorUser) CompanyId() AuthenticationPathSelectorUserCompanyId {
+	return AuthenticationPathSelectorUserCompanyId{}
+}
+
+type AuthenticationPathSelectorUserProvider struct{}
+
+func (AuthenticationPathSelectorUserProvider) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorUser,
+		subPath:  NewUserIdentityFieldPathBuilder().Provider().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorUserProvider) WithValue(value string) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorUserProvider) WithArrayOfValues(values []string) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorUserProviderUserId struct{}
+
+func (AuthenticationPathSelectorUserProviderUserId) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorUser,
+		subPath:  NewUserIdentityFieldPathBuilder().ProviderUserId().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorUserProviderUserId) WithValue(value string) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorUserProviderUserId) WithArrayOfValues(values []string) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorUserEmail struct{}
+
+func (AuthenticationPathSelectorUserEmail) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorUser,
+		subPath:  NewUserIdentityFieldPathBuilder().Email().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorUserEmail) WithValue(value string) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorUserEmail) WithArrayOfValues(values []string) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorUserCompanyId struct{}
+
+func (AuthenticationPathSelectorUserCompanyId) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorUser,
+		subPath:  NewUserIdentityFieldPathBuilder().CompanyId().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorUserCompanyId) WithValue(value string) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorUserCompanyId) WithArrayOfValues(values []string) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorImpersonation struct{}
+
+func (AuthenticationPathSelectorImpersonation) FieldPath() *Authentication_FieldTerminalPath {
+	return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorImpersonation}
+}
+
+func (s AuthenticationPathSelectorImpersonation) WithValue(value *UserImpersonation) *Authentication_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldTerminalPathValue)
+}
+
+func (s AuthenticationPathSelectorImpersonation) WithArrayOfValues(values []*UserImpersonation) *Authentication_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldTerminalPathArrayOfValues)
+}
+
+func (AuthenticationPathSelectorImpersonation) WithSubPath(subPath UserImpersonation_FieldPath) *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{selector: Authentication_FieldPathSelectorImpersonation, subPath: subPath}
+}
+
+func (s AuthenticationPathSelectorImpersonation) WithSubValue(subPathValue UserImpersonation_FieldPathValue) *Authentication_FieldSubPathValue {
+	return &Authentication_FieldSubPathValue{Authentication_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s AuthenticationPathSelectorImpersonation) WithSubArrayOfValues(subPathArrayOfValues UserImpersonation_FieldPathArrayOfValues) *Authentication_FieldSubPathArrayOfValues {
+	return &Authentication_FieldSubPathArrayOfValues{Authentication_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s AuthenticationPathSelectorImpersonation) WithSubArrayItemValue(subPathArrayItemValue UserImpersonation_FieldPathArrayItemValue) *Authentication_FieldSubPathArrayItemValue {
+	return &Authentication_FieldSubPathArrayItemValue{Authentication_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (AuthenticationPathSelectorImpersonation) SignedInUser() AuthenticationPathSelectorImpersonationSignedInUser {
+	return AuthenticationPathSelectorImpersonationSignedInUser{}
+}
+
+type AuthenticationPathSelectorImpersonationSignedInUser struct{}
+
+func (AuthenticationPathSelectorImpersonationSignedInUser) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorImpersonation,
+		subPath:  NewUserImpersonationFieldPathBuilder().SignedInUser().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUser) WithValue(value *UserIdentity) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUser) WithArrayOfValues(values []*UserIdentity) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+func (AuthenticationPathSelectorImpersonationSignedInUser) Provider() AuthenticationPathSelectorImpersonationSignedInUserProvider {
+	return AuthenticationPathSelectorImpersonationSignedInUserProvider{}
+}
+
+func (AuthenticationPathSelectorImpersonationSignedInUser) ProviderUserId() AuthenticationPathSelectorImpersonationSignedInUserProviderUserId {
+	return AuthenticationPathSelectorImpersonationSignedInUserProviderUserId{}
+}
+
+func (AuthenticationPathSelectorImpersonationSignedInUser) Email() AuthenticationPathSelectorImpersonationSignedInUserEmail {
+	return AuthenticationPathSelectorImpersonationSignedInUserEmail{}
+}
+
+func (AuthenticationPathSelectorImpersonationSignedInUser) CompanyId() AuthenticationPathSelectorImpersonationSignedInUserCompanyId {
+	return AuthenticationPathSelectorImpersonationSignedInUserCompanyId{}
+}
+
+type AuthenticationPathSelectorImpersonationSignedInUserProvider struct{}
+
+func (AuthenticationPathSelectorImpersonationSignedInUserProvider) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorImpersonation,
+		subPath:  NewUserImpersonationFieldPathBuilder().SignedInUser().Provider().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUserProvider) WithValue(value string) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUserProvider) WithArrayOfValues(values []string) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorImpersonationSignedInUserProviderUserId struct{}
+
+func (AuthenticationPathSelectorImpersonationSignedInUserProviderUserId) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorImpersonation,
+		subPath:  NewUserImpersonationFieldPathBuilder().SignedInUser().ProviderUserId().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUserProviderUserId) WithValue(value string) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUserProviderUserId) WithArrayOfValues(values []string) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorImpersonationSignedInUserEmail struct{}
+
+func (AuthenticationPathSelectorImpersonationSignedInUserEmail) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorImpersonation,
+		subPath:  NewUserImpersonationFieldPathBuilder().SignedInUser().Email().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUserEmail) WithValue(value string) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUserEmail) WithArrayOfValues(values []string) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorImpersonationSignedInUserCompanyId struct{}
+
+func (AuthenticationPathSelectorImpersonationSignedInUserCompanyId) FieldPath() *Authentication_FieldSubPath {
+	return &Authentication_FieldSubPath{
+		selector: Authentication_FieldPathSelectorImpersonation,
+		subPath:  NewUserImpersonationFieldPathBuilder().SignedInUser().CompanyId().FieldPath(),
+	}
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUserCompanyId) WithValue(value string) *Authentication_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldSubPathValue)
+}
+
+func (s AuthenticationPathSelectorImpersonationSignedInUserCompanyId) WithArrayOfValues(values []string) *Authentication_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldSubPathArrayOfValues)
+}
+
+type UserIdentityFieldPathBuilder struct{}
+
+func NewUserIdentityFieldPathBuilder() UserIdentityFieldPathBuilder {
+	return UserIdentityFieldPathBuilder{}
+}
+func (UserIdentityFieldPathBuilder) Provider() UserIdentityPathSelectorProvider {
+	return UserIdentityPathSelectorProvider{}
+}
+func (UserIdentityFieldPathBuilder) ProviderUserId() UserIdentityPathSelectorProviderUserId {
+	return UserIdentityPathSelectorProviderUserId{}
+}
+func (UserIdentityFieldPathBuilder) Email() UserIdentityPathSelectorEmail {
+	return UserIdentityPathSelectorEmail{}
+}
+func (UserIdentityFieldPathBuilder) CompanyId() UserIdentityPathSelectorCompanyId {
+	return UserIdentityPathSelectorCompanyId{}
+}
+
+type UserIdentityPathSelectorProvider struct{}
+
+func (UserIdentityPathSelectorProvider) FieldPath() *UserIdentity_FieldTerminalPath {
+	return &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorProvider}
+}
+
+func (s UserIdentityPathSelectorProvider) WithValue(value string) *UserIdentity_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserIdentity_FieldTerminalPathValue)
+}
+
+func (s UserIdentityPathSelectorProvider) WithArrayOfValues(values []string) *UserIdentity_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserIdentity_FieldTerminalPathArrayOfValues)
+}
+
+type UserIdentityPathSelectorProviderUserId struct{}
+
+func (UserIdentityPathSelectorProviderUserId) FieldPath() *UserIdentity_FieldTerminalPath {
+	return &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorProviderUserId}
+}
+
+func (s UserIdentityPathSelectorProviderUserId) WithValue(value string) *UserIdentity_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserIdentity_FieldTerminalPathValue)
+}
+
+func (s UserIdentityPathSelectorProviderUserId) WithArrayOfValues(values []string) *UserIdentity_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserIdentity_FieldTerminalPathArrayOfValues)
+}
+
+type UserIdentityPathSelectorEmail struct{}
+
+func (UserIdentityPathSelectorEmail) FieldPath() *UserIdentity_FieldTerminalPath {
+	return &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorEmail}
+}
+
+func (s UserIdentityPathSelectorEmail) WithValue(value string) *UserIdentity_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserIdentity_FieldTerminalPathValue)
+}
+
+func (s UserIdentityPathSelectorEmail) WithArrayOfValues(values []string) *UserIdentity_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserIdentity_FieldTerminalPathArrayOfValues)
+}
+
+type UserIdentityPathSelectorCompanyId struct{}
+
+func (UserIdentityPathSelectorCompanyId) FieldPath() *UserIdentity_FieldTerminalPath {
+	return &UserIdentity_FieldTerminalPath{selector: UserIdentity_FieldPathSelectorCompanyId}
+}
+
+func (s UserIdentityPathSelectorCompanyId) WithValue(value string) *UserIdentity_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserIdentity_FieldTerminalPathValue)
+}
+
+func (s UserIdentityPathSelectorCompanyId) WithArrayOfValues(values []string) *UserIdentity_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserIdentity_FieldTerminalPathArrayOfValues)
+}
+
+type UserImpersonationFieldPathBuilder struct{}
+
+func NewUserImpersonationFieldPathBuilder() UserImpersonationFieldPathBuilder {
+	return UserImpersonationFieldPathBuilder{}
+}
+func (UserImpersonationFieldPathBuilder) SignedInUser() UserImpersonationPathSelectorSignedInUser {
+	return UserImpersonationPathSelectorSignedInUser{}
+}
+
+type UserImpersonationPathSelectorSignedInUser struct{}
+
+func (UserImpersonationPathSelectorSignedInUser) FieldPath() *UserImpersonation_FieldTerminalPath {
+	return &UserImpersonation_FieldTerminalPath{selector: UserImpersonation_FieldPathSelectorSignedInUser}
+}
+
+func (s UserImpersonationPathSelectorSignedInUser) WithValue(value *UserIdentity) *UserImpersonation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UserImpersonation_FieldTerminalPathValue)
+}
+
+func (s UserImpersonationPathSelectorSignedInUser) WithArrayOfValues(values []*UserIdentity) *UserImpersonation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserImpersonation_FieldTerminalPathArrayOfValues)
+}
+
+func (UserImpersonationPathSelectorSignedInUser) WithSubPath(subPath UserIdentity_FieldPath) *UserImpersonation_FieldSubPath {
+	return &UserImpersonation_FieldSubPath{selector: UserImpersonation_FieldPathSelectorSignedInUser, subPath: subPath}
+}
+
+func (s UserImpersonationPathSelectorSignedInUser) WithSubValue(subPathValue UserIdentity_FieldPathValue) *UserImpersonation_FieldSubPathValue {
+	return &UserImpersonation_FieldSubPathValue{UserImpersonation_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s UserImpersonationPathSelectorSignedInUser) WithSubArrayOfValues(subPathArrayOfValues UserIdentity_FieldPathArrayOfValues) *UserImpersonation_FieldSubPathArrayOfValues {
+	return &UserImpersonation_FieldSubPathArrayOfValues{UserImpersonation_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s UserImpersonationPathSelectorSignedInUser) WithSubArrayItemValue(subPathArrayItemValue UserIdentity_FieldPathArrayItemValue) *UserImpersonation_FieldSubPathArrayItemValue {
+	return &UserImpersonation_FieldSubPathArrayItemValue{UserImpersonation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (UserImpersonationPathSelectorSignedInUser) Provider() UserImpersonationPathSelectorSignedInUserProvider {
+	return UserImpersonationPathSelectorSignedInUserProvider{}
+}
+
+func (UserImpersonationPathSelectorSignedInUser) ProviderUserId() UserImpersonationPathSelectorSignedInUserProviderUserId {
+	return UserImpersonationPathSelectorSignedInUserProviderUserId{}
+}
+
+func (UserImpersonationPathSelectorSignedInUser) Email() UserImpersonationPathSelectorSignedInUserEmail {
+	return UserImpersonationPathSelectorSignedInUserEmail{}
+}
+
+func (UserImpersonationPathSelectorSignedInUser) CompanyId() UserImpersonationPathSelectorSignedInUserCompanyId {
+	return UserImpersonationPathSelectorSignedInUserCompanyId{}
+}
+
+type UserImpersonationPathSelectorSignedInUserProvider struct{}
+
+func (UserImpersonationPathSelectorSignedInUserProvider) FieldPath() *UserImpersonation_FieldSubPath {
+	return &UserImpersonation_FieldSubPath{
+		selector: UserImpersonation_FieldPathSelectorSignedInUser,
+		subPath:  NewUserIdentityFieldPathBuilder().Provider().FieldPath(),
+	}
+}
+
+func (s UserImpersonationPathSelectorSignedInUserProvider) WithValue(value string) *UserImpersonation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UserImpersonation_FieldSubPathValue)
+}
+
+func (s UserImpersonationPathSelectorSignedInUserProvider) WithArrayOfValues(values []string) *UserImpersonation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserImpersonation_FieldSubPathArrayOfValues)
+}
+
+type UserImpersonationPathSelectorSignedInUserProviderUserId struct{}
+
+func (UserImpersonationPathSelectorSignedInUserProviderUserId) FieldPath() *UserImpersonation_FieldSubPath {
+	return &UserImpersonation_FieldSubPath{
+		selector: UserImpersonation_FieldPathSelectorSignedInUser,
+		subPath:  NewUserIdentityFieldPathBuilder().ProviderUserId().FieldPath(),
+	}
+}
+
+func (s UserImpersonationPathSelectorSignedInUserProviderUserId) WithValue(value string) *UserImpersonation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UserImpersonation_FieldSubPathValue)
+}
+
+func (s UserImpersonationPathSelectorSignedInUserProviderUserId) WithArrayOfValues(values []string) *UserImpersonation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserImpersonation_FieldSubPathArrayOfValues)
+}
+
+type UserImpersonationPathSelectorSignedInUserEmail struct{}
+
+func (UserImpersonationPathSelectorSignedInUserEmail) FieldPath() *UserImpersonation_FieldSubPath {
+	return &UserImpersonation_FieldSubPath{
+		selector: UserImpersonation_FieldPathSelectorSignedInUser,
+		subPath:  NewUserIdentityFieldPathBuilder().Email().FieldPath(),
+	}
+}
+
+func (s UserImpersonationPathSelectorSignedInUserEmail) WithValue(value string) *UserImpersonation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UserImpersonation_FieldSubPathValue)
+}
+
+func (s UserImpersonationPathSelectorSignedInUserEmail) WithArrayOfValues(values []string) *UserImpersonation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserImpersonation_FieldSubPathArrayOfValues)
+}
+
+type UserImpersonationPathSelectorSignedInUserCompanyId struct{}
+
+func (UserImpersonationPathSelectorSignedInUserCompanyId) FieldPath() *UserImpersonation_FieldSubPath {
+	return &UserImpersonation_FieldSubPath{
+		selector: UserImpersonation_FieldPathSelectorSignedInUser,
+		subPath:  NewUserIdentityFieldPathBuilder().CompanyId().FieldPath(),
+	}
+}
+
+func (s UserImpersonationPathSelectorSignedInUserCompanyId) WithValue(value string) *UserImpersonation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UserImpersonation_FieldSubPathValue)
+}
+
+func (s UserImpersonationPathSelectorSignedInUserCompanyId) WithArrayOfValues(values []string) *UserImpersonation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UserImpersonation_FieldSubPathArrayOfValues)
 }
 
 type AuthorizationFieldPathBuilder struct{}
