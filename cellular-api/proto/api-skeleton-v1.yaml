@@ -28,6 +28,13 @@ resources:
     withStoreHandle:
       readOnly: true
       transaction: NONE
+  # The bundles the carrier sells under this agreement: what a bundle request
+  # may name. On Contract because the catalog is the agreement's.
+  - name: ListBundleProducts
+    verb: listBundleProducts
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
 - name: SimCardStock
   idPattern: "\\\\d{19}"
   multiRegion:
@@ -52,30 +59,33 @@ resources:
   - Region
   idPattern: "\\\\d{19}"
   actions:
+  # The four transitions manage their own transactions: the carrier is polled
+  # outside any, and an activation orders its bundle request through Subscribe,
+  # which has transactions of its own.
   - name: Activate
     verb: activate
     responseName: google.protobuf.Empty
     skipResponseMsgGen: true
     withStoreHandle:
-      transaction: SNAPSHOT
+      transaction: MANUAL
   - name: Suspend
     verb: suspend
     responseName: google.protobuf.Empty
     skipResponseMsgGen: true
     withStoreHandle:
-      transaction: SNAPSHOT
+      transaction: MANUAL
   - name: Terminate
     verb: terminate
     responseName: google.protobuf.Empty
     skipResponseMsgGen: true
     withStoreHandle:
-      transaction: SNAPSHOT
+      transaction: MANUAL
   - name: Reactivate
     verb: reactivate
     responseName: google.protobuf.Empty
     skipResponseMsgGen: true
     withStoreHandle:
-      transaction: SNAPSHOT
+      transaction: MANUAL
   - name: GetDataUsage
     verb: getDataUsage
     grpcTranscoding:
@@ -83,3 +93,41 @@ resources:
     withStoreHandle:
       readOnly: true
       transaction: NONE
+  # Subscribes the SIM to a carrier product (a bundle) and returns the
+  # Bundle it created. The carrier is called between two transactions.
+  - name: Subscribe
+    verb: subscribe
+    responseName: Bundle
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: MANUAL
+  # Asks the carrier what the SIM holds now, with what is left of each bundle.
+  # A read: nothing is written.
+  - name: GetBundles
+    verb: getBundles
+    grpcTranscoding:
+      httpMethod: get
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+# One carrier product bundle of a SIM. Users write it only
+# through SimCard Subscribe and the actions below.
+- name: Bundle
+  parents:
+  - SimCard
+  idPattern: "[a-z0-9][a-z0-9\\\\-]{0,62}[a-z0-9]"
+  actions:
+  # Named apart from SimCard Terminate: the generated CellularApiServer
+  # embeds both services, so method names must differ.
+  - name: TerminateBundle
+    verb: terminate
+    responseName: Bundle
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: MANUAL
+  - name: CancelRenewal
+    verb: cancelRenewal
+    responseName: Bundle
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: MANUAL

@@ -13,6 +13,7 @@ import (
 
 // proto imports
 import (
+	bundle "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/bundle"
 	sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
@@ -26,6 +27,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &bundle.Bundle{}
 	_ = &sim_card.SimCard{}
 	_ = &emptypb.Empty{}
 )
@@ -62,6 +64,8 @@ type SimCardServiceClient interface {
 	Terminate(ctx context.Context, in *TerminateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Reactivate(ctx context.Context, in *ReactivateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetDataUsage(ctx context.Context, in *GetDataUsageRequest, opts ...grpc.CallOption) (*GetDataUsageResponse, error)
+	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*bundle.Bundle, error)
+	GetBundles(ctx context.Context, in *GetBundlesRequest, opts ...grpc.CallOption) (*GetBundlesResponse, error)
 }
 
 type client struct {
@@ -239,6 +243,24 @@ func (c *client) Reactivate(ctx context.Context, in *ReactivateRequest, opts ...
 func (c *client) GetDataUsage(ctx context.Context, in *GetDataUsageRequest, opts ...grpc.CallOption) (*GetDataUsageResponse, error) {
 	out := new(GetDataUsageResponse)
 	err := c.cc.Invoke(ctx, "/ntt.cellular_api.v1.SimCardService/GetDataUsage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*bundle.Bundle, error) {
+	out := new(bundle.Bundle)
+	err := c.cc.Invoke(ctx, "/ntt.cellular_api.v1.SimCardService/Subscribe", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) GetBundles(ctx context.Context, in *GetBundlesRequest, opts ...grpc.CallOption) (*GetBundlesResponse, error) {
+	out := new(GetBundlesResponse)
+	err := c.cc.Invoke(ctx, "/ntt.cellular_api.v1.SimCardService/GetBundles", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

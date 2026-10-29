@@ -20,6 +20,7 @@ import (
 
 // proto imports
 import (
+	bundle "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/bundle"
 	sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	view "github.com/cloudwan/goten-sdk/types/view"
@@ -44,6 +45,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &bundle.Bundle{}
 	_ = &sim_card.SimCard{}
 	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &emptypb.Empty{}

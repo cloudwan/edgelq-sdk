@@ -70,13 +70,16 @@ type Contract_FieldPath interface {
 type Contract_FieldPathSelector int32
 
 const (
-	Contract_FieldPathSelectorName      Contract_FieldPathSelector = 0
-	Contract_FieldPathSelectorMetadata  Contract_FieldPathSelector = 1
-	Contract_FieldPathSelectorRatePlan  Contract_FieldPathSelector = 2
-	Contract_FieldPathSelectorTransatel Contract_FieldPathSelector = 3
-	Contract_FieldPathSelectorCisco     Contract_FieldPathSelector = 4
-	Contract_FieldPathSelectorCelona    Contract_FieldPathSelector = 5
-	Contract_FieldPathSelectorStatus    Contract_FieldPathSelector = 6
+	Contract_FieldPathSelectorName             Contract_FieldPathSelector = 0
+	Contract_FieldPathSelectorMetadata         Contract_FieldPathSelector = 1
+	Contract_FieldPathSelectorRatePlan         Contract_FieldPathSelector = 2
+	Contract_FieldPathSelectorAccountReference Contract_FieldPathSelector = 3
+	Contract_FieldPathSelectorBundleCatalog    Contract_FieldPathSelector = 4
+	Contract_FieldPathSelectorTransatel        Contract_FieldPathSelector = 5
+	Contract_FieldPathSelectorTransatelLegacy  Contract_FieldPathSelector = 6
+	Contract_FieldPathSelectorCisco            Contract_FieldPathSelector = 7
+	Contract_FieldPathSelectorCelona           Contract_FieldPathSelector = 8
+	Contract_FieldPathSelectorStatus           Contract_FieldPathSelector = 9
 )
 
 func (s Contract_FieldPathSelector) String() string {
@@ -87,8 +90,14 @@ func (s Contract_FieldPathSelector) String() string {
 		return "metadata"
 	case Contract_FieldPathSelectorRatePlan:
 		return "rate_plan"
+	case Contract_FieldPathSelectorAccountReference:
+		return "account_reference"
+	case Contract_FieldPathSelectorBundleCatalog:
+		return "bundle_catalog"
 	case Contract_FieldPathSelectorTransatel:
 		return "transatel"
+	case Contract_FieldPathSelectorTransatelLegacy:
+		return "transatel_legacy"
 	case Contract_FieldPathSelectorCisco:
 		return "cisco"
 	case Contract_FieldPathSelectorCelona:
@@ -112,8 +121,14 @@ func BuildContract_FieldPath(fp gotenobject.RawFieldPath) (Contract_FieldPath, e
 			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorMetadata}, nil
 		case "rate_plan", "ratePlan", "rate-plan":
 			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorRatePlan}, nil
+		case "account_reference", "accountReference", "account-reference":
+			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorAccountReference}, nil
+		case "bundle_catalog", "bundleCatalog", "bundle-catalog":
+			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorBundleCatalog}, nil
 		case "transatel":
 			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatel}, nil
+		case "transatel_legacy", "transatelLegacy", "transatel-legacy":
+			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatelLegacy}, nil
 		case "cisco":
 			return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorCisco}, nil
 		case "celona":
@@ -128,6 +143,12 @@ func BuildContract_FieldPath(fp gotenobject.RawFieldPath) (Contract_FieldPath, e
 				return nil, err
 			} else {
 				return &Contract_FieldSubPath{selector: Contract_FieldPathSelectorMetadata, subPath: subpath}, nil
+			}
+		case "transatel":
+			if subpath, err := BuildContractTransatelAccount_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Contract_FieldSubPath{selector: Contract_FieldPathSelectorTransatel, subPath: subpath}, nil
 			}
 		case "status":
 			if subpath, err := BuildContractStatus_FieldPath(fp[1:]); err != nil {
@@ -190,10 +211,20 @@ func (fp *Contract_FieldTerminalPath) Get(source *Contract) (values []interface{
 			}
 		case Contract_FieldPathSelectorRatePlan:
 			values = append(values, source.RatePlan)
+		case Contract_FieldPathSelectorAccountReference:
+			values = append(values, source.AccountReference)
+		case Contract_FieldPathSelectorBundleCatalog:
+			values = append(values, source.BundleCatalog)
 		case Contract_FieldPathSelectorTransatel:
 			if source, ok := source.CarrierAccount.(*Contract_Transatel); ok && source != nil {
 				if source.Transatel != nil {
 					values = append(values, source.Transatel)
+				}
+			}
+		case Contract_FieldPathSelectorTransatelLegacy:
+			if source, ok := source.CarrierAccount.(*Contract_TransatelLegacy); ok && source != nil {
+				if source.TransatelLegacy != nil {
+					values = append(values, source.TransatelLegacy)
 				}
 			}
 		case Contract_FieldPathSelectorCisco:
@@ -234,6 +265,10 @@ func (fp *Contract_FieldTerminalPath) GetSingle(source *Contract) (interface{}, 
 		return res, res != nil
 	case Contract_FieldPathSelectorRatePlan:
 		return source.GetRatePlan(), source != nil
+	case Contract_FieldPathSelectorAccountReference:
+		return source.GetAccountReference(), source != nil
+	case Contract_FieldPathSelectorBundleCatalog:
+		return source.GetBundleCatalog(), source != nil
 	case Contract_FieldPathSelectorTransatel:
 		// if object nil or oneof not active, return "default" type with false flag.
 		if source == nil {
@@ -244,6 +279,17 @@ func (fp *Contract_FieldTerminalPath) GetSingle(source *Contract) (interface{}, 
 			return source.GetTransatel(), false // to return "type" information
 		}
 		res := source.GetTransatel()
+		return res, res != nil
+	case Contract_FieldPathSelectorTransatelLegacy:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetTransatelLegacy(), false
+		}
+		_, oneOfSelected := source.CarrierAccount.(*Contract_TransatelLegacy)
+		if !oneOfSelected {
+			return source.GetTransatelLegacy(), false // to return "type" information
+		}
+		res := source.GetTransatelLegacy()
 		return res, res != nil
 	case Contract_FieldPathSelectorCisco:
 		// if object nil or oneof not active, return "default" type with false flag.
@@ -288,7 +334,13 @@ func (fp *Contract_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case Contract_FieldPathSelectorRatePlan:
 		return ""
+	case Contract_FieldPathSelectorAccountReference:
+		return ""
+	case Contract_FieldPathSelectorBundleCatalog:
+		return ""
 	case Contract_FieldPathSelectorTransatel:
+		return (*Contract_TransatelAccount)(nil)
+	case Contract_FieldPathSelectorTransatelLegacy:
 		return (*secrets_secret.Reference)(nil)
 	case Contract_FieldPathSelectorCisco:
 		return (*secrets_secret.Reference)(nil)
@@ -310,9 +362,17 @@ func (fp *Contract_FieldTerminalPath) ClearValue(item *Contract) {
 			item.Metadata = nil
 		case Contract_FieldPathSelectorRatePlan:
 			item.RatePlan = ""
+		case Contract_FieldPathSelectorAccountReference:
+			item.AccountReference = ""
+		case Contract_FieldPathSelectorBundleCatalog:
+			item.BundleCatalog = ""
 		case Contract_FieldPathSelectorTransatel:
 			if item, ok := item.CarrierAccount.(*Contract_Transatel); ok {
 				item.Transatel = nil
+			}
+		case Contract_FieldPathSelectorTransatelLegacy:
+			if item, ok := item.CarrierAccount.(*Contract_TransatelLegacy); ok {
+				item.TransatelLegacy = nil
 			}
 		case Contract_FieldPathSelectorCisco:
 			if item, ok := item.CarrierAccount.(*Contract_Cisco); ok {
@@ -338,7 +398,9 @@ func (fp *Contract_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Contract_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Contract_FieldPathSelectorName ||
 		fp.selector == Contract_FieldPathSelectorRatePlan ||
-		fp.selector == Contract_FieldPathSelectorTransatel ||
+		fp.selector == Contract_FieldPathSelectorAccountReference ||
+		fp.selector == Contract_FieldPathSelectorBundleCatalog ||
+		fp.selector == Contract_FieldPathSelectorTransatelLegacy ||
 		fp.selector == Contract_FieldPathSelectorCisco ||
 		fp.selector == Contract_FieldPathSelectorCelona
 }
@@ -355,7 +417,13 @@ func (fp *Contract_FieldTerminalPath) WithIValue(value interface{}) Contract_Fie
 		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Contract_FieldPathSelectorRatePlan:
 		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(string)}
+	case Contract_FieldPathSelectorAccountReference:
+		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(string)}
+	case Contract_FieldPathSelectorBundleCatalog:
+		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(string)}
 	case Contract_FieldPathSelectorTransatel:
+		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(*Contract_TransatelAccount)}
+	case Contract_FieldPathSelectorTransatelLegacy:
 		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
 	case Contract_FieldPathSelectorCisco:
 		return &Contract_FieldTerminalPathValue{Contract_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
@@ -381,7 +449,13 @@ func (fp *Contract_FieldTerminalPath) WithIArrayOfValues(values interface{}) Con
 		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Contract_FieldPathSelectorRatePlan:
 		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]string)}
+	case Contract_FieldPathSelectorAccountReference:
+		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]string)}
+	case Contract_FieldPathSelectorBundleCatalog:
+		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]string)}
 	case Contract_FieldPathSelectorTransatel:
+		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]*Contract_TransatelAccount)}
+	case Contract_FieldPathSelectorTransatelLegacy:
 		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
 	case Contract_FieldPathSelectorCisco:
 		return &Contract_FieldTerminalPathArrayOfValues{Contract_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
@@ -424,6 +498,10 @@ func (fps *Contract_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
+func (fps *Contract_FieldSubPath) AsTransatelSubPath() (ContractTransatelAccount_FieldPath, bool) {
+	res, ok := fps.subPath.(ContractTransatelAccount_FieldPath)
+	return res, ok
+}
 func (fps *Contract_FieldSubPath) AsStatusSubPath() (ContractStatus_FieldPath, bool) {
 	res, ok := fps.subPath.(ContractStatus_FieldPath)
 	return res, ok
@@ -444,6 +522,8 @@ func (fps *Contract_FieldSubPath) Get(source *Contract) (values []interface{}) {
 	switch fps.selector {
 	case Contract_FieldPathSelectorMetadata:
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Contract_FieldPathSelectorTransatel:
+		values = append(values, fps.subPath.GetRaw(source.GetTransatel())...)
 	case Contract_FieldPathSelectorStatus:
 		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
 	default:
@@ -464,6 +544,11 @@ func (fps *Contract_FieldSubPath) GetSingle(source *Contract) (interface{}, bool
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetMetadata())
+	case Contract_FieldPathSelectorTransatel:
+		if source.GetTransatel() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetTransatel())
 	case Contract_FieldPathSelectorStatus:
 		if source.GetStatus() == nil {
 			return nil, false
@@ -488,6 +573,12 @@ func (fps *Contract_FieldSubPath) ClearValue(item *Contract) {
 		switch fps.selector {
 		case Contract_FieldPathSelectorMetadata:
 			fps.subPath.ClearValueRaw(item.Metadata)
+		case Contract_FieldPathSelectorTransatel:
+			if item.CarrierAccount != nil {
+				if item, ok := item.CarrierAccount.(*Contract_Transatel); ok {
+					fps.subPath.ClearValueRaw(item.Transatel)
+				}
+			}
 		case Contract_FieldPathSelectorStatus:
 			fps.subPath.ClearValueRaw(item.Status)
 		default:
@@ -586,7 +677,19 @@ func (fpv *Contract_FieldTerminalPathValue) AsRatePlanValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *Contract_FieldTerminalPathValue) AsTransatelValue() (*secrets_secret.Reference, bool) {
+func (fpv *Contract_FieldTerminalPathValue) AsAccountReferenceValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Contract_FieldTerminalPathValue) AsBundleCatalogValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Contract_FieldTerminalPathValue) AsTransatelValue() (*Contract_TransatelAccount, bool) {
+	res, ok := fpv.value.(*Contract_TransatelAccount)
+	return res, ok
+}
+func (fpv *Contract_FieldTerminalPathValue) AsTransatelLegacyValue() (*secrets_secret.Reference, bool) {
 	res, ok := fpv.value.(*secrets_secret.Reference)
 	return res, ok
 }
@@ -615,11 +718,20 @@ func (fpv *Contract_FieldTerminalPathValue) SetTo(target **Contract) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Contract_FieldPathSelectorRatePlan:
 		(*target).RatePlan = fpv.value.(string)
+	case Contract_FieldPathSelectorAccountReference:
+		(*target).AccountReference = fpv.value.(string)
+	case Contract_FieldPathSelectorBundleCatalog:
+		(*target).BundleCatalog = fpv.value.(string)
 	case Contract_FieldPathSelectorTransatel:
 		if _, ok := (*target).CarrierAccount.(*Contract_Transatel); !ok {
 			(*target).CarrierAccount = &Contract_Transatel{}
 		}
-		(*target).CarrierAccount.(*Contract_Transatel).Transatel = fpv.value.(*secrets_secret.Reference)
+		(*target).CarrierAccount.(*Contract_Transatel).Transatel = fpv.value.(*Contract_TransatelAccount)
+	case Contract_FieldPathSelectorTransatelLegacy:
+		if _, ok := (*target).CarrierAccount.(*Contract_TransatelLegacy); !ok {
+			(*target).CarrierAccount = &Contract_TransatelLegacy{}
+		}
+		(*target).CarrierAccount.(*Contract_TransatelLegacy).TransatelLegacy = fpv.value.(*secrets_secret.Reference)
 	case Contract_FieldPathSelectorCisco:
 		if _, ok := (*target).CarrierAccount.(*Contract_Cisco); !ok {
 			(*target).CarrierAccount = &Contract_Cisco{}
@@ -676,9 +788,31 @@ func (fpv *Contract_FieldTerminalPathValue) CompareWith(source *Contract) (int, 
 		} else {
 			return 1, true
 		}
+	case Contract_FieldPathSelectorAccountReference:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAccountReference()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Contract_FieldPathSelectorBundleCatalog:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetBundleCatalog()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	case Contract_FieldPathSelectorTransatel:
+		return 0, false
+	case Contract_FieldPathSelectorTransatelLegacy:
 		leftValue := fpv.value.(*secrets_secret.Reference)
-		rightValue := source.GetTransatel()
+		rightValue := source.GetTransatelLegacy()
 		if leftValue == nil {
 			if rightValue != nil {
 				return -1, true
@@ -755,6 +889,10 @@ func (fpvs *Contract_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPa
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Contract_FieldSubPathValue) AsTransatelPathValue() (ContractTransatelAccount_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ContractTransatelAccount_FieldPathValue)
+	return res, ok
+}
 func (fpvs *Contract_FieldSubPathValue) AsStatusPathValue() (ContractStatus_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(ContractStatus_FieldPathValue)
 	return res, ok
@@ -767,6 +905,11 @@ func (fpvs *Contract_FieldSubPathValue) SetTo(target **Contract) {
 	switch fpvs.Selector() {
 	case Contract_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+	case Contract_FieldPathSelectorTransatel:
+		if _, ok := (*target).CarrierAccount.(*Contract_Transatel); !ok {
+			(*target).CarrierAccount = &Contract_Transatel{}
+		}
+		fpvs.subPathValue.(ContractTransatelAccount_FieldPathValue).SetTo(&(*target).CarrierAccount.(*Contract_Transatel).Transatel)
 	case Contract_FieldPathSelectorStatus:
 		fpvs.subPathValue.(ContractStatus_FieldPathValue).SetTo(&(*target).Status)
 	default:
@@ -787,6 +930,8 @@ func (fpvs *Contract_FieldSubPathValue) CompareWith(source *Contract) (int, bool
 	switch fpvs.Selector() {
 	case Contract_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+	case Contract_FieldPathSelectorTransatel:
+		return fpvs.subPathValue.(ContractTransatelAccount_FieldPathValue).CompareWith(source.GetTransatel())
 	case Contract_FieldPathSelectorStatus:
 		return fpvs.subPathValue.(ContractStatus_FieldPathValue).CompareWith(source.GetStatus())
 	default:
@@ -875,6 +1020,10 @@ func (fpaivs *Contract_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (me
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Contract_FieldSubPathArrayItemValue) AsTransatelPathItemValue() (ContractTransatelAccount_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ContractTransatelAccount_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *Contract_FieldSubPathArrayItemValue) AsStatusPathItemValue() (ContractStatus_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(ContractStatus_FieldPathArrayItemValue)
 	return res, ok
@@ -885,6 +1034,8 @@ func (fpaivs *Contract_FieldSubPathArrayItemValue) ContainsValue(source *Contrac
 	switch fpaivs.Selector() {
 	case Contract_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+	case Contract_FieldPathSelectorTransatel:
+		return fpaivs.subPathItemValue.(ContractTransatelAccount_FieldPathArrayItemValue).ContainsValue(source.GetTransatel())
 	case Contract_FieldPathSelectorStatus:
 		return fpaivs.subPathItemValue.(ContractStatus_FieldPathArrayItemValue).ContainsValue(source.GetStatus())
 	default:
@@ -939,7 +1090,19 @@ func (fpaov *Contract_FieldTerminalPathArrayOfValues) GetRawValues() (values []i
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Contract_FieldPathSelectorAccountReference:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Contract_FieldPathSelectorBundleCatalog:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Contract_FieldPathSelectorTransatel:
+		for _, v := range fpaov.values.([]*Contract_TransatelAccount) {
+			values = append(values, v)
+		}
+	case Contract_FieldPathSelectorTransatelLegacy:
 		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
 			values = append(values, v)
 		}
@@ -970,7 +1133,19 @@ func (fpaov *Contract_FieldTerminalPathArrayOfValues) AsRatePlanArrayOfValues() 
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *Contract_FieldTerminalPathArrayOfValues) AsTransatelArrayOfValues() ([]*secrets_secret.Reference, bool) {
+func (fpaov *Contract_FieldTerminalPathArrayOfValues) AsAccountReferenceArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Contract_FieldTerminalPathArrayOfValues) AsBundleCatalogArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Contract_FieldTerminalPathArrayOfValues) AsTransatelArrayOfValues() ([]*Contract_TransatelAccount, bool) {
+	res, ok := fpaov.values.([]*Contract_TransatelAccount)
+	return res, ok
+}
+func (fpaov *Contract_FieldTerminalPathArrayOfValues) AsTransatelLegacyArrayOfValues() ([]*secrets_secret.Reference, bool) {
 	res, ok := fpaov.values.([]*secrets_secret.Reference)
 	return res, ok
 }
@@ -1001,8 +1176,446 @@ func (fpsaov *Contract_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() 
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
+func (fpsaov *Contract_FieldSubPathArrayOfValues) AsTransatelPathArrayOfValues() (ContractTransatelAccount_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ContractTransatelAccount_FieldPathArrayOfValues)
+	return res, ok
+}
 func (fpsaov *Contract_FieldSubPathArrayOfValues) AsStatusPathArrayOfValues() (ContractStatus_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(ContractStatus_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ContractTransatelAccount_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ContractTransatelAccount_FieldPathSelector
+	Get(source *Contract_TransatelAccount) []interface{}
+	GetSingle(source *Contract_TransatelAccount) (interface{}, bool)
+	ClearValue(item *Contract_TransatelAccount)
+
+	// Those methods build corresponding ContractTransatelAccount_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ContractTransatelAccount_FieldPathValue
+	WithIArrayOfValues(values interface{}) ContractTransatelAccount_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ContractTransatelAccount_FieldPathArrayItemValue
+}
+
+type ContractTransatelAccount_FieldPathSelector int32
+
+const (
+	ContractTransatelAccount_FieldPathSelectorCredential ContractTransatelAccount_FieldPathSelector = 0
+	ContractTransatelAccount_FieldPathSelectorScopes     ContractTransatelAccount_FieldPathSelector = 1
+)
+
+func (s ContractTransatelAccount_FieldPathSelector) String() string {
+	switch s {
+	case ContractTransatelAccount_FieldPathSelectorCredential:
+		return "credential"
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		return "scopes"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", s))
+	}
+}
+
+func BuildContractTransatelAccount_FieldPath(fp gotenobject.RawFieldPath) (ContractTransatelAccount_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Contract_TransatelAccount")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "credential":
+			return &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorCredential}, nil
+		case "scopes":
+			return &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorScopes}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Contract_TransatelAccount", fp)
+}
+
+func ParseContractTransatelAccount_FieldPath(rawField string) (ContractTransatelAccount_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildContractTransatelAccount_FieldPath(fp)
+}
+
+func MustParseContractTransatelAccount_FieldPath(rawField string) ContractTransatelAccount_FieldPath {
+	fp, err := ParseContractTransatelAccount_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ContractTransatelAccount_FieldTerminalPath struct {
+	selector ContractTransatelAccount_FieldPathSelector
+}
+
+var _ ContractTransatelAccount_FieldPath = (*ContractTransatelAccount_FieldTerminalPath)(nil)
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) Selector() ContractTransatelAccount_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ContractTransatelAccount_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ContractTransatelAccount_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Contract_TransatelAccount
+func (fp *ContractTransatelAccount_FieldTerminalPath) Get(source *Contract_TransatelAccount) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ContractTransatelAccount_FieldPathSelectorCredential:
+			if source.Credential != nil {
+				values = append(values, source.Credential)
+			}
+		case ContractTransatelAccount_FieldPathSelectorScopes:
+			for _, value := range source.GetScopes() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Contract_TransatelAccount))
+}
+
+// GetSingle returns value pointed by specific field of from source Contract_TransatelAccount
+func (fp *ContractTransatelAccount_FieldTerminalPath) GetSingle(source *Contract_TransatelAccount) (interface{}, bool) {
+	switch fp.selector {
+	case ContractTransatelAccount_FieldPathSelectorCredential:
+		res := source.GetCredential()
+		return res, res != nil
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		res := source.GetScopes()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fp.selector))
+	}
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Contract_TransatelAccount))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ContractTransatelAccount_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ContractTransatelAccount_FieldPathSelectorCredential:
+		return (*secrets_secret.Reference)(nil)
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fp.selector))
+	}
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) ClearValue(item *Contract_TransatelAccount) {
+	if item != nil {
+		switch fp.selector {
+		case ContractTransatelAccount_FieldPathSelectorCredential:
+			item.Credential = nil
+		case ContractTransatelAccount_FieldPathSelectorScopes:
+			item.Scopes = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Contract_TransatelAccount))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ContractTransatelAccount_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ContractTransatelAccount_FieldPathSelectorCredential ||
+		fp.selector == ContractTransatelAccount_FieldPathSelectorScopes
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) WithIValue(value interface{}) ContractTransatelAccount_FieldPathValue {
+	switch fp.selector {
+	case ContractTransatelAccount_FieldPathSelectorCredential:
+		return &ContractTransatelAccount_FieldTerminalPathValue{ContractTransatelAccount_FieldTerminalPath: *fp, value: value.(*secrets_secret.Reference)}
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		return &ContractTransatelAccount_FieldTerminalPathValue{ContractTransatelAccount_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fp.selector))
+	}
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) WithIArrayOfValues(values interface{}) ContractTransatelAccount_FieldPathArrayOfValues {
+	fpaov := &ContractTransatelAccount_FieldTerminalPathArrayOfValues{ContractTransatelAccount_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ContractTransatelAccount_FieldPathSelectorCredential:
+		return &ContractTransatelAccount_FieldTerminalPathArrayOfValues{ContractTransatelAccount_FieldTerminalPath: *fp, values: values.([]*secrets_secret.Reference)}
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		return &ContractTransatelAccount_FieldTerminalPathArrayOfValues{ContractTransatelAccount_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) WithIArrayItemValue(value interface{}) ContractTransatelAccount_FieldPathArrayItemValue {
+	switch fp.selector {
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		return &ContractTransatelAccount_FieldTerminalPathArrayItemValue{ContractTransatelAccount_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fp.selector))
+	}
+}
+
+func (fp *ContractTransatelAccount_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ContractTransatelAccount_FieldPathValue allows storing values for TransatelAccount fields according to their type
+type ContractTransatelAccount_FieldPathValue interface {
+	ContractTransatelAccount_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Contract_TransatelAccount)
+	CompareWith(*Contract_TransatelAccount) (cmp int, comparable bool)
+}
+
+func ParseContractTransatelAccount_FieldPathValue(pathStr, valueStr string) (ContractTransatelAccount_FieldPathValue, error) {
+	fp, err := ParseContractTransatelAccount_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TransatelAccount field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ContractTransatelAccount_FieldPathValue), nil
+}
+
+func MustParseContractTransatelAccount_FieldPathValue(pathStr, valueStr string) ContractTransatelAccount_FieldPathValue {
+	fpv, err := ParseContractTransatelAccount_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ContractTransatelAccount_FieldTerminalPathValue struct {
+	ContractTransatelAccount_FieldTerminalPath
+	value interface{}
+}
+
+var _ ContractTransatelAccount_FieldPathValue = (*ContractTransatelAccount_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'TransatelAccount' as interface{}
+func (fpv *ContractTransatelAccount_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ContractTransatelAccount_FieldTerminalPathValue) AsCredentialValue() (*secrets_secret.Reference, bool) {
+	res, ok := fpv.value.(*secrets_secret.Reference)
+	return res, ok
+}
+func (fpv *ContractTransatelAccount_FieldTerminalPathValue) AsScopesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object TransatelAccount
+func (fpv *ContractTransatelAccount_FieldTerminalPathValue) SetTo(target **Contract_TransatelAccount) {
+	if *target == nil {
+		*target = new(Contract_TransatelAccount)
+	}
+	switch fpv.selector {
+	case ContractTransatelAccount_FieldPathSelectorCredential:
+		(*target).Credential = fpv.value.(*secrets_secret.Reference)
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		(*target).Scopes = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fpv.selector))
+	}
+}
+
+func (fpv *ContractTransatelAccount_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Contract_TransatelAccount)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ContractTransatelAccount_FieldTerminalPathValue' with the value under path in 'Contract_TransatelAccount'.
+func (fpv *ContractTransatelAccount_FieldTerminalPathValue) CompareWith(source *Contract_TransatelAccount) (int, bool) {
+	switch fpv.selector {
+	case ContractTransatelAccount_FieldPathSelectorCredential:
+		leftValue := fpv.value.(*secrets_secret.Reference)
+		rightValue := source.GetCredential()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Contract_TransatelAccount: %d", fpv.selector))
+	}
+}
+
+func (fpv *ContractTransatelAccount_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Contract_TransatelAccount))
+}
+
+// ContractTransatelAccount_FieldPathArrayItemValue allows storing single item in Path-specific values for TransatelAccount according to their type
+// Present only for array (repeated) types.
+type ContractTransatelAccount_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ContractTransatelAccount_FieldPath
+	ContainsValue(*Contract_TransatelAccount) bool
+}
+
+// ParseContractTransatelAccount_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseContractTransatelAccount_FieldPathArrayItemValue(pathStr, valueStr string) (ContractTransatelAccount_FieldPathArrayItemValue, error) {
+	fp, err := ParseContractTransatelAccount_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TransatelAccount field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ContractTransatelAccount_FieldPathArrayItemValue), nil
+}
+
+func MustParseContractTransatelAccount_FieldPathArrayItemValue(pathStr, valueStr string) ContractTransatelAccount_FieldPathArrayItemValue {
+	fpaiv, err := ParseContractTransatelAccount_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ContractTransatelAccount_FieldTerminalPathArrayItemValue struct {
+	ContractTransatelAccount_FieldTerminalPath
+	value interface{}
+}
+
+var _ ContractTransatelAccount_FieldPathArrayItemValue = (*ContractTransatelAccount_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Contract_TransatelAccount as interface{}
+func (fpaiv *ContractTransatelAccount_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *ContractTransatelAccount_FieldTerminalPathArrayItemValue) AsScopesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *ContractTransatelAccount_FieldTerminalPathArrayItemValue) GetSingle(source *Contract_TransatelAccount) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ContractTransatelAccount_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Contract_TransatelAccount))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'TransatelAccount'
+func (fpaiv *ContractTransatelAccount_FieldTerminalPathArrayItemValue) ContainsValue(source *Contract_TransatelAccount) bool {
+	slice := fpaiv.ContractTransatelAccount_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ContractTransatelAccount_FieldPathArrayOfValues allows storing slice of values for TransatelAccount fields according to their type
+type ContractTransatelAccount_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ContractTransatelAccount_FieldPath
+}
+
+func ParseContractTransatelAccount_FieldPathArrayOfValues(pathStr, valuesStr string) (ContractTransatelAccount_FieldPathArrayOfValues, error) {
+	fp, err := ParseContractTransatelAccount_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TransatelAccount field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ContractTransatelAccount_FieldPathArrayOfValues), nil
+}
+
+func MustParseContractTransatelAccount_FieldPathArrayOfValues(pathStr, valuesStr string) ContractTransatelAccount_FieldPathArrayOfValues {
+	fpaov, err := ParseContractTransatelAccount_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ContractTransatelAccount_FieldTerminalPathArrayOfValues struct {
+	ContractTransatelAccount_FieldTerminalPath
+	values interface{}
+}
+
+var _ ContractTransatelAccount_FieldPathArrayOfValues = (*ContractTransatelAccount_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ContractTransatelAccount_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ContractTransatelAccount_FieldPathSelectorCredential:
+		for _, v := range fpaov.values.([]*secrets_secret.Reference) {
+			values = append(values, v)
+		}
+	case ContractTransatelAccount_FieldPathSelectorScopes:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ContractTransatelAccount_FieldTerminalPathArrayOfValues) AsCredentialArrayOfValues() ([]*secrets_secret.Reference, bool) {
+	res, ok := fpaov.values.([]*secrets_secret.Reference)
+	return res, ok
+}
+func (fpaov *ContractTransatelAccount_FieldTerminalPathArrayOfValues) AsScopesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
 

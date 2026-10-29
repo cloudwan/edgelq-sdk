@@ -36,8 +36,17 @@ func (ContractFieldPathBuilder) Metadata() ContractPathSelectorMetadata {
 func (ContractFieldPathBuilder) RatePlan() ContractPathSelectorRatePlan {
 	return ContractPathSelectorRatePlan{}
 }
+func (ContractFieldPathBuilder) AccountReference() ContractPathSelectorAccountReference {
+	return ContractPathSelectorAccountReference{}
+}
+func (ContractFieldPathBuilder) BundleCatalog() ContractPathSelectorBundleCatalog {
+	return ContractPathSelectorBundleCatalog{}
+}
 func (ContractFieldPathBuilder) Transatel() ContractPathSelectorTransatel {
 	return ContractPathSelectorTransatel{}
+}
+func (ContractFieldPathBuilder) TransatelLegacy() ContractPathSelectorTransatelLegacy {
+	return ContractPathSelectorTransatelLegacy{}
 }
 func (ContractFieldPathBuilder) Cisco() ContractPathSelectorCisco {
 	return ContractPathSelectorCisco{}
@@ -759,17 +768,121 @@ func (s ContractPathSelectorRatePlan) WithArrayOfValues(values []string) *Contra
 	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldTerminalPathArrayOfValues)
 }
 
+type ContractPathSelectorAccountReference struct{}
+
+func (ContractPathSelectorAccountReference) FieldPath() *Contract_FieldTerminalPath {
+	return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorAccountReference}
+}
+
+func (s ContractPathSelectorAccountReference) WithValue(value string) *Contract_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldTerminalPathValue)
+}
+
+func (s ContractPathSelectorAccountReference) WithArrayOfValues(values []string) *Contract_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldTerminalPathArrayOfValues)
+}
+
+type ContractPathSelectorBundleCatalog struct{}
+
+func (ContractPathSelectorBundleCatalog) FieldPath() *Contract_FieldTerminalPath {
+	return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorBundleCatalog}
+}
+
+func (s ContractPathSelectorBundleCatalog) WithValue(value string) *Contract_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldTerminalPathValue)
+}
+
+func (s ContractPathSelectorBundleCatalog) WithArrayOfValues(values []string) *Contract_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldTerminalPathArrayOfValues)
+}
+
 type ContractPathSelectorTransatel struct{}
 
 func (ContractPathSelectorTransatel) FieldPath() *Contract_FieldTerminalPath {
 	return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatel}
 }
 
-func (s ContractPathSelectorTransatel) WithValue(value *secrets_secret.Reference) *Contract_FieldTerminalPathValue {
+func (s ContractPathSelectorTransatel) WithValue(value *Contract_TransatelAccount) *Contract_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Contract_FieldTerminalPathValue)
 }
 
-func (s ContractPathSelectorTransatel) WithArrayOfValues(values []*secrets_secret.Reference) *Contract_FieldTerminalPathArrayOfValues {
+func (s ContractPathSelectorTransatel) WithArrayOfValues(values []*Contract_TransatelAccount) *Contract_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldTerminalPathArrayOfValues)
+}
+
+func (ContractPathSelectorTransatel) WithSubPath(subPath ContractTransatelAccount_FieldPath) *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{selector: Contract_FieldPathSelectorTransatel, subPath: subPath}
+}
+
+func (s ContractPathSelectorTransatel) WithSubValue(subPathValue ContractTransatelAccount_FieldPathValue) *Contract_FieldSubPathValue {
+	return &Contract_FieldSubPathValue{Contract_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ContractPathSelectorTransatel) WithSubArrayOfValues(subPathArrayOfValues ContractTransatelAccount_FieldPathArrayOfValues) *Contract_FieldSubPathArrayOfValues {
+	return &Contract_FieldSubPathArrayOfValues{Contract_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ContractPathSelectorTransatel) WithSubArrayItemValue(subPathArrayItemValue ContractTransatelAccount_FieldPathArrayItemValue) *Contract_FieldSubPathArrayItemValue {
+	return &Contract_FieldSubPathArrayItemValue{Contract_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ContractPathSelectorTransatel) Credential() ContractPathSelectorTransatelCredential {
+	return ContractPathSelectorTransatelCredential{}
+}
+
+func (ContractPathSelectorTransatel) Scopes() ContractPathSelectorTransatelScopes {
+	return ContractPathSelectorTransatelScopes{}
+}
+
+type ContractPathSelectorTransatelCredential struct{}
+
+func (ContractPathSelectorTransatelCredential) FieldPath() *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{
+		selector: Contract_FieldPathSelectorTransatel,
+		subPath:  NewContractTransatelAccountFieldPathBuilder().Credential().FieldPath(),
+	}
+}
+
+func (s ContractPathSelectorTransatelCredential) WithValue(value *secrets_secret.Reference) *Contract_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldSubPathValue)
+}
+
+func (s ContractPathSelectorTransatelCredential) WithArrayOfValues(values []*secrets_secret.Reference) *Contract_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldSubPathArrayOfValues)
+}
+
+type ContractPathSelectorTransatelScopes struct{}
+
+func (ContractPathSelectorTransatelScopes) FieldPath() *Contract_FieldSubPath {
+	return &Contract_FieldSubPath{
+		selector: Contract_FieldPathSelectorTransatel,
+		subPath:  NewContractTransatelAccountFieldPathBuilder().Scopes().FieldPath(),
+	}
+}
+
+func (s ContractPathSelectorTransatelScopes) WithValue(value []string) *Contract_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldSubPathValue)
+}
+
+func (s ContractPathSelectorTransatelScopes) WithArrayOfValues(values [][]string) *Contract_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldSubPathArrayOfValues)
+}
+
+func (s ContractPathSelectorTransatelScopes) WithItemValue(value string) *Contract_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Contract_FieldSubPathArrayItemValue)
+}
+
+type ContractPathSelectorTransatelLegacy struct{}
+
+func (ContractPathSelectorTransatelLegacy) FieldPath() *Contract_FieldTerminalPath {
+	return &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatelLegacy}
+}
+
+func (s ContractPathSelectorTransatelLegacy) WithValue(value *secrets_secret.Reference) *Contract_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Contract_FieldTerminalPathValue)
+}
+
+func (s ContractPathSelectorTransatelLegacy) WithArrayOfValues(values []*secrets_secret.Reference) *Contract_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldTerminalPathArrayOfValues)
 }
 
@@ -934,6 +1047,50 @@ func (s ContractPathSelectorStatusEventHubConnectionSecret) WithValue(value *sec
 
 func (s ContractPathSelectorStatusEventHubConnectionSecret) WithArrayOfValues(values []*secrets_secret.Reference) *Contract_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Contract_FieldSubPathArrayOfValues)
+}
+
+type ContractTransatelAccountFieldPathBuilder struct{}
+
+func NewContractTransatelAccountFieldPathBuilder() ContractTransatelAccountFieldPathBuilder {
+	return ContractTransatelAccountFieldPathBuilder{}
+}
+func (ContractTransatelAccountFieldPathBuilder) Credential() Contract_TransatelAccountPathSelectorCredential {
+	return Contract_TransatelAccountPathSelectorCredential{}
+}
+func (ContractTransatelAccountFieldPathBuilder) Scopes() Contract_TransatelAccountPathSelectorScopes {
+	return Contract_TransatelAccountPathSelectorScopes{}
+}
+
+type Contract_TransatelAccountPathSelectorCredential struct{}
+
+func (Contract_TransatelAccountPathSelectorCredential) FieldPath() *ContractTransatelAccount_FieldTerminalPath {
+	return &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorCredential}
+}
+
+func (s Contract_TransatelAccountPathSelectorCredential) WithValue(value *secrets_secret.Reference) *ContractTransatelAccount_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractTransatelAccount_FieldTerminalPathValue)
+}
+
+func (s Contract_TransatelAccountPathSelectorCredential) WithArrayOfValues(values []*secrets_secret.Reference) *ContractTransatelAccount_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractTransatelAccount_FieldTerminalPathArrayOfValues)
+}
+
+type Contract_TransatelAccountPathSelectorScopes struct{}
+
+func (Contract_TransatelAccountPathSelectorScopes) FieldPath() *ContractTransatelAccount_FieldTerminalPath {
+	return &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorScopes}
+}
+
+func (s Contract_TransatelAccountPathSelectorScopes) WithValue(value []string) *ContractTransatelAccount_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ContractTransatelAccount_FieldTerminalPathValue)
+}
+
+func (s Contract_TransatelAccountPathSelectorScopes) WithArrayOfValues(values [][]string) *ContractTransatelAccount_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ContractTransatelAccount_FieldTerminalPathArrayOfValues)
+}
+
+func (s Contract_TransatelAccountPathSelectorScopes) WithItemValue(value string) *ContractTransatelAccount_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ContractTransatelAccount_FieldTerminalPathArrayItemValue)
 }
 
 type ContractStatusFieldPathBuilder struct{}

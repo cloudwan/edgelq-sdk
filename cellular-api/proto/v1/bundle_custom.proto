@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package ntt.cellular_api.v1;
+
+import "edgelq-sdk/cellular-api/proto/v1/bundle.proto";
+import "edgelq-sdk/cellular-api/proto/v1/bundle_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/bundle;bundle_client";
+option java_multiple_files = false;
+option java_outer_classname = "BundleCustomProto";
+option java_package = "com.ntt.cellular_api.pb.v1";
+
+// A request message of the TerminateBundle method.
+//
+// Terminates the bundle at the carrier now: its allowances stop at
+// once. The Bundle is kept with state TERMINATED. It does not touch the
+// SIM itself (see SimCard Terminate for that).
+//
+// It needs status.carrier_subscription_id, so a SUBMITTING or FAILED
+// Bundle is refused with FAILED_PRECONDITION. A TERMINATED one succeeds
+// without a carrier call. When the carrier's answer is lost, the call fails
+// with UNAVAILABLE and the Bundle is left as it was until a later sync
+// reads the carrier inventory.
+message TerminateBundleRequest {
+  // Name of ntt.cellular_api.v1.Bundle
+  string name = 1;
+}
+
+// A request message of the CancelRenewal method.
+//
+// Cancels the renewal of a RECURRING bundle: the current cycle is its
+// last, it stays usable until status.expiration_time and does not renew.
+// status.recurrence.renewal_cancelled becomes true.
+//
+// Another kind, or a TERMINATED Bundle, is refused with
+// FAILED_PRECONDITION. A renewal already cancelled succeeds without a carrier
+// call. Errors are as for TerminateBundle.
+message CancelRenewalRequest {
+  // Name of ntt.cellular_api.v1.Bundle
+  string name = 1;
+}

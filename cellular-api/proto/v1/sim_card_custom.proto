@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.cellular_api.v1;
 
 import "edgelq-sdk/cellular-api/carrier/carrier.proto";
+import "edgelq-sdk/cellular-api/proto/v1/bundle.proto";
 import "edgelq-sdk/cellular-api/proto/v1/sim_card.proto";
 import "edgelq-sdk/cellular-api/proto/v1/sim_card_change.proto";
 import "google/protobuf/timestamp.proto";
@@ -143,3 +144,147 @@ message GetDataUsageResponse {
   // appear later.
   google.protobuf.Timestamp as_of = 2;
 }
+
+// A request message of the Subscribe method.
+//
+// Subscribes the SIM to a carrier product (a bundle) and returns the
+// Bundle child it created. The SIM's Contract must be a Transatel
+// Contract able to order bundles (see the Contract's account_reference,
+// bundle_catalog and transatel.scopes), the product must be in the
+// catalogue (see Contract ListBundleProducts) and allowed for this SIM, else
+// the call fails with FAILED_PRECONDITION (INVALID_ARGUMENT for a product not
+// listed).
+//
+// The Bundle is recorded as SUBMITTING before the order is placed.
+// When the carrier confirms the order it becomes ACTIVE, or SCHEDULED for a
+// future activation_time, and a later sync corrects it to the exact carrier
+// status. When the carrier refuses the order or it is not sent, it becomes
+// FAILED with status.error and the call fails. When the carrier's answer is
+// lost, the call fails with UNAVAILABLE and the Bundle stays SUBMITTING
+// until a later sync settles it: do not subscribe again with another id.
+//
+// The carrier has no idempotency key, so bundle_id is the key: a
+// repeated request with the same bundle_id and product_id returns the
+// existing Bundle, in whatever state, without a new order. The same
+// bundle_id with another product_id fails with ALREADY_EXISTS.
+message SubscribeRequest {
+  // Name of ntt.cellular_api.v1.SimCard
+  string name = 1;
+
+  string project = 2;
+
+  // Carrier product id, as Contract ListBundleProducts lists it.
+  string product_id = 3;
+
+  // Id of the Bundle to create, chosen by the client so that a retry
+  // cannot subscribe twice. Generated when empty.
+  string bundle_id = 4;
+
+  // Scheduled start, at most 90 days ahead. Unset starts it now.
+  google.protobuf.Timestamp activation_time = 5;
+
+  // Day of the month, 1 to 28, on which a RECURRING product renews. 0 leaves
+  // it to the carrier. Refused for other kinds.
+  int32 renewal_day = 6;
+}
+
+// One metered resource on a bundle, and what is left of it.
+//
+// A bundle can meter more than one -- data, voice seconds and messages are
+// separate counters on the same product -- which is why this is a list on the
+// bundle rather than a pair of fields.
+message BundleBalance {
+  // The carrier's identifier for the resource, for matching on.
+  string resource = 1;
+
+  // The carrier's own words for it, for showing. May be empty.
+  string label = 2;
+
+  Unit unit = 3;
+
+  // What is left of the resource in the period. It is -1 on a resource with
+  // no cap, which is not a quantity and must not be compared as one. It means
+  // more left than any amount, not less than none.
+  int64 remaining = 4;
+
+  // The balance at the start of the period, -1 on a resource with no cap.
+  // It is not network usage, and initial minus remaining is not usage
+  // either. The carrier can modify a balance, so remaining can rise without
+  // a renewal. Usage is the Monitoring metric
+  // cellular-api.edgelq.com/sim_card/data_usage.
+  //
+  // initial is not the catalogue's allowance. It can be overridden when the
+  // bundle is ordered, and it is set again at every renewal.
+  int64 initial = 5;
+
+  // The window these count over, which for a recurring bundle is the current
+  // renewal period and not the subscription. The carrier's own strings, like
+  // the times on HeldBundle.
+  string period_start_time = 6;
+
+  string period_end_time = 7;
+
+  // What remaining and initial count.
+  //
+  // UNIT_UNSPECIFIED is a unit the carrier reports that this service does not
+  // recognise. The quantities are still true; only their meaning is unknown,
+  // and showing them against an assumed unit would be worse than showing them
+  // against none.
+  enum Unit {
+    UNIT_UNSPECIFIED = 0;
+
+    KB = 1;
+
+    SECOND = 2;
+
+    SMS = 3;
+  }
+}
+
+// A bundle the SIM holds, as the carrier reports it now.
+//
+// Deliberately not a Bundle resource, though it carries the same facts. The
+// Bundle children are the stored record, synced from the carrier every
+// Bundle collection interval; this is what the carrier said when asked, with
+// the balances the children do not carry.
+message HeldBundle {
+  string product_id = 1;
+
+  string subscription_id = 2;
+
+  string status = 3;
+
+  // subscription_time is when it was ordered; activation_time when it starts,
+  // which for one scheduled by a switch is later. The carrier's own strings.
+  string subscription_time = 4;
+
+  string activation_time = 5;
+
+  string expiration_time = 6;
+
+  // Set on a recurring bundle that will renew.
+  string next_renewal_time = 7;
+
+  // recurring is a product that renews rather than a one-off. ending is a
+  // recurring one in its last period, its renewal cancelled -- which is also
+  // how a product being switched away from looks until the switch.
+  bool recurring = 8;
+
+  bool ending = 9;
+
+  // What the bundle meters and what is left of each.
+  //
+  // Empty on a bundle the carrier reports no balances for, which includes one
+  // that has not started. Never read as nothing left: a spent bundle says so
+  // with a balance of 0.
+  repeated BundleBalance balances = 10;
+}
+
+// A request message of the GetBundles method.
+message GetBundlesRequest {
+  // Name of ntt.cellular_api.v1.SimCard
+  string name = 1;
+}
+
+// A response message of the GetBundles method.
+message GetBundlesResponse { repeated HeldBundle bundles = 1; }

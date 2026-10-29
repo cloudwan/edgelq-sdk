@@ -56,6 +56,9 @@ func (SimCardFieldPathBuilder) Imsi() SimCardPathSelectorImsi {
 func (SimCardFieldPathBuilder) RatePlan() SimCardPathSelectorRatePlan {
 	return SimCardPathSelectorRatePlan{}
 }
+func (SimCardFieldPathBuilder) BundleRequest() SimCardPathSelectorBundleRequest {
+	return SimCardPathSelectorBundleRequest{}
+}
 func (SimCardFieldPathBuilder) Status() SimCardPathSelectorStatus {
 	return SimCardPathSelectorStatus{}
 }
@@ -798,6 +801,120 @@ func (s SimCardPathSelectorRatePlan) WithArrayOfValues(values []string) *SimCard
 	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldTerminalPathArrayOfValues)
 }
 
+type SimCardPathSelectorBundleRequest struct{}
+
+func (SimCardPathSelectorBundleRequest) FieldPath() *SimCard_FieldTerminalPath {
+	return &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorBundleRequest}
+}
+
+func (s SimCardPathSelectorBundleRequest) WithValue(value *SimCard_BundleRequest) *SimCard_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldTerminalPathValue)
+}
+
+func (s SimCardPathSelectorBundleRequest) WithArrayOfValues(values []*SimCard_BundleRequest) *SimCard_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldTerminalPathArrayOfValues)
+}
+
+func (SimCardPathSelectorBundleRequest) WithSubPath(subPath SimCardBundleRequest_FieldPath) *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{selector: SimCard_FieldPathSelectorBundleRequest, subPath: subPath}
+}
+
+func (s SimCardPathSelectorBundleRequest) WithSubValue(subPathValue SimCardBundleRequest_FieldPathValue) *SimCard_FieldSubPathValue {
+	return &SimCard_FieldSubPathValue{SimCard_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s SimCardPathSelectorBundleRequest) WithSubArrayOfValues(subPathArrayOfValues SimCardBundleRequest_FieldPathArrayOfValues) *SimCard_FieldSubPathArrayOfValues {
+	return &SimCard_FieldSubPathArrayOfValues{SimCard_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s SimCardPathSelectorBundleRequest) WithSubArrayItemValue(subPathArrayItemValue SimCardBundleRequest_FieldPathArrayItemValue) *SimCard_FieldSubPathArrayItemValue {
+	return &SimCard_FieldSubPathArrayItemValue{SimCard_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (SimCardPathSelectorBundleRequest) Id() SimCardPathSelectorBundleRequestId {
+	return SimCardPathSelectorBundleRequestId{}
+}
+
+func (SimCardPathSelectorBundleRequest) ProductId() SimCardPathSelectorBundleRequestProductId {
+	return SimCardPathSelectorBundleRequestProductId{}
+}
+
+func (SimCardPathSelectorBundleRequest) OtherBundles() SimCardPathSelectorBundleRequestOtherBundles {
+	return SimCardPathSelectorBundleRequestOtherBundles{}
+}
+
+func (SimCardPathSelectorBundleRequest) RequestTime() SimCardPathSelectorBundleRequestRequestTime {
+	return SimCardPathSelectorBundleRequestRequestTime{}
+}
+
+type SimCardPathSelectorBundleRequestId struct{}
+
+func (SimCardPathSelectorBundleRequestId) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorBundleRequest,
+		subPath:  NewSimCardBundleRequestFieldPathBuilder().Id().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorBundleRequestId) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorBundleRequestId) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorBundleRequestProductId struct{}
+
+func (SimCardPathSelectorBundleRequestProductId) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorBundleRequest,
+		subPath:  NewSimCardBundleRequestFieldPathBuilder().ProductId().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorBundleRequestProductId) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorBundleRequestProductId) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorBundleRequestOtherBundles struct{}
+
+func (SimCardPathSelectorBundleRequestOtherBundles) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorBundleRequest,
+		subPath:  NewSimCardBundleRequestFieldPathBuilder().OtherBundles().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorBundleRequestOtherBundles) WithValue(value SimCard_BundleRequest_OtherBundles) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorBundleRequestOtherBundles) WithArrayOfValues(values []SimCard_BundleRequest_OtherBundles) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorBundleRequestRequestTime struct{}
+
+func (SimCardPathSelectorBundleRequestRequestTime) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorBundleRequest,
+		subPath:  NewSimCardBundleRequestFieldPathBuilder().RequestTime().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorBundleRequestRequestTime) WithValue(value *timestamppb.Timestamp) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorBundleRequestRequestTime) WithArrayOfValues(values []*timestamppb.Timestamp) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
 type SimCardPathSelectorStatus struct{}
 
 func (SimCardPathSelectorStatus) FieldPath() *SimCard_FieldTerminalPath {
@@ -836,6 +953,18 @@ func (SimCardPathSelectorStatus) Error() SimCardPathSelectorStatusError {
 	return SimCardPathSelectorStatusError{}
 }
 
+func (SimCardPathSelectorStatus) Msisdn() SimCardPathSelectorStatusMsisdn {
+	return SimCardPathSelectorStatusMsisdn{}
+}
+
+func (SimCardPathSelectorStatus) Bundles() SimCardPathSelectorStatusBundles {
+	return SimCardPathSelectorStatusBundles{}
+}
+
+func (SimCardPathSelectorStatus) Options() SimCardPathSelectorStatusOptions {
+	return SimCardPathSelectorStatusOptions{}
+}
+
 type SimCardPathSelectorStatusState struct{}
 
 func (SimCardPathSelectorStatusState) FieldPath() *SimCard_FieldSubPath {
@@ -870,6 +999,265 @@ func (s SimCardPathSelectorStatusError) WithArrayOfValues(values []string) *SimC
 	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
 }
 
+type SimCardPathSelectorStatusMsisdn struct{}
+
+func (SimCardPathSelectorStatusMsisdn) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Msisdn().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusMsisdn) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusMsisdn) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorStatusBundles struct{}
+
+func (SimCardPathSelectorStatusBundles) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Bundles().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusBundles) WithValue(value []*SimCard_Status_Bundle) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusBundles) WithArrayOfValues(values [][]*SimCard_Status_Bundle) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+func (s SimCardPathSelectorStatusBundles) WithItemValue(value *SimCard_Status_Bundle) *SimCard_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SimCard_FieldSubPathArrayItemValue)
+}
+
+func (SimCardPathSelectorStatusBundles) ProductId() SimCardPathSelectorStatusBundlesProductId {
+	return SimCardPathSelectorStatusBundlesProductId{}
+}
+
+func (SimCardPathSelectorStatusBundles) SubscriptionId() SimCardPathSelectorStatusBundlesSubscriptionId {
+	return SimCardPathSelectorStatusBundlesSubscriptionId{}
+}
+
+func (SimCardPathSelectorStatusBundles) Status() SimCardPathSelectorStatusBundlesStatus {
+	return SimCardPathSelectorStatusBundlesStatus{}
+}
+
+func (SimCardPathSelectorStatusBundles) ActivationTime() SimCardPathSelectorStatusBundlesActivationTime {
+	return SimCardPathSelectorStatusBundlesActivationTime{}
+}
+
+func (SimCardPathSelectorStatusBundles) ExpirationTime() SimCardPathSelectorStatusBundlesExpirationTime {
+	return SimCardPathSelectorStatusBundlesExpirationTime{}
+}
+
+func (SimCardPathSelectorStatusBundles) NextRenewalTime() SimCardPathSelectorStatusBundlesNextRenewalTime {
+	return SimCardPathSelectorStatusBundlesNextRenewalTime{}
+}
+
+type SimCardPathSelectorStatusBundlesProductId struct{}
+
+func (SimCardPathSelectorStatusBundlesProductId) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Bundles().ProductId().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusBundlesProductId) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusBundlesProductId) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorStatusBundlesSubscriptionId struct{}
+
+func (SimCardPathSelectorStatusBundlesSubscriptionId) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Bundles().SubscriptionId().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusBundlesSubscriptionId) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusBundlesSubscriptionId) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorStatusBundlesStatus struct{}
+
+func (SimCardPathSelectorStatusBundlesStatus) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Bundles().Status().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusBundlesStatus) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusBundlesStatus) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorStatusBundlesActivationTime struct{}
+
+func (SimCardPathSelectorStatusBundlesActivationTime) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Bundles().ActivationTime().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusBundlesActivationTime) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusBundlesActivationTime) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorStatusBundlesExpirationTime struct{}
+
+func (SimCardPathSelectorStatusBundlesExpirationTime) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Bundles().ExpirationTime().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusBundlesExpirationTime) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusBundlesExpirationTime) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorStatusBundlesNextRenewalTime struct{}
+
+func (SimCardPathSelectorStatusBundlesNextRenewalTime) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Bundles().NextRenewalTime().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusBundlesNextRenewalTime) WithValue(value string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusBundlesNextRenewalTime) WithArrayOfValues(values []string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+type SimCardPathSelectorStatusOptions struct{}
+
+func (SimCardPathSelectorStatusOptions) FieldPath() *SimCard_FieldSubPath {
+	return &SimCard_FieldSubPath{
+		selector: SimCard_FieldPathSelectorStatus,
+		subPath:  NewSimCardStatusFieldPathBuilder().Options().FieldPath(),
+	}
+}
+
+func (s SimCardPathSelectorStatusOptions) WithValue(value []string) *SimCard_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCard_FieldSubPathValue)
+}
+
+func (s SimCardPathSelectorStatusOptions) WithArrayOfValues(values [][]string) *SimCard_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCard_FieldSubPathArrayOfValues)
+}
+
+func (s SimCardPathSelectorStatusOptions) WithItemValue(value string) *SimCard_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SimCard_FieldSubPathArrayItemValue)
+}
+
+type SimCardBundleRequestFieldPathBuilder struct{}
+
+func NewSimCardBundleRequestFieldPathBuilder() SimCardBundleRequestFieldPathBuilder {
+	return SimCardBundleRequestFieldPathBuilder{}
+}
+func (SimCardBundleRequestFieldPathBuilder) Id() SimCard_BundleRequestPathSelectorId {
+	return SimCard_BundleRequestPathSelectorId{}
+}
+func (SimCardBundleRequestFieldPathBuilder) ProductId() SimCard_BundleRequestPathSelectorProductId {
+	return SimCard_BundleRequestPathSelectorProductId{}
+}
+func (SimCardBundleRequestFieldPathBuilder) OtherBundles() SimCard_BundleRequestPathSelectorOtherBundles {
+	return SimCard_BundleRequestPathSelectorOtherBundles{}
+}
+func (SimCardBundleRequestFieldPathBuilder) RequestTime() SimCard_BundleRequestPathSelectorRequestTime {
+	return SimCard_BundleRequestPathSelectorRequestTime{}
+}
+
+type SimCard_BundleRequestPathSelectorId struct{}
+
+func (SimCard_BundleRequestPathSelectorId) FieldPath() *SimCardBundleRequest_FieldTerminalPath {
+	return &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorId}
+}
+
+func (s SimCard_BundleRequestPathSelectorId) WithValue(value string) *SimCardBundleRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardBundleRequest_FieldTerminalPathValue)
+}
+
+func (s SimCard_BundleRequestPathSelectorId) WithArrayOfValues(values []string) *SimCardBundleRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardBundleRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_BundleRequestPathSelectorProductId struct{}
+
+func (SimCard_BundleRequestPathSelectorProductId) FieldPath() *SimCardBundleRequest_FieldTerminalPath {
+	return &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorProductId}
+}
+
+func (s SimCard_BundleRequestPathSelectorProductId) WithValue(value string) *SimCardBundleRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardBundleRequest_FieldTerminalPathValue)
+}
+
+func (s SimCard_BundleRequestPathSelectorProductId) WithArrayOfValues(values []string) *SimCardBundleRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardBundleRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_BundleRequestPathSelectorOtherBundles struct{}
+
+func (SimCard_BundleRequestPathSelectorOtherBundles) FieldPath() *SimCardBundleRequest_FieldTerminalPath {
+	return &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorOtherBundles}
+}
+
+func (s SimCard_BundleRequestPathSelectorOtherBundles) WithValue(value SimCard_BundleRequest_OtherBundles) *SimCardBundleRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardBundleRequest_FieldTerminalPathValue)
+}
+
+func (s SimCard_BundleRequestPathSelectorOtherBundles) WithArrayOfValues(values []SimCard_BundleRequest_OtherBundles) *SimCardBundleRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardBundleRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_BundleRequestPathSelectorRequestTime struct{}
+
+func (SimCard_BundleRequestPathSelectorRequestTime) FieldPath() *SimCardBundleRequest_FieldTerminalPath {
+	return &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorRequestTime}
+}
+
+func (s SimCard_BundleRequestPathSelectorRequestTime) WithValue(value *timestamppb.Timestamp) *SimCardBundleRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardBundleRequest_FieldTerminalPathValue)
+}
+
+func (s SimCard_BundleRequestPathSelectorRequestTime) WithArrayOfValues(values []*timestamppb.Timestamp) *SimCardBundleRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardBundleRequest_FieldTerminalPathArrayOfValues)
+}
+
 type SimCardStatusFieldPathBuilder struct{}
 
 func NewSimCardStatusFieldPathBuilder() SimCardStatusFieldPathBuilder {
@@ -880,6 +1268,15 @@ func (SimCardStatusFieldPathBuilder) State() SimCard_StatusPathSelectorState {
 }
 func (SimCardStatusFieldPathBuilder) Error() SimCard_StatusPathSelectorError {
 	return SimCard_StatusPathSelectorError{}
+}
+func (SimCardStatusFieldPathBuilder) Msisdn() SimCard_StatusPathSelectorMsisdn {
+	return SimCard_StatusPathSelectorMsisdn{}
+}
+func (SimCardStatusFieldPathBuilder) Bundles() SimCard_StatusPathSelectorBundles {
+	return SimCard_StatusPathSelectorBundles{}
+}
+func (SimCardStatusFieldPathBuilder) Options() SimCard_StatusPathSelectorOptions {
+	return SimCard_StatusPathSelectorOptions{}
 }
 
 type SimCard_StatusPathSelectorState struct{}
@@ -908,4 +1305,303 @@ func (s SimCard_StatusPathSelectorError) WithValue(value string) *SimCardStatus_
 
 func (s SimCard_StatusPathSelectorError) WithArrayOfValues(values []string) *SimCardStatus_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_StatusPathSelectorMsisdn struct{}
+
+func (SimCard_StatusPathSelectorMsisdn) FieldPath() *SimCardStatus_FieldTerminalPath {
+	return &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorMsisdn}
+}
+
+func (s SimCard_StatusPathSelectorMsisdn) WithValue(value string) *SimCardStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldTerminalPathValue)
+}
+
+func (s SimCard_StatusPathSelectorMsisdn) WithArrayOfValues(values []string) *SimCardStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_StatusPathSelectorBundles struct{}
+
+func (SimCard_StatusPathSelectorBundles) FieldPath() *SimCardStatus_FieldTerminalPath {
+	return &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorBundles}
+}
+
+func (s SimCard_StatusPathSelectorBundles) WithValue(value []*SimCard_Status_Bundle) *SimCardStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldTerminalPathValue)
+}
+
+func (s SimCard_StatusPathSelectorBundles) WithArrayOfValues(values [][]*SimCard_Status_Bundle) *SimCardStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (s SimCard_StatusPathSelectorBundles) WithItemValue(value *SimCard_Status_Bundle) *SimCardStatus_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SimCardStatus_FieldTerminalPathArrayItemValue)
+}
+func (SimCard_StatusPathSelectorBundles) WithSubPath(subPath SimCardStatusBundle_FieldPath) *SimCardStatus_FieldSubPath {
+	return &SimCardStatus_FieldSubPath{selector: SimCardStatus_FieldPathSelectorBundles, subPath: subPath}
+}
+
+func (s SimCard_StatusPathSelectorBundles) WithSubValue(subPathValue SimCardStatusBundle_FieldPathValue) *SimCardStatus_FieldSubPathValue {
+	return &SimCardStatus_FieldSubPathValue{SimCardStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s SimCard_StatusPathSelectorBundles) WithSubArrayOfValues(subPathArrayOfValues SimCardStatusBundle_FieldPathArrayOfValues) *SimCardStatus_FieldSubPathArrayOfValues {
+	return &SimCardStatus_FieldSubPathArrayOfValues{SimCardStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s SimCard_StatusPathSelectorBundles) WithSubArrayItemValue(subPathArrayItemValue SimCardStatusBundle_FieldPathArrayItemValue) *SimCardStatus_FieldSubPathArrayItemValue {
+	return &SimCardStatus_FieldSubPathArrayItemValue{SimCardStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (SimCard_StatusPathSelectorBundles) ProductId() SimCard_StatusPathSelectorBundlesProductId {
+	return SimCard_StatusPathSelectorBundlesProductId{}
+}
+
+func (SimCard_StatusPathSelectorBundles) SubscriptionId() SimCard_StatusPathSelectorBundlesSubscriptionId {
+	return SimCard_StatusPathSelectorBundlesSubscriptionId{}
+}
+
+func (SimCard_StatusPathSelectorBundles) Status() SimCard_StatusPathSelectorBundlesStatus {
+	return SimCard_StatusPathSelectorBundlesStatus{}
+}
+
+func (SimCard_StatusPathSelectorBundles) ActivationTime() SimCard_StatusPathSelectorBundlesActivationTime {
+	return SimCard_StatusPathSelectorBundlesActivationTime{}
+}
+
+func (SimCard_StatusPathSelectorBundles) ExpirationTime() SimCard_StatusPathSelectorBundlesExpirationTime {
+	return SimCard_StatusPathSelectorBundlesExpirationTime{}
+}
+
+func (SimCard_StatusPathSelectorBundles) NextRenewalTime() SimCard_StatusPathSelectorBundlesNextRenewalTime {
+	return SimCard_StatusPathSelectorBundlesNextRenewalTime{}
+}
+
+type SimCard_StatusPathSelectorBundlesProductId struct{}
+
+func (SimCard_StatusPathSelectorBundlesProductId) FieldPath() *SimCardStatus_FieldSubPath {
+	return &SimCardStatus_FieldSubPath{
+		selector: SimCardStatus_FieldPathSelectorBundles,
+		subPath:  NewSimCardStatusBundleFieldPathBuilder().ProductId().FieldPath(),
+	}
+}
+
+func (s SimCard_StatusPathSelectorBundlesProductId) WithValue(value string) *SimCardStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldSubPathValue)
+}
+
+func (s SimCard_StatusPathSelectorBundlesProductId) WithArrayOfValues(values []string) *SimCardStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldSubPathArrayOfValues)
+}
+
+type SimCard_StatusPathSelectorBundlesSubscriptionId struct{}
+
+func (SimCard_StatusPathSelectorBundlesSubscriptionId) FieldPath() *SimCardStatus_FieldSubPath {
+	return &SimCardStatus_FieldSubPath{
+		selector: SimCardStatus_FieldPathSelectorBundles,
+		subPath:  NewSimCardStatusBundleFieldPathBuilder().SubscriptionId().FieldPath(),
+	}
+}
+
+func (s SimCard_StatusPathSelectorBundlesSubscriptionId) WithValue(value string) *SimCardStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldSubPathValue)
+}
+
+func (s SimCard_StatusPathSelectorBundlesSubscriptionId) WithArrayOfValues(values []string) *SimCardStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldSubPathArrayOfValues)
+}
+
+type SimCard_StatusPathSelectorBundlesStatus struct{}
+
+func (SimCard_StatusPathSelectorBundlesStatus) FieldPath() *SimCardStatus_FieldSubPath {
+	return &SimCardStatus_FieldSubPath{
+		selector: SimCardStatus_FieldPathSelectorBundles,
+		subPath:  NewSimCardStatusBundleFieldPathBuilder().Status().FieldPath(),
+	}
+}
+
+func (s SimCard_StatusPathSelectorBundlesStatus) WithValue(value string) *SimCardStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldSubPathValue)
+}
+
+func (s SimCard_StatusPathSelectorBundlesStatus) WithArrayOfValues(values []string) *SimCardStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldSubPathArrayOfValues)
+}
+
+type SimCard_StatusPathSelectorBundlesActivationTime struct{}
+
+func (SimCard_StatusPathSelectorBundlesActivationTime) FieldPath() *SimCardStatus_FieldSubPath {
+	return &SimCardStatus_FieldSubPath{
+		selector: SimCardStatus_FieldPathSelectorBundles,
+		subPath:  NewSimCardStatusBundleFieldPathBuilder().ActivationTime().FieldPath(),
+	}
+}
+
+func (s SimCard_StatusPathSelectorBundlesActivationTime) WithValue(value string) *SimCardStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldSubPathValue)
+}
+
+func (s SimCard_StatusPathSelectorBundlesActivationTime) WithArrayOfValues(values []string) *SimCardStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldSubPathArrayOfValues)
+}
+
+type SimCard_StatusPathSelectorBundlesExpirationTime struct{}
+
+func (SimCard_StatusPathSelectorBundlesExpirationTime) FieldPath() *SimCardStatus_FieldSubPath {
+	return &SimCardStatus_FieldSubPath{
+		selector: SimCardStatus_FieldPathSelectorBundles,
+		subPath:  NewSimCardStatusBundleFieldPathBuilder().ExpirationTime().FieldPath(),
+	}
+}
+
+func (s SimCard_StatusPathSelectorBundlesExpirationTime) WithValue(value string) *SimCardStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldSubPathValue)
+}
+
+func (s SimCard_StatusPathSelectorBundlesExpirationTime) WithArrayOfValues(values []string) *SimCardStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldSubPathArrayOfValues)
+}
+
+type SimCard_StatusPathSelectorBundlesNextRenewalTime struct{}
+
+func (SimCard_StatusPathSelectorBundlesNextRenewalTime) FieldPath() *SimCardStatus_FieldSubPath {
+	return &SimCardStatus_FieldSubPath{
+		selector: SimCardStatus_FieldPathSelectorBundles,
+		subPath:  NewSimCardStatusBundleFieldPathBuilder().NextRenewalTime().FieldPath(),
+	}
+}
+
+func (s SimCard_StatusPathSelectorBundlesNextRenewalTime) WithValue(value string) *SimCardStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldSubPathValue)
+}
+
+func (s SimCard_StatusPathSelectorBundlesNextRenewalTime) WithArrayOfValues(values []string) *SimCardStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldSubPathArrayOfValues)
+}
+
+type SimCard_StatusPathSelectorOptions struct{}
+
+func (SimCard_StatusPathSelectorOptions) FieldPath() *SimCardStatus_FieldTerminalPath {
+	return &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorOptions}
+}
+
+func (s SimCard_StatusPathSelectorOptions) WithValue(value []string) *SimCardStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatus_FieldTerminalPathValue)
+}
+
+func (s SimCard_StatusPathSelectorOptions) WithArrayOfValues(values [][]string) *SimCardStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (s SimCard_StatusPathSelectorOptions) WithItemValue(value string) *SimCardStatus_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SimCardStatus_FieldTerminalPathArrayItemValue)
+}
+
+type SimCardStatusBundleFieldPathBuilder struct{}
+
+func NewSimCardStatusBundleFieldPathBuilder() SimCardStatusBundleFieldPathBuilder {
+	return SimCardStatusBundleFieldPathBuilder{}
+}
+func (SimCardStatusBundleFieldPathBuilder) ProductId() SimCard_Status_BundlePathSelectorProductId {
+	return SimCard_Status_BundlePathSelectorProductId{}
+}
+func (SimCardStatusBundleFieldPathBuilder) SubscriptionId() SimCard_Status_BundlePathSelectorSubscriptionId {
+	return SimCard_Status_BundlePathSelectorSubscriptionId{}
+}
+func (SimCardStatusBundleFieldPathBuilder) Status() SimCard_Status_BundlePathSelectorStatus {
+	return SimCard_Status_BundlePathSelectorStatus{}
+}
+func (SimCardStatusBundleFieldPathBuilder) ActivationTime() SimCard_Status_BundlePathSelectorActivationTime {
+	return SimCard_Status_BundlePathSelectorActivationTime{}
+}
+func (SimCardStatusBundleFieldPathBuilder) ExpirationTime() SimCard_Status_BundlePathSelectorExpirationTime {
+	return SimCard_Status_BundlePathSelectorExpirationTime{}
+}
+func (SimCardStatusBundleFieldPathBuilder) NextRenewalTime() SimCard_Status_BundlePathSelectorNextRenewalTime {
+	return SimCard_Status_BundlePathSelectorNextRenewalTime{}
+}
+
+type SimCard_Status_BundlePathSelectorProductId struct{}
+
+func (SimCard_Status_BundlePathSelectorProductId) FieldPath() *SimCardStatusBundle_FieldTerminalPath {
+	return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorProductId}
+}
+
+func (s SimCard_Status_BundlePathSelectorProductId) WithValue(value string) *SimCardStatusBundle_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatusBundle_FieldTerminalPathValue)
+}
+
+func (s SimCard_Status_BundlePathSelectorProductId) WithArrayOfValues(values []string) *SimCardStatusBundle_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatusBundle_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_Status_BundlePathSelectorSubscriptionId struct{}
+
+func (SimCard_Status_BundlePathSelectorSubscriptionId) FieldPath() *SimCardStatusBundle_FieldTerminalPath {
+	return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorSubscriptionId}
+}
+
+func (s SimCard_Status_BundlePathSelectorSubscriptionId) WithValue(value string) *SimCardStatusBundle_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatusBundle_FieldTerminalPathValue)
+}
+
+func (s SimCard_Status_BundlePathSelectorSubscriptionId) WithArrayOfValues(values []string) *SimCardStatusBundle_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatusBundle_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_Status_BundlePathSelectorStatus struct{}
+
+func (SimCard_Status_BundlePathSelectorStatus) FieldPath() *SimCardStatusBundle_FieldTerminalPath {
+	return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorStatus}
+}
+
+func (s SimCard_Status_BundlePathSelectorStatus) WithValue(value string) *SimCardStatusBundle_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatusBundle_FieldTerminalPathValue)
+}
+
+func (s SimCard_Status_BundlePathSelectorStatus) WithArrayOfValues(values []string) *SimCardStatusBundle_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatusBundle_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_Status_BundlePathSelectorActivationTime struct{}
+
+func (SimCard_Status_BundlePathSelectorActivationTime) FieldPath() *SimCardStatusBundle_FieldTerminalPath {
+	return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorActivationTime}
+}
+
+func (s SimCard_Status_BundlePathSelectorActivationTime) WithValue(value string) *SimCardStatusBundle_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatusBundle_FieldTerminalPathValue)
+}
+
+func (s SimCard_Status_BundlePathSelectorActivationTime) WithArrayOfValues(values []string) *SimCardStatusBundle_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatusBundle_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_Status_BundlePathSelectorExpirationTime struct{}
+
+func (SimCard_Status_BundlePathSelectorExpirationTime) FieldPath() *SimCardStatusBundle_FieldTerminalPath {
+	return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorExpirationTime}
+}
+
+func (s SimCard_Status_BundlePathSelectorExpirationTime) WithValue(value string) *SimCardStatusBundle_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatusBundle_FieldTerminalPathValue)
+}
+
+func (s SimCard_Status_BundlePathSelectorExpirationTime) WithArrayOfValues(values []string) *SimCardStatusBundle_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatusBundle_FieldTerminalPathArrayOfValues)
+}
+
+type SimCard_Status_BundlePathSelectorNextRenewalTime struct{}
+
+func (SimCard_Status_BundlePathSelectorNextRenewalTime) FieldPath() *SimCardStatusBundle_FieldTerminalPath {
+	return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorNextRenewalTime}
+}
+
+func (s SimCard_Status_BundlePathSelectorNextRenewalTime) WithValue(value string) *SimCardStatusBundle_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SimCardStatusBundle_FieldTerminalPathValue)
+}
+
+func (s SimCard_Status_BundlePathSelectorNextRenewalTime) WithArrayOfValues(values []string) *SimCardStatusBundle_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SimCardStatusBundle_FieldTerminalPathArrayOfValues)
 }

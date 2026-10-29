@@ -23,6 +23,7 @@ import (
 	contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
@@ -30,6 +31,7 @@ var (
 	_ = &carrier.TransatelAccount{}
 	_ = &contract.Contract{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
 

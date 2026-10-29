@@ -72,15 +72,37 @@ func (o *Contract) MakeDiffFieldMask(other *Contract) *Contract_FieldMask {
 	if o.GetRatePlan() != other.GetRatePlan() {
 		res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorRatePlan})
 	}
+	if o.GetAccountReference() != other.GetAccountReference() {
+		res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorAccountReference})
+	}
+	if o.GetBundleCatalog() != other.GetBundleCatalog() {
+		res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorBundleCatalog})
+	}
 	{
 		_, leftSelected := o.CarrierAccount.(*Contract_Transatel)
 		_, rightSelected := other.CarrierAccount.(*Contract_Transatel)
 		if leftSelected == rightSelected {
-			if o.GetTransatel().String() != other.GetTransatel().String() {
+			subMask := o.GetTransatel().MakeDiffFieldMask(other.GetTransatel())
+			if subMask.IsFull() {
 				res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatel})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &Contract_FieldSubPath{selector: Contract_FieldPathSelectorTransatel, subPath: subpath})
+				}
 			}
 		} else {
 			res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatel})
+		}
+	}
+	{
+		_, leftSelected := o.CarrierAccount.(*Contract_TransatelLegacy)
+		_, rightSelected := other.CarrierAccount.(*Contract_TransatelLegacy)
+		if leftSelected == rightSelected {
+			if o.GetTransatelLegacy().String() != other.GetTransatelLegacy().String() {
+				res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatelLegacy})
+			}
+		} else {
+			res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatelLegacy})
 		}
 	}
 	{
@@ -139,18 +161,28 @@ func (o *Contract) Clone() *Contract {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.RatePlan = o.RatePlan
+	result.AccountReference = o.AccountReference
+	result.BundleCatalog = o.BundleCatalog
 	if o, ok := o.CarrierAccount.(*Contract_Transatel); ok {
 		result.CarrierAccount = (*Contract_Transatel)(nil)
 		if o != nil {
 			result.CarrierAccount = &Contract_Transatel{}
 			result := result.CarrierAccount.(*Contract_Transatel)
-			if o.Transatel == nil {
-				result.Transatel = nil
-			} else if data, err := o.Transatel.ProtoString(); err != nil {
+			result.Transatel = o.Transatel.Clone()
+		}
+	}
+	if o, ok := o.CarrierAccount.(*Contract_TransatelLegacy); ok {
+		result.CarrierAccount = (*Contract_TransatelLegacy)(nil)
+		if o != nil {
+			result.CarrierAccount = &Contract_TransatelLegacy{}
+			result := result.CarrierAccount.(*Contract_TransatelLegacy)
+			if o.TransatelLegacy == nil {
+				result.TransatelLegacy = nil
+			} else if data, err := o.TransatelLegacy.ProtoString(); err != nil {
 				panic(err)
 			} else {
-				result.Transatel = &secrets_secret.Reference{}
-				if err := result.Transatel.ParseProtoString(data); err != nil {
+				result.TransatelLegacy = &secrets_secret.Reference{}
+				if err := result.TransatelLegacy.ParseProtoString(data); err != nil {
 					panic(err)
 				}
 			}
@@ -218,6 +250,8 @@ func (o *Contract) Merge(source *Contract) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.RatePlan = source.GetRatePlan()
+	o.AccountReference = source.GetAccountReference()
+	o.BundleCatalog = source.GetBundleCatalog()
 	if source, ok := source.GetCarrierAccount().(*Contract_Transatel); ok {
 		if dstOneOf, ok := o.CarrierAccount.(*Contract_Transatel); !ok || dstOneOf == nil {
 			o.CarrierAccount = &Contract_Transatel{}
@@ -225,16 +259,30 @@ func (o *Contract) Merge(source *Contract) {
 		if source != nil {
 			o := o.CarrierAccount.(*Contract_Transatel)
 			if source.Transatel != nil {
-				if data, err := source.Transatel.ProtoString(); err != nil {
+				if o.Transatel == nil {
+					o.Transatel = new(Contract_TransatelAccount)
+				}
+				o.Transatel.Merge(source.Transatel)
+			}
+		}
+	}
+	if source, ok := source.GetCarrierAccount().(*Contract_TransatelLegacy); ok {
+		if dstOneOf, ok := o.CarrierAccount.(*Contract_TransatelLegacy); !ok || dstOneOf == nil {
+			o.CarrierAccount = &Contract_TransatelLegacy{}
+		}
+		if source != nil {
+			o := o.CarrierAccount.(*Contract_TransatelLegacy)
+			if source.TransatelLegacy != nil {
+				if data, err := source.TransatelLegacy.ProtoString(); err != nil {
 					panic(err)
 				} else {
-					o.Transatel = &secrets_secret.Reference{}
-					if err := o.Transatel.ParseProtoString(data); err != nil {
+					o.TransatelLegacy = &secrets_secret.Reference{}
+					if err := o.TransatelLegacy.ParseProtoString(data); err != nil {
 						panic(err)
 					}
 				}
 			} else {
-				o.Transatel = nil
+				o.TransatelLegacy = nil
 			}
 		}
 	}
@@ -288,6 +336,107 @@ func (o *Contract) Merge(source *Contract) {
 
 func (o *Contract) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Contract))
+}
+
+func (o *Contract_TransatelAccount) GotenObjectExt() {}
+
+func (o *Contract_TransatelAccount) MakeFullFieldMask() *Contract_TransatelAccount_FieldMask {
+	return FullContract_TransatelAccount_FieldMask()
+}
+
+func (o *Contract_TransatelAccount) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullContract_TransatelAccount_FieldMask()
+}
+
+func (o *Contract_TransatelAccount) MakeDiffFieldMask(other *Contract_TransatelAccount) *Contract_TransatelAccount_FieldMask {
+	if o == nil && other == nil {
+		return &Contract_TransatelAccount_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullContract_TransatelAccount_FieldMask()
+	}
+
+	res := &Contract_TransatelAccount_FieldMask{}
+	if o.GetCredential().String() != other.GetCredential().String() {
+		res.Paths = append(res.Paths, &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorCredential})
+	}
+
+	if len(o.GetScopes()) == len(other.GetScopes()) {
+		for i, lValue := range o.GetScopes() {
+			rValue := other.GetScopes()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorScopes})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorScopes})
+	}
+	return res
+}
+
+func (o *Contract_TransatelAccount) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Contract_TransatelAccount))
+}
+
+func (o *Contract_TransatelAccount) Clone() *Contract_TransatelAccount {
+	if o == nil {
+		return nil
+	}
+	result := &Contract_TransatelAccount{}
+	if o.Credential == nil {
+		result.Credential = nil
+	} else if data, err := o.Credential.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Credential = &secrets_secret.Reference{}
+		if err := result.Credential.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.Scopes = make([]string, len(o.Scopes))
+	for i, sourceValue := range o.Scopes {
+		result.Scopes[i] = sourceValue
+	}
+	return result
+}
+
+func (o *Contract_TransatelAccount) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Contract_TransatelAccount) Merge(source *Contract_TransatelAccount) {
+	if source.GetCredential() != nil {
+		if data, err := source.GetCredential().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Credential = &secrets_secret.Reference{}
+			if err := o.Credential.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Credential = nil
+	}
+	for _, sourceValue := range source.GetScopes() {
+		exists := false
+		for _, currentValue := range o.Scopes {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Scopes = append(o.Scopes, newDstElement)
+		}
+	}
+
+}
+
+func (o *Contract_TransatelAccount) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Contract_TransatelAccount))
 }
 
 func (o *Contract_Status) GotenObjectExt() {}

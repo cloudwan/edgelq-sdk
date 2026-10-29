@@ -23,6 +23,7 @@ import (
 	contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -44,6 +45,7 @@ var (
 	_ = &carrier.TransatelAccount{}
 	_ = &contract.Contract{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
 
@@ -58,6 +60,7 @@ func FullSimCard_FieldMask() *SimCard_FieldMask {
 	res.Paths = append(res.Paths, &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorContract})
 	res.Paths = append(res.Paths, &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorImsi})
 	res.Paths = append(res.Paths, &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorRatePlan})
+	res.Paths = append(res.Paths, &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorBundleRequest})
 	res.Paths = append(res.Paths, &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorStatus})
 	return res
 }
@@ -77,7 +80,7 @@ func (fieldMask *SimCard_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*SimCard_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -107,14 +110,16 @@ func (fieldMask *SimCard_FieldMask) Reset() {
 
 func (fieldMask *SimCard_FieldMask) Subtract(other *SimCard_FieldMask) *SimCard_FieldMask {
 	result := &SimCard_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[SimCard_FieldPathSelector]gotenobject.FieldMask{
-		SimCard_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
-		SimCard_FieldPathSelectorStatus:   &SimCard_Status_FieldMask{},
+		SimCard_FieldPathSelectorMetadata:      &meta.Meta_FieldMask{},
+		SimCard_FieldPathSelectorBundleRequest: &SimCard_BundleRequest_FieldMask{},
+		SimCard_FieldPathSelectorStatus:        &SimCard_Status_FieldMask{},
 	}
 	mySubMasks := map[SimCard_FieldPathSelector]gotenobject.FieldMask{
-		SimCard_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
-		SimCard_FieldPathSelectorStatus:   &SimCard_Status_FieldMask{},
+		SimCard_FieldPathSelectorMetadata:      &meta.Meta_FieldMask{},
+		SimCard_FieldPathSelectorBundleRequest: &SimCard_BundleRequest_FieldMask{},
+		SimCard_FieldPathSelectorStatus:        &SimCard_Status_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -132,6 +137,8 @@ func (fieldMask *SimCard_FieldMask) Subtract(other *SimCard_FieldMask) *SimCard_
 					switch tp.selector {
 					case SimCard_FieldPathSelectorMetadata:
 						mySubMasks[SimCard_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
+					case SimCard_FieldPathSelectorBundleRequest:
+						mySubMasks[SimCard_FieldPathSelectorBundleRequest] = FullSimCard_BundleRequest_FieldMask()
 					case SimCard_FieldPathSelectorStatus:
 						mySubMasks[SimCard_FieldPathSelectorStatus] = FullSimCard_Status_FieldMask()
 					}
@@ -309,6 +316,8 @@ func (fieldMask *SimCard_FieldMask) Project(source *SimCard) *SimCard {
 	result := &SimCard{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
+	bundleRequestMask := &SimCard_BundleRequest_FieldMask{}
+	wholeBundleRequestAccepted := false
 	statusMask := &SimCard_Status_FieldMask{}
 	wholeStatusAccepted := false
 
@@ -327,6 +336,9 @@ func (fieldMask *SimCard_FieldMask) Project(source *SimCard) *SimCard {
 				result.Imsi = source.Imsi
 			case SimCard_FieldPathSelectorRatePlan:
 				result.RatePlan = source.RatePlan
+			case SimCard_FieldPathSelectorBundleRequest:
+				result.BundleRequest = source.BundleRequest
+				wholeBundleRequestAccepted = true
 			case SimCard_FieldPathSelectorStatus:
 				result.Status = source.Status
 				wholeStatusAccepted = true
@@ -335,6 +347,8 @@ func (fieldMask *SimCard_FieldMask) Project(source *SimCard) *SimCard {
 			switch tp.selector {
 			case SimCard_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
+			case SimCard_FieldPathSelectorBundleRequest:
+				bundleRequestMask.AppendPath(tp.subPath.(SimCardBundleRequest_FieldPath))
 			case SimCard_FieldPathSelectorStatus:
 				statusMask.AppendPath(tp.subPath.(SimCardStatus_FieldPath))
 			}
@@ -342,6 +356,9 @@ func (fieldMask *SimCard_FieldMask) Project(source *SimCard) *SimCard {
 	}
 	if wholeMetadataAccepted == false && len(metadataMask.Paths) > 0 {
 		result.Metadata = metadataMask.Project(source.GetMetadata())
+	}
+	if wholeBundleRequestAccepted == false && len(bundleRequestMask.Paths) > 0 {
+		result.BundleRequest = bundleRequestMask.Project(source.GetBundleRequest())
 	}
 	if wholeStatusAccepted == false && len(statusMask.Paths) > 0 {
 		result.Status = statusMask.Project(source.GetStatus())
@@ -360,6 +377,246 @@ func (fieldMask *SimCard_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
+type SimCard_BundleRequest_FieldMask struct {
+	Paths []SimCardBundleRequest_FieldPath
+}
+
+func FullSimCard_BundleRequest_FieldMask() *SimCard_BundleRequest_FieldMask {
+	res := &SimCard_BundleRequest_FieldMask{}
+	res.Paths = append(res.Paths, &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorId})
+	res.Paths = append(res.Paths, &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorProductId})
+	res.Paths = append(res.Paths, &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorOtherBundles})
+	res.Paths = append(res.Paths, &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorRequestTime})
+	return res
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*SimCardBundleRequest_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseSimCardBundleRequest_FieldPath(raw)
+	})
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) ProtoMessage() {}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) Subtract(other *SimCard_BundleRequest_FieldMask) *SimCard_BundleRequest_FieldMask {
+	result := &SimCard_BundleRequest_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *SimCardBundleRequest_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*SimCard_BundleRequest_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *SimCard_BundleRequest_FieldMask) FilterInputFields() *SimCard_BundleRequest_FieldMask {
+	result := &SimCard_BundleRequest_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *SimCard_BundleRequest_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]SimCardBundleRequest_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseSimCardBundleRequest_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask SimCard_BundleRequest_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask SimCard_BundleRequest_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) AppendPath(path SimCardBundleRequest_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(SimCardBundleRequest_FieldPath))
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) GetPaths() []SimCardBundleRequest_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseSimCardBundleRequest_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) Set(target, source *SimCard_BundleRequest) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*SimCard_BundleRequest), source.(*SimCard_BundleRequest))
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) Project(source *SimCard_BundleRequest) *SimCard_BundleRequest {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &SimCard_BundleRequest{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *SimCardBundleRequest_FieldTerminalPath:
+			switch tp.selector {
+			case SimCardBundleRequest_FieldPathSelectorId:
+				result.Id = source.Id
+			case SimCardBundleRequest_FieldPathSelectorProductId:
+				result.ProductId = source.ProductId
+			case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+				result.OtherBundles = source.OtherBundles
+			case SimCardBundleRequest_FieldPathSelectorRequestTime:
+				result.RequestTime = source.RequestTime
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*SimCard_BundleRequest))
+}
+
+func (fieldMask *SimCard_BundleRequest_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type SimCard_Status_FieldMask struct {
 	Paths []SimCardStatus_FieldPath
 }
@@ -368,6 +625,9 @@ func FullSimCard_Status_FieldMask() *SimCard_Status_FieldMask {
 	res := &SimCard_Status_FieldMask{}
 	res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorState})
 	res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorError})
+	res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorMsisdn})
+	res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorBundles})
+	res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorOptions})
 	return res
 }
 
@@ -386,7 +646,7 @@ func (fieldMask *SimCard_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*SimCardStatus_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -416,17 +676,43 @@ func (fieldMask *SimCard_Status_FieldMask) Reset() {
 
 func (fieldMask *SimCard_Status_FieldMask) Subtract(other *SimCard_Status_FieldMask) *SimCard_Status_FieldMask {
 	result := &SimCard_Status_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 5)
+	otherSubMasks := map[SimCardStatus_FieldPathSelector]gotenobject.FieldMask{
+		SimCardStatus_FieldPathSelectorBundles: &SimCard_Status_Bundle_FieldMask{},
+	}
+	mySubMasks := map[SimCardStatus_FieldPathSelector]gotenobject.FieldMask{
+		SimCardStatus_FieldPathSelectorBundles: &SimCard_Status_Bundle_FieldMask{},
+	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
 		case *SimCardStatus_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
+		case *SimCardStatus_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*SimCardStatus_FieldTerminalPath); ok {
+					switch tp.selector {
+					case SimCardStatus_FieldPathSelectorBundles:
+						mySubMasks[SimCardStatus_FieldPathSelectorBundles] = FullSimCard_Status_Bundle_FieldMask()
+					}
+				} else if tp, ok := path.(*SimCardStatus_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &SimCardStatus_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
 		}
 	}
 
@@ -568,6 +854,8 @@ func (fieldMask *SimCard_Status_FieldMask) Project(source *SimCard_Status) *SimC
 		return source
 	}
 	result := &SimCard_Status{}
+	bundlesMask := &SimCard_Status_Bundle_FieldMask{}
+	wholeBundlesAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -577,7 +865,24 @@ func (fieldMask *SimCard_Status_FieldMask) Project(source *SimCard_Status) *SimC
 				result.State = source.State
 			case SimCardStatus_FieldPathSelectorError:
 				result.Error = source.Error
+			case SimCardStatus_FieldPathSelectorMsisdn:
+				result.Msisdn = source.Msisdn
+			case SimCardStatus_FieldPathSelectorBundles:
+				result.Bundles = source.Bundles
+				wholeBundlesAccepted = true
+			case SimCardStatus_FieldPathSelectorOptions:
+				result.Options = source.Options
 			}
+		case *SimCardStatus_FieldSubPath:
+			switch tp.selector {
+			case SimCardStatus_FieldPathSelectorBundles:
+				bundlesMask.AppendPath(tp.subPath.(SimCardStatusBundle_FieldPath))
+			}
+		}
+	}
+	if wholeBundlesAccepted == false && len(bundlesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetBundles() {
+			result.Bundles = append(result.Bundles, bundlesMask.Project(sourceItem))
 		}
 	}
 	return result
@@ -588,6 +893,252 @@ func (fieldMask *SimCard_Status_FieldMask) ProjectRaw(source gotenobject.GotenOb
 }
 
 func (fieldMask *SimCard_Status_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type SimCard_Status_Bundle_FieldMask struct {
+	Paths []SimCardStatusBundle_FieldPath
+}
+
+func FullSimCard_Status_Bundle_FieldMask() *SimCard_Status_Bundle_FieldMask {
+	res := &SimCard_Status_Bundle_FieldMask{}
+	res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorProductId})
+	res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorSubscriptionId})
+	res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorStatus})
+	res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorActivationTime})
+	res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorExpirationTime})
+	res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorNextRenewalTime})
+	return res
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 6)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*SimCardStatusBundle_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseSimCardStatusBundle_FieldPath(raw)
+	})
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) ProtoMessage() {}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) Subtract(other *SimCard_Status_Bundle_FieldMask) *SimCard_Status_Bundle_FieldMask {
+	result := &SimCard_Status_Bundle_FieldMask{}
+	removedSelectors := make([]bool, 6)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *SimCardStatusBundle_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*SimCard_Status_Bundle_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *SimCard_Status_Bundle_FieldMask) FilterInputFields() *SimCard_Status_Bundle_FieldMask {
+	result := &SimCard_Status_Bundle_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *SimCard_Status_Bundle_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]SimCardStatusBundle_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseSimCardStatusBundle_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask SimCard_Status_Bundle_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask SimCard_Status_Bundle_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) AppendPath(path SimCardStatusBundle_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(SimCardStatusBundle_FieldPath))
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) GetPaths() []SimCardStatusBundle_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseSimCardStatusBundle_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) Set(target, source *SimCard_Status_Bundle) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*SimCard_Status_Bundle), source.(*SimCard_Status_Bundle))
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) Project(source *SimCard_Status_Bundle) *SimCard_Status_Bundle {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &SimCard_Status_Bundle{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *SimCardStatusBundle_FieldTerminalPath:
+			switch tp.selector {
+			case SimCardStatusBundle_FieldPathSelectorProductId:
+				result.ProductId = source.ProductId
+			case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+				result.SubscriptionId = source.SubscriptionId
+			case SimCardStatusBundle_FieldPathSelectorStatus:
+				result.Status = source.Status
+			case SimCardStatusBundle_FieldPathSelectorActivationTime:
+				result.ActivationTime = source.ActivationTime
+			case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+				result.ExpirationTime = source.ExpirationTime
+			case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+				result.NextRenewalTime = source.NextRenewalTime
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*SimCard_Status_Bundle))
+}
+
+func (fieldMask *SimCard_Status_Bundle_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

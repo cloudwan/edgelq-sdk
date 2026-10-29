@@ -7,10 +7,12 @@ package cellular_api_access
 import (
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
+	bundle_access "github.com/cloudwan/edgelq-sdk/cellular-api/access/v1/bundle"
 	contract_access "github.com/cloudwan/edgelq-sdk/cellular-api/access/v1/contract"
 	sim_card_access "github.com/cloudwan/edgelq-sdk/cellular-api/access/v1/sim_card"
 	sim_card_stock_access "github.com/cloudwan/edgelq-sdk/cellular-api/access/v1/sim_card_stock"
 	cellular_api_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/cellular_api"
+	bundle "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/bundle"
 	contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
 	sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	sim_card_stock "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card_stock"
@@ -19,6 +21,7 @@ import (
 type CellularApiApiAccess interface {
 	gotenresource.Access
 
+	bundle.BundleAccess
 	contract.ContractAccess
 	sim_card.SimCardAccess
 	sim_card_stock.SimCardStockAccess
@@ -27,6 +30,7 @@ type CellularApiApiAccess interface {
 type apiCellularApiAccess struct {
 	gotenresource.Access
 
+	bundle.BundleAccess
 	contract.ContractAccess
 	sim_card.SimCardAccess
 	sim_card_stock.SimCardStockAccess
@@ -34,6 +38,7 @@ type apiCellularApiAccess struct {
 
 func NewApiAccess(client cellular_api_client.CellularApiClient) CellularApiApiAccess {
 
+	bundleAccess := bundle_access.NewApiBundleAccess(client)
 	contractAccess := contract_access.NewApiContractAccess(client)
 	simCardAccess := sim_card_access.NewApiSimCardAccess(client)
 	simCardStockAccess := sim_card_stock_access.NewApiSimCardStockAccess(client)
@@ -41,11 +46,13 @@ func NewApiAccess(client cellular_api_client.CellularApiClient) CellularApiApiAc
 	return &apiCellularApiAccess{
 		Access: gotenresource.NewCompositeAccess(
 
+			bundle.AsAnyCastAccess(bundleAccess),
 			contract.AsAnyCastAccess(contractAccess),
 			sim_card.AsAnyCastAccess(simCardAccess),
 			sim_card_stock.AsAnyCastAccess(simCardStockAccess),
 		),
 
+		BundleAccess:       bundleAccess,
 		ContractAccess:     contractAccess,
 		SimCardAccess:      simCardAccess,
 		SimCardStockAccess: simCardStockAccess,

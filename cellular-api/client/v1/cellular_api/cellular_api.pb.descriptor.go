@@ -11,9 +11,11 @@ import (
 
 // proto imports
 import (
+	bundle_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/bundle"
 	contract_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/contract"
 	sim_card_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/sim_card"
 	sim_card_stock_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/sim_card_stock"
+	bundle "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/bundle"
 	contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
 	sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	sim_card_stock "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card_stock"
@@ -27,6 +29,8 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &bundle.Bundle{}
+	_ = &bundle_client.GetBundleRequest{}
 	_ = &contract.Contract{}
 	_ = &contract_client.GetContractRequest{}
 	_ = &sim_card.SimCard{}
@@ -61,6 +65,7 @@ func (d *CellularApiDescriptor) GetNextVersion() string {
 
 func (d *CellularApiDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 	return []gotenresource.Descriptor{
+		bundle.GetDescriptor(),
 		contract.GetDescriptor(),
 		sim_card.GetDescriptor(),
 		sim_card_stock.GetDescriptor(),
@@ -69,6 +74,7 @@ func (d *CellularApiDescriptor) AllResourceDescriptors() []gotenresource.Descrip
 
 func (d *CellularApiDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	return []gotenclient.ApiDescriptor{
+		bundle_client.GetBundleServiceDescriptor(),
 		contract_client.GetContractServiceDescriptor(),
 		sim_card_client.GetSimCardServiceDescriptor(),
 		sim_card_stock_client.GetSimCardStockServiceDescriptor(),

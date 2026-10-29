@@ -426,4 +426,12 @@ service ContractService {
       post : "/v1/{name=contracts/*}:subscribeCarrierEvents"
     };
   }
+
+  // ListBundleProducts
+  rpc ListBundleProducts(ListBundleProductsRequest)
+      returns (ListBundleProductsResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=contracts/*}:listBundleProducts"
+    };
+  }
 }

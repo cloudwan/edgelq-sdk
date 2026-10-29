@@ -24,6 +24,7 @@ import (
 	contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -44,6 +45,7 @@ var (
 	_ = &carrier.TransatelAccount{}
 	_ = &contract.Contract{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
 
@@ -56,6 +58,11 @@ func (obj *SimCard) GotenValidate() error {
 			return gotenvalidate.NewValidationError("SimCard", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.BundleRequest).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("SimCard", "bundleRequest", obj.BundleRequest, "nested object validation failed", err)
+		}
+	}
 	if subobj, ok := interface{}(obj.Status).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("SimCard", "status", obj.Status, "nested object validation failed", err)
@@ -66,7 +73,32 @@ func (obj *SimCard) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *SimCard_BundleRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *SimCard_Status) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Bundles {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Status", "bundles", obj.Bundles[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *SimCard_Status_Bundle) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

@@ -58,3 +58,63 @@ message SubscribeCarrierEventsResponse {
   // ICCID of the SIM card the event is about. Empty if it cannot be read.
   string iccid = 6;
 }
+
+// A request message of the ListBundleProducts method.
+message ListBundleProductsRequest {
+  // Name of ntt.cellular_api.v1.Contract
+  string name = 1;
+
+  // Only products of this category. Unspecified: all.
+  Category category = 2;
+
+  // Category is what kind of product: one bought once, or one that renews.
+  enum Category {
+    // In a request: every category.
+    CATEGORY_UNSPECIFIED = 0;
+
+    // Valid once, for its own period, then gone.
+    ONE_OFF = 1;
+
+    // Renews every period until its renewal is stopped.
+    RECURRING = 2;
+
+    // Tops up a parent product and ends with it.
+    ADD_ON = 3;
+  }
+}
+
+// A response message of the ListBundleProducts method.
+message ListBundleProductsResponse {
+  repeated Product products = 1;
+
+  // Product is one bundle the carrier sells under the contract.
+  message Product {
+    // The carrier's product ID: what a bundle request names.
+    string product_id = 1;
+
+    ListBundleProductsRequest.Category category = 2;
+
+    // The carrier's short description; empty where it has none.
+    string description = 3;
+
+    // Data allowance per period, in kilobytes of 1024 bytes as the carrier
+    // counts them. -1 when the allowance is unlimited, 0 when the product
+    // has none.
+    int64 data_kb = 4;
+
+    // How long one period lasts: validity_duration of validity_unit
+    // ("days", "months").
+    int32 validity_duration = 5;
+
+    string validity_unit = 6;
+
+    // Where the allowance may be used, as the carrier lists it (ISO 3166
+    // alpha-3).
+    repeated string countries = 7;
+
+    // Products that cannot be held together. Ordering a recurring product of
+    // a group the SIM already holds one of switches to it at the old one's
+    // renewal; any other order adds.
+    repeated string exclusion_groups = 8;
+  }
+}

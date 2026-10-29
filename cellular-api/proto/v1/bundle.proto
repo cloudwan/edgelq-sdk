@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package ntt.cellular_api.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/bundle;bundle";
+option java_multiple_files = true;
+option java_outer_classname = "BundleProto";
+option java_package = "com.ntt.cellular_api.pb.v1";
+
+// Bundle is one carrier product bundle held by a SIM, such as a
+// Transatel bundle of data, voice and SMS allowances. It is not the SIM's own
+// bundle to the carrier network, whose state is SimCard.status.state.
+//
+// Users create it with SimCard Subscribe and change it with
+// TerminateBundle and CancelRenewal. No role grants creating, updating
+// or deleting it directly; the controller creates and updates it to sync it
+// with the carrier inventory. It is kept as TERMINATED after it ends and is
+// deleted only with its SimCard.
+//
+// It holds identity, the nominal data allowance of the product, lifecycle and
+// cycle information. It holds no balance. The data left in each period is the
+// Monitoring metric cellular-api.edgelq.com/sim_card/bundle_remaining, and the
+// traffic of the SIM is cellular-api.edgelq.com/sim_card/data_usage.
+message Bundle {
+  option (google.api.resource) = {
+    type : "cellular-api.edgelq.com/Bundle"
+    pattern : "projects/{project}/regions/{region}/simCards/{sim_card}/bundles/"
+              "{bundle}"
+  };
+
+  // Name of Bundle
+  // The last ID segment is the bundle_id given to Subscribe, or one it
+  // generated, or for an imported bundle the carrier bundle id in
+  // lowercase, and conforms to the following regex:
+  // [a-z0-9][a-z0-9\\-]{0,62}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Carrier product id, as Contract ListBundleProducts lists it. Set when the
+  // Bundle is created and never changed.
+  string product_id = 3;
+
+  // Set when the Bundle is created, from the carrier catalogue.
+  Kind kind = 4;
+
+  Status status = 5 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+  // The first data allowance of the product. Subscribe sets it from the
+  // carrier catalogue, and an imported bundle gets it from the carrier
+  // inventory. Once the Bundle holds a carrier bundle, the sync sets it to
+  // what the inventory states, which also fills it in on a Bundle created
+  // without it. Unset when the product has no data allowance or the carrier
+  // stated none.
+  DataAllowance data_allowance = 6;
+
+  // Recurrence is the current cycle of a renewing bundle as the carrier
+  // reports it. The history of cycles is not stored here. The period labels
+  // of the Monitoring metric bundle_remaining show the past periods of a
+  // bundle with a data balance.
+  message Recurrence {
+    // Carrier occurrenceCount: the number of the current cycle, 1 for the
+    // first.
+    int32 cycle = 1;
+
+    // When the next cycle starts.
+    google.protobuf.Timestamp next_renewal_time = 2;
+
+    // Carrier isLastRenewal: the current cycle is the last. It stays usable
+    // until expiration_time and does not renew. CancelRenewal sets it.
+    bool renewal_cancelled = 3;
+
+    // Carrier maxOccurrences of the product: the number of cycles after which
+    // it stops renewing. 0 when the carrier states none.
+    int32 max_occurrences = 4;
+  }
+
+  message Status {
+    // Carrier bundle id, the Transatel subscriptionId. Set once the
+    // carrier confirmed the order, or when the bundle is imported.
+    string carrier_subscription_id = 1;
+
+    State state = 2;
+
+    // When the carrier recorded the bundle.
+    google.protobuf.Timestamp subscription_time = 3;
+
+    // When it started or, while SCHEDULED, is to start.
+    google.protobuf.Timestamp activation_time = 4;
+
+    // When it ends. Unset while a recurring bundle renews.
+    google.protobuf.Timestamp expiration_time = 5;
+
+    // Set only for RECURRING, and for ADD_ON when the carrier reports one.
+    Recurrence recurrence = 6;
+
+    // When the server recorded the subscribe order. A SUBMITTING record is
+    // matched with the carrier inventory by it. Unset for an imported
+    // bundle.
+    google.protobuf.Timestamp request_time = 7;
+
+    // Why the last order on the bundle failed. Empty otherwise.
+    string error = 8;
+
+    // When the status last changed.
+    google.protobuf.Timestamp update_time = 9;
+  }
+
+  // DataAllowance is the data the product grants per period, as the product
+  // definition states it. It is nominal and is not the balance: a carrier
+  // modification of the balance does not change it.
+  message DataAllowance {
+    oneof limit {
+      // The allowance in bytes. Transatel states it in KB of 1024 bytes.
+      int64 bytes = 1;
+
+      // The product sets no limit on data.
+      bool unlimited = 2;
+    }
+  }
+
+  // Kind mirrors the category of the product in the carrier catalogue.
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+
+    // Transatel One-off: valid for one period, then it expires.
+    ONE_OFF = 1;
+
+    // Transatel Recurring: renews at the end of every cycle until its renewal
+    // is cancelled or the cycles reach max_occurrences.
+    RECURRING = 2;
+
+    // Transatel Add-on: added to a bundle of one of its parent
+    // products.
+    ADD_ON = 3;
+  }
+
+  // State is where the bundle is in its lifecycle. SUBMITTING and FAILED
+  // are this service's; the others are the carrier inventory statuses.
+  enum State {
+    STATE_UNSPECIFIED = 0;
+
+    // Recorded, but the subscribe order is not confirmed: it is being placed,
+    // or its result is unknown until a later sync finds it in the carrier
+    // inventory.
+    SUBMITTING = 1;
+
+    // Transatel active.
+    ACTIVE = 2;
+
+    // Transatel pending.
+    PENDING = 3;
+
+    // Transatel pendingForFirstUse.
+    PENDING_FOR_FIRST_USE = 4;
+
+    // Transatel readyForUse.
+    READY_FOR_USE = 5;
+
+    // Transatel scheduled: it starts at activation_time.
+    SCHEDULED = 6;
+
+    // Transatel terminated: ended by TerminateBundle, by expiry or by
+    // the carrier. The resource is kept.
+    TERMINATED = 7;
+
+    // The subscribe order was refused or never placed, so nothing exists at
+    // the carrier. status.error says why.
+    FAILED = 8;
+  }
+}

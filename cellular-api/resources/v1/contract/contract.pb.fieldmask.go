@@ -52,7 +52,10 @@ func FullContract_FieldMask() *Contract_FieldMask {
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorRatePlan})
+	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorAccountReference})
+	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorBundleCatalog})
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatel})
+	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorTransatelLegacy})
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorCisco})
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorCelona})
 	res.Paths = append(res.Paths, &Contract_FieldTerminalPath{selector: Contract_FieldPathSelectorStatus})
@@ -74,7 +77,7 @@ func (fieldMask *Contract_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Contract_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -104,14 +107,16 @@ func (fieldMask *Contract_FieldMask) Reset() {
 
 func (fieldMask *Contract_FieldMask) Subtract(other *Contract_FieldMask) *Contract_FieldMask {
 	result := &Contract_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 10)
 	otherSubMasks := map[Contract_FieldPathSelector]gotenobject.FieldMask{
-		Contract_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
-		Contract_FieldPathSelectorStatus:   &Contract_Status_FieldMask{},
+		Contract_FieldPathSelectorMetadata:  &meta.Meta_FieldMask{},
+		Contract_FieldPathSelectorTransatel: &Contract_TransatelAccount_FieldMask{},
+		Contract_FieldPathSelectorStatus:    &Contract_Status_FieldMask{},
 	}
 	mySubMasks := map[Contract_FieldPathSelector]gotenobject.FieldMask{
-		Contract_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
-		Contract_FieldPathSelectorStatus:   &Contract_Status_FieldMask{},
+		Contract_FieldPathSelectorMetadata:  &meta.Meta_FieldMask{},
+		Contract_FieldPathSelectorTransatel: &Contract_TransatelAccount_FieldMask{},
+		Contract_FieldPathSelectorStatus:    &Contract_Status_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -129,6 +134,8 @@ func (fieldMask *Contract_FieldMask) Subtract(other *Contract_FieldMask) *Contra
 					switch tp.selector {
 					case Contract_FieldPathSelectorMetadata:
 						mySubMasks[Contract_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
+					case Contract_FieldPathSelectorTransatel:
+						mySubMasks[Contract_FieldPathSelectorTransatel] = FullContract_TransatelAccount_FieldMask()
 					case Contract_FieldPathSelectorStatus:
 						mySubMasks[Contract_FieldPathSelectorStatus] = FullContract_Status_FieldMask()
 					}
@@ -306,6 +313,8 @@ func (fieldMask *Contract_FieldMask) Project(source *Contract) *Contract {
 	result := &Contract{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
+	transatelMask := &Contract_TransatelAccount_FieldMask{}
+	wholeTransatelAccepted := false
 	statusMask := &Contract_Status_FieldMask{}
 	wholeStatusAccepted := false
 
@@ -320,10 +329,21 @@ func (fieldMask *Contract_FieldMask) Project(source *Contract) *Contract {
 				wholeMetadataAccepted = true
 			case Contract_FieldPathSelectorRatePlan:
 				result.RatePlan = source.RatePlan
+			case Contract_FieldPathSelectorAccountReference:
+				result.AccountReference = source.AccountReference
+			case Contract_FieldPathSelectorBundleCatalog:
+				result.BundleCatalog = source.BundleCatalog
 			case Contract_FieldPathSelectorTransatel:
 				if source, ok := source.CarrierAccount.(*Contract_Transatel); ok {
 					result.CarrierAccount = &Contract_Transatel{
 						Transatel: source.Transatel,
+					}
+				}
+				wholeTransatelAccepted = true
+			case Contract_FieldPathSelectorTransatelLegacy:
+				if source, ok := source.CarrierAccount.(*Contract_TransatelLegacy); ok {
+					result.CarrierAccount = &Contract_TransatelLegacy{
+						TransatelLegacy: source.TransatelLegacy,
 					}
 				}
 			case Contract_FieldPathSelectorCisco:
@@ -346,6 +366,8 @@ func (fieldMask *Contract_FieldMask) Project(source *Contract) *Contract {
 			switch tp.selector {
 			case Contract_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
+			case Contract_FieldPathSelectorTransatel:
+				transatelMask.AppendPath(tp.subPath.(ContractTransatelAccount_FieldPath))
 			case Contract_FieldPathSelectorStatus:
 				statusMask.AppendPath(tp.subPath.(ContractStatus_FieldPath))
 			}
@@ -353,6 +375,16 @@ func (fieldMask *Contract_FieldMask) Project(source *Contract) *Contract {
 	}
 	if wholeMetadataAccepted == false && len(metadataMask.Paths) > 0 {
 		result.Metadata = metadataMask.Project(source.GetMetadata())
+	}
+	if wholeTransatelAccepted == false && len(transatelMask.Paths) > 0 {
+		if asOneOf, ok := source.CarrierAccount.(*Contract_Transatel); ok {
+			result.CarrierAccount = (*Contract_Transatel)(nil)
+			if asOneOf != nil {
+				oneOfRes := &Contract_Transatel{}
+				oneOfRes.Transatel = transatelMask.Project(asOneOf.Transatel)
+				result.CarrierAccount = oneOfRes
+			}
+		}
 	}
 	if wholeStatusAccepted == false && len(statusMask.Paths) > 0 {
 		result.Status = statusMask.Project(source.GetStatus())
@@ -365,6 +397,240 @@ func (fieldMask *Contract_FieldMask) ProjectRaw(source gotenobject.GotenObjectEx
 }
 
 func (fieldMask *Contract_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Contract_TransatelAccount_FieldMask struct {
+	Paths []ContractTransatelAccount_FieldPath
+}
+
+func FullContract_TransatelAccount_FieldMask() *Contract_TransatelAccount_FieldMask {
+	res := &Contract_TransatelAccount_FieldMask{}
+	res.Paths = append(res.Paths, &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorCredential})
+	res.Paths = append(res.Paths, &ContractTransatelAccount_FieldTerminalPath{selector: ContractTransatelAccount_FieldPathSelectorScopes})
+	return res
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ContractTransatelAccount_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseContractTransatelAccount_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) Subtract(other *Contract_TransatelAccount_FieldMask) *Contract_TransatelAccount_FieldMask {
+	result := &Contract_TransatelAccount_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ContractTransatelAccount_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Contract_TransatelAccount_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Contract_TransatelAccount_FieldMask) FilterInputFields() *Contract_TransatelAccount_FieldMask {
+	result := &Contract_TransatelAccount_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Contract_TransatelAccount_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ContractTransatelAccount_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseContractTransatelAccount_FieldPath(strPath)
+		if gotenobject.IsReservedFieldPath(err) {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Contract_TransatelAccount_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Contract_TransatelAccount_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) AppendPath(path ContractTransatelAccount_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ContractTransatelAccount_FieldPath))
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) GetPaths() []ContractTransatelAccount_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseContractTransatelAccount_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) Set(target, source *Contract_TransatelAccount) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Contract_TransatelAccount), source.(*Contract_TransatelAccount))
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) Project(source *Contract_TransatelAccount) *Contract_TransatelAccount {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Contract_TransatelAccount{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ContractTransatelAccount_FieldTerminalPath:
+			switch tp.selector {
+			case ContractTransatelAccount_FieldPathSelectorCredential:
+				result.Credential = source.Credential
+			case ContractTransatelAccount_FieldPathSelectorScopes:
+				result.Scopes = source.Scopes
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Contract_TransatelAccount))
+}
+
+func (fieldMask *Contract_TransatelAccount_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

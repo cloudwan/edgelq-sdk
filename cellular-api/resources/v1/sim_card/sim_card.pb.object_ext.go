@@ -20,6 +20,7 @@ import (
 	contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -38,6 +39,7 @@ var (
 	_ = &carrier.TransatelAccount{}
 	_ = &contract.Contract{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
 
@@ -81,6 +83,16 @@ func (o *SimCard) MakeDiffFieldMask(other *SimCard) *SimCard_FieldMask {
 	}
 	if o.GetRatePlan() != other.GetRatePlan() {
 		res.Paths = append(res.Paths, &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorRatePlan})
+	}
+	{
+		subMask := o.GetBundleRequest().MakeDiffFieldMask(other.GetBundleRequest())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorBundleRequest})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &SimCard_FieldSubPath{selector: SimCard_FieldPathSelectorBundleRequest, subPath: subpath})
+			}
+		}
 	}
 	{
 		subMask := o.GetStatus().MakeDiffFieldMask(other.GetStatus())
@@ -127,6 +139,7 @@ func (o *SimCard) Clone() *SimCard {
 	}
 	result.Imsi = o.Imsi
 	result.RatePlan = o.RatePlan
+	result.BundleRequest = o.BundleRequest.Clone()
 	result.Status = o.Status.Clone()
 	return result
 }
@@ -168,6 +181,12 @@ func (o *SimCard) Merge(source *SimCard) {
 	}
 	o.Imsi = source.GetImsi()
 	o.RatePlan = source.GetRatePlan()
+	if source.GetBundleRequest() != nil {
+		if o.BundleRequest == nil {
+			o.BundleRequest = new(SimCard_BundleRequest)
+		}
+		o.BundleRequest.Merge(source.GetBundleRequest())
+	}
 	if source.GetStatus() != nil {
 		if o.Status == nil {
 			o.Status = new(SimCard_Status)
@@ -178,6 +197,76 @@ func (o *SimCard) Merge(source *SimCard) {
 
 func (o *SimCard) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*SimCard))
+}
+
+func (o *SimCard_BundleRequest) GotenObjectExt() {}
+
+func (o *SimCard_BundleRequest) MakeFullFieldMask() *SimCard_BundleRequest_FieldMask {
+	return FullSimCard_BundleRequest_FieldMask()
+}
+
+func (o *SimCard_BundleRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullSimCard_BundleRequest_FieldMask()
+}
+
+func (o *SimCard_BundleRequest) MakeDiffFieldMask(other *SimCard_BundleRequest) *SimCard_BundleRequest_FieldMask {
+	if o == nil && other == nil {
+		return &SimCard_BundleRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullSimCard_BundleRequest_FieldMask()
+	}
+
+	res := &SimCard_BundleRequest_FieldMask{}
+	if o.GetId() != other.GetId() {
+		res.Paths = append(res.Paths, &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorId})
+	}
+	if o.GetProductId() != other.GetProductId() {
+		res.Paths = append(res.Paths, &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorProductId})
+	}
+	if o.GetOtherBundles() != other.GetOtherBundles() {
+		res.Paths = append(res.Paths, &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorOtherBundles})
+	}
+	if !proto.Equal(o.GetRequestTime(), other.GetRequestTime()) {
+		res.Paths = append(res.Paths, &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorRequestTime})
+	}
+	return res
+}
+
+func (o *SimCard_BundleRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*SimCard_BundleRequest))
+}
+
+func (o *SimCard_BundleRequest) Clone() *SimCard_BundleRequest {
+	if o == nil {
+		return nil
+	}
+	result := &SimCard_BundleRequest{}
+	result.Id = o.Id
+	result.ProductId = o.ProductId
+	result.OtherBundles = o.OtherBundles
+	result.RequestTime = proto.Clone(o.RequestTime).(*timestamppb.Timestamp)
+	return result
+}
+
+func (o *SimCard_BundleRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *SimCard_BundleRequest) Merge(source *SimCard_BundleRequest) {
+	o.Id = source.GetId()
+	o.ProductId = source.GetProductId()
+	o.OtherBundles = source.GetOtherBundles()
+	if source.GetRequestTime() != nil {
+		if o.RequestTime == nil {
+			o.RequestTime = new(timestamppb.Timestamp)
+		}
+		proto.Merge(o.RequestTime, source.GetRequestTime())
+	}
+}
+
+func (o *SimCard_BundleRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*SimCard_BundleRequest))
 }
 
 func (o *SimCard_Status) GotenObjectExt() {}
@@ -205,6 +294,33 @@ func (o *SimCard_Status) MakeDiffFieldMask(other *SimCard_Status) *SimCard_Statu
 	if o.GetError() != other.GetError() {
 		res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorError})
 	}
+	if o.GetMsisdn() != other.GetMsisdn() {
+		res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorMsisdn})
+	}
+
+	if len(o.GetBundles()) == len(other.GetBundles()) {
+		for i, lValue := range o.GetBundles() {
+			rValue := other.GetBundles()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorBundles})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorBundles})
+	}
+
+	if len(o.GetOptions()) == len(other.GetOptions()) {
+		for i, lValue := range o.GetOptions() {
+			rValue := other.GetOptions()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorOptions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorOptions})
+	}
 	return res
 }
 
@@ -219,6 +335,15 @@ func (o *SimCard_Status) Clone() *SimCard_Status {
 	result := &SimCard_Status{}
 	result.State = o.State
 	result.Error = o.Error
+	result.Msisdn = o.Msisdn
+	result.Bundles = make([]*SimCard_Status_Bundle, len(o.Bundles))
+	for i, sourceValue := range o.Bundles {
+		result.Bundles[i] = sourceValue.Clone()
+	}
+	result.Options = make([]string, len(o.Options))
+	for i, sourceValue := range o.Options {
+		result.Options[i] = sourceValue
+	}
 	return result
 }
 
@@ -229,8 +354,117 @@ func (o *SimCard_Status) CloneRaw() gotenobject.GotenObjectExt {
 func (o *SimCard_Status) Merge(source *SimCard_Status) {
 	o.State = source.GetState()
 	o.Error = source.GetError()
+	o.Msisdn = source.GetMsisdn()
+	for _, sourceValue := range source.GetBundles() {
+		exists := false
+		for _, currentValue := range o.Bundles {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *SimCard_Status_Bundle
+			if sourceValue != nil {
+				newDstElement = new(SimCard_Status_Bundle)
+				newDstElement.Merge(sourceValue)
+			}
+			o.Bundles = append(o.Bundles, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetOptions() {
+		exists := false
+		for _, currentValue := range o.Options {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Options = append(o.Options, newDstElement)
+		}
+	}
+
 }
 
 func (o *SimCard_Status) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*SimCard_Status))
+}
+
+func (o *SimCard_Status_Bundle) GotenObjectExt() {}
+
+func (o *SimCard_Status_Bundle) MakeFullFieldMask() *SimCard_Status_Bundle_FieldMask {
+	return FullSimCard_Status_Bundle_FieldMask()
+}
+
+func (o *SimCard_Status_Bundle) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullSimCard_Status_Bundle_FieldMask()
+}
+
+func (o *SimCard_Status_Bundle) MakeDiffFieldMask(other *SimCard_Status_Bundle) *SimCard_Status_Bundle_FieldMask {
+	if o == nil && other == nil {
+		return &SimCard_Status_Bundle_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullSimCard_Status_Bundle_FieldMask()
+	}
+
+	res := &SimCard_Status_Bundle_FieldMask{}
+	if o.GetProductId() != other.GetProductId() {
+		res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorProductId})
+	}
+	if o.GetSubscriptionId() != other.GetSubscriptionId() {
+		res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorSubscriptionId})
+	}
+	if o.GetStatus() != other.GetStatus() {
+		res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorStatus})
+	}
+	if o.GetActivationTime() != other.GetActivationTime() {
+		res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorActivationTime})
+	}
+	if o.GetExpirationTime() != other.GetExpirationTime() {
+		res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorExpirationTime})
+	}
+	if o.GetNextRenewalTime() != other.GetNextRenewalTime() {
+		res.Paths = append(res.Paths, &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorNextRenewalTime})
+	}
+	return res
+}
+
+func (o *SimCard_Status_Bundle) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*SimCard_Status_Bundle))
+}
+
+func (o *SimCard_Status_Bundle) Clone() *SimCard_Status_Bundle {
+	if o == nil {
+		return nil
+	}
+	result := &SimCard_Status_Bundle{}
+	result.ProductId = o.ProductId
+	result.SubscriptionId = o.SubscriptionId
+	result.Status = o.Status
+	result.ActivationTime = o.ActivationTime
+	result.ExpirationTime = o.ExpirationTime
+	result.NextRenewalTime = o.NextRenewalTime
+	return result
+}
+
+func (o *SimCard_Status_Bundle) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *SimCard_Status_Bundle) Merge(source *SimCard_Status_Bundle) {
+	o.ProductId = source.GetProductId()
+	o.SubscriptionId = source.GetSubscriptionId()
+	o.Status = source.GetStatus()
+	o.ActivationTime = source.GetActivationTime()
+	o.ExpirationTime = source.GetExpirationTime()
+	o.NextRenewalTime = source.GetNextRenewalTime()
+}
+
+func (o *SimCard_Status_Bundle) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*SimCard_Status_Bundle))
 }

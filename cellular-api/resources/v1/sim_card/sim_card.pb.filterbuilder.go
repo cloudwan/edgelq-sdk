@@ -238,6 +238,10 @@ func (b *filterCndBuilder) RatePlan() *filterCndBuilderRatePlan {
 	return &filterCndBuilderRatePlan{builder: b.builder}
 }
 
+func (b *filterCndBuilder) BundleRequest() *filterCndBuilderBundleRequest {
+	return &filterCndBuilderBundleRequest{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Status() *filterCndBuilderStatus {
 	return &filterCndBuilderStatus{builder: b.builder}
 }
@@ -2566,6 +2570,317 @@ func (b *filterCndBuilderRatePlan) compare(op gotenfilter.CompareOperator, value
 	})
 }
 
+type filterCndBuilderBundleRequest struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBundleRequest) Eq(value *SimCard_BundleRequest) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBundleRequest) Neq(value *SimCard_BundleRequest) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBundleRequest) Gt(value *SimCard_BundleRequest) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBundleRequest) Gte(value *SimCard_BundleRequest) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBundleRequest) Lt(value *SimCard_BundleRequest) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBundleRequest) Lte(value *SimCard_BundleRequest) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBundleRequest) In(values []*SimCard_BundleRequest) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequest) NotIn(values []*SimCard_BundleRequest) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequest) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequest) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequest) compare(op gotenfilter.CompareOperator, value *SimCard_BundleRequest) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().BundleRequest().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderBundleRequest) Id() *filterCndBuilderBundleRequestId {
+	return &filterCndBuilderBundleRequestId{builder: b.builder}
+}
+
+func (b *filterCndBuilderBundleRequest) ProductId() *filterCndBuilderBundleRequestProductId {
+	return &filterCndBuilderBundleRequestProductId{builder: b.builder}
+}
+
+func (b *filterCndBuilderBundleRequest) OtherBundles() *filterCndBuilderBundleRequestOtherBundles {
+	return &filterCndBuilderBundleRequestOtherBundles{builder: b.builder}
+}
+
+func (b *filterCndBuilderBundleRequest) RequestTime() *filterCndBuilderBundleRequestRequestTime {
+	return &filterCndBuilderBundleRequestRequestTime{builder: b.builder}
+}
+
+type filterCndBuilderBundleRequestId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBundleRequestId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBundleRequestId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBundleRequestId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBundleRequestId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBundleRequestId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBundleRequestId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBundleRequestId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().Id().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().Id().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().BundleRequest().Id().WithValue(value),
+	})
+}
+
+type filterCndBuilderBundleRequestProductId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBundleRequestProductId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBundleRequestProductId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBundleRequestProductId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBundleRequestProductId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBundleRequestProductId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBundleRequestProductId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBundleRequestProductId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().ProductId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestProductId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().ProductId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestProductId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().ProductId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestProductId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().ProductId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestProductId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().BundleRequest().ProductId().WithValue(value),
+	})
+}
+
+type filterCndBuilderBundleRequestOtherBundles struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) Eq(value SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) Neq(value SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) Gt(value SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) Gte(value SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) Lt(value SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) Lte(value SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) In(values []SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().OtherBundles().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) NotIn(values []SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().OtherBundles().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().OtherBundles().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().OtherBundles().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestOtherBundles) compare(op gotenfilter.CompareOperator, value SimCard_BundleRequest_OtherBundles) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().BundleRequest().OtherBundles().WithValue(value),
+	})
+}
+
+type filterCndBuilderBundleRequestRequestTime struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) Eq(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) Neq(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) Gt(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) Gte(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) Lt(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) Lte(value *timestamppb.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) In(values []*timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().RequestTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) NotIn(values []*timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().BundleRequest().RequestTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().RequestTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().BundleRequest().RequestTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleRequestRequestTime) compare(op gotenfilter.CompareOperator, value *timestamppb.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().BundleRequest().RequestTime().WithValue(value),
+	})
+}
+
 type filterCndBuilderStatus struct {
 	builder *FilterBuilder
 }
@@ -2631,6 +2946,18 @@ func (b *filterCndBuilderStatus) State() *filterCndBuilderStatusState {
 
 func (b *filterCndBuilderStatus) Error() *filterCndBuilderStatusError {
 	return &filterCndBuilderStatusError{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatus) Msisdn() *filterCndBuilderStatusMsisdn {
+	return &filterCndBuilderStatusMsisdn{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatus) Bundles() *filterCndBuilderStatusBundles {
+	return &filterCndBuilderStatusBundles{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatus) Options() *filterCndBuilderStatusOptions {
+	return &filterCndBuilderStatusOptions{builder: b.builder}
 }
 
 type filterCndBuilderStatusState struct {
@@ -2748,5 +3075,628 @@ func (b *filterCndBuilderStatusError) compare(op gotenfilter.CompareOperator, va
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Error().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusMsisdn struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusMsisdn) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusMsisdn) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusMsisdn) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusMsisdn) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusMsisdn) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusMsisdn) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusMsisdn) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Msisdn().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusMsisdn) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Msisdn().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusMsisdn) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Msisdn().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusMsisdn) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Msisdn().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusMsisdn) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Msisdn().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusBundles struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusBundles) Eq(value []*SimCard_Status_Bundle) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusBundles) Neq(value []*SimCard_Status_Bundle) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusBundles) Gt(value []*SimCard_Status_Bundle) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusBundles) Gte(value []*SimCard_Status_Bundle) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusBundles) Lt(value []*SimCard_Status_Bundle) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusBundles) Lte(value []*SimCard_Status_Bundle) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusBundles) In(values [][]*SimCard_Status_Bundle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundles) NotIn(values [][]*SimCard_Status_Bundle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundles) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundles) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundles) Contains(value *SimCard_Status_Bundle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().FieldPath(),
+		Value:     NewSimCardFieldPathBuilder().Status().Bundles().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusBundles) ContainsAnyOf(values []*SimCard_Status_Bundle) *FilterBuilder {
+	pathSelector := NewSimCardFieldPathBuilder().Status().Bundles()
+	itemValues := make([]SimCard_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusBundles) ContainsAll(values []*SimCard_Status_Bundle) *FilterBuilder {
+	pathSelector := NewSimCardFieldPathBuilder().Status().Bundles()
+	itemValues := make([]SimCard_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusBundles) compare(op gotenfilter.CompareOperator, value []*SimCard_Status_Bundle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Bundles().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusBundles) ProductId() *filterCndBuilderStatusBundlesProductId {
+	return &filterCndBuilderStatusBundlesProductId{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusBundles) SubscriptionId() *filterCndBuilderStatusBundlesSubscriptionId {
+	return &filterCndBuilderStatusBundlesSubscriptionId{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusBundles) Status() *filterCndBuilderStatusBundlesStatus {
+	return &filterCndBuilderStatusBundlesStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusBundles) ActivationTime() *filterCndBuilderStatusBundlesActivationTime {
+	return &filterCndBuilderStatusBundlesActivationTime{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusBundles) ExpirationTime() *filterCndBuilderStatusBundlesExpirationTime {
+	return &filterCndBuilderStatusBundlesExpirationTime{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusBundles) NextRenewalTime() *filterCndBuilderStatusBundlesNextRenewalTime {
+	return &filterCndBuilderStatusBundlesNextRenewalTime{builder: b.builder}
+}
+
+type filterCndBuilderStatusBundlesProductId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().ProductId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().ProductId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().ProductId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().ProductId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesProductId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Bundles().ProductId().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusBundlesSubscriptionId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().SubscriptionId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().SubscriptionId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().SubscriptionId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().SubscriptionId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesSubscriptionId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Bundles().SubscriptionId().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusBundlesStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesStatus) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Bundles().Status().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusBundlesActivationTime struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().ActivationTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().ActivationTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().ActivationTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().ActivationTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesActivationTime) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Bundles().ActivationTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusBundlesExpirationTime struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().ExpirationTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().ExpirationTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().ExpirationTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().ExpirationTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesExpirationTime) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Bundles().ExpirationTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusBundlesNextRenewalTime struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().NextRenewalTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Bundles().NextRenewalTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().NextRenewalTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Bundles().NextRenewalTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusBundlesNextRenewalTime) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Bundles().NextRenewalTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusOptions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusOptions) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusOptions) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusOptions) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusOptions) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusOptions) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusOptions) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusOptions) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Options().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusOptions) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		SimCard_FieldPathArrayOfValues: NewSimCardFieldPathBuilder().Status().Options().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusOptions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Options().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusOptions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewSimCardFieldPathBuilder().Status().Options().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusOptions) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewSimCardFieldPathBuilder().Status().Options().FieldPath(),
+		Value:     NewSimCardFieldPathBuilder().Status().Options().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusOptions) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewSimCardFieldPathBuilder().Status().Options()
+	itemValues := make([]SimCard_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewSimCardFieldPathBuilder().Status().Options().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusOptions) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewSimCardFieldPathBuilder().Status().Options()
+	itemValues := make([]SimCard_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewSimCardFieldPathBuilder().Status().Options().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusOptions) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		SimCard_FieldPathValue: NewSimCardFieldPathBuilder().Status().Options().WithValue(value),
 	})
 }

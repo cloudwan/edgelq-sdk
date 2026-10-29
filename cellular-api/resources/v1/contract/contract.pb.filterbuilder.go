@@ -216,8 +216,20 @@ func (b *filterCndBuilder) RatePlan() *filterCndBuilderRatePlan {
 	return &filterCndBuilderRatePlan{builder: b.builder}
 }
 
+func (b *filterCndBuilder) AccountReference() *filterCndBuilderAccountReference {
+	return &filterCndBuilderAccountReference{builder: b.builder}
+}
+
+func (b *filterCndBuilder) BundleCatalog() *filterCndBuilderBundleCatalog {
+	return &filterCndBuilderBundleCatalog{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Transatel() *filterCndBuilderTransatel {
 	return &filterCndBuilderTransatel{builder: b.builder}
+}
+
+func (b *filterCndBuilder) TransatelLegacy() *filterCndBuilderTransatelLegacy {
+	return &filterCndBuilderTransatelLegacy{builder: b.builder}
 }
 
 func (b *filterCndBuilder) Cisco() *filterCndBuilderCisco {
@@ -2438,41 +2450,159 @@ func (b *filterCndBuilderRatePlan) compare(op gotenfilter.CompareOperator, value
 	})
 }
 
+type filterCndBuilderAccountReference struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAccountReference) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAccountReference) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAccountReference) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAccountReference) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAccountReference) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAccountReference) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAccountReference) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().AccountReference().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAccountReference) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().AccountReference().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAccountReference) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().AccountReference().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAccountReference) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().AccountReference().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAccountReference) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().AccountReference().WithValue(value),
+	})
+}
+
+type filterCndBuilderBundleCatalog struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBundleCatalog) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBundleCatalog) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBundleCatalog) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBundleCatalog) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBundleCatalog) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBundleCatalog) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBundleCatalog) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().BundleCatalog().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleCatalog) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().BundleCatalog().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBundleCatalog) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().BundleCatalog().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleCatalog) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().BundleCatalog().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBundleCatalog) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().BundleCatalog().WithValue(value),
+	})
+}
+
 type filterCndBuilderTransatel struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderTransatel) Eq(value *secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) Eq(value *Contract_TransatelAccount) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderTransatel) Neq(value *secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) Neq(value *Contract_TransatelAccount) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderTransatel) Gt(value *secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) Gt(value *Contract_TransatelAccount) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderTransatel) Gte(value *secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) Gte(value *Contract_TransatelAccount) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderTransatel) Lt(value *secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) Lt(value *Contract_TransatelAccount) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderTransatel) Lte(value *secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) Lte(value *Contract_TransatelAccount) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderTransatel) In(values []*secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) In(values []*Contract_TransatelAccount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Transatel().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderTransatel) NotIn(values []*secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) NotIn(values []*Contract_TransatelAccount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Transatel().WithArrayOfValues(values),
 	})
@@ -2490,10 +2620,229 @@ func (b *filterCndBuilderTransatel) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderTransatel) compare(op gotenfilter.CompareOperator, value *secrets_secret.Reference) *FilterBuilder {
+func (b *filterCndBuilderTransatel) compare(op gotenfilter.CompareOperator, value *Contract_TransatelAccount) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                op,
 		Contract_FieldPathValue: NewContractFieldPathBuilder().Transatel().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderTransatel) Credential() *filterCndBuilderTransatelCredential {
+	return &filterCndBuilderTransatelCredential{builder: b.builder}
+}
+
+func (b *filterCndBuilderTransatel) Scopes() *filterCndBuilderTransatelScopes {
+	return &filterCndBuilderTransatelScopes{builder: b.builder}
+}
+
+type filterCndBuilderTransatelCredential struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderTransatelCredential) Eq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderTransatelCredential) Neq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderTransatelCredential) Gt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderTransatelCredential) Gte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderTransatelCredential) Lt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderTransatelCredential) Lte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderTransatelCredential) In(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Transatel().Credential().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTransatelCredential) NotIn(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Transatel().Credential().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTransatelCredential) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().Transatel().Credential().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTransatelCredential) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().Transatel().Credential().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTransatelCredential) compare(op gotenfilter.CompareOperator, value *secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().Transatel().Credential().WithValue(value),
+	})
+}
+
+type filterCndBuilderTransatelScopes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderTransatelScopes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderTransatelScopes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderTransatelScopes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderTransatelScopes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderTransatelScopes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderTransatelScopes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderTransatelScopes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Transatel().Scopes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTransatelScopes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().Transatel().Scopes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTransatelScopes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().Transatel().Scopes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTransatelScopes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().Transatel().Scopes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTransatelScopes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewContractFieldPathBuilder().Transatel().Scopes().FieldPath(),
+		Value:     NewContractFieldPathBuilder().Transatel().Scopes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderTransatelScopes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewContractFieldPathBuilder().Transatel().Scopes()
+	itemValues := make([]Contract_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewContractFieldPathBuilder().Transatel().Scopes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderTransatelScopes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewContractFieldPathBuilder().Transatel().Scopes()
+	itemValues := make([]Contract_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewContractFieldPathBuilder().Transatel().Scopes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderTransatelScopes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().Transatel().Scopes().WithValue(value),
+	})
+}
+
+type filterCndBuilderTransatelLegacy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderTransatelLegacy) Eq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderTransatelLegacy) Neq(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderTransatelLegacy) Gt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderTransatelLegacy) Gte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderTransatelLegacy) Lt(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderTransatelLegacy) Lte(value *secrets_secret.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderTransatelLegacy) In(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().TransatelLegacy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTransatelLegacy) NotIn(values []*secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Contract_FieldPathArrayOfValues: NewContractFieldPathBuilder().TransatelLegacy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderTransatelLegacy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewContractFieldPathBuilder().TransatelLegacy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTransatelLegacy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewContractFieldPathBuilder().TransatelLegacy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderTransatelLegacy) compare(op gotenfilter.CompareOperator, value *secrets_secret.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                op,
+		Contract_FieldPathValue: NewContractFieldPathBuilder().TransatelLegacy().WithValue(value),
 	})
 }
 

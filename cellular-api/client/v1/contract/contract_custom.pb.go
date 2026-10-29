@@ -52,6 +52,63 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Category is what kind of product: one bought once, or one that renews.
+type ListBundleProductsRequest_Category int32
+
+const (
+	// In a request: every category.
+	ListBundleProductsRequest_CATEGORY_UNSPECIFIED ListBundleProductsRequest_Category = 0
+	// Valid once, for its own period, then gone.
+	ListBundleProductsRequest_ONE_OFF ListBundleProductsRequest_Category = 1
+	// Renews every period until its renewal is stopped.
+	ListBundleProductsRequest_RECURRING ListBundleProductsRequest_Category = 2
+	// Tops up a parent product and ends with it.
+	ListBundleProductsRequest_ADD_ON ListBundleProductsRequest_Category = 3
+)
+
+var (
+	ListBundleProductsRequest_Category_name = map[int32]string{
+		0: "CATEGORY_UNSPECIFIED",
+		1: "ONE_OFF",
+		2: "RECURRING",
+		3: "ADD_ON",
+	}
+
+	ListBundleProductsRequest_Category_value = map[string]int32{
+		"CATEGORY_UNSPECIFIED": 0,
+		"ONE_OFF":              1,
+		"RECURRING":            2,
+		"ADD_ON":               3,
+	}
+)
+
+func (x ListBundleProductsRequest_Category) Enum() *ListBundleProductsRequest_Category {
+	p := new(ListBundleProductsRequest_Category)
+	*p = x
+	return p
+}
+
+func (x ListBundleProductsRequest_Category) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), preflect.EnumNumber(x))
+}
+
+func (ListBundleProductsRequest_Category) Descriptor() preflect.EnumDescriptor {
+	return edgelq_cellular_api_proto_v1_contract_custom_proto_enumTypes[0].Descriptor()
+}
+
+func (ListBundleProductsRequest_Category) Type() preflect.EnumType {
+	return &edgelq_cellular_api_proto_v1_contract_custom_proto_enumTypes[0]
+}
+
+func (x ListBundleProductsRequest_Category) Number() preflect.EnumNumber {
+	return preflect.EnumNumber(x)
+}
+
+// Deprecated, Use ListBundleProductsRequest_Category.ProtoReflect.Descriptor instead.
+func (ListBundleProductsRequest_Category) EnumDescriptor() ([]byte, []int) {
+	return edgelq_cellular_api_proto_v1_contract_custom_proto_rawDescGZIP(), []int{2, 0}
+}
+
 // A request message of the SubscribeCarrierEvents method. Streams read with the
 // region's operator consumer group, and Event Hubs allows 5 readers of one
 // group per partition, so a 6th concurrent stream in a region fails.
@@ -364,6 +421,356 @@ func (m *SubscribeCarrierEventsResponse) SetIccid(fv string) {
 	m.Iccid = fv
 }
 
+// A request message of the ListBundleProducts method.
+type ListBundleProductsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Name of ntt.cellular_api.v1.Contract
+	Name *contract.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	// Only products of this category. Unspecified: all.
+	Category ListBundleProductsRequest_Category `protobuf:"varint,2,opt,name=category,proto3,enum=ntt.cellular_api.v1.ListBundleProductsRequest_Category" json:"category,omitempty"`
+}
+
+func (m *ListBundleProductsRequest) Reset() {
+	*m = ListBundleProductsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *ListBundleProductsRequest) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*ListBundleProductsRequest) ProtoMessage() {}
+
+func (m *ListBundleProductsRequest) ProtoReflect() preflect.Message {
+	mi := &edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*ListBundleProductsRequest) GotenMessage() {}
+
+// Deprecated, Use ListBundleProductsRequest.ProtoReflect.Descriptor instead.
+func (*ListBundleProductsRequest) Descriptor() ([]byte, []int) {
+	return edgelq_cellular_api_proto_v1_contract_custom_proto_rawDescGZIP(), []int{2}
+}
+
+func (m *ListBundleProductsRequest) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *ListBundleProductsRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *ListBundleProductsRequest) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *ListBundleProductsRequest) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *ListBundleProductsRequest) GetName() *contract.Name {
+	if m != nil {
+		return m.Name
+	}
+	return nil
+}
+
+func (m *ListBundleProductsRequest) GetCategory() ListBundleProductsRequest_Category {
+	if m != nil {
+		return m.Category
+	}
+	return ListBundleProductsRequest_CATEGORY_UNSPECIFIED
+}
+
+func (m *ListBundleProductsRequest) SetName(fv *contract.Name) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Name", "ListBundleProductsRequest"))
+	}
+	m.Name = fv
+}
+
+func (m *ListBundleProductsRequest) SetCategory(fv ListBundleProductsRequest_Category) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Category", "ListBundleProductsRequest"))
+	}
+	m.Category = fv
+}
+
+// A response message of the ListBundleProducts method.
+type ListBundleProductsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	Products      []*ListBundleProductsResponse_Product `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
+}
+
+func (m *ListBundleProductsResponse) Reset() {
+	*m = ListBundleProductsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *ListBundleProductsResponse) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*ListBundleProductsResponse) ProtoMessage() {}
+
+func (m *ListBundleProductsResponse) ProtoReflect() preflect.Message {
+	mi := &edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*ListBundleProductsResponse) GotenMessage() {}
+
+// Deprecated, Use ListBundleProductsResponse.ProtoReflect.Descriptor instead.
+func (*ListBundleProductsResponse) Descriptor() ([]byte, []int) {
+	return edgelq_cellular_api_proto_v1_contract_custom_proto_rawDescGZIP(), []int{3}
+}
+
+func (m *ListBundleProductsResponse) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *ListBundleProductsResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *ListBundleProductsResponse) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *ListBundleProductsResponse) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *ListBundleProductsResponse) GetProducts() []*ListBundleProductsResponse_Product {
+	if m != nil {
+		return m.Products
+	}
+	return nil
+}
+
+func (m *ListBundleProductsResponse) SetProducts(fv []*ListBundleProductsResponse_Product) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Products", "ListBundleProductsResponse"))
+	}
+	m.Products = fv
+}
+
+// Product is one bundle the carrier sells under the contract.
+type ListBundleProductsResponse_Product struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// The carrier's product ID: what a bundle request names.
+	ProductId string                             `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	Category  ListBundleProductsRequest_Category `protobuf:"varint,2,opt,name=category,proto3,enum=ntt.cellular_api.v1.ListBundleProductsRequest_Category" json:"category,omitempty"`
+	// The carrier's short description; empty where it has none.
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// Data allowance per period, in kilobytes of 1024 bytes as the carrier
+	// counts them. -1 when the allowance is unlimited, 0 when the product
+	// has none.
+	DataKb int64 `protobuf:"varint,4,opt,name=data_kb,json=dataKb,proto3" json:"data_kb,omitempty"`
+	// How long one period lasts: validity_duration of validity_unit
+	// ("days", "months").
+	ValidityDuration int32  `protobuf:"varint,5,opt,name=validity_duration,json=validityDuration,proto3" json:"validity_duration,omitempty"`
+	ValidityUnit     string `protobuf:"bytes,6,opt,name=validity_unit,json=validityUnit,proto3" json:"validity_unit,omitempty"`
+	// Where the allowance may be used, as the carrier lists it (ISO 3166
+	// alpha-3).
+	Countries []string `protobuf:"bytes,7,rep,name=countries,proto3" json:"countries,omitempty"`
+	// Products that cannot be held together. Ordering a recurring product of
+	// a group the SIM already holds one of switches to it at the old one's
+	// renewal; any other order adds.
+	ExclusionGroups []string `protobuf:"bytes,8,rep,name=exclusion_groups,json=exclusionGroups,proto3" json:"exclusion_groups,omitempty"`
+}
+
+func (m *ListBundleProductsResponse_Product) Reset() {
+	*m = ListBundleProductsResponse_Product{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *ListBundleProductsResponse_Product) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*ListBundleProductsResponse_Product) ProtoMessage() {}
+
+func (m *ListBundleProductsResponse_Product) ProtoReflect() preflect.Message {
+	mi := &edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*ListBundleProductsResponse_Product) GotenMessage() {}
+
+// Deprecated, Use ListBundleProductsResponse_Product.ProtoReflect.Descriptor instead.
+func (*ListBundleProductsResponse_Product) Descriptor() ([]byte, []int) {
+	return edgelq_cellular_api_proto_v1_contract_custom_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (m *ListBundleProductsResponse_Product) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *ListBundleProductsResponse_Product) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *ListBundleProductsResponse_Product) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *ListBundleProductsResponse_Product) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *ListBundleProductsResponse_Product) GetProductId() string {
+	if m != nil {
+		return m.ProductId
+	}
+	return ""
+}
+
+func (m *ListBundleProductsResponse_Product) GetCategory() ListBundleProductsRequest_Category {
+	if m != nil {
+		return m.Category
+	}
+	return ListBundleProductsRequest_CATEGORY_UNSPECIFIED
+}
+
+func (m *ListBundleProductsResponse_Product) GetDescription() string {
+	if m != nil {
+		return m.Description
+	}
+	return ""
+}
+
+func (m *ListBundleProductsResponse_Product) GetDataKb() int64 {
+	if m != nil {
+		return m.DataKb
+	}
+	return int64(0)
+}
+
+func (m *ListBundleProductsResponse_Product) GetValidityDuration() int32 {
+	if m != nil {
+		return m.ValidityDuration
+	}
+	return int32(0)
+}
+
+func (m *ListBundleProductsResponse_Product) GetValidityUnit() string {
+	if m != nil {
+		return m.ValidityUnit
+	}
+	return ""
+}
+
+func (m *ListBundleProductsResponse_Product) GetCountries() []string {
+	if m != nil {
+		return m.Countries
+	}
+	return nil
+}
+
+func (m *ListBundleProductsResponse_Product) GetExclusionGroups() []string {
+	if m != nil {
+		return m.ExclusionGroups
+	}
+	return nil
+}
+
+func (m *ListBundleProductsResponse_Product) SetProductId(fv string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ProductId", "ListBundleProductsResponse_Product"))
+	}
+	m.ProductId = fv
+}
+
+func (m *ListBundleProductsResponse_Product) SetCategory(fv ListBundleProductsRequest_Category) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Category", "ListBundleProductsResponse_Product"))
+	}
+	m.Category = fv
+}
+
+func (m *ListBundleProductsResponse_Product) SetDescription(fv string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Description", "ListBundleProductsResponse_Product"))
+	}
+	m.Description = fv
+}
+
+func (m *ListBundleProductsResponse_Product) SetDataKb(fv int64) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "DataKb", "ListBundleProductsResponse_Product"))
+	}
+	m.DataKb = fv
+}
+
+func (m *ListBundleProductsResponse_Product) SetValidityDuration(fv int32) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ValidityDuration", "ListBundleProductsResponse_Product"))
+	}
+	m.ValidityDuration = fv
+}
+
+func (m *ListBundleProductsResponse_Product) SetValidityUnit(fv string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ValidityUnit", "ListBundleProductsResponse_Product"))
+	}
+	m.ValidityUnit = fv
+}
+
+func (m *ListBundleProductsResponse_Product) SetCountries(fv []string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Countries", "ListBundleProductsResponse_Product"))
+	}
+	m.Countries = fv
+}
+
+func (m *ListBundleProductsResponse_Product) SetExclusionGroups(fv []string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ExclusionGroups", "ListBundleProductsResponse_Product"))
+	}
+	m.ExclusionGroups = fv
+}
+
 var edgelq_cellular_api_proto_v1_contract_custom_proto preflect.FileDescriptor
 
 var edgelq_cellular_api_proto_v1_contract_custom_proto_rawDesc = []byte{
@@ -413,16 +820,59 @@ var edgelq_cellular_api_proto_v1_contract_custom_proto_rawDesc = []byte{
 	0x79, 0x12, 0x1d, 0x0a, 0x0a, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18,
 	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65,
 	0x12, 0x14, 0x0a, 0x05, 0x69, 0x63, 0x63, 0x69, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x05, 0x69, 0x63, 0x63, 0x69, 0x64, 0x42, 0x83, 0x01, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x1a, 0x63,
-	0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x63, 0x65, 0x6c, 0x6c, 0x75, 0x6c, 0x61, 0x72, 0x5f,
-	0x61, 0x70, 0x69, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x13, 0x43, 0x6f, 0x6e, 0x74, 0x72,
-	0x61, 0x63, 0x74, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x00,
-	0x5a, 0x4a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f,
-	0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x63, 0x65, 0x6c,
-	0x6c, 0x75, 0x6c, 0x61, 0x72, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74,
-	0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x3b, 0x63, 0x6f, 0x6e,
-	0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x05, 0x69, 0x63, 0x63, 0x69, 0x64, 0x22, 0xe4, 0x01, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x42,
+	0x75, 0x6e, 0x64, 0x6c, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x24, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x42, 0x10, 0xb2, 0xda, 0x21, 0x0c, 0x0a, 0x0a, 0x0a, 0x08, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x53, 0x0a, 0x08, 0x63, 0x61,
+	0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x37, 0x2e, 0x6e,
+	0x74, 0x74, 0x2e, 0x63, 0x65, 0x6c, 0x6c, 0x75, 0x6c, 0x61, 0x72, 0x5f, 0x61, 0x70, 0x69, 0x2e,
+	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x50, 0x72, 0x6f,
+	0x64, 0x75, 0x63, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x61, 0x74,
+	0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x22,
+	0x4c, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x18, 0x0a, 0x14, 0x43,
+	0x41, 0x54, 0x45, 0x47, 0x4f, 0x52, 0x59, 0x5f, 0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46,
+	0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x0b, 0x0a, 0x07, 0x4f, 0x4e, 0x45, 0x5f, 0x4f, 0x46, 0x46,
+	0x10, 0x01, 0x12, 0x0d, 0x0a, 0x09, 0x52, 0x45, 0x43, 0x55, 0x52, 0x52, 0x49, 0x4e, 0x47, 0x10,
+	0x02, 0x12, 0x0a, 0x0a, 0x06, 0x41, 0x44, 0x44, 0x5f, 0x4f, 0x4e, 0x10, 0x03, 0x22, 0xc7, 0x03,
+	0x0a, 0x1a, 0x4c, 0x69, 0x73, 0x74, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x50, 0x72, 0x6f, 0x64,
+	0x75, 0x63, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x53, 0x0a, 0x08,
+	0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x37,
+	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x63, 0x65, 0x6c, 0x6c, 0x75, 0x6c, 0x61, 0x72, 0x5f, 0x61, 0x70,
+	0x69, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x50,
+	0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e,
+	0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74,
+	0x73, 0x1a, 0xd3, 0x02, 0x0a, 0x07, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x12, 0x1d, 0x0a,
+	0x0a, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x09, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x49, 0x64, 0x12, 0x53, 0x0a, 0x08,
+	0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x37,
+	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x63, 0x65, 0x6c, 0x6c, 0x75, 0x6c, 0x61, 0x72, 0x5f, 0x61, 0x70,
+	0x69, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x42, 0x75, 0x6e, 0x64, 0x6c, 0x65, 0x50,
+	0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43,
+	0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x52, 0x08, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72,
+	0x79, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74,
+	0x69, 0x6f, 0x6e, 0x12, 0x17, 0x0a, 0x07, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x6b, 0x62, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x64, 0x61, 0x74, 0x61, 0x4b, 0x62, 0x12, 0x2b, 0x0a, 0x11,
+	0x76, 0x61, 0x6c, 0x69, 0x64, 0x69, 0x74, 0x79, 0x5f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x10, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x69, 0x74,
+	0x79, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x23, 0x0a, 0x0d, 0x76, 0x61, 0x6c,
+	0x69, 0x64, 0x69, 0x74, 0x79, 0x5f, 0x75, 0x6e, 0x69, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0c, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x69, 0x74, 0x79, 0x55, 0x6e, 0x69, 0x74, 0x12, 0x1c,
+	0x0a, 0x09, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x18, 0x07, 0x20, 0x03, 0x28,
+	0x09, 0x52, 0x09, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x12, 0x29, 0x0a, 0x10,
+	0x65, 0x78, 0x63, 0x6c, 0x75, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x73,
+	0x18, 0x08, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0f, 0x65, 0x78, 0x63, 0x6c, 0x75, 0x73, 0x69, 0x6f,
+	0x6e, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x73, 0x42, 0x83, 0x01, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x1a,
+	0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x63, 0x65, 0x6c, 0x6c, 0x75, 0x6c, 0x61, 0x72,
+	0x5f, 0x61, 0x70, 0x69, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x13, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
+	0x00, 0x5a, 0x4a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c,
+	0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x63, 0x65,
+	0x6c, 0x6c, 0x75, 0x6c, 0x61, 0x72, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e,
+	0x74, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x3b, 0x63, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -437,22 +887,30 @@ func edgelq_cellular_api_proto_v1_contract_custom_proto_rawDescGZIP() []byte {
 	return edgelq_cellular_api_proto_v1_contract_custom_proto_rawDescData
 }
 
-var edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var edgelq_cellular_api_proto_v1_contract_custom_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var edgelq_cellular_api_proto_v1_contract_custom_proto_goTypes = []interface{}{
-	(*SubscribeCarrierEventsRequest)(nil),  // 0: ntt.cellular_api.v1.SubscribeCarrierEventsRequest
-	(*SubscribeCarrierEventsResponse)(nil), // 1: ntt.cellular_api.v1.SubscribeCarrierEventsResponse
-	(*durationpb.Duration)(nil),            // 2: google.protobuf.Duration
-	(*timestamppb.Timestamp)(nil),          // 3: google.protobuf.Timestamp
+	(ListBundleProductsRequest_Category)(0),    // 0: ntt.cellular_api.v1.ListBundleProductsRequest_Category
+	(*SubscribeCarrierEventsRequest)(nil),      // 1: ntt.cellular_api.v1.SubscribeCarrierEventsRequest
+	(*SubscribeCarrierEventsResponse)(nil),     // 2: ntt.cellular_api.v1.SubscribeCarrierEventsResponse
+	(*ListBundleProductsRequest)(nil),          // 3: ntt.cellular_api.v1.ListBundleProductsRequest
+	(*ListBundleProductsResponse)(nil),         // 4: ntt.cellular_api.v1.ListBundleProductsResponse
+	(*ListBundleProductsResponse_Product)(nil), // 5: ntt.cellular_api.v1.ListBundleProductsResponse.Product
+	(*durationpb.Duration)(nil),                // 6: google.protobuf.Duration
+	(*timestamppb.Timestamp)(nil),              // 7: google.protobuf.Timestamp
 }
 var edgelq_cellular_api_proto_v1_contract_custom_proto_depIdxs = []int32{
-	2, // 0: ntt.cellular_api.v1.SubscribeCarrierEventsRequest.lookback:type_name -> google.protobuf.Duration
-	2, // 1: ntt.cellular_api.v1.SubscribeCarrierEventsRequest.timeout:type_name -> google.protobuf.Duration
-	3, // 2: ntt.cellular_api.v1.SubscribeCarrierEventsResponse.enqueued_time:type_name -> google.protobuf.Timestamp
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	6, // 0: ntt.cellular_api.v1.SubscribeCarrierEventsRequest.lookback:type_name -> google.protobuf.Duration
+	6, // 1: ntt.cellular_api.v1.SubscribeCarrierEventsRequest.timeout:type_name -> google.protobuf.Duration
+	7, // 2: ntt.cellular_api.v1.SubscribeCarrierEventsResponse.enqueued_time:type_name -> google.protobuf.Timestamp
+	0, // 3: ntt.cellular_api.v1.ListBundleProductsRequest.category:type_name -> ntt.cellular_api.v1.ListBundleProductsRequest_Category
+	5, // 4: ntt.cellular_api.v1.ListBundleProductsResponse.products:type_name -> ntt.cellular_api.v1.ListBundleProductsResponse.Product
+	0, // 5: ntt.cellular_api.v1.ListBundleProductsResponse.Product.category:type_name -> ntt.cellular_api.v1.ListBundleProductsRequest_Category
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { edgelq_cellular_api_proto_v1_contract_custom_proto_init() }
@@ -486,6 +944,42 @@ func edgelq_cellular_api_proto_v1_contract_custom_proto_init() {
 				return nil
 			}
 		}
+		edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListBundleProductsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListBundleProductsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListBundleProductsResponse_Product); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 
 	type x struct{}
@@ -493,13 +987,14 @@ func edgelq_cellular_api_proto_v1_contract_custom_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_cellular_api_proto_v1_contract_custom_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           edgelq_cellular_api_proto_v1_contract_custom_proto_goTypes,
 		DependencyIndexes: edgelq_cellular_api_proto_v1_contract_custom_proto_depIdxs,
+		EnumInfos:         edgelq_cellular_api_proto_v1_contract_custom_proto_enumTypes,
 		MessageInfos:      edgelq_cellular_api_proto_v1_contract_custom_proto_msgTypes,
 	}.Build()
 	edgelq_cellular_api_proto_v1_contract_custom_proto = out.File

@@ -59,10 +59,25 @@ func (obj *Contract) GotenValidate() error {
 	}
 	switch opt := obj.CarrierAccount.(type) {
 	case *Contract_Transatel:
+		if subobj, ok := interface{}(opt.Transatel).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Contract", "transatel", opt.Transatel, "nested object validation failed", err)
+			}
+		}
+	case *Contract_TransatelLegacy:
 	case *Contract_Cisco:
 	case *Contract_Celona:
 	default:
 		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Contract_TransatelAccount) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

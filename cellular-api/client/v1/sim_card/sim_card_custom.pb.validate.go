@@ -37,6 +37,8 @@ var (
 	_ = utf8.RuneCountInString
 	_ = url.Parse
 	_ = gotenvalidate.NewValidationError
+
+	validation_regex_SubscribeRequest_bundle_id_6ed0e1ee0dc4462cde547b2ccee8d0d9 = regexp.MustCompile("^([a-z0-9][a-z0-9-]{0,62}[a-z0-9])?$")
 )
 
 // make sure we're using proto imports
@@ -115,6 +117,74 @@ func (obj *GetDataUsageResponse) GotenValidate() error {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("GetDataUsageResponse", "points", obj.Points[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *SubscribeRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if obj.ProductId == "" {
+		return gotenvalidate.NewValidationError("SubscribeRequest", "productId", obj.ProductId, "field is required", nil)
+	}
+	if !validation_regex_SubscribeRequest_bundle_id_6ed0e1ee0dc4462cde547b2ccee8d0d9.Match([]byte(obj.BundleId)) {
+		return gotenvalidate.NewValidationError("SubscribeRequest", "bundleId", obj.BundleId, "field must match the regex ^([a-z0-9][a-z0-9-]{0,62}[a-z0-9])?$", nil)
+	}
+	if !(obj.RenewalDay >= 0 && obj.RenewalDay <= 28) {
+		return gotenvalidate.NewValidationError("SubscribeRequest", "renewalDay", obj.RenewalDay, "field must be in range [0, 28]", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *BundleBalance) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *HeldBundle) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Balances {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("HeldBundle", "balances", obj.Balances[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *GetBundlesRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *GetBundlesResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Bundles {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("GetBundlesResponse", "bundles", obj.Bundles[idx], "nested object validation failed", err)
 			}
 		}
 	}

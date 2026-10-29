@@ -3,7 +3,9 @@ syntax = "proto3";
 package ntt.cellular_api.v1;
 
 import "edgelq-sdk/cellular-api/carrier/carrier.proto";
+import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
 import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card;sim_card";
@@ -42,11 +44,86 @@ message SimCard {
 
   string rate_plan = 6;
 
+  BundleRequest bundle_request = 9;
+
   Status status = 7;
 
+  // BundleRequest asks for a bundle to be put on this SIM. Unset: none.
+  //
+  // A request, not a standing wish: it is carried out once, when the SIM is
+  // activated or reactivated, and a new one -- a new id -- is how another
+  // bundle is asked for. It orders through Subscribe, so the result is a Bundle
+  // child of the SIM, FAILED if the carrier refused. A SIM that is already
+  // active takes no request; Subscribe is how it gets another bundle. See
+  // docs/bundles.md#bundle_request.
+  message BundleRequest {
+    // Id names the request, and is what makes carrying it out idempotent:
+    // the same id again asks for nothing new. Chosen by the caller.
+    string id = 1;
+
+    // ProductId is the carrier's product, from the catalogue of the Contract.
+    // Required.
+    string product_id = 2;
+
+    OtherBundles other_bundles = 3;
+
+    // When the request was made. Set by the service.
+    google.protobuf.Timestamp request_time = 4;
+
+    // What happens to the bundles the SIM already holds.
+    enum OtherBundles {
+      // Treated as KEEP.
+      OTHER_BUNDLES_UNSPECIFIED = 0;
+
+      // Left as they are: the new bundle is added beside them.
+      KEEP = 1;
+
+      // Recurring ones stop renewing and end with their current period;
+      // one-offs run out on their own.
+      STOP_RENEWAL = 2;
+    }
+  }
+
   message Status {
+    // The state of the SIM's own subscription to the carrier network, not of
+    // the products it holds: those are its Bundle children.
     ntt.cellular_api.carrier.SimState state = 1;
 
     string error = 2;
+
+    // Carrier-observed number. The carrier's bundle API is keyed by it.
+    // The first Subscribe reads it from the carrier and saves it. Empty until
+    // then, and other bundle operations read it from the carrier meanwhile.
+    string msisdn = 6 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+    // What the SIM holds: the Bundle children that have a carrier id and are
+    // not TERMINATED, in the order of their names. During a switch, both the
+    // product being replaced and the one scheduled to replace it. Every write
+    // of a Bundle saves it, in the same transaction where there is one; the
+    // Bundles are the record, this is a copy for readers of the SIM alone.
+    repeated Bundle bundles = 7 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+    // Option values the carrier reports switched on. Among them the pricing
+    // model: IOTC_REF_BUNDLES or IOTC_REF_PPU.
+    repeated string options = 9;
+
+    // Bundle is one allowance the SIM holds, a view of a Bundle child that
+    // the carrier has confirmed and has not ended. The times are RFC 3339 in
+    // UTC, empty when the carrier gave none.
+    message Bundle {
+      string product_id = 1;
+
+      // The carrier's id of the bundle, Bundle.status.carrier_subscription_id.
+      string subscription_id = 2;
+
+      // Bundle.status.state, for example ACTIVE or SCHEDULED.
+      string status = 3;
+
+      string activation_time = 4;
+
+      string expiration_time = 5;
+
+      string next_renewal_time = 6;
+    }
   }
 }

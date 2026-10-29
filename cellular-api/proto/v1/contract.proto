@@ -33,9 +33,25 @@ message Contract {
 
   string rate_plan = 3;
 
+  // AccountReference is the carrier's own identifier for the account this
+  // agreement draws on. Transatel calls it the mvnoRef.
+  //
+  // Sent in OCS orders, for example M2MA_WW_TSL_GSUK. Optional. Required to
+  // order bundles. Transatel Contracts only: letters, digits, _ and -, at
+  // most 64.
+  string account_reference = 9;
+
+  // BundleCatalog is the carrier's catalogue the product is looked up in, and
+  // asked what ordering it would do. Transatel calls it the class of service:
+  // WW_M2MA_COS_IOT_CONNECT on Capped Plans. Required when a bundle is named.
+  //
+  // Optional. Transatel Contracts only: letters, digits, _ and -, at most 64.
+  string bundle_catalog = 13;
+
   // CarrierAccount contains api credential for backend to call each carrier
-  // APIs, therefore it is packed as a Secret resource. Secret resource itself
-  // must contain following data field in each carrier:
+  // APIs, therefore it is packed as a Secret resource (for Transatel, the
+  // Secret in transatel.credential). Secret resource itself must contain
+  // following data field in each carrier:
   //
   // - Transatel
   // {
@@ -50,7 +66,17 @@ message Contract {
   // - Celona
   // ..
   oneof carrier_account {
-    string transatel = 5;
+    // Transatel is the account of a Transatel Contract.
+    TransatelAccount transatel = 15;
+
+    // The Secret reference of a Transatel Contract that earlier builds stored
+    // as a plain string in field 5. It is read only, and only until the
+    // Contract is updated with transatel.credential: usage collection, the
+    // carrier events and SIM card calls keep working with it, and the bundle
+    // features stay off because no scopes are recorded for it. A request
+    // cannot set it on a Contract that does not hold it. Do not reuse 5 for
+    // anything else.
+    string transatel_legacy = 5 [ deprecated = true ];
 
     string cisco = 6;
 
@@ -58,8 +84,29 @@ message Contract {
   }
 
   // Field 14: 8 to 13 belong to the eSIM and bundle fields of
-  // cloudwan/edgelq#1314, so the two can merge in either order.
+  // cloudwan/edgelq#1314, so the two can merge in either order. 9
+  // (account_reference) and 13 (bundle_catalog) are declared here with its
+  // names and meaning; 8 and 10 to 12 are still free for it.
   Status status = 14 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+  // TransatelAccount is the carrier account of a Transatel Contract.
+  message TransatelAccount {
+    // Credential is the Secret that holds the client_id and client_secret of
+    // the Transatel API.
+    string credential = 1;
+
+    // Scopes are the scopes Transatel granted to the credential, which the
+    // bundle features need. The API server reads them when the Contract is
+    // created or credential changes, and does not refresh them later. A value
+    // in a request is ignored, and changing the data of the same Secret does
+    // not read them again: to read them again, create the Secret under
+    // another name and set credential to it.
+    //
+    // Empty means not read, or none granted. The bundle features stay off
+    // until credential is set again, which reads them even when it names the
+    // same Secret.
+    repeated string scopes = 2 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  }
 
   // Status is written by the cellular-api controller of the owning region, not
   // by users.

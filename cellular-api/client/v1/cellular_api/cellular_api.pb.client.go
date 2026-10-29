@@ -10,9 +10,11 @@ import (
 
 // proto imports
 import (
+	bundle_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/bundle"
 	contract_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/contract"
 	sim_card_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/sim_card"
 	sim_card_stock_client "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/sim_card_stock"
+	bundle "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/bundle"
 	contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
 	sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	sim_card_stock "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card_stock"
@@ -25,6 +27,8 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &bundle.Bundle{}
+	_ = &bundle_client.GetBundleRequest{}
 	_ = &contract.Contract{}
 	_ = &contract_client.GetContractRequest{}
 	_ = &sim_card.SimCard{}
@@ -34,12 +38,14 @@ var (
 )
 
 type CellularApiClient interface {
+	bundle_client.BundleServiceClient
 	contract_client.ContractServiceClient
 	sim_card_client.SimCardServiceClient
 	sim_card_stock_client.SimCardStockServiceClient
 }
 
 type cellularApiClient struct {
+	bundle_client.BundleServiceClient
 	contract_client.ContractServiceClient
 	sim_card_client.SimCardServiceClient
 	sim_card_stock_client.SimCardStockServiceClient
@@ -47,6 +53,7 @@ type cellularApiClient struct {
 
 func NewCellularApiClient(cc grpc.ClientConnInterface) CellularApiClient {
 	return &cellularApiClient{
+		BundleServiceClient:       bundle_client.NewBundleServiceClient(cc),
 		ContractServiceClient:     contract_client.NewContractServiceClient(cc),
 		SimCardServiceClient:      sim_card_client.NewSimCardServiceClient(cc),
 		SimCardStockServiceClient: sim_card_stock_client.NewSimCardStockServiceClient(cc),

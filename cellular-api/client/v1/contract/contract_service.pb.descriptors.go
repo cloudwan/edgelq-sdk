@@ -42,6 +42,7 @@ var (
 	updateContractDescriptor         *UpdateContractDescriptor
 	deleteContractDescriptor         *DeleteContractDescriptor
 	subscribeCarrierEventsDescriptor *SubscribeCarrierEventsDescriptor
+	listBundleProductsDescriptor     *ListBundleProductsDescriptor
 )
 
 type GetContractDescriptor struct{}
@@ -1912,6 +1913,205 @@ func GetSubscribeCarrierEventsDescriptor() *SubscribeCarrierEventsDescriptor {
 	return subscribeCarrierEventsDescriptor
 }
 
+type ListBundleProductsDescriptor struct{}
+
+type ListBundleProductsDescriptorClientMsgHandle struct{}
+
+type ListBundleProductsDescriptorServerMsgHandle struct{}
+
+func (d *ListBundleProductsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ListBundleProductsRequest{}
+}
+
+func (d *ListBundleProductsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &ListBundleProductsResponse{}
+}
+
+func (d *ListBundleProductsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *ListBundleProductsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *ListBundleProductsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *ListBundleProductsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *ListBundleProductsDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *ListBundleProductsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ListBundleProductsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ListBundleProductsDescriptor) GetVerb() string {
+	return "listBundleProducts"
+}
+
+func (d *ListBundleProductsDescriptor) GetMethodName() string {
+	return "ListBundleProducts"
+}
+
+func (d *ListBundleProductsDescriptor) GetFullMethodName() string {
+	return "/ntt.cellular_api.v1.ContractService/ListBundleProducts"
+}
+
+func (d *ListBundleProductsDescriptor) GetProtoPkgName() string {
+	return "ntt.cellular_api.v1"
+}
+
+func (d *ListBundleProductsDescriptor) GetApiName() string {
+	return "ContractService"
+}
+
+func (d *ListBundleProductsDescriptor) GetServiceDomain() string {
+	return "cellular-api.edgelq.com"
+}
+
+func (d *ListBundleProductsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *ListBundleProductsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return contractServiceDescriptor
+}
+
+func (d *ListBundleProductsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return contract.GetDescriptor()
+}
+
+func (d *ListBundleProductsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ListBundleProductsDescriptorClientMsgHandle{}
+}
+
+func (d *ListBundleProductsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ListBundleProductsDescriptorServerMsgHandle{}
+}
+
+func (h *ListBundleProductsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListBundleProductsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListBundleProductsRequest) *contract.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*contract.Name)(nil)
+}
+
+func (h *ListBundleProductsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListBundleProductsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListBundleProductsRequest) []*contract.Name
+	})
+	if ok {
+		return contract.ContractNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListBundleProductsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ListBundleProductsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListBundleProductsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListBundleProductsRequest) *contract.Contract
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListBundleProductsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListBundleProductsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListBundleProductsRequest) []*contract.Contract
+	})
+	if ok {
+		return contract.ContractList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListBundleProductsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListBundleProductsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListBundleProductsResponse) *contract.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListBundleProductsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListBundleProductsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListBundleProductsResponse) []*contract.Name
+	})
+	if ok {
+		return contract.ContractNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListBundleProductsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ListBundleProductsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListBundleProductsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListBundleProductsResponse) *contract.Contract
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListBundleProductsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListBundleProductsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListBundleProductsResponse) []*contract.Contract
+	})
+	if ok {
+		return contract.ContractList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetListBundleProductsDescriptor() *ListBundleProductsDescriptor {
+	return listBundleProductsDescriptor
+}
+
 type ContractServiceDescriptor struct{}
 
 func (d *ContractServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1925,6 +2125,7 @@ func (d *ContractServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodD
 		updateContractDescriptor,
 		deleteContractDescriptor,
 		subscribeCarrierEventsDescriptor,
+		listBundleProductsDescriptor,
 	}
 }
 
@@ -1963,6 +2164,7 @@ func initDescriptors() {
 	updateContractDescriptor = &UpdateContractDescriptor{}
 	deleteContractDescriptor = &DeleteContractDescriptor{}
 	subscribeCarrierEventsDescriptor = &SubscribeCarrierEventsDescriptor{}
+	listBundleProductsDescriptor = &ListBundleProductsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(contractServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getContractDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetContractsDescriptor)
@@ -1973,6 +2175,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateContractDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteContractDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(subscribeCarrierEventsDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(listBundleProductsDescriptor)
 }
 
 func init() {

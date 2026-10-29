@@ -58,6 +58,7 @@ type ContractServiceClient interface {
 	UpdateContract(ctx context.Context, in *UpdateContractRequest, opts ...grpc.CallOption) (*contract.Contract, error)
 	DeleteContract(ctx context.Context, in *DeleteContractRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SubscribeCarrierEvents(ctx context.Context, in *SubscribeCarrierEventsRequest, opts ...grpc.CallOption) (SubscribeCarrierEventsClientStream, error)
+	ListBundleProducts(ctx context.Context, in *ListBundleProductsRequest, opts ...grpc.CallOption) (*ListBundleProductsResponse, error)
 }
 
 type client struct {
@@ -231,4 +232,13 @@ func (x *subscribeCarrierEventsSubscribeCarrierEventsClient) Recv() (*SubscribeC
 		return nil, err
 	}
 	return m, nil
+}
+
+func (c *client) ListBundleProducts(ctx context.Context, in *ListBundleProductsRequest, opts ...grpc.CallOption) (*ListBundleProductsResponse, error) {
+	out := new(ListBundleProductsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.cellular_api.v1.ContractService/ListBundleProducts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }

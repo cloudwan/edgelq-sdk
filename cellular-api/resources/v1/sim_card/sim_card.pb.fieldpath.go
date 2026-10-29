@@ -27,6 +27,7 @@ import (
 	contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // ensure the imports are used
@@ -52,6 +53,7 @@ var (
 	_ = &carrier.TransatelAccount{}
 	_ = &contract.Contract{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
 
@@ -74,12 +76,13 @@ type SimCard_FieldPath interface {
 type SimCard_FieldPathSelector int32
 
 const (
-	SimCard_FieldPathSelectorName     SimCard_FieldPathSelector = 0
-	SimCard_FieldPathSelectorMetadata SimCard_FieldPathSelector = 1
-	SimCard_FieldPathSelectorContract SimCard_FieldPathSelector = 2
-	SimCard_FieldPathSelectorImsi     SimCard_FieldPathSelector = 3
-	SimCard_FieldPathSelectorRatePlan SimCard_FieldPathSelector = 4
-	SimCard_FieldPathSelectorStatus   SimCard_FieldPathSelector = 5
+	SimCard_FieldPathSelectorName          SimCard_FieldPathSelector = 0
+	SimCard_FieldPathSelectorMetadata      SimCard_FieldPathSelector = 1
+	SimCard_FieldPathSelectorContract      SimCard_FieldPathSelector = 2
+	SimCard_FieldPathSelectorImsi          SimCard_FieldPathSelector = 3
+	SimCard_FieldPathSelectorRatePlan      SimCard_FieldPathSelector = 4
+	SimCard_FieldPathSelectorBundleRequest SimCard_FieldPathSelector = 5
+	SimCard_FieldPathSelectorStatus        SimCard_FieldPathSelector = 6
 )
 
 func (s SimCard_FieldPathSelector) String() string {
@@ -94,6 +97,8 @@ func (s SimCard_FieldPathSelector) String() string {
 		return "imsi"
 	case SimCard_FieldPathSelectorRatePlan:
 		return "rate_plan"
+	case SimCard_FieldPathSelectorBundleRequest:
+		return "bundle_request"
 	case SimCard_FieldPathSelectorStatus:
 		return "status"
 	default:
@@ -117,6 +122,8 @@ func BuildSimCard_FieldPath(fp gotenobject.RawFieldPath) (SimCard_FieldPath, err
 			return &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorImsi}, nil
 		case "rate_plan", "ratePlan", "rate-plan":
 			return &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorRatePlan}, nil
+		case "bundle_request", "bundleRequest", "bundle-request":
+			return &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorBundleRequest}, nil
 		case "status":
 			return &SimCard_FieldTerminalPath{selector: SimCard_FieldPathSelectorStatus}, nil
 		}
@@ -127,6 +134,12 @@ func BuildSimCard_FieldPath(fp gotenobject.RawFieldPath) (SimCard_FieldPath, err
 				return nil, err
 			} else {
 				return &SimCard_FieldSubPath{selector: SimCard_FieldPathSelectorMetadata, subPath: subpath}, nil
+			}
+		case "bundle_request", "bundleRequest", "bundle-request":
+			if subpath, err := BuildSimCardBundleRequest_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &SimCard_FieldSubPath{selector: SimCard_FieldPathSelectorBundleRequest, subPath: subpath}, nil
 			}
 		case "status":
 			if subpath, err := BuildSimCardStatus_FieldPath(fp[1:]); err != nil {
@@ -195,6 +208,10 @@ func (fp *SimCard_FieldTerminalPath) Get(source *SimCard) (values []interface{})
 			values = append(values, source.Imsi)
 		case SimCard_FieldPathSelectorRatePlan:
 			values = append(values, source.RatePlan)
+		case SimCard_FieldPathSelectorBundleRequest:
+			if source.BundleRequest != nil {
+				values = append(values, source.BundleRequest)
+			}
 		case SimCard_FieldPathSelectorStatus:
 			if source.Status != nil {
 				values = append(values, source.Status)
@@ -226,6 +243,9 @@ func (fp *SimCard_FieldTerminalPath) GetSingle(source *SimCard) (interface{}, bo
 		return source.GetImsi(), source != nil
 	case SimCard_FieldPathSelectorRatePlan:
 		return source.GetRatePlan(), source != nil
+	case SimCard_FieldPathSelectorBundleRequest:
+		res := source.GetBundleRequest()
+		return res, res != nil
 	case SimCard_FieldPathSelectorStatus:
 		res := source.GetStatus()
 		return res, res != nil
@@ -251,6 +271,8 @@ func (fp *SimCard_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case SimCard_FieldPathSelectorRatePlan:
 		return ""
+	case SimCard_FieldPathSelectorBundleRequest:
+		return (*SimCard_BundleRequest)(nil)
 	case SimCard_FieldPathSelectorStatus:
 		return (*SimCard_Status)(nil)
 	default:
@@ -271,6 +293,8 @@ func (fp *SimCard_FieldTerminalPath) ClearValue(item *SimCard) {
 			item.Imsi = ""
 		case SimCard_FieldPathSelectorRatePlan:
 			item.RatePlan = ""
+		case SimCard_FieldPathSelectorBundleRequest:
+			item.BundleRequest = nil
 		case SimCard_FieldPathSelectorStatus:
 			item.Status = nil
 		default:
@@ -307,6 +331,8 @@ func (fp *SimCard_FieldTerminalPath) WithIValue(value interface{}) SimCard_Field
 		return &SimCard_FieldTerminalPathValue{SimCard_FieldTerminalPath: *fp, value: value.(string)}
 	case SimCard_FieldPathSelectorRatePlan:
 		return &SimCard_FieldTerminalPathValue{SimCard_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCard_FieldPathSelectorBundleRequest:
+		return &SimCard_FieldTerminalPathValue{SimCard_FieldTerminalPath: *fp, value: value.(*SimCard_BundleRequest)}
 	case SimCard_FieldPathSelectorStatus:
 		return &SimCard_FieldTerminalPathValue{SimCard_FieldTerminalPath: *fp, value: value.(*SimCard_Status)}
 	default:
@@ -331,6 +357,8 @@ func (fp *SimCard_FieldTerminalPath) WithIArrayOfValues(values interface{}) SimC
 		return &SimCard_FieldTerminalPathArrayOfValues{SimCard_FieldTerminalPath: *fp, values: values.([]string)}
 	case SimCard_FieldPathSelectorRatePlan:
 		return &SimCard_FieldTerminalPathArrayOfValues{SimCard_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCard_FieldPathSelectorBundleRequest:
+		return &SimCard_FieldTerminalPathArrayOfValues{SimCard_FieldTerminalPath: *fp, values: values.([]*SimCard_BundleRequest)}
 	case SimCard_FieldPathSelectorStatus:
 		return &SimCard_FieldTerminalPathArrayOfValues{SimCard_FieldTerminalPath: *fp, values: values.([]*SimCard_Status)}
 	default:
@@ -368,6 +396,10 @@ func (fps *SimCard_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, bool)
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
+func (fps *SimCard_FieldSubPath) AsBundleRequestSubPath() (SimCardBundleRequest_FieldPath, bool) {
+	res, ok := fps.subPath.(SimCardBundleRequest_FieldPath)
+	return res, ok
+}
 func (fps *SimCard_FieldSubPath) AsStatusSubPath() (SimCardStatus_FieldPath, bool) {
 	res, ok := fps.subPath.(SimCardStatus_FieldPath)
 	return res, ok
@@ -388,6 +420,8 @@ func (fps *SimCard_FieldSubPath) Get(source *SimCard) (values []interface{}) {
 	switch fps.selector {
 	case SimCard_FieldPathSelectorMetadata:
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case SimCard_FieldPathSelectorBundleRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetBundleRequest())...)
 	case SimCard_FieldPathSelectorStatus:
 		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
 	default:
@@ -408,6 +442,11 @@ func (fps *SimCard_FieldSubPath) GetSingle(source *SimCard) (interface{}, bool) 
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetMetadata())
+	case SimCard_FieldPathSelectorBundleRequest:
+		if source.GetBundleRequest() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetBundleRequest())
 	case SimCard_FieldPathSelectorStatus:
 		if source.GetStatus() == nil {
 			return nil, false
@@ -432,6 +471,8 @@ func (fps *SimCard_FieldSubPath) ClearValue(item *SimCard) {
 		switch fps.selector {
 		case SimCard_FieldPathSelectorMetadata:
 			fps.subPath.ClearValueRaw(item.Metadata)
+		case SimCard_FieldPathSelectorBundleRequest:
+			fps.subPath.ClearValueRaw(item.BundleRequest)
 		case SimCard_FieldPathSelectorStatus:
 			fps.subPath.ClearValueRaw(item.Status)
 		default:
@@ -538,6 +579,10 @@ func (fpv *SimCard_FieldTerminalPathValue) AsRatePlanValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *SimCard_FieldTerminalPathValue) AsBundleRequestValue() (*SimCard_BundleRequest, bool) {
+	res, ok := fpv.value.(*SimCard_BundleRequest)
+	return res, ok
+}
 func (fpv *SimCard_FieldTerminalPathValue) AsStatusValue() (*SimCard_Status, bool) {
 	res, ok := fpv.value.(*SimCard_Status)
 	return res, ok
@@ -559,6 +604,8 @@ func (fpv *SimCard_FieldTerminalPathValue) SetTo(target **SimCard) {
 		(*target).Imsi = fpv.value.(string)
 	case SimCard_FieldPathSelectorRatePlan:
 		(*target).RatePlan = fpv.value.(string)
+	case SimCard_FieldPathSelectorBundleRequest:
+		(*target).BundleRequest = fpv.value.(*SimCard_BundleRequest)
 	case SimCard_FieldPathSelectorStatus:
 		(*target).Status = fpv.value.(*SimCard_Status)
 	default:
@@ -634,6 +681,8 @@ func (fpv *SimCard_FieldTerminalPathValue) CompareWith(source *SimCard) (int, bo
 		} else {
 			return 1, true
 		}
+	case SimCard_FieldPathSelectorBundleRequest:
+		return 0, false
 	case SimCard_FieldPathSelectorStatus:
 		return 0, false
 	default:
@@ -656,6 +705,10 @@ func (fpvs *SimCard_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldPat
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
+func (fpvs *SimCard_FieldSubPathValue) AsBundleRequestPathValue() (SimCardBundleRequest_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(SimCardBundleRequest_FieldPathValue)
+	return res, ok
+}
 func (fpvs *SimCard_FieldSubPathValue) AsStatusPathValue() (SimCardStatus_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(SimCardStatus_FieldPathValue)
 	return res, ok
@@ -668,6 +721,8 @@ func (fpvs *SimCard_FieldSubPathValue) SetTo(target **SimCard) {
 	switch fpvs.Selector() {
 	case SimCard_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+	case SimCard_FieldPathSelectorBundleRequest:
+		fpvs.subPathValue.(SimCardBundleRequest_FieldPathValue).SetTo(&(*target).BundleRequest)
 	case SimCard_FieldPathSelectorStatus:
 		fpvs.subPathValue.(SimCardStatus_FieldPathValue).SetTo(&(*target).Status)
 	default:
@@ -688,6 +743,8 @@ func (fpvs *SimCard_FieldSubPathValue) CompareWith(source *SimCard) (int, bool) 
 	switch fpvs.Selector() {
 	case SimCard_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+	case SimCard_FieldPathSelectorBundleRequest:
+		return fpvs.subPathValue.(SimCardBundleRequest_FieldPathValue).CompareWith(source.GetBundleRequest())
 	case SimCard_FieldPathSelectorStatus:
 		return fpvs.subPathValue.(SimCardStatus_FieldPathValue).CompareWith(source.GetStatus())
 	default:
@@ -776,6 +833,10 @@ func (fpaivs *SimCard_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (met
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *SimCard_FieldSubPathArrayItemValue) AsBundleRequestPathItemValue() (SimCardBundleRequest_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(SimCardBundleRequest_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *SimCard_FieldSubPathArrayItemValue) AsStatusPathItemValue() (SimCardStatus_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(SimCardStatus_FieldPathArrayItemValue)
 	return res, ok
@@ -786,6 +847,8 @@ func (fpaivs *SimCard_FieldSubPathArrayItemValue) ContainsValue(source *SimCard)
 	switch fpaivs.Selector() {
 	case SimCard_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+	case SimCard_FieldPathSelectorBundleRequest:
+		return fpaivs.subPathItemValue.(SimCardBundleRequest_FieldPathArrayItemValue).ContainsValue(source.GetBundleRequest())
 	case SimCard_FieldPathSelectorStatus:
 		return fpaivs.subPathItemValue.(SimCardStatus_FieldPathArrayItemValue).ContainsValue(source.GetStatus())
 	default:
@@ -848,6 +911,10 @@ func (fpaov *SimCard_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case SimCard_FieldPathSelectorBundleRequest:
+		for _, v := range fpaov.values.([]*SimCard_BundleRequest) {
+			values = append(values, v)
+		}
 	case SimCard_FieldPathSelectorStatus:
 		for _, v := range fpaov.values.([]*SimCard_Status) {
 			values = append(values, v)
@@ -875,6 +942,10 @@ func (fpaov *SimCard_FieldTerminalPathArrayOfValues) AsRatePlanArrayOfValues() (
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
+func (fpaov *SimCard_FieldTerminalPathArrayOfValues) AsBundleRequestArrayOfValues() ([]*SimCard_BundleRequest, bool) {
+	res, ok := fpaov.values.([]*SimCard_BundleRequest)
+	return res, ok
+}
 func (fpaov *SimCard_FieldTerminalPathArrayOfValues) AsStatusArrayOfValues() ([]*SimCard_Status, bool) {
 	res, ok := fpaov.values.([]*SimCard_Status)
 	return res, ok
@@ -894,8 +965,529 @@ func (fpsaov *SimCard_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
+func (fpsaov *SimCard_FieldSubPathArrayOfValues) AsBundleRequestPathArrayOfValues() (SimCardBundleRequest_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(SimCardBundleRequest_FieldPathArrayOfValues)
+	return res, ok
+}
 func (fpsaov *SimCard_FieldSubPathArrayOfValues) AsStatusPathArrayOfValues() (SimCardStatus_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(SimCardStatus_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type SimCardBundleRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() SimCardBundleRequest_FieldPathSelector
+	Get(source *SimCard_BundleRequest) []interface{}
+	GetSingle(source *SimCard_BundleRequest) (interface{}, bool)
+	ClearValue(item *SimCard_BundleRequest)
+
+	// Those methods build corresponding SimCardBundleRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) SimCardBundleRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) SimCardBundleRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) SimCardBundleRequest_FieldPathArrayItemValue
+}
+
+type SimCardBundleRequest_FieldPathSelector int32
+
+const (
+	SimCardBundleRequest_FieldPathSelectorId           SimCardBundleRequest_FieldPathSelector = 0
+	SimCardBundleRequest_FieldPathSelectorProductId    SimCardBundleRequest_FieldPathSelector = 1
+	SimCardBundleRequest_FieldPathSelectorOtherBundles SimCardBundleRequest_FieldPathSelector = 2
+	SimCardBundleRequest_FieldPathSelectorRequestTime  SimCardBundleRequest_FieldPathSelector = 3
+)
+
+func (s SimCardBundleRequest_FieldPathSelector) String() string {
+	switch s {
+	case SimCardBundleRequest_FieldPathSelectorId:
+		return "id"
+	case SimCardBundleRequest_FieldPathSelectorProductId:
+		return "product_id"
+	case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+		return "other_bundles"
+	case SimCardBundleRequest_FieldPathSelectorRequestTime:
+		return "request_time"
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", s))
+	}
+}
+
+func BuildSimCardBundleRequest_FieldPath(fp gotenobject.RawFieldPath) (SimCardBundleRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object SimCard_BundleRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "id":
+			return &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorId}, nil
+		case "product_id", "productId", "product-id":
+			return &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorProductId}, nil
+		case "other_bundles", "otherBundles", "other-bundles":
+			return &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorOtherBundles}, nil
+		case "request_time", "requestTime", "request-time":
+			return &SimCardBundleRequest_FieldTerminalPath{selector: SimCardBundleRequest_FieldPathSelectorRequestTime}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object SimCard_BundleRequest", fp)
+}
+
+func ParseSimCardBundleRequest_FieldPath(rawField string) (SimCardBundleRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildSimCardBundleRequest_FieldPath(fp)
+}
+
+func MustParseSimCardBundleRequest_FieldPath(rawField string) SimCardBundleRequest_FieldPath {
+	fp, err := ParseSimCardBundleRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type SimCardBundleRequest_FieldTerminalPath struct {
+	selector SimCardBundleRequest_FieldPathSelector
+}
+
+var _ SimCardBundleRequest_FieldPath = (*SimCardBundleRequest_FieldTerminalPath)(nil)
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) Selector() SimCardBundleRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *SimCardBundleRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *SimCardBundleRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source SimCard_BundleRequest
+func (fp *SimCardBundleRequest_FieldTerminalPath) Get(source *SimCard_BundleRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case SimCardBundleRequest_FieldPathSelectorId:
+			values = append(values, source.Id)
+		case SimCardBundleRequest_FieldPathSelectorProductId:
+			values = append(values, source.ProductId)
+		case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+			values = append(values, source.OtherBundles)
+		case SimCardBundleRequest_FieldPathSelectorRequestTime:
+			if source.RequestTime != nil {
+				values = append(values, source.RequestTime)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*SimCard_BundleRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source SimCard_BundleRequest
+func (fp *SimCardBundleRequest_FieldTerminalPath) GetSingle(source *SimCard_BundleRequest) (interface{}, bool) {
+	switch fp.selector {
+	case SimCardBundleRequest_FieldPathSelectorId:
+		return source.GetId(), source != nil
+	case SimCardBundleRequest_FieldPathSelectorProductId:
+		return source.GetProductId(), source != nil
+	case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+		return source.GetOtherBundles(), source != nil
+	case SimCardBundleRequest_FieldPathSelectorRequestTime:
+		res := source.GetRequestTime()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fp.selector))
+	}
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*SimCard_BundleRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *SimCardBundleRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case SimCardBundleRequest_FieldPathSelectorId:
+		return ""
+	case SimCardBundleRequest_FieldPathSelectorProductId:
+		return ""
+	case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+		return SimCard_BundleRequest_OTHER_BUNDLES_UNSPECIFIED
+	case SimCardBundleRequest_FieldPathSelectorRequestTime:
+		return (*timestamppb.Timestamp)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fp.selector))
+	}
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) ClearValue(item *SimCard_BundleRequest) {
+	if item != nil {
+		switch fp.selector {
+		case SimCardBundleRequest_FieldPathSelectorId:
+			item.Id = ""
+		case SimCardBundleRequest_FieldPathSelectorProductId:
+			item.ProductId = ""
+		case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+			item.OtherBundles = SimCard_BundleRequest_OTHER_BUNDLES_UNSPECIFIED
+		case SimCardBundleRequest_FieldPathSelectorRequestTime:
+			item.RequestTime = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*SimCard_BundleRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *SimCardBundleRequest_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == SimCardBundleRequest_FieldPathSelectorId ||
+		fp.selector == SimCardBundleRequest_FieldPathSelectorProductId ||
+		fp.selector == SimCardBundleRequest_FieldPathSelectorOtherBundles ||
+		fp.selector == SimCardBundleRequest_FieldPathSelectorRequestTime
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) WithIValue(value interface{}) SimCardBundleRequest_FieldPathValue {
+	switch fp.selector {
+	case SimCardBundleRequest_FieldPathSelectorId:
+		return &SimCardBundleRequest_FieldTerminalPathValue{SimCardBundleRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardBundleRequest_FieldPathSelectorProductId:
+		return &SimCardBundleRequest_FieldTerminalPathValue{SimCardBundleRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+		return &SimCardBundleRequest_FieldTerminalPathValue{SimCardBundleRequest_FieldTerminalPath: *fp, value: value.(SimCard_BundleRequest_OtherBundles)}
+	case SimCardBundleRequest_FieldPathSelectorRequestTime:
+		return &SimCardBundleRequest_FieldTerminalPathValue{SimCardBundleRequest_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fp.selector))
+	}
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) SimCardBundleRequest_FieldPathArrayOfValues {
+	fpaov := &SimCardBundleRequest_FieldTerminalPathArrayOfValues{SimCardBundleRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case SimCardBundleRequest_FieldPathSelectorId:
+		return &SimCardBundleRequest_FieldTerminalPathArrayOfValues{SimCardBundleRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardBundleRequest_FieldPathSelectorProductId:
+		return &SimCardBundleRequest_FieldTerminalPathArrayOfValues{SimCardBundleRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+		return &SimCardBundleRequest_FieldTerminalPathArrayOfValues{SimCardBundleRequest_FieldTerminalPath: *fp, values: values.([]SimCard_BundleRequest_OtherBundles)}
+	case SimCardBundleRequest_FieldPathSelectorRequestTime:
+		return &SimCardBundleRequest_FieldTerminalPathArrayOfValues{SimCardBundleRequest_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) SimCardBundleRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fp.selector))
+	}
+}
+
+func (fp *SimCardBundleRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// SimCardBundleRequest_FieldPathValue allows storing values for BundleRequest fields according to their type
+type SimCardBundleRequest_FieldPathValue interface {
+	SimCardBundleRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **SimCard_BundleRequest)
+	CompareWith(*SimCard_BundleRequest) (cmp int, comparable bool)
+}
+
+func ParseSimCardBundleRequest_FieldPathValue(pathStr, valueStr string) (SimCardBundleRequest_FieldPathValue, error) {
+	fp, err := ParseSimCardBundleRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BundleRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(SimCardBundleRequest_FieldPathValue), nil
+}
+
+func MustParseSimCardBundleRequest_FieldPathValue(pathStr, valueStr string) SimCardBundleRequest_FieldPathValue {
+	fpv, err := ParseSimCardBundleRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type SimCardBundleRequest_FieldTerminalPathValue struct {
+	SimCardBundleRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ SimCardBundleRequest_FieldPathValue = (*SimCardBundleRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'BundleRequest' as interface{}
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) AsIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) AsProductIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) AsOtherBundlesValue() (SimCard_BundleRequest_OtherBundles, bool) {
+	res, ok := fpv.value.(SimCard_BundleRequest_OtherBundles)
+	return res, ok
+}
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) AsRequestTimeValue() (*timestamppb.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamppb.Timestamp)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object BundleRequest
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) SetTo(target **SimCard_BundleRequest) {
+	if *target == nil {
+		*target = new(SimCard_BundleRequest)
+	}
+	switch fpv.selector {
+	case SimCardBundleRequest_FieldPathSelectorId:
+		(*target).Id = fpv.value.(string)
+	case SimCardBundleRequest_FieldPathSelectorProductId:
+		(*target).ProductId = fpv.value.(string)
+	case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+		(*target).OtherBundles = fpv.value.(SimCard_BundleRequest_OtherBundles)
+	case SimCardBundleRequest_FieldPathSelectorRequestTime:
+		(*target).RequestTime = fpv.value.(*timestamppb.Timestamp)
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*SimCard_BundleRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'SimCardBundleRequest_FieldTerminalPathValue' with the value under path in 'SimCard_BundleRequest'.
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) CompareWith(source *SimCard_BundleRequest) (int, bool) {
+	switch fpv.selector {
+	case SimCardBundleRequest_FieldPathSelectorId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardBundleRequest_FieldPathSelectorProductId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetProductId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+		leftValue := fpv.value.(SimCard_BundleRequest_OtherBundles)
+		rightValue := source.GetOtherBundles()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardBundleRequest_FieldPathSelectorRequestTime:
+		leftValue := fpv.value.(*timestamppb.Timestamp)
+		rightValue := source.GetRequestTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_BundleRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *SimCardBundleRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*SimCard_BundleRequest))
+}
+
+// SimCardBundleRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for BundleRequest according to their type
+// Present only for array (repeated) types.
+type SimCardBundleRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	SimCardBundleRequest_FieldPath
+	ContainsValue(*SimCard_BundleRequest) bool
+}
+
+// ParseSimCardBundleRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseSimCardBundleRequest_FieldPathArrayItemValue(pathStr, valueStr string) (SimCardBundleRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseSimCardBundleRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BundleRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(SimCardBundleRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseSimCardBundleRequest_FieldPathArrayItemValue(pathStr, valueStr string) SimCardBundleRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseSimCardBundleRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type SimCardBundleRequest_FieldTerminalPathArrayItemValue struct {
+	SimCardBundleRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ SimCardBundleRequest_FieldPathArrayItemValue = (*SimCardBundleRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object SimCard_BundleRequest as interface{}
+func (fpaiv *SimCardBundleRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *SimCardBundleRequest_FieldTerminalPathArrayItemValue) GetSingle(source *SimCard_BundleRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *SimCardBundleRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*SimCard_BundleRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'BundleRequest'
+func (fpaiv *SimCardBundleRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *SimCard_BundleRequest) bool {
+	slice := fpaiv.SimCardBundleRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// SimCardBundleRequest_FieldPathArrayOfValues allows storing slice of values for BundleRequest fields according to their type
+type SimCardBundleRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	SimCardBundleRequest_FieldPath
+}
+
+func ParseSimCardBundleRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (SimCardBundleRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseSimCardBundleRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BundleRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(SimCardBundleRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseSimCardBundleRequest_FieldPathArrayOfValues(pathStr, valuesStr string) SimCardBundleRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseSimCardBundleRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type SimCardBundleRequest_FieldTerminalPathArrayOfValues struct {
+	SimCardBundleRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ SimCardBundleRequest_FieldPathArrayOfValues = (*SimCardBundleRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *SimCardBundleRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case SimCardBundleRequest_FieldPathSelectorId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SimCardBundleRequest_FieldPathSelectorProductId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SimCardBundleRequest_FieldPathSelectorOtherBundles:
+		for _, v := range fpaov.values.([]SimCard_BundleRequest_OtherBundles) {
+			values = append(values, v)
+		}
+	case SimCardBundleRequest_FieldPathSelectorRequestTime:
+		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *SimCardBundleRequest_FieldTerminalPathArrayOfValues) AsIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardBundleRequest_FieldTerminalPathArrayOfValues) AsProductIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardBundleRequest_FieldTerminalPathArrayOfValues) AsOtherBundlesArrayOfValues() ([]SimCard_BundleRequest_OtherBundles, bool) {
+	res, ok := fpaov.values.([]SimCard_BundleRequest_OtherBundles)
+	return res, ok
+}
+func (fpaov *SimCardBundleRequest_FieldTerminalPathArrayOfValues) AsRequestTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamppb.Timestamp)
 	return res, ok
 }
 
@@ -918,8 +1510,11 @@ type SimCardStatus_FieldPath interface {
 type SimCardStatus_FieldPathSelector int32
 
 const (
-	SimCardStatus_FieldPathSelectorState SimCardStatus_FieldPathSelector = 0
-	SimCardStatus_FieldPathSelectorError SimCardStatus_FieldPathSelector = 1
+	SimCardStatus_FieldPathSelectorState   SimCardStatus_FieldPathSelector = 0
+	SimCardStatus_FieldPathSelectorError   SimCardStatus_FieldPathSelector = 1
+	SimCardStatus_FieldPathSelectorMsisdn  SimCardStatus_FieldPathSelector = 2
+	SimCardStatus_FieldPathSelectorBundles SimCardStatus_FieldPathSelector = 3
+	SimCardStatus_FieldPathSelectorOptions SimCardStatus_FieldPathSelector = 4
 )
 
 func (s SimCardStatus_FieldPathSelector) String() string {
@@ -928,6 +1523,12 @@ func (s SimCardStatus_FieldPathSelector) String() string {
 		return "state"
 	case SimCardStatus_FieldPathSelectorError:
 		return "error"
+	case SimCardStatus_FieldPathSelectorMsisdn:
+		return "msisdn"
+	case SimCardStatus_FieldPathSelectorBundles:
+		return "bundles"
+	case SimCardStatus_FieldPathSelectorOptions:
+		return "options"
 	default:
 		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", s))
 	}
@@ -943,6 +1544,21 @@ func BuildSimCardStatus_FieldPath(fp gotenobject.RawFieldPath) (SimCardStatus_Fi
 			return &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorState}, nil
 		case "error":
 			return &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorError}, nil
+		case "msisdn":
+			return &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorMsisdn}, nil
+		case "bundles":
+			return &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorBundles}, nil
+		case "options":
+			return &SimCardStatus_FieldTerminalPath{selector: SimCardStatus_FieldPathSelectorOptions}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "bundles":
+			if subpath, err := BuildSimCardStatusBundle_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &SimCardStatus_FieldSubPath{selector: SimCardStatus_FieldPathSelectorBundles, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object SimCard_Status", fp)
@@ -992,6 +1608,16 @@ func (fp *SimCardStatus_FieldTerminalPath) Get(source *SimCard_Status) (values [
 			values = append(values, source.State)
 		case SimCardStatus_FieldPathSelectorError:
 			values = append(values, source.Error)
+		case SimCardStatus_FieldPathSelectorMsisdn:
+			values = append(values, source.Msisdn)
+		case SimCardStatus_FieldPathSelectorBundles:
+			for _, value := range source.GetBundles() {
+				values = append(values, value)
+			}
+		case SimCardStatus_FieldPathSelectorOptions:
+			for _, value := range source.GetOptions() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fp.selector))
 		}
@@ -1010,6 +1636,14 @@ func (fp *SimCardStatus_FieldTerminalPath) GetSingle(source *SimCard_Status) (in
 		return source.GetState(), source != nil
 	case SimCardStatus_FieldPathSelectorError:
 		return source.GetError(), source != nil
+	case SimCardStatus_FieldPathSelectorMsisdn:
+		return source.GetMsisdn(), source != nil
+	case SimCardStatus_FieldPathSelectorBundles:
+		res := source.GetBundles()
+		return res, res != nil
+	case SimCardStatus_FieldPathSelectorOptions:
+		res := source.GetOptions()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fp.selector))
 	}
@@ -1026,6 +1660,12 @@ func (fp *SimCardStatus_FieldTerminalPath) GetDefault() interface{} {
 		return carrier.SimState_SIM_STATE_UNSPECIFIED
 	case SimCardStatus_FieldPathSelectorError:
 		return ""
+	case SimCardStatus_FieldPathSelectorMsisdn:
+		return ""
+	case SimCardStatus_FieldPathSelectorBundles:
+		return ([]*SimCard_Status_Bundle)(nil)
+	case SimCardStatus_FieldPathSelectorOptions:
+		return ([]string)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fp.selector))
 	}
@@ -1038,6 +1678,12 @@ func (fp *SimCardStatus_FieldTerminalPath) ClearValue(item *SimCard_Status) {
 			item.State = carrier.SimState_SIM_STATE_UNSPECIFIED
 		case SimCardStatus_FieldPathSelectorError:
 			item.Error = ""
+		case SimCardStatus_FieldPathSelectorMsisdn:
+			item.Msisdn = ""
+		case SimCardStatus_FieldPathSelectorBundles:
+			item.Bundles = nil
+		case SimCardStatus_FieldPathSelectorOptions:
+			item.Options = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fp.selector))
 		}
@@ -1051,7 +1697,9 @@ func (fp *SimCardStatus_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fp *SimCardStatus_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == SimCardStatus_FieldPathSelectorState ||
-		fp.selector == SimCardStatus_FieldPathSelectorError
+		fp.selector == SimCardStatus_FieldPathSelectorError ||
+		fp.selector == SimCardStatus_FieldPathSelectorMsisdn ||
+		fp.selector == SimCardStatus_FieldPathSelectorOptions
 }
 
 func (fp *SimCardStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1064,6 +1712,12 @@ func (fp *SimCardStatus_FieldTerminalPath) WithIValue(value interface{}) SimCard
 		return &SimCardStatus_FieldTerminalPathValue{SimCardStatus_FieldTerminalPath: *fp, value: value.(carrier.SimState)}
 	case SimCardStatus_FieldPathSelectorError:
 		return &SimCardStatus_FieldTerminalPathValue{SimCardStatus_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardStatus_FieldPathSelectorMsisdn:
+		return &SimCardStatus_FieldTerminalPathValue{SimCardStatus_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardStatus_FieldPathSelectorBundles:
+		return &SimCardStatus_FieldTerminalPathValue{SimCardStatus_FieldTerminalPath: *fp, value: value.([]*SimCard_Status_Bundle)}
+	case SimCardStatus_FieldPathSelectorOptions:
+		return &SimCardStatus_FieldTerminalPathValue{SimCardStatus_FieldTerminalPath: *fp, value: value.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fp.selector))
 	}
@@ -1080,6 +1734,12 @@ func (fp *SimCardStatus_FieldTerminalPath) WithIArrayOfValues(values interface{}
 		return &SimCardStatus_FieldTerminalPathArrayOfValues{SimCardStatus_FieldTerminalPath: *fp, values: values.([]carrier.SimState)}
 	case SimCardStatus_FieldPathSelectorError:
 		return &SimCardStatus_FieldTerminalPathArrayOfValues{SimCardStatus_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardStatus_FieldPathSelectorMsisdn:
+		return &SimCardStatus_FieldTerminalPathArrayOfValues{SimCardStatus_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardStatus_FieldPathSelectorBundles:
+		return &SimCardStatus_FieldTerminalPathArrayOfValues{SimCardStatus_FieldTerminalPath: *fp, values: values.([][]*SimCard_Status_Bundle)}
+	case SimCardStatus_FieldPathSelectorOptions:
+		return &SimCardStatus_FieldTerminalPathArrayOfValues{SimCardStatus_FieldTerminalPath: *fp, values: values.([][]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fp.selector))
 	}
@@ -1092,6 +1752,10 @@ func (fp *SimCardStatus_FieldTerminalPath) WithRawIArrayOfValues(values interfac
 
 func (fp *SimCardStatus_FieldTerminalPath) WithIArrayItemValue(value interface{}) SimCardStatus_FieldPathArrayItemValue {
 	switch fp.selector {
+	case SimCardStatus_FieldPathSelectorBundles:
+		return &SimCardStatus_FieldTerminalPathArrayItemValue{SimCardStatus_FieldTerminalPath: *fp, value: value.(*SimCard_Status_Bundle)}
+	case SimCardStatus_FieldPathSelectorOptions:
+		return &SimCardStatus_FieldTerminalPathArrayItemValue{SimCardStatus_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fp.selector))
 	}
@@ -1099,6 +1763,122 @@ func (fp *SimCardStatus_FieldTerminalPath) WithIArrayItemValue(value interface{}
 
 func (fp *SimCardStatus_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+type SimCardStatus_FieldSubPath struct {
+	selector SimCardStatus_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ SimCardStatus_FieldPath = (*SimCardStatus_FieldSubPath)(nil)
+
+func (fps *SimCardStatus_FieldSubPath) Selector() SimCardStatus_FieldPathSelector {
+	return fps.selector
+}
+func (fps *SimCardStatus_FieldSubPath) AsBundlesSubPath() (SimCardStatusBundle_FieldPath, bool) {
+	res, ok := fps.subPath.(SimCardStatusBundle_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *SimCardStatus_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *SimCardStatus_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source SimCard_Status
+func (fps *SimCardStatus_FieldSubPath) Get(source *SimCard_Status) (values []interface{}) {
+	switch fps.selector {
+	case SimCardStatus_FieldPathSelectorBundles:
+		for _, item := range source.GetBundles() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *SimCardStatus_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*SimCard_Status))
+}
+
+// GetSingle returns value of selected field from source SimCard_Status
+func (fps *SimCardStatus_FieldSubPath) GetSingle(source *SimCard_Status) (interface{}, bool) {
+	switch fps.selector {
+	case SimCardStatus_FieldPathSelectorBundles:
+		if len(source.GetBundles()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetBundles()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fps.selector))
+	}
+}
+
+func (fps *SimCardStatus_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*SimCard_Status))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *SimCardStatus_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *SimCardStatus_FieldSubPath) ClearValue(item *SimCard_Status) {
+	if item != nil {
+		switch fps.selector {
+		case SimCardStatus_FieldPathSelectorBundles:
+			for _, subItem := range item.Bundles {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *SimCardStatus_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*SimCard_Status))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *SimCardStatus_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *SimCardStatus_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&SimCardStatus_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *SimCardStatus_FieldSubPath) WithIValue(value interface{}) SimCardStatus_FieldPathValue {
+	return &SimCardStatus_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *SimCardStatus_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *SimCardStatus_FieldSubPath) WithIArrayOfValues(values interface{}) SimCardStatus_FieldPathArrayOfValues {
+	return &SimCardStatus_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *SimCardStatus_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *SimCardStatus_FieldSubPath) WithIArrayItemValue(value interface{}) SimCardStatus_FieldPathArrayItemValue {
+	return &SimCardStatus_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *SimCardStatus_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
 }
 
 // SimCardStatus_FieldPathValue allows storing values for Status fields according to their type
@@ -1148,6 +1928,18 @@ func (fpv *SimCardStatus_FieldTerminalPathValue) AsErrorValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *SimCardStatus_FieldTerminalPathValue) AsMsisdnValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SimCardStatus_FieldTerminalPathValue) AsBundlesValue() ([]*SimCard_Status_Bundle, bool) {
+	res, ok := fpv.value.([]*SimCard_Status_Bundle)
+	return res, ok
+}
+func (fpv *SimCardStatus_FieldTerminalPathValue) AsOptionsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Status
 func (fpv *SimCardStatus_FieldTerminalPathValue) SetTo(target **SimCard_Status) {
@@ -1159,6 +1951,12 @@ func (fpv *SimCardStatus_FieldTerminalPathValue) SetTo(target **SimCard_Status) 
 		(*target).State = fpv.value.(carrier.SimState)
 	case SimCardStatus_FieldPathSelectorError:
 		(*target).Error = fpv.value.(string)
+	case SimCardStatus_FieldPathSelectorMsisdn:
+		(*target).Msisdn = fpv.value.(string)
+	case SimCardStatus_FieldPathSelectorBundles:
+		(*target).Bundles = fpv.value.([]*SimCard_Status_Bundle)
+	case SimCardStatus_FieldPathSelectorOptions:
+		(*target).Options = fpv.value.([]string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fpv.selector))
 	}
@@ -1192,6 +1990,20 @@ func (fpv *SimCardStatus_FieldTerminalPathValue) CompareWith(source *SimCard_Sta
 		} else {
 			return 1, true
 		}
+	case SimCardStatus_FieldPathSelectorMsisdn:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetMsisdn()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardStatus_FieldPathSelectorBundles:
+		return 0, false
+	case SimCardStatus_FieldPathSelectorOptions:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fpv.selector))
 	}
@@ -1199,6 +2011,52 @@ func (fpv *SimCardStatus_FieldTerminalPathValue) CompareWith(source *SimCard_Sta
 
 func (fpv *SimCardStatus_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*SimCard_Status))
+}
+
+type SimCardStatus_FieldSubPathValue struct {
+	SimCardStatus_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ SimCardStatus_FieldPathValue = (*SimCardStatus_FieldSubPathValue)(nil)
+
+func (fpvs *SimCardStatus_FieldSubPathValue) AsBundlesPathValue() (SimCardStatusBundle_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(SimCardStatusBundle_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *SimCardStatus_FieldSubPathValue) SetTo(target **SimCard_Status) {
+	if *target == nil {
+		*target = new(SimCard_Status)
+	}
+	switch fpvs.Selector() {
+	case SimCardStatus_FieldPathSelectorBundles:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *SimCardStatus_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*SimCard_Status)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *SimCardStatus_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *SimCardStatus_FieldSubPathValue) CompareWith(source *SimCard_Status) (int, bool) {
+	switch fpvs.Selector() {
+	case SimCardStatus_FieldPathSelectorBundles:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *SimCardStatus_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*SimCard_Status))
 }
 
 // SimCardStatus_FieldPathArrayItemValue allows storing single item in Path-specific values for Status according to their type
@@ -1241,6 +2099,14 @@ var _ SimCardStatus_FieldPathArrayItemValue = (*SimCardStatus_FieldTerminalPathA
 func (fpaiv *SimCardStatus_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
+func (fpaiv *SimCardStatus_FieldTerminalPathArrayItemValue) AsBundlesItemValue() (*SimCard_Status_Bundle, bool) {
+	res, ok := fpaiv.value.(*SimCard_Status_Bundle)
+	return res, ok
+}
+func (fpaiv *SimCardStatus_FieldTerminalPathArrayItemValue) AsOptionsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
 
 func (fpaiv *SimCardStatus_FieldTerminalPathArrayItemValue) GetSingle(source *SimCard_Status) (interface{}, bool) {
 	return nil, false
@@ -1263,6 +2129,30 @@ func (fpaiv *SimCardStatus_FieldTerminalPathArrayItemValue) ContainsValue(source
 		}
 	}
 	return false
+}
+
+type SimCardStatus_FieldSubPathArrayItemValue struct {
+	SimCardStatus_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *SimCardStatus_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *SimCardStatus_FieldSubPathArrayItemValue) AsBundlesPathItemValue() (SimCardStatusBundle_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(SimCardStatusBundle_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Status'
+func (fpaivs *SimCardStatus_FieldSubPathArrayItemValue) ContainsValue(source *SimCard_Status) bool {
+	switch fpaivs.Selector() {
+	case SimCardStatus_FieldPathSelectorBundles:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status: %d", fpaivs.Selector()))
+	}
 }
 
 // SimCardStatus_FieldPathArrayOfValues allows storing slice of values for Status fields according to their type
@@ -1308,6 +2198,18 @@ func (fpaov *SimCardStatus_FieldTerminalPathArrayOfValues) GetRawValues() (value
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case SimCardStatus_FieldPathSelectorMsisdn:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SimCardStatus_FieldPathSelectorBundles:
+		for _, v := range fpaov.values.([][]*SimCard_Status_Bundle) {
+			values = append(values, v)
+		}
+	case SimCardStatus_FieldPathSelectorOptions:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1316,6 +2218,622 @@ func (fpaov *SimCardStatus_FieldTerminalPathArrayOfValues) AsStateArrayOfValues(
 	return res, ok
 }
 func (fpaov *SimCardStatus_FieldTerminalPathArrayOfValues) AsErrorArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardStatus_FieldTerminalPathArrayOfValues) AsMsisdnArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardStatus_FieldTerminalPathArrayOfValues) AsBundlesArrayOfValues() ([][]*SimCard_Status_Bundle, bool) {
+	res, ok := fpaov.values.([][]*SimCard_Status_Bundle)
+	return res, ok
+}
+func (fpaov *SimCardStatus_FieldTerminalPathArrayOfValues) AsOptionsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+type SimCardStatus_FieldSubPathArrayOfValues struct {
+	SimCardStatus_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ SimCardStatus_FieldPathArrayOfValues = (*SimCardStatus_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *SimCardStatus_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *SimCardStatus_FieldSubPathArrayOfValues) AsBundlesPathArrayOfValues() (SimCardStatusBundle_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(SimCardStatusBundle_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type SimCardStatusBundle_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() SimCardStatusBundle_FieldPathSelector
+	Get(source *SimCard_Status_Bundle) []interface{}
+	GetSingle(source *SimCard_Status_Bundle) (interface{}, bool)
+	ClearValue(item *SimCard_Status_Bundle)
+
+	// Those methods build corresponding SimCardStatusBundle_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) SimCardStatusBundle_FieldPathValue
+	WithIArrayOfValues(values interface{}) SimCardStatusBundle_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) SimCardStatusBundle_FieldPathArrayItemValue
+}
+
+type SimCardStatusBundle_FieldPathSelector int32
+
+const (
+	SimCardStatusBundle_FieldPathSelectorProductId       SimCardStatusBundle_FieldPathSelector = 0
+	SimCardStatusBundle_FieldPathSelectorSubscriptionId  SimCardStatusBundle_FieldPathSelector = 1
+	SimCardStatusBundle_FieldPathSelectorStatus          SimCardStatusBundle_FieldPathSelector = 2
+	SimCardStatusBundle_FieldPathSelectorActivationTime  SimCardStatusBundle_FieldPathSelector = 3
+	SimCardStatusBundle_FieldPathSelectorExpirationTime  SimCardStatusBundle_FieldPathSelector = 4
+	SimCardStatusBundle_FieldPathSelectorNextRenewalTime SimCardStatusBundle_FieldPathSelector = 5
+)
+
+func (s SimCardStatusBundle_FieldPathSelector) String() string {
+	switch s {
+	case SimCardStatusBundle_FieldPathSelectorProductId:
+		return "product_id"
+	case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+		return "subscription_id"
+	case SimCardStatusBundle_FieldPathSelectorStatus:
+		return "status"
+	case SimCardStatusBundle_FieldPathSelectorActivationTime:
+		return "activation_time"
+	case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+		return "expiration_time"
+	case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+		return "next_renewal_time"
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", s))
+	}
+}
+
+func BuildSimCardStatusBundle_FieldPath(fp gotenobject.RawFieldPath) (SimCardStatusBundle_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object SimCard_Status_Bundle")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "product_id", "productId", "product-id":
+			return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorProductId}, nil
+		case "subscription_id", "subscriptionId", "subscription-id":
+			return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorSubscriptionId}, nil
+		case "status":
+			return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorStatus}, nil
+		case "activation_time", "activationTime", "activation-time":
+			return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorActivationTime}, nil
+		case "expiration_time", "expirationTime", "expiration-time":
+			return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorExpirationTime}, nil
+		case "next_renewal_time", "nextRenewalTime", "next-renewal-time":
+			return &SimCardStatusBundle_FieldTerminalPath{selector: SimCardStatusBundle_FieldPathSelectorNextRenewalTime}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object SimCard_Status_Bundle", fp)
+}
+
+func ParseSimCardStatusBundle_FieldPath(rawField string) (SimCardStatusBundle_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildSimCardStatusBundle_FieldPath(fp)
+}
+
+func MustParseSimCardStatusBundle_FieldPath(rawField string) SimCardStatusBundle_FieldPath {
+	fp, err := ParseSimCardStatusBundle_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type SimCardStatusBundle_FieldTerminalPath struct {
+	selector SimCardStatusBundle_FieldPathSelector
+}
+
+var _ SimCardStatusBundle_FieldPath = (*SimCardStatusBundle_FieldTerminalPath)(nil)
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) Selector() SimCardStatusBundle_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *SimCardStatusBundle_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *SimCardStatusBundle_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source SimCard_Status_Bundle
+func (fp *SimCardStatusBundle_FieldTerminalPath) Get(source *SimCard_Status_Bundle) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case SimCardStatusBundle_FieldPathSelectorProductId:
+			values = append(values, source.ProductId)
+		case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+			values = append(values, source.SubscriptionId)
+		case SimCardStatusBundle_FieldPathSelectorStatus:
+			values = append(values, source.Status)
+		case SimCardStatusBundle_FieldPathSelectorActivationTime:
+			values = append(values, source.ActivationTime)
+		case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+			values = append(values, source.ExpirationTime)
+		case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+			values = append(values, source.NextRenewalTime)
+		default:
+			panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*SimCard_Status_Bundle))
+}
+
+// GetSingle returns value pointed by specific field of from source SimCard_Status_Bundle
+func (fp *SimCardStatusBundle_FieldTerminalPath) GetSingle(source *SimCard_Status_Bundle) (interface{}, bool) {
+	switch fp.selector {
+	case SimCardStatusBundle_FieldPathSelectorProductId:
+		return source.GetProductId(), source != nil
+	case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+		return source.GetSubscriptionId(), source != nil
+	case SimCardStatusBundle_FieldPathSelectorStatus:
+		return source.GetStatus(), source != nil
+	case SimCardStatusBundle_FieldPathSelectorActivationTime:
+		return source.GetActivationTime(), source != nil
+	case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+		return source.GetExpirationTime(), source != nil
+	case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+		return source.GetNextRenewalTime(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fp.selector))
+	}
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*SimCard_Status_Bundle))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *SimCardStatusBundle_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case SimCardStatusBundle_FieldPathSelectorProductId:
+		return ""
+	case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+		return ""
+	case SimCardStatusBundle_FieldPathSelectorStatus:
+		return ""
+	case SimCardStatusBundle_FieldPathSelectorActivationTime:
+		return ""
+	case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+		return ""
+	case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fp.selector))
+	}
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) ClearValue(item *SimCard_Status_Bundle) {
+	if item != nil {
+		switch fp.selector {
+		case SimCardStatusBundle_FieldPathSelectorProductId:
+			item.ProductId = ""
+		case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+			item.SubscriptionId = ""
+		case SimCardStatusBundle_FieldPathSelectorStatus:
+			item.Status = ""
+		case SimCardStatusBundle_FieldPathSelectorActivationTime:
+			item.ActivationTime = ""
+		case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+			item.ExpirationTime = ""
+		case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+			item.NextRenewalTime = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*SimCard_Status_Bundle))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *SimCardStatusBundle_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == SimCardStatusBundle_FieldPathSelectorProductId ||
+		fp.selector == SimCardStatusBundle_FieldPathSelectorSubscriptionId ||
+		fp.selector == SimCardStatusBundle_FieldPathSelectorStatus ||
+		fp.selector == SimCardStatusBundle_FieldPathSelectorActivationTime ||
+		fp.selector == SimCardStatusBundle_FieldPathSelectorExpirationTime ||
+		fp.selector == SimCardStatusBundle_FieldPathSelectorNextRenewalTime
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) WithIValue(value interface{}) SimCardStatusBundle_FieldPathValue {
+	switch fp.selector {
+	case SimCardStatusBundle_FieldPathSelectorProductId:
+		return &SimCardStatusBundle_FieldTerminalPathValue{SimCardStatusBundle_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+		return &SimCardStatusBundle_FieldTerminalPathValue{SimCardStatusBundle_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardStatusBundle_FieldPathSelectorStatus:
+		return &SimCardStatusBundle_FieldTerminalPathValue{SimCardStatusBundle_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardStatusBundle_FieldPathSelectorActivationTime:
+		return &SimCardStatusBundle_FieldTerminalPathValue{SimCardStatusBundle_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+		return &SimCardStatusBundle_FieldTerminalPathValue{SimCardStatusBundle_FieldTerminalPath: *fp, value: value.(string)}
+	case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+		return &SimCardStatusBundle_FieldTerminalPathValue{SimCardStatusBundle_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fp.selector))
+	}
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) WithIArrayOfValues(values interface{}) SimCardStatusBundle_FieldPathArrayOfValues {
+	fpaov := &SimCardStatusBundle_FieldTerminalPathArrayOfValues{SimCardStatusBundle_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case SimCardStatusBundle_FieldPathSelectorProductId:
+		return &SimCardStatusBundle_FieldTerminalPathArrayOfValues{SimCardStatusBundle_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+		return &SimCardStatusBundle_FieldTerminalPathArrayOfValues{SimCardStatusBundle_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardStatusBundle_FieldPathSelectorStatus:
+		return &SimCardStatusBundle_FieldTerminalPathArrayOfValues{SimCardStatusBundle_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardStatusBundle_FieldPathSelectorActivationTime:
+		return &SimCardStatusBundle_FieldTerminalPathArrayOfValues{SimCardStatusBundle_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+		return &SimCardStatusBundle_FieldTerminalPathArrayOfValues{SimCardStatusBundle_FieldTerminalPath: *fp, values: values.([]string)}
+	case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+		return &SimCardStatusBundle_FieldTerminalPathArrayOfValues{SimCardStatusBundle_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) WithIArrayItemValue(value interface{}) SimCardStatusBundle_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fp.selector))
+	}
+}
+
+func (fp *SimCardStatusBundle_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// SimCardStatusBundle_FieldPathValue allows storing values for Bundle fields according to their type
+type SimCardStatusBundle_FieldPathValue interface {
+	SimCardStatusBundle_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **SimCard_Status_Bundle)
+	CompareWith(*SimCard_Status_Bundle) (cmp int, comparable bool)
+}
+
+func ParseSimCardStatusBundle_FieldPathValue(pathStr, valueStr string) (SimCardStatusBundle_FieldPathValue, error) {
+	fp, err := ParseSimCardStatusBundle_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Bundle field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(SimCardStatusBundle_FieldPathValue), nil
+}
+
+func MustParseSimCardStatusBundle_FieldPathValue(pathStr, valueStr string) SimCardStatusBundle_FieldPathValue {
+	fpv, err := ParseSimCardStatusBundle_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type SimCardStatusBundle_FieldTerminalPathValue struct {
+	SimCardStatusBundle_FieldTerminalPath
+	value interface{}
+}
+
+var _ SimCardStatusBundle_FieldPathValue = (*SimCardStatusBundle_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Bundle' as interface{}
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) AsProductIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) AsSubscriptionIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) AsStatusValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) AsActivationTimeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) AsExpirationTimeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) AsNextRenewalTimeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Bundle
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) SetTo(target **SimCard_Status_Bundle) {
+	if *target == nil {
+		*target = new(SimCard_Status_Bundle)
+	}
+	switch fpv.selector {
+	case SimCardStatusBundle_FieldPathSelectorProductId:
+		(*target).ProductId = fpv.value.(string)
+	case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+		(*target).SubscriptionId = fpv.value.(string)
+	case SimCardStatusBundle_FieldPathSelectorStatus:
+		(*target).Status = fpv.value.(string)
+	case SimCardStatusBundle_FieldPathSelectorActivationTime:
+		(*target).ActivationTime = fpv.value.(string)
+	case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+		(*target).ExpirationTime = fpv.value.(string)
+	case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+		(*target).NextRenewalTime = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fpv.selector))
+	}
+}
+
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*SimCard_Status_Bundle)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'SimCardStatusBundle_FieldTerminalPathValue' with the value under path in 'SimCard_Status_Bundle'.
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) CompareWith(source *SimCard_Status_Bundle) (int, bool) {
+	switch fpv.selector {
+	case SimCardStatusBundle_FieldPathSelectorProductId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetProductId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetSubscriptionId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardStatusBundle_FieldPathSelectorStatus:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardStatusBundle_FieldPathSelectorActivationTime:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetActivationTime()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetExpirationTime()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetNextRenewalTime()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SimCard_Status_Bundle: %d", fpv.selector))
+	}
+}
+
+func (fpv *SimCardStatusBundle_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*SimCard_Status_Bundle))
+}
+
+// SimCardStatusBundle_FieldPathArrayItemValue allows storing single item in Path-specific values for Bundle according to their type
+// Present only for array (repeated) types.
+type SimCardStatusBundle_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	SimCardStatusBundle_FieldPath
+	ContainsValue(*SimCard_Status_Bundle) bool
+}
+
+// ParseSimCardStatusBundle_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseSimCardStatusBundle_FieldPathArrayItemValue(pathStr, valueStr string) (SimCardStatusBundle_FieldPathArrayItemValue, error) {
+	fp, err := ParseSimCardStatusBundle_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Bundle field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(SimCardStatusBundle_FieldPathArrayItemValue), nil
+}
+
+func MustParseSimCardStatusBundle_FieldPathArrayItemValue(pathStr, valueStr string) SimCardStatusBundle_FieldPathArrayItemValue {
+	fpaiv, err := ParseSimCardStatusBundle_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type SimCardStatusBundle_FieldTerminalPathArrayItemValue struct {
+	SimCardStatusBundle_FieldTerminalPath
+	value interface{}
+}
+
+var _ SimCardStatusBundle_FieldPathArrayItemValue = (*SimCardStatusBundle_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object SimCard_Status_Bundle as interface{}
+func (fpaiv *SimCardStatusBundle_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *SimCardStatusBundle_FieldTerminalPathArrayItemValue) GetSingle(source *SimCard_Status_Bundle) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *SimCardStatusBundle_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*SimCard_Status_Bundle))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Bundle'
+func (fpaiv *SimCardStatusBundle_FieldTerminalPathArrayItemValue) ContainsValue(source *SimCard_Status_Bundle) bool {
+	slice := fpaiv.SimCardStatusBundle_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// SimCardStatusBundle_FieldPathArrayOfValues allows storing slice of values for Bundle fields according to their type
+type SimCardStatusBundle_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	SimCardStatusBundle_FieldPath
+}
+
+func ParseSimCardStatusBundle_FieldPathArrayOfValues(pathStr, valuesStr string) (SimCardStatusBundle_FieldPathArrayOfValues, error) {
+	fp, err := ParseSimCardStatusBundle_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Bundle field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(SimCardStatusBundle_FieldPathArrayOfValues), nil
+}
+
+func MustParseSimCardStatusBundle_FieldPathArrayOfValues(pathStr, valuesStr string) SimCardStatusBundle_FieldPathArrayOfValues {
+	fpaov, err := ParseSimCardStatusBundle_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type SimCardStatusBundle_FieldTerminalPathArrayOfValues struct {
+	SimCardStatusBundle_FieldTerminalPath
+	values interface{}
+}
+
+var _ SimCardStatusBundle_FieldPathArrayOfValues = (*SimCardStatusBundle_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *SimCardStatusBundle_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case SimCardStatusBundle_FieldPathSelectorProductId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SimCardStatusBundle_FieldPathSelectorSubscriptionId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SimCardStatusBundle_FieldPathSelectorStatus:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SimCardStatusBundle_FieldPathSelectorActivationTime:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SimCardStatusBundle_FieldPathSelectorExpirationTime:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SimCardStatusBundle_FieldPathSelectorNextRenewalTime:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *SimCardStatusBundle_FieldTerminalPathArrayOfValues) AsProductIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardStatusBundle_FieldTerminalPathArrayOfValues) AsSubscriptionIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardStatusBundle_FieldTerminalPathArrayOfValues) AsStatusArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardStatusBundle_FieldTerminalPathArrayOfValues) AsActivationTimeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardStatusBundle_FieldTerminalPathArrayOfValues) AsExpirationTimeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SimCardStatusBundle_FieldTerminalPathArrayOfValues) AsNextRenewalTimeArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

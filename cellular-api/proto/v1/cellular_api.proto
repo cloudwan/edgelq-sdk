@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package ntt.cellular_api.v1;
 
+import "edgelq-sdk/cellular-api/proto/v1/bundle.proto";
+import "edgelq-sdk/cellular-api/proto/v1/bundle_custom.proto";
+import "edgelq-sdk/cellular-api/proto/v1/bundle_service.proto";
 import "edgelq-sdk/cellular-api/proto/v1/contract.proto";
 import "edgelq-sdk/cellular-api/proto/v1/contract_custom.proto";
 import "edgelq-sdk/cellular-api/proto/v1/contract_service.proto";

@@ -5,6 +5,7 @@ package ntt.cellular_api.v1;
 import "edgelq-sdk/cellular-api/proto/v1/sim_card.proto";
 import "edgelq-sdk/cellular-api/proto/v1/sim_card_change.proto";
 import "edgelq-sdk/cellular-api/proto/v1/sim_card_custom.proto";
+import "edgelq/cellular-api/proto/v1/bundle.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -459,6 +460,20 @@ service SimCardService {
   rpc GetDataUsage(GetDataUsageRequest) returns (GetDataUsageResponse) {
     option (google.api.http) = {
       get : "/v1/{name=projects/*/regions/*/simCards/*}:getDataUsage"
+    };
+  }
+
+  // Subscribe
+  rpc Subscribe(SubscribeRequest) returns (Bundle) {
+    option (google.api.http) = {
+      post : "/v1/{name=projects/*/regions/*/simCards/*}:subscribe"
+    };
+  }
+
+  // GetBundles
+  rpc GetBundles(GetBundlesRequest) returns (GetBundlesResponse) {
+    option (google.api.http) = {
+      get : "/v1/{name=projects/*/regions/*/simCards/*}:getBundles"
     };
   }
 }
