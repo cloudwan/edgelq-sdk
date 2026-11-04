@@ -27,6 +27,8 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -55,6 +57,8 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_group.ServicePortalGroup{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
@@ -92,6 +96,8 @@ const (
 	RoleBinding_FieldPathSelectorSpecGeneration        RoleBinding_FieldPathSelector = 11
 	RoleBinding_FieldPathSelectorHasOwnedObjects       RoleBinding_FieldPathSelector = 12
 	RoleBinding_FieldPathSelectorDisableForChildScopes RoleBinding_FieldPathSelector = 13
+	RoleBinding_FieldPathSelectorServicePortalCompany  RoleBinding_FieldPathSelector = 14
+	RoleBinding_FieldPathSelectorServicePortalGroup    RoleBinding_FieldPathSelector = 15
 )
 
 func (s RoleBinding_FieldPathSelector) String() string {
@@ -124,6 +130,10 @@ func (s RoleBinding_FieldPathSelector) String() string {
 		return "has_owned_objects"
 	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		return "disable_for_child_scopes"
+	case RoleBinding_FieldPathSelectorServicePortalCompany:
+		return "service_portal_company"
+	case RoleBinding_FieldPathSelectorServicePortalGroup:
+		return "service_portal_group"
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", s))
 	}
@@ -163,6 +173,10 @@ func BuildRoleBinding_FieldPath(fp gotenobject.RawFieldPath) (RoleBinding_FieldP
 			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorHasOwnedObjects}, nil
 		case "disable_for_child_scopes", "disableForChildScopes", "disable-for-child-scopes":
 			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorDisableForChildScopes}, nil
+		case "service_portal_company", "servicePortalCompany", "service-portal-company":
+			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorServicePortalCompany}, nil
+		case "service_portal_group", "servicePortalGroup", "service-portal-group":
+			return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorServicePortalGroup}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -279,6 +293,14 @@ func (fp *RoleBinding_FieldTerminalPath) Get(source *RoleBinding) (values []inte
 			values = append(values, source.HasOwnedObjects)
 		case RoleBinding_FieldPathSelectorDisableForChildScopes:
 			values = append(values, source.DisableForChildScopes)
+		case RoleBinding_FieldPathSelectorServicePortalCompany:
+			if source.ServicePortalCompany != nil {
+				values = append(values, source.ServicePortalCompany)
+			}
+		case RoleBinding_FieldPathSelectorServicePortalGroup:
+			if source.ServicePortalGroup != nil {
+				values = append(values, source.ServicePortalGroup)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 		}
@@ -329,6 +351,12 @@ func (fp *RoleBinding_FieldTerminalPath) GetSingle(source *RoleBinding) (interfa
 		return source.GetHasOwnedObjects(), source != nil
 	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		return source.GetDisableForChildScopes(), source != nil
+	case RoleBinding_FieldPathSelectorServicePortalCompany:
+		res := source.GetServicePortalCompany()
+		return res, res != nil
+	case RoleBinding_FieldPathSelectorServicePortalGroup:
+		res := source.GetServicePortalGroup()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 	}
@@ -369,6 +397,10 @@ func (fp *RoleBinding_FieldTerminalPath) GetDefault() interface{} {
 		return false
 	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		return false
+	case RoleBinding_FieldPathSelectorServicePortalCompany:
+		return (*service_portal_company.Reference)(nil)
+	case RoleBinding_FieldPathSelectorServicePortalGroup:
+		return (*service_portal_group.Reference)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 	}
@@ -405,6 +437,10 @@ func (fp *RoleBinding_FieldTerminalPath) ClearValue(item *RoleBinding) {
 			item.HasOwnedObjects = false
 		case RoleBinding_FieldPathSelectorDisableForChildScopes:
 			item.DisableForChildScopes = false
+		case RoleBinding_FieldPathSelectorServicePortalCompany:
+			item.ServicePortalCompany = nil
+		case RoleBinding_FieldPathSelectorServicePortalGroup:
+			item.ServicePortalGroup = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 		}
@@ -426,7 +462,9 @@ func (fp *RoleBinding_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == RoleBinding_FieldPathSelectorParentByOrg ||
 		fp.selector == RoleBinding_FieldPathSelectorSpecGeneration ||
 		fp.selector == RoleBinding_FieldPathSelectorHasOwnedObjects ||
-		fp.selector == RoleBinding_FieldPathSelectorDisableForChildScopes
+		fp.selector == RoleBinding_FieldPathSelectorDisableForChildScopes ||
+		fp.selector == RoleBinding_FieldPathSelectorServicePortalCompany ||
+		fp.selector == RoleBinding_FieldPathSelectorServicePortalGroup
 }
 
 func (fp *RoleBinding_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -463,6 +501,10 @@ func (fp *RoleBinding_FieldTerminalPath) WithIValue(value interface{}) RoleBindi
 		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(bool)}
 	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(bool)}
+	case RoleBinding_FieldPathSelectorServicePortalCompany:
+		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(*service_portal_company.Reference)}
+	case RoleBinding_FieldPathSelectorServicePortalGroup:
+		return &RoleBinding_FieldTerminalPathValue{RoleBinding_FieldTerminalPath: *fp, value: value.(*service_portal_group.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 	}
@@ -503,6 +545,10 @@ func (fp *RoleBinding_FieldTerminalPath) WithIArrayOfValues(values interface{}) 
 		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]bool)}
 	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]bool)}
+	case RoleBinding_FieldPathSelectorServicePortalCompany:
+		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]*service_portal_company.Reference)}
+	case RoleBinding_FieldPathSelectorServicePortalGroup:
+		return &RoleBinding_FieldTerminalPathArrayOfValues{RoleBinding_FieldTerminalPath: *fp, values: values.([]*service_portal_group.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fp.selector))
 	}
@@ -790,6 +836,14 @@ func (fpv *RoleBinding_FieldTerminalPathValue) AsDisableForChildScopesValue() (b
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
+func (fpv *RoleBinding_FieldTerminalPathValue) AsServicePortalCompanyValue() (*service_portal_company.Reference, bool) {
+	res, ok := fpv.value.(*service_portal_company.Reference)
+	return res, ok
+}
+func (fpv *RoleBinding_FieldTerminalPathValue) AsServicePortalGroupValue() (*service_portal_group.Reference, bool) {
+	res, ok := fpv.value.(*service_portal_group.Reference)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object RoleBinding
 func (fpv *RoleBinding_FieldTerminalPathValue) SetTo(target **RoleBinding) {
@@ -825,6 +879,10 @@ func (fpv *RoleBinding_FieldTerminalPathValue) SetTo(target **RoleBinding) {
 		(*target).HasOwnedObjects = fpv.value.(bool)
 	case RoleBinding_FieldPathSelectorDisableForChildScopes:
 		(*target).DisableForChildScopes = fpv.value.(bool)
+	case RoleBinding_FieldPathSelectorServicePortalCompany:
+		(*target).ServicePortalCompany = fpv.value.(*service_portal_company.Reference)
+	case RoleBinding_FieldPathSelectorServicePortalGroup:
+		(*target).ServicePortalGroup = fpv.value.(*service_portal_group.Reference)
 	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fpv.selector))
 	}
@@ -961,6 +1019,44 @@ func (fpv *RoleBinding_FieldTerminalPathValue) CompareWith(source *RoleBinding) 
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case RoleBinding_FieldPathSelectorServicePortalCompany:
+		leftValue := fpv.value.(*service_portal_company.Reference)
+		rightValue := source.GetServicePortalCompany()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case RoleBinding_FieldPathSelectorServicePortalGroup:
+		leftValue := fpv.value.(*service_portal_group.Reference)
+		rightValue := source.GetServicePortalGroup()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
 			return -1, true
 		} else {
 			return 1, true
@@ -1257,6 +1353,14 @@ func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
+	case RoleBinding_FieldPathSelectorServicePortalCompany:
+		for _, v := range fpaov.values.([]*service_portal_company.Reference) {
+			values = append(values, v)
+		}
+	case RoleBinding_FieldPathSelectorServicePortalGroup:
+		for _, v := range fpaov.values.([]*service_portal_group.Reference) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1314,6 +1418,14 @@ func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsHasOwnedObjectsArrayO
 }
 func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsDisableForChildScopesArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsServicePortalCompanyArrayOfValues() ([]*service_portal_company.Reference, bool) {
+	res, ok := fpaov.values.([]*service_portal_company.Reference)
+	return res, ok
+}
+func (fpaov *RoleBinding_FieldTerminalPathArrayOfValues) AsServicePortalGroupArrayOfValues() ([]*service_portal_group.Reference, bool) {
+	res, ok := fpaov.values.([]*service_portal_group.Reference)
 	return res, ok
 }
 

@@ -13,6 +13,8 @@ import (
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -30,6 +32,8 @@ var (
 	_ = &permission.Permission{}
 	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_group.ServicePortalGroup{}
 	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
@@ -84,6 +88,12 @@ func (RoleBindingFieldPathBuilder) HasOwnedObjects() RoleBindingPathSelectorHasO
 }
 func (RoleBindingFieldPathBuilder) DisableForChildScopes() RoleBindingPathSelectorDisableForChildScopes {
 	return RoleBindingPathSelectorDisableForChildScopes{}
+}
+func (RoleBindingFieldPathBuilder) ServicePortalCompany() RoleBindingPathSelectorServicePortalCompany {
+	return RoleBindingPathSelectorServicePortalCompany{}
+}
+func (RoleBindingFieldPathBuilder) ServicePortalGroup() RoleBindingPathSelectorServicePortalGroup {
+	return RoleBindingPathSelectorServicePortalGroup{}
 }
 
 type RoleBindingPathSelectorName struct{}
@@ -1264,6 +1274,34 @@ func (s RoleBindingPathSelectorDisableForChildScopes) WithValue(value bool) *Rol
 }
 
 func (s RoleBindingPathSelectorDisableForChildScopes) WithArrayOfValues(values []bool) *RoleBinding_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
+}
+
+type RoleBindingPathSelectorServicePortalCompany struct{}
+
+func (RoleBindingPathSelectorServicePortalCompany) FieldPath() *RoleBinding_FieldTerminalPath {
+	return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorServicePortalCompany}
+}
+
+func (s RoleBindingPathSelectorServicePortalCompany) WithValue(value *service_portal_company.Reference) *RoleBinding_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldTerminalPathValue)
+}
+
+func (s RoleBindingPathSelectorServicePortalCompany) WithArrayOfValues(values []*service_portal_company.Reference) *RoleBinding_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
+}
+
+type RoleBindingPathSelectorServicePortalGroup struct{}
+
+func (RoleBindingPathSelectorServicePortalGroup) FieldPath() *RoleBinding_FieldTerminalPath {
+	return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorServicePortalGroup}
+}
+
+func (s RoleBindingPathSelectorServicePortalGroup) WithValue(value *service_portal_group.Reference) *RoleBinding_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldTerminalPathValue)
+}
+
+func (s RoleBindingPathSelectorServicePortalGroup) WithArrayOfValues(values []*service_portal_group.Reference) *RoleBinding_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
 }
 

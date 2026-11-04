@@ -21,6 +21,8 @@ import (
 	role_binding_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/role_binding"
 	service_account_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/service_account"
 	service_account_key_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/service_account_key"
+	service_portal_company_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/service_portal_company"
+	service_portal_group_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/service_portal_group"
 	user_access "github.com/cloudwan/edgelq-sdk/iam/access/v1/user"
 	iam_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/iam"
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -37,6 +39,8 @@ import (
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role_binding"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
 	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 )
 
@@ -57,6 +61,8 @@ type IAMApiAccess interface {
 	role_binding.RoleBindingAccess
 	service_account.ServiceAccountAccess
 	service_account_key.ServiceAccountKeyAccess
+	service_portal_company.ServicePortalCompanyAccess
+	service_portal_group.ServicePortalGroupAccess
 	user.UserAccess
 }
 
@@ -77,6 +83,8 @@ type apiIAMAccess struct {
 	role_binding.RoleBindingAccess
 	service_account.ServiceAccountAccess
 	service_account_key.ServiceAccountKeyAccess
+	service_portal_company.ServicePortalCompanyAccess
+	service_portal_group.ServicePortalGroupAccess
 	user.UserAccess
 }
 
@@ -96,6 +104,8 @@ func NewApiAccess(client iam_client.IAMClient) IAMApiAccess {
 	roleBindingAccess := role_binding_access.NewApiRoleBindingAccess(client)
 	serviceAccountAccess := service_account_access.NewApiServiceAccountAccess(client)
 	serviceAccountKeyAccess := service_account_key_access.NewApiServiceAccountKeyAccess(client)
+	servicePortalCompanyAccess := service_portal_company_access.NewApiServicePortalCompanyAccess(client)
+	servicePortalGroupAccess := service_portal_group_access.NewApiServicePortalGroupAccess(client)
 	userAccess := user_access.NewApiUserAccess(client)
 
 	return &apiIAMAccess{
@@ -115,6 +125,8 @@ func NewApiAccess(client iam_client.IAMClient) IAMApiAccess {
 			role_binding.AsAnyCastAccess(roleBindingAccess),
 			service_account.AsAnyCastAccess(serviceAccountAccess),
 			service_account_key.AsAnyCastAccess(serviceAccountKeyAccess),
+			service_portal_company.AsAnyCastAccess(servicePortalCompanyAccess),
+			service_portal_group.AsAnyCastAccess(servicePortalGroupAccess),
 			user.AsAnyCastAccess(userAccess),
 		),
 
@@ -132,6 +144,8 @@ func NewApiAccess(client iam_client.IAMClient) IAMApiAccess {
 		RoleBindingAccess:            roleBindingAccess,
 		ServiceAccountAccess:         serviceAccountAccess,
 		ServiceAccountKeyAccess:      serviceAccountKeyAccess,
+		ServicePortalCompanyAccess:   servicePortalCompanyAccess,
+		ServicePortalGroupAccess:     servicePortalGroupAccess,
 		UserAccess:                   userAccess,
 	}
 }

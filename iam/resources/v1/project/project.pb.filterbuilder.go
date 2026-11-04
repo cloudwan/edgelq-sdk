@@ -13,6 +13,7 @@ import (
 import (
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -30,6 +31,7 @@ var (
 var (
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &service_portal_company.ServicePortalCompany{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
@@ -262,6 +264,14 @@ func (b *filterCndBuilder) ServiceErrors() *filterCndBuilderServiceErrors {
 
 func (b *filterCndBuilder) ServicesGeneration() *filterCndBuilderServicesGeneration {
 	return &filterCndBuilderServicesGeneration{builder: b.builder}
+}
+
+func (b *filterCndBuilder) ServicePortalCompanies() *filterCndBuilderServicePortalCompanies {
+	return &filterCndBuilderServicePortalCompanies{builder: b.builder}
+}
+
+func (b *filterCndBuilder) ServicePortalOperatorCompanies() *filterCndBuilderServicePortalOperatorCompanies {
+	return &filterCndBuilderServicePortalOperatorCompanies{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -3980,5 +3990,191 @@ func (b *filterCndBuilderServicesGeneration) compare(op gotenfilter.CompareOpera
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		Project_FieldPathValue: NewProjectFieldPathBuilder().ServicesGeneration().WithValue(value),
+	})
+}
+
+type filterCndBuilderServicePortalCompanies struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServicePortalCompanies) Eq(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServicePortalCompanies) Neq(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServicePortalCompanies) Gt(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServicePortalCompanies) Gte(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServicePortalCompanies) Lt(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServicePortalCompanies) Lte(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServicePortalCompanies) In(values [][]*service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().ServicePortalCompanies().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompanies) NotIn(values [][]*service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().ServicePortalCompanies().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompanies) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalCompanies().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompanies) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalCompanies().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompanies) Contains(value *service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalCompanies().FieldPath(),
+		Value:     NewProjectFieldPathBuilder().ServicePortalCompanies().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompanies) ContainsAnyOf(values []*service_portal_company.Reference) *FilterBuilder {
+	pathSelector := NewProjectFieldPathBuilder().ServicePortalCompanies()
+	itemValues := make([]Project_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalCompanies().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompanies) ContainsAll(values []*service_portal_company.Reference) *FilterBuilder {
+	pathSelector := NewProjectFieldPathBuilder().ServicePortalCompanies()
+	itemValues := make([]Project_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalCompanies().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompanies) compare(op gotenfilter.CompareOperator, value []*service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Project_FieldPathValue: NewProjectFieldPathBuilder().ServicePortalCompanies().WithValue(value),
+	})
+}
+
+type filterCndBuilderServicePortalOperatorCompanies struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) Eq(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) Neq(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) Gt(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) Gte(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) Lt(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) Lte(value []*service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) In(values [][]*service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) NotIn(values [][]*service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) Contains(value *service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().FieldPath(),
+		Value:     NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) ContainsAnyOf(values []*service_portal_company.Reference) *FilterBuilder {
+	pathSelector := NewProjectFieldPathBuilder().ServicePortalOperatorCompanies()
+	itemValues := make([]Project_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) ContainsAll(values []*service_portal_company.Reference) *FilterBuilder {
+	pathSelector := NewProjectFieldPathBuilder().ServicePortalOperatorCompanies()
+	itemValues := make([]Project_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderServicePortalOperatorCompanies) compare(op gotenfilter.CompareOperator, value []*service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Project_FieldPathValue: NewProjectFieldPathBuilder().ServicePortalOperatorCompanies().WithValue(value),
 	})
 }

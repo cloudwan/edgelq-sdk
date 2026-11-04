@@ -19,6 +19,8 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role_binding"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -43,6 +45,8 @@ var (
 	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
 	_ = &role_binding.RoleBinding{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_group.ServicePortalGroup{}
 	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}

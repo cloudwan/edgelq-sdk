@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.iam.v1;
 
 import "edgelq-sdk/iam/proto/v1/common.proto";
+import "edgelq-sdk/iam/proto/v1/service_portal_company.proto";
 import "google/api/resource.proto";
 import "goten-sdk/types/meta.proto";
 import "goten-sdk/types/multi_region_policy.proto";
@@ -81,4 +82,10 @@ message Project {
 
   // Internal field for services meta information synchronization
   int64 services_generation = 12;
+
+  // Companies selected explicitly for this project.
+  repeated string service_portal_companies = 15;
+
+  // Operator companies maintained by the Service Portal company controller.
+  repeated string service_portal_operator_companies = 16;
 }

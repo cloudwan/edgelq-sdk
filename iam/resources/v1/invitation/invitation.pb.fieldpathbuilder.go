@@ -15,6 +15,7 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
@@ -35,6 +36,7 @@ var (
 	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
+	_ = &service_portal_company.ServicePortalCompany{}
 	_ = &user.User{}
 	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}

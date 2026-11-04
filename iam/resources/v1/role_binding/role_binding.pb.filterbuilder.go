@@ -18,6 +18,8 @@ import (
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -41,6 +43,8 @@ var (
 	_ = &permission.Permission{}
 	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_group.ServicePortalGroup{}
 	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
@@ -274,6 +278,14 @@ func (b *filterCndBuilder) HasOwnedObjects() *filterCndBuilderHasOwnedObjects {
 
 func (b *filterCndBuilder) DisableForChildScopes() *filterCndBuilderDisableForChildScopes {
 	return &filterCndBuilderDisableForChildScopes{builder: b.builder}
+}
+
+func (b *filterCndBuilder) ServicePortalCompany() *filterCndBuilderServicePortalCompany {
+	return &filterCndBuilderServicePortalCompany{builder: b.builder}
+}
+
+func (b *filterCndBuilder) ServicePortalGroup() *filterCndBuilderServicePortalGroup {
+	return &filterCndBuilderServicePortalGroup{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -4054,5 +4066,123 @@ func (b *filterCndBuilderDisableForChildScopes) compare(op gotenfilter.CompareOp
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().DisableForChildScopes().WithValue(value),
+	})
+}
+
+type filterCndBuilderServicePortalCompany struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServicePortalCompany) Eq(value *service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServicePortalCompany) Neq(value *service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServicePortalCompany) Gt(value *service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServicePortalCompany) Gte(value *service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServicePortalCompany) Lt(value *service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServicePortalCompany) Lte(value *service_portal_company.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServicePortalCompany) In(values []*service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ServicePortalCompany().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompany) NotIn(values []*service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ServicePortalCompany().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompany) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleBindingFieldPathBuilder().ServicePortalCompany().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompany) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleBindingFieldPathBuilder().ServicePortalCompany().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServicePortalCompany) compare(op gotenfilter.CompareOperator, value *service_portal_company.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ServicePortalCompany().WithValue(value),
+	})
+}
+
+type filterCndBuilderServicePortalGroup struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServicePortalGroup) Eq(value *service_portal_group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServicePortalGroup) Neq(value *service_portal_group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServicePortalGroup) Gt(value *service_portal_group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServicePortalGroup) Gte(value *service_portal_group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServicePortalGroup) Lt(value *service_portal_group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServicePortalGroup) Lte(value *service_portal_group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServicePortalGroup) In(values []*service_portal_group.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ServicePortalGroup().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServicePortalGroup) NotIn(values []*service_portal_group.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ServicePortalGroup().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServicePortalGroup) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleBindingFieldPathBuilder().ServicePortalGroup().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServicePortalGroup) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleBindingFieldPathBuilder().ServicePortalGroup().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServicePortalGroup) compare(op gotenfilter.CompareOperator, value *service_portal_group.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ServicePortalGroup().WithValue(value),
 	})
 }

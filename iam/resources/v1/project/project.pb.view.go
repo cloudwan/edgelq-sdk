@@ -6,6 +6,7 @@ package project
 
 import (
 	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	"slices"
 
 	"github.com/cloudwan/goten-sdk/types/view"
 )
@@ -14,6 +15,7 @@ import (
 import (
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -30,17 +32,21 @@ var (
 var (
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &service_portal_company.ServicePortalCompany{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
+// ResourceViewFieldMask adds the resource name to nonempty response masks.
 func ResourceViewFieldMask(viewName view.View, extraMask *Project_FieldMask) *Project_FieldMask {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 
 	switch viewName {
 	case view.View_UNSPECIFIED:
-		return extraMask
+		if extraMask.PathsCount() == 0 {
+			return extraMask
+		}
 	case view.View_FULL:
 		return nil
 	case view.View_NAME:
@@ -50,10 +56,15 @@ func ResourceViewFieldMask(viewName view.View, extraMask *Project_FieldMask) *Pr
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "title", "parent_organization", "business_tier")
 		break
 	default:
-		return extraMask
+		if extraMask.PathsCount() == 0 {
+			return extraMask
+		}
 	}
 	if extraMask != nil {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, extraMask.ToProtoFieldMask().Paths...)
+	}
+	if len(protoFieldMask.Paths) > 0 && !slices.Contains(protoFieldMask.Paths, "name") {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name")
 	}
 	res := &Project_FieldMask{}
 	_ = res.FromProtoFieldMask(protoFieldMask)

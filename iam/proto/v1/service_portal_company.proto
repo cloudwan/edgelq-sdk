@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company;service_portal_company";
+option java_multiple_files = true;
+option java_outer_classname = "ServicePortalCompanyProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// ServicePortalCompany Resource
+message ServicePortalCompany {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/ServicePortalCompany"
+    pattern : "organizations/{organization}/servicePortalCompanies/"
+              "{service_portal_company}"
+  };
+
+  // Name of ServicePortalCompany
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex:
+  // [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Name shown in the dashboard.
+  string display_name = 3;
+
+  // Whether this company is allowed automatically in every direct child
+  // project of its organization.
+  bool operator_company = 4;
+}

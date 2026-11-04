@@ -23,10 +23,13 @@ import (
 	permission_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/permission"
 	project_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/project"
 	project_invitation_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/project_invitation"
+	project_service_portal_companies_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/project_service_portal_companies"
 	role_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/role"
 	role_binding_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/role_binding"
 	service_account_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_account"
 	service_account_key_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_account_key"
+	service_portal_company_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_portal_company"
+	service_portal_group_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_portal_group"
 	service_projects_management_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_projects_management"
 	user_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/user"
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -43,6 +46,8 @@ import (
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role_binding"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
 	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 )
 
@@ -82,6 +87,10 @@ var (
 	_ = &service_account_key.ServiceAccountKey{}
 	_ = &service_account_key_client.GetServiceAccountKeyRequest{}
 	_ = &service_account_client.GetServiceAccountRequest{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_company_client.GetServicePortalCompanyRequest{}
+	_ = &service_portal_group.ServicePortalGroup{}
+	_ = &service_portal_group_client.GetServicePortalGroupRequest{}
 	_ = &user.User{}
 	_ = &user_client.GetUserRequest{}
 )
@@ -126,6 +135,8 @@ func (d *IAMDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 		role_binding.GetDescriptor(),
 		service_account.GetDescriptor(),
 		service_account_key.GetDescriptor(),
+		service_portal_company.GetDescriptor(),
+		service_portal_group.GetDescriptor(),
 		user.GetDescriptor(),
 	}
 }
@@ -144,10 +155,13 @@ func (d *IAMDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 		permission_client.GetPermissionServiceDescriptor(),
 		project_invitation_client.GetProjectInvitationServiceDescriptor(),
 		project_client.GetProjectServiceDescriptor(),
+		project_service_portal_companies_client.GetProjectServicePortalCompaniesServiceDescriptor(),
 		role_binding_client.GetRoleBindingServiceDescriptor(),
 		role_client.GetRoleServiceDescriptor(),
 		service_account_key_client.GetServiceAccountKeyServiceDescriptor(),
 		service_account_client.GetServiceAccountServiceDescriptor(),
+		service_portal_company_client.GetServicePortalCompanyServiceDescriptor(),
+		service_portal_group_client.GetServicePortalGroupServiceDescriptor(),
 		service_projects_management_client.GetServiceProjectsManagementServiceDescriptor(),
 		user_client.GetUserServiceDescriptor(),
 	}

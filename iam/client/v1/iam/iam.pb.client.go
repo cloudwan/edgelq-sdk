@@ -22,10 +22,13 @@ import (
 	permission_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/permission"
 	project_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/project"
 	project_invitation_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/project_invitation"
+	project_service_portal_companies_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/project_service_portal_companies"
 	role_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/role"
 	role_binding_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/role_binding"
 	service_account_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_account"
 	service_account_key_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_account_key"
+	service_portal_company_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_portal_company"
+	service_portal_group_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_portal_group"
 	service_projects_management_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/service_projects_management"
 	user_client "github.com/cloudwan/edgelq-sdk/iam/client/v1/user"
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -42,6 +45,8 @@ import (
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role_binding"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
 	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 )
 
@@ -80,6 +85,10 @@ var (
 	_ = &service_account_key.ServiceAccountKey{}
 	_ = &service_account_key_client.GetServiceAccountKeyRequest{}
 	_ = &service_account_client.GetServiceAccountRequest{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_company_client.GetServicePortalCompanyRequest{}
+	_ = &service_portal_group.ServicePortalGroup{}
+	_ = &service_portal_group_client.GetServicePortalGroupRequest{}
 	_ = &user.User{}
 	_ = &user_client.GetUserRequest{}
 )
@@ -97,10 +106,13 @@ type IAMClient interface {
 	permission_client.PermissionServiceClient
 	project_invitation_client.ProjectInvitationServiceClient
 	project_client.ProjectServiceClient
+	project_service_portal_companies_client.ProjectServicePortalCompaniesServiceClient
 	role_binding_client.RoleBindingServiceClient
 	role_client.RoleServiceClient
 	service_account_key_client.ServiceAccountKeyServiceClient
 	service_account_client.ServiceAccountServiceClient
+	service_portal_company_client.ServicePortalCompanyServiceClient
+	service_portal_group_client.ServicePortalGroupServiceClient
 	service_projects_management_client.ServiceProjectsManagementServiceClient
 	user_client.UserServiceClient
 }
@@ -118,33 +130,39 @@ type iamClient struct {
 	permission_client.PermissionServiceClient
 	project_invitation_client.ProjectInvitationServiceClient
 	project_client.ProjectServiceClient
+	project_service_portal_companies_client.ProjectServicePortalCompaniesServiceClient
 	role_binding_client.RoleBindingServiceClient
 	role_client.RoleServiceClient
 	service_account_key_client.ServiceAccountKeyServiceClient
 	service_account_client.ServiceAccountServiceClient
+	service_portal_company_client.ServicePortalCompanyServiceClient
+	service_portal_group_client.ServicePortalGroupServiceClient
 	service_projects_management_client.ServiceProjectsManagementServiceClient
 	user_client.UserServiceClient
 }
 
 func NewIAMClient(cc grpc.ClientConnInterface) IAMClient {
 	return &iamClient{
-		AttestationDomainServiceClient:         attestation_domain_client.NewAttestationDomainServiceClient(cc),
-		AttestationServiceClient:               attestation_client.NewAttestationServiceClient(cc),
-		AuthorizationServiceClient:             authorization_client.NewAuthorizationServiceClient(cc),
-		ConditionServiceClient:                 condition_client.NewConditionServiceClient(cc),
-		GroupMemberServiceClient:               group_member_client.NewGroupMemberServiceClient(cc),
-		GroupServiceClient:                     group_client.NewGroupServiceClient(cc),
-		MemberAssignmentServiceClient:          member_assignment_client.NewMemberAssignmentServiceClient(cc),
-		OrganizationInvitationServiceClient:    organization_invitation_client.NewOrganizationInvitationServiceClient(cc),
-		OrganizationServiceClient:              organization_client.NewOrganizationServiceClient(cc),
-		PermissionServiceClient:                permission_client.NewPermissionServiceClient(cc),
-		ProjectInvitationServiceClient:         project_invitation_client.NewProjectInvitationServiceClient(cc),
-		ProjectServiceClient:                   project_client.NewProjectServiceClient(cc),
-		RoleBindingServiceClient:               role_binding_client.NewRoleBindingServiceClient(cc),
-		RoleServiceClient:                      role_client.NewRoleServiceClient(cc),
-		ServiceAccountKeyServiceClient:         service_account_key_client.NewServiceAccountKeyServiceClient(cc),
-		ServiceAccountServiceClient:            service_account_client.NewServiceAccountServiceClient(cc),
-		ServiceProjectsManagementServiceClient: service_projects_management_client.NewServiceProjectsManagementServiceClient(cc),
-		UserServiceClient:                      user_client.NewUserServiceClient(cc),
+		AttestationDomainServiceClient:             attestation_domain_client.NewAttestationDomainServiceClient(cc),
+		AttestationServiceClient:                   attestation_client.NewAttestationServiceClient(cc),
+		AuthorizationServiceClient:                 authorization_client.NewAuthorizationServiceClient(cc),
+		ConditionServiceClient:                     condition_client.NewConditionServiceClient(cc),
+		GroupMemberServiceClient:                   group_member_client.NewGroupMemberServiceClient(cc),
+		GroupServiceClient:                         group_client.NewGroupServiceClient(cc),
+		MemberAssignmentServiceClient:              member_assignment_client.NewMemberAssignmentServiceClient(cc),
+		OrganizationInvitationServiceClient:        organization_invitation_client.NewOrganizationInvitationServiceClient(cc),
+		OrganizationServiceClient:                  organization_client.NewOrganizationServiceClient(cc),
+		PermissionServiceClient:                    permission_client.NewPermissionServiceClient(cc),
+		ProjectInvitationServiceClient:             project_invitation_client.NewProjectInvitationServiceClient(cc),
+		ProjectServiceClient:                       project_client.NewProjectServiceClient(cc),
+		ProjectServicePortalCompaniesServiceClient: project_service_portal_companies_client.NewProjectServicePortalCompaniesServiceClient(cc),
+		RoleBindingServiceClient:                   role_binding_client.NewRoleBindingServiceClient(cc),
+		RoleServiceClient:                          role_client.NewRoleServiceClient(cc),
+		ServiceAccountKeyServiceClient:             service_account_key_client.NewServiceAccountKeyServiceClient(cc),
+		ServiceAccountServiceClient:                service_account_client.NewServiceAccountServiceClient(cc),
+		ServicePortalCompanyServiceClient:          service_portal_company_client.NewServicePortalCompanyServiceClient(cc),
+		ServicePortalGroupServiceClient:            service_portal_group_client.NewServicePortalGroupServiceClient(cc),
+		ServiceProjectsManagementServiceClient:     service_projects_management_client.NewServiceProjectsManagementServiceClient(cc),
+		UserServiceClient:                          user_client.NewUserServiceClient(cc),
 	}
 }

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "edgelq-sdk/iam/proto/v1/project_change.proto";
+import "edgelq-sdk/iam/proto/v1/project_service_portal_companies_custom.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/project_service_portal_companies;project_service_portal_companies_client";
+option java_multiple_files = false;
+option java_outer_classname = "ProjectServicePortalCompaniesServiceProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// ProjectServicePortalCompanies service API for IAM
+service ProjectServicePortalCompaniesService {
+  option (google.api.default_host) = "iam.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // SetProjectServicePortalCompanies
+  rpc SetProjectServicePortalCompanies(SetProjectServicePortalCompaniesRequest)
+      returns (SetProjectServicePortalCompaniesResponse) {
+    option (google.api.http) = {
+      post : "/v1/{project=projects/*}:setServicePortalCompanies"
+      body : "*"
+    };
+  }
+
+  // ListProjectServicePortalCompanies
+  rpc ListProjectServicePortalCompanies(
+      ListProjectServicePortalCompaniesRequest)
+      returns (ListProjectServicePortalCompaniesResponse) {
+    option (google.api.http) = {
+      get : "/v1/{project=projects/*}:listServicePortalCompanies"
+    };
+  }
+}

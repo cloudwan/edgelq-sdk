@@ -32,13 +32,13 @@ message UserIdentity {
   // Issuer of the account's user-token provider, as in User auth_info.
   string provider = 1;
 
-  // Provider's ID of the account: Auth0 sub, DSP user_id.
+  // Provider's ID of the account: Auth0 sub or Service Portal user_id.
   string provider_user_id = 2;
 
   string email = 3;
 
-  // Company the account acts for, when the provider has companies: DSP
-  // company_id.
+  // Company the account acts for, when the provider has companies: Service
+  // Portal company_id.
   string company_id = 4;
 }
 

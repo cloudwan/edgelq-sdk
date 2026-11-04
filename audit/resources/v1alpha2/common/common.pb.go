@@ -176,11 +176,11 @@ type UserIdentity struct {
 	unknownFields protoimpl.UnknownFields
 	// Issuer of the account's user-token provider, as in User auth_info.
 	Provider string `protobuf:"bytes,1,opt,name=provider,proto3" json:"provider,omitempty"`
-	// Provider's ID of the account: Auth0 sub, DSP user_id.
+	// Provider's ID of the account: Auth0 sub or Service Portal user_id.
 	ProviderUserId string `protobuf:"bytes,2,opt,name=provider_user_id,json=providerUserId,proto3" json:"provider_user_id,omitempty"`
 	Email          string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	// Company the account acts for, when the provider has companies: DSP
-	// company_id.
+	// Company the account acts for, when the provider has companies: Service
+	// Portal company_id.
 	CompanyId string `protobuf:"bytes,4,opt,name=company_id,json=companyId,proto3" json:"company_id,omitempty"`
 }
 

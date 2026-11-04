@@ -21,6 +21,7 @@ import (
 import (
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -44,6 +45,7 @@ var (
 var (
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &service_portal_company.ServicePortalCompany{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -568,6 +570,8 @@ func FullProject_FieldMask() *Project_FieldMask {
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorAncestryPath})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceErrors})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicesGeneration})
+	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalCompanies})
+	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalOperatorCompanies})
 	return res
 }
 
@@ -586,7 +590,7 @@ func (fieldMask *Project_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 14)
+	presentSelectors := make([]bool, 16)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Project_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -616,7 +620,7 @@ func (fieldMask *Project_FieldMask) Reset() {
 
 func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_FieldMask {
 	result := &Project_FieldMask{}
-	removedSelectors := make([]bool, 14)
+	removedSelectors := make([]bool, 16)
 	otherSubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
@@ -684,6 +688,8 @@ func (fieldMask *Project_FieldMask) FilterInputFields() *Project_FieldMask {
 	for _, path := range fieldMask.Paths {
 		switch path.Selector() {
 		case Project_FieldPathSelectorServicesGeneration:
+		case Project_FieldPathSelectorServicePortalCompanies:
+		case Project_FieldPathSelectorServicePortalOperatorCompanies:
 		case Project_FieldPathSelectorMetadata:
 			if _, ok := path.(*Project_FieldTerminalPath); ok {
 				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
@@ -873,6 +879,10 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 				wholeServiceErrorsAccepted = true
 			case Project_FieldPathSelectorServicesGeneration:
 				result.ServicesGeneration = source.ServicesGeneration
+			case Project_FieldPathSelectorServicePortalCompanies:
+				result.ServicePortalCompanies = source.ServicePortalCompanies
+			case Project_FieldPathSelectorServicePortalOperatorCompanies:
+				result.ServicePortalOperatorCompanies = source.ServicePortalOperatorCompanies
 			}
 		case *Project_FieldSubPath:
 			switch tp.selector {

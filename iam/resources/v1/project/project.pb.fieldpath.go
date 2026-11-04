@@ -25,6 +25,7 @@ import (
 import (
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -52,6 +53,7 @@ var (
 var (
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &service_portal_company.ServicePortalCompany{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -1035,20 +1037,22 @@ type Project_FieldPath interface {
 type Project_FieldPathSelector int32
 
 const (
-	Project_FieldPathSelectorName               Project_FieldPathSelector = 0
-	Project_FieldPathSelectorMetadata           Project_FieldPathSelector = 1
-	Project_FieldPathSelectorTitle              Project_FieldPathSelector = 2
-	Project_FieldPathSelectorDescription        Project_FieldPathSelector = 3
-	Project_FieldPathSelectorParentOrganization Project_FieldPathSelector = 4
-	Project_FieldPathSelectorMultiRegionPolicy  Project_FieldPathSelector = 5
-	Project_FieldPathSelectorEnabledServices    Project_FieldPathSelector = 6
-	Project_FieldPathSelectorFeatureConfig      Project_FieldPathSelector = 7
-	Project_FieldPathSelectorBusinessTier       Project_FieldPathSelector = 8
-	Project_FieldPathSelectorServiceTiers       Project_FieldPathSelector = 9
-	Project_FieldPathSelectorRootOrganization   Project_FieldPathSelector = 10
-	Project_FieldPathSelectorAncestryPath       Project_FieldPathSelector = 11
-	Project_FieldPathSelectorServiceErrors      Project_FieldPathSelector = 12
-	Project_FieldPathSelectorServicesGeneration Project_FieldPathSelector = 13
+	Project_FieldPathSelectorName                           Project_FieldPathSelector = 0
+	Project_FieldPathSelectorMetadata                       Project_FieldPathSelector = 1
+	Project_FieldPathSelectorTitle                          Project_FieldPathSelector = 2
+	Project_FieldPathSelectorDescription                    Project_FieldPathSelector = 3
+	Project_FieldPathSelectorParentOrganization             Project_FieldPathSelector = 4
+	Project_FieldPathSelectorMultiRegionPolicy              Project_FieldPathSelector = 5
+	Project_FieldPathSelectorEnabledServices                Project_FieldPathSelector = 6
+	Project_FieldPathSelectorFeatureConfig                  Project_FieldPathSelector = 7
+	Project_FieldPathSelectorBusinessTier                   Project_FieldPathSelector = 8
+	Project_FieldPathSelectorServiceTiers                   Project_FieldPathSelector = 9
+	Project_FieldPathSelectorRootOrganization               Project_FieldPathSelector = 10
+	Project_FieldPathSelectorAncestryPath                   Project_FieldPathSelector = 11
+	Project_FieldPathSelectorServiceErrors                  Project_FieldPathSelector = 12
+	Project_FieldPathSelectorServicesGeneration             Project_FieldPathSelector = 13
+	Project_FieldPathSelectorServicePortalCompanies         Project_FieldPathSelector = 14
+	Project_FieldPathSelectorServicePortalOperatorCompanies Project_FieldPathSelector = 15
 )
 
 func (s Project_FieldPathSelector) String() string {
@@ -1081,6 +1085,10 @@ func (s Project_FieldPathSelector) String() string {
 		return "service_errors"
 	case Project_FieldPathSelectorServicesGeneration:
 		return "services_generation"
+	case Project_FieldPathSelectorServicePortalCompanies:
+		return "service_portal_companies"
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		return "service_portal_operator_companies"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", s))
 	}
@@ -1120,6 +1128,10 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceErrors}, nil
 		case "services_generation", "servicesGeneration", "services-generation":
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicesGeneration}, nil
+		case "service_portal_companies", "servicePortalCompanies", "service-portal-companies":
+			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalCompanies}, nil
+		case "service_portal_operator_companies", "servicePortalOperatorCompanies", "service-portal-operator-companies":
+			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalOperatorCompanies}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1245,6 +1257,14 @@ func (fp *Project_FieldTerminalPath) Get(source *Project) (values []interface{})
 			}
 		case Project_FieldPathSelectorServicesGeneration:
 			values = append(values, source.ServicesGeneration)
+		case Project_FieldPathSelectorServicePortalCompanies:
+			for _, value := range source.GetServicePortalCompanies() {
+				values = append(values, value)
+			}
+		case Project_FieldPathSelectorServicePortalOperatorCompanies:
+			for _, value := range source.GetServicePortalOperatorCompanies() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 		}
@@ -1297,6 +1317,12 @@ func (fp *Project_FieldTerminalPath) GetSingle(source *Project) (interface{}, bo
 		return res, res != nil
 	case Project_FieldPathSelectorServicesGeneration:
 		return source.GetServicesGeneration(), source != nil
+	case Project_FieldPathSelectorServicePortalCompanies:
+		res := source.GetServicePortalCompanies()
+		return res, res != nil
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		res := source.GetServicePortalOperatorCompanies()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -1337,6 +1363,10 @@ func (fp *Project_FieldTerminalPath) GetDefault() interface{} {
 		return (map[string]*iam_common.ServiceErrors)(nil)
 	case Project_FieldPathSelectorServicesGeneration:
 		return int64(0)
+	case Project_FieldPathSelectorServicePortalCompanies:
+		return ([]*service_portal_company.Reference)(nil)
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		return ([]*service_portal_company.Reference)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -1373,6 +1403,10 @@ func (fp *Project_FieldTerminalPath) ClearValue(item *Project) {
 			item.ServiceErrors = nil
 		case Project_FieldPathSelectorServicesGeneration:
 			item.ServicesGeneration = int64(0)
+		case Project_FieldPathSelectorServicePortalCompanies:
+			item.ServicePortalCompanies = nil
+		case Project_FieldPathSelectorServicePortalOperatorCompanies:
+			item.ServicePortalOperatorCompanies = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 		}
@@ -1393,7 +1427,9 @@ func (fp *Project_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Project_FieldPathSelectorBusinessTier ||
 		fp.selector == Project_FieldPathSelectorRootOrganization ||
 		fp.selector == Project_FieldPathSelectorAncestryPath ||
-		fp.selector == Project_FieldPathSelectorServicesGeneration
+		fp.selector == Project_FieldPathSelectorServicesGeneration ||
+		fp.selector == Project_FieldPathSelectorServicePortalCompanies ||
+		fp.selector == Project_FieldPathSelectorServicePortalOperatorCompanies
 }
 
 func (fp *Project_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1430,6 +1466,10 @@ func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_Field
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(map[string]*iam_common.ServiceErrors)}
 	case Project_FieldPathSelectorServicesGeneration:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(int64)}
+	case Project_FieldPathSelectorServicePortalCompanies:
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.([]*service_portal_company.Reference)}
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.([]*service_portal_company.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -1470,6 +1510,10 @@ func (fp *Project_FieldTerminalPath) WithIArrayOfValues(values interface{}) Proj
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]map[string]*iam_common.ServiceErrors)}
 	case Project_FieldPathSelectorServicesGeneration:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]int64)}
+	case Project_FieldPathSelectorServicePortalCompanies:
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([][]*service_portal_company.Reference)}
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([][]*service_portal_company.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -1488,6 +1532,10 @@ func (fp *Project_FieldTerminalPath) WithIArrayItemValue(value interface{}) Proj
 		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*iam_common.ServiceBusinessTier)}
 	case Project_FieldPathSelectorAncestryPath:
 		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*organization.Name)}
+	case Project_FieldPathSelectorServicePortalCompanies:
+		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*service_portal_company.Reference)}
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*service_portal_company.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -1879,6 +1927,14 @@ func (fpv *Project_FieldTerminalPathValue) AsServicesGenerationValue() (int64, b
 	res, ok := fpv.value.(int64)
 	return res, ok
 }
+func (fpv *Project_FieldTerminalPathValue) AsServicePortalCompaniesValue() ([]*service_portal_company.Reference, bool) {
+	res, ok := fpv.value.([]*service_portal_company.Reference)
+	return res, ok
+}
+func (fpv *Project_FieldTerminalPathValue) AsServicePortalOperatorCompaniesValue() ([]*service_portal_company.Reference, bool) {
+	res, ok := fpv.value.([]*service_portal_company.Reference)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Project
 func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
@@ -1914,6 +1970,10 @@ func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
 		(*target).ServiceErrors = fpv.value.(map[string]*iam_common.ServiceErrors)
 	case Project_FieldPathSelectorServicesGeneration:
 		(*target).ServicesGeneration = fpv.value.(int64)
+	case Project_FieldPathSelectorServicePortalCompanies:
+		(*target).ServicePortalCompanies = fpv.value.([]*service_portal_company.Reference)
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		(*target).ServicePortalOperatorCompanies = fpv.value.([]*service_portal_company.Reference)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpv.selector))
 	}
@@ -2038,6 +2098,10 @@ func (fpv *Project_FieldTerminalPathValue) CompareWith(source *Project) (int, bo
 		} else {
 			return 1, true
 		}
+	case Project_FieldPathSelectorServicePortalCompanies:
+		return 0, false
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpv.selector))
 	}
@@ -2220,6 +2284,14 @@ func (fpaiv *Project_FieldTerminalPathArrayItemValue) AsAncestryPathItemValue() 
 	res, ok := fpaiv.value.(*organization.Name)
 	return res, ok
 }
+func (fpaiv *Project_FieldTerminalPathArrayItemValue) AsServicePortalCompaniesItemValue() (*service_portal_company.Reference, bool) {
+	res, ok := fpaiv.value.(*service_portal_company.Reference)
+	return res, ok
+}
+func (fpaiv *Project_FieldTerminalPathArrayItemValue) AsServicePortalOperatorCompaniesItemValue() (*service_portal_company.Reference, bool) {
+	res, ok := fpaiv.value.(*service_portal_company.Reference)
+	return res, ok
+}
 
 func (fpaiv *Project_FieldTerminalPathArrayItemValue) GetSingle(source *Project) (interface{}, bool) {
 	return nil, false
@@ -2377,6 +2449,14 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 		for _, v := range fpaov.values.([]int64) {
 			values = append(values, v)
 		}
+	case Project_FieldPathSelectorServicePortalCompanies:
+		for _, v := range fpaov.values.([][]*service_portal_company.Reference) {
+			values = append(values, v)
+		}
+	case Project_FieldPathSelectorServicePortalOperatorCompanies:
+		for _, v := range fpaov.values.([][]*service_portal_company.Reference) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2434,6 +2514,14 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) AsServiceErrorsArrayOfValue
 }
 func (fpaov *Project_FieldTerminalPathArrayOfValues) AsServicesGenerationArrayOfValues() ([]int64, bool) {
 	res, ok := fpaov.values.([]int64)
+	return res, ok
+}
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsServicePortalCompaniesArrayOfValues() ([][]*service_portal_company.Reference, bool) {
+	res, ok := fpaov.values.([][]*service_portal_company.Reference)
+	return res, ok
+}
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsServicePortalOperatorCompaniesArrayOfValues() ([][]*service_portal_company.Reference, bool) {
+	res, ok := fpaov.values.([][]*service_portal_company.Reference)
 	return res, ok
 }
 

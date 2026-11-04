@@ -19,6 +19,7 @@ import (
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
 	iam_service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
+	iam_service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -42,6 +43,7 @@ var (
 	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &iam_service_account_key.ServiceAccountKey{}
+	_ = &iam_service_portal_company.ServicePortalCompany{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}

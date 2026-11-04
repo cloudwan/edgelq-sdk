@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/organization.proto";
+import "edgelq-sdk/iam/proto/v1/project.proto";
+import "edgelq-sdk/iam/proto/v1/project_change.proto";
+import "edgelq-sdk/iam/proto/v1/service_portal_company.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/project_service_portal_companies;project_service_portal_companies_client";
+option java_multiple_files = false;
+option java_outer_classname = "ProjectServicePortalCompaniesCustomProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// A request message of the SetProjectServicePortalCompanies method.
+message SetProjectServicePortalCompaniesRequest {
+  // Name of ntt.iam.v1.Project
+  string project = 1;
+
+  // Parent organization of the project and companies.
+  string organization = 2;
+
+  // Companies selected explicitly for the project. This replaces the
+  // previous explicit selection.
+  repeated string companies = 3;
+}
+
+message SetProjectServicePortalCompaniesResponse {
+  // All companies currently allowed in the project, including operator
+  // companies.
+  repeated ServicePortalCompany service_portal_companies = 1;
+}
+
+// A request message of the ListProjectServicePortalCompanies method.
+message ListProjectServicePortalCompaniesRequest {
+  // Name of ntt.iam.v1.Project
+  string project = 1;
+}
+
+message ListProjectServicePortalCompaniesResponse {
+  // All companies currently allowed in the project.
+  repeated ServicePortalCompany service_portal_companies = 1;
+}

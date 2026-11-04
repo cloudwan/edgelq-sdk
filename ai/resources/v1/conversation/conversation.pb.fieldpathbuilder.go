@@ -20,6 +20,7 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
+	iam_service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
 	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
 	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
@@ -55,6 +56,7 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.ProjectFeatureConfig{}
 	_ = &iam_service_account.ServiceAccount{}
+	_ = &iam_service_portal_company.ServicePortalCompany{}
 	_ = &iam_user.User{}
 	_ = &logging_bucket.Bucket{}
 	_ = &logging_common.LabelDescriptor{}

@@ -14,6 +14,7 @@ import (
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	iam_service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
@@ -35,6 +36,7 @@ var (
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.ProjectFeatureConfig{}
+	_ = &iam_service_portal_company.ServicePortalCompany{}
 	_ = &common.RegionalPlanAssignment{}
 	_ = &plan.Plan{}
 	_ = &timestamppb.Timestamp{}

@@ -23,6 +23,8 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -47,6 +49,8 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_group.ServicePortalGroup{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
@@ -71,6 +75,8 @@ func FullRoleBinding_FieldMask() *RoleBinding_FieldMask {
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorSpecGeneration})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorHasOwnedObjects})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorDisableForChildScopes})
+	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorServicePortalCompany})
+	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorServicePortalGroup})
 	return res
 }
 
@@ -89,7 +95,7 @@ func (fieldMask *RoleBinding_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 14)
+	presentSelectors := make([]bool, 16)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*RoleBinding_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -119,7 +125,7 @@ func (fieldMask *RoleBinding_FieldMask) Reset() {
 
 func (fieldMask *RoleBinding_FieldMask) Subtract(other *RoleBinding_FieldMask) *RoleBinding_FieldMask {
 	result := &RoleBinding_FieldMask{}
-	removedSelectors := make([]bool, 14)
+	removedSelectors := make([]bool, 16)
 	otherSubMasks := map[RoleBinding_FieldPathSelector]gotenobject.FieldMask{
 		RoleBinding_FieldPathSelectorMetadata:             &meta.Meta_FieldMask{},
 		RoleBinding_FieldPathSelectorScopeParams:          &role.ScopeParam_FieldMask{},
@@ -192,6 +198,8 @@ func (fieldMask *RoleBinding_FieldMask) FilterInputFields() *RoleBinding_FieldMa
 		case RoleBinding_FieldPathSelectorSpecGeneration:
 		case RoleBinding_FieldPathSelectorHasOwnedObjects:
 		case RoleBinding_FieldPathSelectorDisableForChildScopes:
+		case RoleBinding_FieldPathSelectorServicePortalCompany:
+		case RoleBinding_FieldPathSelectorServicePortalGroup:
 		case RoleBinding_FieldPathSelectorMetadata:
 			if _, ok := path.(*RoleBinding_FieldTerminalPath); ok {
 				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
@@ -378,6 +386,10 @@ func (fieldMask *RoleBinding_FieldMask) Project(source *RoleBinding) *RoleBindin
 				result.HasOwnedObjects = source.HasOwnedObjects
 			case RoleBinding_FieldPathSelectorDisableForChildScopes:
 				result.DisableForChildScopes = source.DisableForChildScopes
+			case RoleBinding_FieldPathSelectorServicePortalCompany:
+				result.ServicePortalCompany = source.ServicePortalCompany
+			case RoleBinding_FieldPathSelectorServicePortalGroup:
+				result.ServicePortalGroup = source.ServicePortalGroup
 			}
 		case *RoleBinding_FieldSubPath:
 			switch tp.selector {

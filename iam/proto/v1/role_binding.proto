@@ -99,6 +99,16 @@ message RoleBinding {
   // opening this.
   bool disable_for_child_scopes = 13;
 
+  // Company of a "servicePortalGroup:<company>[:<group>]" member. Deleting the
+  // company deletes this RoleBinding. Not set in copies made from an
+  // organization RoleBinding, which are deleted with that RoleBinding.
+  string service_portal_company = 16;
+
+  // Group of a "servicePortalGroup:<company>:<group>" member. Deleting the
+  // group deletes this RoleBinding. Not set in copies made from an
+  // organization RoleBinding, which are deleted with that RoleBinding.
+  string service_portal_group = 15;
+
   // Provides information about inheritance of this role binding - if it was
   // created from another role binding.
   message Parent {

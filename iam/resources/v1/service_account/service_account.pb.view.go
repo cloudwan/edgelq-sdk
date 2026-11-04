@@ -6,6 +6,7 @@ package service_account
 
 import (
 	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	"slices"
 
 	"github.com/cloudwan/goten-sdk/types/view"
 )
@@ -29,12 +30,15 @@ var (
 	_ = &meta.Meta{}
 )
 
+// ResourceViewFieldMask adds the resource name to nonempty response masks.
 func ResourceViewFieldMask(viewName view.View, extraMask *ServiceAccount_FieldMask) *ServiceAccount_FieldMask {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 
 	switch viewName {
 	case view.View_UNSPECIFIED:
-		return extraMask
+		if extraMask.PathsCount() == 0 {
+			return extraMask
+		}
 	case view.View_FULL:
 		return nil
 	case view.View_BASIC:
@@ -44,10 +48,15 @@ func ResourceViewFieldMask(viewName view.View, extraMask *ServiceAccount_FieldMa
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name")
 		break
 	default:
-		return extraMask
+		if extraMask.PathsCount() == 0 {
+			return extraMask
+		}
 	}
 	if extraMask != nil {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, extraMask.ToProtoFieldMask().Paths...)
+	}
+	if len(protoFieldMask.Paths) > 0 && !slices.Contains(protoFieldMask.Paths, "name") {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name")
 	}
 	res := &ServiceAccount_FieldMask{}
 	_ = res.FromProtoFieldMask(protoFieldMask)

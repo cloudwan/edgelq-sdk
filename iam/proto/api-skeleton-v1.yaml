@@ -151,6 +151,22 @@ resources:
   - meta.goten.com/Service
   - ""
 
+# ServicePortalCompany and ServicePortalGroup are used in just one organization.
+# Ideally they would be system scoped, but organization admins do not have
+# system scope permissions, so they are created in the organization instead.
+- name: ServicePortalCompany
+  plural: ServicePortalCompanies
+  parents:
+  - Organization
+  idPattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+  multiRegion:
+    syncType: ALWAYS_GLOBALLY
+
+- name: ServicePortalGroup
+  parents:
+  - Organization
+  idPattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+
 - name: GroupMember
   parents:
   - Group
@@ -371,6 +387,38 @@ resources:
     syncType: ALWAYS_GLOBALLY
 
 apis:
+- name: ProjectServicePortalCompanies
+  actions:
+  - name: SetProjectServicePortalCompanies
+    verb: setServicePortalCompanies
+    skipResponseMsgGen: true
+    responseName: SetProjectServicePortalCompaniesResponse
+    grpcTranscoding:
+      httpBodyField: "*"
+    opResourceInfo:
+      name: Project
+      requestPaths:
+        resourceName: [ "project" ]
+    withStoreHandle:
+      transaction: SNAPSHOT
+    multiRegionRouting:
+      executeOnOwningRegion: true
+  - name: ListProjectServicePortalCompanies
+    verb: listServicePortalCompanies
+    skipResponseMsgGen: true
+    responseName: ListProjectServicePortalCompaniesResponse
+    grpcTranscoding:
+      httpMethod: get
+    opResourceInfo:
+      name: Project
+      requestPaths:
+        resourceName: [ "project" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      executeOnOwningRegion: true
+
 - name: Authorization
   actions:
   # Principal lookup used by services to authenticate incoming requests.

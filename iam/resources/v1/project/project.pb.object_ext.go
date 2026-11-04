@@ -18,6 +18,7 @@ import (
 import (
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -38,6 +39,7 @@ var (
 var (
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &service_portal_company.ServicePortalCompany{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -273,6 +275,30 @@ func (o *Project) MakeDiffFieldMask(other *Project) *Project_FieldMask {
 	if o.GetServicesGeneration() != other.GetServicesGeneration() {
 		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicesGeneration})
 	}
+
+	if len(o.GetServicePortalCompanies()) == len(other.GetServicePortalCompanies()) {
+		for i, lValue := range o.GetServicePortalCompanies() {
+			rValue := other.GetServicePortalCompanies()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalCompanies})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalCompanies})
+	}
+
+	if len(o.GetServicePortalOperatorCompanies()) == len(other.GetServicePortalOperatorCompanies()) {
+		for i, lValue := range o.GetServicePortalOperatorCompanies() {
+			rValue := other.GetServicePortalOperatorCompanies()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalOperatorCompanies})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalOperatorCompanies})
+	}
 	return res
 }
 
@@ -356,6 +382,32 @@ func (o *Project) Clone() *Project {
 		result.ServiceErrors[key] = sourceValue.Clone()
 	}
 	result.ServicesGeneration = o.ServicesGeneration
+	result.ServicePortalCompanies = make([]*service_portal_company.Reference, len(o.ServicePortalCompanies))
+	for i, sourceValue := range o.ServicePortalCompanies {
+		if sourceValue == nil {
+			result.ServicePortalCompanies[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.ServicePortalCompanies[i] = &service_portal_company.Reference{}
+			if err := result.ServicePortalCompanies[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	}
+	result.ServicePortalOperatorCompanies = make([]*service_portal_company.Reference, len(o.ServicePortalOperatorCompanies))
+	for i, sourceValue := range o.ServicePortalOperatorCompanies {
+		if sourceValue == nil {
+			result.ServicePortalOperatorCompanies[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.ServicePortalOperatorCompanies[i] = &service_portal_company.Reference{}
+			if err := result.ServicePortalOperatorCompanies[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	}
 	return result
 }
 
@@ -505,6 +557,58 @@ func (o *Project) Merge(source *Project) {
 		}
 	}
 	o.ServicesGeneration = source.GetServicesGeneration()
+	for _, sourceValue := range source.GetServicePortalCompanies() {
+		exists := false
+		for _, currentValue := range o.ServicePortalCompanies {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *service_portal_company.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &service_portal_company.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.ServicePortalCompanies = append(o.ServicePortalCompanies, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetServicePortalOperatorCompanies() {
+		exists := false
+		for _, currentValue := range o.ServicePortalOperatorCompanies {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *service_portal_company.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &service_portal_company.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.ServicePortalOperatorCompanies = append(o.ServicePortalOperatorCompanies, newDstElement)
+		}
+	}
+
 }
 
 func (o *Project) MergeRaw(source gotenobject.GotenObjectExt) {

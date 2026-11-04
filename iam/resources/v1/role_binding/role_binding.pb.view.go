@@ -6,6 +6,7 @@ package role_binding
 
 import (
 	googlefieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	"slices"
 
 	"github.com/cloudwan/goten-sdk/types/view"
 )
@@ -16,6 +17,8 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -33,16 +36,21 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_group.ServicePortalGroup{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
 
+// ResourceViewFieldMask adds the resource name to nonempty response masks.
 func ResourceViewFieldMask(viewName view.View, extraMask *RoleBinding_FieldMask) *RoleBinding_FieldMask {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 
 	switch viewName {
 	case view.View_UNSPECIFIED:
-		return extraMask
+		if extraMask.PathsCount() == 0 {
+			return extraMask
+		}
 	case view.View_FULL:
 		return nil
 	case view.View_BASIC:
@@ -52,10 +60,15 @@ func ResourceViewFieldMask(viewName view.View, extraMask *RoleBinding_FieldMask)
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name")
 		break
 	default:
-		return extraMask
+		if extraMask.PathsCount() == 0 {
+			return extraMask
+		}
 	}
 	if extraMask != nil {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, extraMask.ToProtoFieldMask().Paths...)
+	}
+	if len(protoFieldMask.Paths) > 0 && !slices.Contains(protoFieldMask.Paths, "name") {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name")
 	}
 	res := &RoleBinding_FieldMask{}
 	_ = res.FromProtoFieldMask(protoFieldMask)

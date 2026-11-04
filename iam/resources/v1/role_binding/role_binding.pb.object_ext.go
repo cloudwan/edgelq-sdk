@@ -20,6 +20,8 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
+	service_portal_group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_group"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -41,6 +43,8 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.ProjectFeatureConfig{}
 	_ = &role.Role{}
+	_ = &service_portal_company.ServicePortalCompany{}
+	_ = &service_portal_group.ServicePortalGroup{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
@@ -149,6 +153,12 @@ func (o *RoleBinding) MakeDiffFieldMask(other *RoleBinding) *RoleBinding_FieldMa
 	if o.GetDisableForChildScopes() != other.GetDisableForChildScopes() {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorDisableForChildScopes})
 	}
+	if o.GetServicePortalCompany().String() != other.GetServicePortalCompany().String() {
+		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorServicePortalCompany})
+	}
+	if o.GetServicePortalGroup().String() != other.GetServicePortalGroup().String() {
+		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorServicePortalGroup})
+	}
 	return res
 }
 
@@ -214,6 +224,26 @@ func (o *RoleBinding) Clone() *RoleBinding {
 	result.SpecGeneration = o.SpecGeneration
 	result.HasOwnedObjects = o.HasOwnedObjects
 	result.DisableForChildScopes = o.DisableForChildScopes
+	if o.ServicePortalCompany == nil {
+		result.ServicePortalCompany = nil
+	} else if data, err := o.ServicePortalCompany.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.ServicePortalCompany = &service_portal_company.Reference{}
+		if err := result.ServicePortalCompany.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.ServicePortalGroup == nil {
+		result.ServicePortalGroup = nil
+	} else if data, err := o.ServicePortalGroup.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.ServicePortalGroup = &service_portal_group.Reference{}
+		if err := result.ServicePortalGroup.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
 	return result
 }
 
@@ -339,6 +369,30 @@ func (o *RoleBinding) Merge(source *RoleBinding) {
 	o.SpecGeneration = source.GetSpecGeneration()
 	o.HasOwnedObjects = source.GetHasOwnedObjects()
 	o.DisableForChildScopes = source.GetDisableForChildScopes()
+	if source.GetServicePortalCompany() != nil {
+		if data, err := source.GetServicePortalCompany().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.ServicePortalCompany = &service_portal_company.Reference{}
+			if err := o.ServicePortalCompany.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.ServicePortalCompany = nil
+	}
+	if source.GetServicePortalGroup() != nil {
+		if data, err := source.GetServicePortalGroup().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.ServicePortalGroup = &service_portal_group.Reference{}
+			if err := o.ServicePortalGroup.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.ServicePortalGroup = nil
+	}
 }
 
 func (o *RoleBinding) MergeRaw(source gotenobject.GotenObjectExt) {

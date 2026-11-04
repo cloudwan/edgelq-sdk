@@ -8,6 +8,7 @@ package project
 import (
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	service_portal_company "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_portal_company"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -19,6 +20,7 @@ import (
 var (
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &service_portal_company.ServicePortalCompany{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
@@ -155,6 +157,12 @@ func (ProjectFieldPathBuilder) ServiceErrors() ProjectPathSelectorServiceErrors 
 }
 func (ProjectFieldPathBuilder) ServicesGeneration() ProjectPathSelectorServicesGeneration {
 	return ProjectPathSelectorServicesGeneration{}
+}
+func (ProjectFieldPathBuilder) ServicePortalCompanies() ProjectPathSelectorServicePortalCompanies {
+	return ProjectPathSelectorServicePortalCompanies{}
+}
+func (ProjectFieldPathBuilder) ServicePortalOperatorCompanies() ProjectPathSelectorServicePortalOperatorCompanies {
+	return ProjectPathSelectorServicePortalOperatorCompanies{}
 }
 
 type ProjectPathSelectorName struct{}
@@ -1316,4 +1324,40 @@ func (s ProjectPathSelectorServicesGeneration) WithValue(value int64) *Project_F
 
 func (s ProjectPathSelectorServicesGeneration) WithArrayOfValues(values []int64) *Project_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
+}
+
+type ProjectPathSelectorServicePortalCompanies struct{}
+
+func (ProjectPathSelectorServicePortalCompanies) FieldPath() *Project_FieldTerminalPath {
+	return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalCompanies}
+}
+
+func (s ProjectPathSelectorServicePortalCompanies) WithValue(value []*service_portal_company.Reference) *Project_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldTerminalPathValue)
+}
+
+func (s ProjectPathSelectorServicePortalCompanies) WithArrayOfValues(values [][]*service_portal_company.Reference) *Project_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
+}
+
+func (s ProjectPathSelectorServicePortalCompanies) WithItemValue(value *service_portal_company.Reference) *Project_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Project_FieldTerminalPathArrayItemValue)
+}
+
+type ProjectPathSelectorServicePortalOperatorCompanies struct{}
+
+func (ProjectPathSelectorServicePortalOperatorCompanies) FieldPath() *Project_FieldTerminalPath {
+	return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServicePortalOperatorCompanies}
+}
+
+func (s ProjectPathSelectorServicePortalOperatorCompanies) WithValue(value []*service_portal_company.Reference) *Project_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldTerminalPathValue)
+}
+
+func (s ProjectPathSelectorServicePortalOperatorCompanies) WithArrayOfValues(values [][]*service_portal_company.Reference) *Project_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
+}
+
+func (s ProjectPathSelectorServicePortalOperatorCompanies) WithItemValue(value *service_portal_company.Reference) *Project_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Project_FieldTerminalPathArrayItemValue)
 }
